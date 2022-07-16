@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <p class="text-blue-400 text-xl font-bold">
+    <p class="text-blue-200 text-7xl font-bold">
         test vite reloading
 
     </p>
