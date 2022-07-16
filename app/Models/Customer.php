@@ -42,8 +42,8 @@ class Customer extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function is_wholesale()
+    public function isWholesale(): string
     {
-        return $this->is_wholesale;
+        return !$this->is_wholesale ? '' : '(wholesale)';
     }
 }
