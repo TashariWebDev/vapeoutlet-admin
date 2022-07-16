@@ -41,7 +41,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,6 +83,7 @@ return [
     */
 
     'locale' => 'en',
+    'currency' => 'ZAR',
 
     /*
     |--------------------------------------------------------------------------
@@ -189,6 +190,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\HelpersServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
