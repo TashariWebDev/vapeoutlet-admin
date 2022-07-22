@@ -1,6 +1,9 @@
 <?php
 
-use App\Models\Product;
+use App\Http\Livewire\Dashboard\Index;
+use App\Http\Livewire\Purchases\Create;
+use App\Http\Livewire\Settings\Delivery;
+use App\Http\Livewire\Users\Show;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,27 +18,117 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    $products = Product::all();
-    return view('welcome', [
-        'products' => $products,
-    ]);
+    return view('auth.login');
 });
 
-Route::get('/update-prices', function () {
-//    $products = Product::all();
-//
-//    foreach ($products as $product) {
-//        $product->update([
-//            'retail_price' => $product->retail_price / 100,
-//            'wholesale_price' => $product->wholesale_price / 100,
-//            'cost' => $product->cost / 100,
-//        ]);
-//    }
+Route::middleware('auth')->group(function () {
+
+    Route::get('dashboard', Index::class)
+        ->name('dashboard');
+
+    Route::get('orders', \App\Http\Livewire\Orders\Index::class)
+        ->name('orders')
+        ->middleware('permission:view orders');
+
+    Route::get('products', \App\Http\Livewire\Products\Index::class)
+        ->name('products')
+        ->middleware('permission:view products');
+
+    Route::get('inventory', \App\Http\Livewire\Inventory\Index::class)
+        ->name('inventory')
+        ->middleware('permission:view inventory');
+
+    Route::get('customers', \App\Http\Livewire\Customers\Index::class)
+        ->name('customers')
+        ->middleware('permission:view customers');
+
+    Route::get('customers/show/{id}', \App\Http\Livewire\Customers\Show::class)
+        ->name('customers/show')
+        ->middleware('permission:edit customers');
+
+//Settings
+    Route::middleware('permission:view settings')->group(function () {
+        Route::get('settings/delivery', Delivery\Index::class)
+            ->name('settings/delivery');
+
+        Route::get('settings', \App\Http\Livewire\Settings\Index::class)
+            ->name('settings');
+    });
+
+    Route::get('reports', \App\Http\Livewire\Reports\Index::class)
+        ->name('reports')
+        ->middleware('permission:view reports');
+
+    Route::get('expenses', \App\Http\Livewire\Expenses\Index::class)
+        ->name('expenses')
+        ->middleware('permission:view expenses');
+
+    Route::get('profile', \App\Http\Livewire\Profile\Index::class)
+        ->name('profile');
+
+    Route::get('users', \App\Http\Livewire\Users\Index::class)
+        ->name('users')
+        ->middleware('permission:view users');
+
+    Route::get('users/show/{id}', Show::class)
+        ->name('users/show')
+        ->middleware('permission:view users');
+
+    Route::get('inventory/purchases', \App\Http\Livewire\Purchases\Index::class)
+        ->name('purchases')
+        ->middleware('permission:create purchase');
+
+    Route::get('inventory/purchases/create/{id}', Create::class)
+        ->name('purchases/create')
+        ->middleware('permission:create purchase');
+
+    Route::middleware('permission:view suppliers')->group(function () {
+        Route::get('inventory/suppliers', \App\Http\Livewire\Suppliers\Index::class)
+            ->name('suppliers');
+
+        Route::get('inventory/suppliers/show/{id}', \App\Http\Livewire\Suppliers\Show::class)
+            ->name('suppliers/show');
+
+    });
+
+    Route::get('warehouse', \App\Http\Livewire\Warehouse\Index::class)
+        ->name('warehouse')
+        ->middleware('permission:view warehouse');
+
+    Route::get('dispatch', \App\Http\Livewire\Dispatch\Index::class)
+        ->name('dispatch')
+        ->middleware('permission:view dispatch');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
+
+Route::get('/update', function () {
+
+//    $models = Product::where('image', '/design/no_image.jpeg')
+//        ->get();
+//
+//    foreach ($models as $model) {
+//        $model->update([
+//            'image' => null
+//        ]);
+//    }
+
+    die;
+//    $oldProducts = DB::table('products_old')->get();
+
+//    foreach ($oldProducts as $product) {
+//        Product::create([
+//            'name' => $product->name,
+//            'brand' => $product->brand,
+//            'category' => $product->category,
+//            'image' => $product->image,
+//            'sku' => $product->sku,
+//            'description' => $product->description,
+//            'retail_price' => to_cents($product->retail_price),
+//            'wholesale_price' => to_cents($product->wholesale_price),
+//            'cost' => to_cents($product->cost),
+//        ]);
+//    }
+
+});

@@ -11,8 +11,10 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name');
+            $table->string('slug')->unique()->nullable();
             $table->string('brand');
             $table->string('category');
+            $table->string('image')->nullable();
             $table->string('sku')->nullable()->unique();
             $table->longText('description')->nullable();
 
@@ -24,6 +26,8 @@ return new class extends Migration {
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_sale')->default(false);
 
+            $table->foreignId('product_collection_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

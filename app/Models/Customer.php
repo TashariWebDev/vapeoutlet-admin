@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class Customer extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +21,8 @@ class Customer extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'is_wholesale',
         'password',
     ];
 
@@ -30,7 +34,6 @@ class Customer extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'is_wholesale'
     ];
 
     /**
@@ -41,6 +44,26 @@ class Customer extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->name = Str::title($user->name);
+            $user->email = Str::lower($user->email);
+        });
+
+        static::saving(function ($user) {
+            $user->name = Str::title($user->name);
+            $user->email = Str::lower($user->email);
+        });
+
+        static::updating(function ($user) {
+            $user->name = Str::title($user->name);
+            $user->email = Str::lower($user->email);
+        });
+    }
 
     public function isWholesale(): string
     {

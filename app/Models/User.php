@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use SoftDeletes;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -41,4 +45,51 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            $user->name = Str::title($user->name);
+            $user->email = Str::lower($user->email);
+        });
+
+        static::saving(function ($user) {
+            $user->name = Str::title($user->name);
+            $user->email = Str::lower($user->email);
+        });
+
+        static::updating(function ($user) {
+            $user->name = Str::title($user->name);
+            $user->email = Str::lower($user->email);
+        });
+    }
+
+    public function scopeSearch($query, $searchQuery)
+    {
+        return $query->where('name', 'like', $searchQuery . '%')
+            ->orWhere('email', 'like', $searchQuery . '%');
+    }
+
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class, 'creator_id');
+    }
+
+    public function permissions(): belongsToMany
+    {
+        return $this->belongsToMany(Permission::class)->as('permission')->orderBy('name');
+    }
+
+    public function hasPermissionTo($permission): bool
+    {
+        $permissions = [$permission];
+        $userPermissions = $this->permissions()->pluck('name');
+
+        if ($userPermissions->contains($permission)) {
+            return true;
+        }
+        return false;
+    }
 }
