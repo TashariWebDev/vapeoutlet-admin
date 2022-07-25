@@ -46,6 +46,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $with = [
+        'permissions',
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -85,7 +89,7 @@ class User extends Authenticatable
     public function hasPermissionTo($permission): bool
     {
         $permissions = [$permission];
-        $userPermissions = $this->permissions()->pluck('name');
+        $userPermissions = $this->permissions->pluck('name');
 
         if ($userPermissions->contains($permission)) {
             return true;

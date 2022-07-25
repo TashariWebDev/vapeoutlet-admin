@@ -3,6 +3,8 @@
 use App\Http\Livewire\Dashboard\Index;
 use App\Http\Livewire\Purchases\Create;
 use App\Http\Livewire\Settings\Delivery;
+use App\Http\Livewire\Settings\Marketing\Banners;
+use App\Http\Livewire\Settings\Marketing\Notifications;
 use App\Http\Livewire\Users\Show;
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +52,12 @@ Route::middleware('auth')->group(function () {
     Route::middleware('permission:view settings')->group(function () {
         Route::get('settings/delivery', Delivery\Index::class)
             ->name('settings/delivery');
+
+        Route::get('settings/marketing/notifications', Notifications::class)
+            ->name('settings/marketing/notifications');
+        
+        Route::get('settings/marketing/banners', Banners::class)
+            ->name('settings/marketing/banners');
 
         Route::get('settings', \App\Http\Livewire\Settings\Index::class)
             ->name('settings');

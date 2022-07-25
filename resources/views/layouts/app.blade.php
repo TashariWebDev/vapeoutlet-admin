@@ -248,9 +248,20 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7"/>
                     </svg>
                 </button>
-                <div class="flex-1 flex items-center justify-between px-4 sm:px-6">
+                <div class="flex-1 flex items-center justify-between px-4 sm:px-6"
+                     x-data="{ date:'', currentTime: ''}"
+                     x-init="setInterval(() => {
+                                        date = new Date()
+                                        currentTime = date.toLocaleString()
+                                    }, 1000);"
+                >
                     <div class="flex-1 flex">
-                        <p class="text-white capitalize">{{ request()->path() }}</p>
+                        <div>
+                            <p class="text-white capitalize">{{ request()->path() }}</p>
+                            <p class="text-xs opacity-60 text-gray-200 hidden md:block font-mono"
+                               x-text="currentTime">
+                            </p>
+                        </div>
                     </div>
                     <div class="ml-2 flex items-center space-x-4 sm:ml-6 sm:space-x-6">
                         <!-- Profile dropdown -->

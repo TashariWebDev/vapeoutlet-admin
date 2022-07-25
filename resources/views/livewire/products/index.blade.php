@@ -66,17 +66,15 @@
         </div>
     </x-slide-over>
 
-    <x-slide-over title="Create/Edit product" wire:model.defer="showProductForm">
-        <form wire:submit.prevent="save">
-
+    {{--update product--}}
+    <x-slide-over title="Update product" wire:model.defer="showProductUpdateForm">
+        <form wire:submit.prevent="update">
             <div class="py-2">
                 <x-input label="name" type="text" wire:model.defer="product.name" required/>
             </div>
-
             <div class="py-2">
                 <x-input label="sku" type="text" wire:model.defer="product.sku" required/>
             </div>
-
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showBrandsForm',true)">
@@ -89,7 +87,6 @@
                     @endforeach
                 </x-select>
             </div>
-
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
@@ -102,20 +99,18 @@
                     @endforeach
                 </x-select>
             </div>
-
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id" required>
+                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id">
                     @foreach($productCollections as $collection)
                         <option value="{{$collection->id}}">{{$collection->name}}</option>
                     @endforeach
                 </x-select>
             </div>
-
             @if($product)
                 @if($product->id)
                     <div class="py-2">
@@ -172,6 +167,67 @@
                 </button>
             </div>
         </form>
+    </x-slide-over>
+
+    {{--create product--}}
+    <x-slide-over title="New product" wire:model.defer="showProductCreateForm">
+        <form wire:submit.prevent="update">
+            <div class="py-2">
+                <x-input label="name" type="text" wire:model.defer="product.name" required/>
+            </div>
+            <div class="py-2">
+                <x-input label="sku" type="text" wire:model.defer="product.sku" required/>
+            </div>
+            <div class="py-2 relative">
+                <div class="absolute right-0 pt-0.5 z-10">
+                    <button x-on:click.prevent="@this.set('showBrandsForm',true)">
+                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                    </button>
+                </div>
+                <x-select label="brand" type="text" wire:model.defer="product.brand" required>
+                    @foreach($brands as $brand)
+                        <option value="{{$brand->name}}">{{$brand->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div class="py-2 relative">
+                <div class="absolute right-0 pt-0.5 z-10">
+                    <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
+                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                    </button>
+                </div>
+                <x-select label="categories" type="text" wire:model.defer="product.category" required>
+                    @foreach($categories as $category)
+                        <option value="{{$category->name}}">{{$category->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div class="py-2 relative">
+                <div class="absolute right-0 pt-0.5 z-10">
+                    <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
+                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                    </button>
+                </div>
+                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id">
+                    @foreach($productCollections as $collection)
+                        <option value="{{$collection->id}}">{{$collection->name}}</option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div class="py-2">
+                <button class="button-success w-full">
+                    <x-icons.save class="w-5 h-5 mr-2"/>
+                    save
+                </button>
+            </div>
+        </form>
+
+        <button class="button-success w-full"
+                x-on:click="@this.call('saveAndEdit','')"
+        >
+            <x-icons.save class="w-5 h-5 mr-2"/>
+            save and update
+        </button>
     </x-slide-over>
 
     <x-modal wire:model.defer="showBrandsForm" title="Manage brands" wire:key>
@@ -268,7 +324,7 @@
                 @endif
                 <div>
                     <button class="button-success w-full"
-                            x-on:click.prevent="@this.call('edit','')"
+                            x-on:click.prevent="@this.call('create','')"
                     >
                         <x-icons.plus class="w-5 h-5 mr-2"/>
                         add product

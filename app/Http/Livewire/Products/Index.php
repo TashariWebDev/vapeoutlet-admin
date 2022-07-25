@@ -25,7 +25,8 @@ class Index extends Component
     public bool $activeFilter = true;
     public string $searchQuery = '';
 
-    public bool $showProductForm = false;
+    public bool $showProductCreateForm = false;
+    public bool $showProductUpdateForm = false;
     public bool $showBrandsForm = false;
     public bool $showCategoriesForm = false;
     public bool $showGalleryForm = false;
@@ -78,38 +79,57 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function updatedShowProductForm()
+    public function edit($productId)
     {
-        if (!$this->showProductForm) {
-            $this->reset([
-                'brands', 'categories', 'featureCategories', 'product', 'images', 'productCollections',
-                'showFeaturesForm', 'productId'
-            ]);
-        }
-    }
-
-    public function showFeaturesForm()
-    {
-        $this->showFeaturesForm = true;
-    }
-
-    public function edit($productId = null)
-    {
-        $this->product = Product::firstOrNew(['id' => $productId]);
+        $this->product = Product::find($productId);
         $this->brands = Brand::query()->orderBy('name')->get();
         $this->categories = Category::query()->orderBy('name')->get();
         $this->featureCategories = FeatureCategory::orderBy('name')->get();
         $this->productCollections = ProductCollection::orderBy('name')->get();
         $this->product->refresh();
-        $this->showProductForm = true;
+        $this->showProductUpdateForm = true;
+    }
+
+    public function clearActiveProduct()
+    {
+        $this->reset(['product']);
+        $this->resetValidation();
+        $this->product = new Product();
+    }
+
+    public function update()
+    {
+        $this->validate();
+        $this->product->save();
+        $this->clearActiveProduct();
+        $this->dispatchBrowserEvent('notification', ['body' => 'Product updated']);
+        $this->showProductUpdateForm = false;
+    }
+
+    public function create($productId)
+    {
+        $this->product = new Product();
+        $this->brands = Brand::query()->orderBy('name')->get();
+        $this->categories = Category::query()->orderBy('name')->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
+        $this->showProductCreateForm = true;
     }
 
     public function save()
     {
         $this->validate();
         $this->product->save();
-
+        $this->productId = $this->product->id;
+        $this->clearActiveProduct();
         $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
+    }
+
+    public function saveAndEdit()
+    {
+        $this->save();
+        $this->showProductCreateForm = false;
+        $this->edit($this->productId);
     }
 
     public function toggleActive($productId)
