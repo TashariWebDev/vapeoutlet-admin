@@ -182,11 +182,11 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="hidden lg:flex space-x-1">
+                        <div class="hidden lg:flex flex-wrap ">
                             @foreach($product->features as $feature)
-                                <p class="text-xs text-gray-500 uppercase">
-                                    {{ $feature->name }}
-                                    @if(!$loop->last) <span> / </span> @endif
+                                <p class="text-xs text-gray-500 uppercase px-1">
+                                    | {{ $feature->name }}
+                                    {{--                                    @if(!$loop->last) <span> | </span> @endif--}}
                                 </p>
                             @endforeach
                         </div>
@@ -235,7 +235,7 @@
                         <h3 class="mt-2 text-sm font-medium text-gray-900">No products</h3>
                         <p class="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
                         <div class="mt-6">
-                            <a href="{{ route('products',['showProductForm']) }}" type="button"
+                            <a href="{{ route('products') }}" type="button"
                                class="button-success">
                                 <x-icons.plus
                                     class="-ml-1 mr-2 h-5 w-5 animate-pulse rounded-full ring ring-white ring-1"/>

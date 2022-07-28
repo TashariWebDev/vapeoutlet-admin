@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Purchases;
 
+use App\Mail\ContactFormMail;
+use App\Mail\StockAlertMail;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
@@ -9,6 +11,7 @@ use App\Models\Stock;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -103,9 +106,21 @@ class Create extends Component
             $item->product()->update([
                 'cost' => to_cents($cost)
             ]);
+
+            $alerts = $item->product->stockAlerts()->get();
+
+            foreach ($alerts as $alert) {
+                Mail::to($alert->email)->later(
+                    now()->addMinutes(1),
+                    new StockAlertMail($item->product)
+                );
+
+                $alert->delete();
+            }
         }
 
         $purchase->update(['processed_date' => today()]);
+
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Processed']);
 

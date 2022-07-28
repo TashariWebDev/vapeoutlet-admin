@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,6 +23,8 @@ class Customer extends Authenticatable
         'name',
         'email',
         'phone',
+        'company',
+        'vat_number',
         'is_wholesale',
         'password',
     ];
@@ -68,5 +71,10 @@ class Customer extends Authenticatable
     public function isWholesale(): string
     {
         return !$this->is_wholesale ? '' : '(wholesale)';
+    }
+
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(CustomerAddress::class);
     }
 }

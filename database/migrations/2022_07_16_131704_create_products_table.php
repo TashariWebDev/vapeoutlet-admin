@@ -19,7 +19,9 @@ return new class extends Migration {
             $table->longText('description')->nullable();
 
             $table->integer('retail_price')->default(0);
+            $table->integer('old_retail_price')->default(0);
             $table->integer('wholesale_price')->default(0);
+            $table->integer('old_wholesale_price')->default(0);
             $table->integer('cost')->default(0);
 
             $table->boolean('is_active')->default(false);

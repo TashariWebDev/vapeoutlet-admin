@@ -13,6 +13,8 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone');
+            $table->string('company')->nullable();
+            $table->string('vat_number')->nullable();
             $table->boolean('is_wholesale')->default(false);
             $table->rememberToken();
             $table->softDeletes();

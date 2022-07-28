@@ -82,6 +82,14 @@ class Product extends Model
         );
     }
 
+    public function oldPrice(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
+        );
+    }
+
     public function cost(): Attribute
     {
         return new Attribute(
@@ -97,6 +105,23 @@ class Product extends Model
                 ? config('app.app_url') . '/storage/' . $value
                 : config('app.app_url') . '/storage/images/default-image.png'
         );
+    }
+
+    public function hasPriceDrop(): bool
+    {
+        if (auth()->check()) {
+            if (auth()->user()->is_wholesale) {
+                if ($this->old_wholesale_price > 0 && $this->old_wholesale_price > $this->wholesale_price) {
+                    return true;
+                }
+            }
+        }
+
+        if ($this->old_retail_price > 0 && $this->old_retail_price > $this->retail_price) {
+            return true;
+        }
+
+        return false;
     }
 
 //    relationships
@@ -123,7 +148,7 @@ class Product extends Model
 
     public function features(): hasMany
     {
-        return $this->hasMany(Feature::class);
+        return $this->hasMany(Feature::class)->orderBy('feature_category_id');
     }
 
     public function purchases(): hasMany
@@ -152,6 +177,11 @@ class Product extends Model
     {
         return $this->hasMany(Stock::class)
             ->where('type', '=', 'return');
+    }
+
+    public function stockAlerts(): HasMany
+    {
+        return $this->hasMany(StockAlert::class);
     }
 
 }

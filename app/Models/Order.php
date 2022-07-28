@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use SoftDeletes;
 
     protected $guarded = [];
 
@@ -30,7 +28,12 @@ class Order extends Model
 
     public function admin(): BelongsTo
     {
-        return $this->belongsTo(Admin::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function salesperson(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function items(): HasMany
@@ -48,7 +51,7 @@ class Order extends Model
 //        sum of cost * qty items
     }
 
-    public function order_number(): Attribute
+    public function number(): Attribute
     {
         return new Attribute(
             get: fn() => 'INV00' . $this->attributes['id']

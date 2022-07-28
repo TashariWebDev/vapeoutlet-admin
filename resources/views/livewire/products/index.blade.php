@@ -117,7 +117,7 @@
                         <x-textarea label="description" type="text" wire:model.defer="product.description"/>
                     </div>
                     <div class="py-2">
-                        <x-input-number label="retail_price" type="number" wire:model.lazy="product.retail_price"
+                        <x-input-number label="retail_price" type="number" wire:model.defer="product.retail_price"
                                         required/>
                     </div>
                     <div class="py-2">
@@ -473,7 +473,7 @@
                             <h3 class="mt-2 text-sm font-medium text-gray-900">No products</h3>
                             <p class="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
                             <div class="mt-6">
-                                <button type="button" x-on:click="@this.call('edit','')"
+                                <button type="button" x-on:click="@this.call('create','')"
                                         class="button-success">
                                     <x-icons.plus
                                         class="-ml-1 mr-2 h-5 w-5 animate-pulse rounded-full ring ring-white ring-1"/>

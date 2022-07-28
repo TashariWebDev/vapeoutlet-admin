@@ -10,14 +10,13 @@ return new class extends Migration {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id');
-            $table->string('type'); // charge or credit
+            $table->string('type'); // invoice, return,
             $table->integer('qty')->unsigned()->default(0);
             $table->integer('price')->unsigned()->default(0);
             $table->integer('cost')->unsigned()->default(0);
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

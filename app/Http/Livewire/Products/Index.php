@@ -62,16 +62,11 @@ class Index extends Component
             'product.category' => ['required'],
             'product.description' => ['sometimes'],
             'product.retail_price' => ['sometimes'],
+//            'product.old_retail_price' => ['sometimes'],
             'product.wholesale_price' => ['sometimes'],
+//            'product.old_wholesale_price' => ['sometimes'],
             'product.product_collection_id' => ['sometimes'],
         ];
-    }
-
-    public function mount()
-    {
-        if (request()->has('showProductForm')) {
-            $this->edit();
-        }
     }
 
     public function updatedSearchQuery()
@@ -82,6 +77,10 @@ class Index extends Component
     public function edit($productId)
     {
         $this->product = Product::find($productId);
+        $this->product->update([
+            'old_retail_price' => $this->product->retail_price,
+            'old_wholesale_price' => $this->product->wholesale_price,
+        ]);
         $this->brands = Brand::query()->orderBy('name')->get();
         $this->categories = Category::query()->orderBy('name')->get();
         $this->featureCategories = FeatureCategory::orderBy('name')->get();
@@ -100,9 +99,13 @@ class Index extends Component
     public function update()
     {
         $this->validate();
+        $this->product->update([
+            'old_retail_price' => $this->product->retail_price,
+            'old_wholesale_price' => $this->product->wholesale_price,
+        ]);
         $this->product->save();
-        $this->clearActiveProduct();
-        $this->dispatchBrowserEvent('notification', ['body' => 'Product updated']);
+//        $this->clearActiveProduct();
+        $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
         $this->showProductUpdateForm = false;
     }
 
@@ -119,6 +122,10 @@ class Index extends Component
     public function save()
     {
         $this->validate();
+        $this->product->update([
+            'old_retail_price' => $this->product->retail_price,
+            'old_wholesale_price' => $this->product->wholesale_price,
+        ]);
         $this->product->save();
         $this->productId = $this->product->id;
         $this->clearActiveProduct();
@@ -162,6 +169,7 @@ class Index extends Component
     public function showGallery($productId)
     {
         $this->product = Product::find($productId);
+        $this->product->unsetRelation('images');
         $this->product->load('images');
         $this->showGalleryForm = true;
     }
@@ -180,6 +188,7 @@ class Index extends Component
 
         $this->reset(['image', 'images']);
         $this->iteration++;
+        $this->product->unsetRelation('images');
         $this->product->load('images');
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Images uploaded']);
@@ -197,6 +206,7 @@ class Index extends Component
 
         $this->reset(['image', 'images']);
         $this->iteration++;
+        $this->product->unsetRelation('images');
         $this->product->load('images');
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Image saved']);
@@ -284,7 +294,8 @@ class Index extends Component
         $this->product->features()->create([
             'feature_category_id' => $categoryId
         ]);
-        $this->product->refresh();
+        $this->product->unsetRelation('features');
+        $this->product->load('features');
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Feature created']);
     }
@@ -299,7 +310,8 @@ class Index extends Component
     public function deleteFeature(Feature $feature)
     {
         $feature->delete();
-        $this->product->refresh();
+        $this->product->unsetRelation('features');
+        $this->product->load('features');
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Feature deleted']);
     }

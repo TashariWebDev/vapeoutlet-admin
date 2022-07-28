@@ -22,16 +22,16 @@
         <div class="grid grid-col-1 md:grid-cols-4 gap-3 px-2 py-1 border-b pb-4 bg-white rounded-md">
             <div class="order-last md:order-first md:col-span-2">
                 @if(!$purchase->processed)
-                    <div class="pb-3">
+                    <div class="pb-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
                         @if($purchase->total != $purchase->amount)
-                            <button class="button-success w-full md:w-32"
+                            <button class="button-success w-full"
                                     x-on:click="@this.set('showProductSelectorForm',true)"
                             >
                                 <x-icons.plus class="w-5 h-5 mr-2"/>
                                 add products
                             </button>
                         @endif
-                        <button class="button-danger w-full md:w-32"
+                        <button class="button-danger w-full"
                                 x-on:click="@this.call('cancel')"
                         >
                             <x-icons.cross class="w-5 h-5 mr-2"/>

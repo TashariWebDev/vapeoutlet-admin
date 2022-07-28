@@ -56,6 +56,7 @@ return [
 
     'url' => env('APP_URL', 'https://www.admin.vapecrew.co.za'),
     'admin_url' => env('ADMIN_URL', 'http://localhost'),
+    'frontend_url' => env('FRONTEND_URL', 'http://localhost'),
     'asset_url' => env('ASSET_URL'),
 
     /*
