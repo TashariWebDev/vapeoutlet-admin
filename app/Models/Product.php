@@ -82,7 +82,15 @@ class Product extends Model
         );
     }
 
-    public function oldPrice(): Attribute
+    public function oldRetailPrice(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
+        );
+    }
+
+    public function oldwholesalePrice(): Attribute
     {
         return new Attribute(
             get: fn($value) => (float)to_rands($value),

@@ -6,9 +6,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class OrderItem extends Model
+class CreditItem extends Model
 {
-
     protected $guarded = [];
 
     public function order(): BelongsTo
@@ -25,7 +24,7 @@ class OrderItem extends Model
     {
         return new Attribute(
             get: fn($value) => (float)to_rands($value),
-            set: fn($value) => to_cents($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
@@ -33,7 +32,7 @@ class OrderItem extends Model
     {
         return new Attribute(
             get: fn($value) => (float)to_rands($value),
-            set: fn($value) => to_cents($value),
+            set: fn($value) => to_cents($value)
         );
     }
 

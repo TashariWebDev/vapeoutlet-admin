@@ -99,12 +99,7 @@ class Index extends Component
     public function update()
     {
         $this->validate();
-        $this->product->update([
-            'old_retail_price' => $this->product->retail_price,
-            'old_wholesale_price' => $this->product->wholesale_price,
-        ]);
         $this->product->save();
-//        $this->clearActiveProduct();
         $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
         $this->showProductUpdateForm = false;
     }

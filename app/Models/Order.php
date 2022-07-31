@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,9 +27,14 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function admin(): BelongsTo
+    public function address(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(CustomerAddress::class, "address_id");
+    }
+
+    public function delivery(): BelongsTo
+    {
+        return $this->belongsTo(Delivery::class, "delivery_type_id");
     }
 
     public function salesperson(): BelongsTo
@@ -41,14 +47,27 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function total()
+    public function getTotal()
     {
-//        sum of price * qty items
+        return $this->getSubTotal() + $this->delivery_charge;
     }
 
-    public function cost()
+    public function getSubTotal()
     {
-//        sum of cost * qty items
+        return to_rands($this->items()->sum(DB::raw("price * qty")));
+    }
+
+    public function getCost()
+    {
+        return $this->items()->sum(DB::raw("cost * qty"));
+    }
+
+    public function deliveryCharge(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value)
+        );
     }
 
     public function number(): Attribute

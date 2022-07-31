@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class CustomerAddress extends Model
+class Transaction extends Model
 {
     protected $guarded = [];
 
@@ -15,8 +15,11 @@ class CustomerAddress extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function orders(): HasMany
+    public function amount(): Attribute
     {
-        return $this->hasMany(Order::class);
+        return new Attribute(
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
+        );
     }
 }

@@ -7,12 +7,11 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        Schema::create('credit_items', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('order_id')->constrained()->onDelete('cascade');
+            $table->foreignId('credit_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id');
-            $table->string('type'); // simple/bundle,
             $table->integer('qty')->unsigned()->default(0);
             $table->integer('price')->unsigned()->default(0);
             $table->integer('cost')->unsigned()->default(0);
@@ -23,6 +22,6 @@ return new class extends Migration {
 
     public function down()
     {
-        Schema::dropIfExists('order_items');
+        Schema::dropIfExists('credit_items');
     }
 };

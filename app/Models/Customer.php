@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -76,5 +77,27 @@ class Customer extends Authenticatable
     public function addresses(): HasMany
     {
         return $this->hasMany(CustomerAddress::class);
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function latestTransaction(): HasOne
+    {
+        return $this->hasOne(Transaction::class)->latestOfMany();
+    }
+
+    public function getRunningBalance()
+    {
+        if ($this->transactions()->count() == 1) {
+            $transaction = $this->transactions()->first();
+            if ($transaction->running_balance == 0) {
+                return $transaction->amount;
+            }
+        }
+
+        return $this->latestTransaction()->value("running_balance") ?? 0;
     }
 }

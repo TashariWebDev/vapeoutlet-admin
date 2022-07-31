@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => env('TIMEZONE'),
+    'timezone' => 'Africa/Johannesburg',
 
     /*
     |--------------------------------------------------------------------------
