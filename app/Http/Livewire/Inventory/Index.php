@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Inventory;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
+    use WithNotifications;
 
     public $searchQuery;
     public $suppliers = [];
@@ -39,11 +41,11 @@ class Index extends Component
     {
         return [
             'selectedSupplier' => ['required', 'integer'],
-            'invoice_no' => ['required'],
+            'invoice_no' => ['required', 'unique:purchases,invoice_no'],
             'amount' => ['required'],
             'date' => ['required', 'date'],
-            'shipping_rate' => ['sometimes'],
-            'exchange_rate' => ['sometimes'],
+            'shipping_rate' => ['nullable'],
+            'exchange_rate' => ['nullable'],
             'currency' => ['required'],
         ];
     }
@@ -98,7 +100,7 @@ class Index extends Component
 
     public function save()
     {
-        $validated = $this->validate();
+        $this->validate();
 
         $purchase = Purchase::create([
             'supplier_id' => $this->selectedSupplier,
@@ -110,7 +112,6 @@ class Index extends Component
             'currency' => $this->currency,
             'creator_id' => auth()->id(),
         ]);
-
 
         $this->redirectRoute('purchases/create', [
             'id' => $purchase->id

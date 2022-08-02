@@ -32,6 +32,14 @@ Route::middleware('auth')->group(function () {
         ->name('orders')
         ->middleware('permission:view orders');
 
+    Route::get('orders/{id}', \App\Http\Livewire\Orders\Show::class)
+        ->name('orders/show')
+        ->middleware('permission:view orders');
+
+    Route::get('orders/create/{id}', \App\Http\Livewire\Orders\Create::class)
+        ->name('orders/create')
+        ->middleware('permission:create orders');
+
     Route::get('products', \App\Http\Livewire\Products\Index::class)
         ->name('products')
         ->middleware('permission:view products');
@@ -48,6 +56,10 @@ Route::middleware('auth')->group(function () {
         ->name('customers/show')
         ->middleware('permission:edit customers');
 
+    Route::get('credits/{id}', \App\Http\Livewire\Credit\Create::class)
+        ->name('credits/create')
+        ->middleware('permission:create credit');
+
 //Settings
     Route::middleware('permission:view settings')->group(function () {
         Route::get('settings/delivery', Delivery\Index::class)
@@ -55,7 +67,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('settings/marketing/notifications', Notifications::class)
             ->name('settings/marketing/notifications');
-        
+
         Route::get('settings/marketing/banners', Banners::class)
             ->name('settings/marketing/banners');
 
@@ -82,11 +94,7 @@ Route::middleware('auth')->group(function () {
         ->name('users/show')
         ->middleware('permission:view users');
 
-    Route::get('inventory/purchases', \App\Http\Livewire\Purchases\Index::class)
-        ->name('purchases')
-        ->middleware('permission:create purchase');
-
-    Route::get('inventory/purchases/create/{id}', Create::class)
+    Route::get('inventory/purchases/{id}', Create::class)
         ->name('purchases/create')
         ->middleware('permission:create purchase');
 
@@ -94,7 +102,7 @@ Route::middleware('auth')->group(function () {
         Route::get('inventory/suppliers', \App\Http\Livewire\Suppliers\Index::class)
             ->name('suppliers');
 
-        Route::get('inventory/suppliers/show/{id}', \App\Http\Livewire\Suppliers\Show::class)
+        Route::get('inventory/suppliers/{id}', \App\Http\Livewire\Suppliers\Show::class)
             ->name('suppliers/show');
 
     });

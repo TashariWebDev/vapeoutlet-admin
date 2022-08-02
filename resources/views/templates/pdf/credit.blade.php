@@ -56,7 +56,8 @@
                     <ul>
                         <li class="uppercase">{{ $model->created_by }}</li>
                         <li>{{ $model->created_at->format('d-m-Y') }}</li>
-                        <li class="capitalize">{{ $model->number }} Note</li>
+                        <li class="capitalize">{{ $model->number }}</li>
+                        <li class="capitalize">Credit Note</li>
                     </ul>
                 </div>
             </div>
@@ -105,10 +106,10 @@
                             <p class="text-right text-xs font-mono">{{ $item->qty }}</p>
                         </div>
                         <div class="p-1">
-                            <p class="text-right text-xs font-mono">R {{ number_format($item->price,2) }}</p>
+                            <p class="text-right text-xs font-mono">R - {{ number_format($item->price,2) }}</p>
                         </div>
                         <div class="p-1">
-                            <p class="text-right text-xs font-mono">R {{ number_format($item->line_total,2) }}</p>
+                            <p class="text-right text-xs font-mono">R - {{ number_format($item->line_total,2) }}</p>
                         </div>
                     </div>
                 @endforeach
@@ -117,15 +118,15 @@
             <div class="block break-before-avoid-page py-3 border-t border-b border-gray-500">
                 <div class="grid grid-cols-3 gap-2">
                     <p class="text-xs text-center whitespace-nowrap">
-                        <span class="font-semibold">Sub Total </span> R {{ number_format($model->getSubTotal(),2) }}
+                        <span class="font-semibold">Sub Total </span> R - {{ number_format($model->getSubTotal(),2) }}
                     </p>
                     <p class="text-xs text-center whitespace-nowrap">
                         <span class="font-semibold">Total </span>
-                        R {{ number_format($model->getTotal(),2) }}
+                        R - {{ number_format($model->getTotal(),2) }}
                     </p>
                     <p class="text-xs text-center whitespace-nowrap">
                         <span class="font-semibold">VAT </span>
-                        R {{ number_format(vat($model->getTotal()),2) }}
+                        R - {{ number_format(vat($model->getTotal()),2) }}
                     </p>
                 </div>
             </div>
@@ -134,7 +135,7 @@
                 <div class="grid grid-cols-1 gap-2">
                     <p class="text-xs text-center whitespace-nowrap">
                         <span class="font-semibold">ACCOUNT BALANCE </span>
-                        R {{ number_format(to_rands($model->customer->getRunningBalance()),2) }}
+                        R {{ number_format($model->customer->getRunningBalance(),2) }}
                     </p>
                 </div>
             </div>

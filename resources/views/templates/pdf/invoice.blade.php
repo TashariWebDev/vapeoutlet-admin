@@ -54,7 +54,7 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li class="uppercase">{{ $model->created_by }}</li>
+                        <li class="uppercase">{{ $model->placed_at }}</li>
                         <li>{{ $model->created_at->format('d-m-Y') }}</li>
                         <li class="capitalize">{{ $model->number }}</li>
                     </ul>
@@ -150,7 +150,7 @@
                 <div class="grid grid-cols-1 gap-2">
                     <p class="text-xs text-center whitespace-nowrap">
                         <span class="font-semibold">ACCOUNT BALANCE </span>
-                        R {{ number_format(to_rands($model->customer->getRunningBalance()),2) }}
+                        R {{ number_format($model->customer->getRunningBalance(),2) }}
                     </p>
                 </div>
             </div>

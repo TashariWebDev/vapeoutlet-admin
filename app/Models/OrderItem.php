@@ -37,6 +37,17 @@ class OrderItem extends Model
         );
     }
 
+    public function getPrice($customer = null)
+    {
+        $user = $customer ?? auth()->user();
+
+        if (auth()->check() && $user->is_wholesale) {
+            return $this->product->wholesale_price;
+        }
+
+        return $this->product->retail_price;
+    }
+
     public function getLineTotalAttribute(): float|int
     {
         return $this->qty * $this->price;

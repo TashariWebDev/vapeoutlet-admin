@@ -66,6 +66,32 @@ class Product extends Model
     }
 
 //    setters
+
+    public function qty()
+    {
+        return $this->stocks->sum("qty");
+    }
+
+    public function getPrice(Customer $customer)
+    {
+
+        if ($customer->is_wholesale) {
+            return $this->wholesale_price;
+        }
+
+        return $this->retail_price;
+    }
+
+    public function getPriceByRole(Customer $customer)
+    {
+
+        if ($customer->is_wholesale) {
+            return $this->wholesale_price;
+        }
+
+        return $this->retail_price;
+    }
+
     public function retailPrice(): Attribute
     {
         return new Attribute(

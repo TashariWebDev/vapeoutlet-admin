@@ -47,7 +47,7 @@ class PurchaseItem extends Model
     public function amount_converted_to_zar(): float|int
     {
         if ($this->purchase->exchange_rate) {
-            return ($this->price * $this->purchase()->exchange_rate);
+            return ($this->price * $this->purchase->exchange_rate);
         }
         return $this->price;
     }

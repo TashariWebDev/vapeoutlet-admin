@@ -64,7 +64,7 @@ class Index extends Component
     {
         return view('livewire.users.index', [
             'users' => User::query()
-//                ->where('email', '!=', 'ridwan@tashari.co.za')
+                ->where('email', '!=', 'ridwan@tashari.co.za')
                 ->withTrashed()
                 ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
                 ->simplePaginate()

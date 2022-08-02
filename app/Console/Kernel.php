@@ -2,13 +2,20 @@
 
 namespace App\Console;
 
+use App\Console\Commands\DeleteOldDocumentsCommand;
+use App\Console\Commands\DeleteOldPriceListCommand;
+use App\Console\Commands\UpdateSupplierTransactionsCommand;
 use App\Console\Commands\UpdateTransactionsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    protected $commands = [UpdateTransactionsCommand::class];
+    protected $commands = [UpdateTransactionsCommand::class,
+        DeleteOldPriceListCommand::class,
+        DeleteOldDocumentsCommand::class,
+        UpdateSupplierTransactionsCommand::class
+    ];
 
     /**
      * Define the application's command schedule.
@@ -18,7 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('delete:old-price-list')->everyTenMinutes();
+        $schedule->command('delete:old-documents')->daily();
     }
 
     /**

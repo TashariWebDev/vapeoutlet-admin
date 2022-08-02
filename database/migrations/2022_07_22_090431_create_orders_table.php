@@ -17,15 +17,11 @@ return new class extends Migration {
             $table->foreignId('salesperson_id')->nullable();
 
             $table->boolean('is_editing')->default(true);
-            
+
             $table->integer('delivery_charge')->nullable();
             $table->string('waybill')->nullable();
 
-            $table->timestamp('placed_at')->nullable(); // order created
-            $table->timestamp('processed_at')->nullable(); // order adjusted and sent to warehouse
-            $table->timestamp('picked_at')->nullable(); // warehouse pulls order and hands to dispatch (picklist)
-            $table->timestamp('shipped_at')->nullable(); // dispatch hands over to courier
-            $table->timestamp('completed_at')->nullable(); // order complete
+            $table->string('status')->nullable(); // order created
 
             $table->timestamps();
         });

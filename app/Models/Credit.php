@@ -37,12 +37,12 @@ class Credit extends Model
 
     public function getSubTotal()
     {
-        return $this->items()->sum(DB::raw("price * qty"));
+        return to_rands($this->items()->sum(DB::raw("price * qty")));
     }
 
     public function getCost()
     {
-        return $this->items()->sum(DB::raw("cost * qty"));
+        return to_rands($this->items()->sum(DB::raw("cost * qty")));
     }
 
     public function number(): Attribute

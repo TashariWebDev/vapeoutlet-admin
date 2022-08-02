@@ -1,4 +1,4 @@
-<div x-data="{currency:'ZAR'}">
+<div>
 
     <x-slide-over wire:model.defer="showPurchaseCreateForm" title="New purchase"
     >
@@ -22,7 +22,7 @@
                 <x-input type="text" wire:model.defer="invoice_no" label="Invoice number"/>
             </div>
             <div class="py-4">
-                <x-select wire:model.defer="currency" x-model="currency"
+                <x-select wire:model.defer="currency"
                           label="Select a currency">
                     <option value="ZAR">ZAR</option>
                     <option value="USD">USD</option>
@@ -31,12 +31,10 @@
                     <option value="CNH">CNH</option>
                 </x-select>
             </div>
-            <template x-if="currency !== 'ZAR'">
-                <div class="py-4">
-                    <x-input-number type="number" wire:model.defer="exchange_rate"
-                                    label="Exchange rate in ZAR"/>
-                </div>
-            </template>
+            <div class="py-4">
+                <x-input-number type="number" wire:model.defer="exchange_rate" placeholder="optional"
+                                label="Exchange rate in ZAR"/>
+            </div>
             <div class="py-4">
                 <x-input-number type="number" wire:model.defer="amount"
                                 label="Invoice amount in selected currency (ex shipping)"/>
@@ -108,9 +106,9 @@
     </x-modal>
 
 
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-2 px-2 md:px-0">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 px-2 md:px-0">
         <div class="lg:col-span-2">
-            <x-input-search id="search" wire:model="searchQuery" label="Search"/>
+            <x-inputs.search id="search" wire:model="searchQuery" label="Search"/>
         </div>
 
         <div class="w-full">
@@ -121,12 +119,7 @@
                 new purchase
             </button>
         </div>
-        <div>
-            <a href="{{ route('purchases') }}" class="button-success w-full">
-                <x-icons.tax-receipt class="w-5 w-5 mr-2"/>
-                purchases
-            </a>
-        </div>
+
         <div>
             <a href="{{ route('suppliers') }}" class="button-success w-full">
                 <x-icons.users class="w-5 w-5 mr-2"/>
@@ -135,120 +128,64 @@
         </div>
     </div>
 
-
-    <div class="py-6">
-        @if($products->isNotEmpty())
-            <div
-                class="hidden lg:grid grid-cols-4 md:grid-cols-9 border text-sm bg-white rounded-t text-sm font-semibold uppercase py-2 bg-gradient-gray text-white">
-                <div class="border-r px-2">sku</div>
-                <div class="col-span-2 border-r px-2">product</div>
-                <div class="border-r px-2 text-right">ave cost</div>
-                <div class="border-r px-2 text-right">last cost</div>
-                <div class="border-r px-2 text-right">purchased</div>
-                <div class="border-r px-2 text-right">returns</div>
-                <div class="border-r px-2 text-right">sold</div>
-                <div class="px-2 text-right">available</div>
-            </div>
-        @endif
-
-
-        <div class="grid grid-cols-1 gap-2 py-2">
-            @forelse($products as $product)
-                <div class="grid grid-cols-4 lg:grid-cols-9 border text-sm bg-white lg:py-1
-                            @if($loop->last) rounded-b @endif">
-                    <div class="border-r lg:py-0">
-                        <div class="lg:hidden bg-gradient-gray text-white px-2">
-                            <p>id</p>
-                        </div>
-                        <p class="text-xs px-2">{{ $product->sku }}</p>
-                    </div>
-                    <div class="col-span-3 lg:col-span-2 border-r lg:px-2 lg:py-0">
-                        <div class="lg:hidden bg-gradient-gray text-white px-2">
-                            <p>name</p>
-                        </div>
-                        <div class="lg:block lg:flex items-center px-2 lg:px-0">
-                            <p class="pr-3">
-                                <span class="text-lg font-bold">{{ $product->brand }} {{ $product->name }}</span>
-                                @if($product->trashed())
-                                    <span class="text-xs text-red-600"> (discontinued) </span>
-                                @endif
-                            </p>
-                            <div class="flex flex-wrap space-x-1 lg:hidden">
-                                @foreach($product->features as $feature)
-                                    <p class="text-xs text-gray-500 uppercase">
-                                        {{ $feature->name }}
-                                        @if(!$loop->last) <span> / </span> @endif
-                                    </p>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="hidden lg:flex flex-wrap ">
-                            @foreach($product->features as $feature)
-                                <p class="text-xs text-gray-500 uppercase px-1">
-                                    | {{ $feature->name }}
-                                    {{--                                    @if(!$loop->last) <span> | </span> @endif--}}
-                                </p>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="border-r lg:px-2 lg:text-right text-center col-span-2 lg:col-span-1">
-                        <div class="lg:hidden bg-gradient-gray text-white">
-                            <p>ave. cost</p>
-                        </div>
-                        <p>{{ number_format($product->cost,2) ?? 0}}</p>
-                    </div>
-                    <div class="border-r lg:px-2 lg:text-right text-center col-span-2 lg:col-span-1">
-                        <div class="lg:hidden bg-gradient-gray text-white">
-                            <p>last cost</p>
-                        </div>
-                        <p>{{ number_format($product->last_purchase_price(),2) ?? 0}}</p>
-                    </div>
-                    <div class="border-r lg:px-2 lg:text-right text-center">
-                        <div class="lg:hidden bg-gradient-gray text-white">
-                            <p>purchased</p>
-                        </div>
-                        <p>{{ $product->purchased->sum('qty')}}</p>
-                    </div>
-                    <div class="border-r lg:px-2 lg:text-right text-center">
-                        <div class="lg:hidden bg-gradient-gray text-white">
-                            <p>sold</p>
-                        </div>
-                        <p>{{ $product->sold->sum('qty')}}</p>
-                    </div>
-                    <div class="border-r lg:px-2 lg:text-right text-center">
-                        <div class="lg:hidden bg-gradient-gray text-white">
-                            <p>returns</p>
-                        </div>
-                        <p>{{ $product->returns->sum('qty')}}</p>
-                    </div>
-                    <div class="lg:px-2 lg:text-right text-center">
-                        <div class="lg:hidden bg-gradient-gray text-white">
-                            <p>available</p>
-                        </div>
-                        <p>{{ $product->stocks->sum('qty')}}</p>
-                    </div>
-                </div>
-            @empty
-                <div class="py-6 grid grid-cols-1">
-                    <div class="text-center py-10 bg-white rounded-md">
-                        <x-icons.products class="mx-auto h-12 w-12 text-gray-400"/>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900">No products</h3>
-                        <p class="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
-                        <div class="mt-6">
-                            <a href="{{ route('products') }}" type="button"
-                               class="button-success">
-                                <x-icons.plus
-                                    class="-ml-1 mr-2 h-5 w-5 animate-pulse rounded-full ring ring-white ring-1"/>
-                                New Product
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            @endforelse
-        </div>
-    </div>
-
-    <div class="py-6">
+    <div class="py-3">
         {{ $products->links() }}
     </div>
+
+    <x-table.container>
+        <x-table.header class="hidden lg:grid grid-cols-1 md:grid-cols-8">
+            <x-table.heading class="col-span-2">product</x-table.heading>
+            <x-table.heading class="text-center lg:text-right">ave cost</x-table.heading>
+            <x-table.heading class="text-center lg:text-right">last cost</x-table.heading>
+            <x-table.heading class="text-center lg:text-right">purchased</x-table.heading>
+            <x-table.heading class="text-center lg:text-right">returns</x-table.heading>
+            <x-table.heading class="text-center lg:text-right">sold</x-table.heading>
+            <x-table.heading class="text-center lg:text-right">available</x-table.heading>
+        </x-table.header>
+        @forelse($products as $product)
+            <x-table.body class="grid grid-cols-1 md:grid-cols-8 text-sm">
+                <x-table.row class="lg:col-span-2 text-center lg:text-left">
+                    <p class="text-xs">{{ $product->sku }}</p>
+                    <p>
+                        <span class="text-sm font-bold">{{ $product->brand }} {{ $product->name }}</span>
+                        @if($product->trashed())
+                            <span class="text-xs text-red-600"> (discontinued) </span>
+                        @endif
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start">
+                        @foreach($product->features as $feature)
+                            <p class="text-xs text-gray-600 px-1 border-r"
+                            > {{ $feature->name }}</p>
+                        @endforeach
+                    </div>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-right">
+                    <span class="text-xs font-semibold lg:hidden underline">COST: </span>
+                    <p>{{ number_format($product->cost,2) ?? 0}}</p>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-right">
+                    <span class="text-xs font-semibold lg:hidden underline">AVE COST: </span>
+                    <p>{{ number_format($product->last_purchase_price(),2) ?? 0}}</p>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-right">
+                    <span class="text-xs font-semibold lg:hidden underline">PURCHASED: </span>
+                    <p>{{ $product->purchased->sum('qty')}}</p>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-right">
+                    <span class="text-xs font-semibold lg:hidden underline">RETURNS: </span>
+                    <p>{{ $product->returns->sum('qty')}}</p>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-right">
+                    <span class="text-xs font-semibold lg:hidden underline">SOLD: </span>
+                    <p>{{ $product->sold->sum('qty')}}</p>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-right">
+                    <span class="text-xs font-semibold lg:hidden underline">AVAILABLE: </span>
+                    <p>{{ $product->stocks->sum('qty')}}</p>
+                </x-table.row>
+            </x-table.body>
+        @empty
+            <x-table.empty></x-table.empty>
+        @endforelse
+    </x-table.container>
 </div>

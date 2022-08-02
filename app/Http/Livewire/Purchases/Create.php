@@ -2,22 +2,27 @@
 
 namespace App\Http\Livewire\Purchases;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Mail\ContactFormMail;
 use App\Mail\StockAlertMail;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use App\Models\Stock;
+use App\Models\SupplierTransaction;
+use Artisan;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Str;
 
 class Create extends Component
 {
     use WithPagination;
+    use WithNotifications;
 
     public $searchQuery = '';
     public $selectedProducts = [];
@@ -31,6 +36,11 @@ class Create extends Component
         $this->purchaseId = request('id');
     }
 
+    public function getPurchaseProperty()
+    {
+        return Purchase::find($this->purchaseId)->load('items', 'supplier');
+    }
+
     public function updatingSearchQuery()
     {
         if (strlen($this->searchQuery) > -1) {
@@ -41,10 +51,8 @@ class Create extends Component
 
     public function addProducts()
     {
-        $purchase = Purchase::find($this->purchaseId);
-
         foreach ($this->selectedProducts as $product) {
-            $purchase->items()->updateOrCreate([
+            $this->purchase->items()->updateOrCreate([
                 'product_id' => $product,
             ], [
                 'product_id' => $product,
@@ -55,42 +63,40 @@ class Create extends Component
         $this->reset(['searchQuery']);
         $this->selectedProducts = [];
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Products added']);
+        $this->notify('Products added');
+        $this->redirect("/inventory/purchases/{$this->purchaseId}");
     }
 
     public function updatePrice(PurchaseItem $item, $value)
     {
         $item->update(['price' => $value]);
-
-        $this->dispatchBrowserEvent('notification', ['body' => 'Price updated']);
+        $this->notify('Price updated');
     }
 
     public function updateQty(PurchaseItem $item, $value)
     {
         $item->update(['qty' => $value]);
-
-        $this->dispatchBrowserEvent('notification', ['body' => 'Qty updated']);
+        $this->notify('Qty updated');
     }
 
     public function deleteItem(PurchaseItem $item)
     {
         $item->delete();
+        $this->notify('Item deleted');
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Item deleted']);
     }
 
     public function process()
     {
         $this->showConfirmModal = false;
-        $purchase = Purchase::find($this->purchaseId);
+        $this->notify('Processing');
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Processing']);
 
-        foreach ($purchase->items as $item) {
+        foreach ($this->purchase->items as $item) {
             Stock::create([
                 'product_id' => $item->product_id,
                 'type' => 'purchase',
-                'reference' => $purchase->invoice_no,
+                'reference' => $this->purchase->invoice_no,
                 'qty' => $item->qty,
                 'cost' => $item->total_cost_in_zar(),
             ]);
@@ -119,25 +125,35 @@ class Create extends Component
             }
         }
 
-        $purchase->update(['processed_date' => today()]);
+        $this->purchase->update(['processed_date' => today()]);
+
+        SupplierTransaction::create([
+            'uuid' => Str::uuid(),
+            'reference' => $this->purchase->invoice_no,
+            'supplier_id' => $this->purchase->supplier_id,
+            'amount' => $this->purchase->total_cost_in_zar(),
+            'type' => 'purchase',
+            'running_balance' => 0,
+            'created_by' => auth()->user()->name
+        ]);
+
+        Artisan::call('update:supplier-transactions', [
+            'supplier' => $this->purchase->supplier_id
+        ]);
 
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Processed']);
+        $this->notify('processed');
 
-        $this->redirectRoute('inventory');
     }
 
     public function cancel()
     {
-        $purchase = Purchase::find($this->purchaseId);
-
-        foreach ($purchase->items as $item) {
+        foreach ($this->purchase->items as $item) {
             $item->delete();
         }
 
-        $purchase->delete();
-
-        $this->dispatchBrowserEvent('notification', ['body' => 'Purchase deleted']);
+        $this->purchase->delete();
+        $this->notify('Purchase deleted');
 
         $this->redirectRoute('inventory');
     }
@@ -151,9 +167,6 @@ class Create extends Component
                 })
                 ->orderBy('brand')
                 ->simplePaginate(6),
-
-            'purchase' => Purchase::where('id', $this->purchaseId)
-                ->first(),
         ]);
     }
 }

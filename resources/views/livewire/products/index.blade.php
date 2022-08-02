@@ -303,7 +303,7 @@
         <header class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 px-2 md:px-0">
 
             <div>
-                <x-input-search id="search" wire:model="searchQuery" label="Search"/>
+                <x-inputs.search id="search" wire:model="searchQuery" label="Search"/>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-2">
@@ -332,6 +332,10 @@
                 </div>
             </div>
         </header>
+
+        <div class="py-3">
+            {{ $products->links() }}
+        </div>
 
         <section class="mt-4">
             <div>
@@ -467,27 +471,10 @@
                         </div>
                     </div>
                 @empty
-                    <div class="py-6">
-                        <div class="text-center py-10 bg-white rounded-md">
-                            <x-icons.products class="mx-auto h-12 w-12 text-gray-400"/>
-                            <h3 class="mt-2 text-sm font-medium text-gray-900">No products</h3>
-                            <p class="mt-1 text-sm text-gray-500">Get started by creating a new product.</p>
-                            <div class="mt-6">
-                                <button type="button" x-on:click="@this.call('create','')"
-                                        class="button-success">
-                                    <x-icons.plus
-                                        class="-ml-1 mr-2 h-5 w-5 animate-pulse rounded-full ring ring-white ring-1"/>
-                                    New Product
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <x-table.empty></x-table.empty>
                 @endforelse
             </div>
 
-            <div>
-                <div>{{ $products->links() }}</div>
-            </div>
         </section>
     </div>
 </div>

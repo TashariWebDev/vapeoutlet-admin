@@ -2,23 +2,93 @@
 
 namespace App\Http\Livewire\Suppliers;
 
+use App\Http\Livewire\Traits\WithNotifications;
+use App\Models\Purchase;
 use App\Models\Supplier;
+use App\Models\SupplierTransaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Livewire\WithPagination;
+use Str;
 
 class Show extends Component
 {
-    public Supplier $supplier;
+    use WithPagination;
+    use WithNotifications;
+
+    public $showAddTransactionForm = false;
+
+    public $supplierId;
+
+    public $searchTerm = '';
+    public $reference;
+    public $amount;
+
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
 
     public function mount()
     {
-        $this->supplier = Supplier::find(request('id'));
+        $this->supplierId = request('id');
+    }
+
+    public function rules()
+    {
+        return [
+            'reference' => ['required'],
+            'amount' => ['required'],
+        ];
+    }
+
+    public function save()
+    {
+        $additionalFields = [
+            'supplier_id' => $this->supplierId,
+            'uuid' => Str::uuid(),
+            'type' => 'payment',
+            'created_by' => auth()->user()->name
+        ];
+
+
+        $validatedData = $this->validate();
+        $fields = array_merge($additionalFields, $validatedData);
+
+        $fields['amount'] = 0 - $this->amount;
+
+        SupplierTransaction::create($fields);
+
+        $this->reset('amount', 'reference');
+        $this->showAddTransactionForm = false;
+
+
+        $this->notify('payment created');
+    }
+
+    public function getSupplierProperty()
+    {
+        return Supplier::find($this->supplierId)->load('transactions', 'purchases');
+    }
+
+    public function showPurchase($invoiceNo)
+    {
+        $purchase = Purchase::where('invoice_no', '=', $invoiceNo)->first();
+
+        $this->redirect("/inventory/purchases/{$purchase->id}");
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.suppliers.show');
+        return view('livewire.suppliers.show', [
+            'transactions' => $this->supplier->transactions()
+                ->latest('id')
+                ->when($this->searchTerm, function ($query) {
+                    $query->where('reference', 'like', $this->searchTerm);
+                })
+                ->paginate(5)
+        ]);
     }
 }

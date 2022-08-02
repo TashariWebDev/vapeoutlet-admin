@@ -10,6 +10,8 @@ class CreditItem extends Model
 {
     protected $guarded = [];
 
+    protected $with = ['product.features'];
+
     public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
@@ -34,6 +36,20 @@ class CreditItem extends Model
             get: fn($value) => (float)to_rands($value),
             set: fn($value) => to_cents($value)
         );
+    }
+
+    public function increaseStock(): static
+    {
+        foreach ($this->items as $item) {
+            $item->product->stocks()->create([
+                "type" => "credit",
+                "reference" => $this->number,
+                "qty" => $item->qty,
+                "cost" => $item->product->cost,
+            ]);
+        }
+
+        return $this;
     }
 
     public function getLineTotalAttribute(): float|int

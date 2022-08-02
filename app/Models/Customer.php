@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -79,6 +80,36 @@ class Customer extends Authenticatable
         return $this->hasMany(CustomerAddress::class);
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Transaction::class)->where('type', '=', 'invoice');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Transaction::class)->where('type', '=', 'payment');
+    }
+
+    public function credits(): HasMany
+    {
+        return $this->hasMany(Transaction::class)->where('type', '=', 'credit');
+    }
+
+    public function debits(): HasMany
+    {
+        return $this->hasMany(Transaction::class)->where('type', '=', 'debit');
+    }
+
+    public function refunds(): HasMany
+    {
+        return $this->hasMany(Transaction::class)->where('type', '=', 'refund');
+    }
+
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
@@ -99,5 +130,54 @@ class Customer extends Authenticatable
         }
 
         return $this->latestTransaction()->value("running_balance") ?? 0;
+    }
+
+    public function createDebit($reference, $amount, $createdBy): Transaction
+    {
+        return $this->transactions()->firstOrCreate([
+            "uuid" => Str::uuid(),
+            "reference" => $reference,
+            "type" => "debit",
+            "amount" => $amount,
+            "created_by" => $createdBy,
+        ]);
+    }
+
+    public function createCredit(Credit $credit, $reference): Model|Transaction
+    {
+        return $this->transactions()->firstOrCreate([
+            "uuid" => Str::uuid(),
+            "reference" => $reference,
+            "type" => "credit",
+            "amount" => 0 - $credit->getTotal(),
+            "created_by" => auth()->user()->name,
+        ]);
+    }
+
+    public function createInvoice(Order $order): Model|Transaction
+    {
+        return $this->transactions()->create([
+            "uuid" => \Str::uuid(),
+            "reference" => $order->number,
+            "type" => "invoice",
+            "amount" => $order->getTotal(),
+            "created_by" => auth()->user()->name,
+        ]);
+    }
+
+    public function scopeDebtors($query)
+    {
+        return $query->withWhereHas('latestTransaction', function ($query) {
+            $query->where('running_balance', '!=', 0);
+        });
+    }
+
+    public function scopeSearch($query, $searchQuery)
+    {
+        return $query->where('name', 'like', $searchQuery . '%')
+            ->orWhere('email', 'like', $searchQuery . '%')
+            ->orWhere('phone', 'like', $searchQuery . '%')
+            ->orWhere('company', 'like', $searchQuery . '%');
+
     }
 }

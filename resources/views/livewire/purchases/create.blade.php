@@ -21,9 +21,9 @@
     <div>
         <div class="grid grid-col-1 md:grid-cols-4 gap-3 px-2 py-1 border-b pb-4 bg-white rounded-md">
             <div class="order-last md:order-first md:col-span-2">
-                @if(!$purchase->processed)
+                @if(!$this->purchase->processed)
                     <div class="pb-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
-                        @if($purchase->total != $purchase->amount)
+                        @if($this->purchase->total != $this->purchase->amount)
                             <button class="button-success w-full"
                                     x-on:click="@this.set('showProductSelectorForm',true)"
                             >
@@ -37,7 +37,7 @@
                             <x-icons.cross class="w-5 h-5 mr-2"/>
                             cancel
                         </button>
-                        @if($purchase->total === $purchase->amount)
+                        @if($this->purchase->total === $this->purchase->amount)
                             <button class="button-success w-full md:w-32 animate-pulse"
                                     x-on:click="@this.set('showConfirmModal',true)"
                             >
@@ -49,38 +49,39 @@
                 @else
                     <div class="pb-3">
                         <button class="button-danger w-full" disabled
-                        >Processed by {{$purchase->creator->name}} on {{ $purchase->processed_date }}
+                        >Processed by {{$this->purchase->creator->name}} on {{ $this->purchase->processed_date }}
                         </button>
                     </div>
                 @endif
                 <div class="bg-gray-200 rounded-md px-2">
                     <p>
                         <span
-                            class="@if($purchase->total === $purchase->amount)text-green-600 @else text-red-600 @endif">
-                            {{$purchase->total}} {{$purchase->currency}}
+                            class="@if($this->purchase->total === $this->purchase->amount)text-green-600 @else text-red-600 @endif">
+                            {{$this->purchase->total}} {{$this->purchase->currency}}
                         </span>
-                        <span class="font-bold">/ {{$purchase->amount}} {{$purchase->currency}}</span>
+                        <span class="font-bold">/ {{$this->purchase->amount}} {{$this->purchase->currency}}</span>
                     </p>
                 </div>
             </div>
             <div class="text-right">
                 <h1 class="font-bold text-4xl underline underline-offset-4 pl-4">
-                    {{ money($purchase->total_cost_in_zar()) }}
+                    {{ money($this->purchase->total_cost_in_zar()) }}
                 </h1>
                 <h2>
-                    <span class="text-xs">shipping</span> {{ money($purchase->shipping_cost()) }}
-                    <span class="text-xs">vat</span> {{ money(vat($purchase->total_cost_in_zar())) }}
+                    <span class="text-xs">shipping</span> {{ money($this->purchase->shipping_cost()) }}
+                    <span class="text-xs">vat</span> {{ money(vat($this->purchase->total_cost_in_zar())) }}
                 </h2>
                 <h2>
                     <span class="text-xs">amount</span>
-                    {{ $purchase->amount_converted_to_zar() }} ZAR |
-                    {{$purchase->amount}} {{ $purchase->currency }}
+                    {{ $this->purchase->amount_converted_to_zar() }} ZAR |
+                    {{$this->purchase->amount}} {{ $this->purchase->currency }}
                 </h2>
             </div>
             <div class="text-right">
-                <h1 class="font-bold text-4xl">{{ $purchase->invoice_no }}</h1>
-                <h2>{{ $purchase->supplier->name }}</h2>
-                <h2>{{ $purchase->date->format('Y-M-d') }}</h2>
+                <h1 class="font-bold text-4xl">{{ $this->purchase->invoice_no }}</h1>
+                <a class="text-right font-bold underline underline-offset-2 text-green-600 hover:text-yellow-500"
+                   href="{{ route('suppliers/show',$this->purchase->supplier->id) }}">{{ $this->purchase->supplier->name }}</a>
+                <h2>{{ $this->purchase->date->format('Y-M-d') }}</h2>
             </div>
         </div>
 
@@ -142,24 +143,30 @@
             </div>
         </x-slide-over>
 
-        <div class="py-2 grid grid-cols-1 gap-y-2">
-            @foreach($purchase->items as $item)
-                <div>
-                    <div class="w-full bg-white grid grid-cols-2 md:grid-cols-5 gap-4 rounded-md py-2">
-                        <div class="col-span-2 px-2 py-4">
-                            <h4 class="font-bold">
-                                {{ $item->product->brand }} {{ $item->product->name }}
-                            </h4>
-                            <div class="flex space-x-1 items-center">
-                                @foreach($item->product->features as $feature)
-                                    <p class="text-xs text-gray-600"
-                                    > {{ $feature->name }}</p> @if(!$loop->last) <p>|</p> @endif
-                                @endforeach
-                            </div>
-                            <p class="text-xs text-gray-400">{{ $item->product->sku }}</p>
+        <x-table.container>
+            <x-table.header class="hidden lg:grid grid-cols-1 lg:grid-cols-4">
+                <x-table.heading class="text-center lg:text-left">Product</x-table.heading>
+                <x-table.heading class="text-center lg:text-right">Price</x-table.heading>
+                <x-table.heading class="text-center lg:text-right">Qty</x-table.heading>
+                <x-table.heading class="text-center lg:text-right">Subtotal</x-table.heading>
+            </x-table.header>
+            @foreach($this->purchase->items as $item)
+                <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
+                    <x-table.row class="text-center lg:text-left">
+                        <p class="text-xs text-gray-400">{{ $item->product->sku }}</p>
+                        <h4 class="font-bold">
+                            {{ $item->product->brand }} {{ $item->product->name }}
+                        </h4>
+                        <div class="flex flex-wrap justify-center lg:justify-start items-center">
+                            @foreach($item->product->features as $feature)
+                                <p class="text-xs text-gray-600 border-r pr-1 @if(!$loop->first) pl-1 @endif"
+                                > {{ $feature->name }}</p>
+                            @endforeach
                         </div>
-                        @if(!$purchase->processed)
-                            <div class="px-2 py-4">
+                    </x-table.row>
+                    <x-table.row class="text-center lg:text-right">
+                        @if(!$this->purchase->processed)
+                            <div>
                                 <x-input-number type="number" label="Update price"
                                                 value="{{$item->price}}"
                                                 x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
@@ -168,14 +175,16 @@
                                 />
                             </div>
                         @else
-                            <div class="px-2 py-6">
+                            <div>
                                 <p class="font-bold">
-                                    {{number_format($item->price,2)}} {{ $purchase->currency }}
+                                    {{number_format($item->price,2)}} {{ $this->purchase->currency }}
                                 </p>
                             </div>
                         @endif
-                        @if(!$purchase->processed)
-                            <div class="px-2 py-4">
+                    </x-table.row>
+                    <x-table.row class="text-center lg:text-right">
+                        @if(!$this->purchase->processed)
+                            <div>
                                 <x-input-number type="number" label="Update qty"
                                                 value="{{$item->qty}}"
                                                 x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
@@ -184,40 +193,25 @@
                                 />
                             </div>
                         @else
-                            <div class="px-2 py-6">
+                            <div>
                                 <p class="font-bold">
                                     {{$item->qty}}
                                 </p>
                             </div>
                         @endif
-                        <div class="px-4 flex items-center justify-between">
-                            <div>
-                                <p class="font-bold text-right">
-                                    {{ number_format($item->line_total,2) }} {{$purchase->currency}}
-                                </p>
-                            </div>
-                            @if(!$purchase->processed)
-                                <div class="hidden md:block">
-                                    <button wire:loading.attr="disabled"
-                                            x-on:click="@this.call('deleteItem','{{$item->id}}')"
-                                            class="button-danger">remove
-                                    </button>
-                                </div>
-                            @endif
-                        </div>
-                        <div class="px-2 md:hidden">
-                            @if(!$purchase->processed)
-                                <button wire:loading.attr="disabled"
-                                        x-on:click="@this.call('deleteItem','{{$item->id}}')"
-                                        class="button-danger w-full">
-                                    remove
-                                </button>
-                            @endif
-                        </div>
-
-                    </div>
-                </div>
+                    </x-table.row>
+                    <x-table.row class="text-center lg:text-right">
+                        {{ number_format($item->line_total,2) }} {{$this->purchase->currency}}
+                        @if(!$this->purchase->processed)
+                            <button wire:loading.attr="disabled"
+                                    x-on:click="@this.call('deleteItem','{{$item->id}}')"
+                                    class="button-danger w-full">
+                                remove
+                            </button>
+                        @endif
+                    </x-table.row>
+                </x-table.body>
             @endforeach
-        </div>
+        </x-table.container>
     </div>
 </div>

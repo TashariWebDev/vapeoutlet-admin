@@ -13,14 +13,13 @@ class UpdateTransactionsCommand extends Command
 
     public function handle()
     {
-        $customer = Customer::find($this->argument('customer'));
-
+        $customer = Customer::find($this->argument("customer"));
 
         if ($customer) {
-            $customer->load('transactions');
+            $customer->load("transactions");
             $balance = 0;
             foreach ($customer->transactions as $transaction) {
-                $balance += $transaction->sum('amount');
+                $balance += $transaction->amount;
                 $transaction->running_balance = $balance;
                 $transaction->save();
             }
@@ -30,7 +29,7 @@ class UpdateTransactionsCommand extends Command
             foreach ($customers as $customer) {
                 $balance = 0;
                 foreach ($customer->transactions as $transaction) {
-                    $balance += $transaction->sum('amount');
+                    $balance += $transaction->amount;
                     $transaction->running_balance = $balance;
                     $transaction->save();
                 }

@@ -67,6 +67,7 @@ class Index extends Component
     {
         return view('livewire.customers.index', [
             'customers' => Customer::query()
+                ->with('latestTransaction')
                 ->withTrashed()
                 ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
                 ->simplePaginate(5)
