@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Orders;
 
 use App\Models\Order;
 use Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,6 +19,7 @@ class Index extends Component
 
     public function getDocument($transactionId)
     {
+        Log::info($transactionId);
         Http::get(
             config("app.admin_url") . "/webhook/save-document/{$transactionId}"
         );
