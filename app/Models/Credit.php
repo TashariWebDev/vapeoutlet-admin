@@ -50,7 +50,7 @@ class Credit extends Model
         return new Attribute(get: fn() => "CR00" . $this->attributes["id"]);
     }
 
-    public function addItem(Product $product)
+    public function addItem(Product $product, $customer)
     {
         $item = $this->items()->firstOrCreate(
             [
@@ -58,7 +58,7 @@ class Credit extends Model
             ],
             [
                 "product_id" => $product->id,
-                "price" => $product->getPrice(),
+                "price" => $product->getPrice($customer),
                 "cost" => $product->cost,
             ]
         );
