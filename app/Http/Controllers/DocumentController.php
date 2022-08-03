@@ -21,6 +21,7 @@ class DocumentController extends Controller
      */
     public function saveDocument(Transaction $transaction)
     {
+        Log::info($transaction);
         $model = $transaction;
 
         if (Str::startsWith($transaction->reference, 'INV00')) {
