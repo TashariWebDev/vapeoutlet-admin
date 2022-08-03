@@ -51,7 +51,7 @@ class Create extends Component
     public function addProducts()
     {
         foreach ($this->selectedProducts as $product) {
-            $this->order->addItem(Product::find($product));
+            $this->credit->addItem(Product::find($product));
         }
 
         $this->showProductSelectorForm = false;
