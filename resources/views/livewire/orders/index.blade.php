@@ -9,7 +9,7 @@
             }
         }
     @endphp
-    
+
 
     <div class="hidden lg:flex justify-center items-center space-x-4 py-3">
 
@@ -130,7 +130,7 @@
                     @endphp
                     @if($documentExists)
                         <a href="{{$document}}" class="link">
-                            &darr; download
+                            &darr; print
                         </a>
                     @else
                         <button class="link" wire:click="getDocument({{ $transaction->id }})">
