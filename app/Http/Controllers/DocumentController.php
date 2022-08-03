@@ -141,6 +141,4 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
-
-//    getPickList
 }
