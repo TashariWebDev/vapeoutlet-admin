@@ -146,6 +146,7 @@ class Create extends Component
         return view('livewire.orders.create', [
             'deliveryOptions' => Delivery::all(),
             'products' => Product::query()
+                ->with('features')
                 ->where('is_active', '=', true)
                 ->when($this->searchQuery, function ($query) {
                     $query->search($this->searchQuery);
