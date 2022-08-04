@@ -192,7 +192,7 @@
         </x-table.header>
         @foreach($this->order->items as $item)
             <x-table.body class="grid grid-cols-5">
-                <x-table.row class="flex justify-center items-center">
+                <x-table.row>
                     <input id="{{$item->id}}" aria-describedby="product"
                            wire:model="selectedProductsToDelete"
                            wire:key="{{$item->id}}"
