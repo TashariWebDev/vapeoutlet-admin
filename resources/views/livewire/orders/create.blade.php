@@ -196,7 +196,7 @@
                     <input id="{{$item->id}}" aria-describedby="product"
                            wire:model="selectedProductsToDelete"
                            wire:key="{{$item->id}}"
-                           value="{{$items->id}}"
+                           value="{{$item->id}}"
                            type="checkbox"
                            class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
                 </x-table.row>
