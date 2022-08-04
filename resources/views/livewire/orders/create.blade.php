@@ -191,7 +191,7 @@
             <x-table.heading class="lg:text-right">qty</x-table.heading>
         </x-table.header>
         @foreach($this->order->items as $item)
-            <x-table.body class="grid grid-cols-4">
+            <x-table.body class="grid grid-cols-5">
                 <x-table.row class="flex justify-center items-center">
                     <input id="{{$item->id}}" aria-describedby="product"
                            wire:model="selectedProductsToDelete"
