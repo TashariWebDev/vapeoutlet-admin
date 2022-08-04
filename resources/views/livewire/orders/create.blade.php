@@ -185,7 +185,7 @@
 
     <x-table.container>
         <x-table.header class="grid grid-cols-5">
-            <x-table.heading class="col-span-2">...</x-table.heading>
+            <x-table.heading class="text-center">...</x-table.heading>
             <x-table.heading class="col-span-2">Product</x-table.heading>
             <x-table.heading class="lg:text-right">price</x-table.heading>
             <x-table.heading class="lg:text-right">qty</x-table.heading>
