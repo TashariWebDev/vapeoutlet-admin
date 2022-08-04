@@ -54,8 +54,9 @@
                             <div class="flex justify-between ml-3 w-full items-center">
                                 <div class="text-sm">
                                     <div for="{{$product->id}}"
-                                         class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}</div>
-                                    <div class="flex space-x-2 items-center">
+                                         class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}
+                                    </div>
+                                    <div>
                                         <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
                                         <div class="flex items-center">
                                             @foreach($product->features as $feature)
