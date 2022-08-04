@@ -21,6 +21,7 @@ class Create extends Component
     public $orderId;
     public $searchQuery = '';
     public $selectedProducts = [];
+    public $selectedProductsToDelete = [];
     public $chooseAddressForm = false;
     public $chooseDeliveryForm = false;
     public $cancelConfirmation = false;
@@ -51,6 +52,20 @@ class Create extends Component
         $this->selectedProducts = [];
 
         $this->notify('Products added');
+        $this->order->refresh();
+    }
+
+    public function removeProducts()
+    {
+        foreach ($this->selectedProductsToDelete as $items) {
+            $this->order->remove($item);
+        }
+
+        $this->showProductSelectorForm = false;
+        $this->reset(['searchQuery']);
+        $this->selectedProductsToDelete = [];
+
+        $this->notify('Products removed');
         $this->order->refresh();
     }
 

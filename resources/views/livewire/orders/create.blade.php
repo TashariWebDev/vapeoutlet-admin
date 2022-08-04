@@ -184,13 +184,22 @@
     </x-modal>
 
     <x-table.container>
-        <x-table.header class="grid grid-cols-4">
+        <x-table.header class="grid grid-cols-5">
+            <x-table.heading class="col-span-2">...</x-table.heading>
             <x-table.heading class="col-span-2">Product</x-table.heading>
             <x-table.heading class="lg:text-right">price</x-table.heading>
             <x-table.heading class="lg:text-right">qty</x-table.heading>
         </x-table.header>
         @foreach($this->order->items as $item)
             <x-table.body class="grid grid-cols-4">
+                <x-table.row class="flex justify-center items-center">
+                    <input id="{{$item->id}}" aria-describedby="product"
+                           wire:model="selectedProductsToDelete"
+                           wire:key="{{$item->id}}"
+                           value="{{$items->id}}"
+                           type="checkbox"
+                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                </x-table.row>
                 <x-table.row class="col-span-2">
                     <p class="text-xs">{{ $item->product->sku }}</p>
                     <p class="text-sm font-semibold">{{ $item->product->brand }} {{ $item->product->name }}</p>
