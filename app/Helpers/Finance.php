@@ -27,6 +27,10 @@ if (!function_exists('money')) {
 if (!function_exists('profit_percentage')) {
     function profit_percentage($price, $cost): string
     {
+        if ($cost == 0) {
+            return '100%';
+        }
+
         return number_format((($price - $cost) / $cost) * 100, 2) . '%';
     }
 }
