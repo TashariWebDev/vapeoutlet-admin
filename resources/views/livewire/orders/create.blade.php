@@ -57,11 +57,14 @@
                                          class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}</div>
                                     <div class="flex space-x-2 items-center">
                                         <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
-                                        @foreach($product->features as $feature)
-                                            <p id="features" class="text-gray-500 text-xs">{{ $feature->name }}
-                                                @if(!$loop->last) <span> | </span>@endif
-                                            </p>
-                                        @endforeach
+                                        <div class="flex items-center">
+                                            @foreach($product->features as $feature)
+                                                <p id="features"
+                                                   class="text-gray-500 text-xs pr-1  @if(!$loop->first) pl-1 @endif">
+                                                    {{ $feature->name }}
+                                                </p>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="rounded-full">
