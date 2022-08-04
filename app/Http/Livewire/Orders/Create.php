@@ -51,7 +51,7 @@ class Create extends Component
         $this->selectedProducts = [];
 
         $this->notify('Products added');
-        $this->redirect("/orders/create/{$this->orderId}");
+        $this->order->refresh();
     }
 
     public function updatePrice(OrderItem $item, $value)
