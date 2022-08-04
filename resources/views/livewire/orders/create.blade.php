@@ -193,12 +193,15 @@
         @foreach($this->order->items as $item)
             <x-table.body class="grid grid-cols-5">
                 <x-table.row>
-                    <input id="{{$item->id}}" aria-describedby="product"
-                           wire:model="selectedProductsToDelete"
-                           wire:key="{{$item->id}}"
-                           value="{{$item->id}}"
-                           type="checkbox"
-                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                    <div>
+                        <label for="{{$item->id}}" class="hidden"></label>
+                        <input id="{{$item->id}}" aria-describedby="product"
+                               wire:model="selectedProductsToDelete"
+                               wire:key="{{$item->id}}"
+                               value="{{$item->id}}"
+                               type="checkbox"
+                               class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                    </div>
                 </x-table.row>
                 <x-table.row class="col-span-2">
                     <p class="text-xs">{{ $item->product->sku }}</p>
