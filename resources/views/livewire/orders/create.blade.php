@@ -4,6 +4,19 @@
             <p class="font-semibold">{{ $this->order->number }}</p>
             <p class="text-xs text-gray-500">{{ $this->order->updated_at }}</p>
             <p class="font-bold py-2">R {{ number_format($this->order->getTotal(),2)}}</p>
+            {{--            TODO create single product add with qty--}}
+            {{--            <div>--}}
+            {{--                <div>--}}
+            {{--                    <x-input type="text" wire:model="searchProducts" label="product search"/>--}}
+            {{--                </div>--}}
+            {{--                @if(($searchedProducts))--}}
+            {{--                    <div>--}}
+            {{--                        @foreach($searchedProducts as $product)--}}
+            {{--                            <div>{{ $product->name }}</div>--}}
+            {{--                        @endforeach--}}
+            {{--                    </div>--}}
+            {{--                @endif--}}
+            {{--            </div>--}}
         </div>
 
         <div>
@@ -51,24 +64,22 @@
                                        type="checkbox"
                                        class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
                             </div>
-                            <div class="flex justify-between ml-3 w-full items-center">
+                            <div class="flex lg:justify-between ml-3 w-full items-center">
                                 <div class="text-sm">
                                     <div for="{{$product->id}}"
-                                         class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}
-                                    </div>
-                                    <div>
+                                         class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}</div>
+                                    <div class="lg:flex flex-wrap items-center">
                                         <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
-                                        <div class="flex items-center">
+                                        <div class="flex flex-wrap">
                                             @foreach($product->features as $feature)
-                                                <p id="features"
-                                                   class="text-gray-500 text-xs pr-1  @if(!$loop->first) pl-1 @endif">
-                                                    {{ $feature->name }}
+                                                <p id="features" class="text-gray-500 text-xs">{{ $feature->name }}
+                                                    @if(!$loop->last) <span> | </span>@endif
                                                 </p>
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
-                                <div class="rounded-full">
+                                <div class="rounded-full hidden lg:block">
                                     <img src="{{ asset($product->image) }}" alt=""
                                          class="w-10 h-10 rounded-full">
                                 </div>
@@ -184,40 +195,54 @@
     </x-modal>
 
     <x-table.container>
-        <x-table.header class="grid grid-cols-5">
-            <x-table.heading class="text-center">...</x-table.heading>
+        <x-table.header class="lg:grid grid-cols-4 hidden">
             <x-table.heading class="col-span-2">Product</x-table.heading>
             <x-table.heading class="lg:text-right">price</x-table.heading>
             <x-table.heading class="lg:text-right">qty</x-table.heading>
         </x-table.header>
+        @if(!empty($selectedProductsToDelete))
+            <div>
+                <button class="text-xs text-red-400 hover:text-red-700"
+                        x-on:click="@this.call('removeProducts')"
+                >remove selected items
+                </button>
+            </div>
+        @endif
         @foreach($this->order->items as $item)
-            <x-table.body class="grid grid-cols-5">
-                <x-table.row>
-                    <div>
-                        <label for="{{$item->id}}" class="hidden"></label>
-                        <input id="{{$item->id}}" aria-describedby="product"
-                               wire:model="selectedProductsToDelete"
-                               wire:key="{{$item->id}}"
-                               value="{{$item->id}}"
-                               type="checkbox"
-                               class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
-                    </div>
-                </x-table.row>
+            <x-table.body class="grid lg:grid-cols-4">
                 <x-table.row class="col-span-2">
-                    <p class="text-xs">{{ $item->product->sku }}</p>
-                    <p class="text-sm font-semibold">{{ $item->product->brand }} {{ $item->product->name }}</p>
-                    <div class="flex flex-wrap">
-                        @foreach($item->product->features as $feature)
-                            <p class="text-sm font-semibold text-xs border-r pr-1 @if(!$loop->first) pl-1 @endif ">
-                                {{ $feature->name }}
-                            </p>
-                        @endforeach
+                    <div class="flex justify-start items-center">
+                        <div>
+                            <label for="{{$item->id}}" class="hidden"></label>
+                            <input id="{{$item->id}}" aria-describedby="product"
+                                   wire:model="selectedProductsToDelete"
+                                   wire:key="{{$item->id}}"
+                                   value="{{$item->id}}"
+                                   type="checkbox"
+                                   class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                        </div>
+                        <div>
+                            <p class="text-xs">{{ $item->product->sku }}</p>
+                            <p class="text-sm font-semibold">{{ $item->product->brand }} {{ $item->product->name }}</p>
+                            <div class="flex flex-wrap">
+                                @foreach($item->product->features as $feature)
+                                    <p class="text-sm font-semibold text-xs border-r pr-1 @if(!$loop->first) pl-1 @endif ">
+                                        {{ $feature->name }}
+                                    </p>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </x-table.row>
                 <x-table.row>
                     <form
-                        x-on:keydown.enter="@this.call('updatePrice',{{$item->id}},$event.target.value)">
-                        <x-input type="number" value="{{ $item->price }}" step="0.01"/>
+                        x-on:keydown.tab="@this.call('updatePrice',{{$item->id}},$event.target.value)">
+                        <x-input type="number"
+                                 value="{{ $item->price }}"
+                                 pattern="[0-9]*"
+                                 inputmode="numeric"
+                                 step="0.01"
+                                 label="price"/>
                     </form>
                     @hasPermissionTo('view cost')
                     <div class="flex justify-between items-center pt-1">
@@ -236,9 +261,11 @@
                     @endhasPermissionTo
                 </x-table.row>
                 <x-table.row>
-                    <form x-on:keydown.enter="@this.call('updateQty',{{$item->id}},$event.target.value)">
+                    <form x-on:keydown.tab="@this.call('updateQty',{{$item->id}},$event.target.value)">
                         <x-input type="number" value="{{ $item->qty }}"
-                                 x-on:keypress.prevent
+                                 label="qty"
+                                 pattern="[0-9]*"
+                                 inputmode="numeric"
                                  min="1"
                                  max="{{ $item->product->qty() }}"/>
                     </form>

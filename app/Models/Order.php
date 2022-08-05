@@ -60,6 +60,11 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
+
     public function getTotal()
     {
         return $this->getSubTotal() + $this->delivery_charge;
@@ -149,6 +154,7 @@ class Order extends Model
     {
         foreach ($this->items as $item) {
             $item->product->stocks()->create([
+                "order_id" => $this->id,
                 "type" => "invoice",
                 "reference" => $this->number,
                 "qty" => 0 - $item->qty,
@@ -159,8 +165,9 @@ class Order extends Model
         return $this;
     }
 
-    public function remove(OrderItem $item): static
+    public function remove($itemId): static
     {
+        $item = OrderItem::find($itemId);
         $item->delete();
 
         return $this;

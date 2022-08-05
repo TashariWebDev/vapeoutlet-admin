@@ -13,13 +13,17 @@ use Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Create extends Component
 {
+    use WithPagination;
     use WithNotifications;
 
     public $orderId;
+    public $searchedProducts;
     public $searchQuery = '';
+    public $searchProducts = '';
     public $selectedProducts = [];
     public $selectedProductsToDelete = [];
     public $chooseAddressForm = false;
@@ -27,6 +31,9 @@ class Create extends Component
     public $cancelConfirmation = false;
     public $showProductSelectorForm = false;
     public $showConfirmModal = false;
+
+//    public $singleProductId;
+//    public $qty;
 
     public function mount()
     {
@@ -40,6 +47,42 @@ class Create extends Component
             $this->resetPage();
         }
     }
+
+//    public function updatingSearchProducts()
+//    {
+//        if (strlen($this->searchProducts) > 3) {
+//            $this->searchedProducts = Product::query()
+//                ->with('features')
+//                ->where('is_active', '=', true)
+//                ->when($this->searchQuery, function ($query) {
+//                    $query->search($this->searchProducts);
+//                })
+//                ->orderBy('brand')
+//                ->get();
+//        }
+//    }
+
+//    public function addSingleProduct($productId,$qty)
+//    {
+//        $product = Product::find($productId);
+//
+//        $item = $this->items()->firstOrCreate(
+//            [
+//                "product_id" => $product->id,
+//            ],
+//            [
+//                "product_id" => $product->id,
+//                "type" => "product",
+//                "price" => $product->getPrice($this->order->customer),
+//                "cost" => $product->cost,
+//            ]
+//        );
+//
+//        if ($qty < $item->product->qty()) {
+//            $item->increment("qty");
+//        }
+//
+//    }
 
     public function addProducts()
     {
@@ -57,11 +100,10 @@ class Create extends Component
 
     public function removeProducts()
     {
-        foreach ($this->selectedProductsToDelete as $items) {
+        foreach ($this->selectedProductsToDelete as $item) {
             $this->order->remove($item);
         }
 
-        $this->showProductSelectorForm = false;
         $this->reset(['searchQuery']);
         $this->selectedProductsToDelete = [];
 

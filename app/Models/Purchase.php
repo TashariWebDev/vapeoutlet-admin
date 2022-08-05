@@ -86,7 +86,7 @@ class Purchase extends Model
     public function amount(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
+            get: fn($value) => to_rands($value),
             set: fn($value) => to_cents($value),
         );
     }
@@ -94,7 +94,7 @@ class Purchase extends Model
     public function exchangeRate(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
+            get: fn($value) => to_rands($value),
             set: fn($value) => to_cents($value),
         );
     }

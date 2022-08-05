@@ -39,9 +39,16 @@
     </x-slide-over>
 
     <!-- Stats -->
-    <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">{{ $this->customer->name }} stats</h3>
-        <button class="link" x-on:click="showStats = !showStats">toggle stats</button>
+    <div class="flex justify-between items-center">
+        <div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">{{ $this->customer->name }} stats</h3>
+            <button class="link" x-on:click="showStats = !showStats">toggle stats</button>
+        </div>
+        <div>
+            <a class="link" href="{{ route('customers/edit',$this->customer->id) }}">
+                Edit
+            </a>
+        </div>
     </div>
     <div x-cloak x-show="showStats" x-transition>
 

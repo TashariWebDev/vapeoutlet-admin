@@ -171,7 +171,7 @@
 
     {{--create product--}}
     <x-slide-over title="New product" wire:model.defer="showProductCreateForm">
-        <form wire:submit.prevent="update">
+        <form wire:submit.prevent="save">
             <div class="py-2">
                 <x-input label="name" type="text" wire:model.defer="product.name" required/>
             </div>

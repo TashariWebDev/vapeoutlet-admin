@@ -5,13 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Stock extends Model
 {
-    use SoftDeletes;
-
     protected $guarded = [];
 
     protected static function boot()
@@ -44,6 +41,16 @@ class Stock extends Model
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class)->withTrashed();
+        return $this->belongsTo(Product::class);
+    }
+
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function credit(): BelongsTo
+    {
+        return $this->belongsTo(Credit::class);
     }
 }

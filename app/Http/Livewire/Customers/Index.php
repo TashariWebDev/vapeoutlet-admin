@@ -39,7 +39,7 @@ class Index extends Component
         return [
             'name' => ['required'],
             'email' => ['required', 'unique:users,email'],
-            'phone' => ['sometimes'],
+            'phone' => ['sometimes', 'unique:users,phone'],
             'password' => ['required'],
             'is_wholesale' => ['sometimes']
         ];

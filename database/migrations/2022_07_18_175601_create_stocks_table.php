@@ -15,7 +15,8 @@ return new class extends Migration {
             $table->string('reference')->nullable();
             $table->integer('qty');
             $table->integer('cost');
-            $table->softDeletes();
+            $table->foreignId('order_id')->nullable();
+            $table->foreignId('credit_id')->nullable();
 
             $table->timestamps();
         });

@@ -6,6 +6,9 @@ use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -127,7 +130,23 @@ class Index extends Component
         }
     }
 
-    public function render()
+    public function updateRetailPrice($productId, $value)
+    {
+        $product = Product::find($productId);
+        $product->update(['retail_price' => $value]);
+        $this->notify('price updated');
+    }
+
+    public function updateWholesalePrice($productId, $value)
+    {
+        $product = Product::find($productId);
+        $product->update(['wholesale_price' => $value]);
+        $this->notify('price updated');
+
+    }
+
+
+    public function render(): Factory|View|Application
     {
         return view('livewire.inventory.index', [
             'products' => Product::withTrashed()

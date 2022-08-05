@@ -59,10 +59,14 @@ class Product extends Model
 //    scopes
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('brand', 'like', $searchQuery . '%')
-            ->orWhere('name', 'like', $searchQuery . '%')
-            ->orWhere('sku', 'like', $searchQuery . '%')
-            ->orWhere('id', 'like', $searchQuery . '%');
+        return $query
+            ->where("brand", "like", $searchQuery . "%")
+            ->orWhere("name", "like", $searchQuery . "%")
+            ->orWhere("sku", "like", $searchQuery . "%")
+            ->orWhere("id", "like", $searchQuery . "%")
+            ->orWhereHas("features", function ($query) use ($searchQuery) {
+                $query->where("name", "like", "%" . $searchQuery . "%");
+            });
     }
 
 //    setters

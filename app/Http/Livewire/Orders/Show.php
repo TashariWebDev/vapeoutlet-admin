@@ -4,9 +4,9 @@ namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Credit;
+use App\Models\Delivery;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Models\Stock;
+use App\Models\Product;
 use Artisan;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -19,13 +19,22 @@ class Show extends Component
     use WithNotifications;
 
     public $orderId;
-
+    public $searchQuery = '';
+    public $selectedProducts = [];
+    public $selectedProductsToDelete = [];
+    public $chooseAddressForm = false;
+    public $chooseDeliveryForm = false;
     public $cancelConfirmation = false;
+    public $showProductSelectorForm = false;
+    public $showConfirmModal = false;
+    public $showEditModal = false;
+
 
     public function mount()
     {
         $this->orderId = request('id');
     }
+
 
     public function getOrderProperty()
     {
@@ -41,10 +50,24 @@ class Show extends Component
         $this->redirect('/orders');
     }
 
-    public function updatePrice(OrderItem $item, $price)
+    public function edit()
     {
-        $item->update(['price' => $price]);
-        $this->notify('price updated');
+        DB::transaction(function () {
+            $newOrder = $this->order->replicate()->fill([
+                'status' => null,
+            ]);
+            $newOrder->save();
+
+            foreach ($this->order->items as $item) {
+                $newItem = $item->replicate()->fill([
+                    'order_id' => $newOrder->id,
+                ]);
+                $newItem->save();
+            }
+
+            $this->cancel();
+            $this->redirect("/orders/create/{$newOrder->id}");
+        });
     }
 
     public function cancel()
@@ -85,48 +108,37 @@ class Show extends Component
 
     }
 
-    public function updateQty(OrderItem $item, $qty)
+    public function updateDelivery($deliveryId)
     {
-        $availableQty = $item->product->qty() + $item->qty;
+        $delivery = Delivery::find($deliveryId);
+        $this->order->update([
+            'delivery_type_id' => $delivery->id,
+            'delivery_charge' => $delivery->price
+        ]);
 
-        if ($item->qty > $availableQty) {
-            $item->qty = $availableQty;
-            $item->save();
-            if ($item->qty == 0) {
-                $this->remove($item);
-            }
-        } else {
-            $item->qty = $qty;
-            $item->save();
-        }
-
-        $stockRecord = Stock::query()
-            ->where('product_id', '=', $item->product_id)
-            ->where('reference', '=', $this->order->number)
-            ->where('type', '=', 'invoice')
-            ->first();
-
-        $stockRecord->update(['qty' => 0 - $item->qty]);
-
-        $this->notify('qty updated');
+        $this->notify('delivery option updated');
+        $this->chooseDeliveryForm = false;
     }
 
-    public function removeItem(OrderItem $item)
+    public function updateAddress($addressId)
     {
-        $stockRecord = Stock::query()
-            ->where('product_id', '=', $item->product_id)
-            ->where('reference', '=', $this->order->number)
-            ->where('type', '=', 'invoice')
-            ->delete();
-
-        $item->delete();
-
-        $this->notify('item put back in stock');
-
+        $this->order->update(['address_id' => $addressId]);
+        $this->notify('address updated');
+        $this->chooseAddressForm = false;
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.orders.show');
+        return view('livewire.orders.show', [
+            'deliveryOptions' => Delivery::all(),
+            'products' => Product::query()
+                ->with('features')
+                ->where('is_active', '=', true)
+                ->when($this->searchQuery, function ($query) {
+                    $query->search($this->searchQuery);
+                })
+                ->orderBy('brand')
+                ->simplePaginate(6),
+        ]);
     }
 }

@@ -29,9 +29,9 @@ class Index extends Component
     public bool $showProductUpdateForm = false;
     public bool $showBrandsForm = false;
     public bool $showCategoriesForm = false;
-    public bool $showGalleryForm = false;
     public bool $showFeaturesForm = false;
     public bool $showProductCollectionForm = false;
+    public bool $showGalleryForm = false;
 
     public $product;
     public $productId;
@@ -74,37 +74,7 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function edit($productId)
-    {
-        $this->product = Product::find($productId);
-        $this->product->update([
-            'old_retail_price' => $this->product->retail_price,
-            'old_wholesale_price' => $this->product->wholesale_price,
-        ]);
-        $this->brands = Brand::query()->orderBy('name')->get();
-        $this->categories = Category::query()->orderBy('name')->get();
-        $this->featureCategories = FeatureCategory::orderBy('name')->get();
-        $this->productCollections = ProductCollection::orderBy('name')->get();
-        $this->product->refresh();
-        $this->showProductUpdateForm = true;
-    }
-
-    public function clearActiveProduct()
-    {
-        $this->reset(['product']);
-        $this->resetValidation();
-        $this->product = new Product();
-    }
-
-    public function update()
-    {
-        $this->validate();
-        $this->product->save();
-        $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
-        $this->showProductUpdateForm = false;
-    }
-
-    public function create($productId)
+    public function create()
     {
         $this->product = new Product();
         $this->brands = Brand::query()->orderBy('name')->get();
@@ -117,22 +87,52 @@ class Index extends Component
     public function save()
     {
         $this->validate();
-        $this->product->update([
-            'old_retail_price' => $this->product->retail_price,
-            'old_wholesale_price' => $this->product->wholesale_price,
-        ]);
+        $this->product->old_retail_price = $this->product->retail_price;
+        $this->product->old_wholesale_price = $this->product->wholesale_price;
         $this->product->save();
-        $this->productId = $this->product->id;
-        $this->clearActiveProduct();
+        $this->reset(['product']);
+        $this->create();
         $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
     }
 
     public function saveAndEdit()
     {
-        $this->save();
+        $this->validate();
+        $this->product->old_retail_price = $this->product->retail_price;
+        $this->product->old_wholesale_price = $this->product->wholesale_price;
+        $this->product->save();
         $this->showProductCreateForm = false;
-        $this->edit($this->productId);
+        $this->edit($this->product->id);
     }
+
+    public function edit($productId)
+    {
+        $this->product = Product::find($productId);
+        $this->retailPrice = $this->product->retail_price;
+        $this->wholesalePrice = $this->product->wholesale_price;
+        $this->brands = Brand::query()->orderBy('name')->get();
+        $this->categories = Category::query()->orderBy('name')->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
+        $this->product->refresh();
+        $this->showProductUpdateForm = true;
+    }
+
+    public function clearActiveProduct()
+    {
+        $this->reset(['product', 'brandName', 'categoryName', 'collectionName', 'product.name', 'product.sku']);
+        $this->resetValidation();
+        $this->product = new Product();
+    }
+
+    public function update()
+    {
+        $this->validate();
+        $this->product->save();
+        $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
+        $this->showProductUpdateForm = false;
+    }
+
 
     public function toggleActive($productId)
     {

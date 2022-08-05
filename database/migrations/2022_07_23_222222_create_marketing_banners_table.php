@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
 
             $table->string('image');
+            $table->integer('order')->nullable();
 
             $table->timestamps();
         });

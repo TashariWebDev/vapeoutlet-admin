@@ -28,6 +28,11 @@ class Credit extends Model
         return $this->hasMany(CreditItem::class);
     }
 
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
+
     //    getters and setters
 
     public function getTotal()
@@ -75,6 +80,7 @@ class Credit extends Model
                     "reference" => $this->number,
                 ],
                 [
+                    "credit_id" => $this->id,
                     "type" => "credit",
                     "reference" => $this->number,
                     "qty" => $item->qty,

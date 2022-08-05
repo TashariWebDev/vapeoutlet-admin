@@ -31,8 +31,17 @@
                     <img src="{{ config('app.admin_url').'/storage/'.$banner->image }}" alt=""
                          class="w-full rounded-md object-cover">
 
+                    <div class="absolute bottom-0 right-0">
+                        <label>
+                            Display order
+                            <input type="number" inputmode="numeric" pattern="[0-9]" value="{{$banner->order}}"
+                                   @keydown.tab="@this.call('updateOrder',{{$banner->id}},$event.target.value)"
+                            />
+                        </label>
+                    </div>
+
                     <button class="button-danger absolute top-0 right-0"
-                            x-on:click="@this.call('delete',{{$banner->id}})"
+                            x-on:click.prevent="@this.call('delete',{{$banner->id}})"
                     >
                         <x-icons.cross/>
                     </button>

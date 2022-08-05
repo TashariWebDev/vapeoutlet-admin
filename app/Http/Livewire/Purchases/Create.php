@@ -3,9 +3,13 @@
 namespace App\Http\Livewire\Purchases;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Mail\ContactFormMail;
 use App\Mail\StockAlertMail;
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\Feature;
+use App\Models\FeatureCategory;
 use App\Models\Product;
+use App\Models\ProductCollection;
 use App\Models\Purchase;
 use App\Models\PurchaseItem;
 use App\Models\Stock;
@@ -16,6 +20,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Str;
 
@@ -23,13 +28,188 @@ class Create extends Component
 {
     use WithPagination;
     use WithNotifications;
+    use WithFileUploads;
 
     public $searchQuery = '';
     public $selectedProducts = [];
     public $purchaseId;
 
+    public bool $showProductCreateForm = false;
+    public bool $showProductUpdateForm = false;
+    public bool $showBrandsForm = false;
+    public bool $showCategoriesForm = false;
+    public bool $showFeaturesForm = false;
+    public bool $showProductCollectionForm = false;
+
+    public $product;
+    public $productId;
+    public $featureCategories = [];
+    public $brands = [];
+    public $categories = [];
+    public $productCollections = [];
+    public $collectionName = '';
+    public $brandName = '';
+    public $brandLogo = '';
+    public $categoryName = '';
+    public $featureCategoryName = '';
+    public $featureName = '';
+    public string $feature_id = '';
+
     public $showProductSelectorForm = false;
     public $showConfirmModal = false;
+
+    public function rules(): array
+    {
+        return [
+            'feature_id' => ['required|int'],
+            'product.name' => ['required'],
+            'product.sku' => ['required'],
+            'product.brand' => ['required'],
+            'product.category' => ['required'],
+            'product.description' => ['sometimes'],
+            'product.retail_price' => ['sometimes'],
+//            'product.old_retail_price' => ['sometimes'],
+            'product.wholesale_price' => ['sometimes'],
+//            'product.old_wholesale_price' => ['sometimes'],
+            'product.product_collection_id' => ['sometimes'],
+        ];
+    }
+
+    public function create()
+    {
+        $this->product = new Product();
+        $this->brands = Brand::query()->orderBy('name')->get();
+        $this->categories = Category::query()->orderBy('name')->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
+        $this->showProductCreateForm = true;
+    }
+
+    public function save()
+    {
+        $this->validate();
+        $this->product->old_retail_price = $this->product->retail_price;
+        $this->product->old_wholesale_price = $this->product->wholesale_price;
+        $this->product->save();
+        $this->reset(['product']);
+        $this->create();
+        $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
+    }
+
+    public function saveAndEdit()
+    {
+        $this->validate();
+        $this->product->old_retail_price = $this->product->retail_price;
+        $this->product->old_wholesale_price = $this->product->wholesale_price;
+        $this->product->save();
+        $this->product->refresh();
+        $this->showProductCreateForm = false;
+        $this->edit($this->product->id);
+    }
+
+    public function edit($productId)
+    {
+        $this->product = Product::find($productId);
+        $this->retailPrice = $this->product->retail_price;
+        $this->wholesalePrice = $this->product->wholesale_price;
+        $this->brands = Brand::query()->orderBy('name')->get();
+        $this->categories = Category::query()->orderBy('name')->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
+        $this->product->refresh();
+        $this->showProductUpdateForm = true;
+    }
+
+    public function update()
+    {
+        $this->validate();
+        $this->product->save();
+        $this->notify('Product saved');
+        $this->showProductUpdateForm = false;
+    }
+
+    public function addBrand()
+    {
+        $this->validate([
+            'brandName' => ['unique:brands,name'],
+            'brandLogo' => ['image', 'max:1024']
+        ]);
+
+        Brand::create([
+            'name' => strtolower($this->brandName),
+            'image' => $this->brandLogo->store('uploads', 'public')
+        ]);
+
+        $this->reset(['brandName', 'brandLogo', 'showBrandsForm']);
+        $this->brands = Brand::orderBy('name')->get();
+        $this->notify('Brand created');
+    }
+
+    public function addCategory()
+    {
+        Category::create([
+            'name' => strtolower($this->categoryName),
+        ]);
+
+        $this->reset(['categoryName', 'showCategoriesForm']);
+        $this->categories = Category::orderBy('name')->get();
+
+        $this->notify('Category created');
+    }
+
+    public function addProductCollection()
+    {
+        ProductCollection::create([
+            'name' => strtolower($this->collectionName),
+        ]);
+
+        $this->reset(['collectionName', 'showProductCollectionForm']);
+        $this->productCollections = ProductCollection::query()->orderBy('name')->get();
+
+        $this->notify('Product collection created');
+    }
+
+    public function addFeatureCategory()
+    {
+        $this->validate([
+            'featureCategoryName' => ['required', 'unique:feature_categories,name']
+        ]);
+
+        FeatureCategory::create(['name' => $this->featureCategoryName]);
+
+        $this->reset(['featureCategoryName']);
+
+        $this->featureCategories = FeatureCategory::query()
+            ->orderBy('name')->get();
+
+        $this->notify('Feature category created');
+    }
+
+    public function addFeature($categoryId)
+    {
+        $this->product->features()->create([
+            'feature_category_id' => $categoryId
+        ]);
+        $this->product->unsetRelation('features');
+        $this->product->load('features');
+
+        $this->notify('Feature created');
+    }
+
+    public function updateFeature(Feature $feature, $name)
+    {
+        $feature->update(['name' => $name]);
+
+        $this->notify('Feature updated');
+    }
+
+    public function deleteFeature(Feature $feature)
+    {
+        $feature->delete();
+        $this->product->unsetRelation('features');
+        $this->product->load('features');
+        $this->notify('Feature deleted');
+    }
 
     public function mount()
     {
@@ -64,7 +244,7 @@ class Create extends Component
         $this->selectedProducts = [];
 
         $this->notify('Products added');
-        $this->redirect("/inventory/purchases/{$this->purchaseId}");
+        $this->purchase->refresh();
     }
 
     public function updatePrice(PurchaseItem $item, $value)
@@ -131,7 +311,7 @@ class Create extends Component
             'uuid' => Str::uuid(),
             'reference' => $this->purchase->invoice_no,
             'supplier_id' => $this->purchase->supplier_id,
-            'amount' => $this->purchase->total_cost_in_zar(),
+            'amount' => $this->purchase->amount_converted_to_zar(),
             'type' => 'purchase',
             'running_balance' => 0,
             'created_by' => auth()->user()->name
@@ -162,6 +342,7 @@ class Create extends Component
     {
         return view('livewire.purchases.create', [
             'products' => Product::query()
+                ->with('features')
                 ->when($this->searchQuery, function ($query) {
                     $query->search($this->searchQuery);
                 })

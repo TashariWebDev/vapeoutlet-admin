@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\Customers\Edit;
 use App\Http\Livewire\Dashboard\Index;
 use App\Http\Livewire\Purchases\Create;
 use App\Http\Livewire\Settings\Delivery;
@@ -54,6 +55,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('customers/show/{id}', \App\Http\Livewire\Customers\Show::class)
         ->name('customers/show')
+        ->middleware('permission:edit customers');
+
+    Route::get('customers/edit/{id}', Edit::class)
+        ->name('customers/edit')
         ->middleware('permission:edit customers');
 
     Route::get('credits/{id}', \App\Http\Livewire\Credit\Create::class)

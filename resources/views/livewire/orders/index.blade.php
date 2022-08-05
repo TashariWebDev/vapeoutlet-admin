@@ -16,37 +16,37 @@
         <button x-on:click="@this.set('filter','received')"
                 class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'received')  border-green-600 @else border-transparent @endif">
             <x-icons.shopping-bag class="w-5 h-5 text-green-600"/>
-            <p class="text-xs font-semibold">Received</p>
+            <p class="text-sm font-semibold">Received</p>
         </button>
 
         <button x-on:click="@this.set('filter','processed')"
                 class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'processed')  border-green-600 @else border-transparent @endif">
             <x-icons.clipboard class="w-5 h-5 text-green-600"/>
-            <p class="text-xs font-semibold">Processed</p>
+            <p class="text-sm font-semibold">Processed</p>
         </button>
 
         <button x-on:click="@this.set('filter','packed')"
                 class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'packed')  border-green-600 @else border-transparent @endif">
             <x-icons.products class="w-5 h-5 text-green-600"/>
-            <p class="text-xs font-semibold">Packed</p>
+            <p class="text-sm font-semibold">Packed</p>
         </button>
 
         <button x-on:click="@this.set('filter','shipped')"
                 class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'shipped')  border-green-600 @else border-transparent @endif">
             <x-icons.truck class="w-5 h-5 text-green-600"/>
-            <p class="text-xs font-semibold">Shipped</p>
+            <p class="text-sm font-semibold">Shipped</p>
         </button>
 
         <button x-on:click="@this.set('filter','completed')"
                 class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'completed')  border-green-600 @else border-transparent @endif">
             <x-icons.tick class="w-5 h-5 text-green-600"/>
-            <p class="text-xs font-semibold">Completed</p>
+            <p class="text-sm font-semibold">Completed</p>
         </button>
 
         <button x-on:click="@this.set('filter','cancelled')"
                 class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'cancelled')  border-green-600 @else border-transparent @endif">
             <x-icons.cross class="w-5 h-5 text-green-600"/>
-            <p class="text-xs font-semibold">Cancelled</p>
+            <p class="text-sm font-semibold">Cancelled</p>
         </button>
 
     </div>

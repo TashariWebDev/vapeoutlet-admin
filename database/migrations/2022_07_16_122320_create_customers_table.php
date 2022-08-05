@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('phone');
+            $table->string('phone')->unique();
             $table->string('company')->nullable();
             $table->string('vat_number')->nullable();
             $table->boolean('is_wholesale')->default(false);
