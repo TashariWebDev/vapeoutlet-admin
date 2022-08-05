@@ -13,10 +13,10 @@ class UpdateSupplierTransactionsCommand extends Command
 
     public function handle()
     {
-        $supplier = Supplier::find($this->argument("supplier"));
+        $supplier = Supplier::find($this->argument('supplier'));
 
         if ($supplier) {
-            $supplier->load("transactions");
+            $supplier->load('transactions');
             $balance = 0;
             foreach ($supplier->transactions as $transaction) {
                 $balance += $transaction->amount;

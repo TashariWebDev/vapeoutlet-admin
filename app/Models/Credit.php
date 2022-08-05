@@ -13,7 +13,7 @@ class Credit extends Model
     protected $guarded = [];
 
     protected $dates = [
-        "processed_at", // order adjusted and sent to warehouse
+        'processed_at', // order adjusted and sent to warehouse
     ];
 
     //    Relationships
@@ -42,33 +42,33 @@ class Credit extends Model
 
     public function getSubTotal()
     {
-        return to_rands($this->items()->sum(DB::raw("price * qty")));
+        return to_rands($this->items()->sum(DB::raw('price * qty')));
     }
 
     public function getCost()
     {
-        return to_rands($this->items()->sum(DB::raw("cost * qty")));
+        return to_rands($this->items()->sum(DB::raw('cost * qty')));
     }
 
     public function number(): Attribute
     {
-        return new Attribute(get: fn() => "CR00" . $this->attributes["id"]);
+        return new Attribute(get: fn () => 'CR00'.$this->attributes['id']);
     }
 
     public function addItem(Product $product, $customer)
     {
         $item = $this->items()->firstOrCreate(
             [
-                "product_id" => $product->id,
+                'product_id' => $product->id,
             ],
             [
-                "product_id" => $product->id,
-                "price" => $product->getPrice($customer),
-                "cost" => $product->cost,
+                'product_id' => $product->id,
+                'price' => $product->getPrice($customer),
+                'cost' => $product->cost,
             ]
         );
 
-        $item->increment("qty");
+        $item->increment('qty');
     }
 
     public function increaseStock(): static
@@ -76,15 +76,15 @@ class Credit extends Model
         foreach ($this->items as $item) {
             $item->product->stocks()->firstOrCreate(
                 [
-                    "product_id" => $item->product_id,
-                    "reference" => $this->number,
+                    'product_id' => $item->product_id,
+                    'reference' => $this->number,
                 ],
                 [
-                    "credit_id" => $this->id,
-                    "type" => "credit",
-                    "reference" => $this->number,
-                    "qty" => $item->qty,
-                    "cost" => $item->product->cost,
+                    'credit_id' => $this->id,
+                    'type' => 'credit',
+                    'reference' => $this->number,
+                    'qty' => $item->qty,
+                    'cost' => $item->product->cost,
                 ]
             );
         }
@@ -106,21 +106,21 @@ class Credit extends Model
 
     public function increase(CreditItem $item): static
     {
-        $item->increment("qty");
+        $item->increment('qty');
 
         return $this;
     }
 
     public function updateQty(CreditItem $item, $qty): static
     {
-        $item->update(["qty" => $qty]);
+        $item->update(['qty' => $qty]);
 
         return $this;
     }
 
     public function decrease(CreditItem $item): static
     {
-        $item->decrement("qty");
+        $item->decrement('qty');
 
         if ($item->qty == 0) {
             $this->remove($item);

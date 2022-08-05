@@ -12,13 +12,12 @@ class DeleteOldDocumentsCommand extends Command
 
     public function handle()
     {
-        $folder = glob(storage_path("app/public/documents/*"));
+        $folder = glob(storage_path('app/public/documents/*'));
 
         foreach ($folder as $document) {
             if (is_file($document)) {
                 unlink($document);
             }
         }
-
     }
 }

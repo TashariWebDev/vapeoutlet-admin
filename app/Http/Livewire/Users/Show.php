@@ -94,7 +94,7 @@ class Show extends Component
             'permissions' => Permission::query()
                 ->whereNotIn('id', $userPermissions)
                 ->orderBy('name', 'asc')
-                ->get(['id', 'name'])
+                ->get(['id', 'name']),
         ]);
     }
 }

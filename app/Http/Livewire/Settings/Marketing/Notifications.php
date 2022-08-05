@@ -11,12 +11,13 @@ use Livewire\Component;
 class Notifications extends Component
 {
     public $showCreateNotificationForm = false;
+
     public $body = '';
 
     public function rules()
     {
         return [
-            'body' => ['required', 'max:50']
+            'body' => ['required', 'max:50'],
         ];
     }
 
@@ -38,7 +39,7 @@ class Notifications extends Component
     public function render(): Factory|View|Application
     {
         return view('livewire.settings.marketing.notifications', [
-            'notifications' => MarketingNotification::latest()->get()
+            'notifications' => MarketingNotification::latest()->get(),
         ]);
     }
 }

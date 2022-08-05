@@ -68,17 +68,17 @@ class Supplier extends Model
             }
         }
 
-        return $this->latestTransaction()->value("running_balance") ?? 0;
+        return $this->latestTransaction()->value('running_balance') ?? 0;
     }
 
     //    scopes
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('name', 'like', $searchQuery . '%')
-            ->orWhere('email', 'like', $searchQuery . '%')
-            ->orWhere('phone', 'like', $searchQuery . '%')
-            ->orWhere('person', 'like', $searchQuery . '%')
-            ->orWhere('city', 'like', $searchQuery . '%');
+        return $query->where('name', 'like', $searchQuery.'%')
+            ->orWhere('email', 'like', $searchQuery.'%')
+            ->orWhere('phone', 'like', $searchQuery.'%')
+            ->orWhere('person', 'like', $searchQuery.'%')
+            ->orWhere('city', 'like', $searchQuery.'%');
     }
 
     public function scopeCreditors($query)

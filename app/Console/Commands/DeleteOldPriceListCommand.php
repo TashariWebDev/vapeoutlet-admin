@@ -12,7 +12,7 @@ class DeleteOldPriceListCommand extends Command
 
     public function handle()
     {
-        $url = storage_path("app/public/documents/price-list.pdf");
+        $url = storage_path('app/public/documents/price-list.pdf');
 
         if (file_exists($url)) {
             unlink($url);

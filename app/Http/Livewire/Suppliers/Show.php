@@ -23,7 +23,9 @@ class Show extends Component
     public $supplierId;
 
     public $searchTerm = '';
+
     public $reference;
+
     public $amount;
 
     public function updatedSearchTerm()
@@ -50,9 +52,8 @@ class Show extends Component
             'supplier_id' => $this->supplierId,
             'uuid' => Str::uuid(),
             'type' => 'payment',
-            'created_by' => auth()->user()->name
+            'created_by' => auth()->user()->name,
         ];
-
 
         $validatedData = $this->validate();
         $fields = array_merge($additionalFields, $validatedData);
@@ -63,7 +64,6 @@ class Show extends Component
 
         $this->reset('amount', 'reference');
         $this->showAddTransactionForm = false;
-
 
         $this->notify('payment created');
     }
@@ -88,7 +88,7 @@ class Show extends Component
                 ->when($this->searchTerm, function ($query) {
                     $query->where('reference', 'like', $this->searchTerm);
                 })
-                ->paginate(5)
+                ->paginate(5),
         ]);
     }
 }

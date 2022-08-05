@@ -35,7 +35,7 @@ class DocumentController extends Controller
         }
 
         $view = view("templates.pdf.{$transaction->type}", [
-            "model" => $model
+            'model' => $model,
         ])->render();
 
         $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
@@ -46,31 +46,29 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
-
     }
-
 
     public function getPriceList(Customer $customer)
     {
         Log::info($customer);
 
-        $view = view("templates.pdf.price-list", [
-            "products" => Product::query()
+        $view = view('templates.pdf.price-list', [
+            'products' => Product::query()
                 ->with('features')
                 ->where('is_active', true)
                 ->orderBy('brand', 'asc')
                 ->get(),
-            'customer' => $customer
+            'customer' => $customer,
         ])->render();
 
-        $url = storage_path("app/public/documents/price-list.pdf");
+        $url = storage_path('app/public/documents/price-list.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -78,10 +76,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -93,8 +91,8 @@ class DocumentController extends Controller
 
         $order->load('items.product.features');
 
-        $view = view("templates.pdf.pick-list", [
-            "model" => $order,
+        $view = view('templates.pdf.pick-list', [
+            'model' => $order,
         ])->render();
 
         $url = storage_path("app/public/pick-lists/{$order->number}.pdf");
@@ -105,10 +103,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -120,8 +118,8 @@ class DocumentController extends Controller
 
         $order->load('items.product.features');
 
-        $view = view("templates.pdf.delivery-note", [
-            "model" => $order,
+        $view = view('templates.pdf.delivery-note', [
+            'model' => $order,
         ])->render();
 
         $url = storage_path("app/public/delivery-note/{$order->number}.pdf");
@@ -132,13 +130,12 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
     }
-
 }

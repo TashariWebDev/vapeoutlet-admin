@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrderItem extends Model
 {
-
     protected $guarded = [];
 
     public function order(): BelongsTo
@@ -24,16 +23,16 @@ class OrderItem extends Model
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
-            set: fn($value) => to_cents($value),
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value),
         );
     }
 
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
-            set: fn($value) => to_cents($value),
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value),
         );
     }
 

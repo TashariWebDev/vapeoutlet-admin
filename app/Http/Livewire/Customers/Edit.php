@@ -20,15 +20,25 @@ class Edit extends Component
     public $customer;
 
     public $name;
+
     public $email;
+
     public $phone;
+
     public $company;
+
     public $vat_number;
+
     public $province;
+
     public $line_one;
+
     public $line_two;
+
     public $suburb;
+
     public $city;
+
     public $postal_code;
 
     public $provinces = [
@@ -75,7 +85,7 @@ class Edit extends Component
             ],
             'phone' => [
                 'required',
-                Rule::unique('customers', 'phone')->ignore($this->customer->id)
+                Rule::unique('customers', 'phone')->ignore($this->customer->id),
             ],
             'company' => ['nullable'],
             'vat_number' => ['nullable'],

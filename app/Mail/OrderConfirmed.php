@@ -21,6 +21,6 @@ class OrderConfirmed extends Mailable implements ShouldQueue
 
     public function build()
     {
-        return $this->view("emails.order-confirmed");
+        return $this->view('emails.order-confirmed');
     }
 }

@@ -19,13 +19,15 @@ class Banners extends Component
     use WithNotifications;
 
     public $showCreateBannerForm = false;
+
     public $image;
+
     public $iteration = 1;
 
     public function rules()
     {
         return [
-            'image' => ['image', 'required']
+            'image' => ['image', 'required'],
         ];
     }
 
@@ -33,7 +35,7 @@ class Banners extends Component
     {
         $this->validate();
         MarketingBanner::create([
-            'image' => $this->image->store('banners', 'public')
+            'image' => $this->image->store('banners', 'public'),
         ]);
         $this->showCreateBannerForm = false;
         $this->iteration++;
@@ -57,7 +59,7 @@ class Banners extends Component
     public function render(): Factory|View|Application
     {
         return view('livewire.settings.marketing.banners', [
-            'banners' => MarketingBanner::orderBy('order', 'asc')->simplePaginate(1)
+            'banners' => MarketingBanner::orderBy('order', 'asc')->simplePaginate(1),
         ]);
     }
 }

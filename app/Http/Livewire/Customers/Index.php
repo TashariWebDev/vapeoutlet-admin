@@ -16,10 +16,15 @@ class Index extends Component
     use WithPagination;
 
     public $searchQuery;
+
     public $name = '';
+
     public $email = '';
+
     public $phone = '';
+
     public $password = '';
+
     public $is_wholesale = false;
 
     public $showCreateCustomerForm = false;
@@ -41,7 +46,7 @@ class Index extends Component
             'email' => ['required', 'unique:users,email'],
             'phone' => ['sometimes', 'unique:users,phone'],
             'password' => ['required'],
-            'is_wholesale' => ['sometimes']
+            'is_wholesale' => ['sometimes'],
         ];
     }
 
@@ -57,7 +62,7 @@ class Index extends Component
             'name',
             'email',
             'phone',
-            'is_wholesale'
+            'is_wholesale',
         ]);
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Customer has been created']);
@@ -69,8 +74,8 @@ class Index extends Component
             'customers' => Customer::query()
                 ->with('latestTransaction')
                 ->withTrashed()
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
-                ->simplePaginate(5)
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
+                ->simplePaginate(5),
         ]);
     }
 }

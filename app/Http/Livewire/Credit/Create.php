@@ -22,11 +22,15 @@ class Create extends Component
     use WithNotifications;
 
     public $showProductSelectorForm = false;
+
     public $showConfirmModal = false;
+
     public $searchQuery;
+
     public $customerId;
 
     public $credit;
+
     public $selectedProducts = [];
 
     public function mount()
@@ -34,9 +38,9 @@ class Create extends Component
         $this->customerId = request('id');
         $this->credit = Credit::firstOrCreate([
             'customer_id' => $this->customer->id,
-            'processed_at' => null
+            'processed_at' => null,
         ], [
-            'created_by' => auth()->user()->name
+            'created_by' => auth()->user()->name,
         ]);
     }
 
@@ -90,15 +94,14 @@ class Create extends Component
         DB::transaction(function () {
             $this->credit->increaseStock();
 
-            $this->credit->updateStatus("processed_at");
+            $this->credit->updateStatus('processed_at');
 
             $this->customer->createCredit($this->credit, $this->credit->number);
         }, 3);
 
         Artisan::call('update:transactions', [
-            'customer' => $this->customerId
+            'customer' => $this->customerId,
         ]);
-
 
         $this->notify('processed');
 
@@ -116,7 +119,6 @@ class Create extends Component
 
         $this->redirect("/customers/show/{$this->customer->id}");
     }
-
 
     public function getCustomerProperty(): Customer|_IH_Customer_C|array|null
     {

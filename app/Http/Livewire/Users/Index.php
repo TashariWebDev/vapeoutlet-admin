@@ -16,9 +16,13 @@ class Index extends Component
     use WithPagination;
 
     public $searchQuery;
+
     public $name = '';
+
     public $email = '';
+
     public $phone = '';
+
     public $password = '';
 
     public $showCreateUserForm = false;
@@ -39,7 +43,7 @@ class Index extends Component
             'name' => ['required'],
             'email' => ['required', 'unique:users,email'],
             'phone' => ['sometimes'],
-            'password' => ['required']
+            'password' => ['required'],
         ];
     }
 
@@ -54,7 +58,7 @@ class Index extends Component
         $this->reset([
             'name',
             'email',
-            'phone'
+            'phone',
         ]);
 
         $this->dispatchBrowserEvent('notification', ['body' => 'User has been created']);
@@ -66,8 +70,8 @@ class Index extends Component
             'users' => User::query()
                 ->where('email', '!=', 'ridwan@tashari.co.za')
                 ->withTrashed()
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
-                ->simplePaginate()
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
+                ->simplePaginate(),
         ]);
     }
 }

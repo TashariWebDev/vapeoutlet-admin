@@ -19,14 +19,16 @@ class Show extends Component
     public $showAddTransactionForm = false;
 
     public $customerId;
+
     public $filter;
 
     public $searchTerm = '';
 
     public $reference;
-    public $type;
-    public $amount;
 
+    public $type;
+
+    public $amount;
 
     public function rules()
     {
@@ -42,9 +44,8 @@ class Show extends Component
         $additionalFields = [
             'customer_id' => $this->customerId,
             'uuid' => Str::uuid(),
-            'created_by' => auth()->user()->name
+            'created_by' => auth()->user()->name,
         ];
-
 
         $validatedData = $this->validate();
         $fields = array_merge($additionalFields, $validatedData);
@@ -57,7 +58,6 @@ class Show extends Component
 
         $this->reset('amount', 'reference', 'type');
         $this->showAddTransactionForm = false;
-
 
         $this->notify('transaction created');
     }
@@ -94,7 +94,7 @@ class Show extends Component
         $order = Order::firstOrCreate([
             'customer_id' => $this->customer->id,
             'status' => null,
-            'processed_by' => auth()->user()->name
+            'processed_by' => auth()->user()->name,
         ]);
 
         $this->redirect("/orders/create/{$order->id}");
@@ -103,7 +103,7 @@ class Show extends Component
     public function getDocument($transactionId)
     {
         Http::get(
-            config("app.admin_url") . "/webhook/save-document/{$transactionId}"
+            config('app.admin_url')."/webhook/save-document/{$transactionId}"
         );
 
         $this->redirect("/customers/show/{$this->customerId}?page={$this->page}");
@@ -113,16 +113,16 @@ class Show extends Component
     {
         return view('livewire.customers.show', [
             'transactions' => $this->customer->transactions()
-                ->latest("id")
+                ->latest('id')
                 ->when($this->filter, function ($query) {
                     $query->where('type', '=', $this->filter);
                 })
                 ->when($this->searchTerm, function ($query) {
-                    $query->where('reference', 'like', $this->searchTerm . '%')
-                        ->orWhere('created_by', 'like', $this->searchTerm . '%')
-                        ->orWhere('amount', 'like', to_cents($this->searchTerm) . '%');
+                    $query->where('reference', 'like', $this->searchTerm.'%')
+                        ->orWhere('created_by', 'like', $this->searchTerm.'%')
+                        ->orWhere('amount', 'like', to_cents($this->searchTerm).'%');
                 })
-                ->simplePaginate(5)
+                ->simplePaginate(5),
         ]);
     }
 }

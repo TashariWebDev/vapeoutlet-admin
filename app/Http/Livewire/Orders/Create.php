@@ -21,15 +21,25 @@ class Create extends Component
     use WithNotifications;
 
     public $orderId;
+
     public $searchedProducts;
+
     public $searchQuery = '';
+
     public $searchProducts = '';
+
     public $selectedProducts = [];
+
     public $selectedProductsToDelete = [];
+
     public $chooseAddressForm = false;
+
     public $chooseDeliveryForm = false;
+
     public $cancelConfirmation = false;
+
     public $showProductSelectorForm = false;
+
     public $showConfirmModal = false;
 
 //    public $singleProductId;
@@ -127,7 +137,6 @@ class Create extends Component
     {
         $item->delete();
         $this->notify('Item deleted');
-
     }
 
     public function process()
@@ -139,27 +148,24 @@ class Create extends Component
             $this->order->decreaseStock();
             $this->order->customer->createInvoice($this->order);
 
-            $this->order->updateStatus("received");
+            $this->order->updateStatus('received');
 
             Mail::to($this->order->customer->email)->send(
                 (new OrderConfirmed($this->order->customer))->afterCommit()
             );
 
-            Mail::to(config("mail.from.address"))->send(
+            Mail::to(config('mail.from.address'))->send(
                 (new OrderReceived($this->order->customer))->afterCommit()
             );
         }, 3);
 
-
         Artisan::call('update:transactions', [
-            'customer' => $this->order->customer->id
+            'customer' => $this->order->customer->id,
         ]);
-
 
         $this->notify('processed');
 
         $this->redirect('/orders');
-
     }
 
     public function cancel()
@@ -184,7 +190,7 @@ class Create extends Component
         $delivery = Delivery::find($deliveryId);
         $this->order->update([
             'delivery_type_id' => $delivery->id,
-            'delivery_charge' => $delivery->price
+            'delivery_charge' => $delivery->price,
         ]);
 
         $this->notify('delivery option updated');

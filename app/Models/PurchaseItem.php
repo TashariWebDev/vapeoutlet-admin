@@ -10,7 +10,9 @@ use JetBrains\PhpStorm\Pure;
 class PurchaseItem extends Model
 {
     protected $guarded = [];
+
     protected $with = ['product:id,name,brand,sku,cost', 'product.features'];
+
     protected $appends = ['line_total'];
 
     public function product(): BelongsTo
@@ -31,8 +33,8 @@ class PurchaseItem extends Model
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
-            set: fn($value) => (float)to_cents($value),
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => (float) to_cents($value),
         );
     }
 
@@ -41,19 +43,22 @@ class PurchaseItem extends Model
         if ($this->purchase->shipping_rate) {
             return ($this->price * $this->purchase->shipping_rate) / 100;
         }
+
         return 0;
     }
 
     public function amount_converted_to_zar(): float|int
     {
         if ($this->purchase->exchange_rate) {
-            return ($this->price * $this->purchase->exchange_rate);
+            return $this->price * $this->purchase->exchange_rate;
         }
+
         return $this->price;
     }
 
-    #[Pure] public function total_cost_in_zar(): float|int
-    {
-        return $this->amount_converted_to_zar() + $this->shipping_cost();
-    }
+    #[Pure]
+ public function total_cost_in_zar(): float|int
+ {
+     return $this->amount_converted_to_zar() + $this->shipping_cost();
+ }
 }

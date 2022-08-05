@@ -21,6 +21,6 @@ class OrderReceived extends Mailable implements ShouldQueue
 
     public function build()
     {
-        return $this->view("emails.order-received");
+        return $this->view('emails.order-received');
     }
 }

@@ -8,10 +8,10 @@ class CreateFeatureCategoriesTable extends Migration
 {
     public function up()
     {
-        Schema::create("feature_categories", function (Blueprint $table) {
-            $table->bigIncrements("id");
+        Schema::create('feature_categories', function (Blueprint $table) {
+            $table->bigIncrements('id');
 
-            $table->string("name")->unique();
+            $table->string('name')->unique();
 
             $table->timestamps();
         });
@@ -19,6 +19,6 @@ class CreateFeatureCategoriesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists("feature_categories");
+        Schema::dropIfExists('feature_categories');
     }
 }

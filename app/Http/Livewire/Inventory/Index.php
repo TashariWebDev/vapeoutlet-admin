@@ -18,26 +18,45 @@ class Index extends Component
     use WithNotifications;
 
     public $searchQuery;
+
     public $suppliers = [];
+
     public $selectedSupplier;
+
     public $invoice_no;
+
     public $amount;
+
     public $date;
+
     public $exchange_rate;
+
     public $shipping_rate;
+
     public $currency = 'ZAR';
+
     public $name = '';
+
     public $email = '';
+
     public $phone = '';
+
     public $person = '';
+
     public $address_line_one = '';
+
     public $address_line_two = '';
+
     public $suburb = '';
+
     public $city = '';
+
     public $country = '';
+
     public $postal_code = '';
 
     public $showPurchaseCreateForm = false;
+
     public $showSuppliersCreateForm = false;
 
     public function rules(): array
@@ -117,7 +136,7 @@ class Index extends Component
         ]);
 
         $this->redirectRoute('purchases/create', [
-            'id' => $purchase->id
+            'id' => $purchase->id,
         ]);
     }
 
@@ -142,16 +161,14 @@ class Index extends Component
         $product = Product::find($productId);
         $product->update(['wholesale_price' => $value]);
         $this->notify('price updated');
-
     }
-
 
     public function render(): Factory|View|Application
     {
         return view('livewire.inventory.index', [
             'products' => Product::withTrashed()
                 ->with(['stocks', 'sold', 'purchased', 'returns', 'features'])
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
                 ->orderBy('brand')
                 ->simplePaginate(5),
         ]);

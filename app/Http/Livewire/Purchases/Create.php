@@ -31,31 +31,51 @@ class Create extends Component
     use WithFileUploads;
 
     public $searchQuery = '';
+
     public $selectedProducts = [];
+
     public $purchaseId;
 
     public bool $showProductCreateForm = false;
+
     public bool $showProductUpdateForm = false;
+
     public bool $showBrandsForm = false;
+
     public bool $showCategoriesForm = false;
+
     public bool $showFeaturesForm = false;
+
     public bool $showProductCollectionForm = false;
 
     public $product;
+
     public $productId;
+
     public $featureCategories = [];
+
     public $brands = [];
+
     public $categories = [];
+
     public $productCollections = [];
+
     public $collectionName = '';
+
     public $brandName = '';
+
     public $brandLogo = '';
+
     public $categoryName = '';
+
     public $featureCategoryName = '';
+
     public $featureName = '';
+
     public string $feature_id = '';
 
     public $showProductSelectorForm = false;
+
     public $showConfirmModal = false;
 
     public function rules(): array
@@ -68,9 +88,9 @@ class Create extends Component
             'product.category' => ['required'],
             'product.description' => ['sometimes'],
             'product.retail_price' => ['sometimes'],
-//            'product.old_retail_price' => ['sometimes'],
+            //            'product.old_retail_price' => ['sometimes'],
             'product.wholesale_price' => ['sometimes'],
-//            'product.old_wholesale_price' => ['sometimes'],
+            //            'product.old_wholesale_price' => ['sometimes'],
             'product.product_collection_id' => ['sometimes'],
         ];
     }
@@ -132,12 +152,12 @@ class Create extends Component
     {
         $this->validate([
             'brandName' => ['unique:brands,name'],
-            'brandLogo' => ['image', 'max:1024']
+            'brandLogo' => ['image', 'max:1024'],
         ]);
 
         Brand::create([
             'name' => strtolower($this->brandName),
-            'image' => $this->brandLogo->store('uploads', 'public')
+            'image' => $this->brandLogo->store('uploads', 'public'),
         ]);
 
         $this->reset(['brandName', 'brandLogo', 'showBrandsForm']);
@@ -172,7 +192,7 @@ class Create extends Component
     public function addFeatureCategory()
     {
         $this->validate([
-            'featureCategoryName' => ['required', 'unique:feature_categories,name']
+            'featureCategoryName' => ['required', 'unique:feature_categories,name'],
         ]);
 
         FeatureCategory::create(['name' => $this->featureCategoryName]);
@@ -188,7 +208,7 @@ class Create extends Component
     public function addFeature($categoryId)
     {
         $this->product->features()->create([
-            'feature_category_id' => $categoryId
+            'feature_category_id' => $categoryId,
         ]);
         $this->product->unsetRelation('features');
         $this->product->load('features');
@@ -263,14 +283,12 @@ class Create extends Component
     {
         $item->delete();
         $this->notify('Item deleted');
-
     }
 
     public function process()
     {
         $this->showConfirmModal = false;
         $this->notify('Processing');
-
 
         foreach ($this->purchase->items as $item) {
             Stock::create([
@@ -290,7 +308,7 @@ class Create extends Component
             }
 
             $item->product()->update([
-                'cost' => to_cents($cost)
+                'cost' => to_cents($cost),
             ]);
 
             $alerts = $item->product->stockAlerts()->get();
@@ -314,16 +332,14 @@ class Create extends Component
             'amount' => $this->purchase->amount_converted_to_zar(),
             'type' => 'purchase',
             'running_balance' => 0,
-            'created_by' => auth()->user()->name
+            'created_by' => auth()->user()->name,
         ]);
 
         Artisan::call('update:supplier-transactions', [
-            'supplier' => $this->purchase->supplier_id
+            'supplier' => $this->purchase->supplier_id,
         ]);
 
-
         $this->notify('processed');
-
     }
 
     public function cancel()

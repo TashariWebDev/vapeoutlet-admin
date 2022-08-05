@@ -21,16 +21,16 @@ class Delivery extends Model
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
-            set: fn($value) => to_cents($value),
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value),
         );
     }
 
     public function waiverValue(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float)to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 }

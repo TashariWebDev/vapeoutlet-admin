@@ -70,7 +70,7 @@ class Index extends Component
         return view('livewire.settings.delivery.index', [
             'deliveries' => Delivery::query()
                 ->orderBy('selectable', 'asc')
-                ->simplePaginate(5)
+                ->simplePaginate(5),
         ]);
     }
 }

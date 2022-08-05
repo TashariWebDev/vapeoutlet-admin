@@ -11,27 +11,25 @@ use Illuminate\Http\RedirectResponse;
 
 class Order extends Model
 {
-
     protected $guarded = [];
 
     protected $dates = [
-        'placed_at',// order created
-        'processes_at',// order adjusted and sent to warehouse
-        'picked_at',// warehouse pulls order and hands to dispatch (picklist)
-        'packed_at',// dispatch confirms order and packs order (delivery note)
-        'shipped_at',// dispatch hands over to courier
-        'completed_at',// order complete
+        'placed_at', // order created
+        'processes_at', // order adjusted and sent to warehouse
+        'picked_at', // warehouse pulls order and hands to dispatch (picklist)
+        'packed_at', // dispatch confirms order and packs order (delivery note)
+        'shipped_at', // dispatch hands over to courier
+        'completed_at', // order complete
     ];
-
 
     public function getStatus()
     {
         return match ($this->status) {
-            "received" => "RECEIVED",
-            "processed" => "PROCESSED",
-            "packed" => "PACKED",
-            "shipped" => "SHIPPED",
-            "completed" => "COMPLETED",
+            'received' => 'RECEIVED',
+            'processed' => 'PROCESSED',
+            'packed' => 'PACKED',
+            'shipped' => 'SHIPPED',
+            'completed' => 'COMPLETED',
         };
     }
 
@@ -42,12 +40,12 @@ class Order extends Model
 
     public function address(): BelongsTo
     {
-        return $this->belongsTo(CustomerAddress::class, "address_id");
+        return $this->belongsTo(CustomerAddress::class, 'address_id');
     }
 
     public function delivery(): BelongsTo
     {
-        return $this->belongsTo(Delivery::class, "delivery_type_id");
+        return $this->belongsTo(Delivery::class, 'delivery_type_id');
     }
 
     public function salesperson(): BelongsTo
@@ -72,18 +70,18 @@ class Order extends Model
 
     public function getSubTotal()
     {
-        return to_rands($this->items()->sum(DB::raw("price * qty")));
+        return to_rands($this->items()->sum(DB::raw('price * qty')));
     }
 
     public function getCost()
     {
-        return $this->items()->sum(DB::raw("cost * qty"));
+        return $this->items()->sum(DB::raw('cost * qty'));
     }
 
     public function updateStatus($status): static
     {
-        $this->update(["status" => $status]);
-        $this->update(["is_editing" => false]);
+        $this->update(['status' => $status]);
+        $this->update(['is_editing' => false]);
 
         return $this;
     }
@@ -91,15 +89,15 @@ class Order extends Model
     public function deliveryCharge(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function number(): Attribute
     {
         return new Attribute(
-            get: fn() => 'INV00' . $this->attributes['id']
+            get: fn () => 'INV00'.$this->attributes['id']
         );
     }
 
@@ -109,18 +107,18 @@ class Order extends Model
 
         $item = $this->items()->firstOrCreate(
             [
-                "product_id" => $product->id,
+                'product_id' => $product->id,
             ],
             [
-                "product_id" => $product->id,
-                "type" => "product",
-                "price" => $product->getPrice($customer),
-                "cost" => $product->cost,
+                'product_id' => $product->id,
+                'type' => 'product',
+                'price' => $product->getPrice($customer),
+                'cost' => $product->cost,
             ]
         );
 
         if ($item->qty < $item->product->qty()) {
-            $item->increment("qty");
+            $item->increment('qty');
         }
     }
 
@@ -144,7 +142,7 @@ class Order extends Model
         $delivery = Delivery::find($this->delivery_type_id);
 
         $this->update([
-            "delivery_charge" => $delivery->getPrice($this->getSubTotal()),
+            'delivery_charge' => $delivery->getPrice($this->getSubTotal()),
         ]);
 
         return $this;
@@ -154,11 +152,11 @@ class Order extends Model
     {
         foreach ($this->items as $item) {
             $item->product->stocks()->create([
-                "order_id" => $this->id,
-                "type" => "invoice",
-                "reference" => $this->number,
-                "qty" => 0 - $item->qty,
-                "cost" => $item->product->cost,
+                'order_id' => $this->id,
+                'type' => 'invoice',
+                'reference' => $this->number,
+                'qty' => 0 - $item->qty,
+                'cost' => $item->product->cost,
             ]);
         }
 
@@ -176,7 +174,7 @@ class Order extends Model
     public function increase(OrderItem $item): static
     {
         if ($item->qty < $item->product->qty()) {
-            $item->increment("qty");
+            $item->increment('qty');
         }
 
         return $this;
@@ -188,14 +186,14 @@ class Order extends Model
             $qty = $item->product->qty();
         }
 
-        $item->update(["qty" => $qty]);
+        $item->update(['qty' => $qty]);
 
         return $this;
     }
 
     public function decrease(OrderItem $item): static
     {
-        $item->decrement("qty");
+        $item->decrement('qty');
 
         if ($item->qty == 0) {
             $this->remove($item);
@@ -208,5 +206,4 @@ class Order extends Model
     {
         $this->delete();
     }
-
 }

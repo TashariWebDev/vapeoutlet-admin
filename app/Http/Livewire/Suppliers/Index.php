@@ -19,8 +19,8 @@ class Index extends Component
     {
         return view('livewire.supplier.index', [
             'suppliers' => Supplier::query()
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
-                ->simplePaginate()
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
+                ->simplePaginate(),
         ]);
     }
 }

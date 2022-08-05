@@ -23,33 +23,53 @@ class Index extends Component
     use WithFileUploads;
 
     public bool $activeFilter = true;
+
     public string $searchQuery = '';
 
     public bool $showProductCreateForm = false;
+
     public bool $showProductUpdateForm = false;
+
     public bool $showBrandsForm = false;
+
     public bool $showCategoriesForm = false;
+
     public bool $showFeaturesForm = false;
+
     public bool $showProductCollectionForm = false;
+
     public bool $showGalleryForm = false;
 
     public $product;
+
     public $productId;
+
     public $featureCategories = [];
+
     public $brands = [];
+
     public $categories = [];
+
     public $productCollections = [];
+
     public $image;
+
     public $images = [];
 
     public $collectionName = '';
+
     public $brandName = '';
+
     public $brandLogo = '';
+
     public $categoryName = '';
+
     public $featureCategoryName = '';
+
     public $featureName = '';
 
     public string $feature_id = '';
+
     public $iteration = 1;
 
     public function rules(): array
@@ -62,9 +82,9 @@ class Index extends Component
             'product.category' => ['required'],
             'product.description' => ['sometimes'],
             'product.retail_price' => ['sometimes'],
-//            'product.old_retail_price' => ['sometimes'],
+            //            'product.old_retail_price' => ['sometimes'],
             'product.wholesale_price' => ['sometimes'],
-//            'product.old_wholesale_price' => ['sometimes'],
+            //            'product.old_wholesale_price' => ['sometimes'],
             'product.product_collection_id' => ['sometimes'],
         ];
     }
@@ -133,11 +153,10 @@ class Index extends Component
         $this->showProductUpdateForm = false;
     }
 
-
     public function toggleActive($productId)
     {
         $product = Product::find($productId);
-        $product->is_active = !$product->is_active;
+        $product->is_active = ! $product->is_active;
         $product->save();
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Product active status updated']);
@@ -146,7 +165,7 @@ class Index extends Component
     public function toggleFeatured($productId)
     {
         $product = Product::find($productId);
-        $product->is_featured = !$product->is_featured;
+        $product->is_featured = ! $product->is_featured;
         $product->save();
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Product featured status updated']);
@@ -155,7 +174,7 @@ class Index extends Component
     public function toggleSale($productId)
     {
         $product = Product::find($productId);
-        $product->is_sale = !$product->is_sale;
+        $product->is_sale = ! $product->is_sale;
         $product->save();
 
         $this->dispatchBrowserEvent('notification', ['body' => 'Product sale status updated']);
@@ -177,7 +196,7 @@ class Index extends Component
 
         foreach ($this->images as $image) {
             $this->product->images()->create([
-                'url' => $image->store('uploads', 'public')
+                'url' => $image->store('uploads', 'public'),
             ]);
         }
 
@@ -196,7 +215,7 @@ class Index extends Component
         ]);
 
         $this->product->update([
-            'image' => $this->image->store('uploads', 'public')
+            'image' => $this->image->store('uploads', 'public'),
         ]);
 
         $this->reset(['image', 'images']);
@@ -230,12 +249,12 @@ class Index extends Component
     {
         $this->validate([
             'brandName' => ['unique:brands,name'],
-            'brandLogo' => ['image', 'max:1024']
+            'brandLogo' => ['image', 'max:1024'],
         ]);
 
         Brand::create([
             'name' => strtolower($this->brandName),
-            'image' => $this->brandLogo->store('uploads', 'public')
+            'image' => $this->brandLogo->store('uploads', 'public'),
         ]);
 
         $this->reset(['brandName', 'brandLogo', 'showBrandsForm']);
@@ -271,7 +290,7 @@ class Index extends Component
     public function addFeatureCategory()
     {
         $this->validate([
-            'featureCategoryName' => ['required', 'unique:feature_categories,name']
+            'featureCategoryName' => ['required', 'unique:feature_categories,name'],
         ]);
 
         FeatureCategory::create(['name' => $this->featureCategoryName]);
@@ -287,7 +306,7 @@ class Index extends Component
     public function addFeature($categoryId)
     {
         $this->product->features()->create([
-            'feature_category_id' => $categoryId
+            'feature_category_id' => $categoryId,
         ]);
         $this->product->unsetRelation('features');
         $this->product->load('features');
@@ -324,9 +343,9 @@ class Index extends Component
             'products' => Product::query()
                 ->where('is_active', $this->activeFilter)
                 ->with('features')
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
                 ->orderBy('brand')
-                ->simplePaginate(5)
+                ->simplePaginate(5),
         ]);
     }
 }

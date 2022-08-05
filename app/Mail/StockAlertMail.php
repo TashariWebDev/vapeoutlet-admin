@@ -22,8 +22,8 @@ class StockAlertMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->view('emails.stock-alert', [
-            'link' => config('app.frontend_url') . '/detail/' . $this->product->slug,
-            'name' => $this->product->brand . ' ' . $this->product->name,
+            'link' => config('app.frontend_url').'/detail/'.$this->product->slug,
+            'name' => $this->product->brand.' '.$this->product->name,
         ]);
     }
 }

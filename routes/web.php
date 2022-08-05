@@ -25,7 +25,6 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-
     Route::get('dashboard', Index::class)
         ->name('dashboard');
 
@@ -65,7 +64,7 @@ Route::middleware('auth')->group(function () {
         ->name('credits/create')
         ->middleware('permission:create credit');
 
-//Settings
+    //Settings
     Route::middleware('permission:view settings')->group(function () {
         Route::get('settings/delivery', Delivery\Index::class)
             ->name('settings/delivery');
@@ -109,7 +108,6 @@ Route::middleware('auth')->group(function () {
 
         Route::get('inventory/suppliers/{id}', \App\Http\Livewire\Suppliers\Show::class)
             ->name('suppliers/show');
-
     });
 
     Route::get('warehouse', \App\Http\Livewire\Warehouse\Index::class)
@@ -121,8 +119,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:view dispatch');
 });
 
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 Route::get('/update', function () {
 
@@ -135,7 +132,7 @@ Route::get('/update', function () {
 //        ]);
 //    }
 
-    die;
+    exit;
 //    $oldProducts = DB::table('products_old')->get();
 
 //    foreach ($oldProducts as $product) {
@@ -151,5 +148,4 @@ Route::get('/update', function () {
 //            'cost' => to_cents($product->cost),
 //        ]);
 //    }
-
 });

@@ -11,11 +11,14 @@ use Illuminate\Support\Str;
 class Purchase extends Model
 {
     protected $guarded = [];
+
     protected $with = [
         'items:id,product_id,purchase_id,price,qty',
-        'supplier:id,name'
+        'supplier:id,name',
     ];
+
     protected $dates = ['date'];
+
     protected $appends = ['total'];
 
     protected static function boot()
@@ -52,7 +55,7 @@ class Purchase extends Model
 
     public function getProcessedAttribute(): float|int
     {
-        return !$this->processed_date == null;
+        return ! $this->processed_date == null;
     }
 
     public function getTotalAttribute(): float|int
@@ -67,14 +70,16 @@ class Purchase extends Model
         if ($this->shipping_rate) {
             return ($this->amount * $this->shipping_rate) / 100;
         }
+
         return 0;
     }
 
     public function amount_converted_to_zar(): float|int
     {
         if ($this->exchange_rate) {
-            return ($this->amount * $this->exchange_rate);
+            return $this->amount * $this->exchange_rate;
         }
+
         return $this->amount;
     }
 
@@ -86,16 +91,16 @@ class Purchase extends Model
     public function amount(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value),
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value),
         );
     }
 
     public function exchangeRate(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value),
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value),
         );
     }
 }

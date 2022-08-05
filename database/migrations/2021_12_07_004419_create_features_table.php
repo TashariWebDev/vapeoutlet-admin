@@ -8,10 +8,10 @@ class CreateFeaturesTable extends Migration
 {
     public function up()
     {
-        Schema::create("features", function (Blueprint $table) {
-            $table->bigIncrements("id");
+        Schema::create('features', function (Blueprint $table) {
+            $table->bigIncrements('id');
 
-            $table->string("name")->nullable();
+            $table->string('name')->nullable();
             $table->foreignId('product_id');
             $table->foreignId('feature_category_id');
 
@@ -21,6 +21,6 @@ class CreateFeaturesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists("features");
+        Schema::dropIfExists('features');
     }
 }

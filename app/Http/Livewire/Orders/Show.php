@@ -19,22 +19,29 @@ class Show extends Component
     use WithNotifications;
 
     public $orderId;
-    public $searchQuery = '';
-    public $selectedProducts = [];
-    public $selectedProductsToDelete = [];
-    public $chooseAddressForm = false;
-    public $chooseDeliveryForm = false;
-    public $cancelConfirmation = false;
-    public $showProductSelectorForm = false;
-    public $showConfirmModal = false;
-    public $showEditModal = false;
 
+    public $searchQuery = '';
+
+    public $selectedProducts = [];
+
+    public $selectedProductsToDelete = [];
+
+    public $chooseAddressForm = false;
+
+    public $chooseDeliveryForm = false;
+
+    public $cancelConfirmation = false;
+
+    public $showProductSelectorForm = false;
+
+    public $showConfirmModal = false;
+
+    public $showEditModal = false;
 
     public function mount()
     {
         $this->orderId = request('id');
     }
-
 
     public function getOrderProperty()
     {
@@ -72,11 +79,10 @@ class Show extends Component
 
     public function cancel()
     {
-
         DB::transaction(function () {
             $credit = Credit::create([
                 'customer_id' => $this->order->customer->id,
-                'created_by' => auth()->user()->name
+                'created_by' => auth()->user()->name,
             ]);
 
             foreach ($this->order->items as $item) {
@@ -90,22 +96,20 @@ class Show extends Component
 
             $credit->increaseStock();
 
-            $credit->updateStatus("processed_at");
+            $credit->updateStatus('processed_at');
 
             $this->order->customer->createCredit($credit, $credit->number);
 
             $this->order->updateStatus('cancelled');
-
         }, 3);
 
         Artisan::call('update:transactions', [
-            'customer' => $this->order->customer->id
+            'customer' => $this->order->customer->id,
         ]);
 
         $this->notify('order deleted');
 
         $this->redirect('/orders');
-
     }
 
     public function updateDelivery($deliveryId)
@@ -113,7 +117,7 @@ class Show extends Component
         $delivery = Delivery::find($deliveryId);
         $this->order->update([
             'delivery_type_id' => $delivery->id,
-            'delivery_charge' => $delivery->price
+            'delivery_charge' => $delivery->price,
         ]);
 
         $this->notify('delivery option updated');
