@@ -17,6 +17,18 @@ class Index extends Component
 
     public $showDeliveryCreateForm = false;
 
+    public $provinces = [
+        'gauteng',
+        'kwazulu natal',
+        'limpopo',
+        'mpumalanga',
+        'north west',
+        'free state',
+        'northern cape',
+        'western cape',
+        'eastern cape',
+    ];
+
     protected function rules()
     {
         return [
@@ -25,6 +37,8 @@ class Index extends Component
             'delivery.price' => ['required'],
             'delivery.waiver_value' => ['nullable'],
             'delivery.selectable' => ['boolean'],
+            'delivery.province' => ['nullable'],
+            'delivery.customer_type' => ['nullable'],
         ];
     }
 

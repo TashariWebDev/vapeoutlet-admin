@@ -15,6 +15,26 @@
                 <x-input type="text" label="waiver order value" wire:model.defer="delivery.waiver_value"
                          placeholder="leave empty if not applicable"/>
             </div>
+            <div class="py-3">
+                <x-select label="restrict to province" wire:model.defer="delivery.province">
+                    @foreach($provinces as $province)
+                        <option value="{{ $province }}" class="capitalize">
+                            {{ $province }}
+                        </option>
+                    @endforeach
+                </x-select>
+            </div>
+            <div class="py-3">
+                <x-select label="restrict to customer type"
+                          wire:model.defer="delivery.customer_type">
+                    <option value="retail" class="capitalize">
+                        Retail
+                    </option>
+                    <option value="wholesale" class="capitalize">
+                        Wholesale
+                    </option>
+                </x-select>
+            </div>
             <div class="py-3 w-full">
                 <div class="py-2 bg-gray-100 rounded-md px-2">
                     <label for="selectable" class="text-xs uppercase font-medium flex items-center space-x-2">

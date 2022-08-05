@@ -15,6 +15,8 @@ return new class extends Migration {
             $table->integer('price')->unsigned();
             $table->integer('waiver_value')->nullable();
             $table->boolean('selectable')->default(false);
+            $table->string('customer_type')->nullable();
+            $table->string('province')->nullable();
 
             $table->softDeletes();
 
