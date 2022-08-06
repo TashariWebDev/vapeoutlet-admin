@@ -30,28 +30,28 @@ class Product extends Model
         parent::boot();
 
         static::creating(function ($product) {
-            $product->slug = Str::slug($product->name).'-'.$product->sku;
+            $product->slug = Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::saving(function ($product) {
-            $product->slug = Str::slug($product->name).'-'.$product->sku;
+            $product->slug = Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::updating(function ($product) {
-            $product->slug = Str::slug($product->name).'-'.$product->sku;
+            $product->slug = Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::updated(function ($product) {
-            $product->slug = Str::slug($product->name).'-'.$product->sku;
+            $product->slug = Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
@@ -62,12 +62,12 @@ class Product extends Model
     public function scopeSearch($query, $searchQuery)
     {
         return $query
-            ->where('brand', 'like', $searchQuery.'%')
-            ->orWhere('name', 'like', $searchQuery.'%')
-            ->orWhere('sku', 'like', $searchQuery.'%')
-            ->orWhere('id', 'like', $searchQuery.'%')
+            ->where('brand', 'like', $searchQuery . '%')
+            ->orWhere('name', 'like', $searchQuery . '%')
+            ->orWhere('sku', 'like', $searchQuery . '%')
+            ->orWhere('id', 'like', $searchQuery . '%')
             ->orWhereHas('features', function ($query) use ($searchQuery) {
-                $query->where('name', 'like', '%'.$searchQuery.'%');
+                $query->where('name', 'like', '%' . $searchQuery . '%');
             });
     }
 
@@ -99,49 +99,49 @@ class Product extends Model
     public function retailPrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
         );
     }
 
     public function wholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
         );
     }
 
     public function oldRetailPrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
         );
     }
 
     public function oldwholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
         );
     }
 
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float)to_rands($value),
+            set: fn($value) => to_cents($value),
         );
     }
 
     public function image(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value
-                ? config('app.app_url').'/storage/'.$value
-                : config('app.app_url').'/storage/images/default-image.png'
+            get: fn($value) => $value
+                ? config('app.app_url') . '/storage/' . $value
+                : config('app.app_url') . '/storage/images/default-image.png'
         );
     }
 

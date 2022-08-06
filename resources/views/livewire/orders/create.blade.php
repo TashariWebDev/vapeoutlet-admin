@@ -55,36 +55,38 @@
                 </div>
                 <fieldset class="space-y-2">
                     @forelse($products as $product)
-                        <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
-                            <div>
-                                <input id="{{$product->id}}" aria-describedby="product"
-                                       wire:model="selectedProducts"
-                                       wire:key="{{$product->id}}"
-                                       value="{{$product->id}}"
-                                       type="checkbox"
-                                       class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
-                            </div>
-                            <div class="flex lg:justify-between ml-3 w-full items-center">
-                                <div class="text-sm">
-                                    <div for="{{$product->id}}"
-                                         class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}</div>
-                                    <div class="lg:flex flex-wrap items-center">
-                                        <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
-                                        <div class="flex flex-wrap">
-                                            @foreach($product->features as $feature)
-                                                <p id="features" class="text-gray-500 text-xs">{{ $feature->name }}
-                                                    @if(!$loop->last) <span> | </span>@endif
-                                                </p>
-                                            @endforeach
+                        @if($product->stocks_sum_qty > 0)
+                            <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
+                                <div>
+                                    <input id="{{$product->id}}" aria-describedby="product"
+                                           wire:model="selectedProducts"
+                                           wire:key="{{$product->id}}"
+                                           value="{{$product->id}}"
+                                           type="checkbox"
+                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                                </div>
+                                <div class="flex lg:justify-between ml-3 w-full items-center">
+                                    <div class="text-sm">
+                                        <div for="{{$product->id}}"
+                                             class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}</div>
+                                        <div class="lg:flex flex-wrap items-center">
+                                            <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
+                                            <div class="flex flex-wrap">
+                                                @foreach($product->features as $feature)
+                                                    <p id="features" class="text-gray-500 text-xs">{{ $feature->name }}
+                                                        @if(!$loop->last) <span> | </span>@endif
+                                                    </p>
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="rounded-full hidden lg:block">
+                                        <img src="{{ asset($product->image) }}" alt=""
+                                             class="w-10 h-10 rounded-full">
+                                    </div>
                                 </div>
-                                <div class="rounded-full hidden lg:block">
-                                    <img src="{{ asset($product->image) }}" alt=""
-                                         class="w-10 h-10 rounded-full">
-                                </div>
-                            </div>
-                        </label>
+                            </label>
+                        @endif
                     @empty
                         <div
                             class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center">

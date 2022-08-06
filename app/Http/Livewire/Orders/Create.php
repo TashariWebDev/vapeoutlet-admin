@@ -211,6 +211,7 @@ class Create extends Component
             'products' => Product::query()
                 ->with('features')
                 ->where('is_active', '=', true)
+                ->withSum('stocks', 'qty')
                 ->when($this->searchQuery, function ($query) {
                     $query->search($this->searchQuery);
                 })

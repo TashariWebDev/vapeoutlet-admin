@@ -168,10 +168,10 @@
         <div>
             <form wire:submit.prevent="addBrand">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="brandName" label="name"/>
+                    <x-input type="text" wire:model.defer="brandName" label="name" required/>
                 </div>
                 <div class="py-2">
-                    <x-input type="file" wire:model.defer="brandLogo" label="logo"/>
+                    <x-input type="file" wire:model.defer="brandLogo" label="logo" required/>
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -187,7 +187,7 @@
         <div>
             <form wire:submit.prevent="addProductCollection">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="collectionName" label="Name"/>
+                    <x-input type="text" wire:model.defer="collectionName" label="Name" required/>
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -203,7 +203,7 @@
         <div>
             <form wire:submit.prevent="addCategory">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="categoryName" label="name"/>
+                    <x-input type="text" wire:model.defer="categoryName" label="name" required/>
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -219,7 +219,7 @@
         <div>
             <form wire:submit.prevent="addFeatureCategory">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="featureCategoryName" label="name"/>
+                    <x-input type="text" wire:model.defer="featureCategoryName" label="name" required/>
                 </div>
                 <div class="py-2">
                     <button
