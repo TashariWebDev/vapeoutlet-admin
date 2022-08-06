@@ -29,6 +29,8 @@ class Edit extends Component
 
     public $vat_number;
 
+    public $is_wholesale;
+
     public $province;
 
     public $line_one;
@@ -61,11 +63,7 @@ class Edit extends Component
         $this->phone = $this->customer->phone;
         $this->company = $this->customer->company;
         $this->vat_number = $this->customer->vat_number;
-    }
-
-    public function getCustomerProperty()
-    {
-        return Customer::find($this->customerId);
+        $this->is_wholesale = $this->customer->is_wholesale;
     }
 
     public function updatedShowAddressForm()
@@ -77,7 +75,7 @@ class Edit extends Component
 
     public function updateUser()
     {
-        $this->validate([
+        $validatedData = $this->validate([
             'name' => ['required'],
             'email' => [
                 'required',
@@ -89,9 +87,12 @@ class Edit extends Component
             ],
             'company' => ['nullable'],
             'vat_number' => ['nullable'],
+            'is_wholesale' => ['sometimes'],
         ]);
+//        dd($d);
 
-        $this->customer->save();
+        $this->customer->update($validatedData);
+
         if ($this->customer->wasChanged()) {
             $this->notify('Customer details have been updated');
         }

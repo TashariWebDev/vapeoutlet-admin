@@ -26,7 +26,7 @@
                 <div class="py-3">
                     <x-input type="text" wire:model.defer="phone" label="phone"/>
                 </div>
-                @hasPermissionTo('edit customers')
+                @hasPermissionTo('upgrade customers')
                 <div class="py-2 bg-gray-100 rounded-md px-2">
                     <label for="is_wholesale" class="text-xs uppercase font-medium flex items-center space-x-2">
                         <input type="checkbox" wire:model.defer="is_wholesale" id="is_wholesale"

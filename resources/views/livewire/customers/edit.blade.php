@@ -59,6 +59,26 @@
                 </div>
                 @enderror
             </div>
+            @hasPermissionTo('upgrade customers')
+            <div class="py-1">
+                <label for="is_wholesale" class="block text-sm font-medium text-gray-700">Is Wholesale Customer</label>
+                <select id="is_wholesale" name="is_wholesale" wire:model.defer="is_wholesale"
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    <option value="0" class="capitalize">
+                        No
+                    </option>
+                    <option value="1" class="capitalize">
+                        Yes
+                    </option>
+                </select>
+                @error('is_wholesale')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+            @endhasPermissionTo
+
             <div class="pt-3">
                 <button class="button-success">update</button>
             </div>
