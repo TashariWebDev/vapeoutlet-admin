@@ -151,8 +151,8 @@ class Create extends Component
     public function addBrand()
     {
         $this->validate([
-            'brandName' => ['unique:brands,name'],
-            'brandLogo' => ['image', 'max:1024'],
+            'brandName' => ['required', 'unique:brands,name'],
+            'brandLogo' => ['required', 'image', 'max:1024'],
         ]);
 
         Brand::create([
