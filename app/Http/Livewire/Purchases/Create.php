@@ -152,7 +152,7 @@ class Create extends Component
     {
         $this->validate([
             'brandName' => ['required', 'unique:brands,name'],
-            'brandLogo' => ['required', 'image', 'max:1024'],
+            'brandLogo' => ['required', 'max:1024'],
         ]);
 
         Brand::create([
