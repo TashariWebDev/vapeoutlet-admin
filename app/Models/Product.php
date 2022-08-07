@@ -30,28 +30,28 @@ class Product extends Model
         parent::boot();
 
         static::creating(function ($product) {
-            $product->slug = Str::slug($product->name) . '-' . $product->sku;
+            $product->slug = Str::slug($product->brand) . '-' . Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::saving(function ($product) {
-            $product->slug = Str::slug($product->name) . '-' . $product->sku;
+            $product->slug = Str::slug($product->brand) . '-' . Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::updating(function ($product) {
-            $product->slug = Str::slug($product->name) . '-' . $product->sku;
+            $product->slug = Str::slug($product->brand) . '-' . Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::updated(function ($product) {
-            $product->slug = Str::slug($product->name) . '-' . $product->sku;
+            $product->slug = Str::slug($product->brand) . '-' . Str::slug($product->name) . '-' . $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
