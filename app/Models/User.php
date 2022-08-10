@@ -72,8 +72,8 @@ class User extends Authenticatable
 
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('name', 'like', $searchQuery.'%')
-            ->orWhere('email', 'like', $searchQuery.'%');
+        return $query->where('name', 'like', $searchQuery . '%')
+            ->orWhere('email', 'like', $searchQuery . '%');
     }
 
     public function purchases(): HasMany
@@ -96,5 +96,10 @@ class User extends Authenticatable
         }
 
         return false;
+    }
+
+    public function scopeStaff($query)
+    {
+        return $query->where('email', '!=', 'ridwan@tashari.co.za');
     }
 }
