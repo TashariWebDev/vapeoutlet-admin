@@ -76,37 +76,37 @@
             <div class="py-2">
                 <x-input label="sku" type="text" wire:model.defer="product.sku" required/>
             </div>
-            <div class="py-2 relative">
+            <div class="py-4 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showBrandsForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="brand" type="text" wire:model.defer="product.brand" required>
+                <x-select label="brand" wire:model.defer="product.brand" required>
                     @foreach($brands as $brand)
                         <option value="{{$brand->name}}">{{$brand->name}}</option>
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-2 relative">
+            <div class="py-4 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="categories" type="text" wire:model.defer="product.category" required>
+                <x-select label="categories" wire:model.defer="product.category" required>
                     @foreach($categories as $category)
                         <option value="{{$category->name}}">{{$category->name}}</option>
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-2 relative">
+            <div class="py-4 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id">
+                <x-select label="Collection name" wire:model.defer="product.product_collection_id">
                     @foreach($productCollections as $collection)
                         <option value="{{$collection->id}}">{{$collection->name}}</option>
                     @endforeach
@@ -126,13 +126,13 @@
                                         wire:model.defer="product.wholesale_price"
                                         required/>
                     </div>
-                    <div class="py-2 relative">
+                    <div class="py-4 relative">
                         <div class="absolute right-0 pt-0.5 z-10">
                             <button x-on:click.prevent="@this.set('showFeaturesForm',true)">
                                 <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                             </button>
                         </div>
-                        <x-select label="features" type="text"
+                        <x-select label="features"
                                   wire:change="addFeature($event.target.value)">
                             @foreach($featureCategories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
@@ -179,25 +179,25 @@
             <div class="py-2">
                 <x-input label="sku" type="text" wire:model.defer="product.sku" required/>
             </div>
-            <div class="py-2 relative">
+            <div class="py-4 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showBrandsForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="brand" type="text" wire:model.defer="product.brand" required>
+                <x-select label="brand" wire:model.defer="product.brand" required>
                     @foreach($brands as $brand)
                         <option value="{{$brand->name}}">{{$brand->name}}</option>
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-2 relative">
+            <div class="py-4 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="categories" type="text" wire:model.defer="product.category" required>
+                <x-select label="categories" wire:model.defer="product.category" required>
                     @foreach($categories as $category)
                         <option value="{{$category->name}}">{{$category->name}}</option>
                     @endforeach
@@ -209,7 +209,7 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id">
+                <x-select label="Collection name" wire:model.defer="product.product_collection_id">
                     @foreach($productCollections as $collection)
                         <option value="{{$collection->id}}">{{$collection->name}}</option>
                     @endforeach
