@@ -9,8 +9,8 @@
         {{ $label ?? '' }}
     </label>
 
-    <input id="{{$attributes->only('id')->first()}}" type="text"
-           class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+    <input id="{{$attributes->only('id')->first()}}" type="text" {{ $attributes }}
+    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
            autocomplete="off"
            wire:keydown.enter.prevent
     >
