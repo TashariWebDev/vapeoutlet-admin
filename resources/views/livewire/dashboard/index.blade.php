@@ -18,7 +18,8 @@
                     </p>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-green-600 hover:text-green-500"> View all<span
+                            <a href="/orders?filter=received" class="font-medium text-green-600 hover:text-green-500">
+                                View all<span
                                     class="sr-only"> Received orders</span></a>
                         </div>
                     </div>
@@ -38,7 +39,8 @@
                     </p>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-green-600 hover:text-green-500"> View all<span
+                            <a href="/orders?filter=processed" class="font-medium text-green-600 hover:text-green-500">
+                                View all<span
                                     class="sr-only"> Processed orders</span></a>
                         </div>
                     </div>
@@ -58,7 +60,8 @@
                     </p>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-green-600 hover:text-green-500"> View all<span
+                            <a href="/orders?filter=packed" class="font-medium text-green-600 hover:text-green-500">
+                                View all<span
                                     class="sr-only"> Packed orders</span></a>
                         </div>
                     </div>
@@ -80,7 +83,8 @@
                     </p>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-green-600 hover:text-green-500"> View all<span
+                            <a href="/orders?filter=shipped" class="font-medium text-green-600 hover:text-green-500">
+                                View all<span
                                     class="sr-only"> Shipped orders</span></a>
                         </div>
                     </div>
@@ -100,7 +104,8 @@
                     </p>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-green-600 hover:text-green-500"> View all<span
+                            <a href="/orders?filter=completed" class="font-medium text-green-600 hover:text-green-500">
+                                View all<span
                                     class="sr-only"> Completed orders</span></a>
                         </div>
                     </div>
@@ -120,7 +125,8 @@
                     </p>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium text-green-600 hover:text-green-500"> View all<span
+                            <a href="/orders?filter=cancelled" class="font-medium text-green-600 hover:text-green-500">
+                                View all<span
                                     class="sr-only"> Cancelled orders</span></a>
                         </div>
                     </div>
