@@ -253,6 +253,7 @@ class Index extends Component
 
         $this->reset(['brandName', 'brandLogo', 'showBrandsForm']);
         $this->brands = Brand::orderBy('name')->get();
+        $this->showBrandsForm = false;
         $this->notify('Brand created');
     }
 
