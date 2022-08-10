@@ -32,7 +32,7 @@ class Index extends Component
                 ->selectRaw(
                     "count(case when status = 'cancelled' then 1 end) as cancelled"
                 )
-                ->first()
+                ->first(),
         ]);
     }
 }

@@ -177,7 +177,7 @@ class Index extends Component
                     ORDER BY id DESC LIMIT 1) as last_cost')
                 )
                 ->with(['features'])
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
                 ->orderBy('brand')
                 ->simplePaginate(5),
         ]);

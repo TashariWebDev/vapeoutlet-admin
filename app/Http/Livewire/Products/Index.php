@@ -72,7 +72,6 @@ class Index extends Component
 
     public string $feature_id = '';
 
-
     public function rules(): array
     {
         return [
@@ -155,7 +154,7 @@ class Index extends Component
     public function toggleActive($productId)
     {
         $product = Product::find($productId);
-        $product->is_active = !$product->is_active;
+        $product->is_active = ! $product->is_active;
         $product->save();
         $this->notify('Product active status updated');
     }
@@ -163,7 +162,7 @@ class Index extends Component
     public function toggleFeatured($productId)
     {
         $product = Product::find($productId);
-        $product->is_featured = !$product->is_featured;
+        $product->is_featured = ! $product->is_featured;
         $product->save();
         $this->notify('Product featured status updated');
     }
@@ -171,7 +170,7 @@ class Index extends Component
     public function toggleSale($productId)
     {
         $product = Product::find($productId);
-        $product->is_sale = !$product->is_sale;
+        $product->is_sale = ! $product->is_sale;
         $product->save();
         $this->notify('Product sale status updated');
     }
@@ -325,7 +324,7 @@ class Index extends Component
             'products' => Product::query()
                 ->where('is_active', $this->activeFilter)
                 ->with('features')
-                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
+                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
                 ->orderBy('brand')
                 ->simplePaginate(5),
         ]);

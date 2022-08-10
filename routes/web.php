@@ -119,4 +119,4 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:view dispatch');
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
