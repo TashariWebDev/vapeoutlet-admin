@@ -31,6 +31,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('delete:old-price-list')->everyTenMinutes();
         $schedule->command('delete:old-documents')->daily();
+        $schedule->command('compress:images')->daily();
     }
 
     /**
