@@ -13,6 +13,18 @@
         <x-inputs.search wire:model="searchTerm"/>
     </div>
 
+    <x-modal title="Do you want to ship this order?" wire:model.defer="showConfirmModal">
+        <form wire:submit.prevent="pushToComplete">
+            <div class="py-4">
+                <x-input type="text" id="waybill" label="waybill" wire:model.defer="waybill"/>
+            </div>
+
+            <div class="pt-4">
+                <button class="button-success">Ship order</button>
+            </div>
+        </form>
+    </x-modal>
+
 
     <div class="py-2">
         {{ $orders->links() }}
@@ -65,7 +77,7 @@
                 </x-table.row>
                 <x-table.row class="p-2 text-right hidden lg:block">
                     <button class="button-success"
-                            x-on:click="@this.call('pushToComplete',{{$order->id}})"
+                            x-on:click="@this.call('confirmToComplete',{{$order->id}})"
                     >Ship
                     </button>
                 </x-table.row>

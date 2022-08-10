@@ -166,7 +166,8 @@
 
     <x-modal wire:model.defer="showBrandsForm" title="Manage brands" wire:key>
         <div>
-            <form wire:submit.prevent="addBrand">
+            <form wire:submit.prevent="addBrand" x-data="" id="brandForm"
+                  x-on:livewire-upload-finish="document.getElementById('brandForm').reset()">
                 <div class="py-2">
                     <x-input type="text" wire:model.defer="brandName" label="name" required/>
                 </div>

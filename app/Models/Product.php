@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -164,9 +165,14 @@ class Product extends Model
 
 //    relationships
 
-    public function last_purchase_price()
+//    public function last_purchase_price()
+//    {
+//        return $this->stocks->latest('created_at')->value('cost');
+//    }
+
+    public function last_purchase_price(): HasOne
     {
-        return $this->stocks()->latest('created_at')->value('cost');
+        return $this->hasOne(Stock::class)->latestOfMany();
     }
 
     public function brand(): BelongsTo

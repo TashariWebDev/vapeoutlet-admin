@@ -22,13 +22,12 @@ class Index extends Component
     {
         $order->updateStatus('packed');
         $this->notify('order ready for shipping');
-        $this->redirect('/orders');
     }
 
     public function getDocument(Order $order)
     {
         Http::get(
-            config('app.admin_url')."/webhook/pick-lists/{$order->id}"
+            config('app.admin_url') . "/webhook/pick-lists/{$order->id}"
         );
 
         $this->redirect("/warehouse?page={$this->page}");
@@ -41,12 +40,12 @@ class Index extends Component
                 ->with('delivery', 'customer', 'customer.transactions', 'items')
                 ->where('status', '=', 'processed')
                 ->when($this->searchTerm, function ($query) {
-                    $query->where('id', 'like', $this->searchTerm.'%')
+                    $query->where('id', 'like', $this->searchTerm . '%')
                         ->orWhereHas('customer', function ($query) {
-                            $query->where('name', 'like', $this->searchTerm.'%')
-                                ->orWhere('company', 'like', $this->searchTerm.'%')
-                                ->orWhere('email', 'like', $this->searchTerm.'%')
-                                ->orWhere('phone', 'like', $this->searchTerm.'%');
+                            $query->where('name', 'like', $this->searchTerm . '%')
+                                ->orWhere('company', 'like', $this->searchTerm . '%')
+                                ->orWhere('email', 'like', $this->searchTerm . '%')
+                                ->orWhere('phone', 'like', $this->searchTerm . '%');
                         });
                 })
                 ->latest()

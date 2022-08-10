@@ -10,7 +10,6 @@ input[type=checkbox] {
     @apply text-green-500 ring-green-600 outline-green-500 rounded-full mr-3;
 }
 
-
 .bg-gradient-gray {
     @apply bg-gradient-to-b from-gray-900 via-gray-700 to-gray-600;
 }

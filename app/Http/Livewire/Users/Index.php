@@ -70,8 +70,8 @@ class Index extends Component
             'users' => User::query()
                 ->where('email', '!=', 'ridwan@tashari.co.za')
                 ->withTrashed()
-                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
-                ->simplePaginate(),
+                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
+                ->simplePaginate(5),
         ]);
     }
 }

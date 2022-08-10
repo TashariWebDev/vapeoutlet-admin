@@ -9,6 +9,7 @@ use App\Models\Supplier;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -166,9 +167,17 @@ class Index extends Component
     public function render(): Factory|View|Application
     {
         return view('livewire.inventory.index', [
-            'products' => Product::withTrashed()
-                ->with(['stocks', 'sold', 'purchased', 'returns', 'features'])
-                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
+            'products' => Product::query()
+                ->select('*',
+                    DB::raw('(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id) as total_available'),
+                    DB::raw('(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id && type = "purchase") as total_bought'),
+                    DB::raw('(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id && type = "invoice") as total_sold'),
+                    DB::raw('(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id && type = "credit") as total_returned'),
+                    DB::raw('(select cost FROM stocks WHERE products.id = stocks.product_id && type = "purchase"
+                    ORDER BY id DESC LIMIT 1) as last_cost')
+                )
+                ->with(['features'])
+                ->when($this->searchQuery, fn($query) => $query->search($this->searchQuery))
                 ->orderBy('brand')
                 ->simplePaginate(5),
         ]);
