@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Psr\Container\ContainerExceptionInterface;
@@ -93,7 +93,13 @@ class User extends Authenticatable
     {
         $permissions = [$permission];
 
-        $userPermissions = cache()->get('user-permissions') ?? Cache::put('user-permissions', auth()->user()->permissions->pluck('name'), 60);
+        $userPermissions = Cache::remember(
+            'user-permissions',
+            now()->addMinutes(60 * 8),
+            function () {
+                return auth()->user()->permissions->pluck('name');
+            }
+        );
 
         if ($userPermissions->contains($permission)) {
             return true;

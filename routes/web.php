@@ -108,6 +108,9 @@ Route::middleware('auth')->group(function () {
 
         Route::get('inventory/suppliers/{id}', \App\Http\Livewire\Suppliers\Show::class)
             ->name('suppliers/show');
+
+        Route::get('inventory/suppliers/edit/{id}', \App\Http\Livewire\Suppliers\Edit::class)
+            ->name('suppliers/edit');
     });
 
     Route::get('warehouse', \App\Http\Livewire\Warehouse\Index::class)
@@ -119,4 +122,4 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:view dispatch');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
