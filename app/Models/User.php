@@ -71,8 +71,8 @@ class User extends Authenticatable
 
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('name', 'like', $searchQuery.'%')
-            ->orWhere('email', 'like', $searchQuery.'%');
+        return $query->where('name', 'like', $searchQuery . '%')
+            ->orWhere('email', 'like', $searchQuery . '%');
     }
 
     public function purchases(): HasMany
@@ -93,7 +93,10 @@ class User extends Authenticatable
     {
         $permissions = [$permission];
 
-        $userPermissions = cache()->get('user-permissions') ?? Cache::put('user-permissions', auth()->user()->permissions->pluck('name'), 60);
+        $userPermissions = Cache::get('user-permissions', function () {
+            return auth()->user()->permissions()->pluck('name');
+        }, 60 * 8);
+
 
         if ($userPermissions->contains($permission)) {
             return true;
