@@ -54,7 +54,14 @@ class Show extends Component
     {
         $this->order->updateStatus('processed');
         $this->notify('pushed to warehouse for picking');
-        $this->redirect('/orders');
+        $this->redirect('/orders?filter=processed');
+    }
+
+    public function pushToComplete()
+    {
+        $this->order->updateStatus('completed');
+        $this->notify('order completed');
+        $this->redirect('/orders?filter=completed');
     }
 
     public function edit()
@@ -108,8 +115,7 @@ class Show extends Component
         ]);
 
         $this->notify('order deleted');
-
-        $this->redirect('/orders');
+        $this->redirect('/orders?filter=cancelled');
     }
 
     public function updateDelivery($deliveryId)

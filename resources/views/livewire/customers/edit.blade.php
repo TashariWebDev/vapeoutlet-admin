@@ -1,6 +1,6 @@
-<div class="grid grid-cols-1 lg:grid-cols-2 space-x-4">
+<div class="grid grid-cols-1 lg:grid-cols-2 lg:space-x-4">
 
-    <div class="pr-4">
+    <div class="p-4">
         <form wire:submit.prevent="updateUser">
             <div class="py-1">
                 <label for="email-address" class="block text-sm font-medium text-gray-700">
@@ -85,7 +85,7 @@
         </form>
     </div>
 
-    <div class="pr-4">
+    <div class="p-4">
         <form wire:submit.prevent="addAddress">
             <div class="py-1">
                 <label for="address_line_one" class="block text-sm font-medium text-gray-700">

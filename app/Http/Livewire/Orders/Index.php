@@ -28,6 +28,13 @@ class Index extends Component
         $this->redirect("orders?page={$this->page}");
     }
 
+    public function mount()
+    {
+        if (request()->has('filter')) {
+            $this->filter = request('filter');
+        }
+    }
+
     public function render()
     {
         return view('livewire.orders.index', [

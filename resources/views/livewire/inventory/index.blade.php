@@ -128,6 +128,8 @@
         </div>
     </div>
 
+    {{--    @json($products)--}}
+
     <div class="py-3">
         {{ $products->links() }}
     </div>
@@ -195,11 +197,14 @@
                     </span>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">COST: </span>
+                    <span class="text-xs font-semibold lg:hidden underline">AVE COST: </span>
                     <p>
-                        @if($product->last_purchase_price() > $product->cost)
+                        @php
+                            $lastPurchasePrice = to_rands($product->last_cost) ?? 0
+                        @endphp
+                        @if($lastPurchasePrice > $product->cost)
                             <span class="text-green-600 font-extrabold w-4"> &downarrow; </span>
-                        @elseif($product->last_purchase_price() == $product->cost)
+                        @elseif($lastPurchasePrice == $product->cost)
                             <span class="text-gray-600 font-extrabold w-4"> &rightarrow; </span>
                         @else
                             <span class="text-red-700 font-extrabold w-4"> &uparrow; </span>
@@ -208,24 +213,24 @@
                     </p>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">AVE COST: </span>
-                    <p>{{ number_format($product->last_purchase_price(),2) ?? 0}}</p>
+                    <span class="text-xs font-semibold lg:hidden underline">LAST COST: </span>
+                    <p>{{ number_format($lastPurchasePrice,2) ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">PURCHASED: </span>
-                    <p>{{ $product->purchased->sum('qty')}}</p>
+                    <p>{{ $product->total_bought ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">RETURNS: </span>
-                    <p>{{ $product->returns->sum('qty')}}</p>
+                    <p>{{ $product->total_returned ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">SOLD: </span>
-                    <p>{{ $product->sold->sum('qty')}}</p>
+                    <p>{{ $product->total_sold ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">AVAILABLE: </span>
-                    <p>{{ $product->stocks->sum('qty')}}</p>
+                    <p>{{ $product->total_available ?? 0}}</p>
                 </x-table.row>
             </x-table.body>
         @empty

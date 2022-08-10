@@ -16,13 +16,36 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
+    public $showConfirmModal = false;
+
     public $searchTerm = '';
 
-    public function pushToComplete(Order $order)
+    public $status = 'shipped';
+
+    public $waybill = '';
+
+    public $selectedOrder;
+
+    public function rules(): array
     {
-        $order->updateStatus('shipped');
+        return [
+            'status' => 'required',
+            'waybill' => 'sometimes|nullable',
+        ];
+    }
+
+    public function pushToComplete()
+    {
+        $validatedData = $this->validate();
+        $this->selectedOrder->update($validatedData);
+        $this->showConfirmModal = ! $this->showConfirmModal;
         $this->notify('order shipped');
-        $this->redirect('/orders');
+    }
+
+    public function confirmToComplete(Order $order)
+    {
+        $this->selectedOrder = $order;
+        $this->showConfirmModal = ! $this->showConfirmModal;
     }
 
     public function getDocument(Order $order)

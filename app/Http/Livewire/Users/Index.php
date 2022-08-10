@@ -71,7 +71,7 @@ class Index extends Component
                 ->where('email', '!=', 'ridwan@tashari.co.za')
                 ->withTrashed()
                 ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
-                ->simplePaginate(),
+                ->simplePaginate(5),
         ]);
     }
 }

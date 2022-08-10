@@ -33,16 +33,17 @@
                                 </button>
                             </div>
                         @endif
-                        <img src="{{ asset($product->image) }}" alt="" class="object-cover rounded-md">
+                        <img src="{{ asset($product->image) }}" alt="" class="object-cover rounded-t-md">
                     </div>
-                    <div class="bg-gray-200 w-32 mx-auto rounded text-xs text-center pt-1">
+                    <div class="bg-gray-200 w-32 mx-auto rounded-b text-xs text-center pt-1">
                         <p>featured</p>
                     </div>
                 @endif
             </div>
-            <form wire:submit.prevent="saveFeaturedImage">
+            <form wire:submit.prevent="saveFeaturedImage" x-data="" id="saveFeaturedImageForm"
+                  x-on:livewire-upload-finish="document.getElementById('saveFeaturedImageForm').reset()">
                 <div class="py-2">
-                    <x-input label="featured image" type="file" wire:model.defer="image" id="upload{{$iteration}}"/>
+                    <x-input label="featured image" type="file" wire:model.defer="image"/>
                 </div>
                 <div class="py-2">
                     <button class="button-success w-full">
@@ -51,10 +52,10 @@
                     </button>
                 </div>
             </form>
-            <form wire:submit.prevent="saveGallery">
+            <form wire:submit.prevent="saveGallery" x-data="" id="saveGalleryForm"
+                  x-on:livewire-upload-finish="document.getElementById('saveGalleryForm').reset()">
                 <div class="py-2">
-                    <x-input type="file" label="upload images" multiple wire:model.defer="images"
-                             id="multiUpload{{$iteration}}"/>
+                    <x-input type="file" label="upload images" multiple wire:model.defer="images"/>
                 </div>
                 <div class="py-2">
                     <button class="button-success w-full">
@@ -232,7 +233,8 @@
 
     <x-modal wire:model.defer="showBrandsForm" title="Manage brands" wire:key>
         <div>
-            <form wire:submit.prevent="addBrand">
+            <form wire:submit.prevent="addBrand" x-data="" id="brandForm"
+                  x-on:livewire-upload-finish="document.getElementById('brandForm').reset()">
                 <div class="py-2">
                     <x-input type="text" wire:model.defer="brandName" label="name"/>
                 </div>

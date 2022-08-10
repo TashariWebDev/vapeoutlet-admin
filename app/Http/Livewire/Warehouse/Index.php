@@ -22,7 +22,6 @@ class Index extends Component
     {
         $order->updateStatus('packed');
         $this->notify('order ready for shipping');
-        $this->redirect('/orders');
     }
 
     public function getDocument(Order $order)

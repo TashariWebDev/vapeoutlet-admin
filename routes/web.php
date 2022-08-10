@@ -120,32 +120,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-Route::get('/update', function () {
-
-//    $models = Product::where('image', '/design/no_image.jpeg')
-//        ->get();
-//
-//    foreach ($models as $model) {
-//        $model->update([
-//            'image' => null
-//        ]);
-//    }
-
-    exit;
-//    $oldProducts = DB::table('products_old')->get();
-
-//    foreach ($oldProducts as $product) {
-//        Product::create([
-//            'name' => $product->name,
-//            'brand' => $product->brand,
-//            'category' => $product->category,
-//            'image' => $product->image,
-//            'sku' => $product->sku,
-//            'description' => $product->description,
-//            'retail_price' => to_cents($product->retail_price),
-//            'wholesale_price' => to_cents($product->wholesale_price),
-//            'cost' => to_cents($product->cost),
-//        ]);
-//    }
-});

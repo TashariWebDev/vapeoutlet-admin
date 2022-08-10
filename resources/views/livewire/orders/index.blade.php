@@ -1,4 +1,4 @@
-<div class="rounded-md px-2 py-6">
+<div class="rounded-md px-2 py-1">
     @php
         function check_file_exist($url){
             $handle = @fopen($url, 'r');
@@ -11,52 +11,52 @@
     @endphp
 
 
-    <div class="hidden lg:flex justify-center items-center space-x-4 py-3">
+    <div class="hidden lg:flex justify-center items-center space-x-4 py-4 bg-white rounded-md">
 
         <button x-on:click="@this.set('filter','received')"
-                class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'received')  border-green-600 @else border-transparent @endif">
+                class="flex items-end justify-end space-x-2 hover:border-gray-300 border-b pb-2 @if($filter == 'received')  border-green-600 @else border-transparent @endif">
             <x-icons.shopping-bag class="w-5 h-5 text-green-600"/>
             <p class="text-sm font-semibold">Received</p>
         </button>
 
         <button x-on:click="@this.set('filter','processed')"
-                class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'processed')  border-green-600 @else border-transparent @endif">
+                class="flex items-end justify-end space-x-2 hover:border-gray-300 border-b pb-2 @if($filter == 'processed')  border-green-600 @else border-transparent @endif">
             <x-icons.clipboard class="w-5 h-5 text-green-600"/>
             <p class="text-sm font-semibold">Processed</p>
         </button>
 
         <button x-on:click="@this.set('filter','packed')"
-                class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'packed')  border-green-600 @else border-transparent @endif">
+                class="flex items-end justify-end space-x-2 hover:border-gray-300 border-b pb-2 @if($filter == 'packed')  border-green-600 @else border-transparent @endif">
             <x-icons.products class="w-5 h-5 text-green-600"/>
             <p class="text-sm font-semibold">Packed</p>
         </button>
 
         <button x-on:click="@this.set('filter','shipped')"
-                class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'shipped')  border-green-600 @else border-transparent @endif">
+                class="flex items-end justify-end space-x-2 hover:border-gray-300 border-b pb-2 @if($filter == 'shipped')  border-green-600 @else border-transparent @endif">
             <x-icons.truck class="w-5 h-5 text-green-600"/>
             <p class="text-sm font-semibold">Shipped</p>
         </button>
 
         <button x-on:click="@this.set('filter','completed')"
-                class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'completed')  border-green-600 @else border-transparent @endif">
+                class="flex items-end justify-end space-x-2 hover:border-gray-300 border-b pb-2 @if($filter == 'completed')  border-green-600 @else border-transparent @endif">
             <x-icons.tick class="w-5 h-5 text-green-600"/>
             <p class="text-sm font-semibold">Completed</p>
         </button>
 
         <button x-on:click="@this.set('filter','cancelled')"
-                class="flex items-end justify-end space-x-2 border-b pb-2 @if($filter == 'cancelled')  border-green-600 @else border-transparent @endif">
+                class="flex items-end justify-end space-x-2 hover:border-gray-300 border-b pb-2 @if($filter == 'cancelled')  border-green-600 @else border-transparent @endif">
             <x-icons.cross class="w-5 h-5 text-green-600"/>
             <p class="text-sm font-semibold">Cancelled</p>
         </button>
 
     </div>
 
-    <div class="w-full text-center flex justify-center">
+    <div class="w-full text-center flex justify-center py-3">
         <x-inputs.search wire:model="searchTerm"/>
     </div>
 
     <div class="flex justify-center items-center lg:hidden pt-3">
-        <x-select wire:model="filter" label="Select a status" class="w-72">
+        <x-select wire:model="filter" label="Select a status">
             <option value="received">Received</option>
             <option value="processed">Processed</option>
             <option value="packed">Packed</option>

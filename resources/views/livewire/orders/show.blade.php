@@ -35,6 +35,14 @@
                 <h1 class="text-3xl font-extrabold text-red-700">CANCELLED</h1>
             </div>
         @endif
+        @if($this->order->status == 'shipped')
+            <div>
+                <button class="button-success"
+                        x-on:click="@this.call('pushToComplete')"
+                >Complete order
+                </button>
+            </div>
+        @endif
     </div>
 
 

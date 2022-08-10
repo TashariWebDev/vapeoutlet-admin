@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cache;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class User extends Authenticatable
 {
@@ -44,10 +47,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ];
-
-    protected $with = [
-        'permissions',
     ];
 
     protected static function boot()
@@ -86,10 +85,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Permission::class)->as('permission')->orderBy('name');
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function hasPermissionTo($permission): bool
     {
         $permissions = [$permission];
-        $userPermissions = $this->permissions->pluck('name');
+
+        $userPermissions = cache()->get('user-permissions') ?? Cache::put('user-permissions', auth()->user()->permissions->pluck('name'), 60);
 
         if ($userPermissions->contains($permission)) {
             return true;
