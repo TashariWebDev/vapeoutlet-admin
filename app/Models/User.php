@@ -95,7 +95,7 @@ class User extends Authenticatable
 
         $userPermissions = Cache::get('user-permissions', function () {
             return auth()->user()->permissions()->pluck('name');
-        }, 60 * 8);
+        });
 
 
         if ($userPermissions->contains($permission)) {
