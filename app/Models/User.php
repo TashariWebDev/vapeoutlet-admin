@@ -89,16 +89,25 @@ class User extends Authenticatable
     {
         $permissions = [$permission];
 
-        $userPermissions = Cache::get("user-permissions", function () {
-            return auth()
-                ->user()
-                ->permissions->pluck("name");
-        });
+        $userPermissions = Cache::remember(
+            "user-permissions",
+            now()->addMinutes(60 * 8),
+            function () {
+                return auth()
+                    ->user()
+                    ->permissions->pluck("name");
+            }
+        );
 
         if ($userPermissions->contains($permission)) {
             return true;
         }
 
         return false;
+    }
+
+    public function scopeStaff($query)
+    {
+        return $query->where("email", "!=", "ridwan@tashari.co.za");
     }
 }
