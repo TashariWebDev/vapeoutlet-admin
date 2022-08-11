@@ -124,7 +124,30 @@
     </div>
     <!-- End -->
 
-    <!-- Transactions -->
+    @if($purchases->count())
+        <x-table.container>
+            <x-table.header class="hidden lg:grid lg:grid-cols-2">
+                <x-table.heading>Transaction</x-table.heading>
+                <x-table.heading class="text-center lg:text-right">Amount</x-table.heading>
+            </x-table.header>
+            @forelse($purchases as $purchase)
+                <x-table.body class="grid grid-cols-1 lg:grid-cols-2 text-sm">
+                    <x-table.row class="text-center lg:text-left">
+                        <button wire:click="showPurchase('{{$purchase->invoice_no}}')"
+                                class="font-semibold link">{{ $purchase->id }} {{ strtoupper($purchase->invoice_no) }}
+                        </button>
+                        <p class="text-gray-500 text-xs pt-1">{{ $purchase->created_at }}</p>
+                    </x-table.row>
+                    <x-table.row
+                        class="text-center lg:text-right">{{ number_format($purchase->amount,2) }}</x-table.row>
+                </x-table.body>
+            @empty
+                <x-table.empty></x-table.empty>
+            @endforelse
+        </x-table.container>
+@endif
+
+<!-- Transactions -->
 
     <div class="p-4">
         {{ $transactions->links() }}
