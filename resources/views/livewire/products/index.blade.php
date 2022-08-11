@@ -40,25 +40,25 @@
                     </div>
                 @endif
             </div>
-            <form wire:submit.prevent="saveFeaturedImage" x-data="" id="saveFeaturedImageForm">
+            <form wire:submit.prevent="saveFeaturedImage" x-data="" id="saveFeaturedImageForm"
+                  x-on:livewire-upload-finish="document.getElementById('saveFeaturedImageForm').reset()">
                 <div class="py-2">
                     <x-input label="featured image" type="file" wire:model.defer="image"/>
                 </div>
                 <div class="py-2">
-                    <button class="button-success w-full"
-                            x-on:click="document.getElementById('saveFeaturedImageForm').reset()">
+                    <button class="button-success w-full">
                         <x-icons.upload class="w-5 h-5 text-white mr-2"/>
                         upload
                     </button>
                 </div>
             </form>
-            <form wire:submit.prevent="saveGallery" x-data="" id="saveGalleryForm">
+            <form wire:submit.prevent="saveGallery" x-data="" id="saveGalleryForm"
+                  x-on:livewire-upload-finish="document.getElementById('saveGalleryForm').reset()">
                 <div class="py-2">
                     <x-input type="file" label="upload images" multiple wire:model.defer="images"/>
                 </div>
                 <div class="py-2">
-                    <button class="button-success w-full"
-                            x-on:click="document.getElementById('saveGalleryForm').reset()">
+                    <button class="button-success w-full">
                         <x-icons.upload class="w-5 h-5 text-white mr-2"/>
                         upload
                     </button>
@@ -126,23 +126,24 @@
                                         wire:model.defer="product.wholesale_price"
                                         required/>
                     </div>
-                    <div class="py-4 relative">
+                    <div class="py-2 relative">
                         <div class="absolute right-0 pt-0.5 z-10">
                             <button x-on:click.prevent="@this.set('showFeaturesForm',true)">
                                 <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                             </button>
                         </div>
                         <x-select label="features"
-                                  wire:change="addFeature($event.target.value)">
+                                  x-on:change="$wire.call('addFeature',$event.target.value)">
                             @foreach($featureCategories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->id}}"
+                                        wire:key="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                         </x-select>
                     </div>
                     <div class="py-2 px-4 bg-gray-100 rounded-md">
                         <p class="text-xs">update and click tab to save</p>
                         @foreach($product->features as $feature)
-                            <div class="py-2 relative">
+                            <div class="py-2 relative" wire:key="{{$feature->id}}">
                                 <div class="absolute right-0 pt-0.5 z-10">
                                     <button x-on:click.prevent="@this.call('deleteFeature',{{$feature->id}})">
                                         <x-icons.cross class="text-red-500 hover:text-red-600 w-12 h-12"/>
@@ -203,7 +204,7 @@
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-2 relative">
+            <div class="py-4 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
@@ -233,7 +234,8 @@
 
     <x-modal wire:model.defer="showBrandsForm" title="Manage brands" wire:key>
         <div>
-            <form wire:submit.prevent="addBrand" x-data="" id="brandForm">
+            <form wire:submit.prevent="addBrand" x-data="" id="brandForm"
+                  x-on:livewire-upload-finish="document.getElementById('brandForm').reset()">
                 <div class="py-2">
                     <x-input type="text" wire:model.defer="brandName" label="name"/>
                 </div>
@@ -241,7 +243,7 @@
                     <x-input type="file" wire:model.defer="brandLogo" label="logo"/>
                 </div>
                 <div class="py-2">
-                    <button class="button-success" x-on:click="document.getElementById('brandForm').reset()">
+                    <button class="button-success">
                         <x-icons.save class="w-5 h-5 mr-2"/>
                         save
                     </button>

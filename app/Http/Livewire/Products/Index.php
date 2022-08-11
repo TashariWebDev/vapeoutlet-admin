@@ -296,10 +296,11 @@ class Index extends Component
 
     public function addFeature($categoryId)
     {
+
         $this->product->features()->create([
             'feature_category_id' => $categoryId,
         ]);
-        $this->product->unsetRelation('features');
+
         $this->product->load('features');
         $this->notify('Feature created');
     }

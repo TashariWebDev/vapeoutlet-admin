@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      *
-     * @param  LoginRequest  $request
+     * @param LoginRequest $request
      * @return RedirectResponse
      */
     public function store(LoginRequest $request)
@@ -39,7 +39,7 @@ class AuthenticatedSessionController extends Controller
 
         $userPermissions = Cache::remember(
             'user-permissions',
-            now()->addMinutes(120),
+            now()->addMinutes(60 * 8),
             function () {
                 return auth()->user()->permissions->pluck('name');
             }
@@ -51,7 +51,7 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return RedirectResponse
      */
     public function destroy(Request $request)

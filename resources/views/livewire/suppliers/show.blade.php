@@ -21,8 +21,18 @@
     </x-slide-over>
 
     <!-- Stats -->
-    <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">{{ $this->supplier->name }} stats</h3>
+    <div class="p-4">
+        <div class="flex flex-wrap lg:justify-between items-center space-y-2 lg:space-y-0">
+            <div class="w-full lg:w-72">
+                <h3 class="text-lg leading-6 font-bold text-gray-900 capitalize">
+                    {{ $this->supplier->name }}
+                    stats
+                </h3>
+            </div>
+            <div class="w-full lg:w-72 lg:text-right">
+                <a href="{{ route('suppliers/edit',$this->supplier->id) }}" class="link">Edit</a>
+            </div>
+        </div>
 
         <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <div class="relative bg-white pt-5 px-4 pb-6 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden">
@@ -101,9 +111,9 @@
     <!-- End Stats -->
 
     <!-- Transaction create -->
-    <div class="mt-3">
-        <div class="flex flex-wrap items-center lg:justify-between lg:space-x-2">
-            <x-inputs.search type="text" wire:model="searchTerm" class="w-full lg:w-72"
+    <div class="p-4">
+        <div class="flex flex-wrap items-center lg:justify-between space-y-2 lg:space-y-0 lg:space-x-2">
+            <x-inputs.search type="text" wire:model="searchTerm"
                              placeholder="search by reference"/>
 
             <button class="button-success w-full lg:w-72" x-on:click="@this.set('showAddTransactionForm',true)">
@@ -116,7 +126,7 @@
 
     <!-- Transactions -->
 
-    <div class="py-3">
+    <div class="p-4">
         {{ $transactions->links() }}
     </div>
 
