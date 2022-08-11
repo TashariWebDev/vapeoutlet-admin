@@ -348,20 +348,14 @@
                             class="text-sm font-medium grid grid-cols-1 lg:grid-cols-2 gap-y-3 py-2 lg:gap-y-0 lg:py-0">
                             {{--left--}}
                             <div class="flex items-center space-x-4">
-                                <div class="w-12 h-12 ring-1 ring-gray-200 shadow-md rounded-full">
-                                    <img
-                                        class="w-12 h-12 rounded-full object-center object-cover"
-                                        src="{{ asset($product->image) }}"
-                                        alt="">
-                                </div>
                                 <div class="">
                                     <p class="font-semibold text-gray-800">
                                         {{ $product->brand }} {{ $product->name }}
                                     </p>
                                     <div class="flex space-x-1 items-center">
                                         @foreach($product->features as $feature)
-                                            <p class="text-xs text-gray-600"
-                                            > {{ $feature->name }}</p> @if(!$loop->last) <p>|</p> @endif
+                                            <p class="text-xs text-gray-600 pr-1 @if(!$loop->last) border-r @endif"
+                                            > {{ $feature->name }}</p>
                                         @endforeach
                                     </div>
                                     <p class="font-semibold text-gray-800">
