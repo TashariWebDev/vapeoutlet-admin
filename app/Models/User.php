@@ -24,21 +24,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $fillable = ["name", "email", "password"];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * The attributes that should be cast.
@@ -46,7 +39,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        "email_verified_at" => "datetime",
     ];
 
     protected static function boot()
@@ -71,18 +64,21 @@ class User extends Authenticatable
 
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('name', 'like', $searchQuery.'%')
-            ->orWhere('email', 'like', $searchQuery.'%');
+        return $query
+            ->where("name", "like", $searchQuery . "%")
+            ->orWhere("email", "like", $searchQuery . "%");
     }
 
     public function purchases(): HasMany
     {
-        return $this->hasMany(Purchase::class, 'creator_id');
+        return $this->hasMany(Purchase::class, "creator_id");
     }
 
     public function permissions(): belongsToMany
     {
-        return $this->belongsToMany(Permission::class)->as('permission')->orderBy('name');
+        return $this->belongsToMany(Permission::class)
+            ->as("permission")
+            ->orderBy("name");
     }
 
     /**
@@ -93,10 +89,11 @@ class User extends Authenticatable
     {
         $permissions = [$permission];
 
-        $userPermissions = Cache::get('user-permissions', function () {
-            return auth()->user()->permissions->pluck('name');
+        $userPermissions = Cache::get("user-permissions", function () {
+            return auth()
+                ->user()
+                ->permissions->pluck("name");
         });
-//        $userPermissions = auth()->user()->permissions->pluck('name');
 
         if ($userPermissions->contains($permission)) {
             return true;
