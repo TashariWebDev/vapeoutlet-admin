@@ -40,25 +40,25 @@
                     </div>
                 @endif
             </div>
-            <form wire:submit.prevent="saveFeaturedImage" x-data="" id="saveFeaturedImageForm"
-                  x-on:livewire-upload-finish="document.getElementById('saveFeaturedImageForm').reset()">
+            <form wire:submit.prevent="saveFeaturedImage" x-data="" id="saveFeaturedImageForm">
                 <div class="py-2">
                     <x-input label="featured image" type="file" wire:model.defer="image"/>
                 </div>
                 <div class="py-2">
-                    <button class="button-success w-full">
+                    <button class="button-success w-full"
+                            x-on:click="document.getElementById('saveFeaturedImageForm').reset()">
                         <x-icons.upload class="w-5 h-5 text-white mr-2"/>
                         upload
                     </button>
                 </div>
             </form>
-            <form wire:submit.prevent="saveGallery" x-data="" id="saveGalleryForm"
-                  x-on:livewire-upload-finish="document.getElementById('saveGalleryForm').reset()">
+            <form wire:submit.prevent="saveGallery" x-data="" id="saveGalleryForm">
                 <div class="py-2">
                     <x-input type="file" label="upload images" multiple wire:model.defer="images"/>
                 </div>
                 <div class="py-2">
-                    <button class="button-success w-full">
+                    <button class="button-success w-full"
+                            x-on:click="document.getElementById('saveGalleryForm').reset()">
                         <x-icons.upload class="w-5 h-5 text-white mr-2"/>
                         upload
                     </button>

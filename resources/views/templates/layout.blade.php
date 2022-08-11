@@ -27,18 +27,18 @@
         }
 
         @page :first {
-            margin-top: 5;
-            margin-bottom: 5;
-            margin-left: 5;
-            margin-right: 5;
+            margin-top: 5cm;
+            margin-bottom: 5cm;
+            margin-left: 5cm;
+            margin-right: 5cm;
         }
 
         @page {
-            margin-top: 5;
-            margin-bottom: 5;
-            margin-left: 5;
-            margin-right: 5;
-            height: 100;
+            margin-top: 5cm;
+            margin-bottom: 5cm;
+            margin-left: 5cm;
+            margin-right: 5cm;
+            height: 100%;
         }
     </style>
 

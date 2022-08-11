@@ -166,8 +166,7 @@
 
     <x-modal wire:model.defer="showBrandsForm" title="Manage brands" wire:key>
         <div>
-            <form wire:submit.prevent="addBrand" x-data="" id="brandForm"
-                  x-on:livewire-upload-finish="document.getElementById('brandForm').reset()">
+            <form wire:submit.prevent="addBrand" x-data="" id="brandForm">
                 <div class="py-2">
                     <x-input type="text" wire:model.defer="brandName" label="name" required/>
                 </div>
@@ -175,7 +174,7 @@
                     <x-input type="file" wire:model.defer="brandLogo" label="logo" required/>
                 </div>
                 <div class="py-2">
-                    <button class="button-success">
+                    <button class="button-success" x-on:click="document.getElementById('brandForm').reset()">
                         <x-icons.save class="w-5 h-5 mr-2"/>
                         save
                     </button>

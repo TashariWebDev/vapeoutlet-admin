@@ -6,7 +6,7 @@
         <x-icons.search class="w-3 h-3 text-white"/>
     </label>
 
-    <input id="{{$attributes->only('id')->first()}}" {{ $attributes }}
+    <input id="search" {{ $attributes }}
     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
            type="search"
            wire:keydown.enter.prevent

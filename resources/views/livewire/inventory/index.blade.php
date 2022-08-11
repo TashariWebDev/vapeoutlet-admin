@@ -3,17 +3,20 @@
     <x-slide-over wire:model.defer="showPurchaseCreateForm" title="New purchase"
     >
         <form wire:submit.prevent="save">
-            <div class="py-6 relative">
+            <div class="relative">
                 <div class="absolute right-0 pt-0.5 z-10">
                     <button x-on:click.prevent="@this.set('showSuppliersCreateForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select wire:model.defer="selectedSupplier" label="Select a supplier">
-                    @foreach($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                    @endforeach
-                </x-select>
+                <div class="py-4">
+                    <x-select wire:model.defer="selectedSupplier" label="Select a supplier">
+                        @foreach($suppliers as $supplier)
+                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                        @endforeach
+                    </x-select>
+                </div>
+
             </div>
             <div class="py-4">
                 <x-input type="date" wire:model.defer="date" label="Invoice date"/>
@@ -21,7 +24,7 @@
             <div class="py-4">
                 <x-input type="text" wire:model.defer="invoice_no" label="Invoice number"/>
             </div>
-            <div class="py-4">
+            <div class="py-4 relative">
                 <x-select wire:model.defer="currency"
                           label="Select a currency">
                     <option value="ZAR">ZAR</option>

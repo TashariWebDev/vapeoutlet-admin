@@ -19,6 +19,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Mail;
+use LaravelIdea\Helper\App\Models\_IH_Purchase_C;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -64,7 +65,7 @@ class Create extends Component
 
     public $brandName = '';
 
-    public $brandLogo = '';
+    public $brandLogo;
 
     public $categoryName = '';
 
@@ -88,21 +89,9 @@ class Create extends Component
             'product.category' => ['required'],
             'product.description' => ['sometimes'],
             'product.retail_price' => ['sometimes'],
-            //            'product.old_retail_price' => ['sometimes'],
             'product.wholesale_price' => ['sometimes'],
-            //            'product.old_wholesale_price' => ['sometimes'],
             'product.product_collection_id' => ['sometimes'],
         ];
-    }
-
-    public function create()
-    {
-        $this->product = new Product();
-        $this->brands = Brand::query()->orderBy('name')->get();
-        $this->categories = Category::query()->orderBy('name')->get();
-        $this->featureCategories = FeatureCategory::orderBy('name')->get();
-        $this->productCollections = ProductCollection::orderBy('name')->get();
-        $this->showProductCreateForm = true;
     }
 
     public function save()
@@ -113,7 +102,23 @@ class Create extends Component
         $this->product->save();
         $this->reset(['product']);
         $this->create();
-        $this->dispatchBrowserEvent('notification', ['body' => 'Product saved']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'Product saved',
+        ]);
+    }
+
+    public function create()
+    {
+        $this->product = new Product();
+        $this->brands = Brand::query()
+            ->orderBy('name')
+            ->get();
+        $this->categories = Category::query()
+            ->orderBy('name')
+            ->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
+        $this->showProductCreateForm = true;
     }
 
     public function saveAndEdit()
@@ -123,6 +128,7 @@ class Create extends Component
         $this->product->old_wholesale_price = $this->product->wholesale_price;
         $this->product->save();
         $this->product->refresh();
+
         $this->showProductCreateForm = false;
         $this->edit($this->product->id);
     }
@@ -132,8 +138,12 @@ class Create extends Component
         $this->product = Product::find($productId);
         $this->retailPrice = $this->product->retail_price;
         $this->wholesalePrice = $this->product->wholesale_price;
-        $this->brands = Brand::query()->orderBy('name')->get();
-        $this->categories = Category::query()->orderBy('name')->get();
+        $this->brands = Brand::query()
+            ->orderBy('name')
+            ->get();
+        $this->categories = Category::query()
+            ->orderBy('name')
+            ->get();
         $this->featureCategories = FeatureCategory::orderBy('name')->get();
         $this->productCollections = ProductCollection::orderBy('name')->get();
         $this->product->refresh();
@@ -184,7 +194,9 @@ class Create extends Component
         ]);
 
         $this->reset(['collectionName', 'showProductCollectionForm']);
-        $this->productCollections = ProductCollection::query()->orderBy('name')->get();
+        $this->productCollections = ProductCollection::query()
+            ->orderBy('name')
+            ->get();
 
         $this->notify('Product collection created');
     }
@@ -192,7 +204,10 @@ class Create extends Component
     public function addFeatureCategory()
     {
         $this->validate([
-            'featureCategoryName' => ['required', 'unique:feature_categories,name'],
+            'featureCategoryName' => [
+                'required',
+                'unique:feature_categories,name',
+            ],
         ]);
 
         FeatureCategory::create(['name' => $this->featureCategoryName]);
@@ -200,7 +215,8 @@ class Create extends Component
         $this->reset(['featureCategoryName']);
 
         $this->featureCategories = FeatureCategory::query()
-            ->orderBy('name')->get();
+            ->orderBy('name')
+            ->get();
 
         $this->notify('Feature category created');
     }
@@ -236,7 +252,7 @@ class Create extends Component
         $this->purchaseId = request('id');
     }
 
-    public function getPurchaseProperty()
+    public function getPurchaseProperty(): Purchase|array|_IH_Purchase_C|null
     {
         return Purchase::find($this->purchaseId)->load('items', 'supplier');
     }
@@ -252,11 +268,14 @@ class Create extends Component
     public function addProducts()
     {
         foreach ($this->selectedProducts as $product) {
-            $this->purchase->items()->updateOrCreate([
-                'product_id' => $product,
-            ], [
-                'product_id' => $product,
-            ]);
+            $this->purchase->items()->updateOrCreate(
+                [
+                    'product_id' => $product,
+                ],
+                [
+                    'product_id' => $product,
+                ]
+            );
         }
 
         $this->showProductSelectorForm = false;
@@ -302,7 +321,7 @@ class Create extends Component
             $productCost = $item->product->cost;
 
             if ($productCost > 0) {
-                $cost = (($item->total_cost_in_zar() + $productCost) / 2);
+                $cost = ($item->total_cost_in_zar() + $productCost) / 2;
             } else {
                 $cost = $item->total_cost_in_zar();
             }
@@ -315,7 +334,7 @@ class Create extends Component
 
             foreach ($alerts as $alert) {
                 Mail::to($alert->email)->later(
-                    now()->addMinutes(1),
+                    now()->addMinutes(2),
                     new StockAlertMail($item->product)
                 );
 
