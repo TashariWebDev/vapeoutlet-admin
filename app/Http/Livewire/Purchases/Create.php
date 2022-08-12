@@ -223,19 +223,21 @@ class Create extends Component
 
     public function addFeature($categoryId)
     {
-        $this->product->features()->create([
-            'feature_category_id' => $categoryId,
-        ]);
-        $this->product->unsetRelation('features');
-        $this->product->load('features');
+        if ($categoryId != '') {
+            $this->product->features()->create([
+                'feature_category_id' => $categoryId,
+            ]);
+            $this->product->unsetRelation('features');
+            $this->product->load('features');
 
-        $this->notify('Feature created');
+            $this->notify('Feature created');
+        }
+        $this->showProductUpdateForm = true;
     }
 
     public function updateFeature(Feature $feature, $name)
     {
         $feature->update(['name' => $name]);
-
         $this->notify('Feature updated');
     }
 

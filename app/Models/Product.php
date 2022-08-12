@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Product extends Model
@@ -17,66 +18,86 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ['features:id,name'];
+    protected $with = ["features:id,name"];
 
     protected $casts = [
-        'retail_price' => 'integer',
-        'wholesale_price' => 'integer',
-        'cost' => 'integer',
+        "retail_price" => "integer",
+        "wholesale_price" => "integer",
+        "cost" => "integer",
     ];
 
-//    events
+    //    events
     protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($product) {
-            $product->slug = Str::slug($product->brand).'-'.Str::slug($product->name).'-'.$product->sku;
+            $product->slug =
+                Str::slug($product->brand) .
+                "-" .
+                Str::slug($product->name) .
+                "-" .
+                $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::saving(function ($product) {
-            $product->slug = Str::slug($product->brand).'-'.Str::slug($product->name).'-'.$product->sku;
+            $product->slug =
+                Str::slug($product->brand) .
+                "-" .
+                Str::slug($product->name) .
+                "-" .
+                $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::updating(function ($product) {
-            $product->slug = Str::slug($product->brand).'-'.Str::slug($product->name).'-'.$product->sku;
+            $product->slug =
+                Str::slug($product->brand) .
+                "-" .
+                Str::slug($product->name) .
+                "-" .
+                $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
 
         static::updated(function ($product) {
-            $product->slug = Str::slug($product->brand).'-'.Str::slug($product->name).'-'.$product->sku;
+            $product->slug =
+                Str::slug($product->brand) .
+                "-" .
+                Str::slug($product->name) .
+                "-" .
+                $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
     }
 
-//    scopes
+    //    scopes
     public function scopeSearch($query, $searchQuery)
     {
         return $query
-            ->where('brand', 'like', $searchQuery.'%')
-            ->orWhere('name', 'like', $searchQuery.'%')
-            ->orWhere('sku', 'like', $searchQuery.'%')
-            ->orWhere('id', 'like', $searchQuery.'%')
-            ->orWhereHas('features', function ($query) use ($searchQuery) {
-                $query->where('name', 'like', '%'.$searchQuery.'%');
+            ->where("brand", "like", $searchQuery . "%")
+            ->orWhere("name", "like", $searchQuery . "%")
+            ->orWhere("sku", "like", $searchQuery . "%")
+            ->orWhere("id", "like", $searchQuery . "%")
+            ->orWhereHas("features", function ($query) use ($searchQuery) {
+                $query->where("name", "like", "%" . $searchQuery . "%");
             });
     }
 
-//    setters
+    //    setters
 
     public function qty()
     {
-        return $this->stocks->sum('qty');
+        return $this->stocks->sum("qty");
     }
 
     public function getPrice(Customer $customer)
@@ -100,49 +121,49 @@ class Product extends Model
     public function retailPrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function wholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function oldRetailPrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function oldwholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function image(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value
-                ? config('app.app_url').'/storage/'.$value
-                : config('app.app_url').'/storage/images/default-image.png'
+            get: fn($value) => $value
+                ? config("app.app_url") . "/storage/" . $value
+                : config("app.app_url") . "/storage/images/default-image.png"
         );
     }
 
@@ -150,25 +171,42 @@ class Product extends Model
     {
         if (auth()->check()) {
             if (auth()->user()->is_wholesale) {
-                if ($this->old_wholesale_price > 0 && $this->old_wholesale_price > $this->wholesale_price) {
+                if (
+                    $this->old_wholesale_price > 0 &&
+                    $this->old_wholesale_price > $this->wholesale_price
+                ) {
                     return true;
                 }
             }
         }
 
-        if ($this->old_retail_price > 0 && $this->old_retail_price > $this->retail_price) {
+        if (
+            $this->old_retail_price > 0 &&
+            $this->old_retail_price > $this->retail_price
+        ) {
             return true;
         }
 
         return false;
     }
 
-//    relationships
+    public function scopeInStock($query)
+    {
+        $query->whereHas("stocks", function ($query) {
+            $query
+                ->select(DB::raw("SUM(qty) AS available"))
+                ->having("available", ">", 0);
+        });
 
-//    public function last_purchase_price()
-//    {
-//        return $this->stocks->latest('created_at')->value('cost');
-//    }
+        return $query;
+    }
+
+    //    relationships
+
+    //    public function last_purchase_price()
+    //    {
+    //        return $this->stocks->latest('created_at')->value('cost');
+    //    }
 
     public function last_purchase_price(): HasOne
     {
@@ -177,7 +215,7 @@ class Product extends Model
 
     public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class, 'name');
+        return $this->belongsTo(Brand::class, "name");
     }
 
     public function product_collection(): BelongsTo
@@ -192,7 +230,7 @@ class Product extends Model
 
     public function features(): hasMany
     {
-        return $this->hasMany(Feature::class)->orderBy('feature_category_id');
+        return $this->hasMany(Feature::class)->orderBy("feature_category_id");
     }
 
     public function purchases(): hasMany
@@ -207,20 +245,17 @@ class Product extends Model
 
     public function sold(): HasMany
     {
-        return $this->hasMany(Stock::class)
-            ->where('type', '=', 'invoice');
+        return $this->hasMany(Stock::class)->where("type", "=", "invoice");
     }
 
     public function purchased(): HasMany
     {
-        return $this->hasMany(Stock::class)
-            ->where('type', '=', 'purchase');
+        return $this->hasMany(Stock::class)->where("type", "=", "purchase");
     }
 
     public function returns(): HasMany
     {
-        return $this->hasMany(Stock::class)
-            ->where('type', '=', 'return');
+        return $this->hasMany(Stock::class)->where("type", "=", "return");
     }
 
     public function stockAlerts(): HasMany

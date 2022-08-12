@@ -4,19 +4,6 @@
             <p class="font-semibold">{{ $this->order->number }}</p>
             <p class="text-xs text-gray-500">{{ $this->order->updated_at }}</p>
             <p class="font-bold py-2">R {{ number_format($this->order->getTotal(),2)}}</p>
-            {{--            TODO create single product add with qty--}}
-            {{--            <div>--}}
-            {{--                <div>--}}
-            {{--                    <x-input type="text" wire:model="searchProducts" label="product search"/>--}}
-            {{--                </div>--}}
-            {{--                @if(($searchedProducts))--}}
-            {{--                    <div>--}}
-            {{--                        @foreach($searchedProducts as $product)--}}
-            {{--                            <div>{{ $product->name }}</div>--}}
-            {{--                        @endforeach--}}
-            {{--                    </div>--}}
-            {{--                @endif--}}
-            {{--            </div>--}}
         </div>
 
         <div>
@@ -55,38 +42,23 @@
                 </div>
                 <fieldset class="space-y-2">
                     @forelse($products as $product)
-                        @if($product->stocks_sum_qty > 0)
-                            <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
+                        <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
+                            <div>
+                                <input id="{{$product->id}}" aria-describedby="product"
+                                       wire:model.defer="selectedProducts"
+                                       wire:key="{{$product->id}}"
+                                       value="{{$product->id}}"
+                                       type="checkbox"
+                                       class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                            </div>
+                            <div class="flex lg:justify-between ml-3 w-full items-center">
+                                <x-product-listing-simple :product="$product"/>
                                 <div>
-                                    <input id="{{$product->id}}" aria-describedby="product"
-                                           wire:model="selectedProducts"
-                                           wire:key="{{$product->id}}"
-                                           value="{{$product->id}}"
-                                           type="checkbox"
-                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                                    <p class="text-sm font-bold">
+                                        R {{ number_format($product->getPrice($this->order->customer),2) }}</p>
                                 </div>
-                                <div class="flex lg:justify-between ml-3 w-full items-center">
-                                    <div class="text-sm">
-                                        <div for="{{$product->id}}"
-                                             class="font-semibold text-gray-700">{{ $product->brand }} {{ $product->name }}</div>
-                                        <div class="lg:flex flex-wrap items-center">
-                                            <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
-                                            <div class="flex flex-wrap">
-                                                @foreach($product->features as $feature)
-                                                    <p id="features" class="text-gray-500 text-xs">{{ $feature->name }}
-                                                        @if(!$loop->last) <span> | </span>@endif
-                                                    </p>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="rounded-full hidden lg:block">
-                                        <img src="{{ asset($product->image) }}" alt=""
-                                             class="w-10 h-10 rounded-full">
-                                    </div>
-                                </div>
-                            </label>
-                        @endif
+                            </div>
+                        </label>
                     @empty
                         <div
                             class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center">
@@ -179,6 +151,102 @@
                 @endforeach
             </select>
         </label>
+
+
+        <form wire:submit.prevent="addAddress">
+            <div class="py-1">
+                <label for="address_line_one" class="block text-sm font-medium text-gray-700">
+                    Address line one
+                </label>
+                <input type="text" id="address_line_one" wire:model.defer="line_one"
+                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                >
+                @error( 'line_one')
+                <div class="py-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+
+            <div class="py-1">
+                <label for="address_line_two" class="block text-sm font-medium text-gray-700">
+                    Address line two
+                </label>
+                <input type="text" id="address_line_two" wire:model.defer="line_two"
+                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                >
+                @error( 'line_two')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+
+            <div class="py-1">
+                <label for="suburb" class="block text-sm font-medium text-gray-700">
+                    Suburb
+                </label>
+                <input type="text" id="suburb" wire:model.defer="suburb"
+                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                >
+                @error('suburb')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+
+            <div class="py-1">
+                <label for="city" class="block text-sm font-medium text-gray-700">
+                    City
+                </label>
+                <input type="text" id="city" wire:model.defer="city"
+                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                >
+                @error('city')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+
+            <div class="py-1">
+                <label for="province" class="block text-sm font-medium text-gray-700">Province</label>
+                <select id="province" name="province" wire:model.defer="province"
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    <option value="">Select a province</option>
+                    @foreach($provinces as $province)
+                        <option value="{{ $province }}" class="capitalize">
+                            {{ $province }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('province')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+
+            <div class="py-1">
+                <label for="postal_code" class="block text-sm font-medium text-gray-700">
+                    Postal code
+                </label>
+                <input type="text" id="postal_code" wire:model.defer="postal_code"
+                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                >
+                @error('postal_code')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+            <div class="pt-3">
+                <button class="button-success">
+                    add address
+                </button>
+            </div>
+        </form>
     </x-modal>
 
     <x-modal title="select an delivery option" wire:model.defer="chooseDeliveryForm">
@@ -224,13 +292,16 @@
                                    class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
                         </div>
                         <div>
-                            <p class="text-xs">{{ $item->product->sku }}</p>
-                            <p class="text-sm font-semibold">{{ $item->product->brand }} {{ $item->product->name }}</p>
-                            <div class="flex flex-wrap">
+                            <p class="font-medium text-gray-500 text-xs">
+                                {{ $item->product->sku }}
+                            </p>
+                            <p class="font-semibold text-gray-800 text-sm">
+                                {{ $item->product->brand }} {{ $item->product->name }}
+                            </p>
+                            <div class="flex space-x-1 items-center">
                                 @foreach($item->product->features as $feature)
-                                    <p class="text-sm font-semibold text-xs border-r pr-1 @if(!$loop->first) pl-1 @endif ">
-                                        {{ $feature->name }}
-                                    </p>
+                                    <p class="text-xs text-gray-600 pr-1 @if(!$loop->last) border-r @endif"
+                                    > {{ $feature->name }}</p>
                                 @endforeach
                             </div>
                         </div>

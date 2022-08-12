@@ -82,7 +82,7 @@
                                     </button>
                                 </div>
                                 <x-input-alpine type="text"
-                                                value="{{$feature->name}}"
+                                                value="{{$feature->name ?? ''}}"
                                                 name="name"
                                                 label="{{$feature->category->name}}"
                                                 id="{{$feature->category->name}}-{{$feature->id}}"
