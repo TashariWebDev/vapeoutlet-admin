@@ -10,18 +10,18 @@
     @vite(['resources/css/email.css'])
 </head>
 <body>
-<div class="font-sans text-gray-900 antialiased p-12 bg-gray-900">
-    <div class="bg-white p-6 rounded-md">
-        <header class="flex justify-center items-center pb-6 border-b">
+<div class="font-sans text-gray-900 antialiased p-4 bg-gray-900">
+    <div class="bg-white p-2 rounded-md">
+        <header class="flex justify-center items-center pb-4 border-b">
             <img src="{{ config('app.admin_url').'/logo.png' }}" alt="{{ config('app.name') }}"
                  class="w-20"
             >
         </header>
-        <div class="py-10">
+        <div class="py-2">
             @yield('content')
         </div>
         <footer class="flex justify-center items-center pt-6 border-t">
-            <p class="text-gray-500">&copy; {{  date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
+            <p class="text-gray-500 text-xs">&copy; {{  date('Y') }} {{ config('app.name') }}. All rights reserved.</p>
         </footer>
     </div>
 </div>
