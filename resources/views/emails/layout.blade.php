@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     @vite(['resources/css/email.css'])
 </head>
-<body class="m-0 w-screen min-h-screen">
-<div class="font-sans text-gray-900 antialiased bg-gray-900 w-screen p-2">
+<body class="bg-gray-900">
+<div class="font-sans text-gray-900 antialiased bg-gray-900 w-full">
     <div class="bg-white p-2 rounded-md">
         <header class="flex justify-center items-center pb-4 border-b">
             <img src="{{ config('app.admin_url').'/logo.png' }}" alt="{{ config('app.name') }}"
