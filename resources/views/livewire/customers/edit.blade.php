@@ -64,6 +64,7 @@
                 <label for="is_wholesale" class="block text-sm font-medium text-gray-700">Is Wholesale Customer</label>
                 <select id="is_wholesale" name="is_wholesale" wire:model.defer="is_wholesale"
                         class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    <option value="">Choose</option>
                     <option value="0" class="capitalize">
                         No
                     </option>
@@ -72,6 +73,23 @@
                     </option>
                 </select>
                 @error('is_wholesale')
+                <div class="pt-1">
+                    <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                </div>
+                @enderror
+            </div>
+            <div class="py-1">
+                <label for="salesperson_id" class="block text-sm font-medium text-gray-700">Salesperson</label>
+                <select id="salesperson_id" name="salesperson_id" wire:model.defer="salesperson_id"
+                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+                    <option value="">Choose</option>
+                    @foreach($salespeople as $salesperson)
+                        <option value="{{$salesperson->id}}" class="capitalize">
+                            <p class="capitalize">{{$salesperson->name}}</p>
+                        </option>
+                    @endforeach
+                </select>
+                @error('salesperson_id')
                 <div class="pt-1">
                     <p class="text-xs uppercase text-red-700">{{ $message }}</p>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Customers;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Customer;
 use App\Models\CustomerAddress;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -31,6 +32,8 @@ class Edit extends Component
 
     public $is_wholesale;
 
+    public $salesperson_id = null;
+
     public $province;
 
     public $line_one;
@@ -44,26 +47,27 @@ class Edit extends Component
     public $postal_code;
 
     public $provinces = [
-        'gauteng',
-        'kwazulu natal',
-        'limpopo',
-        'mpumalanga',
-        'north west',
-        'free state',
-        'northern cape',
-        'western cape',
-        'eastern cape',
+        "gauteng",
+        "kwazulu natal",
+        "limpopo",
+        "mpumalanga",
+        "north west",
+        "free state",
+        "northern cape",
+        "western cape",
+        "eastern cape",
     ];
 
     public function mount()
     {
-        $this->customer = Customer::find(request('id'));
+        $this->customer = Customer::find(request("id"));
         $this->name = $this->customer->name;
         $this->email = $this->customer->email;
         $this->phone = $this->customer->phone;
         $this->company = $this->customer->company;
         $this->vat_number = $this->customer->vat_number;
         $this->is_wholesale = $this->customer->is_wholesale;
+        $this->salesperson_id = $this->customer->salesperson_id;
     }
 
     public function updatedShowAddressForm()
@@ -76,37 +80,43 @@ class Edit extends Component
     public function updateUser()
     {
         $validatedData = $this->validate([
-            'name' => ['required'],
-            'email' => [
-                'required',
-                Rule::unique('customers', 'email')->ignore($this->customer->id),
+            "name" => ["required"],
+            "email" => [
+                "required",
+                Rule::unique("customers", "email")->ignore($this->customer->id),
             ],
-            'phone' => [
-                'required',
-                Rule::unique('customers', 'phone')->ignore($this->customer->id),
+            "phone" => [
+                "required",
+                Rule::unique("customers", "phone")->ignore($this->customer->id),
             ],
-            'company' => ['nullable'],
-            'vat_number' => ['nullable'],
-            'is_wholesale' => ['sometimes'],
+            "company" => ["nullable"],
+            "vat_number" => ["nullable"],
+            "is_wholesale" => ["sometimes"],
+            "salesperson_id" => ["sometimes"],
         ]);
-//        dd($d);
 
         $this->customer->update($validatedData);
 
+        if ($this->customer->salesperson_id == 0) {
+            $this->customer->update([
+                'salesperson_id' => null
+            ]);
+        }
+
         if ($this->customer->wasChanged()) {
-            $this->notify('Customer details have been updated');
+            $this->notify("Customer details have been updated");
         }
     }
 
     public function addAddress()
     {
         $validatedData = $this->validate([
-            'province' => ['required'],
-            'line_one' => ['required'],
-            'line_two' => ['nullable'],
-            'suburb' => ['nullable'],
-            'city' => ['required'],
-            'postal_code' => ['required'],
+            "province" => ["required"],
+            "line_one" => ["required"],
+            "line_two" => ["nullable"],
+            "suburb" => ["nullable"],
+            "city" => ["required"],
+            "postal_code" => ["required"],
         ]);
 
         $this->customer->addresses()->create($validatedData);
@@ -114,17 +124,21 @@ class Edit extends Component
         $this->showAddressForm = false;
 
         $this->reset([
-            'province',
-            'line_one',
-            'line_two',
-            'suburb',
-            'city',
-            'postal_code',
+            "province",
+            "line_one",
+            "line_two",
+            "suburb",
+            "city",
+            "postal_code",
         ]);
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.customers.edit');
+        return view("livewire.customers.edit", [
+            "salespeople" => User::query()
+                ->where("email", "!=", "ridwan@tashari.co.za")
+                ->get(),
+        ]);
     }
 }

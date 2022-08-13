@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,13 +23,14 @@ class Customer extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'phone',
-        'company',
-        'vat_number',
-        'is_wholesale',
-        'password',
+        "name",
+        "email",
+        "phone",
+        "company",
+        "vat_number",
+        "is_wholesale",
+        "password",
+        "salesperson_id",
     ];
 
     /**
@@ -36,10 +38,7 @@ class Customer extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * The attributes that should be cast.
@@ -47,7 +46,7 @@ class Customer extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        "email_verified_at" => "datetime",
     ];
 
     protected static function boot()
@@ -72,7 +71,7 @@ class Customer extends Authenticatable
 
     public function isWholesale(): string
     {
-        return ! $this->is_wholesale ? '' : '(wholesale)';
+        return !$this->is_wholesale ? "" : "(wholesale)";
     }
 
     public function addresses(): HasMany
@@ -85,29 +84,42 @@ class Customer extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function salesperson(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function invoices(): HasMany
     {
-        return $this->hasMany(Transaction::class)->where('type', '=', 'invoice');
+        return $this->hasMany(Transaction::class)->where(
+            "type",
+            "=",
+            "invoice"
+        );
     }
 
     public function payments(): HasMany
     {
-        return $this->hasMany(Transaction::class)->where('type', '=', 'payment');
+        return $this->hasMany(Transaction::class)->where(
+            "type",
+            "=",
+            "payment"
+        );
     }
 
     public function credits(): HasMany
     {
-        return $this->hasMany(Transaction::class)->where('type', '=', 'credit');
+        return $this->hasMany(Transaction::class)->where("type", "=", "credit");
     }
 
     public function debits(): HasMany
     {
-        return $this->hasMany(Transaction::class)->where('type', '=', 'debit');
+        return $this->hasMany(Transaction::class)->where("type", "=", "debit");
     }
 
     public function refunds(): HasMany
     {
-        return $this->hasMany(Transaction::class)->where('type', '=', 'refund');
+        return $this->hasMany(Transaction::class)->where("type", "=", "refund");
     }
 
     public function transactions(): HasMany
@@ -129,54 +141,55 @@ class Customer extends Authenticatable
             }
         }
 
-        return $this->latestTransaction()->value('running_balance') ?? 0;
+        return $this->latestTransaction()->value("running_balance") ?? 0;
     }
 
     public function createDebit($reference, $amount, $createdBy): Transaction
     {
         return $this->transactions()->firstOrCreate([
-            'uuid' => Str::uuid(),
-            'reference' => $reference,
-            'type' => 'debit',
-            'amount' => $amount,
-            'created_by' => $createdBy,
+            "uuid" => Str::uuid(),
+            "reference" => $reference,
+            "type" => "debit",
+            "amount" => $amount,
+            "created_by" => $createdBy,
         ]);
     }
 
     public function createCredit(Credit $credit, $reference): Model|Transaction
     {
         return $this->transactions()->firstOrCreate([
-            'uuid' => Str::uuid(),
-            'reference' => $reference,
-            'type' => 'credit',
-            'amount' => 0 - $credit->getTotal(),
-            'created_by' => auth()->user()->name,
+            "uuid" => Str::uuid(),
+            "reference" => $reference,
+            "type" => "credit",
+            "amount" => 0 - $credit->getTotal(),
+            "created_by" => auth()->user()->name,
         ]);
     }
 
     public function createInvoice(Order $order): Model|Transaction
     {
         return $this->transactions()->create([
-            'uuid' => \Str::uuid(),
-            'reference' => $order->number,
-            'type' => 'invoice',
-            'amount' => $order->getTotal(),
-            'created_by' => auth()->user()->name,
+            "uuid" => \Str::uuid(),
+            "reference" => $order->number,
+            "type" => "invoice",
+            "amount" => $order->getTotal(),
+            "created_by" => auth()->user()->name,
         ]);
     }
 
     public function scopeDebtors($query)
     {
-        return $query->withWhereHas('latestTransaction', function ($query) {
-            $query->where('running_balance', '!=', 0);
+        return $query->withWhereHas("latestTransaction", function ($query) {
+            $query->where("running_balance", "!=", 0);
         });
     }
 
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('name', 'like', $searchQuery.'%')
-            ->orWhere('email', 'like', $searchQuery.'%')
-            ->orWhere('phone', 'like', $searchQuery.'%')
-            ->orWhere('company', 'like', $searchQuery.'%');
+        return $query
+            ->where("name", "like", $searchQuery . "%")
+            ->orWhere("email", "like", $searchQuery . "%")
+            ->orWhere("phone", "like", $searchQuery . "%")
+            ->orWhere("company", "like", $searchQuery . "%");
     }
 }

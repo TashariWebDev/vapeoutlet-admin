@@ -89,7 +89,7 @@ class Create extends Component
         $this->showProductSelectorForm = false;
         $this->reset(["searchQuery"]);
         $this->selectedProducts = [];
-
+        $this->order->load("items");
         $this->notify("Products added");
     }
 
@@ -135,6 +135,9 @@ class Create extends Component
         $this->notify("Processing");
 
         DB::transaction(function () {
+            $this->order->update([
+                "salesperson_id" => $this->order->customer->salesperson_id,
+            ]);
             $this->order->verifyIfStockIsAvailable();
             $this->order->decreaseStock();
             $this->order->customer->createInvoice($this->order);
