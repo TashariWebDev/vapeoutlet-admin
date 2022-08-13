@@ -18,7 +18,7 @@
                 </div>
                 <div class="flex-shrink-0">
                     <div class="pb-3">
-                        <img class="h-10 w-10 rounded-full" src="{{ $brand->image }}" alt="">
+                        <img class="h-10 w-10" src="{{ $brand->image }}" alt="">
                     </div>
                     <div class="relative w-48 h-6 py-2 bg-gray-200 flex justify-center items-center">
                         <input type="file" wire:model="image"
