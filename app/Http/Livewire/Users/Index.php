@@ -17,13 +17,13 @@ class Index extends Component
 
     public $searchQuery;
 
-    public $name = "";
+    public $name = '';
 
-    public $email = "";
+    public $email = '';
 
-    public $phone = "";
+    public $phone = '';
 
-    public $password = "";
+    public $password = '';
 
     public $showCreateUserForm = false;
 
@@ -40,10 +40,10 @@ class Index extends Component
     public function rules(): array
     {
         return [
-            "name" => ["required"],
-            "email" => ["required", "unique:users,email"],
-            "phone" => ["sometimes"],
-            "password" => ["required"],
+            'name' => ['required'],
+            'email' => ['required', 'unique:users,email'],
+            'phone' => ['sometimes'],
+            'password' => ['required'],
         ];
     }
 
@@ -53,24 +53,24 @@ class Index extends Component
 
         User::create($validated);
         $this->showCreateUserForm = false;
-        Password::sendResetLink(["email" => $this->email]);
+        Password::sendResetLink(['email' => $this->email]);
 
-        $this->reset(["name", "email", "phone"]);
+        $this->reset(['name', 'email', 'phone']);
 
-        $this->dispatchBrowserEvent("notification", [
-            "body" => "User has been created",
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'User has been created',
         ]);
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.users.index", [
-            "users" => User::query()
-                ->where("email", "!=", "ridwan@tashari.co.za")
+        return view('livewire.users.index', [
+            'users' => User::query()
+                ->where('email', '!=', 'ridwan@tashari.co.za')
                 ->withTrashed()
                 ->when(
                     $this->searchQuery,
-                    fn($query) => $query->search($this->searchQuery)
+                    fn ($query) => $query->search($this->searchQuery)
                 )
                 ->simplePaginate(15),
         ]);

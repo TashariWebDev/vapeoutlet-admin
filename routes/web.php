@@ -25,8 +25,7 @@ Route::get('/', function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('dashboard', Index::class)
-        ->name('dashboard');
+    Route::get('dashboard', Index::class)->name('dashboard');
 
     Route::get('orders', \App\Http\Livewire\Orders\Index::class)
         ->name('orders')
@@ -66,17 +65,27 @@ Route::middleware('auth')->group(function () {
 
     //Settings
     Route::middleware('permission:view settings')->group(function () {
-        Route::get('settings/delivery', Delivery\Index::class)
-            ->name('settings/delivery');
+        Route::get('settings/delivery', Delivery\Index::class)->name(
+            'settings/delivery'
+        );
 
-        Route::get('settings/marketing/notifications', Notifications::class)
-            ->name('settings/marketing/notifications');
+        Route::get(
+            'settings/marketing/notifications',
+            Notifications::class
+        )->name('settings/marketing/notifications');
 
-        Route::get('settings/marketing/banners', Banners::class)
-            ->name('settings/marketing/banners');
+        Route::get('settings/marketing/banners', Banners::class)->name(
+            'settings/marketing/banners'
+        );
 
-        Route::get('settings', \App\Http\Livewire\Settings\Index::class)
-            ->name('settings');
+        Route::get(
+            'settings/categories',
+            \App\Http\Livewire\Settings\Categories\Edit::class
+        )->name('settings/categories/edit');
+
+        Route::get('settings', \App\Http\Livewire\Settings\Index::class)->name(
+            'settings'
+        );
     });
 
     Route::get('reports', \App\Http\Livewire\Reports\Index::class)
@@ -87,8 +96,9 @@ Route::middleware('auth')->group(function () {
         ->name('expenses')
         ->middleware('permission:view expenses');
 
-    Route::get('profile', \App\Http\Livewire\Profile\Index::class)
-        ->name('profile');
+    Route::get('profile', \App\Http\Livewire\Profile\Index::class)->name(
+        'profile'
+    );
 
     Route::get('users', \App\Http\Livewire\Users\Index::class)
         ->name('users')
@@ -103,14 +113,20 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:create purchase');
 
     Route::middleware('permission:view suppliers')->group(function () {
-        Route::get('inventory/suppliers', \App\Http\Livewire\Suppliers\Index::class)
-            ->name('suppliers');
+        Route::get(
+            'inventory/suppliers',
+            \App\Http\Livewire\Suppliers\Index::class
+        )->name('suppliers');
 
-        Route::get('inventory/suppliers/{id}', \App\Http\Livewire\Suppliers\Show::class)
-            ->name('suppliers/show');
+        Route::get(
+            'inventory/suppliers/{id}',
+            \App\Http\Livewire\Suppliers\Show::class
+        )->name('suppliers/show');
 
-        Route::get('inventory/suppliers/edit/{id}', \App\Http\Livewire\Suppliers\Edit::class)
-            ->name('suppliers/edit');
+        Route::get(
+            'inventory/suppliers/edit/{id}',
+            \App\Http\Livewire\Suppliers\Edit::class
+        )->name('suppliers/edit');
     });
 
     Route::get('warehouse', \App\Http\Livewire\Warehouse\Index::class)

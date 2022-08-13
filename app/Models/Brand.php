@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Brand extends Model
@@ -27,5 +28,10 @@ class Brand extends Model
         static::updating(function ($brand) {
             $brand->name = Str::title($brand->name);
         });
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class, 'brand', 'name');
     }
 }

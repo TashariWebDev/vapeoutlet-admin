@@ -11,5 +11,9 @@
         <div class="py-10">
             <a href="{{ route('settings/marketing/banners') }}" class="link">Marketing banners</a>
         </div>
+
+        <div class="py-10">
+            <a href="{{ route('settings/categories/edit') }}" class="link">Manage Categories</a>
+        </div>
     </div>
 </div>
