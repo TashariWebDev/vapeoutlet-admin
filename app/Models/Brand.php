@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,6 +29,15 @@ class Brand extends Model
         static::updating(function ($brand) {
             $brand->name = Str::title($brand->name);
         });
+    }
+
+    public function image(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => $value
+                ? config('app.url').'/storage/'.$value
+                : config('app.url').'/storage/images/default-image.png'
+        );
     }
 
     public function products(): HasMany

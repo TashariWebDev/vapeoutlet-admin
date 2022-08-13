@@ -83,6 +83,11 @@ Route::middleware('auth')->group(function () {
             \App\Http\Livewire\Settings\Categories\Edit::class
         )->name('settings/categories/edit');
 
+        Route::get(
+            'settings/brands',
+            \App\Http\Livewire\Settings\Brands\Edit::class
+        )->name('settings/brands/edit');
+
         Route::get('settings', \App\Http\Livewire\Settings\Index::class)->name(
             'settings'
         );
