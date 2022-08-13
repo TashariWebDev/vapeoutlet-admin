@@ -1,3 +1,6 @@
-<div>
-    it works
-</div>
+@extends('emails.layout')
+@section('content')
+    <div>
+        it works
+    </div>
+@endsection
