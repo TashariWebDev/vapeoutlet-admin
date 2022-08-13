@@ -22,10 +22,10 @@
                     </div>
                     <div class="relative w-48 h-6 py-2 bg-gray-200 flex justify-center items-center">
                         <input type="file" wire:model="image"
-                               class="text-xs border-transparent outline-0 bg-green-600 opacity-0 absolute z-20"
+                               class="text-xs border-transparent outline-0 bg-green-600 opacity-0 absolute z-10"
                                x-on:livewire-upload-finish="@this.call('updateImage',{{$brand->id}})"
                         >
-                        <div class="w-full absolute z-10 px-3 text-xs">
+                        <div class="w-full absolute z-0 px-3 text-xs">
                             <p>&uparrow; upload new image</p>
                         </div>
                     </div>
