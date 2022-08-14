@@ -309,7 +309,9 @@
                 </x-table.row>
                 <x-table.row>
                     <form
-                        x-on:keydown.tab="@this.call('updatePrice',{{$item->id}},$event.target.value)">
+                        x-on:keydown.tab="@this.call('updatePrice',{{$item->id}},$event.target.value)"
+                        x-on:keydown.enter="@this.call('updatePrice',{{$item->id}},$event.target.value)"
+                    >
                         <x-input type="number"
                                  value="{{ $item->price }}"
                                  pattern="[0-9]*"
@@ -334,7 +336,9 @@
                     @endhasPermissionTo
                 </x-table.row>
                 <x-table.row>
-                    <form x-on:keydown.tab="@this.call('updateQty',{{$item->id}},$event.target.value)">
+                    <form x-on:keydown.tab="@this.call('updateQty',{{$item->id}},$event.target.value)"
+                          x-on:keydown.enter="@this.call('updateQty',{{$item->id}},$event.target.value)"
+                    >
                         <x-input type="number" value="{{ $item->qty }}"
                                  label="qty"
                                  pattern="[0-9]*"
