@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 use Psr\Container\ContainerExceptionInterface;
@@ -24,14 +23,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ["name", "email", "password"];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * The attributes that should be cast.
@@ -39,7 +38,7 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        "email_verified_at" => "datetime",
     ];
 
     protected static function boot()
@@ -65,25 +64,25 @@ class User extends Authenticatable
     public function scopeSearch($query, $searchQuery)
     {
         return $query
-            ->where('name', 'like', $searchQuery.'%')
-            ->orWhere('email', 'like', $searchQuery.'%');
+            ->where("name", "like", $searchQuery . "%")
+            ->orWhere("email", "like", $searchQuery . "%");
     }
 
     public function purchases(): HasMany
     {
-        return $this->hasMany(Purchase::class, 'creator_id');
+        return $this->hasMany(Purchase::class, "creator_id");
     }
 
     public function customers(): HasMany
     {
-        return $this->hasMany(Customer::class, 'salesperson_id');
+        return $this->hasMany(Customer::class, "salesperson_id");
     }
 
     public function permissions(): belongsToMany
     {
         return $this->belongsToMany(Permission::class)
-            ->as('permission')
-            ->orderBy('name');
+            ->as("permission")
+            ->orderBy("name");
     }
 
     /**
@@ -94,15 +93,9 @@ class User extends Authenticatable
     {
         $permissions = [$permission];
 
-        $userPermissions = Cache::remember(
-            'user-permissions',
-            now()->addMinutes(60 * 8),
-            function () {
-                return auth()
-                    ->user()
-                    ->permissions->pluck('name');
-            }
-        );
+        $userPermissions = auth()
+            ->user()
+            ->permissions->pluck("name");
 
         if ($userPermissions->contains($permission)) {
             return true;
@@ -113,6 +106,6 @@ class User extends Authenticatable
 
     public function scopeStaff($query)
     {
-        return $query->where('email', '!=', 'ridwan@tashari.co.za');
+        return $query->where("email", "!=", "ridwan@tashari.co.za");
     }
 }

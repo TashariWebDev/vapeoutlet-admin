@@ -11,7 +11,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -22,13 +21,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        return view("auth.login");
     }
 
     /**
      * Handle an incoming authentication request.
      *
-     * @param  LoginRequest  $request
+     * @param LoginRequest $request
      * @return RedirectResponse
      */
     public function store(LoginRequest $request)
@@ -37,13 +36,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $userPermissions = Cache::remember(
-            'user-permissions',
-            now()->addMinutes(60 * 8),
-            function () {
-                return auth()->user()->permissions->pluck('name');
-            }
-        );
+        //        $userPermissions = Cache::remember(
+        //            'user-permissions',
+        //            now()->addMinutes(60 * 8),
+        //            function () {
+        //                return auth()->user()->permissions->pluck('name');
+        //            }
+        //        );
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
@@ -51,19 +50,19 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return RedirectResponse
      */
     public function destroy(Request $request)
     {
-        Cache::flush();
+        //        Cache::flush();
 
-        Auth::guard('web')->logout();
+        Auth::guard("web")->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        return redirect('/dashboard');
+        return redirect("/dashboard");
     }
 }
