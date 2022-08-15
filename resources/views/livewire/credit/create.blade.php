@@ -3,7 +3,7 @@
 
     <x-modal title="Are you sure?" wire:model.defer="showConfirmModal">
         <div class="flex space-x-4 py-4">
-            <button class="button-success"
+            <button class="button-success" wire:loading.attr="disabled" wire:target="save"
                     x-on:click="$wire.call('process')"
             >
                 <x-icons.tick class="w-5 h-5 mr-2"/>
