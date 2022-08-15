@@ -14,13 +14,12 @@
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-3">
-                    <x-input type="text" wire:model.defer="reference" label="reference"
-                    />
+                    <x-input type="text" wire:model.defer="reference" label="reference"/>
                 </div>
                 <div class="py-3">
-                    <x-select wire:model.defer="type" label="type">
+                    <x-select wire:model.defer="type" label="">
                         <option value="debit">Debit</option>
-                        <option value="credit">Payment</option>
+                        <option value="credit">Payment / Credit</option>
                         <option value="refund">Refund</option>
                     </x-select>
                 </div>
