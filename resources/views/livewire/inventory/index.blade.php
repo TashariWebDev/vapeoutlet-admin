@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Address line one" wire:model.defer="address_line_two"/>
+                    <x-input type="text" label="Address line two" wire:model.defer="address_line_two"/>
                 </div>
 
                 <div class="py-2">
