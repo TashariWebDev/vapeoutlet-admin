@@ -14,48 +14,62 @@ class Index extends Component
 
     public $showAddOrderForm = false;
 
-    public $searchTerm = '';
+    public $searchTerm = "";
 
-    public $filter = 'received';
+    public $filter = "received";
 
     public function getDocument($transactionId)
     {
         Log::info($transactionId);
         Http::get(
-            config('app.admin_url')."/webhook/save-document/{$transactionId}"
+            config("app.admin_url") . "/webhook/save-document/{$transactionId}"
         );
 
-        $this->redirect("orders?page={$this->page}");
+        $this->redirect("orders?page={$this->page}&filter={$this->filter}");
     }
 
     public function mount()
     {
-        if (request()->has('filter')) {
-            $this->filter = request('filter');
+        if (request()->has("filter")) {
+            $this->filter = request("filter");
         }
     }
 
     public function render()
     {
-        return view('livewire.orders.index', [
-            'orders' => Order::query()
-                ->with('delivery', 'customer', 'customer.transactions', 'items')
-                ->whereNotNull('status')
+        return view("livewire.orders.index", [
+            "orders" => Order::query()
+                ->with("delivery", "customer", "customer.transactions", "items")
+                ->whereNotNull("status")
                 ->when($this->searchTerm, function ($query) {
-                    $query->where('id', 'like', $this->searchTerm.'%')
-                        ->orWhere('status', 'like', $this->searchTerm.'%')
-                        ->orWhereHas('customer', function ($query) {
-                            $query->where('name', 'like', $this->searchTerm.'%')
-                                ->orWhere('company', 'like', $this->searchTerm.'%')
-                                ->orWhere('email', 'like', $this->searchTerm.'%')
-                                ->orWhere('phone', 'like', $this->searchTerm.'%');
+                    $query
+                        ->where("id", "like", $this->searchTerm . "%")
+                        ->orWhere("status", "like", $this->searchTerm . "%")
+                        ->orWhereHas("customer", function ($query) {
+                            $query
+                                ->where("name", "like", $this->searchTerm . "%")
+                                ->orWhere(
+                                    "company",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                )
+                                ->orWhere(
+                                    "email",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                )
+                                ->orWhere(
+                                    "phone",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                );
                         });
                 })
                 ->when($this->filter, function ($query) {
                     $query->whereStatus($this->filter);
                 })
                 ->latest()
-                ->paginate(5),
+                ->paginate(6),
         ]);
     }
 }

@@ -27,7 +27,7 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="categories" type="text" wire:model.defer="product.category" required>
+                <x-select label="categories" wire:model.defer="product.category" required>
                     @foreach($categories as $category)
                         <option value="{{$category->name}}">{{$category->name}}</option>
                     @endforeach

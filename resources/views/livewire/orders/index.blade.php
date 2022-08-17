@@ -84,6 +84,9 @@
                 <x-table.row class="text-center lg:text-left">
                     <a class="link"
                        href="{{ route('orders/show',$order->id) }}">{{ $order->number}}</a>
+                    <div class="pt-1">
+                        <p class="text-xs">{{ $order->created_at }}</p>
+                    </div>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left">
                     <a class="link"
@@ -114,7 +117,7 @@
                 </x-table.row>
                 <x-table.row class="text-center">
                     <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type }}</p>
+                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}</p>
                     <p class="lg:hidden">
                         <span class="font-bold">Total:</span>R {{ number_format($order->getTotal(),2) }}
                     </p>

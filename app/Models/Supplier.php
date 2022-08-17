@@ -36,7 +36,12 @@ class Supplier extends Model
 
     public function purchases(): HasMany
     {
-        return $this->hasMany(Purchase::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Purchase::class)->orderBy("created_at", "desc");
+    }
+
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(Expense::class)->orderBy("created_at", "desc");
     }
 
     public function transactions(): HasMany
@@ -46,12 +51,20 @@ class Supplier extends Model
 
     public function invoices(): HasMany
     {
-        return $this->hasMany(SupplierTransaction::class)->where('type', '=', 'purchase');
+        return $this->hasMany(SupplierTransaction::class)->where(
+            "type",
+            "=",
+            "purchase"
+        );
     }
 
     public function payments(): HasMany
     {
-        return $this->hasMany(SupplierTransaction::class)->where('type', '=', 'payment');
+        return $this->hasMany(SupplierTransaction::class)->where(
+            "type",
+            "=",
+            "payment"
+        );
     }
 
     public function latestTransaction(): HasOne
@@ -68,23 +81,24 @@ class Supplier extends Model
             }
         }
 
-        return $this->latestTransaction()->value('running_balance') ?? 0;
+        return $this->latestTransaction()->value("running_balance") ?? 0;
     }
 
     //    scopes
     public function scopeSearch($query, $searchQuery)
     {
-        return $query->where('name', 'like', $searchQuery.'%')
-            ->orWhere('email', 'like', $searchQuery.'%')
-            ->orWhere('phone', 'like', $searchQuery.'%')
-            ->orWhere('person', 'like', $searchQuery.'%')
-            ->orWhere('city', 'like', $searchQuery.'%');
+        return $query
+            ->where("name", "like", $searchQuery . "%")
+            ->orWhere("email", "like", $searchQuery . "%")
+            ->orWhere("phone", "like", $searchQuery . "%")
+            ->orWhere("person", "like", $searchQuery . "%")
+            ->orWhere("city", "like", $searchQuery . "%");
     }
 
     public function scopeCreditors($query)
     {
-        return $query->withWhereHas('latestTransaction', function ($query) {
-            $query->where('running_balance', '!=', 0);
+        return $query->withWhereHas("latestTransaction", function ($query) {
+            $query->where("running_balance", "!=", 0);
         });
     }
 }

@@ -26,8 +26,8 @@
                     <p>{{ $this->order->address->province }}, {{ $this->order->address->postal_code }}</p>
                 </div>
             @endisset
-            @isset($this->order->delivery_type_id)
-                <p class="py-2 capitalize">{{ $this->order->delivery->type }}</p>
+            @isset($this->order?->delivery_type_id)
+                <p class="py-2 capitalize">{{ $this->order?->delivery->type }}</p>
             @endisset
         </div>
         @if($this->order->status == 'cancelled')

@@ -16,7 +16,7 @@
                          placeholder="leave empty if not applicable"/>
             </div>
             <div class="py-3">
-                <x-select label="restrict to province" wire:model.defer="delivery.province">
+                <x-select label="" wire:model.defer="delivery.province">
                     @foreach($provinces as $province)
                         <option value="{{ $province }}" class="capitalize">
                             {{ $province }}
@@ -25,7 +25,7 @@
                 </x-select>
             </div>
             <div class="py-3">
-                <x-select label="restrict to customer type"
+                <x-select label=""
                           wire:model.defer="delivery.customer_type">
                     <option value="retail" class="capitalize">
                         Retail

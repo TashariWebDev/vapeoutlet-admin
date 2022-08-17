@@ -17,13 +17,13 @@ class Index extends Component
 
     public $searchQuery;
 
-    public $name = '';
+    public $name = "";
 
-    public $email = '';
+    public $email = "";
 
-    public $phone = '';
+    public $phone = "";
 
-    public $password = '';
+    public $password = "";
 
     public $is_wholesale = false;
 
@@ -42,11 +42,11 @@ class Index extends Component
     public function rules()
     {
         return [
-            'name' => ['required'],
-            'email' => ['required', 'unique:users,email'],
-            'phone' => ['sometimes', 'unique:users,phone'],
-            'password' => ['required'],
-            'is_wholesale' => ['sometimes'],
+            "name" => ["required"],
+            "email" => ["required", "unique:users,email"],
+            "phone" => ["sometimes", "unique:users,phone"],
+            "password" => ["required"],
+            "is_wholesale" => ["sometimes"],
         ];
     }
 
@@ -56,26 +56,26 @@ class Index extends Component
 
         Customer::create($validated);
         $this->showCreateCustomerForm = false;
-        Password::sendResetLink(['email' => $this->email]);
+        Password::sendResetLink(["email" => $this->email]);
 
-        $this->reset([
-            'name',
-            'email',
-            'phone',
-            'is_wholesale',
+        $this->reset(["name", "email", "phone", "is_wholesale"]);
+
+        $this->dispatchBrowserEvent("notification", [
+            "body" => "Customer has been created",
         ]);
-
-        $this->dispatchBrowserEvent('notification', ['body' => 'Customer has been created']);
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.customers.index', [
-            'customers' => Customer::query()
-                ->with('latestTransaction')
+        return view("livewire.customers.index", [
+            "customers" => Customer::query()
+                ->with("latestTransaction")
                 ->withTrashed()
-                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
-                ->simplePaginate(5),
+                ->when(
+                    $this->searchQuery,
+                    fn($query) => $query->search($this->searchQuery)
+                )
+                ->simplePaginate(10),
         ]);
     }
 }

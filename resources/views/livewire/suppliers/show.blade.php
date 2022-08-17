@@ -116,10 +116,12 @@
             <x-inputs.search type="text" wire:model="searchTerm"
                              placeholder="search by reference"/>
 
-            <button class="button-success w-full lg:w-72" x-on:click="@this.set('showAddTransactionForm',true)">
-                <x-icons.plus class="w-5 w-5 mr-2"/>
-                add transaction
-            </button>
+            <div>
+                <button class="button-success w-full lg:w-72" x-on:click="@this.set('showAddTransactionForm',true)">
+                    <x-icons.plus class="w-5 w-5 mr-2"/>
+                    add transaction
+                </button>
+            </div>
         </div>
     </div>
     <!-- End -->
