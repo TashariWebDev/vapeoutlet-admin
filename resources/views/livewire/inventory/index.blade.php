@@ -153,20 +153,7 @@
             <x-table.body
                 class="grid grid-cols-1 md:grid-cols-10 text-sm">
                 <x-table.row class="lg:col-span-2 text-center lg:text-left">
-                    <p class="text-xs">{{ $product->sku }}</p>
-                    <p>
-                        <span
-                            class="text-sm font-bold @if(!$product->is_active) text-red-700 @endif">{{ $product->brand }} {{ $product->name }}</span>
-                        @if($product->trashed())
-                            <span class="text-xs text-red-600"> (discontinued) </span>
-                        @endif
-                    </p>
-                    <div class="flex flex-wrap items-center justify-center lg:justify-start">
-                        @foreach($product->features as $feature)
-                            <p class="text-xs text-gray-600 px-1 border-r"
-                            > {{ $feature->name }}</p>
-                        @endforeach
-                    </div>
+                    <x-product-listing-simple :product="$product"/>
                 </x-table.row>
                 <x-table.row>
                     <label>
