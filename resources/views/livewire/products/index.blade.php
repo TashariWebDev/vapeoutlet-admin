@@ -149,12 +149,13 @@
                                         <x-icons.cross class="text-red-500 hover:text-red-600 w-12 h-12"/>
                                     </button>
                                 </div>
-                                <x-input-alpine type="text"
-                                                value="{{$feature->name}}"
-                                                name="name"
-                                                label="{{$feature->category->name}}"
-                                                id="{{$feature->category->name}}-{{$feature->id}}"
-                                                x-on:blur="$wire.call('updateFeature',{{$feature->id}},$event.target.value)"
+                                <x-input-alpine
+                                    type="text"
+                                    value="{{$feature->name}}"
+                                    name="name"
+                                    label="{{$feature->category->name}}"
+                                    id="{{$feature->category->name}}-{{$feature->id}}"
+                                    x-on:blur="$wire.call('updateFeature',{{$feature->id}},$event.target.value)"
                                 />
                             </div>
                         @endforeach
@@ -347,7 +348,7 @@
                         <div
                             class="text-sm font-medium grid grid-cols-1 lg:grid-cols-2 gap-y-3 py-2 lg:gap-y-0 lg:py-0">
                             {{--left--}}
-                            
+
                             <x-product-listing :product="$product"/>
 
                             {{--right--}}

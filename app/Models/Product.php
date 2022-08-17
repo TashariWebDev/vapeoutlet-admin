@@ -78,6 +78,10 @@ class Product extends Model
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
+
+        //        static::addGlobalScope("order", function (Builder $builder) {
+        //            $builder->orderBy("brand", "asc");
+        //        });
     }
 
     //    scopes
