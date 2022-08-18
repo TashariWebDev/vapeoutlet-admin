@@ -39,12 +39,12 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             "name" => ["required"],
-            "email" => ["required", "unique:users,email"],
-            "phone" => ["sometimes", "unique:users,phone"],
+            "email" => ["required", "unique:customers,email"],
+            "phone" => ["sometimes", "unique:customers,phone"],
             "password" => ["required"],
             "is_wholesale" => ["sometimes"],
         ];

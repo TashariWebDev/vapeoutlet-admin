@@ -187,9 +187,15 @@ class Customer extends Authenticatable
     public function scopeSearch($query, $searchQuery)
     {
         return $query
-            ->where("name", "like", $searchQuery . "%")
+            ->where("name", "like", "%" . $searchQuery . "%")
             ->orWhere("email", "like", $searchQuery . "%")
             ->orWhere("phone", "like", $searchQuery . "%")
-            ->orWhere("company", "like", $searchQuery . "%");
+            ->orWhere("company", "like", "%" . $searchQuery . "%")
+            ->orWhereHas("addresses", function ($query) use ($searchQuery) {
+                $query
+                    ->where("suburb", "like", "%" . $searchQuery . "%")
+                    ->orWhere("city", "like", "%" . $searchQuery . "%")
+                    ->orWhere("province", "like", "%" . $searchQuery . "%");
+            });
     }
 }

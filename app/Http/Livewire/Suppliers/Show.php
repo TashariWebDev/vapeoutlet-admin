@@ -41,7 +41,7 @@ class Show extends Component
         $this->supplierId = request("id");
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             "reference" => ["required"],

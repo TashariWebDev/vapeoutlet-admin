@@ -53,7 +53,7 @@
         <x-table.header class="hidden lg:grid lg:grid-cols-5">
             <x-table.heading>Name</x-table.heading>
             <x-table.heading>Email</x-table.heading>
-            <x-table.heading>Phone</x-table.heading>
+            <x-table.heading class="text-center">Phone</x-table.heading>
             <x-table.heading class="text-center">Wholesale</x-table.heading>
             <x-table.heading class="text-right">Balance</x-table.heading>
         </x-table.header>
@@ -63,8 +63,8 @@
                     <a class="link"
                        href="{{ route('customers/show',$customer->id) }}">{{$customer->name}}</a>
                 </x-table.row>
-                <x-table.row class="text-center lg:text-left">{{ $customer->email }}</x-table.row>
-                <x-table.row class="text-center lg:text-left">{{ $customer->phone }}</x-table.row>
+                <x-table.row class="text-center lg:text-left text-sm font-semibold">{{ $customer->email }}</x-table.row>
+                <x-table.row class="text-center text-sm">{{ $customer->phone }}</x-table.row>
                 <x-table.row class="flex justify-center">
                     @if($customer->is_wholesale)
                         <x-icons.tick class="w-5 h-5 text-green-600"/>

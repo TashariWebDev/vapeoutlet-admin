@@ -35,24 +35,24 @@
                     <x-icons.home/>
                     <span class="mt-2">Home</span>
                 </a>
-                {{--                <x-icons.shop class="text-white w-6 h-6"/>--}}
 
-                {{--                @hasPermissionTo('view shop')--}}
-                {{--                <a href="{{ route('orders') }}"--}}
-                {{--                   class="group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium--}}
-                {{--                   @if( str_contains(request()->path(),'shop') ) bg-red-700 text-white @else text-white hover:bg-gray-700 hover:text-white @endif--}}
-                {{--                       ">--}}
-                {{--                    <x-icons.shopping-bag/>--}}
-                {{--                    <span class="mt-2">Orders</span>--}}
-                {{--                </a>--}}
-                {{--                @endhasPermissionTo--}}
+                @hasPermissionTo('view shop')
+                <a href="{{ route('shop') }}"
+                   class="group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium
+                           @if( str_contains(request()->path(),'shop') ) bg-red-700 text-white @else text-white hover:bg-gray-700 hover:text-white @endif
+                       ">
+                    <x-icons.shopping-bag/>
+                    <span class="mt-2">Shop</span>
+                </a>
+                @endhasPermissionTo
 
                 @hasPermissionTo('view orders')
                 <a href="{{ route('orders') }}"
                    class="group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium
                    @if( str_contains(request()->path(),'orders') ) bg-red-700 text-white @else text-white hover:bg-gray-700 hover:text-white @endif
                        ">
-                    <x-icons.shopping-bag/>
+
+                    <x-icons.shop class="text-white w-6 h-6"/>
                     <span class="mt-2">Orders</span>
                 </a>
                 @endhasPermissionTo
@@ -173,12 +173,22 @@
                                 <span>Home</span>
                             </a>
 
+                            @hasPermissionTo('view shop')
+                            <a href="{{ route('shop') }}"
+                               class="group py-2 px-3 rounded-md flex items-center text-sm font-medium
+                               @if( str_contains(request()->path(),'shop') ) bg-red-700 text-white @else text-white hover:bg-gray-700 hover:text-white @endif
+                                   ">
+                                <x-icons.shopping-bag class="text-white group-hover:text-white mr-3 h-6 w-6"/>
+                                <span>Shop</span>
+                            </a>
+                            @endhasPermissionTo
+
                             @hasPermissionTo('view orders')
                             <a href="{{ route('orders') }}"
                                class="group py-2 px-3 rounded-md flex items-center text-sm font-medium
                                @if( str_contains(request()->path(),'orders') ) bg-red-700 text-white @else text-white hover:bg-gray-700 hover:text-white @endif
                                    ">
-                                <x-icons.shopping-bag class="text-white group-hover:text-white mr-3 h-6 w-6"/>
+                                <x-icons.shop class="text-white group-hover:text-white mr-3 h-6 w-6"/>
                                 <span>Orders</span>
                             </a>
                             @endhasPermissionTo
