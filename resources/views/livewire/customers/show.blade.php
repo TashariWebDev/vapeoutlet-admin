@@ -19,7 +19,7 @@
                 <div class="py-3">
                     <x-select wire:model.defer="type" label="">
                         <option value="debit">Debit</option>
-                        <option value="credit">Payment / Credit</option>
+                        <option value="payment">Payment</option>
                         <option value="refund">Refund</option>
                     </x-select>
                 </div>

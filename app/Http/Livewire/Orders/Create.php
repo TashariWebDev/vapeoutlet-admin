@@ -13,8 +13,10 @@ use Artisan;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use LaravelIdea\Helper\App\Models\_IH_Product_C;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -231,28 +233,31 @@ class Create extends Component
         $this->order->customer->load("addresses");
     }
 
+    public function getProductsProperty(): _IH_Product_C|Paginator|array
+    {
+        return Product::query()
+            ->with("features:product_id,name", "stocks")
+            ->select([
+                "id",
+                "sku",
+                "name",
+                "brand",
+                "category",
+                "retail_price",
+                "wholesale_price",
+            ])
+            ->inStock()
+            ->where("is_active", "=", true)
+            ->when($this->searchQuery, function ($query) {
+                $query->search($this->searchQuery);
+            })
+            ->simplePaginate(6);
+    }
+
     public function render(): Factory|View|Application
     {
         return view("livewire.orders.create", [
             "deliveryOptions" => Delivery::all(),
-            "products" => Product::query()
-                ->with("features:product_id,name", "stocks")
-                ->select([
-                    "id",
-                    "sku",
-                    "name",
-                    "brand",
-                    "category",
-                    "retail_price",
-                    "wholesale_price",
-                ])
-                ->orderBy("brand")
-                ->inStock()
-                ->where("is_active", "=", true)
-                ->when($this->searchQuery, function ($query) {
-                    $query->search($this->searchQuery);
-                })
-                ->simplePaginate(6),
         ]);
     }
 }

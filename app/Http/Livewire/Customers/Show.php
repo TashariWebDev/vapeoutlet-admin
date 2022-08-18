@@ -50,7 +50,7 @@ class Show extends Component
         $validatedData = $this->validate();
         $fields = array_merge($additionalFields, $validatedData);
 
-        if ($this->type == "refund" || $this->type == "credit") {
+        if ($this->type == "refund" || $this->type == "payment") {
             $fields["amount"] = 0 - $this->amount;
         }
 

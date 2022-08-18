@@ -44,7 +44,7 @@
                     </button>
                 </div>
                 <fieldset class="space-y-2">
-                    @forelse($products as $product)
+                    @forelse($this->products as $product)
                         <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md"
                                wire:key="'item-'{{$product->id}}">
                             <div>
@@ -73,7 +73,7 @@
             </form>
         </div>
         <div class="py-3">
-            {{ $products->links() }}
+            {{ $this->products->links() }}
         </div>
     </x-slide-over>
 

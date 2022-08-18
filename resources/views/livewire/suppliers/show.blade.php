@@ -7,6 +7,12 @@
                     <x-input type="text" wire:model.defer="reference" label="reference"/>
                 </div>
                 <div class="py-3">
+                    <x-select wire:model.defer="type" label="">
+                        <option value="payment">Payment</option>
+                        <option value="expense">Expense</option>
+                    </x-select>
+                </div>
+                <div class="py-3">
                     <x-input-number type="number" wire:model.defer="amount" label="amount"/>
                 </div>
                 <div class="py-3">

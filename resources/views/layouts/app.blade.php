@@ -35,6 +35,17 @@
                     <x-icons.home/>
                     <span class="mt-2">Home</span>
                 </a>
+                {{--                <x-icons.shop class="text-white w-6 h-6"/>--}}
+
+                {{--                @hasPermissionTo('view shop')--}}
+                {{--                <a href="{{ route('orders') }}"--}}
+                {{--                   class="group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium--}}
+                {{--                   @if( str_contains(request()->path(),'shop') ) bg-red-700 text-white @else text-white hover:bg-gray-700 hover:text-white @endif--}}
+                {{--                       ">--}}
+                {{--                    <x-icons.shopping-bag/>--}}
+                {{--                    <span class="mt-2">Orders</span>--}}
+                {{--                </a>--}}
+                {{--                @endhasPermissionTo--}}
 
                 @hasPermissionTo('view orders')
                 <a href="{{ route('orders') }}"

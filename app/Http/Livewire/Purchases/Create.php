@@ -380,7 +380,6 @@ class Create extends Component
         return view("livewire.purchases.create", [
             "products" => Product::query()
                 ->with("features")
-                ->orderBy("brand")
                 ->when($this->searchQuery, function ($query) {
                     $query->search($this->searchQuery);
                 })

@@ -29,6 +29,8 @@ class Show extends Component
 
     public $amount;
 
+    public $type;
+
     public function updatedSearchTerm()
     {
         $this->resetPage();
@@ -44,6 +46,7 @@ class Show extends Component
         return [
             "reference" => ["required"],
             "amount" => ["required"],
+            "type" => ["required"],
         ];
     }
 
@@ -52,18 +55,19 @@ class Show extends Component
         $additionalFields = [
             "supplier_id" => $this->supplierId,
             "uuid" => Str::uuid(),
-            "type" => "payment",
             "created_by" => auth()->user()->name,
         ];
 
         $validatedData = $this->validate();
         $fields = array_merge($additionalFields, $validatedData);
 
-        $fields["amount"] = 0 - $this->amount;
+        if ($this->type === "payment") {
+            $fields["amount"] = 0 - $this->amount;
+        }
 
         SupplierTransaction::create($fields);
 
-        $this->reset("amount", "reference");
+        $this->reset("amount", "reference", "type");
         $this->showAddTransactionForm = false;
 
         $this->notify("payment created");
