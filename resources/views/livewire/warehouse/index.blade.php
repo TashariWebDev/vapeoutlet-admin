@@ -60,10 +60,10 @@
                 </x-table.row>
                 <x-table.row class="text-center">
                     <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type }}</p>
+                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery?->type }}</p>
 
                 </x-table.row>
-                <x-table.row class="p-2 text-right hidden lg:block">
+                <x-table.row class="p-2 text-center lg:text-right">
                     <button class="button-success"
                             x-on:click="@this.call('pushToDispatch',{{$order->id}})"
                     >Dispatch

@@ -80,7 +80,7 @@ class Product extends Model
         });
 
         //        static::addGlobalScope("order", function (Builder $builder) {
-        //            $builder->orderBy("brand", "asc");
+        //            $builder->sortBy("brand", "asc");
         //        });
     }
 

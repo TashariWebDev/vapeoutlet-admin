@@ -251,6 +251,7 @@ class Create extends Component
             ->when($this->searchQuery, function ($query) {
                 $query->search($this->searchQuery);
             })
+            ->orderBy("brand")
             ->simplePaginate(6);
     }
 

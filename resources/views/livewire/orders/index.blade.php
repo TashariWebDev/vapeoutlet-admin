@@ -113,6 +113,10 @@
                         @if($order->status == 'completed')
                             <x-icons.tick class="w-5 h-5 text-green-600"/>
                         @endif
+
+                        @if($order->status == 'cancelled')
+                            <x-icons.cross class="w-5 h-5 text-red-600"/>
+                        @endif
                     </div>
                 </x-table.row>
                 <x-table.row class="text-center">

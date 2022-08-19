@@ -16,36 +16,49 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $searchTerm = '';
+    public $searchTerm = "";
 
     public function pushToDispatch(Order $order)
     {
-        $order->updateStatus('packed');
-        $this->notify('order ready for shipping');
+        $order->updateStatus("packed");
+        $this->notify("order ready for shipping");
     }
 
     public function getDocument(Order $order)
     {
-        Http::get(
-            config('app.admin_url')."/webhook/pick-lists/{$order->id}"
-        );
+        Http::get(config("app.admin_url") . "/webhook/pick-lists/{$order->id}");
 
         $this->redirect("/warehouse?page={$this->page}");
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.warehouse.index', [
-            'orders' => Order::query()
-                ->with('delivery', 'customer', 'customer.transactions', 'items')
-                ->where('status', '=', 'processed')
+        return view("livewire.warehouse.index", [
+            "orders" => Order::query()
+                ->with("delivery", "customer", "customer.transactions", "items")
+                ->where("status", "=", "processed")
                 ->when($this->searchTerm, function ($query) {
-                    $query->where('id', 'like', $this->searchTerm.'%')
-                        ->orWhereHas('customer', function ($query) {
-                            $query->where('name', 'like', $this->searchTerm.'%')
-                                ->orWhere('company', 'like', $this->searchTerm.'%')
-                                ->orWhere('email', 'like', $this->searchTerm.'%')
-                                ->orWhere('phone', 'like', $this->searchTerm.'%');
+                    $query
+                        ->where("status", "=", "processed")
+                        ->where("id", "like", $this->searchTerm . "%")
+                        ->orWhereHas("customer", function ($query) {
+                            $query
+                                ->where("name", "like", $this->searchTerm . "%")
+                                ->orWhere(
+                                    "company",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                )
+                                ->orWhere(
+                                    "email",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                )
+                                ->orWhere(
+                                    "phone",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                );
                         });
                 })
                 ->latest()

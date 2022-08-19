@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Orders;
 
 use App\Models\Order;
 use Http;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -35,7 +38,12 @@ class Index extends Component
         }
     }
 
-    public function render()
+    public function updatedFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function render(): Factory|View|Application
     {
         return view("livewire.orders.index", [
             "orders" => Order::query()
@@ -44,7 +52,6 @@ class Index extends Component
                 ->when($this->searchTerm, function ($query) {
                     $query
                         ->where("id", "like", $this->searchTerm . "%")
-                        ->orWhere("status", "like", $this->searchTerm . "%")
                         ->orWhereHas("customer", function ($query) {
                             $query
                                 ->where("name", "like", $this->searchTerm . "%")

@@ -18,19 +18,19 @@ class Index extends Component
 
     public $showConfirmModal = false;
 
-    public $searchTerm = '';
+    public $searchTerm = "";
 
-    public $status = 'shipped';
+    public $status = "shipped";
 
-    public $waybill = '';
+    public $waybill = "";
 
     public $selectedOrder;
 
     public function rules(): array
     {
         return [
-            'status' => 'required',
-            'waybill' => 'sometimes|nullable',
+            "status" => "required",
+            "waybill" => "sometimes|nullable",
         ];
     }
 
@@ -38,20 +38,20 @@ class Index extends Component
     {
         $validatedData = $this->validate();
         $this->selectedOrder->update($validatedData);
-        $this->showConfirmModal = ! $this->showConfirmModal;
-        $this->notify('order shipped');
+        $this->showConfirmModal = !$this->showConfirmModal;
+        $this->notify("order shipped");
     }
 
     public function confirmToComplete(Order $order)
     {
         $this->selectedOrder = $order;
-        $this->showConfirmModal = ! $this->showConfirmModal;
+        $this->showConfirmModal = !$this->showConfirmModal;
     }
 
     public function getDocument(Order $order)
     {
         Http::get(
-            config('app.admin_url')."/webhook/delivery-note/{$order->id}"
+            config("app.admin_url") . "/webhook/delivery-note/{$order->id}"
         );
 
         $this->redirect("/dispatch?page={$this->page}");
@@ -59,17 +59,32 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.dispatch.index', [
-            'orders' => Order::query()
-                ->with('delivery', 'customer', 'customer.transactions', 'items')
-                ->where('status', '=', 'packed')
+        return view("livewire.dispatch.index", [
+            "orders" => Order::query()
+                ->with("delivery", "customer", "customer.transactions", "items")
+                ->where("status", "=", "packed")
                 ->when($this->searchTerm, function ($query) {
-                    $query->where('id', 'like', $this->searchTerm.'%')
-                        ->orWhereHas('customer', function ($query) {
-                            $query->where('name', 'like', $this->searchTerm.'%')
-                                ->orWhere('company', 'like', $this->searchTerm.'%')
-                                ->orWhere('email', 'like', $this->searchTerm.'%')
-                                ->orWhere('phone', 'like', $this->searchTerm.'%');
+                    $query
+                        ->where("status", "=", "packed")
+                        ->where("id", "like", $this->searchTerm . "%")
+                        ->orWhereHas("customer", function ($query) {
+                            $query
+                                ->where("name", "like", $this->searchTerm . "%")
+                                ->orWhere(
+                                    "company",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                )
+                                ->orWhere(
+                                    "email",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                )
+                                ->orWhere(
+                                    "phone",
+                                    "like",
+                                    $this->searchTerm . "%"
+                                );
                         });
                 })
                 ->latest()
