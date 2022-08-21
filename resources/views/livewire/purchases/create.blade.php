@@ -343,21 +343,29 @@
             <div x-data=
                  "{ searchQuery: @entangle('searchQuery') }"
             >
-                <label>
-                    <input x-model.lazy="searchQuery" type="search">
-                </label>
+                <div class="relative">
+                    <label>
+                        <input x-model.lazy="searchQuery" type="search"
+                               class="w-full rounded-md border-2 border-yellow-400 placeholder-gray-300 focus:ring-2"
+                               placeholder="search"
+                        >
+                    </label>
+                    <div wire:loading="updatedSearchQuery"
+                         class="absolute top-0 right-0 h-2 w-2 bg-green-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping">
+
+                    </div>
+                </div>
                 @if( count($products) )
-                    <div>
-                        <p class="text-xs uppercase"> {{ count($products) }} results</p>
+                    <div class="p-1">
+                        <p class="text-xs uppercase font-semibold"> {{ count($products) }} results</p>
                     </div>
                 @endif
-                {{--                <x-input type="search" label="search products" wire:model.lazy="searchQuery"/>--}}
             </div>
 
             <div class="pt-4">
                 <form wire:submit.prevent="addProducts">
                     <div class="py-6">
-                        <button class="button-success">
+                        <button class="button-success w-full">
                             <x-icons.plus class="w-5 h-5 mr-2"/>
                             add
                         </button>
