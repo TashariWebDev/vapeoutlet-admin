@@ -255,14 +255,14 @@
             <div class="order-last md:order-first md:col-span-2">
                 @if(!$this->purchase->processed)
                     <div class="pb-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
-                        @if($this->purchase->total != $this->purchase->amount)
-                            <button class="button-success w-full"
-                                    x-on:click="@this.set('showProductSelectorForm',true)"
-                            >
-                                <x-icons.plus class="w-5 h-5 mr-2"/>
-                                add products
-                            </button>
-                        @endif
+                        {{--                        @if($this->purchase->total != $this->purchase->amount)--}}
+                        <button class="button-success w-full"
+                                x-on:click="@this.set('showProductSelectorForm',true)"
+                        >
+                            <x-icons.plus class="w-5 h-5 mr-2"/>
+                            add products
+                        </button>
+                        {{--                        @endif--}}
                         <button class="button-success"
                                 x-on:click.prevent="@this.call('create','')"
                         >
@@ -338,10 +338,20 @@
             </div>
         </div>
 
-        <x-slide-over x-cloak wire:ignore.self="searchQuery" title="Select products"
+        <x-slide-over x-cloak title="Select products"
                       wire:model.defer="showProductSelectorForm">
-            <div>
-                <x-input type="search" label="search products" wire:model="searchQuery"/>
+            <div x-data=
+                 "{ searchQuery: @entangle('searchQuery') }"
+            >
+                <label>
+                    <input x-model.lazy="searchQuery" type="search">
+                </label>
+                @if( count($products) )
+                    <div>
+                        <p class="text-xs uppercase"> {{ count($products) }} results</p>
+                    </div>
+                @endif
+                {{--                <x-input type="search" label="search products" wire:model.lazy="searchQuery"/>--}}
             </div>
 
             <div class="pt-4">
@@ -381,7 +391,7 @@
                 </form>
             </div>
             <div class="py-3">
-                {{ $products->links() }}
+                {{--                {{ $products->links() }}--}}
             </div>
         </x-slide-over>
 

@@ -13,13 +13,13 @@ class Purchase extends Model
     protected $guarded = [];
 
     protected $with = [
-        'items:id,product_id,purchase_id,price,qty',
-        'supplier:id,name',
+        "items:id,product_id,purchase_id,price,qty",
+        "supplier:id,name",
     ];
 
-    protected $dates = ['date'];
+    protected $dates = ["date"];
 
-    protected $appends = ['total'];
+    protected $appends = ["total"];
 
     protected static function boot()
     {
@@ -55,7 +55,7 @@ class Purchase extends Model
 
     public function getProcessedAttribute(): float|int
     {
-        return ! $this->processed_date == null;
+        return !$this->processed_date == null;
     }
 
     public function getTotalAttribute(): float|int
@@ -91,16 +91,16 @@ class Purchase extends Model
     public function amount(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function exchangeRate(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => to_rands($value),
-            set: fn ($value) => to_cents($value),
+            get: fn($value) => to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 }

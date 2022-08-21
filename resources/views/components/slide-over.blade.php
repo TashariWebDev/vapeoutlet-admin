@@ -1,7 +1,8 @@
 @props([
     'title'
 ])
-<div {{ $attributes }}  x-cloak x-data="{show:@entangle($attributes->whereStartsWith('wire:model.defer')->first())}"
+<div {{ $attributes }}  x-cloak
+     x-data="{show:@entangle($attributes->whereStartsWith('wire:model.defer')->first())}"
      wire:key
      class="relative z-20"
      aria-labelledby="slide-over-title" role="dialog" aria-modal="true"
@@ -9,20 +10,20 @@
     {{-- overlay --}}
     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
          x-show="show"
-         x-transition:enter="ease-in-out duration-500"
+         x-transition:enter="ease-in duration-50"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in-out duration-500"
+         x-transition:leave="ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
     ></div>
 
     <div class="fixed inset-0 overflow-hidden"
          x-show="show"
-         x-transition:enter="transform transition ease-in-out duration-500 sm:duration-700"
+         x-transition:enter="transform transition ease-in duration-100 sm:duration-100"
          x-transition:enter-start="translate-x-full"
          x-transition:enter-end="translate-x-0"
-         x-transition:leave="transform transition ease-in-out duration-500 sm:duration-700"
+         x-transition:leave="transform transition ease-in-out duration-200 sm:duration-200"
          x-transition:leave-start="translate-x-0"
          x-transition:leave-end="translate-x-full"
     >
@@ -31,10 +32,10 @@
                 <div class="pointer-events-auto relative w-screen max-w-2xl">
                     <div class="absolute top-0 left-0 -ml-8 flex pt-4 pr-2 sm:-ml-10 sm:pr-4"
                          x-show="show"
-                         x-transition:enter="ease-in-out duration-500"
+                         x-transition:enter="ease-in-out duration-100"
                          x-transition:enter-start="opacity-0"
                          x-transition:enter-end="opacity-100"
-                         x-transition:leave="ease-in-out duration-500"
+                         x-transition:leave="ease-in-out duration-100"
                          x-transition:leave-start="opacity-100"
                          x-transition:leave-end="opacity-0"
                     >

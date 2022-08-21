@@ -18,7 +18,7 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ["features:id,name"];
+    protected $with = ["features:id,name,product_id"];
 
     protected $casts = [
         "retail_price" => "integer",
@@ -85,15 +85,21 @@ class Product extends Model
     }
 
     //    scopes
-    public function scopeSearch($query, $searchQuery)
+    public function scopeSearch($query, $terms)
     {
-        return $query
-            ->where("brand", "like", $searchQuery . "%")
-            ->orWhere("name", "like", "%" . $searchQuery . "%")
-            ->orWhere("sku", "like", "%" . $searchQuery . "%")
-            ->orWhere("id", "like", $searchQuery . "%")
-            ->orWhereHas("features", function ($query) use ($searchQuery) {
-                $query->where("name", "like", "%" . $searchQuery . "%");
+        collect(explode(" ", $terms))
+            ->filter()
+            ->each(function ($term) use ($query) {
+                $term = "%" . $term . "%";
+                $query->where(function ($query) use ($term) {
+                    $query
+                        ->where("brand", "like", $term)
+                        ->orWhere("name", "like", $term)
+                        ->orWhere("sku", "like", $term)
+                        ->orWhereHas("features", function ($query) use ($term) {
+                            $query->where("name", "like", $term);
+                        });
+                });
             });
     }
 

@@ -18,6 +18,7 @@ use Artisan;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use LaravelIdea\Helper\App\Models\_IH_Purchase_C;
 use Livewire\Component;
@@ -79,6 +80,8 @@ class Create extends Component
 
     public $showConfirmModal = false;
 
+    public $products = [];
+
     public function rules(): array
     {
         return [
@@ -102,9 +105,7 @@ class Create extends Component
         $this->product->save();
         $this->reset(["product"]);
         $this->create();
-        $this->dispatchBrowserEvent("notification", [
-            "body" => "Product saved",
-        ]);
+        $this->notify("Product Saved");
     }
 
     public function create()
@@ -256,14 +257,25 @@ class Create extends Component
 
     public function getPurchaseProperty(): Purchase|array|_IH_Purchase_C|null
     {
-        return Purchase::find($this->purchaseId)->load("items", "supplier");
+        return Purchase::where("purchases.id", $this->purchaseId)->first();
     }
 
-    public function updatingSearchQuery()
+    public function updatedSearchQuery()
     {
-        if (strlen($this->searchQuery) > -1) {
-            $this->showProductSelectorForm = true;
-            $this->resetPage();
+        $this->showProductSelectorForm = true;
+        if (strlen($this->searchQuery) > 0) {
+            $this->products = Product::query()
+                ->search($this->searchQuery)
+                ->get();
+        } else {
+            $this->products = [];
+        }
+    }
+
+    public function updatedShowProductSelectorForm()
+    {
+        if ($this->showProductSelectorForm === false) {
+            $this->products = [];
         }
     }
 
@@ -311,56 +323,64 @@ class Create extends Component
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
-        foreach ($this->purchase->items as $item) {
-            Stock::create([
-                "product_id" => $item->product_id,
-                "type" => "purchase",
+        DB::transaction(function () {
+            PurchaseItem::where("purchase_id", "=", $this->purchase->id)
+                ->orderBy("id")
+                ->chunk(100, function ($items) {
+                    foreach ($items as $item) {
+                        Stock::create([
+                            "product_id" => $item->product_id,
+                            "type" => "purchase",
+                            "reference" => $this->purchase->invoice_no,
+                            "qty" => $item->qty,
+                            "cost" => $item->total_cost_in_zar(),
+                        ]);
+
+                        $productCost = $item->product->cost;
+
+                        if ($productCost > 0) {
+                            $cost =
+                                ($item->total_cost_in_zar() + $productCost) / 2;
+                        } else {
+                            $cost = $item->total_cost_in_zar();
+                        }
+
+                        $item->product()->update([
+                            "cost" => to_cents($cost),
+                        ]);
+
+                        $alerts = $item->product->stockAlerts()->get();
+
+                        foreach ($alerts as $alert) {
+                            Mail::to($alert->email)->send(
+                                (new StockAlertMail(
+                                    $item->product
+                                ))->afterCommit()
+                            );
+
+                            $alert->delete();
+                        }
+                    }
+                });
+
+            $this->purchase->update(["processed_date" => today()]);
+
+            SupplierTransaction::create([
+                "uuid" => Str::uuid(),
                 "reference" => $this->purchase->invoice_no,
-                "qty" => $item->qty,
-                "cost" => $item->total_cost_in_zar(),
+                "supplier_id" => $this->purchase->supplier_id,
+                "amount" => $this->purchase->amount_converted_to_zar(),
+                "type" => "purchase",
+                "running_balance" => 0,
+                "created_by" => auth()->user()->name,
             ]);
 
-            $productCost = $item->product->cost;
-
-            if ($productCost > 0) {
-                $cost = ($item->total_cost_in_zar() + $productCost) / 2;
-            } else {
-                $cost = $item->total_cost_in_zar();
-            }
-
-            $item->product()->update([
-                "cost" => to_cents($cost),
+            Artisan::call("update:supplier-transactions", [
+                "supplier" => $this->purchase->supplier_id,
             ]);
 
-            $alerts = $item->product->stockAlerts()->get();
-
-            foreach ($alerts as $alert) {
-                Mail::to($alert->email)->later(
-                    now()->addMinutes(2),
-                    new StockAlertMail($item->product)
-                );
-
-                $alert->delete();
-            }
-        }
-
-        $this->purchase->update(["processed_date" => today()]);
-
-        SupplierTransaction::create([
-            "uuid" => Str::uuid(),
-            "reference" => $this->purchase->invoice_no,
-            "supplier_id" => $this->purchase->supplier_id,
-            "amount" => $this->purchase->amount_converted_to_zar(),
-            "type" => "purchase",
-            "running_balance" => 0,
-            "created_by" => auth()->user()->name,
-        ]);
-
-        Artisan::call("update:supplier-transactions", [
-            "supplier" => $this->purchase->supplier_id,
-        ]);
-
-        $this->notify("processed");
+            $this->notify("processed");
+        });
     }
 
     public function cancel()
@@ -377,13 +397,6 @@ class Create extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.purchases.create", [
-            "products" => Product::query()
-                ->with("features")
-                ->when($this->searchQuery, function ($query) {
-                    $query->search($this->searchQuery);
-                })
-                ->simplePaginate(6),
-        ]);
+        return view("livewire.purchases.create");
     }
 }

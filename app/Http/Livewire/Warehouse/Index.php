@@ -36,29 +36,10 @@ class Index extends Component
         return view("livewire.warehouse.index", [
             "orders" => Order::query()
                 ->with("delivery", "customer", "customer.transactions", "items")
-                ->when($this->searchTerm, function ($query) {
-                    $query
-                        ->where("id", "like", $this->searchTerm . "%")
-                        ->orWhereHas("customer", function ($query) {
-                            $query
-                                ->where("name", "like", $this->searchTerm . "%")
-                                ->orWhere(
-                                    "company",
-                                    "like",
-                                    $this->searchTerm . "%"
-                                )
-                                ->orWhere(
-                                    "email",
-                                    "like",
-                                    $this->searchTerm . "%"
-                                )
-                                ->orWhere(
-                                    "phone",
-                                    "like",
-                                    $this->searchTerm . "%"
-                                );
-                        });
-                })
+                ->when(
+                    $this->searchTerm,
+                    fn($query) => $query->search($this->searchTerm)
+                )
                 ->where("status", "=", "processed")
                 ->latest()
                 ->paginate(5),

@@ -184,18 +184,27 @@ class Customer extends Authenticatable
         });
     }
 
-    public function scopeSearch($query, $searchQuery)
+    public function scopeSearch($query, $terms)
     {
-        return $query
-            ->where("name", "like", "%" . $searchQuery . "%")
-            ->orWhere("email", "like", $searchQuery . "%")
-            ->orWhere("phone", "like", $searchQuery . "%")
-            ->orWhere("company", "like", "%" . $searchQuery . "%")
-            ->orWhereHas("addresses", function ($query) use ($searchQuery) {
-                $query
-                    ->where("suburb", "like", "%" . $searchQuery . "%")
-                    ->orWhere("city", "like", "%" . $searchQuery . "%")
-                    ->orWhere("province", "like", "%" . $searchQuery . "%");
+        collect(explode(" ", $terms))
+            ->filter()
+            ->each(function ($term) use ($query) {
+                $term = "%" . $term . "%";
+                $query->where(function ($query) use ($term) {
+                    $query
+                        ->where("name", "like", $term)
+                        ->orWhere("email", "like", $term)
+                        ->orWhere("phone", "like", $term)
+                        ->orWhere("company", "like", $term)
+                        ->orWhereHas("addresses", function ($query) use (
+                            $term
+                        ) {
+                            $query
+                                ->where("suburb", "like", $term)
+                                ->orWhere("city", "like", $term)
+                                ->orWhere("province", "like", $term);
+                        });
+                });
             });
     }
 }

@@ -85,14 +85,19 @@ class Supplier extends Model
     }
 
     //    scopes
-    public function scopeSearch($query, $searchQuery)
+    public function scopeSearch($query, $terms)
     {
-        return $query
-            ->where("name", "like", $searchQuery . "%")
-            ->orWhere("email", "like", $searchQuery . "%")
-            ->orWhere("phone", "like", $searchQuery . "%")
-            ->orWhere("person", "like", $searchQuery . "%")
-            ->orWhere("city", "like", $searchQuery . "%");
+        collect(explode(" ", $terms))
+            ->filter()
+            ->each(function ($term) use ($query) {
+                $term = "%" . $term . "%";
+                $query
+                    ->where("name", "like", $term)
+                    ->orWhere("email", "like", $term)
+                    ->orWhere("phone", "like", $term)
+                    ->orWhere("person", "like", $term)
+                    ->orWhere("city", "like", $term);
+            });
     }
 
     public function scopeCreditors($query)

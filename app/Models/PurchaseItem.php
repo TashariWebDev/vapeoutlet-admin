@@ -11,9 +11,9 @@ class PurchaseItem extends Model
 {
     protected $guarded = [];
 
-    protected $with = ['product:id,name,brand,sku,cost', 'product.features'];
+    protected $with = ["product:id,name,brand,sku"];
 
-    protected $appends = ['line_total'];
+    protected $appends = ["line_total"];
 
     public function product(): BelongsTo
     {
@@ -33,8 +33,8 @@ class PurchaseItem extends Model
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => (float) to_cents($value),
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => (float) to_cents($value)
         );
     }
 
@@ -57,8 +57,8 @@ class PurchaseItem extends Model
     }
 
     #[Pure]
- public function total_cost_in_zar(): float|int
- {
-     return $this->amount_converted_to_zar() + $this->shipping_cost();
- }
+    public function total_cost_in_zar(): float|int
+    {
+        return $this->amount_converted_to_zar() + $this->shipping_cost();
+    }
 }

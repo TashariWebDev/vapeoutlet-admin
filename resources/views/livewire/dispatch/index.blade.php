@@ -72,7 +72,7 @@
                 </x-table.row>
                 <x-table.row class="text-center">
                     <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type }}</p>
+                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery?->type }}</p>
 
                 </x-table.row>
                 <x-table.row class="p-2 text-right text-center lg:text-right">

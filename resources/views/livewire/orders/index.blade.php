@@ -120,14 +120,17 @@
                     </div>
                 </x-table.row>
                 <x-table.row class="text-center">
+                    @php
+                        $orderTotal = $order->total
+                    @endphp
                     <p>
                         <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}</p>
                     <p class="lg:hidden">
-                        <span class="font-bold">Total:</span>R {{ number_format($order->getTotal(),2) }}
+                        <span class="font-bold">Total:</span>R {{ number_format($orderTotal,2) }}
                     </p>
                 </x-table.row>
                 <x-table.row class="p-2 text-right hidden lg:block">
-                    <p class="text-gray-900">R {{ number_format($order->getTotal(),2) }}</p>
+                    <p class="text-gray-900">R {{ number_format($orderTotal,2) }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right p-2">
                     @php
