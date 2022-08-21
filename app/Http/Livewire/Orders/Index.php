@@ -60,7 +60,7 @@ class Index extends Component
                 ->when($this->filter, function ($query) {
                     $query->whereStatus($this->filter);
                 })
-                ->latest()
+                ->latest("updated_at")
                 ->paginate(6),
         ]);
     }
