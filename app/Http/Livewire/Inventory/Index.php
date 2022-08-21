@@ -192,7 +192,7 @@ class Index extends Component
                     $this->searchQuery,
                     fn($query) => $query->search($this->searchQuery)
                 )
-                //                ->orderBy('brand')
+                ->orderByRaw("brand")
                 ->simplePaginate(5),
         ]);
     }
