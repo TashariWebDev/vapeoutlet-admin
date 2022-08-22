@@ -3,6 +3,8 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Mail\OrderConfirmed;
+use App\Mail\OrderReceived;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -12,6 +14,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -152,13 +155,13 @@ class Create extends Component
 
             $this->order->updateStatus("received");
 
-            //            Mail::to($this->order->customer->email)->send(
-            //                (new OrderConfirmed($this->order->customer))->afterCommit()
-            //            );
-            //
-            //            Mail::to(config("mail.from.address"))->send(
-            //                (new OrderReceived($this->order->customer))->afterCommit()
-            //            );
+            Mail::to($this->order->customer->email)->send(
+                (new OrderConfirmed($this->order->customer))->afterCommit()
+            );
+
+            Mail::to(config("mail.from.address"))->send(
+                (new OrderReceived($this->order->customer))->afterCommit()
+            );
         }, 3);
 
         Artisan::call("update:transactions", [

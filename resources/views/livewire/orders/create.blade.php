@@ -101,9 +101,9 @@
 
     <x-modal title="Are your sure?" wire:model.defer="showConfirmModal">
         <div class="flex items-center space-x-2 py-3">
-            <button class="button-success disabled:opacity-25" wire:click="process"
+            <button class="button-success disabled:opacity-25"
+                    wire:click="process"
                     wire:loading.remove
-                    wire:target="process"
                     wire:target="showConfirmModal"
             >
                 process order
