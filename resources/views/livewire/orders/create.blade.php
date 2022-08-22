@@ -103,8 +103,8 @@
         <div class="flex items-center space-x-2 py-3">
             <button class="button-success disabled:opacity-25"
                     wire:click="process"
-                    wire:loading.remove
-                    wire:target="showConfirmModal"
+                    wire:loading.attr="disabled"
+                    wire:target="process"
             >
                 process order
             </button>
