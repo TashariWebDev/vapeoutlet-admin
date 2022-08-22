@@ -12,6 +12,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
@@ -160,9 +161,9 @@ class Create extends Component
             );
         }, 3);
 
-        //        Artisan::call("update:transactions", [
-        //            "customer" => $this->order->customer->id,
-        //        ]);
+        Artisan::call("update:transactions", [
+            "customer" => $this->order->customer->id,
+        ]);
 
         $this->notify("processed");
 
