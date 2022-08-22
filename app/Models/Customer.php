@@ -169,7 +169,7 @@ class Customer extends Authenticatable
     public function createInvoice(Order $order): Model|Transaction
     {
         return $this->transactions()->create([
-            "uuid" => \Str::uuid(),
+            "uuid" => Str::uuid(),
             "reference" => $order->number,
             "type" => "invoice",
             "amount" => $order->getTotal(),

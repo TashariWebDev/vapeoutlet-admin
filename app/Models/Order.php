@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\RedirectResponse;
 
 class Order extends Model
 {
@@ -127,7 +126,7 @@ class Order extends Model
         }
     }
 
-    public function verifyIfStockIsAvailable(): RedirectResponse|static
+    public function verifyIfStockIsAvailable()
     {
         foreach ($this->items as $item) {
             if ($item->qty > $item->product->qty()) {
