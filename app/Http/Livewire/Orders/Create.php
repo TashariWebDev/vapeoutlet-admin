@@ -146,9 +146,6 @@ class Create extends Component
         $this->notify("Processing");
 
         DB::transaction(function () {
-            $this->order->update([
-                "salesperson_id" => $this->order->customer->salesperson_id,
-            ]);
             $this->order->verifyIfStockIsAvailable();
             $this->order->decreaseStock();
             $this->order->customer->createInvoice($this->order);
