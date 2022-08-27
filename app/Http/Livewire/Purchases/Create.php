@@ -32,7 +32,7 @@ class Create extends Component
     use WithNotifications;
     use WithFileUploads;
 
-    public $searchQuery = "";
+    public $searchQuery = '';
 
     public $selectedProducts = [];
 
@@ -62,19 +62,19 @@ class Create extends Component
 
     public $productCollections = [];
 
-    public $collectionName = "";
+    public $collectionName = '';
 
-    public $brandName = "";
+    public $brandName = '';
 
     public $brandLogo;
 
-    public $categoryName = "";
+    public $categoryName = '';
 
-    public $featureCategoryName = "";
+    public $featureCategoryName = '';
 
-    public $featureName = "";
+    public $featureName = '';
 
-    public string $feature_id = "";
+    public string $feature_id = '';
 
     public $showProductSelectorForm = false;
 
@@ -85,15 +85,15 @@ class Create extends Component
     public function rules(): array
     {
         return [
-            "feature_id" => ["required|int"],
-            "product.name" => ["required"],
-            "product.sku" => ["required"],
-            "product.brand" => ["required"],
-            "product.category" => ["required"],
-            "product.description" => ["sometimes"],
-            "product.retail_price" => ["sometimes"],
-            "product.wholesale_price" => ["sometimes"],
-            "product.product_collection_id" => ["sometimes"],
+            'feature_id' => ['required|int'],
+            'product.name' => ['required'],
+            'product.sku' => ['required'],
+            'product.brand' => ['required'],
+            'product.category' => ['required'],
+            'product.description' => ['sometimes'],
+            'product.retail_price' => ['sometimes'],
+            'product.wholesale_price' => ['sometimes'],
+            'product.product_collection_id' => ['sometimes'],
         ];
     }
 
@@ -103,22 +103,22 @@ class Create extends Component
         $this->product->old_retail_price = $this->product->retail_price;
         $this->product->old_wholesale_price = $this->product->wholesale_price;
         $this->product->save();
-        $this->reset(["product"]);
+        $this->reset(['product']);
         $this->create();
-        $this->notify("Product Saved");
+        $this->notify('Product Saved');
     }
 
     public function create()
     {
         $this->product = new Product();
         $this->brands = Brand::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
         $this->categories = Category::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
-        $this->featureCategories = FeatureCategory::orderBy("name")->get();
-        $this->productCollections = ProductCollection::orderBy("name")->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
         $this->showProductCreateForm = true;
     }
 
@@ -140,13 +140,13 @@ class Create extends Component
         $this->retailPrice = $this->product->retail_price;
         $this->wholesalePrice = $this->product->wholesale_price;
         $this->brands = Brand::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
         $this->categories = Category::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
-        $this->featureCategories = FeatureCategory::orderBy("name")->get();
-        $this->productCollections = ProductCollection::orderBy("name")->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
         $this->product->refresh();
         $this->showProductUpdateForm = true;
     }
@@ -155,109 +155,109 @@ class Create extends Component
     {
         $this->validate();
         $this->product->save();
-        $this->notify("Product saved");
+        $this->notify('Product saved');
         $this->showProductUpdateForm = false;
     }
 
     public function addBrand()
     {
         $this->validate([
-            "brandName" => ["required", "unique:brands,name"],
-            "brandLogo" => ["required", "max:1024"],
+            'brandName' => ['required', 'unique:brands,name'],
+            'brandLogo' => ['required', 'max:1024'],
         ]);
 
         Brand::create([
-            "name" => strtolower($this->brandName),
-            "image" => $this->brandLogo->store("uploads", "public"),
+            'name' => strtolower($this->brandName),
+            'image' => $this->brandLogo->store('uploads', 'public'),
         ]);
 
-        $this->reset(["brandName", "brandLogo", "showBrandsForm"]);
-        $this->brands = Brand::orderBy("name")->get();
-        $this->notify("Brand created");
+        $this->reset(['brandName', 'brandLogo', 'showBrandsForm']);
+        $this->brands = Brand::orderBy('name')->get();
+        $this->notify('Brand created');
     }
 
     public function addCategory()
     {
         Category::create([
-            "name" => strtolower($this->categoryName),
+            'name' => strtolower($this->categoryName),
         ]);
 
-        $this->reset(["categoryName", "showCategoriesForm"]);
-        $this->categories = Category::orderBy("name")->get();
+        $this->reset(['categoryName', 'showCategoriesForm']);
+        $this->categories = Category::orderBy('name')->get();
 
-        $this->notify("Category created");
+        $this->notify('Category created');
     }
 
     public function addProductCollection()
     {
         ProductCollection::create([
-            "name" => strtolower($this->collectionName),
+            'name' => strtolower($this->collectionName),
         ]);
 
-        $this->reset(["collectionName", "showProductCollectionForm"]);
+        $this->reset(['collectionName', 'showProductCollectionForm']);
         $this->productCollections = ProductCollection::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
 
-        $this->notify("Product collection created");
+        $this->notify('Product collection created');
     }
 
     public function addFeatureCategory()
     {
         $this->validate([
-            "featureCategoryName" => [
-                "required",
-                "unique:feature_categories,name",
+            'featureCategoryName' => [
+                'required',
+                'unique:feature_categories,name',
             ],
         ]);
 
-        FeatureCategory::create(["name" => $this->featureCategoryName]);
+        FeatureCategory::create(['name' => $this->featureCategoryName]);
 
-        $this->reset(["featureCategoryName"]);
+        $this->reset(['featureCategoryName']);
 
         $this->featureCategories = FeatureCategory::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
 
-        $this->notify("Feature category created");
+        $this->notify('Feature category created');
     }
 
     public function addFeature($categoryId)
     {
-        if ($categoryId != "") {
+        if ($categoryId != '') {
             $this->product->features()->create([
-                "feature_category_id" => $categoryId,
+                'feature_category_id' => $categoryId,
             ]);
-            $this->product->unsetRelation("features");
-            $this->product->load("features");
+            $this->product->unsetRelation('features');
+            $this->product->load('features');
 
-            $this->notify("Feature created");
+            $this->notify('Feature created');
         }
         $this->showProductUpdateForm = true;
     }
 
     public function updateFeature(Feature $feature, $name)
     {
-        $feature->update(["name" => $name]);
-        $this->notify("Feature updated");
+        $feature->update(['name' => $name]);
+        $this->notify('Feature updated');
     }
 
     public function deleteFeature(Feature $feature)
     {
         $feature->delete();
-        $this->product->unsetRelation("features");
-        $this->product->load("features");
-        $this->notify("Feature deleted");
+        $this->product->unsetRelation('features');
+        $this->product->load('features');
+        $this->notify('Feature deleted');
     }
 
     public function mount()
     {
-        $this->purchaseId = request("id");
+        $this->purchaseId = request('id');
     }
 
     public function getPurchaseProperty(): Purchase|array|_IH_Purchase_C|null
     {
-        return Purchase::where("purchases.id", $this->purchaseId)->first();
+        return Purchase::where('purchases.id', $this->purchaseId)->first();
     }
 
     public function updatedSearchQuery()
@@ -284,56 +284,56 @@ class Create extends Component
         foreach ($this->selectedProducts as $product) {
             $this->purchase->items()->updateOrCreate(
                 [
-                    "product_id" => $product,
+                    'product_id' => $product,
                 ],
                 [
-                    "product_id" => $product,
+                    'product_id' => $product,
                 ]
             );
         }
 
         $this->showProductSelectorForm = false;
-        $this->reset(["searchQuery"]);
+        $this->reset(['searchQuery']);
         $this->selectedProducts = [];
 
-        $this->notify("Products added");
+        $this->notify('Products added');
         $this->purchase->refresh();
     }
 
     public function updatePrice(PurchaseItem $item, $value)
     {
-        $item->update(["price" => $value]);
-        $this->notify("Price updated");
+        $item->update(['price' => $value]);
+        $this->notify('Price updated');
     }
 
     public function updateQty(PurchaseItem $item, $value)
     {
-        $item->update(["qty" => $value]);
-        $this->notify("Qty updated");
+        $item->update(['qty' => $value]);
+        $this->notify('Qty updated');
     }
 
     public function deleteItem(PurchaseItem $item)
     {
         $item->delete();
-        $this->notify("Item deleted");
+        $this->notify('Item deleted');
     }
 
     public function process()
     {
         $this->showConfirmModal = false;
-        $this->notify("Processing");
+        $this->notify('Processing');
 
         DB::transaction(function () {
-            PurchaseItem::where("purchase_id", "=", $this->purchase->id)
-                ->orderBy("id")
+            PurchaseItem::where('purchase_id', '=', $this->purchase->id)
+                ->orderBy('id')
                 ->chunk(100, function ($items) {
                     foreach ($items as $item) {
                         Stock::create([
-                            "product_id" => $item->product_id,
-                            "type" => "purchase",
-                            "reference" => $this->purchase->invoice_no,
-                            "qty" => $item->qty,
-                            "cost" => $item->total_cost_in_zar(),
+                            'product_id' => $item->product_id,
+                            'type' => 'purchase',
+                            'reference' => $this->purchase->invoice_no,
+                            'qty' => $item->qty,
+                            'cost' => $item->total_cost_in_zar(),
                         ]);
 
                         $productCost = $item->product->cost;
@@ -346,7 +346,7 @@ class Create extends Component
                         }
 
                         $item->product()->update([
-                            "cost" => to_cents($cost),
+                            'cost' => to_cents($cost),
                         ]);
 
                         $alerts = $item->product->stockAlerts()->get();
@@ -363,23 +363,23 @@ class Create extends Component
                     }
                 });
 
-            $this->purchase->update(["processed_date" => today()]);
+            $this->purchase->update(['processed_date' => today()]);
 
             SupplierTransaction::create([
-                "uuid" => Str::uuid(),
-                "reference" => $this->purchase->invoice_no,
-                "supplier_id" => $this->purchase->supplier_id,
-                "amount" => $this->purchase->amount_converted_to_zar(),
-                "type" => "purchase",
-                "running_balance" => 0,
-                "created_by" => auth()->user()->name,
+                'uuid' => Str::uuid(),
+                'reference' => $this->purchase->invoice_no,
+                'supplier_id' => $this->purchase->supplier_id,
+                'amount' => $this->purchase->amount_converted_to_zar(),
+                'type' => 'purchase',
+                'running_balance' => 0,
+                'created_by' => auth()->user()->name,
             ]);
 
-            Artisan::call("update:supplier-transactions", [
-                "supplier" => $this->purchase->supplier_id,
+            Artisan::call('update:supplier-transactions', [
+                'supplier' => $this->purchase->supplier_id,
             ]);
 
-            $this->notify("processed");
+            $this->notify('processed');
         });
     }
 
@@ -390,13 +390,13 @@ class Create extends Component
         }
 
         $this->purchase->delete();
-        $this->notify("Purchase deleted");
+        $this->notify('Purchase deleted');
 
-        $this->redirectRoute("inventory");
+        $this->redirectRoute('inventory');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.purchases.create");
+        return view('livewire.purchases.create');
     }
 }

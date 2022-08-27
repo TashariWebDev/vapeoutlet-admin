@@ -6,6 +6,7 @@ use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\StockTake;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -24,18 +25,23 @@ class DocumentController extends Controller
         Log::info($transaction);
         $model = $transaction;
 
-        if (Str::startsWith($transaction->reference, 'INV00')) {
-            $model = Order::with('items', 'items.product', 'items.product.features', 'customer')
-                ->find(Str::after($transaction->reference, 'INV00'));
+        if (Str::startsWith($transaction->reference, "INV00")) {
+            $model = Order::with(
+                "items",
+                "items.product",
+                "items.product.features",
+                "customer"
+            )->find(Str::after($transaction->reference, "INV00"));
         }
 
-        if (Str::startsWith($transaction->reference, 'CR00')) {
-            $model = Credit::with('items', 'items.product', 'customer')
-                ->find(Str::after($transaction->reference, 'CR00'));
+        if (Str::startsWith($transaction->reference, "CR00")) {
+            $model = Credit::with("items", "items.product", "customer")->find(
+                Str::after($transaction->reference, "CR00")
+            );
         }
 
         $view = view("templates.pdf.{$transaction->type}", [
-            'model' => $model,
+            "model" => $model,
         ])->render();
 
         $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
@@ -46,10 +52,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
+            ->emulateMedia("print")
+            ->format("a4")
             ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
+            ->setScreenshotType("pdf", 100)
             ->save($url);
 
         return response()->json(200);
@@ -59,16 +65,16 @@ class DocumentController extends Controller
     {
         Log::info($customer);
 
-        $view = view('templates.pdf.price-list', [
-            'products' => Product::query()
-                ->with('features')
-                ->where('is_active', true)
-                ->orderBy('brand', 'asc')
+        $view = view("templates.pdf.price-list", [
+            "products" => Product::query()
+                ->with("features")
+                ->where("is_active", true)
+                ->orderBy("brand", "asc")
                 ->get(),
-            'customer' => $customer,
+            "customer" => $customer,
         ])->render();
 
-        $url = storage_path('app/public/documents/price-list.pdf');
+        $url = storage_path("app/public/documents/price-list.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -76,10 +82,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
+            ->emulateMedia("print")
+            ->format("a4")
             ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
+            ->setScreenshotType("pdf", 100)
             ->save($url);
 
         return response()->json(200);
@@ -89,10 +95,10 @@ class DocumentController extends Controller
     {
         Log::info($order);
 
-        $order->load('items.product.features');
+        $order->load("items.product.features");
 
-        $view = view('templates.pdf.pick-list', [
-            'model' => $order,
+        $view = view("templates.pdf.pick-list", [
+            "model" => $order,
         ])->render();
 
         $url = storage_path("app/public/pick-lists/{$order->number}.pdf");
@@ -103,10 +109,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
+            ->emulateMedia("print")
+            ->format("a4")
             ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
+            ->setScreenshotType("pdf", 100)
             ->save($url);
 
         return response()->json(200);
@@ -116,10 +122,10 @@ class DocumentController extends Controller
     {
         Log::info($order);
 
-        $order->load('items.product.features');
+        $order->load("items.product.features");
 
-        $view = view('templates.pdf.delivery-note', [
-            'model' => $order,
+        $view = view("templates.pdf.delivery-note", [
+            "model" => $order,
         ])->render();
 
         $url = storage_path("app/public/delivery-note/{$order->number}.pdf");
@@ -130,10 +136,87 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
+            ->emulateMedia("print")
+            ->format("a4")
             ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getStockCount(StockTake $stockTake)
+    {
+        Log::info($stockTake);
+
+        $stockTake->load("items.product.features");
+
+        $view = view("templates.pdf.stock-count", [
+            "model" => $stockTake,
+        ])->render();
+
+        $url = storage_path("app/public/stock-counts/{$stockTake->id}.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getStockTake(StockTake $stockTake)
+    {
+        Log::info($stockTake);
+
+        $stockTake->load("items.product.features");
+
+        $view = view("templates.pdf.stock-take", [
+            "model" => $stockTake,
+        ])->render();
+
+        $url = storage_path("app/public/stock-takes/{$stockTake->id}.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getDebtorsList()
+    {
+        $view = view("templates.pdf.debtors-list", [
+            "customers" => Customer::orderBy("name")->get(),
+        ])->render();
+
+        $url = storage_path("app/public/documents/debtors-list.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
             ->save($url);
 
         return response()->json(200);

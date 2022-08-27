@@ -17,15 +17,15 @@ class Index extends Component
 
     public $showAddOrderForm = false;
 
-    public $searchTerm = "";
+    public $searchTerm = '';
 
-    public $filter = "received";
+    public $filter = 'received';
 
     public function getDocument($transactionId)
     {
         Log::info($transactionId);
         Http::get(
-            config("app.admin_url") . "/webhook/save-document/{$transactionId}"
+            config('app.admin_url')."/webhook/save-document/{$transactionId}"
         );
 
         $this->redirect("orders?page={$this->page}&filter={$this->filter}");
@@ -33,8 +33,8 @@ class Index extends Component
 
     public function mount()
     {
-        if (request()->has("filter")) {
-            $this->filter = request("filter");
+        if (request()->has('filter')) {
+            $this->filter = request('filter');
         }
     }
 
@@ -45,22 +45,22 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.orders.index", [
-            "orders" => Order::query()
+        return view('livewire.orders.index', [
+            'orders' => Order::query()
                 ->with([
-                    "delivery",
-                    "customer:id,name",
-                    "customer.transactions",
+                    'delivery',
+                    'customer:id,name',
+                    'customer.transactions',
                 ])
-                ->whereNotNull("status")
+                ->whereNotNull('status')
                 ->when(
                     $this->searchTerm,
-                    fn($query) => $query->search($this->searchTerm)
+                    fn ($query) => $query->search($this->searchTerm)
                 )
                 ->when($this->filter, function ($query) {
                     $query->whereStatus($this->filter);
                 })
-                ->latest("updated_at")
+                ->latest('updated_at')
                 ->paginate(6),
         ]);
     }

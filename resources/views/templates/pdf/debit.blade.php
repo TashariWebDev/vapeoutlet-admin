@@ -22,12 +22,16 @@
             }
 
 
+            @page {
+                margin-top: 5mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
             @page :first {
                 margin-top: 0;
-                margin-right: 5mm;
-                margin-left: 5mm;
-                margin-bottom: 25mm;
-                size: letter portrait;
+                margin-bottom: 10mm;
+                size: a4 portrait;
             }
 
         }
@@ -120,7 +124,7 @@
                     </div>
                     <ul class="text-xs p-1">
                         <li class="font-semibold">Vape Crew (PTY) LTD</li>
-                        <li class="font-semibold">First national Bank</li>
+                        <li class="font-semibold">First National Bank</li>
                         <li class="font-semibold">Sandton City</li>
                         <li class="font-mono mt-2">ACC: 62668652855</li>
                         <li class="font-mono ">REF: {{ $model->number }}</li>

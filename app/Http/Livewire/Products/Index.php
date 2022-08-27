@@ -26,7 +26,7 @@ class Index extends Component
 
     public bool $activeFilter = true;
 
-    public string $searchQuery = "";
+    public string $searchQuery = '';
 
     public bool $showProductCreateForm = false;
 
@@ -58,32 +58,32 @@ class Index extends Component
 
     public $images = [];
 
-    public $collectionName = "";
+    public $collectionName = '';
 
-    public $brandName = "";
+    public $brandName = '';
 
     public $brandLogo;
 
-    public $categoryName = "";
+    public $categoryName = '';
 
-    public $featureCategoryName = "";
+    public $featureCategoryName = '';
 
-    public $featureName = "";
+    public $featureName = '';
 
-    public string $feature_id = "";
+    public string $feature_id = '';
 
     public function rules(): array
     {
         return [
-            "feature_id" => ["required|int"],
-            "product.name" => ["required"],
-            "product.sku" => ["required"],
-            "product.brand" => ["required"],
-            "product.category" => ["required"],
-            "product.description" => ["sometimes"],
-            "product.retail_price" => ["sometimes"],
-            "product.wholesale_price" => ["sometimes"],
-            "product.product_collection_id" => ["sometimes"],
+            'feature_id' => ['required|int'],
+            'product.name' => ['required'],
+            'product.sku' => ['required'],
+            'product.brand' => ['required'],
+            'product.category' => ['required'],
+            'product.description' => ['sometimes'],
+            'product.retail_price' => ['sometimes'],
+            'product.wholesale_price' => ['sometimes'],
+            'product.product_collection_id' => ['sometimes'],
         ];
     }
 
@@ -101,13 +101,13 @@ class Index extends Component
     {
         $this->product = new Product();
         $this->brands = Brand::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
         $this->categories = Category::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
-        $this->featureCategories = FeatureCategory::orderBy("name")->get();
-        $this->productCollections = ProductCollection::orderBy("name")->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
         $this->showProductCreateForm = true;
     }
 
@@ -117,9 +117,9 @@ class Index extends Component
         $this->product->old_retail_price = $this->product->retail_price;
         $this->product->old_wholesale_price = $this->product->wholesale_price;
         $this->product->save();
-        $this->reset(["product"]);
+        $this->reset(['product']);
         $this->create();
-        $this->notify("Product saved");
+        $this->notify('Product saved');
     }
 
     public function saveAndEdit()
@@ -138,13 +138,13 @@ class Index extends Component
         $this->retailPrice = $this->product->retail_price;
         $this->wholesalePrice = $this->product->wholesale_price;
         $this->brands = Brand::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
         $this->categories = Category::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
-        $this->featureCategories = FeatureCategory::orderBy("name")->get();
-        $this->productCollections = ProductCollection::orderBy("name")->get();
+        $this->featureCategories = FeatureCategory::orderBy('name')->get();
+        $this->productCollections = ProductCollection::orderBy('name')->get();
         $this->product->refresh();
         $this->showProductUpdateForm = true;
     }
@@ -152,12 +152,12 @@ class Index extends Component
     public function clearActiveProduct()
     {
         $this->reset([
-            "product",
-            "brandName",
-            "categoryName",
-            "collectionName",
-            "product.name",
-            "product.sku",
+            'product',
+            'brandName',
+            'categoryName',
+            'collectionName',
+            'product.name',
+            'product.sku',
         ]);
         $this->resetValidation();
         $this->product = new Product();
@@ -167,195 +167,195 @@ class Index extends Component
     {
         $this->validate();
         $this->product->save();
-        $this->notify("Product saved");
+        $this->notify('Product saved');
         $this->showProductUpdateForm = false;
     }
 
     public function toggleActive($productId)
     {
         $product = Product::find($productId);
-        $product->is_active = !$product->is_active;
+        $product->is_active = ! $product->is_active;
         $product->save();
-        $this->notify("Product active status updated");
+        $this->notify('Product active status updated');
     }
 
     public function toggleFeatured($productId)
     {
         $product = Product::find($productId);
-        $product->is_featured = !$product->is_featured;
+        $product->is_featured = ! $product->is_featured;
         $product->save();
-        $this->notify("Product featured status updated");
+        $this->notify('Product featured status updated');
     }
 
     public function toggleSale($productId)
     {
         $product = Product::find($productId);
-        $product->is_sale = !$product->is_sale;
+        $product->is_sale = ! $product->is_sale;
         $product->save();
-        $this->notify("Product sale status updated");
+        $this->notify('Product sale status updated');
     }
 
     public function showGallery($productId)
     {
-        $this->product = Product::find($productId)->load("features");
-        $this->product->unsetRelation("images");
-        $this->product->load("images");
+        $this->product = Product::find($productId)->load('features');
+        $this->product->unsetRelation('images');
+        $this->product->load('images');
         $this->showGalleryForm = true;
     }
 
     public function saveGallery()
     {
         $this->validate([
-            "images.*" => "image|max:1024|sometimes",
+            'images.*' => 'image|max:1024|sometimes',
         ]);
 
         foreach ($this->images as $image) {
             $this->product->images()->create([
-                "url" => $image->store("uploads", "public"),
+                'url' => $image->store('uploads', 'public'),
             ]);
         }
 
-        $this->reset(["image", "images"]);
-        $this->product->unsetRelation("images");
-        $this->product->load("images");
-        $this->notify("Images uploaded");
+        $this->reset(['image', 'images']);
+        $this->product->unsetRelation('images');
+        $this->product->load('images');
+        $this->notify('Images uploaded');
     }
 
     public function saveFeaturedImage()
     {
         $this->validate([
-            "image" => "image|max:1024|sometimes",
+            'image' => 'image|max:1024|sometimes',
         ]);
 
         $this->product->update([
-            "image" => $this->image->store("uploads", "public"),
+            'image' => $this->image->store('uploads', 'public'),
         ]);
 
-        $this->reset(["image", "images"]);
-        $this->product->unsetRelation("images");
-        $this->product->load("images");
-        $this->notify("Image saved");
+        $this->reset(['image', 'images']);
+        $this->product->unsetRelation('images');
+        $this->product->load('images');
+        $this->notify('Image saved');
     }
 
     public function deleteFeaturedImage()
     {
-        Storage::disk("public")->delete($this->product->image);
-        $this->product->update(["image" => null]);
-        $this->product->load("images");
-        $this->notify("Image deleted");
+        Storage::disk('public')->delete($this->product->image);
+        $this->product->update(['image' => null]);
+        $this->product->load('images');
+        $this->notify('Image deleted');
     }
 
     public function deleteImage($imageId)
     {
         $image = Image::find($imageId);
-        Storage::disk("public")->delete($image->url);
+        Storage::disk('public')->delete($image->url);
         $image->delete();
-        $this->product->load("images");
-        $this->notify("Image deleted");
+        $this->product->load('images');
+        $this->notify('Image deleted');
     }
 
     public function addBrand()
     {
         $this->validate([
-            "brandName" => ["unique:brands,name"],
-            "brandLogo" => ["image", "max:1024"],
+            'brandName' => ['unique:brands,name'],
+            'brandLogo' => ['image', 'max:1024'],
         ]);
 
         Brand::create([
-            "name" => strtolower($this->brandName),
-            "image" => $this->brandLogo->store("uploads", "public"),
+            'name' => strtolower($this->brandName),
+            'image' => $this->brandLogo->store('uploads', 'public'),
         ]);
 
-        $this->reset(["brandName", "brandLogo", "showBrandsForm"]);
-        $this->brands = Brand::orderBy("name")->get();
+        $this->reset(['brandName', 'brandLogo', 'showBrandsForm']);
+        $this->brands = Brand::orderBy('name')->get();
         $this->showBrandsForm = false;
-        $this->notify("Brand created");
+        $this->notify('Brand created');
     }
 
     public function addCategory()
     {
         Category::create([
-            "name" => strtolower($this->categoryName),
+            'name' => strtolower($this->categoryName),
         ]);
 
-        $this->reset(["categoryName", "showCategoriesForm"]);
-        $this->categories = Category::orderBy("name")->get();
-        $this->notify("Category created");
+        $this->reset(['categoryName', 'showCategoriesForm']);
+        $this->categories = Category::orderBy('name')->get();
+        $this->notify('Category created');
     }
 
     public function addProductCollection()
     {
         ProductCollection::create([
-            "name" => strtolower($this->collectionName),
+            'name' => strtolower($this->collectionName),
         ]);
 
-        $this->reset(["collectionName", "showProductCollectionForm"]);
+        $this->reset(['collectionName', 'showProductCollectionForm']);
         $this->productCollections = ProductCollection::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
-        $this->notify("Product collection created");
+        $this->notify('Product collection created');
     }
 
     public function addFeatureCategory()
     {
         $this->validate([
-            "featureCategoryName" => [
-                "required",
-                "unique:feature_categories,name",
+            'featureCategoryName' => [
+                'required',
+                'unique:feature_categories,name',
             ],
         ]);
 
-        FeatureCategory::create(["name" => $this->featureCategoryName]);
+        FeatureCategory::create(['name' => $this->featureCategoryName]);
 
-        $this->reset(["featureCategoryName"]);
+        $this->reset(['featureCategoryName']);
 
         $this->featureCategories = FeatureCategory::query()
-            ->orderBy("name")
+            ->orderBy('name')
             ->get();
-        $this->notify("Feature category created");
+        $this->notify('Feature category created');
     }
 
     public function addFeature($categoryId)
     {
         $this->product->features()->create([
-            "feature_category_id" => $categoryId,
+            'feature_category_id' => $categoryId,
         ]);
 
-        $this->product->load("features");
-        $this->notify("Feature created");
+        $this->product->load('features');
+        $this->notify('Feature created');
     }
 
     public function updateFeature(Feature $feature, $name)
     {
-        $feature->update(["name" => $name]);
-        $this->notify("Feature updated");
+        $feature->update(['name' => $name]);
+        $this->notify('Feature updated');
     }
 
     public function deleteFeature(Feature $feature)
     {
         $feature->delete();
-        $this->product->unsetRelation("features");
-        $this->product->load("features");
-        $this->notify("Feature deleted");
+        $this->product->unsetRelation('features');
+        $this->product->load('features');
+        $this->notify('Feature deleted');
     }
 
     public function delete($productId)
     {
         Product::find($productId)->delete();
-        $this->notify("Product archived");
+        $this->notify('Product archived');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.products.index", [
-            "products" => Product::query()
-                ->where("is_active", $this->activeFilter)
-                ->with("features")
+        return view('livewire.products.index', [
+            'products' => Product::query()
+                ->where('is_active', $this->activeFilter)
+                ->with('features')
                 ->when(
                     $this->searchQuery,
-                    fn($query) => $query->search($this->searchQuery)
+                    fn ($query) => $query->search($this->searchQuery)
                 )
-                ->orderBy("brand")
+                ->orderBy('brand')
                 ->simplePaginate(5),
         ]);
     }

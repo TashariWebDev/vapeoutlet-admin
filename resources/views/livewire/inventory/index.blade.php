@@ -138,7 +138,7 @@
     </div>
 
     <x-table.container>
-        <x-table.header class="hidden lg:grid grid-cols-1 md:grid-cols-10">
+        <x-table.header class="hidden lg:grid grid-cols-1 md:grid-cols-11">
             <x-table.heading class="col-span-2">product</x-table.heading>
             <x-table.heading class="text-center">retail</x-table.heading>
             <x-table.heading class="text-center">wholesale</x-table.heading>
@@ -147,11 +147,12 @@
             <x-table.heading class="text-center">purchased</x-table.heading>
             <x-table.heading class="text-center">returns</x-table.heading>
             <x-table.heading class="text-center">sold</x-table.heading>
+            <x-table.heading class="text-center">adj</x-table.heading>
             <x-table.heading class="text-center">available</x-table.heading>
         </x-table.header>
         @forelse($products as $product)
             <x-table.body
-                class="grid grid-cols-1 md:grid-cols-10 text-sm">
+                class="grid grid-cols-1 md:grid-cols-11 text-sm">
                 <x-table.row class="lg:col-span-2 text-center lg:text-left">
                     <x-product-listing-simple :product="$product"/>
                 </x-table.row>
@@ -217,6 +218,10 @@
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">SOLD: </span>
                     <p>{{ $product->total_sold ?? 0}}</p>
+                </x-table.row>
+                <x-table.row class="text-center">
+                    <span class="text-xs font-semibold lg:hidden underline">ADJ: </span>
+                    <p>{{ $product->total_adjustments ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">AVAILABLE: </span>

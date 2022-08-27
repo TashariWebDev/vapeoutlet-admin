@@ -22,12 +22,16 @@
             }
 
 
+            @page {
+                margin-top: 5mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
             @page :first {
                 margin-top: 0;
-                margin-right: 5mm;
-                margin-left: 5mm;
-                margin-bottom: 25mm;
-                size: letter portrait;
+                margin-bottom: 10mm;
+                size: a4 portrait;
             }
 
         }
@@ -86,15 +90,15 @@
                 <div class="border px-1 text-right uppercase text-xs bg-gray-700 text-white">Amount</div>
             </div>
 
-            <div class="break-before-avoid block">
+            <div class="break-before-avoid break-inside-avoid block">
                 @foreach($model->items as $item)
-                    <div class="w-full grid grid-cols-6 break-after-avoid-page py-1">
+                    <div class="w-full grid grid-cols-6 break-after-avoid-page py-1 break-inside-avoid">
                         <div class="p-1">
                             <p class="font-semibold text-xs uppercase">{{ $item->product->sku }}</p>
                         </div>
                         <div class="col-span-2 p-1">
                             <p class="text-xs font-bold">
-                                {{ ucwords($item->product->brand) }}{{ ucwords($item->product->name) }}
+                                {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
                             </p>
                             <span class="flex flex-wrap">
                                     @foreach($item->product->features as $feature)
@@ -115,7 +119,7 @@
                 @endforeach
             </div>
 
-            <div class="block break-before-avoid-page py-3 border-t border-b border-gray-500">
+            <div class="block break-before-avoid-page break-inside-avoid py-3 mt-8 border-t border-b border-gray-500">
                 <div class="grid grid-cols-3 gap-2">
                     <p class="text-xs text-center whitespace-nowrap">
                         <span class="font-semibold">Sub Total </span> R - {{ number_format($model->getSubTotal(),2) }}
@@ -152,7 +156,7 @@
                     </div>
                     <ul class="text-xs p-1">
                         <li class="font-semibold">Vape Crew (PTY) LTD</li>
-                        <li class="font-semibold">First national Bank</li>
+                        <li class="font-semibold">First National Bank</li>
                         <li class="font-semibold">Sandton City</li>
                         <li class="font-mono mt-2">ACC: 62668652855</li>
                         <li class="font-mono ">REF: {{ $model->number }}</li>

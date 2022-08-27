@@ -22,12 +22,16 @@
             }
 
 
+            @page {
+                margin-top: 5mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
             @page :first {
                 margin-top: 0;
-                margin-right: 5mm;
-                margin-left: 5mm;
-                margin-bottom: 25mm;
-                size: letter portrait;
+                margin-bottom: 10mm;
+                size: a4 portrait;
             }
 
         }
@@ -105,7 +109,7 @@
                         </div>
                         <div class="col-span-2 p-1">
                             <p class="text-xs font-bold">
-                                {{ ucwords($item->product->brand) }}{{ ucwords($item->product->name) }}
+                                {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
                             </p>
                             <span class="flex flex-wrap">
                                     @foreach($item->product->features as $feature)
@@ -126,8 +130,8 @@
                 @endforeach
             </div>
 
-            <div class="block break-before-avoid-page py-3 border-t border-b border-gray-500">
-                <div class="grid grid-cols-4 gap-2">
+            <div class="block break-before-avoid-page break-inside-avoid py-3 border-t mt-8 border-b border-gray-500">
+                <div class="grid grid-cols-4 gap-2 break-after-avoid-page">
                     <p class="text-xs text-center whitespace-nowrap">
                         <span class="font-semibold">Sub Total </span> R {{ number_format($model->getSubTotal(),2) }}
                     </p>
@@ -167,7 +171,7 @@
                     </div>
                     <ul class="text-xs p-1">
                         <li class="font-semibold">Vape Crew (PTY) LTD</li>
-                        <li class="font-semibold">First national Bank</li>
+                        <li class="font-semibold">First National Bank</li>
                         <li class="font-semibold">Sandton City</li>
                         <li class="font-mono mt-2">ACC: 62668652855</li>
                         <li class="font-mono ">REF: {{ $model->number }}</li>

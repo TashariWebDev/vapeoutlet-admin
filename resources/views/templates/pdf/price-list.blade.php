@@ -22,12 +22,16 @@
             }
 
 
+            @page {
+                margin-top: 5mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
             @page :first {
                 margin-top: 0;
-                margin-right: 5mm;
-                margin-left: 5mm;
-                margin-bottom: 25mm;
-                size: letter portrait;
+                margin-bottom: 10mm;
+                size: a4 portrait;
             }
 
         }

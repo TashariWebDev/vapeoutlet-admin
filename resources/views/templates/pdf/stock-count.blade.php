@@ -21,7 +21,6 @@
                 page-break-inside: avoid;
             }
 
-
             @page {
                 margin-top: 5mm;
                 margin-bottom: 10mm;
@@ -44,7 +43,7 @@
     <div
         class="fixed font-extrabold transform rotate-45 text-gray-200 opacity-20 inset-0 min-h-screen min-w-screen z-10"
         style="font-size: 250px">
-        <h1>PICK LIST</h1>
+        <h1>STOCK TAKE</h1>
     </div>
     <div class="p-6 bg-white rounded min-h-screen flex flex-col z-50">
         <section id="header" class="pb-4">
@@ -64,39 +63,13 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li>{{ $model->created_at->format('d-m-Y') }}</li>
-                        <li class="capitalize">{{ $model->number }}</li>
-                        <li class="uppercase font-extrabold text-lg">{{ $model->delivery->type }}</li>
+                        <li>{{ $model->date->format('d-m-Y') }}</li>
+                        <li class="capitalize">STOCK TAKE ID:{{ $model->id }}</li>
+                        <li class="uppercase font-extrabold text-lg">{{ $model->created_by }}</li>
                     </ul>
                 </div>
                 <div class="pt-6">
-                    <p>PICKED BY: ......................................................</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 space-x-2 pt-2">
-                <div class="border rounded">
-                    <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                        <p class="text-white font-semibold uppercase text-xs">Customer Details</p>
-                    </div>
-                    <ul class="text-sm px-1 py-2">
-                        <li>{{ ucwords($model->customer->name) }}</li>
-                        <li>{{ $model->customer->phone }}</li>
-                        <li>{{ $model->customer->email }}</li>
-                        <li>{{ ucwords($model->customer->company) }}</li>
-                        <li>{{ ucwords($model->customer->vat_number) }}</li>
-                    </ul>
-                </div>
-                <div class="border rounded">
-                    <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                        <p class="text-white font-semibold uppercase text-xs">Delivery Details</p>
-                    </div>
-                    <ul class="text-sm px-1 py-2">
-                        <li>{{ ucwords($model->address->line_one) }}</li>
-                        <li>{{ ucwords($model->address->line_two) }}</li>
-                        <li>{{ ucwords($model->address->suburb) }}</li>
-                        <li>{{ ucwords($model->address->city) }}</li>
-                        <li>{{ ucwords($model->address->postal_code) }}</li>
-                    </ul>
+                    <p>COUNTED BY: ......................................................</p>
                 </div>
             </div>
         </section>
@@ -105,7 +78,6 @@
             <div class="w-full grid grid-cols-6 break-inside-avoid">
                 <div class="border text-left px-1 uppercase text-xs bg-gray-700 text-white">SKU/CODE</div>
                 <div class="col-span-2 border text-left px-1 uppercase text-xs bg-gray-700 text-white">Item</div>
-                <div class="border px-1 text-center uppercase text-xs bg-gray-700 text-white">Qty</div>
                 <div class="col-span-2 border px-1 text-right uppercase text-xs bg-gray-700 text-white">Count</div>
             </div>
 
@@ -117,16 +89,13 @@
                         </div>
                         <div class="col-span-2 p-1">
                             <p class="text-xs font-bold">
-                                {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
+                                {{ ucwords($item->product->brand) }}{{ ucwords($item->product->name) }}
                             </p>
                             <span class="flex flex-wrap">
                                     @foreach($item->product->features as $feature)
                                     <span class="text-xs font-thin pr-1">{{ ucwords($feature->name) }}</span>
                                 @endforeach
                                 </span>
-                        </div>
-                        <div class=" p-1">
-                            <p class="text-center text-2xl font-extrabold font-mono">{{ $item->qty }}</p>
                         </div>
                         <div class="p-1 col-span-2 flex justify-end items-center">
                             <div class="w-12 h-12 text-lg border rounded-md flex justify-center items-center">

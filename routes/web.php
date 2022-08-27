@@ -102,6 +102,14 @@ Route::middleware("auth")->group(function () {
         ->name("reports")
         ->middleware("permission:view reports");
 
+    Route::get("stock-takes", \App\Http\Livewire\StockTakes\Index::class)
+        ->name("stock-takes")
+        ->middleware("permission:view reports");
+
+    Route::get("stock-takes/{id}", \App\Http\Livewire\StockTakes\Show::class)
+        ->name("stock-takes/show")
+        ->middleware("permission:view reports");
+
     Route::get("expenses", \App\Http\Livewire\Expenses\Index::class)
         ->name("expenses")
         ->middleware("permission:view expenses");

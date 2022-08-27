@@ -11,7 +11,7 @@ class Expense extends Model
 {
     protected $guarded = [];
 
-    protected $dates = ["date", "processed_date"];
+    protected $dates = ['date', 'processed_date'];
 
     public function category(): BelongsTo
     {
@@ -21,16 +21,16 @@ class Expense extends Model
     public function amount(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function description(): Attribute
     {
         return new Attribute(
-            get: fn($value) => Str::title($value),
-            set: fn($value) => Str::title($value)
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
         );
     }
 }

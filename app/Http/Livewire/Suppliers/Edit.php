@@ -17,22 +17,22 @@ class Edit extends Component
 
     public function mount()
     {
-        $this->supplier = Supplier::find(request("id"));
+        $this->supplier = Supplier::find(request('id'));
     }
 
     public function rules(): array
     {
         return [
-            "supplier.name" => ["required"],
-            "supplier.email" => ["required"],
-            "supplier.phone" => ["required"],
-            "supplier.person" => ["required"],
-            "supplier.address_line_one" => ["required"],
-            "supplier.address_line_two" => ["sometimes"],
-            "supplier.suburb" => ["sometimes"],
-            "supplier.city" => ["sometimes"],
-            "supplier.country" => ["sometimes"],
-            "supplier.postal_code" => ["sometimes"],
+            'supplier.name' => ['required'],
+            'supplier.email' => ['required'],
+            'supplier.phone' => ['required'],
+            'supplier.person' => ['required'],
+            'supplier.address_line_one' => ['required'],
+            'supplier.address_line_two' => ['sometimes'],
+            'supplier.suburb' => ['sometimes'],
+            'supplier.city' => ['sometimes'],
+            'supplier.country' => ['sometimes'],
+            'supplier.postal_code' => ['sometimes'],
         ];
     }
 
@@ -40,11 +40,11 @@ class Edit extends Component
     {
         $this->validate();
         $this->supplier->save();
-        $this->notify("supplier updated");
+        $this->notify('supplier updated');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.suppliers.edit");
+        return view('livewire.suppliers.edit');
     }
 }

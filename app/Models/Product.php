@@ -18,12 +18,12 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ["features:id,name,product_id"];
+    protected $with = ['features:id,name,product_id'];
 
     protected $casts = [
-        "retail_price" => "integer",
-        "wholesale_price" => "integer",
-        "cost" => "integer",
+        'retail_price' => 'integer',
+        'wholesale_price' => 'integer',
+        'cost' => 'integer',
     ];
 
     //    events
@@ -33,10 +33,10 @@ class Product extends Model
 
         static::creating(function ($product) {
             $product->slug =
-                Str::slug($product->brand) .
-                "-" .
-                Str::slug($product->name) .
-                "-" .
+                Str::slug($product->brand).
+                '-'.
+                Str::slug($product->name).
+                '-'.
                 $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
@@ -45,10 +45,10 @@ class Product extends Model
 
         static::saving(function ($product) {
             $product->slug =
-                Str::slug($product->brand) .
-                "-" .
-                Str::slug($product->name) .
-                "-" .
+                Str::slug($product->brand).
+                '-'.
+                Str::slug($product->name).
+                '-'.
                 $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
@@ -57,10 +57,10 @@ class Product extends Model
 
         static::updating(function ($product) {
             $product->slug =
-                Str::slug($product->brand) .
-                "-" .
-                Str::slug($product->name) .
-                "-" .
+                Str::slug($product->brand).
+                '-'.
+                Str::slug($product->name).
+                '-'.
                 $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
@@ -69,10 +69,10 @@ class Product extends Model
 
         static::updated(function ($product) {
             $product->slug =
-                Str::slug($product->brand) .
-                "-" .
-                Str::slug($product->name) .
-                "-" .
+                Str::slug($product->brand).
+                '-'.
+                Str::slug($product->name).
+                '-'.
                 $product->sku;
             $product->name = Str::title($product->name);
             $product->category = Str::title($product->category);
@@ -87,17 +87,17 @@ class Product extends Model
     //    scopes
     public function scopeSearch($query, $terms)
     {
-        collect(explode(" ", $terms))
+        collect(explode(' ', $terms))
             ->filter()
             ->each(function ($term) use ($query) {
-                $term = "%" . $term . "%";
+                $term = '%'.$term.'%';
                 $query->where(function ($query) use ($term) {
                     $query
-                        ->where("brand", "like", $term)
-                        ->orWhere("name", "like", $term)
-                        ->orWhere("sku", "like", $term)
-                        ->orWhereHas("features", function ($query) use ($term) {
-                            $query->where("name", "like", $term);
+                        ->where('brand', 'like', $term)
+                        ->orWhere('name', 'like', $term)
+                        ->orWhere('sku', 'like', $term)
+                        ->orWhereHas('features', function ($query) use ($term) {
+                            $query->where('name', 'like', $term);
                         });
                 });
             });
@@ -107,7 +107,7 @@ class Product extends Model
 
     public function qty()
     {
-        return $this->stocks->sum("qty");
+        return $this->stocks->sum('qty');
     }
 
     public function getPrice(Customer $customer)
@@ -131,49 +131,49 @@ class Product extends Model
     public function retailPrice(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function wholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function oldRetailPrice(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function oldwholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function image(): Attribute
     {
         return new Attribute(
-            get: fn($value) => $value
-                ? config("app.app_url") . "/storage/" . $value
-                : config("app.app_url") . "/storage/images/default-image.png"
+            get: fn ($value) => $value
+                ? config('app.app_url').'/storage/'.$value
+                : config('app.app_url').'/storage/images/default-image.png'
         );
     }
 
@@ -202,10 +202,10 @@ class Product extends Model
 
     public function scopeInStock($query)
     {
-        $query->whereHas("stocks", function ($query) {
+        $query->whereHas('stocks', function ($query) {
             $query
-                ->select(DB::raw("SUM(qty) AS available"))
-                ->having("available", ">", 0);
+                ->select(DB::raw('SUM(qty) AS available'))
+                ->having('available', '>', 0);
         });
 
         return $query;
@@ -225,12 +225,12 @@ class Product extends Model
 
     public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class, "name", "brand");
+        return $this->belongsTo(Brand::class, 'name', 'brand');
     }
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class, "name", "category");
+        return $this->belongsTo(Category::class, 'name', 'category');
     }
 
     public function product_collection(): BelongsTo
@@ -245,7 +245,7 @@ class Product extends Model
 
     public function features(): hasMany
     {
-        return $this->hasMany(Feature::class)->orderBy("feature_category_id");
+        return $this->hasMany(Feature::class)->orderBy('feature_category_id');
     }
 
     public function purchases(): hasMany
@@ -260,17 +260,17 @@ class Product extends Model
 
     public function sold(): HasMany
     {
-        return $this->hasMany(Stock::class)->where("type", "=", "invoice");
+        return $this->hasMany(Stock::class)->where('type', '=', 'invoice');
     }
 
     public function purchased(): HasMany
     {
-        return $this->hasMany(Stock::class)->where("type", "=", "purchase");
+        return $this->hasMany(Stock::class)->where('type', '=', 'purchase');
     }
 
     public function returns(): HasMany
     {
-        return $this->hasMany(Stock::class)->where("type", "=", "return");
+        return $this->hasMany(Stock::class)->where('type', '=', 'return');
     }
 
     public function stockAlerts(): HasMany

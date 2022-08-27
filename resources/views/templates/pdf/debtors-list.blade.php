@@ -22,12 +22,16 @@
             }
 
 
+            @page {
+                margin-top: 10mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
             @page :first {
-                margin-top: 0;
-                margin-right: 5mm;
-                margin-left: 5mm;
-                margin-bottom: 25mm;
-                size: letter portrait;
+                margin-top: 10mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
             }
 
         }
@@ -35,32 +39,31 @@
     </style>
 </head>
 <body>
-<div class="font-sans w-screen bg-white antialiased overflow-hidden">
+<div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
 
     <div>
         {{ date("Y-m-d h:i:sa") }}
     </div>
 
-    <div>
-        @foreach($csutomers as $customer)
-            <div class="grid grid-cols-2 gap-y-3  border-b py-2">
-                <div>
-                    <p class="text-sm font-medium text-gray-900">
-                        {{ $customer->name }}
-                    </p>
-                    <p class="text-sm font-medium text-gray-900">
-                        {{ $customer->company }}
-                    </p>
-                </div>
-                <div class="col-span-2 flex items-center space-x-2">
-                    <div>
-                        <p class="text-sm text-gray-500">
-                            R {{ number_format(to_rands($customer->getRunningBalance()),2) }}
-                        </p>
+    <div class="break-inside-avoid break-after-avoid-page">
+        <div class="px-4">
+            @foreach($customers as $customer)
+                @if($customer->getRunningBalance() != 0)
+                    <div class="flex justify-between items-center border-b border-dashed pb-1">
+                        <div class="break-inside-avoid">
+                            <p class="text-sm font-medium text-gray-900 uppercase">
+                                {{ $customer->name }} {{ $customer->company }}
+                            </p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-500">
+                                R {{ number_format($customer->getRunningBalance(),2) }}
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </div>
-        @endforeach
+                @endif
+            @endforeach
+        </div>
     </div>
 </div>
 </body>
