@@ -23,13 +23,13 @@
 
 
             @page {
-                margin-top: 5mm;
+                margin-top: 10mm;
                 margin-bottom: 10mm;
                 size: a4 portrait;
             }
 
             @page :first {
-                margin-top: 0;
+                margin-top: 10;
                 margin-bottom: 10mm;
                 size: a4 portrait;
             }
@@ -39,21 +39,30 @@
     </style>
 </head>
 <body>
-<div class="font-sans w-screen bg-white antialiased overflow-hidden">
+<div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
 
-    <div>
+    <div class="px-4">
         {{ date("Y-m-d h:i:sa") }}
     </div>
 
-    <div>
+    <table class="w-full">
+        <thead>
+        <tr class="px-2 py-1 uppercase font-bold bg-gray-900 text-white">
+            <th class="text-left">SKU</th>
+            <th class="text-left">PRODUCT DESCRIPTION</th>
+            <th class="text-right">QTY</th>
+            <th class="text-right">PRICE</th>
+        </tr>
+        </thead>
+        <tbody>
         @foreach($products as $product)
-            <div class="grid grid-cols-4 gap-y-3  border-b py-2">
-                <div>
-                    <p class="text-sm font-medium text-gray-900">{{ $product->sku }}</p>
-                </div>
-                <div class="col-span-2 flex items-center space-x-2">
+            <tr class="break-inside-avoid border-b border-dashed">
+                <td class="text-left">
+                    <p class="text-xs font-medium text-gray-900">{{ $product->sku }}</p>
+                </td>
+                <td class="text-left">
                     <div>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-xs text-gray-500">
                             {{ ucwords($product->brand) }} {{ ucwords($product->name)}}
                         </p>
                         <div class="flex flex-wrap justify-start">
@@ -62,14 +71,19 @@
                             @endforeach
                         </div>
                     </div>
-                </div>
-                <div class="text-center">
-                    <p class="text-sm text-gray-500 font-semibold">
+                </td>
+                <td class="text-right">
+                    <p class="text-xs text-gray-500 font-semibold">
+                        {{ $product->qty() }}</p>
+                </td>
+                <td class="text-right">
+                    <p class="text-xs text-gray-500 font-semibold">
                         R {{ number_format($product->getPriceByRole($customer),2) }}</p>
-                </div>
-            </div>
+                </td>
+            </tr>
         @endforeach
-    </div>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
