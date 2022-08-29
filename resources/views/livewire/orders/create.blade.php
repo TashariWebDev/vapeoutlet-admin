@@ -323,6 +323,7 @@
                     </div>
                 </x-table.row>
                 <x-table.row>
+                    @hasPermissionTo('edit pricing')
                     <form
                         x-on:keydown.tab="@this.call('updatePrice',{{$item->id}},$event.target.value)"
                         x-on:keydown.enter="@this.call('updatePrice',{{$item->id}},$event.target.value)"
@@ -334,23 +335,26 @@
                                  step="0.01"
                                  label="price"/>
                     </form>
-                    <div>
-                        @hasPermissionTo('view cost')
-                        <div class="flex justify-between items-center pt-1">
-                            <div>
-                                <p class="text-xs
-                                                    @if( profit_percentage($item->price, $item->product->cost) < 0) text-red-700 @else text-green-500 @endif">
-                                    {{  profit_percentage($item->price, $item->product->cost) }}
-                                </p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">
-                                    R {{ $item->product->cost }}
-                                </p>
-                            </div>
-                        </div>
+                    @else
+                        <p>{{ $item->price }}</p>
                         @endhasPermissionTo
-                    </div>
+                        <div>
+                            @hasPermissionTo('view cost')
+                            <div class="flex justify-between items-center pt-1">
+                                <div>
+                                    <p class="text-xs
+                                                    @if( profit_percentage($item->price, $item->product->cost) < 0) text-red-700 @else text-green-500 @endif">
+                                        {{  profit_percentage($item->price, $item->product->cost) }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">
+                                        R {{ $item->product->cost }}
+                                    </p>
+                                </div>
+                            </div>
+                            @endhasPermissionTo
+                        </div>
                 </x-table.row>
                 <x-table.row>
                     <form x-on:keydown.tab="@this.call('updateQty',{{$item->id}},$event.target.value)"

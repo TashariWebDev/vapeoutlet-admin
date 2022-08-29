@@ -157,6 +157,7 @@
                     <x-product-listing-simple :product="$product"/>
                 </x-table.row>
                 <x-table.row>
+                    @hasPermissionTo('edit pricing')
                     <label>
                         <input type="number"
                                value="{{ $product->retail_price }}"
@@ -166,12 +167,19 @@
                                class="w-full border rounded px-0.5"
                                @keydown.tab="@this.call('updateRetailPrice',{{$product->id}},$event.target.value)"/>
                     </label>
-                    <span class="text-xs
+                    @else
+                        <p class="text-center">{{ $product->retail_price }}</p>
+                        @endhasPermissionTo
+
+                        @hasPermissionTo('view cost')
+                        <span class="text-xs
                             @if( profit_percentage($product->retail_price, $product->cost) < 0) text-red-700 @else text-green-500 @endif">
                             {{ profit_percentage($product->retail_price,$product->cost) }}
                     </span>
+                        @endhasPermissionTo
                 </x-table.row>
                 <x-table.row>
+                    @hasPermissionTo('edit pricing')
                     <label>
                         <input type="number"
                                value="{{ $product->wholesale_price }}"
@@ -182,13 +190,19 @@
                                @keydown.tab="@this.call('updateWholesalePrice',{{$product->id}},$event.target.value)"
                         />
                     </label>
-                    <span class="text-xs
+                    @else
+                        <p class="text-center">{{ $product->wholesale_price }}</p>
+                        @endhasPermissionTo
+                        @hasPermissionTo('view cost')
+                        <span class="text-xs
                             @if( profit_percentage($product->wholesale_price, $product->cost) < 0) text-red-700 @else text-green-500 @endif">
                             {{ profit_percentage($product->wholesale_price,$product->cost) }}
                     </span>
+                        @endhasPermissionTo
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">AVE COST: </span>
+                    @hasPermissionTo('view cost')
                     <p>
                         @php
                             $lastPurchasePrice = to_rands($product->last_cost) ?? 0
@@ -202,10 +216,18 @@
                         @endif
                         {{ number_format($product->cost,2) ?? 0}}
                     </p>
+                    @else
+                        <p>---</p>
+                        @endhasPermissionTo
                 </x-table.row>
                 <x-table.row class="text-center">
+
+                    @hasPermissionTo('view cost')
                     <span class="text-xs font-semibold lg:hidden underline">LAST COST: </span>
                     <p>{{ number_format($lastPurchasePrice,2) ?? 0}}</p>
+                    @else
+                        <p>---</p>
+                        @endhasPermissionTo
                 </x-table.row>
                 <x-table.row class="text-center">
                     <span class="text-xs font-semibold lg:hidden underline">PURCHASED: </span>
