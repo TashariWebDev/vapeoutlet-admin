@@ -11,13 +11,13 @@ class PurchaseItem extends Model
 {
     protected $guarded = [];
 
-    protected $with = ['product:id,name,brand,sku'];
+    protected $with = ["product:id,name,brand,sku"];
 
-    protected $appends = ['line_total'];
+    protected $appends = ["line_total"];
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     public function purchase(): BelongsTo
@@ -33,8 +33,8 @@ class PurchaseItem extends Model
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => (float) to_cents($value)
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => (float) to_cents($value)
         );
     }
 

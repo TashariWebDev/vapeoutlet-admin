@@ -74,7 +74,9 @@ class DocumentController extends Controller
             "customer" => $customer,
         ])->render();
 
-        $url = storage_path("app/public/documents/price-list.pdf");
+        $url = storage_path(
+            "app/public/documents/price-list-{$customer->type()}.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);

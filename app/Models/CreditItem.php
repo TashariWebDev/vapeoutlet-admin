@@ -10,7 +10,7 @@ class CreditItem extends Model
 {
     protected $guarded = [];
 
-    protected $with = ['product.features'];
+    protected $with = ["product.features"];
 
     public function order(): BelongsTo
     {
@@ -19,22 +19,22 @@ class CreditItem extends Model
 
     public function product(): BelongsTo
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class)->withTrashed();
     }
 
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value)
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
-            set: fn ($value) => to_cents($value)
+            get: fn($value) => (float) to_rands($value),
+            set: fn($value) => to_cents($value)
         );
     }
 
@@ -42,10 +42,10 @@ class CreditItem extends Model
     {
         foreach ($this->items as $item) {
             $item->product->stocks()->create([
-                'type' => 'credit',
-                'reference' => $this->number,
-                'qty' => $item->qty,
-                'cost' => $item->product->cost,
+                "type" => "credit",
+                "reference" => $this->number,
+                "qty" => $item->qty,
+                "cost" => $item->product->cost,
             ]);
         }
 

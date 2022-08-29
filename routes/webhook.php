@@ -18,11 +18,13 @@ Route::get("/save-document/{transaction}", [
     DocumentController::class,
     "saveDocument",
 ]);
+
 Route::get("/price-list/{customer}", [
     DocumentController::class,
     "getPriceList",
 ]);
 Route::get("/pick-lists/{order}", [DocumentController::class, "getPickList"]);
+
 Route::get("/delivery-note/{order}", [
     DocumentController::class,
     "getDeliveryNote",
