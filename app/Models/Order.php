@@ -67,6 +67,11 @@ class Order extends Model
         return $this->hasMany(Stock::class);
     }
 
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
     public function getTotal()
     {
         return $this->getSubTotal() + $this->delivery_charge;

@@ -89,6 +89,11 @@ class Customer extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function notes(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
     public function salesperson(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\StockTake;
+use App\Models\Supplier;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -30,7 +31,8 @@ class DocumentController extends Controller
                 "items",
                 "items.product",
                 "items.product.features",
-                "customer"
+                "customer",
+                "notes"
             )->find(Str::after($transaction->reference, "INV00"));
         }
 
@@ -208,6 +210,29 @@ class DocumentController extends Controller
         ])->render();
 
         $url = storage_path("app/public/documents/debtors-list.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getCreditorsList()
+    {
+        $view = view("templates.pdf.creditors-list", [
+            "suppliers" => Supplier::orderBy("name")->get(),
+        ])->render();
+
+        $url = storage_path("app/public/documents/creditors-list.pdf");
 
         if (file_exists($url)) {
             unlink($url);

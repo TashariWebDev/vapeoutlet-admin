@@ -30,20 +30,52 @@
                 <p class="py-2 capitalize">{{ $this->order?->delivery->type }}</p>
             @endisset
         </div>
-        @if($this->order->status == 'cancelled')
-            <div>
-                <h1 class="text-3xl font-extrabold text-red-700">CANCELLED</h1>
-            </div>
-        @endif
-        @if($this->order->status == 'shipped')
-            <div>
-                <button class="button-success"
-                        x-on:click="@this.call('pushToComplete')"
-                >Complete order
+        <div class="flex  items-start justify-between">
+            @if($this->order->status == 'cancelled')
+                <div>
+                    <h1 class="text-3xl font-extrabold text-red-700">CANCELLED</h1>
+                </div>
+            @endif
+            @if($this->order->status == 'shipped')
+                <div>
+                    <button class="button-success"
+                            x-on:click="@this.call('pushToComplete')"
+                    >Complete order
+                    </button>
+                </div>
+            @endif
+            <div class="flex justify-end">
+                <button class="rounded-full p-2 ring ring-green-500"
+                        x-on:click="@this.set('addNoteForm',true)"
+                >
+                    <x-icons.edit class="text-green-500 hover:text-green-600 w-5 h-5"/>
                 </button>
             </div>
-        @endif
+        </div>
     </div>
+
+    <x-modal title="Add note" wire:model.defer="addNoteForm">
+        <form wire:submit.prevent="saveNote">
+            <div>
+                <label for="note">Note</label>
+            </div>
+            <textarea wire:model.defer="note" id="note" class="border-gray=400 rounded-md w-full h-20"></textarea>
+
+            <div>
+                <div class="py-2 bg-gray-100 rounded-md px-2">
+                    <label for="is_private" class="text-xs uppercase font-medium flex items-center space-x-2">
+                        <input type="checkbox" wire:model.defer="is_private" id="is_private"
+                               class="rounded-full text-green-500 focus:ring-gray-200"/>
+                        <span class="ml-3">Is private</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="py-2">
+                <button class="button-success">Save</button>
+            </div>
+        </form>
+    </x-modal>
 
 
     <x-modal title="Are your sure?" wire:model.defer="cancelConfirmation">
@@ -184,4 +216,34 @@
             </x-table.body>
         @endforeach
     </x-table.container>
+
+
+    <div class="mt-4 bg-white rounded-md p-4">
+
+        @foreach($this->order->notes as $note)
+            <div class="pb-2">
+                <div>
+                    @if($note->customer_id)
+                        <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
+                            on {{ $note->created_at }}</p>
+                    @else
+                        <p class="text-xs text-gray-400 uppercase">{{ $note->user?->name }}
+                            on {{ $note->created_at }}</p>
+                    @endif
+                </div>
+                <div class="p-1">
+                    <p class="capitalize text-sm">{{ $note->body }}</p>
+                </div>
+                @if($note->user_id === auth()->id())
+                    <div>
+                        <button class="text-red-500 text-xs"
+                                x-on:click="@this.call('removeNote',{{$note->id}})"
+                        >remove
+                        </button>
+                    </div>
+                @endif
+            </div>
+        @endforeach
+
+    </div>
 </div>

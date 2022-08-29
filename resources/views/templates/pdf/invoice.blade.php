@@ -182,6 +182,28 @@
                 </div>
             </section>
         </div>
+
+        <div class="mt-4 bg-white rounded-md p-4">
+         
+            @foreach($model->notes as $note)
+                <div class="pb-2">
+                    <div>
+                        @if($note->customer_id)
+                            <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
+                                on {{ $note->created_at }}</p>
+                        @else
+                            <p class="text-xs text-gray-400 uppercase">{{ $note->user?->name }}
+                                on {{ $note->created_at }}</p>
+                        @endif
+                    </div>
+                    <div class="p-1">
+                        <p class="capitalize text-sm">{{ $note->body }}</p>
+                    </div>
+                </div>
+            @endforeach
+
+        </div>
     </div>
+</div>
 </body>
 </html>
