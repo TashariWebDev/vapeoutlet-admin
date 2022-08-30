@@ -2,7 +2,7 @@
     <div class="w-full bg-white rounded-md p-6 mb-3 grid grid-cols-1 lg:grid-cols-3">
         <div>
             <p class="font-semibold">{{ $this->order->number }}</p>
-            <p class="text-xs text-gray-500">{{ $this->order->updated_at }}</p>
+            <p class="text-xs text-gray-500">{{ $this->order->created_at }}</p>
             <p class="font-bold py-2">R {{ number_format($this->order->getTotal(),2)}}</p>
             <p class="font-bold text-xs pt-2">
                 Processed By:

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
@@ -45,6 +46,11 @@ class Order extends Model
             CustomerAddress::class,
             "address_id"
         )->withTrashed();
+    }
+
+    public function transactions(): HasManyThrough
+    {
+        return $this->HasManyThrough(Customer::class, Transaction::class);
     }
 
     public function delivery(): BelongsTo

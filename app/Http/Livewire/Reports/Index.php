@@ -29,6 +29,9 @@ class Index extends Component
     public $purchases;
     public $expenses;
     public $stock;
+    public $fromDate;
+    public $toDate;
+    public $showExpenseForm = false;
 
     public function mount()
     {
@@ -130,6 +133,15 @@ class Index extends Component
             config("app.admin_url") . "/webhook/documents/creditors-list"
         );
 
+        $this->redirect("reports");
+    }
+
+    public function getExpenseListDocument()
+    {
+        Http::get(
+            config("app.admin_url") .
+                "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}"
+        );
         $this->redirect("reports");
     }
 

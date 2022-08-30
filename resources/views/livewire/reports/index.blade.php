@@ -152,5 +152,52 @@
                 @endif
             </div>
         </div>
+
+
+        <div class="p-2 border rounded-md bg-white">
+            @php
+                $expenses = config('app.admin_url')."/storage/documents/expenses.pdf";
+
+                $expensesExists = check_file_exist($expenses)
+            @endphp
+
+            <button class="button-success w-full"
+                    x-on:click="@this.set('showExpenseForm',true)">
+                Expenses
+            </button>
+
+            <div class="py-4">
+                @if($expensesExists)
+                    <a href="{{$expenses}}" class="link" wire:loading.class="hidden"
+                       wire:target="getExpenseListDocument">
+                        &darr; print
+                    </a>
+                @endif
+            </div>
+        </div>
     </div>
+
+    <x-modal title="Get expense by date range" wire:model.defer="showExpenseForm">
+        <form wire:submit.prevent="getExpenseListDocument">
+            <div class="py-4">
+                <x-input
+                    label="From date"
+                    wire:model.defer="fromDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-4">
+                <x-input
+                    label="To date"
+                    wire:model.defer="toDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-2">
+                <button class="button-success">Get report</button>
+            </div>
+        </form>
+    </x-modal>
 </div>

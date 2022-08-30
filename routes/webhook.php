@@ -48,3 +48,8 @@ Route::get("/documents/creditors-list", [
     DocumentController::class,
     "getCreditorsList",
 ]);
+
+Route::get("/documents/expenses", [
+    DocumentController::class,
+    "getExpensesList",
+]);

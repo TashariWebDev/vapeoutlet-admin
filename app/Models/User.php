@@ -96,13 +96,11 @@ class User extends Authenticatable
      */
     public function hasPermissionTo($permission): bool
     {
-        $permissions = [$permission];
-
-        $userPermissions = auth()
-            ->user()
-            ->permissions->pluck("name");
-
-        if ($userPermissions->contains($permission)) {
+        if (
+            auth()
+                ->user()
+                ->permissions->contains("name", $permission)
+        ) {
             return true;
         }
 

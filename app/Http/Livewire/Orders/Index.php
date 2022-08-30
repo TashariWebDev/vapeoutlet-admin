@@ -7,7 +7,6 @@ use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -23,12 +22,13 @@ class Index extends Component
 
     public function getDocument($transactionId)
     {
-        Log::info($transactionId);
         Http::get(
             config("app.admin_url") . "/webhook/save-document/{$transactionId}"
         );
 
-        $this->redirect("orders?page={$this->page}&filter={$this->filter}&searchTerm={$this->searchTerm}");
+        $this->redirect(
+            "orders?page={$this->page}&filter={$this->filter}&searchTerm={$this->searchTerm}"
+        );
     }
 
     public function mount()
@@ -52,9 +52,8 @@ class Index extends Component
         return view("livewire.orders.index", [
             "orders" => Order::query()
                 ->with([
-                    "delivery",
-                    "customer:id,name",
-                    "customer.transactions",
+                    "delivery:id,type",
+                    "customer.transactions:id,customer_id,reference,uuid",
                 ])
                 ->whereNotNull("status")
                 ->when(
