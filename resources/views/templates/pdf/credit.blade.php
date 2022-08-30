@@ -67,11 +67,11 @@
                         <p class="text-white font-semibold uppercase text-xs">Customer Details</p>
                     </div>
                     <ul class="text-sm px-1 py-2">
-                        <li>{{ ucwords($model->customer->name) }}</li>
+                        <li>{{ ucwords($model->customer->name  ?: "") }}</li>
                         <li>{{ $model->customer->phone }}</li>
                         <li>{{ $model->customer->email }}</li>
-                        <li>{{ ucwords($model->customer->company) }}</li>
-                        <li>{{ ucwords($model->customer->vat_number) }}</li>
+                        <li>{{ ucwords($model->customer->company  ?: "") }}</li>
+                        <li>{{ ucwords($model->customer->vat_number  ?: "") }}</li>
                     </ul>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                         </td>
                         <td class="col-span-2 text-left">
                             <p class="text-xs font-bold">
-                                {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
+                                {{ ucwords($item->product->brand  ?: "") }} {{ ucwords($item->product->name  ?: "") }}
                             </p>
                             <span class="flex flex-wrap text-xs">
                             @foreach($item->product->features as $feature)
