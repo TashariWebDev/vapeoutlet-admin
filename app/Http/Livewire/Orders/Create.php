@@ -162,12 +162,12 @@ class Create extends Component
     {
         Mail::to($this->order->customer->email)->later(
             60,
-            (new OrderConfirmed($this->order->customer))->afterCommit()
+            new OrderConfirmed($this->order->customer)
         );
 
         Mail::to(config("mail.from.address"))->later(
             60,
-            (new OrderReceived($this->order->customer))->afterCommit()
+            new OrderReceived($this->order->customer)
         );
     }
 
