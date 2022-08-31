@@ -105,6 +105,7 @@
                     wire:click="process"
                     wire:loading.attr="disabled"
                     wire:target="process"
+                    x-on:click="disable(this)"
             >
                 process order
             </button>
@@ -383,4 +384,9 @@
             </x-table.body>
         @endforeach
     </x-table.container>
+    <script>
+        function disable(button) {
+            button.disabled = true
+        }
+    </script>
 </div>

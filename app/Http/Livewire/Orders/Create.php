@@ -12,7 +12,6 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -144,15 +143,15 @@ class Create extends Component
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
-        DB::transaction(function () {
-            $this->order->verifyIfStockIsAvailable();
-            $this->order->decreaseStock();
-            $this->order->customer->createInvoice($this->order);
+        //        DB::transaction(function () {
+        $this->order->verifyIfStockIsAvailable();
+        $this->order->decreaseStock();
+        $this->order->customer->createInvoice($this->order);
 
-            $this->order->updateStatus("received");
+        $this->order->updateStatus("received");
 
-            $this->sendOrderEmails();
-        }, 3);
+        $this->sendOrderEmails();
+        //        }, 3);
 
         $this->notify("processed");
 
