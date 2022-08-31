@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Jobs\UpdateSupplierRunningBalanceJob;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,23 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class SupplierTransaction extends Model
 {
     protected $guarded = [];
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::created(function ($transaction) {
-            UpdateSupplierRunningBalanceJob::dispatch(
-                $transaction->customer_id
-            );
-        });
-
-        static::updated(function ($transaction) {
-            UpdateSupplierRunningBalanceJob::dispatch(
-                $transaction->customer_id
-            );
-        });
-    }
 
     public function supplier(): BelongsTo
     {
