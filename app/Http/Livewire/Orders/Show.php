@@ -3,13 +3,13 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Credit;
 use App\Models\Delivery;
 use App\Models\Note;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
-use Artisan;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -143,9 +143,9 @@ class Show extends Component
             $this->order->updateStatus("cancelled");
         }, 3);
 
-        Artisan::call("update:transactions", [
-            "customer" => $this->order->customer->id,
-        ]);
+        UpdateCustomerRunningBalanceJob::dispatch(
+            $this->order->customer_id
+        )->delay(3);
 
         $this->notify("order deleted");
         $this->redirect("/orders?filter=cancelled");
@@ -180,7 +180,7 @@ class Show extends Component
             "user_id" => auth()->id(),
         ]);
 
-        $this->reset(['note']);
+        $this->reset(["note"]);
 
         $this->addNoteForm = false;
 
@@ -191,7 +191,7 @@ class Show extends Component
     {
         $note->delete();
 
-        $this->notify('Note deleted');
+        $this->notify("Note deleted");
     }
 
     public function render(): Factory|View|Application

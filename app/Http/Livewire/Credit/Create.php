@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Credit;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Credit;
 use App\Models\CreditItem;
 use App\Models\Customer;
@@ -93,6 +94,7 @@ class Create extends Component
 
     public function process()
     {
+        sleep(1);
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
@@ -106,6 +108,10 @@ class Create extends Component
 
             $this->customer->createCredit($this->credit, $this->credit->number);
         }, 3);
+
+        UpdateCustomerRunningBalanceJob::dispatch(
+            $this->credit->customer_id
+        )->delay(3);
 
         $this->notify("processed");
 

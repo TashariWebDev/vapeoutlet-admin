@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Mail\OrderConfirmed;
 use App\Mail\OrderReceived;
 use App\Models\Delivery;
@@ -12,6 +13,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -140,18 +142,23 @@ class Create extends Component
 
     public function process()
     {
+        sleep(1);
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
-        //        DB::transaction(function () {
-        $this->order->verifyIfStockIsAvailable();
-        $this->order->decreaseStock();
-        $this->order->customer->createInvoice($this->order);
+        DB::transaction(function () {
+            $this->order->verifyIfStockIsAvailable();
+            $this->order->decreaseStock();
+            $this->order->customer->createInvoice($this->order);
 
-        $this->order->updateStatus("received");
+            $this->order->updateStatus("received");
 
-        $this->sendOrderEmails();
-        //        }, 3);
+            $this->sendOrderEmails();
+        }, 3);
+
+        UpdateCustomerRunningBalanceJob::dispatch(
+            $this->order->customer_id
+        )->delay(3);
 
         $this->notify("processed");
 

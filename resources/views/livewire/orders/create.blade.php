@@ -1,4 +1,5 @@
 <div>
+    <x-loading-screen/>
     <div class="w-full bg-white rounded-md p-6 mb-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
         <div>
             <p class="font-semibold">{{ $this->order->number }}</p>
@@ -102,8 +103,8 @@
     <x-modal title="Are your sure?" wire:model.defer="showConfirmModal">
         <div class="flex items-center space-x-2 py-3">
             <button class="button-success disabled:opacity-25"
+                    x-on:dblclick="return;"
                     wire:click="process"
-                    wire:loading.attr="disabled"
                     wire:target="process"
                     x-on:click="disable(this)"
             >

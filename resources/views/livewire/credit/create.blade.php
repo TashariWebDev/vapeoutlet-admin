@@ -3,7 +3,10 @@
 
     <x-modal title="Are you sure?" wire:model.defer="showConfirmModal">
         <div class="flex space-x-4 py-4">
-            <button class="button-success" wire:loading.attr="disabled" wire:target="save"
+            <button class="button-success"
+                    wire:loading.attr="disabled"
+                    wire:target="process"
+                    @click="disable(this)"
                     x-on:click="$wire.call('process')"
             >
                 <x-icons.tick class="w-5 h-5 mr-2"/>
@@ -205,4 +208,9 @@
             @endforeach
         </div>
     </div>
+    <script>
+        function disable(button) {
+            button.disabled = true
+        }
+    </script>
 </div>
