@@ -18,14 +18,14 @@ class Transaction extends Model
         static::created(function ($transaction) {
             UpdateCustomerRunningBalanceJob::dispatch(
                 $transaction->customer_id
-            );
+            )->delay(60);
         });
 
-        static::updated(function ($transaction) {
-            UpdateCustomerRunningBalanceJob::dispatch(
-                $transaction->customer_id
-            );
-        });
+        //        static::updated(function ($transaction) {
+        //            UpdateCustomerRunningBalanceJob::dispatch(
+        //                $transaction->customer_id
+        //            );
+        //        });
     }
 
     public function customer(): BelongsTo
