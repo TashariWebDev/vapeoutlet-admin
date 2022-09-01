@@ -75,6 +75,7 @@ class Index extends Component
                     $this->searchQuery,
                     fn($query) => $query->search($this->searchQuery)
                 )
+                ->orderBy("name")
                 ->paginate(10),
         ]);
     }
