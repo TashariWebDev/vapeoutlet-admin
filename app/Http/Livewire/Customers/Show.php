@@ -3,10 +3,14 @@
 namespace App\Http\Livewire\Customers;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Transaction;
 use Http;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Str;
@@ -22,7 +26,7 @@ class Show extends Component
 
     public $filter;
 
-    public $searchTerm = '';
+    public $searchTerm = "";
 
     public $reference;
 
@@ -30,36 +34,41 @@ class Show extends Component
 
     public $amount;
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            'reference' => ['required'],
-            'type' => ['required'],
-            'amount' => ['required'],
+            "reference" => ["required"],
+            "type" => ["required"],
+            "amount" => ["required"],
         ];
     }
 
     public function save()
     {
         $additionalFields = [
-            'customer_id' => $this->customerId,
-            'uuid' => Str::uuid(),
-            'created_by' => auth()->user()->name,
+            "customer_id" => $this->customerId,
+            "uuid" => Str::uuid(),
+            "created_by" => auth()->user()->name,
         ];
 
         $validatedData = $this->validate();
         $fields = array_merge($additionalFields, $validatedData);
 
-        if ($this->type == 'refund' || $this->type == 'payment') {
-            $fields['amount'] = 0 - $this->amount;
+        if ($this->type == "refund" || $this->type == "payment") {
+            $fields["amount"] = 0 - $this->amount;
         }
 
         Transaction::create($fields);
 
-        $this->reset('amount', 'reference', 'type');
+        UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
+
+        $this->reset("amount", "reference", "type");
+
+        $this->notify("transaction created");
         $this->showAddTransactionForm = false;
 
-        $this->notify('transaction created');
+        sleep(3);
+        $this->redirect("/customers/show/{$this->customerId}");
     }
 
     public function updatedSearchTerm()
@@ -75,34 +84,34 @@ class Show extends Component
     public function resetFilter()
     {
         $this->resetPage();
-        $this->filter = '';
+        $this->filter = "";
     }
 
     public function mount()
     {
-        $this->customerId = request('id');
+        $this->customerId = request("id");
     }
 
     public function getCustomerProperty()
     {
         return Customer::find($this->customerId)->load(
-            'transactions',
-            'orders',
-            'latestTransaction',
-            'invoices',
-            'debits',
-            'credits',
-            'refunds',
-            'payments'
+            "transactions",
+            "orders",
+            "latestTransaction",
+            "invoices",
+            "debits",
+            "credits",
+            "refunds",
+            "payments"
         );
     }
 
     public function createOrder()
     {
         $order = Order::firstOrCreate([
-            'customer_id' => $this->customer->id,
-            'status' => null,
-            'processed_by' => auth()->user()->name,
+            "customer_id" => $this->customer->id,
+            "status" => null,
+            "processed_by" => auth()->user()->name,
         ]);
 
         $this->redirect("/orders/create/{$order->id}");
@@ -111,7 +120,7 @@ class Show extends Component
     public function getDocument($transactionId)
     {
         Http::get(
-            config('app.admin_url')."/webhook/save-document/{$transactionId}"
+            config("app.admin_url") . "/webhook/save-document/{$transactionId}"
         );
 
         $this->redirect(
@@ -119,23 +128,23 @@ class Show extends Component
         );
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
-        return view('livewire.customers.show', [
-            'transactions' => $this->customer
+        return view("livewire.customers.show", [
+            "transactions" => $this->customer
                 ->transactions()
-                ->latest('id')
+                ->latest("id")
                 ->when($this->filter, function ($query) {
-                    $query->where('type', '=', $this->filter);
+                    $query->where("type", "=", $this->filter);
                 })
                 ->when($this->searchTerm, function ($query) {
                     $query
-                        ->where('reference', 'like', $this->searchTerm.'%')
-                        ->orWhere('created_by', 'like', $this->searchTerm.'%')
+                        ->where("reference", "like", $this->searchTerm . "%")
+                        ->orWhere("created_by", "like", $this->searchTerm . "%")
                         ->orWhere(
-                            'amount',
-                            'like',
-                            to_cents($this->searchTerm).'%'
+                            "amount",
+                            "like",
+                            to_cents($this->searchTerm) . "%"
                         );
                 })
                 ->simplePaginate(5),

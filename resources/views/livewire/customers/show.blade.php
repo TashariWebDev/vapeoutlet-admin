@@ -33,6 +33,10 @@
                     </button>
                 </div>
 
+                <div class="mt-4" wire:loading wire:target="save">
+                    <p class="text-green-500 text-xs">Processing! Please wait</p>
+                </div>
+
             </form>
         </div>
     </x-slide-over>
