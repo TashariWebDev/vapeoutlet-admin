@@ -128,6 +128,20 @@ class Show extends Component
         );
     }
 
+    public function updateBalances()
+    {
+        $this->customer->load("transactions");
+        $balance = 0;
+        foreach ($this->customer->transactions as $transaction) {
+            $balance += $transaction->amount;
+            $transaction->running_balance = $balance;
+            $transaction->save();
+        }
+
+        $this->redirect("customers/show/{$this->customer->id}");
+
+    }
+
     public function render(): Factory|View|Application
     {
         return view("livewire.customers.show", [

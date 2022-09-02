@@ -13,7 +13,8 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    protected $commands = [UpdateTransactionsCommand::class,
+    protected $commands = [
+        UpdateTransactionsCommand::class,
         DeleteOldPriceListCommand::class,
         DeleteOldDocumentsCommand::class,
         UpdateSupplierTransactionsCommand::class,
@@ -24,14 +25,16 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('delete:old-price-list')->everyTenMinutes();
-        $schedule->command('delete:old-documents')->daily();
-        $schedule->command('compress:images')->daily();
+        $schedule->command("delete:old-price-list")->everyTenMinutes();
+        $schedule->command("delete:old-documents")->daily();
+        $schedule->command("compress:images")->daily();
+        $schedule->command("update:transactions")->daily();
+        $schedule->command("update:supplier-transactions")->daily();
     }
 
     /**
@@ -41,8 +44,8 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . "/Commands");
 
-        require base_path('routes/console.php');
+        require base_path("routes/console.php");
     }
 }
