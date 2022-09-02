@@ -138,8 +138,7 @@ class Show extends Component
             $transaction->save();
         }
 
-        $this->redirect("customers/show/{$this->customer->id}");
-
+        $this->redirect("/customers/show/{$this->customer->id}");
     }
 
     public function render(): Factory|View|Application
