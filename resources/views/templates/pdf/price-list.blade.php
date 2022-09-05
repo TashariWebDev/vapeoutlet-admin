@@ -55,32 +55,39 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($products as $product)
-            <tr class="break-inside-avoid border-b border-dashed">
-                <td class="text-left">
-                    <p class="text-xs font-medium text-gray-900">{{ $product->sku }}</p>
-                </td>
-                <td class="text-left">
-                    <div>
-                        <p class="text-xs text-gray-500">
-                            {{ ucwords($product->brand) }} {{ ucwords($product->name)}}
-                        </p>
-                        <div class="flex flex-wrap justify-start">
-                            @foreach($product->features as $feature)
-                                <p class="text-gray-500 text-xs pr-2">{{$feature->name}}</p>
-                            @endforeach
+        @foreach($productsGroupedByCategory as $category)
+            @foreach($category as $product)
+                @if($loop->first)
+                    <tr class="bg-gray-200 font-bold">
+                        <td colspan="6" class="text-left">{{$product->category}}</td>
+                    </tr>
+                @endif
+                <tr class="break-inside-avoid border-b border-dashed">
+                    <td class="text-left">
+                        <p class="text-xs font-medium text-gray-900">{{ $product->sku }}</p>
+                    </td>
+                    <td class="text-left">
+                        <div>
+                            <p class="text-xs text-gray-500">
+                                {{ ucwords($product->brand) }} {{ ucwords($product->name)}}
+                            </p>
+                            <div class="flex flex-wrap justify-start">
+                                @foreach($product->features as $feature)
+                                    <p class="text-gray-500 text-xs pr-2">{{$feature->name}}</p>
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <p class="text-xs text-gray-500 font-semibold">
-                        {{ $product->qty() }}</p>
-                </td>
-                <td class="text-right">
-                    <p class="text-xs text-gray-500 font-semibold">
-                        R {{ number_format($product->getPriceByRole($customer),2) }}</p>
-                </td>
-            </tr>
+                    </td>
+                    <td class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold">
+                            {{ $product->qty() }}</p>
+                    </td>
+                    <td class="text-right">
+                        <p class="text-xs text-gray-500 font-semibold">
+                            R {{ number_format($product->getPriceByRole($customer),2) }}</p>
+                    </td>
+                </tr>
+            @endforeach
         @endforeach
         </tbody>
     </table>

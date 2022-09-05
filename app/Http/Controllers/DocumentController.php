@@ -68,12 +68,15 @@ class DocumentController extends Controller
     {
         Log::info($customer);
 
+        $productsGroupedByCategory = Product::query()
+            ->with("features")
+            ->where("is_active", true)
+            ->orderBy("brand", "asc")
+            ->get()
+            ->groupBy("category");
+
         $view = view("templates.pdf.price-list", [
-            "products" => Product::query()
-                ->with("features")
-                ->where("is_active", true)
-                ->orderBy("brand", "asc")
-                ->get(),
+            "productsGroupedByCategory" => $productsGroupedByCategory,
             "customer" => $customer,
         ])->render();
 
