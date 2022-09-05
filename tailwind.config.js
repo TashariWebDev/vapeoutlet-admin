@@ -10,6 +10,9 @@ module.exports = {
 
     theme: {
         extend: {
+            fontSize: {
+                xxs: [".50rem", "1rem"]
+            },
             fontFamily: {
                 sans: ["Nunito", ...defaultTheme.fontFamily.sans]
             },

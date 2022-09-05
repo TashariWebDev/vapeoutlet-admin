@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
             height: 100%;
@@ -41,11 +41,10 @@
 <body>
 <div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
 
-    <div>
-        {{ date("Y-m-d h:i:sa") }}
-    </div>
-
     <div class="break-inside-avoid break-after-avoid-page">
+        <div class="px-4">
+            {{ date("Y-m-d h:i:sa") }}
+        </div>
         <div class="px-4">
             <table class="w-full">
                 <thead>
@@ -58,7 +57,7 @@
                     <th class="text-right">Incl</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="text-sm">
                 @foreach($expenses as $grouped)
                     @foreach($grouped as $expense)
                         @if($loop->first)

@@ -6,11 +6,8 @@
     <title></title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-        body {
-            height: 100%;
-        }
-
 
         @media print {
             /*section,*/
@@ -18,21 +15,21 @@
             /*tr,*/
             /*div,*/
             section {
-                page-break-inside: avoid;
+                page-break-inside: avoid !important;
             }
 
+
             @page {
-                margin-top: 5mm;
-                margin-bottom: 10mm;
-                size: a4 portrait;
+                margin-top: 3mm;
+                margin-bottom: 0;
+                size: legal portrait;
             }
 
             @page :first {
-                margin-top: 0;
-                margin-bottom: 10mm;
-                size: a4 portrait;
+                margin-top: 3mm;
+                margin-bottom: 0;
+                size: legal portrait;
             }
-
         }
 
     </style>

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Invoice</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
+
 
         @media print {
             /*section,*/
@@ -19,23 +20,23 @@
 
 
             @page {
-                margin-top: 10mm;
-                margin-bottom: 10mm;
-                size: a4 portrait;
+                margin-top: 3mm;
+                margin-bottom: 0;
+                size: legal portrait;
             }
 
             @page :first {
-                margin-top: 0;
-                margin-bottom: 10mm;
-                size: a4 portrait;
+                margin-top: 3mm;
+                margin-bottom: 0;
+                size: legal portrait;
             }
         }
 
     </style>
 </head>
 <body>
-<div class="font-sans w-screen bg-white antialiased">
-    <div class="p-6 bg-white rounded">
+<div class="font-sans w-screen bg-white antialiased p-6">
+    <div class="p-4 bg-white rounded">
         <section id="header" class="pb-4">
             <div class="grid grid-cols-2 border-b">
                 <div class="flex items-center space-x-6 w-full pb-2">
@@ -101,7 +102,7 @@
                 </thead>
                 <tbody>
                 @foreach($model->items as $item)
-                    <tr class="border-b border-dashed py-1">
+                    <tr class="border-b border-dashed py-1 break-inside-avoid">
                         <td class="text-left">
                             <p class="font-semibold text-xs uppercase">{{ $item->product->sku }}</p>
                         </td>
@@ -183,26 +184,28 @@
             </section>
         </div>
 
-        <div class="mt-4 bg-white rounded-md p-4">
-         
-            @foreach($model->notes as $note)
-                <div class="pb-2">
-                    <div>
-                        @if($note->customer_id)
-                            <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
-                                on {{ $note->created_at }}</p>
-                        @else
-                            <p class="text-xs text-gray-400 uppercase">{{ $note->user?->name }}
-                                on {{ $note->created_at }}</p>
-                        @endif
-                    </div>
-                    <div class="p-1">
-                        <p class="capitalize text-sm">{{ $note->body }}</p>
-                    </div>
-                </div>
-            @endforeach
+        @if($model->notes->count())
+            <div class="mt-4 bg-white rounded-md p-4">
 
-        </div>
+                @foreach($model->notes as $note)
+                    <div class="pb-2">
+                        <div>
+                            @if($note->customer_id)
+                                <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
+                                    on {{ $note->created_at }}</p>
+                            @else
+                                <p class="text-xs text-gray-400 uppercase">{{ $note->user?->name }}
+                                    on {{ $note->created_at }}</p>
+                            @endif
+                        </div>
+                        <div class="p-1">
+                            <p class="capitalize text-sm">{{ $note->body }}</p>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        @endif
     </div>
 </div>
 </body>
