@@ -58,7 +58,7 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li>{{ $order->placed_at ?? $order->created_at }}</li>
+                        <li>{{ $model->placed_at ?? $model->created_at }}</li>
                         <li class="capitalize">{{ $model->number }}</li>
                         <li class="uppercase font-extrabold text-lg">{{ $model->delivery->type }}</li>
                     </ul>
