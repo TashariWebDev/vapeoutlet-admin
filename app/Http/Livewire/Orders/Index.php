@@ -58,10 +58,7 @@ class Index extends Component
                 ->whereNotNull("status")
                 ->whereStatus($this->filter)
                 ->orderBy("placed_at", "desc")
-                ->when(
-                    $this->searchTerm,
-                    fn($query) => $query->search($this->searchTerm)
-                )
+                ->search($this->searchTerm)
                 ->paginate(6),
         ]);
     }
