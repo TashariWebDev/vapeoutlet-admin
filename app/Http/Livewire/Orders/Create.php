@@ -83,7 +83,6 @@ class Create extends Component
             $this->products = Product::query()
                 ->search($this->searchQuery)
                 ->inStock()
-                ->where("is_active", "=", true)
                 ->get();
         } else {
             $this->products = [];
