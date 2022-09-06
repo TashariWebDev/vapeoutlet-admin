@@ -75,7 +75,6 @@
             </div>
 
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                {{ number_format($stock->total_value,2) }}
                 <dt class="text-sm font-medium text-gray-500 truncate">Stock value</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
                     {{ number_format(to_rands(ex_vat($stock->total_value)),2) }}
