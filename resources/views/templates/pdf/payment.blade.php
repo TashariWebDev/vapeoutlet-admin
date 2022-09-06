@@ -54,7 +54,7 @@
                 <div class="text-xs text-right font-mono">
                     <ul>
                         <li class="uppercase">{{ $model->created_by }}</li>
-                        <li>{{ $model->created_at->format('d-m-Y') }}</li>
+                        <li>{{ $model->created_at }}</li>
                         <li class="capitalize">{{ $model->type }} Receipt</li>
                     </ul>
                 </div>

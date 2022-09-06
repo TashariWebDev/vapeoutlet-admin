@@ -17,11 +17,6 @@ class Order extends Model
 
     protected $dates = [
         "placed_at", // order created
-        "processes_at", // order adjusted and sent to warehouse
-        "picked_at", // warehouse pulls order and hands to dispatch (picklist)
-        "packed_at", // dispatch confirms order and packs order (delivery note)
-        "shipped_at", // dispatch hands over to courier
-        "completed_at", // order complete
     ];
 
     public function getStatus()

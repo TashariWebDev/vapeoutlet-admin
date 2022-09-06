@@ -151,6 +151,9 @@ class Create extends Component
             $this->order->customer->createInvoice($this->order);
 
             $this->order->updateStatus("received");
+            $this->order->update([
+                "placed_at" => now(),
+            ]);
 
             $this->sendOrderEmails();
         }, 3);

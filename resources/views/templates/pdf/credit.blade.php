@@ -53,8 +53,7 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li class="uppercase">{{ $model->created_by }}</li>
-                        <li>{{ $model->created_at->format('d-m-Y') }}</li>
+                        <li class="uppercase">{{ $order->placed_at ?? $order->created_at }}</li>
                         <li class="capitalize">{{ $model->number }}</li>
                         <li class="capitalize">Credit Note</li>
                     </ul>

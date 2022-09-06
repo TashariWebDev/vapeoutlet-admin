@@ -58,7 +58,7 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li>{{ $model->created_at->format('d-m-Y') }}</li>
+                        <li>{{ $order->placed_at ?? $order->created_at }}</li>
                         <li class="capitalize">{{ $model->number }}</li>
                         <li class="uppercase font-extrabold text-lg">{{ $model->delivery->type }}</li>
                     </ul>
