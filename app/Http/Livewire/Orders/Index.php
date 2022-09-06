@@ -56,12 +56,12 @@ class Index extends Component
                     "customer.transactions:id,customer_id,reference,uuid",
                 ])
                 ->whereNotNull("status")
+                ->whereStatus($this->filter)
+                ->orderBy("placed_at", "desc")
                 ->when(
                     $this->searchTerm,
                     fn($query) => $query->search($this->searchTerm)
                 )
-                ->whereStatus($this->filter)
-                ->orderBy("placed_at", "desc")
                 ->paginate(6),
         ]);
     }
