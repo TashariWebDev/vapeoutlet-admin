@@ -60,9 +60,7 @@ class Index extends Component
                     $this->searchTerm,
                     fn($query) => $query->search($this->searchTerm)
                 )
-                ->when($this->filter, function ($query) {
-                    $query->whereStatus($this->filter);
-                })
+                ->whereStatus($this->filter)
                 ->orderBy("placed_at", "desc")
                 ->paginate(6),
         ]);
