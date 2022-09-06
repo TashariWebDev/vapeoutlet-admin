@@ -55,10 +55,10 @@ class Index extends Component
                     "delivery:id,type",
                     "customer.transactions:id,customer_id,reference,uuid",
                 ])
-                //                ->whereNotNull("status")
+                ->whereNotNull("status")
                 ->whereStatus($this->filter)
                 ->search($this->searchTerm)
-                //                ->orderBy("placed_at", "desc")
+                ->latest()
                 ->paginate(6),
         ]);
     }
