@@ -50,7 +50,7 @@ class Show extends Component
                     "type" => "adjustment",
                     "reference" => "ST00" . $stockTake->id,
                     "qty" => $item->variance,
-                    "cost" => $item->cost,
+                    "cost" => $item->product->cost,
                 ]);
             }
 
