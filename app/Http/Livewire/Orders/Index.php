@@ -47,19 +47,31 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function filteredOrders()
+    {
+        $orders = Order::query()
+            ->with([
+                "delivery:id,type",
+                "customer.transactions:id,customer_id,reference,uuid",
+            ])
+            ->whereNotNull("status")
+            ->latest();
+
+        if ($this->filter) {
+            $orders->whereStatus($this->filter);
+        }
+
+        if ($this->searchTerm) {
+            $orders->search($this->searchTerm);
+        }
+
+        return $orders;
+    }
+
     public function render(): Factory|View|Application
     {
         return view("livewire.orders.index", [
-            "orders" => Order::query()
-                ->with([
-                    "delivery:id,type",
-                    "customer.transactions:id,customer_id,reference,uuid",
-                ])
-                ->whereNotNull("status")
-                ->whereStatus($this->filter)
-                ->search($this->searchTerm)
-                ->latest()
-                ->paginate(6),
+            "orders" => $this->filteredOrders()->paginate(6),
         ]);
     }
 }
