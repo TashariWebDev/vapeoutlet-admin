@@ -13,7 +13,6 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -116,6 +115,10 @@ class Create extends Component
 
     public function updatePrice(OrderItem $item, $value)
     {
+        if ($value < $item->product->cost) {
+            $this->notify("Price below cost");
+        }
+        
         $item->update(["price" => $value]);
         $this->notify("Price updated");
     }
@@ -141,22 +144,14 @@ class Create extends Component
 
     public function process()
     {
-        sleep(1);
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
-        DB::transaction(function () {
-            $this->order->verifyIfStockIsAvailable();
-            $this->order->decreaseStock();
-            $this->order->customer->createInvoice($this->order);
-
-            $this->order->updateStatus("received");
-            $this->order->update([
-                "placed_at" => now(),
-            ]);
-
-            $this->sendOrderEmails();
-        }, 3);
+        $this->order->verifyIfStockIsAvailable();
+        $this->order->decreaseStock();
+        $this->order->customer->createInvoice($this->order);
+        $this->order->updateStatus("received");
+        $this->sendOrderEmails();
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id

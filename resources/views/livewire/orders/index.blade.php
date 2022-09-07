@@ -92,7 +92,7 @@
                     <a class="link"
                        href="{{ route('orders/show',$order->id) }}">{{ $order->number}}</a>
                     <div class="pt-1">
-                        <p class="text-xs">{{ $order->placed_at ?? $order->created_at }}</p>
+                        <p class="text-xs">{{ $order->created_at }}</p>
                     </div>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left">

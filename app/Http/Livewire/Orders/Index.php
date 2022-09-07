@@ -22,7 +22,7 @@ class Index extends Component
 
     public $filter = "received";
 
-    public $direction = "asc";
+    public $direction = "desc";
 
     public function getDocument($transactionId)
     {

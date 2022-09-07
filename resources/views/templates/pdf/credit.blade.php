@@ -53,7 +53,7 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li class="uppercase">{{ $model->placed_at ?? $model->created_at }}</li>
+                        <li class="uppercase">{{ $model->created_at }}</li>
                         <li class="capitalize">{{ $model->number }}</li>
                         <li class="capitalize">Credit Note</li>
                     </ul>
