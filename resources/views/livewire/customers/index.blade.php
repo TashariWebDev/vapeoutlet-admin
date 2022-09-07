@@ -73,7 +73,11 @@
                     @endif
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
-                    R {{ number_format($customer->latestTransaction?->running_balance,2) ?? 0 }}
+                    @if($customer->latestTransaction?->running_balance || $customer->latestTransaction?->running_balance > 0)
+                        R {{ number_format($customer->latestTransaction?->running_balance,2)}}
+                    @else
+                        0.00
+                    @endif
                 </x-table.row>
             </x-table.body>
         @empty

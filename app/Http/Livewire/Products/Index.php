@@ -351,10 +351,7 @@ class Index extends Component
             "products" => Product::query()
                 ->where("is_active", $this->activeFilter)
                 ->with("features")
-                ->when(
-                    $this->searchQuery,
-                    fn($query) => $query->search($this->searchQuery)
-                )
+                ->search($this->searchQuery)
                 ->orderBy("brand")
                 ->paginate(5),
         ]);
