@@ -72,7 +72,14 @@
 
     <x-table.container>
         <x-table.header class="hidden lg:grid lg:grid-cols-6">
-            <x-table.heading>Order #</x-table.heading>
+            <x-table.heading>Order #
+                <button wire:click="$set('direction','asc')" class="@if($direction === 'asc') text-green-600  @endif">
+                    &uparrow;
+                </button>
+                <button wire:click="$set('direction','desc')" class="@if($direction === 'desc') text-green-600  @endif">
+                    &downarrow;
+                </button>
+            </x-table.heading>
             <x-table.heading>customer</x-table.heading>
             <x-table.heading class="text-center">status</x-table.heading>
             <x-table.heading class="text-center">delivery</x-table.heading>

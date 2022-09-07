@@ -95,8 +95,16 @@ class Order extends Model
 
     public function updateStatus($status): static
     {
-        $this->update(["status" => $status]);
-        $this->update(["is_editing" => false]);
+        $this->update([
+            "status" => $status,
+            "is_editing" => false,
+        ]);
+
+        if ($status === 'received') {
+            $this->update([
+                "created_at" => now(),
+            ]);
+        }
 
         return $this;
     }

@@ -7,6 +7,8 @@ use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -19,6 +21,8 @@ class Index extends Component
     public $searchTerm = "";
 
     public $filter = "received";
+
+    public $direction = "asc";
 
     public function getDocument($transactionId)
     {
@@ -47,7 +51,7 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function filteredOrders()
+    public function filteredOrders(): Builder|_IH_Order_QB
     {
         $orders = Order::query()
             ->with([
@@ -55,7 +59,7 @@ class Index extends Component
                 "customer.transactions:id,customer_id,reference,uuid",
             ])
             ->whereNotNull("status")
-            ->latest();
+            ->orderBy("created_at", $this->direction);
 
         if ($this->filter) {
             $orders->whereStatus($this->filter);
