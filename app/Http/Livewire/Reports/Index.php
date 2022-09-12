@@ -44,6 +44,7 @@ class Index extends Component
     public $selectedSupplierId = "";
     public $admins = [];
     public $selectedAdmin = "";
+    public $selectedBrands = [];
 
     public function mount()
     {
@@ -99,21 +100,21 @@ class Index extends Component
     public function createStockTake()
     {
         $this->validate([
-            "brand" => "required",
+            "selectedBrands" => "required|array",
         ]);
 
         $this->notify("Working on it!");
 
-        DB::transaction(function () {
+        foreach ($this->selectedBrands as $brand) {
             $stockTake = StockTake::create([
-                "brand" => $this->brand,
+                "brand" => $brand,
                 "created_by" => auth()->user()->name,
                 "date" => now(),
             ]);
 
             $selectedProducts = Product::query()
                 ->select("products.id", "products.cost")
-                ->where("brand", "=", $this->brand)
+                ->where("brand", "=", $brand)
                 ->get();
 
             foreach ($selectedProducts as $product) {
@@ -122,9 +123,9 @@ class Index extends Component
                     "cost" => $product->cost,
                 ]);
             }
-        });
+        }
 
-        $this->reset(["brand"]);
+        $this->selectedBrands = [];
         $this->showStockTakeModal = false;
 
         $this->notify("Stock take created");

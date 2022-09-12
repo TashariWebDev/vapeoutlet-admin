@@ -98,11 +98,14 @@
 
             <x-modal title="Create a stock take" wire:model.defer="showStockTakeModal">
                 <form wire:submit.prevent="createStockTake">
-                    <x-select wire:model.defer="brand">
+                    <div class="h-72 overflow-y-scroll p-3 border shadow-inner">
                         @foreach($this->brands as $brand)
-                            <option value="{{ $brand->name }}">{{ $brand->name }}</option>
+                            <div class="w-full text-xs bg-gray-100 rounded p-1 mb-1">
+                                <input type="checkbox" wire:model.defer="selectedBrands"
+                                       value="{{ $brand->name }}">{{ $brand->name }}</input>
+                            </div>
                         @endforeach
-                    </x-select>
+                    </div>
                     <div class="mt-2">
                         <button class="button-success">Create</button>
                     </div>
