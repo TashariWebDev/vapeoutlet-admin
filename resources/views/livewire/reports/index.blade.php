@@ -175,7 +175,161 @@
                 @endif
             </div>
         </div>
+
+        <div class="p-2 border rounded-md bg-white">
+            @php
+                $purchases = config('app.admin_url')."/storage/documents/purchases.pdf";
+
+                $purchasesExists = check_file_exist($purchases)
+            @endphp
+
+            <button class="button-success w-full"
+                    x-on:click="@this.set('showPurchasesForm',true)">
+                Purchases
+            </button>
+
+            <div class="py-4">
+                @if($purchasesExists)
+                    <a href="{{$purchases}}" class="link" wire:loading.class="hidden"
+                       wire:target="getPurchaseListDocument">
+                        &darr; print
+                    </a>
+                @endif
+            </div>
+        </div>
+
+        <div class="p-2 border rounded-md bg-white">
+            @php
+                $credits = config('app.admin_url')."/storage/documents/credits.pdf";
+
+                $creditsExists = check_file_exist($credits)
+            @endphp
+
+            <button class="button-success w-full"
+                    x-on:click="@this.set('showCreditsForm',true)">
+                Credits
+            </button>
+
+            <div class="py-4">
+                @if($creditsExists)
+                    <a href="{{$credits}}" class="link" wire:loading.class="hidden"
+                       wire:target="getCreditsListDocument">
+                        &darr; print
+                    </a>
+                @endif
+            </div>
+        </div>
+
+        <div class="p-2 border rounded-md bg-white">
+            @php
+                $variances = config('app.admin_url')."/storage/documents/variances.pdf";
+
+                $variancesExists = check_file_exist($variances)
+            @endphp
+
+            <button class="button-success w-full"
+                    x-on:click="@this.set('showVariancesForm',true)">
+                Variances
+            </button>
+
+            <div class="py-4">
+                @if($variancesExists)
+                    <a href="{{$variances}}" class="link" wire:loading.class="hidden"
+                       wire:target="getVariancesListDocument">
+                        &darr; print
+                    </a>
+                @endif
+            </div>
+        </div>
     </div>
+
+    <x-modal title="Get variances by date range" wire:model.defer="showVariancesForm">
+        <form wire:submit.prevent="getVariancesDocument">
+            <div class="py-4">
+                <x-input
+                    label="From date"
+                    wire:model.defer="fromDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-4">
+                <x-input
+                    label="To date"
+                    wire:model.defer="toDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-2">
+                <button class="button-success">Get report</button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal title="Get credits by date range" wire:model.defer="showCreditsForm">
+        <form wire:submit.prevent="getCreditsListDocument">
+            <div class="py-4">
+                <x-input
+                    label="From date"
+                    wire:model.defer="fromDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-4">
+                <x-input
+                    label="To date"
+                    wire:model.defer="toDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-4">
+                <x-select wire:model.defer="selectedAdmin">
+                    @foreach($admins as $admin)
+                        <option value="{{ $admin->name }}">{{ $admin->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+
+            <div class="py-2">
+                <button class="button-success">Get report</button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal title="Get purchases by date range" wire:model.defer="showPurchasesForm">
+        <form wire:submit.prevent="getPurchaseListDocument">
+            <div class="py-4">
+                <x-input
+                    label="From date"
+                    wire:model.defer="fromDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-4">
+                <x-input
+                    label="To date"
+                    wire:model.defer="toDate"
+                    type="date"
+                />
+            </div>
+
+            <div class="py-4">
+                <x-select wire:model.defer="selectedSupplierId">
+                    @foreach($suppliers as $supplier)
+                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+
+            <div class="py-2">
+                <button class="button-success">Get report</button>
+            </div>
+        </form>
+    </x-modal>
 
     <x-modal title="Get expense by date range" wire:model.defer="showExpenseForm">
         <form wire:submit.prevent="getExpenseListDocument">
@@ -193,6 +347,14 @@
                     wire:model.defer="toDate"
                     type="date"
                 />
+            </div>
+
+            <div class="py-4">
+                <x-select wire:model.defer="selectedExpenseCategory" s>
+                    @foreach($expenseCategories as $category)
+                        <option value="{{ $category->name }}">{{ $category->name }}</option>
+                    @endforeach
+                </x-select>
             </div>
 
             <div class="py-2">

@@ -5,7 +5,7 @@
             <p class="font-bold">STOCKTAKE ID: {{ $stockTake->id }}</p>
         </div>
         <div>
-            <p class="font-bold">DATE: {{ $stockTake->date }}</p>
+            <p class="font-bold">DATE: {{ $stockTake->created_at }}</p>
         </div>
         <div>
             <p class="font-bold">CREATED BY: {{ $stockTake->created_by }}</p>

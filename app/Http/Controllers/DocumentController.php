@@ -7,6 +7,8 @@ use App\Models\Customer;
 use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Stock;
 use App\Models\StockTake;
 use App\Models\Supplier;
 use App\Models\Transaction;
@@ -259,6 +261,9 @@ class DocumentController extends Controller
             request("from"),
             request("to"),
         ])
+            ->when(request("category"), function ($query) {
+                $query->whereCategory(request("category"));
+            })
             ->get()
             ->groupBy("category");
 
@@ -267,6 +272,104 @@ class DocumentController extends Controller
         ])->render();
 
         $url = storage_path("app/public/documents/expenses.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getPurchasesList()
+    {
+        $purchases = Purchase::whereBetween("date", [
+            request("from"),
+            request("to"),
+        ])
+            ->when(request("supplier"), function ($query) {
+                $query->whereSupplierId(request("supplier"));
+            })
+            ->get()
+            ->groupBy("supplier_id");
+
+        $view = view("templates.pdf.purchases", [
+            "purchases" => $purchases,
+        ])->render();
+
+        $url = storage_path("app/public/documents/purchases.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getCreditsList()
+    {
+        $credits = Credit::whereBetween("created_at", [
+            request("from"),
+            request("to"),
+        ])
+            ->when(request("admin"), function ($query) {
+                $query->whereCreatedBy(request("admin"));
+            })
+            ->get()
+            ->groupBy("created_by");
+
+        $view = view("templates.pdf.credits", [
+            "credits" => $credits,
+        ])->render();
+
+        $url = storage_path("app/public/documents/credits.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getVariancesList()
+    {
+        $stocks = Stock::whereBetween("created_at", [
+            request("from"),
+            request("to"),
+        ])
+            ->where("type", "=", "adjustment")
+            ->where("qty", "!=", 0)
+            ->get()
+            ->sortBy("reference");
+
+        $view = view("templates.pdf.variances", [
+            "stocks" => $stocks,
+        ])->render();
+
+        $url = storage_path("app/public/documents/variances.pdf");
 
         if (file_exists($url)) {
             unlink($url);

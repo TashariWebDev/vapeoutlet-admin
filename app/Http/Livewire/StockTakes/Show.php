@@ -45,13 +45,15 @@ class Show extends Component
                 ->first();
 
             foreach ($stockTake->items as $item) {
-                Stock::create([
-                    "product_id" => $item->product->id,
-                    "type" => "adjustment",
-                    "reference" => "ST00" . $stockTake->id,
-                    "qty" => $item->variance,
-                    "cost" => $item->product->cost,
-                ]);
+                if ($item->variance != 0) {
+                    Stock::create([
+                        "product_id" => $item->product->id,
+                        "type" => "adjustment",
+                        "reference" => "ST00" . $stockTake->id,
+                        "qty" => $item->variance,
+                        "cost" => $item->product->cost,
+                    ]);
+                }
             }
 
             $stockTake->update([

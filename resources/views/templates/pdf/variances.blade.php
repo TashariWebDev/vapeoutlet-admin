@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        body {
+            height: 100%;
+        }
+
+
+        @media print {
+            /*section,*/
+            /*td,*/
+            /*tr,*/
+            /*div,*/
+            section {
+                page-break-inside: avoid;
+            }
+
+
+            @page {
+                margin-top: 10mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
+            @page :first {
+                margin-top: 10mm;
+                margin-bottom: 10mm;
+                size: a4 portrait;
+            }
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
+
+
+    <div class="break-inside-avoid break-after-avoid-page">
+
+        <div class="px-4">
+            {{ date("Y-m-d h:i:sa") }}
+        </div>
+        <div class="px-4">
+            <table class="w-full">
+                <thead>
+                <tr class="bg-gray-900 text-white uppercase font-semibold text-xs">
+                    <th class="text-left">Product</th>
+                    <th class="text-center">Reference</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-right">Cost</th>
+                    <th class="text-right">Ex Vat</th>
+                    <th class="text-right">Vat</th>
+                    <th class="text-right">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($stocks as $stock)
+                    @if($stock->qty != 0)
+                        <tr class="text-xs">
+                            <td class="text-left">
+                                <div class="break-inside-avoid">
+                                    <p class="text-xs font-bold">
+                                        {{ ucwords($stock->product->brand) }} {{ ucwords($stock->product->name) }}
+                                    </p>
+                                    <span class="flex flex-wrap text-xs">
+                            @foreach($stock->product->features as $feature)
+                                            <span class="text-xs font-thin pr-1">{{ ucwords($feature->name) }}</span>
+                                    @endforeach
+                                </div>
+                            </td>
+                            <td class="text-center">{{ $stock->reference }}</td>
+                            <td class="text-center">{{ $stock->qty}}</td>
+                            <td class="text-right">{{ number_format($stock->cost,2) }}</td>
+                            <td class="text-right">{{ number_format(ex_vat($stock->getTotal()),2) }}</td>
+                            <td class="text-right">{{ number_format(vat($stock->getTotal()),2) }}</td>
+                            <td class="text-right">{{ number_format($stock->getTotal(),2) }}</td>
+                        </tr>
+                    @endif
+                    @if($loop->last)
+                        @php
+                            $totals = [];
+
+                            foreach ($stocks as $stock){
+                                $totals[] = $stock->getTotal();
+                            }
+
+                            $totalAmount = array_sum($totals)
+                        @endphp
+                        <tr class="break-inside-avoid text-xs">
+                            <td colspan="4"></td>
+                            <td class="bg-gray-900 text-white text-right">
+                                {{ number_format(ex_vat($totalAmount),2) }}
+                            </td>
+                            <td class="bg-gray-900 text-white text-right">
+                                {{ number_format(vat($totalAmount),2) }}
+                            </td>
+                            <td class="bg-gray-900 text-white text-right">
+                                {{ number_format($totalAmount,2) }}
+                            </td>
+                        </tr>
+                    @endif
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

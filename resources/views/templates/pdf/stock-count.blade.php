@@ -60,7 +60,7 @@
                 </div>
                 <div class="text-xs text-right font-mono">
                     <ul>
-                        <li>{{ $model->date->format('d-m-Y') }}</li>
+                        <li>{{ $model->created_at}}</li>
                         <li class="capitalize">STOCK TAKE ID:{{ $model->id }}</li>
                         <li class="uppercase font-extrabold text-lg">{{ $model->created_by }}</li>
                     </ul>

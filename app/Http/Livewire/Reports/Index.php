@@ -5,11 +5,14 @@ namespace App\Http\Livewire\Reports;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
 use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\Product;
 use App\Models\Stock;
 use App\Models\StockTake;
+use App\Models\Supplier;
 use App\Models\SupplierTransaction;
 use App\Models\Transaction;
+use App\Models\User;
 use DB;
 use Http;
 use Illuminate\Contracts\Foundation\Application;
@@ -24,6 +27,9 @@ class Index extends Component
     use WithNotifications;
 
     public $showStockTakeModal = false;
+    public $showPurchasesForm = false;
+    public $showCreditsForm = false;
+    public $showVariancesForm = false;
     public $brand;
     public $transactions;
     public $purchases;
@@ -32,9 +38,19 @@ class Index extends Component
     public $fromDate;
     public $toDate;
     public $showExpenseForm = false;
+    public $expenseCategories = [];
+    public $selectedExpenseCategory = "";
+    public $suppliers = [];
+    public $selectedSupplierId = "";
+    public $admins = [];
+    public $selectedAdmin = "";
 
     public function mount()
     {
+        $this->expenseCategories = ExpenseCategory::all();
+        $this->suppliers = Supplier::all();
+        $this->admins = User::all();
+
         $this->transactions = Transaction::query()
             ->select(
                 "*",
@@ -140,7 +156,34 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-                "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}"
+                "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}&category={$this->selectedExpenseCategory}"
+        );
+        $this->redirect("reports");
+    }
+
+    public function getPurchaseListDocument()
+    {
+        Http::get(
+            config("app.admin_url") .
+                "/webhook/documents/purchases?from={$this->fromDate}&to={$this->toDate}&supplier={$this->selectedSupplierId}"
+        );
+        $this->redirect("reports");
+    }
+
+    public function getCreditsListDocument()
+    {
+        Http::get(
+            config("app.admin_url") .
+                "/webhook/documents/credits?from={$this->fromDate}&to={$this->toDate}&admin={$this->selectedAdmin}"
+        );
+        $this->redirect("reports");
+    }
+
+    public function getVariancesDocument()
+    {
+        Http::get(
+            config("app.admin_url") .
+                "/webhook/documents/variances?from={$this->fromDate}&to={$this->toDate}"
         );
         $this->redirect("reports");
     }

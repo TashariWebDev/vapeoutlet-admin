@@ -53,3 +53,15 @@ Route::get("/documents/expenses", [
     DocumentController::class,
     "getExpensesList",
 ]);
+
+Route::get("/documents/purchases", [
+    DocumentController::class,
+    "getPurchasesList",
+]);
+
+Route::get("/documents/credits", [DocumentController::class, "getCreditsList"]);
+
+Route::get("/documents/variances", [
+    DocumentController::class,
+    "getVariancesList",
+]);

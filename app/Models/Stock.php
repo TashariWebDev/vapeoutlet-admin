@@ -53,4 +53,9 @@ class Stock extends Model
     {
         return $this->belongsTo(Credit::class);
     }
+
+    public function getTotal(): float|int
+    {
+        return $this->qty * $this->cost;
+    }
 }

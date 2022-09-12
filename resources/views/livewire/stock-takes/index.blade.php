@@ -25,7 +25,7 @@
                     <a href="{{ route('stock-takes/show',$stockTake->id) }}" class="link">{{$stockTake->id}}</a>
                 </x-table.row>
                 <x-table.row>
-                    <p>{{$stockTake->date}}</p>
+                    <p>{{$stockTake->created_at}}</p>
                 </x-table.row>
                 <x-table.row>
                     <p class="uppercase">{{$stockTake->brand}}</p>
