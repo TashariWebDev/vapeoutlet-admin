@@ -29,7 +29,7 @@
             }
 
             @page :first {
-                margin-top: 10;
+                margin-top: 10mm;
                 margin-bottom: 10mm;
                 size: a4 portrait;
             }

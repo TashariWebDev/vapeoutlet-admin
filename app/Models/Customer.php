@@ -156,35 +156,62 @@ class Customer extends Authenticatable
 
     public function createDebit($reference, $amount, $createdBy): Transaction
     {
-        return $this->transactions()->firstOrCreate([
-            "uuid" => Str::uuid(),
-            "reference" => $reference,
-            "type" => "debit",
-            "amount" => $amount,
-            "created_by" => $createdBy,
-        ]);
+        return $this->transactions()->firstOrCreate(
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $reference,
+                "type" => "debit",
+                "amount" => $amount,
+                "created_by" => $createdBy,
+            ],
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $reference,
+                "type" => "debit",
+                "amount" => $amount,
+                "created_by" => $createdBy,
+            ]
+        );
     }
 
     public function createCredit(Credit $credit, $reference): Model|Transaction
     {
-        return $this->transactions()->firstOrCreate([
-            "uuid" => Str::uuid(),
-            "reference" => $reference,
-            "type" => "credit",
-            "amount" => 0 - $credit->getTotal(),
-            "created_by" => auth()->user()->name,
-        ]);
+        return $this->transactions()->firstOrCreate(
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $reference,
+                "type" => "credit",
+                "amount" => 0 - $credit->getTotal(),
+                "created_by" => auth()->user()->name,
+            ],
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $reference,
+                "type" => "credit",
+                "amount" => 0 - $credit->getTotal(),
+                "created_by" => auth()->user()->name,
+            ]
+        );
     }
 
     public function createInvoice(Order $order): Model|Transaction
     {
-        return $this->transactions()->create([
-            "uuid" => Str::uuid(),
-            "reference" => $order->number,
-            "type" => "invoice",
-            "amount" => $order->getTotal(),
-            "created_by" => auth()->user()->name,
-        ]);
+        return $this->transactions()->firstOrCreate(
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $order->number,
+                "type" => "invoice",
+                "amount" => $order->getTotal(),
+                "created_by" => auth()->user()->name,
+            ],
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $order->number,
+                "type" => "invoice",
+                "amount" => $order->getTotal(),
+                "created_by" => auth()->user()->name,
+            ]
+        );
     }
 
     public function scopeDebtors($query)

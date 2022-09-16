@@ -118,7 +118,7 @@ class Create extends Component
         if ($value < $item->product->cost) {
             $this->notify("Price below cost");
         }
-        
+
         $item->update(["price" => $value]);
         $this->notify("Price updated");
     }
@@ -144,6 +144,10 @@ class Create extends Component
 
     public function process()
     {
+        if (!$this->order->items->count()) {
+            return;
+        }
+
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
@@ -152,6 +156,7 @@ class Create extends Component
         $this->order->customer->createInvoice($this->order);
         $this->order->updateStatus("received");
         $this->sendOrderEmails();
+
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id
