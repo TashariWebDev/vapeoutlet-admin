@@ -36,12 +36,12 @@ class Supplier extends Model
 
     public function purchases(): HasMany
     {
-        return $this->hasMany(Purchase::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Purchase::class)->orderBy("created_at", "desc");
     }
 
     public function expenses(): HasMany
     {
-        return $this->hasMany(Expense::class)->orderBy('created_at', 'desc');
+        return $this->hasMany(Expense::class)->orderBy("created_at", "desc");
     }
 
     public function transactions(): HasMany
@@ -52,18 +52,27 @@ class Supplier extends Model
     public function invoices(): HasMany
     {
         return $this->hasMany(SupplierTransaction::class)->where(
-            'type',
-            '=',
-            'purchase'
+            "type",
+            "=",
+            "purchase"
         );
     }
 
     public function payments(): HasMany
     {
         return $this->hasMany(SupplierTransaction::class)->where(
-            'type',
-            '=',
-            'payment'
+            "type",
+            "=",
+            "payment"
+        );
+    }
+
+    public function credits(): HasMany
+    {
+        return $this->hasMany(SupplierTransaction::class)->where(
+            "type",
+            "=",
+            "supplier credit"
         );
     }
 
@@ -81,29 +90,51 @@ class Supplier extends Model
             }
         }
 
-        return $this->latestTransaction()->value('running_balance') ?? 0;
+        return $this->latestTransaction()->value("running_balance") ?? 0;
+    }
+
+    public function createCredit(
+        SupplierCredit $credit,
+        $reference
+    ): SupplierTransaction|Model {
+        return $this->transactions()->firstOrCreate(
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $reference,
+                "type" => "supplier credit",
+                "amount" => 0 - $credit->getTotal(),
+                "created_by" => auth()->user()->name,
+            ],
+            [
+                "uuid" => Str::uuid(),
+                "reference" => $reference,
+                "type" => "supplier credit",
+                "amount" => 0 - $credit->getTotal(),
+                "created_by" => auth()->user()->name,
+            ]
+        );
     }
 
     //    scopes
     public function scopeSearch($query, $terms)
     {
-        collect(explode(' ', $terms))
+        collect(explode(" ", $terms))
             ->filter()
             ->each(function ($term) use ($query) {
-                $term = '%'.$term.'%';
+                $term = "%" . $term . "%";
                 $query
-                    ->where('name', 'like', $term)
-                    ->orWhere('email', 'like', $term)
-                    ->orWhere('phone', 'like', $term)
-                    ->orWhere('person', 'like', $term)
-                    ->orWhere('city', 'like', $term);
+                    ->where("name", "like", $term)
+                    ->orWhere("email", "like", $term)
+                    ->orWhere("phone", "like", $term)
+                    ->orWhere("person", "like", $term)
+                    ->orWhere("city", "like", $term);
             });
     }
 
     public function scopeCreditors($query)
     {
-        return $query->withWhereHas('latestTransaction', function ($query) {
-            $query->where('running_balance', '!=', 0);
+        return $query->withWhereHas("latestTransaction", function ($query) {
+            $query->where("running_balance", "!=", 0);
         });
     }
 }

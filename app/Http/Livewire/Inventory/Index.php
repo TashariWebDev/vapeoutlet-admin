@@ -187,6 +187,9 @@ class Index extends Component
                     DB::raw(
                         '(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id && type = "adjustment") as total_adjustments'
                     ),
+                    DB::raw(
+                        '(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id && type = "supplier credit") as total_supplier_credits'
+                    ),
                     DB::raw('(select cost FROM stocks WHERE products.id = stocks.product_id && type = "purchase"
                     ORDER BY id DESC LIMIT 1) as last_cost')
                 )

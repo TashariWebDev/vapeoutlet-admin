@@ -130,6 +130,20 @@ Route::middleware("auth")->group(function () {
         ->name("purchases/create")
         ->middleware("permission:create purchase");
 
+    Route::get(
+        "supplier-credits/{id}",
+        \App\Http\Livewire\Returns\Create::class
+    )
+        ->name("supplier-credits/create")
+        ->middleware("permission:create purchase");
+
+    Route::get(
+        "supplier-credits/show/{id}",
+        \App\Http\Livewire\Returns\Show::class
+    )
+        ->name("supplier-credits/show")
+        ->middleware("permission:create purchase");
+
     Route::middleware("permission:view suppliers")->group(function () {
         Route::get(
             "inventory/suppliers",

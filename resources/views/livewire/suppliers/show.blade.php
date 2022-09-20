@@ -64,6 +64,21 @@
                     </div>
                 </dd>
             </div>
+            <div class="relative bg-white pt-5 px-4 pb-6 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden">
+                <dt>
+                    <div class="absolute bg-gradient-gray rounded-md p-3">
+                        <x-icons.tax-receipt class="h-6 w-6 text-white"/>
+                    </div>
+                    <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Credits</p>
+                </dt>
+                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                    <div>
+                        <p class="text-2xl font-semibold text-gray-900">
+                            R {{ number_format($this->supplier->credits->sum('amount'),2) }}
+                        </p>
+                    </div>
+                </dd>
+            </div>
 
             <div class="relative bg-white pt-5 px-4 pb-6 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden">
                 <dt>
@@ -123,6 +138,11 @@
                              placeholder="search by reference"/>
 
             <div>
+                <a href="{{ route('supplier-credits/create',$this->supplier->id) }}"
+                   class="w-full lg:w-auto button-success">
+                    <x-icons.plus class="w-5 h-5 mr-2"/>
+                    supplier credit
+                </a>
                 <button class="button-success w-full lg:w-72" x-on:click="@this.set('showAddTransactionForm',true)">
                     <x-icons.plus class="w-5 w-5 mr-2"/>
                     add transaction
@@ -173,6 +193,11 @@
                 <x-table.row class="text-center lg:text-left">
                     @if($transaction->type == 'purchase')
                         <button wire:click="showPurchase('{{$transaction->reference}}')"
+                                class="font-semibold link">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
+                        </button>
+                        <p class="text-gray-500 text-xs pt-1">{{ $transaction->created_at }}</p>
+                    @elseif($transaction->type == 'supplier credit')
+                        <button wire:click="showSupplierCredit('{{$transaction->reference}}')"
                                 class="font-semibold link">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                         </button>
                         <p class="text-gray-500 text-xs pt-1">{{ $transaction->created_at }}</p>
