@@ -13,7 +13,7 @@ class Order extends Model
 {
     protected $guarded = [];
 
-    protected $appends = ["total"];
+    protected $appends = ["total", "sub_total"];
 
     protected $dates = [
         "placed_at", // order created
@@ -88,6 +88,11 @@ class Order extends Model
         return new Attribute(get: fn($value) => $this->getTotal());
     }
 
+    public function subTotal(): Attribute
+    {
+        return new Attribute(get: fn($value) => $this->getSubTotal());
+    }
+
     public function getCost()
     {
         return $this->items()->sum(DB::raw("cost * qty"));
@@ -100,7 +105,7 @@ class Order extends Model
             "is_editing" => false,
         ]);
 
-        if ($status === 'received') {
+        if ($status === "received") {
             $this->update([
                 "created_at" => now(),
             ]);

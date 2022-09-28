@@ -65,3 +65,8 @@ Route::get("/documents/variances", [
     DocumentController::class,
     "getVariancesList",
 ]);
+
+Route::get("/documents/salesByDateRange", [
+    DocumentController::class,
+    "getSalesByDateRange",
+]);

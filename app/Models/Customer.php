@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,8 @@ use Laravel\Sanctum\HasApiTokens;
 class Customer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+
+    protected $appends = ["total_monthly_sales_excl"];
 
     /**
      * The attributes that are mass assignable.
@@ -87,6 +90,34 @@ class Customer extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function MonthlySales(): HasMany
+    {
+        return $this->hasMany(Order::class)
+            ->where("status", "!=", "cancelled")
+            ->whereNotNull("status");
+    }
+
+    public function monthlySalesTotal(): float|int
+    {
+        $totals = [];
+        foreach ($this->monthlySales()->get() as $order) {
+            $totals[] = $order->getSubTotal();
+        }
+        return array_sum($totals);
+    }
+
+    public function totalMonthSales(): Attribute
+    {
+        return new Attribute(get: fn($value) => $this->monthlySalesTotal());
+    }
+
+    public function totalMonthlySalesExcl(): Attribute
+    {
+        return new Attribute(
+            get: fn($value) => ex_vat($this->monthlySalesTotal())
+        );
     }
 
     public function notes(): HasMany

@@ -30,6 +30,7 @@ class Index extends Component
     public $showPurchasesForm = false;
     public $showCreditsForm = false;
     public $showVariancesForm = false;
+    public $showSalesByDateRangeForm = false;
     public $brand;
     public $transactions;
     public $purchases;
@@ -185,6 +186,15 @@ class Index extends Component
         Http::get(
             config("app.admin_url") .
                 "/webhook/documents/variances?from={$this->fromDate}&to={$this->toDate}"
+        );
+        $this->redirect("reports");
+    }
+
+    public function getSalesByDateRangeDocument()
+    {
+        Http::get(
+            config("app.admin_url") .
+                "/webhook/documents/salesByDateRange?from={$this->fromDate}&to={$this->toDate}"
         );
         $this->redirect("reports");
     }

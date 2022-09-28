@@ -385,4 +385,42 @@ class DocumentController extends Controller
 
         return response()->json(200);
     }
+
+    public function getSalesByDateRange()
+    {
+        $customers = Customer::withWhereHas("orders", function ($query) {
+            $query
+                ->whereBetween("created_at", [request("from"), request("to")])
+                ->where("status", "!=", "cancelled")
+                ->whereNotNull("status");
+        })
+            ->select([
+                "customers.id",
+                "customers.name",
+                "customers.salesperson_id",
+            ])
+            ->with("salesperson:id,name")
+            ->get()
+            ->groupBy("salesperson.name");
+
+        $url = storage_path("app/public/documents/salesByDateRange.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        $view = view("templates.pdf.salesByDateRange", [
+            "customers" => $customers,
+        ])->render();
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
 }
