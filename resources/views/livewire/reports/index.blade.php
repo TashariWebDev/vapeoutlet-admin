@@ -22,27 +22,27 @@
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Sales</dt>
                 <dd class="mt-1  racking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands(ex_vat($gross_sales)),2) }}
+                    {{ number_format(to_rands(ex_vat($gross_sales)),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($gross_sales),2) }}
+                    {{ number_format(to_rands($gross_sales),2) ?? '0.00' }}
                 </dd>
             </div>
 
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Purchases</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands(ex_vat($purchases->total_purchases)),2) }}
+                    {{ number_format(to_rands(ex_vat($purchases->total_purchases)),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($purchases->total_purchases),2) }}
+                    {{ number_format(to_rands($purchases->total_purchases),2) ?? '0.00' }}
                 </dd>
             </div>
 
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Expenses</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands($expenses->total_expenses),2) }}
+                    {{ number_format(to_rands($expenses->total_expenses),2 ) ?? '0.00' }}
                 </dd>
             </div>
         </dl>
@@ -57,30 +57,30 @@
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Refunds</dt>
                 <dd class="mt-1  tracking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands(ex_vat($transactions->total_refunds)),2) }}
+                    {{ number_format(to_rands(ex_vat($transactions->total_refunds)),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($transactions->total_refunds),2) }}
+                    {{ number_format(to_rands($transactions->total_refunds),2) ?? '0.00' }}
                 </dd>
             </div>
 
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Credits</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands(ex_vat($transactions->total_credits)),2) }}
+                    {{ number_format(to_rands(ex_vat($transactions->total_credits)),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($transactions->total_credits),2) }}
+                    {{ number_format(to_rands($transactions->total_credits),2) ?? '0.00' }}
                 </dd>
             </div>
 
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Stock value</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands(ex_vat($stock->total_value)),2) }}
+                    {{ number_format(to_rands(ex_vat($stock->total_value)),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($stock->total_value),2) }}
+                    {{ number_format(to_rands($stock->total_value),2) ?? '0.00' }}
                 </dd>
             </div>
         </dl>

@@ -132,7 +132,7 @@ class Create extends Component
             $this->notify("Qty updated");
         } else {
             $item->update(["qty" => $qtyInStock]);
-            $this->notify("Max Qty of {$qtyInStock} added");
+            $this->notify("Max Qty of $qtyInStock added");
         }
     }
 
@@ -145,18 +145,37 @@ class Create extends Component
     public function process()
     {
         if (!$this->order->items->count()) {
+            $this->notify("Nothing in order");
+            $this->showConfirmModal = false;
             return;
         }
 
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
+//        $startItemsCount = $this->order->items->count();
+
         $this->order->verifyIfStockIsAvailable();
+        $this->order->refresh();
+//        $endItemsCount = $this->order->items->count();
+
+        if (!$this->order->items->count()) {
+            $this->notify("Nothing in order");
+            $this->showConfirmModal = false;
+            return;
+        }
+
+//        if ($startItemsCount != $endItemsCount) {
+//            $this->notify(
+//                "Some products out of stock removed from order. Please process again"
+//            );
+//            return;
+//        }
+
         $this->order->decreaseStock();
         $this->order->customer->createInvoice($this->order);
         $this->order->updateStatus("received");
         $this->sendOrderEmails();
-
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id
@@ -193,7 +212,7 @@ class Create extends Component
         $this->redirectRoute("orders");
     }
 
-    public function getOrderProperty(): Order|array|_IH_Order_C|null
+    public function getOrderProperty(): Order|array|null
     {
         return Order::find($this->orderId)->load(
             "customer.addresses",

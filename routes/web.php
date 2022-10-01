@@ -168,6 +168,8 @@ Route::middleware("auth")->group(function () {
     Route::get("dispatch", \App\Http\Livewire\Dispatch\Index::class)
         ->name("dispatch")
         ->middleware("permission:view dispatch");
+
+    Route::get("dashboard", Index::class)->name("dashboard");
 });
 
 require __DIR__ . "/auth.php";

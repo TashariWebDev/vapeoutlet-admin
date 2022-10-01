@@ -154,9 +154,9 @@ class Order extends Model
             if ($item->qty > $item->product->qty()) {
                 $item->qty = $item->product->qty();
                 $item->save();
-                if ($item->qty == 0) {
-                    $this->remove($item);
-                }
+            }
+            if ($item->qty <= 0) {
+                $this->remove($item);
             }
         }
 
@@ -189,9 +189,8 @@ class Order extends Model
         return $this;
     }
 
-    public function remove($itemId): static
+    public function remove($item): static
     {
-        $item = OrderItem::find($itemId);
         $item->delete();
 
         return $this;
