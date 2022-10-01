@@ -97,6 +97,7 @@ class Create extends Component
         $this->showProductSelectorForm = false;
         $this->reset(["searchQuery"]);
         $this->selectedProducts = [];
+        $this->products = [];
         $this->notify("Products added");
         $this->order->refresh();
     }
@@ -125,7 +126,7 @@ class Create extends Component
 
     public function updateQty(OrderItem $item, $qty)
     {
-        $qtyInStock = $item->product->stocks()->sum("qty");
+        $qtyInStock = $item->product->stocks->sum("qty");
 
         if ($qty <= $qtyInStock) {
             $item->update(["qty" => $qty]);
@@ -153,11 +154,11 @@ class Create extends Component
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
-        //        $startItemsCount = $this->order->items->count();
+        $startItemsCount = $this->order->items->count();
 
         $this->order->verifyIfStockIsAvailable();
         $this->order->refresh();
-        //        $endItemsCount = $this->order->items->count();
+        $endItemsCount = $this->order->items->count();
 
         if (!$this->order->items->count()) {
             $this->notify("Nothing in order");
@@ -165,12 +166,12 @@ class Create extends Component
             return;
         }
 
-        //        if ($startItemsCount != $endItemsCount) {
-        //            $this->notify(
-        //                "Some products out of stock removed from order. Please process again"
-        //            );
-        //            return;
-        //        }
+        if ($startItemsCount != $endItemsCount) {
+            $this->notify(
+                "Some products out of stock removed from order. Please process again"
+            );
+            return;
+        }
 
         $this->order->decreaseStock();
         $this->order->customer->createInvoice($this->order);

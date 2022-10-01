@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Models\Order;
+use App\Models\Transaction;
 use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -18,11 +19,33 @@ class Index extends Component
 
     public $showAddOrderForm = false;
 
+    public $quickViewCustomerAccountModal = false;
+
+    public $selectedCustomerLatestTransactions = [];
+
     public $searchTerm = "";
 
     public $filter = "received";
 
     public $direction = "desc";
+
+    public function selectedCustomerLatestTransactions()
+    {
+        if ($this->quickViewCustomerAccountModal === false) {
+            $this->selectedCustomerLatestTransactions = [];
+        }
+    }
+
+    public function quickViewCustomerAccount($customerId)
+    {
+        $this->selectedCustomerLatestTransactions = Transaction::query()
+            ->where("customer_id", "=", $customerId)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $this->quickViewCustomerAccountModal = true;
+    }
 
     public function getDocument($transactionId)
     {

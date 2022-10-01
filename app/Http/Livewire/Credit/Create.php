@@ -33,6 +33,8 @@ class Create extends Component
 
     public $selectedProducts = [];
 
+    public $products = [];
+
     public function mount()
     {
         $this->customerId = request("id");
@@ -47,11 +49,16 @@ class Create extends Component
         );
     }
 
-    public function updatingSearchQuery()
+    public function updatedSearchQuery()
     {
-        if (strlen($this->searchQuery) > -1) {
-            $this->showProductSelectorForm = true;
-            $this->resetPage();
+        $this->showProductSelectorForm = true;
+        if (strlen($this->searchQuery) > 0) {
+            $this->products = Product::query()
+                ->search($this->searchQuery)
+                ->inStock()
+                ->get();
+        } else {
+            $this->products = [];
         }
     }
 
@@ -137,13 +144,6 @@ class Create extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.credit.create", [
-            "products" => Product::query()
-                ->with("features")
-                ->when($this->searchQuery, function ($query) {
-                    $query->search($this->searchQuery);
-                })
-                ->simplePaginate(6),
-        ]);
+        return view("livewire.credit.create");
     }
 }

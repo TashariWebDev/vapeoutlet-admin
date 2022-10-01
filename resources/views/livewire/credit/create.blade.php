@@ -1,7 +1,9 @@
 <div x-data="{}">
     <x-loading-screen/>
 
-    <x-modal title="Are you sure?" wire:model.defer="showConfirmModal">
+    <x-modal title="Are you sure?"
+             wire:model.defer="showConfirmModal"
+    >
         <div class="flex space-x-4 py-4">
             <button class="button-success"
                     wire:loading.attr="disabled"
@@ -27,7 +29,7 @@
                 @if(!$this->credit->processed)
                     <div class="pb-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
                         <button class="button-success w-full"
-                                x-on:click="@this.set('showProductSelectorForm',true)"
+                                x-on:click="@this.set('showProductSelectorForm', true)"
                         >
                             <x-icons.plus class="w-5 h-5 mr-2"/>
                             add products
@@ -48,7 +50,8 @@
                     </div>
                 @else
                     <div class="pb-3">
-                        <button class="button-danger w-full" disabled
+                        <button class="button-danger w-full"
+                                disabled
                         >Processed by {{$this->credit->created_by}} on {{ $this->credit->processed_date }}
                         </button>
                     </div>
@@ -65,68 +68,76 @@
             <div class="text-right">
                 <h1 class="font-bold text-4xl">{{ $this->credit->number }}</h1>
                 <a class="text-right font-bold underline underline-offset-2 text-green-600 hover:text-yellow-500"
-                   href="{{ route('customers/show',$this->customer->id) }}">{{ $this->customer->name }}</a>
+                   href="{{ route('customers/show',$this->customer->id) }}"
+                >{{ $this->customer->name }}</a>
                 <h2>{{ $this->credit->created_at->format('Y-M-d') }}</h2>
             </div>
         </div>
 
-        <x-slide-over x-cloak wire:ignore.self="searchQuery" title="Select products"
-                      wire:model.defer="showProductSelectorForm">
-            <div>
-                <x-input type="search" label="search products" wire:model="searchQuery"/>
+        <x-slide-over x-cloak
+                      wire:ignore.self="searchQuery"
+                      title="Select products"
+                      wire:model.defer="showProductSelectorForm"
+        >
+            <div x-data=
+                 "{ searchQuery: @entangle('searchQuery') }"
+            >
+                <div class="relative">
+                    <label>
+                        <input x-model.lazy="searchQuery"
+                               type="search"
+                               class="w-full rounded-md border-2 border-yellow-400 placeholder-gray-300 focus:ring-2"
+                               placeholder="search"
+                        >
+                    </label>
+                    <div wire:loading="updatedSearchQuery"
+                         class="absolute top-0 right-0 h-2 w-2 bg-green-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping"
+                    >
+
+                    </div>
+                </div>
+                @if( count($products) )
+                    <div class="p-1">
+                        <p class="text-xs uppercase font-semibold"> {{ count($products) }} results</p>
+                    </div>
+                @endif
             </div>
 
             <div class="pt-4">
                 <form wire:submit.prevent="addProducts">
                     <div class="py-6">
-                        <button class="button-success">
+                        <button class="button-success w-full">
                             <x-icons.plus class="w-5 h-5 mr-2"/>
                             add
                         </button>
                     </div>
                     <fieldset class="space-y-2">
-                        @forelse($products as $product)
-                            <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
+                        @forelse($this->products as $product)
+                            <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md"
+                                   wire:key="'item-'{{$product->id}}"
+                            >
                                 <div>
-                                    <input id="{{$product->id}}" aria-describedby="product"
-                                           wire:model="selectedProducts"
-                                           wire:key="{{$product->id}}"
+                                    <input id="{{$product->id}}"
+                                           aria-describedby="product"
+                                           wire:model.defer="selectedProducts"
                                            value="{{$product->id}}"
                                            type="checkbox"
-                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                    >
                                 </div>
-                                <div class="flex ml-3 w-full items-center">
-                                    <div class="rounded-full">
-                                        <img src="{{ asset($product->image) }}" alt=""
-                                             class="w-10 h-10 rounded-full mr-3">
-                                    </div>
-                                    <div class="text-sm">
-                                        <div for="{{$product->id}}"
-                                             class="font-semibold text-gray-700">
-                                            {{ $product->brand }} {{ $product->name }}
-                                            <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
-                                        </div>
-                                        <div class="flex flex-wrap items-center divide-x">
-                                            @foreach($product->features as $feature)
-                                                <p id="features" class="text-gray-500 text-xs px-1">
-                                                    {{ $feature->name }}
-                                                </p>
-                                            @endforeach
-                                        </div>
-                                    </div>
+                                <div class="flex lg:justify-between ml-3 w-full items-center">
+                                    <x-product-listing-simple :product="$product"/>
                                 </div>
                             </label>
                         @empty
                             <div
-                                class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center">
+                                class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
+                            >
                                 <p>No results</p>
                             </div>
                         @endforelse
                     </fieldset>
                 </form>
-            </div>
-            <div class="py-3">
-                {{ $products->links() }}
             </div>
         </x-slide-over>
 
@@ -148,7 +159,8 @@
                         </div>
                         @if(!$this->credit->processed)
                             <div class="px-2 py-4">
-                                <x-input-number type="number" label="Update price"
+                                <x-input-number type="number"
+                                                label="Update price"
                                                 value="{{$item->price}}"
                                                 x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
                                                 x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
@@ -164,7 +176,8 @@
                         @endif
                         @if(!$this->credit->processed)
                             <div class="px-2 py-4">
-                                <x-input-number type="number" label="Update qty"
+                                <x-input-number type="number"
+                                                label="Update qty"
                                                 value="{{$item->qty}}"
                                                 x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
                                                 x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
@@ -188,7 +201,8 @@
                                 <div class="hidden md:block">
                                     <button wire:loading.attr="disabled"
                                             x-on:click="@this.call('deleteItem','{{$item->id}}')"
-                                            class="button-danger">remove
+                                            class="button-danger"
+                                    >remove
                                     </button>
                                 </div>
                             @endif
@@ -197,7 +211,8 @@
                             @if(!$this->credit->processed)
                                 <button wire:loading.attr="disabled"
                                         x-on:click="@this.call('deleteItem','{{$item->id}}')"
-                                        class="button-danger w-full">
+                                        class="button-danger w-full"
+                                >
                                     remove
                                 </button>
                             @endif

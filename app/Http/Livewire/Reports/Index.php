@@ -69,7 +69,6 @@ class Index extends Component
             ->first();
 
         $this->purchases = SupplierTransaction::query()
-            ->whereMonth("created_at", now()->month)
             ->select(
                 "*",
                 DB::raw(
