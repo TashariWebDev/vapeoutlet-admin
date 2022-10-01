@@ -122,7 +122,7 @@
                                 <input type="checkbox"
                                        wire:model.defer="selectedBrands"
                                        value="{{ $brand->name }}"
-                                >{{ $brand->name }}</input>
+                                >{{ $brand->name }}
                             </div>
                         @endforeach
                     </div>
