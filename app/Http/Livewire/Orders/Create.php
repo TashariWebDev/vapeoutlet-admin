@@ -13,6 +13,7 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -173,9 +174,12 @@ class Create extends Component
             return;
         }
 
-        $this->order->decreaseStock();
-        $this->order->customer->createInvoice($this->order);
-        $this->order->updateStatus("received");
+        DB::transaction(function () {
+            $this->order->decreaseStock();
+            $this->order->customer->createInvoice($this->order);
+            $this->order->updateStatus("received");
+        });
+
         $this->sendOrderEmails();
 
         UpdateCustomerRunningBalanceJob::dispatch(

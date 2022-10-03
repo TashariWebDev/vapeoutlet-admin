@@ -189,7 +189,6 @@ class Customer extends Authenticatable
     {
         return $this->transactions()->firstOrCreate(
             [
-                "uuid" => Str::uuid(),
                 "reference" => $reference,
                 "type" => "debit",
                 "amount" => $amount,
@@ -209,7 +208,6 @@ class Customer extends Authenticatable
     {
         return $this->transactions()->firstOrCreate(
             [
-                "uuid" => Str::uuid(),
                 "reference" => $reference,
                 "type" => "credit",
                 "amount" => 0 - $credit->getTotal(),
@@ -229,7 +227,6 @@ class Customer extends Authenticatable
     {
         return $this->transactions()->firstOrCreate(
             [
-                "uuid" => Str::uuid(),
                 "reference" => $order->number,
                 "type" => "invoice",
                 "amount" => $order->getTotal(),
