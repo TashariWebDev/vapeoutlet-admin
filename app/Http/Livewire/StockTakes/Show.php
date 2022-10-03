@@ -27,10 +27,28 @@ class Show extends Component
 
     public function updateItem(StockTakeItem $item, $count)
     {
-        $item->update([
-            "count" => $count,
-            "variance" => $count - $item->product->qty(),
-        ]);
+        if ($count != "" && $count < 0) {
+            $item->update([
+                "count" => null,
+                "variance" => 0,
+            ]);
+            $this->notify("qty cannot be negative");
+            return;
+        }
+
+        if ($count == "") {
+            $item->update([
+                "count" => null,
+                "variance" => 0,
+            ]);
+            $this->notify("item will be excluded from stock count");
+            return;
+        } else {
+            $item->update([
+                "count" => $count,
+                "variance" => $count - $item->product->qty(),
+            ]);
+        }
 
         $this->notify("updated");
     }
@@ -45,6 +63,12 @@ class Show extends Component
                 ->first();
 
             foreach ($stockTake->items as $item) {
+                if ($item->count < 0) {
+                    $this->showConfirmModal = false;
+                    $this->notify("qty cannot be negative");
+                    return;
+                }
+
                 if ($item->variance != 0) {
                     Stock::create([
                         "product_id" => $item->product->id,

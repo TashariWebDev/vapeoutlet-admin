@@ -40,7 +40,7 @@ class Credit extends Model
         return $this->getSubTotal();
     }
 
-    public function getSubTotal()
+    public function getSubTotal(): float
     {
         return to_rands($this->items()->sum(DB::raw("price * qty")));
     }
