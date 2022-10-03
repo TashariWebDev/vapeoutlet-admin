@@ -51,16 +51,16 @@ Route::get("/get-duplicates", function () {
         }
     }
 
-    foreach ($duplicates as $duplicate) {
-        $duplicate->stocks()->delete();
-        $duplicate->decreaseStock();
-    }
-
-    foreach ($orders as $order) {
-        if ($order->items()->count() != $order->stocks->count()) {
-            $duplicates[] = $order;
-        }
-    }
+    //    foreach ($duplicates as $duplicate) {
+    //        $duplicate->stocks()->delete();
+    //        $duplicate->decreaseStock();
+    //    }
+    //
+    //    foreach ($orders as $order) {
+    //        if ($order->items()->count() != $order->stocks->count()) {
+    //            $duplicates[] = $order;
+    //        }
+    //    }
 
     //    $users = User::all();
     //    $usersUnique = $users->unique(['user_name']);
