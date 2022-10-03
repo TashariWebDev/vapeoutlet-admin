@@ -10,21 +10,31 @@
         }
     @endphp
 
-    <x-slide-over title="Add transaction" wire:model.defer="showAddTransactionForm">
+    <x-slide-over title="Add transaction"
+                  wire:model.defer="showAddTransactionForm"
+    >
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-3">
-                    <x-input type="text" wire:model.defer="reference" label="reference"/>
+                    <x-input type="text"
+                             wire:model.defer="reference"
+                             label="reference"
+                    />
                 </div>
                 <div class="py-3">
-                    <x-select wire:model.defer="type" label="">
+                    <x-select wire:model.defer="type"
+                              label=""
+                    >
                         <option value="debit">Debit</option>
                         <option value="payment">Payment</option>
                         <option value="refund">Refund</option>
                     </x-select>
                 </div>
                 <div class="py-3">
-                    <x-input-number type="number" wire:model.defer="amount" label="amount"/>
+                    <x-input-number type="number"
+                                    wire:model.defer="amount"
+                                    label="amount"
+                    />
                 </div>
                 <div class="py-3">
                     <button class="button-success">
@@ -33,7 +43,10 @@
                     </button>
                 </div>
 
-                <div class="mt-4" wire:loading wire:target="save">
+                <div class="mt-4"
+                     wire:loading
+                     wire:target="save"
+                >
                     <p class="text-green-500 text-xs">Processing! Please wait</p>
                 </div>
 
@@ -45,15 +58,23 @@
     <div class="flex justify-between items-center">
         <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">{{ $this->customer->name }} stats</h3>
-            <button class="link" x-on:click="showStats = !showStats">toggle stats</button>
+            <button class="link"
+                    x-on:click="showStats = !showStats"
+            >toggle stats
+            </button>
         </div>
         <div>
-            <a class="link" href="{{ route('customers/edit',$this->customer->id) }}">
+            <a class="link"
+               href="{{ route('customers/edit',$this->customer->id) }}"
+            >
                 Edit
             </a>
         </div>
     </div>
-    <div x-cloak x-show="showStats" x-transition>
+    <div x-cloak
+         x-show="showStats"
+         x-transition
+    >
 
         <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <div class="relative bg-white pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden">
@@ -78,7 +99,8 @@
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
                             <button class="text-sm underline underline-offset-2 hover:text-yellow-500"
-                                    x-on:click="@this.set('filter','invoice')">View all
+                                    x-on:click="@this.set('filter','invoice')"
+                            >View all
                             </button>
                         </div>
                     </div>
@@ -107,7 +129,8 @@
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
                             <button class="text-sm underline underline-offset-2 hover:text-yellow-500"
-                                    x-on:click="@this.set('filter','payment')">View all
+                                    x-on:click="@this.set('filter','payment')"
+                            >View all
                             </button>
                         </div>
                     </div>
@@ -136,7 +159,9 @@
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
-                            <a href="#" class="font-medium invisible text-indigo-600 hover:text-indigo-500">
+                            <a href="#"
+                               class="font-medium invisible text-indigo-600 hover:text-indigo-500"
+                            >
                                 View all
                             </a>
                         </div>
@@ -160,7 +185,8 @@
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
                             <button class="text-sm underline underline-offset-2 hover:text-yellow-500"
-                                    x-on:click="@this.set('filter','debit')">View all
+                                    x-on:click="@this.set('filter','debit')"
+                            >View all
                             </button>
                         </div>
                     </div>
@@ -183,7 +209,8 @@
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
                             <button class="text-sm underline underline-offset-2 hover:text-yellow-500"
-                                    x-on:click="@this.set('filter','credit')">View all
+                                    x-on:click="@this.set('filter','credit')"
+                            >View all
                             </button>
                         </div>
                     </div>
@@ -206,7 +233,8 @@
                     <div class="absolute bottom-0 inset-x-0 bg-gray-50 px-4 py-4 sm:px-6">
                         <div class="text-sm">
                             <button class="text-sm underline underline-offset-2 hover:text-yellow-500"
-                                    x-on:click="@this.set('filter','refund')">View all
+                                    x-on:click="@this.set('filter','refund')"
+                            >View all
                             </button>
                         </div>
                     </div>
@@ -224,41 +252,58 @@
                 <x-inputs.search wire:model="searchTerm"/>
 
                 <button class="text-sm underline underline-offset-2 hover:text-yellow-500 ml-3"
-                        x-on:click="@this.call('resetFilter')">reset filter
+                        x-on:click="@this.call('resetFilter')"
+                >reset filter
                 </button>
             </div>
             <div class="flex flex-wrap space-y-2 lg:space-y-0 lg:space-x-2">
                 <div class="w-full lg:w-auto">
                     <button x-on:click="@this.call('updateBalances')"
-                            class="w-full lg:w-auto flex justify-center items-center h-full w-10 mr-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-gray-600" wire:loading.class="animate-spin-slow"
-                             wire:target="updateBalances">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                            class="w-full lg:w-auto flex justify-center items-center h-full w-10 mr-4"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-6 h-6 text-gray-600"
+                             wire:loading.class="animate-spin-slow"
+                             wire:target="updateBalances"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                            />
                         </svg>
 
                     </button>
                 </div>
                 <div class="w-full lg:w-auto">
-                    <button x-on:click="@this.call('createOrder')" class="w-full lg:w-auto button-success">
+                    <button x-on:click="@this.call('createOrder')"
+                            class="w-full lg:w-auto button-success"
+                    >
                         <x-icons.plus class="w-5 h-5 mr-2"/>
                         order
                     </button>
                 </div>
                 <div class="w-full lg:w-auto">
-                    <a href="{{ route('credits/create',$this->customer->id) }}" class="w-full lg:w-auto button-success">
+                    <a href="{{ route('credits/create',$this->customer->id) }}"
+                       class="w-full lg:w-auto button-success"
+                    >
                         <x-icons.plus class="w-5 h-5 mr-2"/>
                         credit note
                     </a>
                 </div>
+                @hasPermissionTo('add transactions')
                 <div class="w-full lg:w-auto">
                     <button class="w-full lg:w-auto button-success"
-                            x-on:click="@this.set('showAddTransactionForm',true)">
+                            x-on:click="@this.set('showAddTransactionForm',true)"
+                    >
                         <x-icons.plus class="w-5 h-5 mr-2"/>
                         add transaction
                     </button>
                 </div>
+                @endhasPermissionTo
             </div>
         </div>
 
@@ -301,11 +346,15 @@
                         $documentExists = check_file_exist($document)
                     @endphp
                     @if($documentExists)
-                        <a href="{{$document}}" class="text-green-600 hover:text-green-700">&darr;
-                            download
+                        <a href="{{$document}}"
+                           class="text-green-600 hover:text-green-700"
+                        >&darr;
+                         download
                         </a>
                     @else
-                        <button class="text-gray-400" wire:click="getDocument({{$transaction->id}})">request
+                        <button class="text-gray-400"
+                                wire:click="getDocument({{$transaction->id}})"
+                        >request
                         </button>
                     @endif
                 </x-table.row>
