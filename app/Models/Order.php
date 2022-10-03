@@ -177,13 +177,20 @@ class Order extends Model
     public function decreaseStock(): static
     {
         foreach ($this->items as $item) {
-            $item->product->stocks()->create([
-                "order_id" => $this->id,
-                "type" => "invoice",
-                "reference" => $this->number,
-                "qty" => 0 - $item->qty,
-                "cost" => $item->product->cost,
-            ]);
+            $item->product->stocks()->firstOrCreate(
+                [
+                    "order_id" => $this->id,
+                    "type" => "invoice",
+                    "reference" => $this->number,
+                ],
+                [
+                    "order_id" => $this->id,
+                    "type" => "invoice",
+                    "reference" => $this->number,
+                    "qty" => 0 - $item->qty,
+                    "cost" => $item->product->cost,
+                ]
+            );
         }
 
         return $this;

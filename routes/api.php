@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +30,43 @@ Route::get("/sales", function () {
         ->get()
         ->groupBy("salesperson.name");
     return response()->json(["customers" => $customers]);
+});
+
+Route::get("/poduct-stock-counts", function () {
+    $products = Product::where("is_active", "=", true)
+        ->select(["id", "name", "sku"])
+        ->withSum("stocks", "qty")
+        ->orderBy("stocks_sum_qty")
+        ->get();
+    return response()->json(["products" => $products]);
+});
+
+Route::get("/get-duplicates", function () {
+    $duplicates = [];
+    $orders = Order::with("items")->get();
+
+    foreach ($orders as $order) {
+        if ($order->items()->count() != $order->stocks->count()) {
+            $duplicates[] = $order;
+        }
+    }
+
+    foreach ($duplicates as $duplicate) {
+        $duplicate->stocks()->delete();
+        $duplicate->decreaseStock();
+    }
+
+    foreach ($orders as $order) {
+        if ($order->items()->count() != $order->stocks->count()) {
+            $duplicates[] = $order;
+        }
+    }
+
+    //    $users = User::all();
+    //    $usersUnique = $users->unique(['user_name']);
+    //    $userDuplicates = $users->diff($usersUnique);
+    //    echo "<pre>";
+    //    print_r($userDuplicates->toArray());
+
+    return response()->json(["duplicates" => $duplicates]);
 });
