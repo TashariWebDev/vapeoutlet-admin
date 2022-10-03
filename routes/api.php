@@ -44,7 +44,7 @@ Route::get("/poduct-stock-counts", function () {
 Route::get("/get-duplicates", function () {
     $duplicates = [];
     $orders = Order::with("items")
-        ->whereStatus("completed")
+        ->whereStatus("shipped")
         ->get();
 
     foreach ($orders as $order) {
