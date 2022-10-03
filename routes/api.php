@@ -43,7 +43,9 @@ Route::get("/poduct-stock-counts", function () {
 
 Route::get("/get-duplicates", function () {
     $duplicates = [];
-    $orders = Order::with("items")->get();
+    $orders = Order::with("items")
+        ->whereNull("status")
+        ->get();
 
     foreach ($orders as $order) {
         if ($order->items()->count() != $order->stocks->count()) {
