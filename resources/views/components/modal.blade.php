@@ -1,8 +1,12 @@
 @props([
     'title'
 ])
-<div class="relative z-20" aria-labelledby="modal-title" role="dialog" aria-modal="true" {{ $attributes }}
-x-cloak
+<div class="relative z-20"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true"
+     {{ $attributes }}
+     x-cloak
      wire:key
      x-show="show"
      x-transition:enter="ease-out duration-300"
@@ -26,16 +30,28 @@ x-cloak
     >
         <div class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
             <div
-                class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
+                class="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 max-w-2xl w-full  sm:p-6 mx-auto"
+                x-on:click.outside="show = !show"
+            >
                 <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
                     <button x-on:click="show = !show"
                             type="button"
-                            class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
                         <span class="sr-only">Close</span>
                         <!-- Heroicon name: outline/x -->
-                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                             stroke-width="2" stroke="currentColor" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                        <svg class="h-6 w-6"
+                             xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="2"
+                             stroke="currentColor"
+                             aria-hidden="true"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M6 18L18 6M6 6l12 12"
+                            />
                         </svg>
                     </button>
                 </div>

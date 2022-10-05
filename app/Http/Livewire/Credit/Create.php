@@ -55,7 +55,6 @@ class Create extends Component
         if (strlen($this->searchQuery) > 0) {
             $this->products = Product::query()
                 ->search($this->searchQuery)
-                ->inStock()
                 ->get();
         } else {
             $this->products = [];
