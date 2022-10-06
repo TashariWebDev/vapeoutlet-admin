@@ -64,7 +64,9 @@
                     <tbody class="text-sm">
                         @foreach($customers as $customerCollection)
                             @foreach($customerCollection as $customer)
-
+                                @php
+                                    $total = []
+                                @endphp
                                 @if($loop->first)
                                     <tr aria-rowspan="2"
                                         class="bg-gray-900 text-white row-span-2 font-bold"
@@ -74,7 +76,11 @@
                                         >{{$customer->salesperson?->name ?? 'unalocated'}}</td>
                                     </tr>
                                 @endif
+
                                 @foreach($customer->orders as $order)
+                                    @php
+                                        $total[] = $order->sub_total
+                                    @endphp
                                     @if($loop->first)
                                         <tr class="bg-gray-100 font-bold">
                                             <td colspan="6"
@@ -90,14 +96,16 @@
                                         <td class="text-right">{{  number_format(vat($order->sub_total),2) }}</td>
                                         <td class="text-right">{{  number_format(ex_vat($order->sub_total),2) }}</td>
                                     </tr>
+                                    @if($loop->last)
+                                        <tr class="bg-white font-bold h-10">
+                                            <td colspan="6"
+                                                class="text-right"
+                                            >
+                                                {{ number_format(ex_vat(array_sum($total)),2) }}
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
-                                @if($loop->last)
-                                    <tr class="bg-white font-bold h-20">
-                                        <td colspan="6"
-                                            class="text-left"
-                                        ></td>
-                                    </tr>
-                                @endif
                             @endforeach
                         @endforeach
                     </tbody>

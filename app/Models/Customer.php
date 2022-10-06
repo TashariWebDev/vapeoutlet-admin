@@ -184,7 +184,7 @@ class Customer extends Authenticatable
 
         return $this->latestTransaction()->value("running_balance") ?? 0;
     }
-
+    
     public function createDebit($reference, $amount, $createdBy): Transaction
     {
         return $this->transactions()->firstOrCreate(

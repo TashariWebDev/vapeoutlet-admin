@@ -46,12 +46,19 @@ class Index extends Component
     public $admins = [];
     public $selectedAdmin = "";
     public $selectedBrands = [];
+    public $salespeople = [];
+    public $selectedSalespersonId;
 
     public function mount()
     {
         $this->expenseCategories = ExpenseCategory::all();
         $this->suppliers = Supplier::all();
         $this->admins = User::all();
+        $this->salespeople = User::where(
+            "email",
+            "!=",
+            "ridwan@tashari.co.za"
+        )->get();
 
         $this->transactions = Transaction::query()
             ->select(
@@ -193,7 +200,7 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-                "/webhook/documents/salesByDateRange?from={$this->fromDate}&to={$this->toDate}"
+                "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
         );
         $this->redirect("reports");
     }

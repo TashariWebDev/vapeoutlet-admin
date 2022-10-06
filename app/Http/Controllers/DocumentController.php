@@ -388,6 +388,7 @@ class DocumentController extends Controller
 
     public function getSalesByDateRange()
     {
+        Log::info(request()->all());
         $customers = Customer::withWhereHas("orders", function ($query) {
             $query
                 ->whereBetween("created_at", [request("from"), request("to")])
@@ -400,6 +401,13 @@ class DocumentController extends Controller
                 "customers.salesperson_id",
             ])
             ->with("salesperson:id,name")
+            ->when(request("salesperson_id"), function ($query) {
+                $query->where(
+                    "salesperson_id",
+                    "=",
+                    (int) request("salesperson_id")
+                );
+            })
             ->get()
             ->groupBy("salesperson.name");
 

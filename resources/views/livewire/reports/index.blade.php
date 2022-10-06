@@ -352,6 +352,16 @@
                 />
             </div>
 
+            <div class="py-4">
+                <x-select wire:model.defer="selectedSalespersonId"
+
+                >
+                    @foreach($salespeople as $salesperson)
+                        <option value="{{ $salesperson->id }}">{{ $salesperson->name }}</option>
+                    @endforeach
+                </x-select>
+            </div>
+
             <div class="py-2">
                 <button class="button-success">Get report</button>
             </div>
