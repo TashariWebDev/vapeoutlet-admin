@@ -411,6 +411,8 @@ class DocumentController extends Controller
             ->get()
             ->groupBy("salesperson.name");
 
+        Log::info($customers);
+
         $url = storage_path("app/public/documents/salesByDateRange.pdf");
 
         if (file_exists($url)) {

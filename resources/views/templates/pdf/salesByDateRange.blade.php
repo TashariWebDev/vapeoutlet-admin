@@ -63,6 +63,9 @@
                     </thead>
                     <tbody class="text-sm">
                         @foreach($customers as $customerCollection)
+                            @php
+                                $grandTotal = []
+                            @endphp
                             @foreach($customerCollection as $customer)
                                 @php
                                     $total = []
@@ -76,7 +79,6 @@
                                         >{{$customer->salesperson?->name ?? 'unalocated'}}</td>
                                     </tr>
                                 @endif
-
                                 @foreach($customer->orders as $order)
                                     @php
                                         $total[] = $order->sub_total
@@ -106,6 +108,18 @@
                                         </tr>
                                     @endif
                                 @endforeach
+                                @php
+                                    $grandTotal[] = array_sum($total)
+                                @endphp
+                                @if($loop->last)
+                                    <tr class="bg-white font-bold h-10">
+                                        <td colspan="6"
+                                            class="text-right"
+                                        >
+                                            {{ number_format(ex_vat(array_sum($grandTotal)),2) }}
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         @endforeach
                     </tbody>
