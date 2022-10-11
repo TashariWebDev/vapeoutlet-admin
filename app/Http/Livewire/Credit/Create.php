@@ -11,7 +11,6 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use LaravelIdea\Helper\App\Models\_IH_Customer_C;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -100,20 +99,17 @@ class Create extends Component
 
     public function process()
     {
-        sleep(1);
         $this->showConfirmModal = false;
         $this->notify("Processing");
 
-        DB::transaction(function () {
-            $this->credit->update([
-                "salesperson_id" => $this->credit->customer->salesperson_id,
-            ]);
-            $this->credit->increaseStock();
+        $this->credit->update([
+            "salesperson_id" => $this->credit->customer->salesperson_id,
+        ]);
+        $this->credit->increaseStock();
 
-            $this->credit->updateStatus("processed_at");
+        $this->credit->updateStatus("processed_at");
 
-            $this->customer->createCredit($this->credit, $this->credit->number);
-        }, 3);
+        $this->customer->createCredit($this->credit, $this->credit->number);
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->credit->customer_id

@@ -62,9 +62,12 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm">
+                        @php
+                            $overallTotal = [];
+                        @endphp
                         @foreach($customers as $customerCollection)
                             @php
-                                $grandTotal = []
+                                $grandTotal = [];
                             @endphp
                             @foreach($customerCollection as $customer)
                                 @php
@@ -81,7 +84,7 @@
                                 @endif
                                 @foreach($customer->orders as $order)
                                     @php
-                                        $total[] = $order->sub_total
+                                        $total[] = $order->sub_total;
                                     @endphp
                                     @if($loop->first)
                                         <tr class="bg-gray-100 font-bold">
@@ -109,7 +112,8 @@
                                     @endif
                                 @endforeach
                                 @php
-                                    $grandTotal[] = array_sum($total)
+                                    $grandTotal[] = array_sum($total);
+                                    $overallTotal[] =  array_sum($total);
                                 @endphp
                                 @if($loop->last)
                                     <tr class="bg-white font-bold h-10">
@@ -122,6 +126,13 @@
                                 @endif
                             @endforeach
                         @endforeach
+                        <tr class="bg-white font-bold h-10 border-t-4 border-dashed">
+                            <td colspan="6"
+                                class="text-right"
+                            >
+                                {{ number_format(ex_vat(array_sum($overallTotal)),2) }}
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

@@ -2,9 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1"
+    >
     <title></title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+    >
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -39,71 +43,92 @@
     </style>
 </head>
 <body>
-<div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
+    <div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
 
-    <div class="break-inside-avoid break-after-avoid-page">
-        <div class="px-4">
-            {{ date("Y-m-d h:i:sa") }}
-        </div>
-        <div class="px-4">
-            <table class="w-full">
-                <thead>
-                <tr class="bg-gray-800 text-white">
-                    <th class="text-left">Date</th>
-                    <th class="text-left">Customer</th>
-                    <th class="text-right">Excl</th>
-                    <th class="text-right">Vat</th>
-                    <th class="text-right">Incl</th>
-                </tr>
-                </thead>
-                <tbody class="text-sm">
-                @foreach($credits as $grouped)
-                    @foreach($grouped as $credit)
-                        @if($loop->first)
-                            <tr class="bg-gray-200 font-bold">
-                                <td colspan="6" class="text-left">{{$credit->created_by}}</td>
-                            </tr>
-                        @endif
-                        <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                            <td class="text-left">{{$credit->created_at}}</td>
-                            <td class="text-left">{{$credit->customer->name}}</td>
-                            <td class="text-right">{{  number_format(ex_vat($credit->getTotal()),2) }}</td>
-                            <td class="text-right">{{  number_format(vat($credit->getTotal()),2) }}</td>
-                            <td class="text-right">{{  number_format($credit->getTotal(),2) }}</td>
+        <div class="break-inside-avoid break-after-avoid-page">
+            <div class="px-4">
+                {{ date("Y-m-d h:i:sa") }}
+            </div>
+            <div class="px-4">
+                <table class="w-full">
+                    <thead>
+                        <tr class="bg-gray-800 text-white">
+                            <th class="text-left">Date</th>
+                            <th class="text-left">Customer</th>
+                            <th class="text-right">Excl</th>
+                            <th class="text-right">Vat</th>
+                            <th class="text-right">Incl</th>
                         </tr>
-                        @if($loop->last)
+                    </thead>
+                    <tbody class="text-sm">
+                        @php
+                            $overallTotal = []
+                        @endphp
+                        @foreach($credits as $grouped)
                             @php
 
                                 $collectAllTotals = [];
 
-                                foreach ($grouped as $credit){
-                                    $collectAllTotals[] = $credit->getTotal();
-                                }
-                                $totalAmount = array_sum($collectAllTotals)
-
                             @endphp
-                            <tr class="break-before-avoid-page break-inside-avoid-page">
-                                <td colspan="2"></td>
-                                <td class="text-right bg-gray-800 text-white">
-                                    {{ number_format(ex_vat($totalAmount),2) }}
-                                </td>
-                                <td class="text-right bg-gray-800 text-white">
-                                    {{ number_format(vat($totalAmount),2) }}
-                                </td>
-                                <td class="text-right bg-gray-800 text-white">
-                                    {{ number_format($totalAmount,2) }}
-                                </td>
-                            </tr>
-                            <tr class="text-white">
-                                <td colspan="6" class="py-2"></td>
-                            </tr>
-                        @endif
-                    @endforeach
-                @endforeach
-                </tbody>
-            </table>
+                            @foreach($grouped as $credit)
+                                @if($loop->first)
+                                    <tr class="bg-gray-200 font-bold">
+                                        <td colspan="6"
+                                            class="text-left"
+                                        >{{$credit->created_by}}</td>
+                                    </tr>
+                                @endif
+                                <tr class="py-1 border-b border-dashed break-inside-avoid-page">
+                                    <td class="text-left">{{$credit->created_at}}</td>
+                                    <td class="text-left">{{$credit->customer->name}}</td>
+                                    <td class="text-right">{{  number_format(ex_vat($credit->getTotal()),2) }}</td>
+                                    <td class="text-right">{{  number_format(vat($credit->getTotal()),2) }}</td>
+                                    <td class="text-right">{{  number_format($credit->getTotal(),2) }}</td>
+                                </tr>
+                                @if($loop->last)
+                                    @php
+
+                                        $collectAllTotals = [];
+
+                                        foreach ($grouped as $credit){
+                                            $collectAllTotals[] = $credit->getTotal();
+                                        }
+                                        $totalAmount = array_sum($collectAllTotals);
+
+                                        $overallTotal[] = $totalAmount;
+
+                                    @endphp
+                                    <tr class="break-before-avoid-page break-inside-avoid-page">
+                                        <td colspan="2"></td>
+                                        <td class="text-right bg-gray-800 text-white">
+                                            {{ number_format(ex_vat($totalAmount),2) }}
+                                        </td>
+                                        <td class="text-right bg-gray-800 text-white">
+                                            {{ number_format(vat($totalAmount),2) }}
+                                        </td>
+                                        <td class="text-right bg-gray-800 text-white">
+                                            {{ number_format($totalAmount,2) }}
+                                        </td>
+                                    </tr>
+                                    <tr class="text-white">
+                                        <td colspan="6"
+                                            class="py-2"
+                                        ></td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endforeach
+                        <tr class="bg-white font-bold h-10 border-t-4 border-dashed">
+                            <td colspan="6"
+                                class="text-right"
+                            >
+                                {{ number_format(array_sum($overallTotal),2) }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>
