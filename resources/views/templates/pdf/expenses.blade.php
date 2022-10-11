@@ -62,9 +62,11 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm">
+
                         @php
                             $overallTotal = [];
                         @endphp
+
                         @foreach($expenses as $grouped)
                             @foreach($grouped as $expense)
                                 @if($loop->first)
@@ -90,9 +92,11 @@
                                     @endif
                                     <td class="text-right">{{  number_format($expense->amount,2) }}</td>
                                 </tr>
+
                                 @php
                                     $overallTotal[] =  $expense->amount;
                                 @endphp
+
                                 @if($loop->last)
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="3"></td>
