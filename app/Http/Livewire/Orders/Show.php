@@ -159,6 +159,8 @@ class Show extends Component
             "delivery_charge" => $delivery->price,
         ]);
 
+        $this->order->customer->createInvoice($this->order);
+
         $this->notify("delivery option updated");
         $this->chooseDeliveryForm = false;
     }

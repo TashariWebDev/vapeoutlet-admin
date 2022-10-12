@@ -184,10 +184,10 @@ class Customer extends Authenticatable
 
         return $this->latestTransaction()->value("running_balance") ?? 0;
     }
-    
+
     public function createDebit($reference, $amount, $createdBy): Transaction
     {
-        return $this->transactions()->firstOrCreate(
+        return $this->transactions()->updateOrCreate(
             [
                 "reference" => $reference,
                 "type" => "debit",
@@ -206,7 +206,7 @@ class Customer extends Authenticatable
 
     public function createCredit(Credit $credit, $reference): Model|Transaction
     {
-        return $this->transactions()->firstOrCreate(
+        return $this->transactions()->updateOrCreate(
             [
                 "reference" => $reference,
                 "type" => "credit",
@@ -225,7 +225,7 @@ class Customer extends Authenticatable
 
     public function createInvoice(Order $order): Model|Transaction
     {
-        return $this->transactions()->firstOrCreate(
+        return $this->transactions()->updateOrCreate(
             [
                 "reference" => $order->number,
                 "type" => "invoice",
