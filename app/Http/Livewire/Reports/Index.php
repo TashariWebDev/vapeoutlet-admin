@@ -35,7 +35,6 @@ class Index extends Component
     public $transactions;
     public $purchases;
     public $expenses;
-    public $stock;
     public $fromDate;
     public $toDate;
     public $showExpenseForm = false;
@@ -95,18 +94,21 @@ class Index extends Component
                 )
             )
             ->first();
+    }
 
+    public function getStockProperty(): float|int
+    {
         $products = Product::whereHas("stocks")
-            ->select(["id", "name", "cost", "sku", "brand"])
+            ->select(["id", "cost"])
             ->withSum("stocks", "qty")
             ->get();
 
-        $stockValues = [];
+        $stockValues = 0;
         foreach ($products as $product) {
-            $stockValues[] = $product->cost * $product->stocks_sum_qty;
+            $stockValues += $product->cost * $product->stocks_sum_qty;
         }
 
-        $this->stock = array_sum($stockValues);
+        return $stockValues;
     }
 
     public function createStockTake()

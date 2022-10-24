@@ -77,10 +77,10 @@
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Stock value</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(ex_vat($stock),2) ?? '0.00' }}
+                    {{ number_format(ex_vat($this->stock),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format($stock,2) ?? '0.00' }}
+                    {{ number_format($this->stock,2) ?? '0.00' }}
                 </dd>
             </div>
         </dl>
