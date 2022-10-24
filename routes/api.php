@@ -4,19 +4,9 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
 Route::middleware("auth:sanctum")->get("/user", function (Request $request) {
     return $request->user();
@@ -105,5 +95,54 @@ Route::get("/get-duplicate-transactions", function () {
 
     return response()->json([
         "duplicates" => $transactionsDuplicates->toArray(),
+    ]);
+});
+
+Route::get("/get-unmatched-transactions", function () {
+    $unmatched = [];
+    $orders = Order::with("customer.transactions")->get();
+
+    foreach ($orders as $order) {
+        $transaction = Transaction::where(
+            "reference",
+            "=",
+            "INV00" . $order->id
+        )->first();
+        if ($transaction) {
+            if ($order->getTotal() != $transaction->amount) {
+                $unmatched[] = $transaction;
+            }
+        }
+    }
+
+    return response()->json([
+        "unmatched" => $unmatched,
+    ]);
+});
+
+Route::get("/stocks-by-date", function () {
+    $toDate = request("to");
+
+    $products = Product::whereHas("stocks", function ($query) use ($toDate) {
+        $query->whereDate("created_at", "<=", Carbon::parse($toDate));
+    })
+        ->select(["id", "name", "cost", "sku", "brand"])
+        ->withSum(
+            [
+                "stocks" => function ($query) use ($toDate) {
+                    $query->whereDate(
+                        "created_at",
+                        "<=",
+                        Carbon::parse($toDate)
+                    );
+                },
+            ],
+            "qty"
+        )
+        ->take(10)
+        ->get();
+
+    return response()->json([
+        "products" => $products,
     ]);
 });

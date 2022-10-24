@@ -77,10 +77,10 @@
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
                 <dt class="text-sm font-medium text-gray-500 truncate">Stock value</dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(to_rands(ex_vat($stock->total_value)),2) ?? '0.00' }}
+                    {{ number_format(ex_vat($stock),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($stock->total_value),2) ?? '0.00' }}
+                    {{ number_format($stock,2) ?? '0.00' }}
                 </dd>
             </div>
         </dl>
@@ -304,6 +304,32 @@
                 @endif
             </div>
         </div>
+
+        <div class="p-2 border rounded-md bg-white">
+            @php
+                $stocksByDateRange = config('app.admin_url')."/storage/documents/stockByDateRange.pdf";
+
+                $stocksByDateRangeExists = check_file_exist($stocksByDateRange)
+            @endphp
+
+            <button class="button-success w-full"
+                    x-on:click="@this.set('showStocksByDateRangeForm',true)"
+            >
+                Stocks by date range
+            </button>
+
+            <div class="py-4">
+                @if($stocksByDateRangeExists)
+                    <a href="{{$stocksByDateRange}}"
+                       class="link"
+                       wire:loading.class="hidden"
+                       wire:target="getStocksByDateRangeDocument"
+                    >
+                        &darr; print
+                    </a>
+                @endif
+            </div>
+        </div>
     </div>
 
     <x-modal title="Get variances by date range"
@@ -325,6 +351,26 @@
                     type="date"
                 />
             </div>
+
+            <div class="py-2">
+                <button class="button-success">Get report</button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal title="Get sales by date range"
+             wire:model.defer="showStocksByDateRangeForm"
+    >
+        <form wire:submit.prevent="getStocksByDateRangeDocument">
+
+            <div class="py-4">
+                <x-input
+                    label="To date"
+                    wire:model.defer="toDate"
+                    type="date"
+                />
+            </div>
+
 
             <div class="py-2">
                 <button class="button-success">Get report</button>

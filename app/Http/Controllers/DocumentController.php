@@ -12,6 +12,7 @@ use App\Models\Stock;
 use App\Models\StockTake;
 use App\Models\Supplier;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use League\Glide\Filesystem\FileNotFoundException;
@@ -420,6 +421,55 @@ class DocumentController extends Controller
 
         $view = view("templates.pdf.salesByDateRange", [
             "customers" => $customers,
+        ])->render();
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        return response()->json(200);
+    }
+
+    public function getStocksByDateRange()
+    {
+        $toDate = request("to");
+
+        $products = Product::whereHas("stocks", function ($query) use (
+            $toDate
+        ) {
+            $query->whereDate("created_at", "<=", Carbon::parse($toDate));
+        })
+            ->select(["id", "name", "cost", "sku", "brand"])
+            ->withSum(
+                [
+                    "stocks" => function ($query) use ($toDate) {
+                        $query->whereDate(
+                            "created_at",
+                            "<=",
+                            Carbon::parse($toDate)
+                        );
+                    },
+                ],
+                "qty"
+            )
+            ->get();
+
+        Log::info($products);
+
+        $url = storage_path("app/public/documents/stockByDateRange.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        $view = view("templates.pdf.stockByDateRange", [
+            "products" => $products->filter(function ($product) {
+                return $product->stocks_sum_qty > 0;
+            }),
         ])->render();
 
         Browsershot::html($view)

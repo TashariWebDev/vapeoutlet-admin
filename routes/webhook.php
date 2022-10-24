@@ -70,3 +70,8 @@ Route::get("/documents/salesByDateRange", [
     DocumentController::class,
     "getSalesByDateRange",
 ]);
+
+Route::get("/documents/stocksByDateRange", [
+    DocumentController::class,
+    "getStocksByDateRange",
+]);

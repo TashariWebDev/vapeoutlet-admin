@@ -7,7 +7,6 @@ use App\Models\Brand;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Product;
-use App\Models\Stock;
 use App\Models\StockTake;
 use App\Models\Supplier;
 use App\Models\SupplierTransaction;
@@ -31,6 +30,7 @@ class Index extends Component
     public $showCreditsForm = false;
     public $showVariancesForm = false;
     public $showSalesByDateRangeForm = false;
+    public $showStocksByDateRangeForm = false;
     public $brand;
     public $transactions;
     public $purchases;
@@ -96,12 +96,17 @@ class Index extends Component
             )
             ->first();
 
-        $this->stock = Stock::query()
-            ->select(
-                "*",
-                DB::raw("(select SUM(qty*cost) FROM stocks) as total_value")
-            )
-            ->first();
+        $products = Product::whereHas("stocks")
+            ->select(["id", "name", "cost", "sku", "brand"])
+            ->withSum("stocks", "qty")
+            ->get();
+
+        $stockValues = [];
+        foreach ($products as $product) {
+            $stockValues[] = $product->cost * $product->stocks_sum_qty;
+        }
+
+        $this->stock = array_sum($stockValues);
     }
 
     public function createStockTake()
@@ -201,6 +206,15 @@ class Index extends Component
         Http::get(
             config("app.admin_url") .
                 "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
+        );
+        $this->redirect("reports");
+    }
+
+    public function getStocksByDateRangeDocument()
+    {
+        Http::get(
+            config("app.admin_url") .
+                "/webhook/documents/stocksByDateRange?to=$this->toDate"
         );
         $this->redirect("reports");
     }
