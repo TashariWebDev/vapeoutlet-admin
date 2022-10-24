@@ -101,6 +101,7 @@ class Index extends Component
         $products = Product::whereHas("stocks")
             ->select(["id", "cost"])
             ->withSum("stocks", "qty")
+            ->toBase()
             ->get();
 
         $stockValues = 0;
