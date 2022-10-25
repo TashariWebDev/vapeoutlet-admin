@@ -47,12 +47,14 @@ class Index extends Component
     public $selectedBrands = [];
     public $salespeople = [];
     public $selectedSalespersonId;
+    public $stockValue;
 
     public function mount()
     {
         $this->expenseCategories = ExpenseCategory::all();
         $this->suppliers = Supplier::all();
         $this->admins = User::all();
+
         $this->salespeople = User::where(
             "email",
             "!=",
@@ -96,20 +98,57 @@ class Index extends Component
             ->first();
     }
 
-    public function getStockProperty(): float|int
+    public function hydrate()
     {
-        $products = Product::whereHas("stocks")
-            ->select(["id", "cost"])
+        $this->transactions = Transaction::query()
+            ->select(
+                "*",
+                DB::raw(
+                    '(select SUM(amount) FROM transactions where type = "invoice" AND  MONTH(created_at) = MONTH(NOW())) as total_sales'
+                ),
+                DB::raw(
+                    '(select SUM(amount) FROM transactions WHERE type = "credit" AND  MONTH(created_at) = MONTH(NOW())) as total_credits'
+                ),
+                DB::raw(
+                    '(select SUM(amount) FROM transactions WHERE type = "refund" AND  MONTH(created_at) = MONTH(NOW())) as total_refunds'
+                )
+            )
+            ->first();
+
+        $this->purchases = SupplierTransaction::query()
+            ->select(
+                "*",
+                DB::raw(
+                    '(select SUM(amount) FROM supplier_transactions where type = "purchase" AND  MONTH(created_at) = MONTH(NOW())) as total_purchases'
+                ),
+                DB::raw(
+                    '(select SUM(amount) FROM supplier_transactions WHERE type = "payment" AND  MONTH(created_at) = MONTH(NOW())) as total_payments'
+                )
+            )
+            ->first();
+
+        $this->expenses = Expense::query()
+            ->select(
+                "*",
+                DB::raw(
+                    "(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses"
+                )
+            )
+            ->first();
+    }
+
+    public function getStockValue()
+    {
+        $this->stockValue = Product::select(["id", "cost"])
             ->withSum("stocks", "qty")
             ->toBase()
-            ->get();
-
-        $stockValues = 0;
-        foreach ($products as $product) {
-            $stockValues += $product->cost * $product->stocks_sum_qty;
-        }
-
-        return $stockValues;
+            ->get()
+            ->filter(function ($product) {
+                return $product->stocks_sum_qty > 0;
+            })
+            ->sum(function ($product) {
+                return $product->cost * $product->stocks_sum_qty;
+            });
     }
 
     public function createStockTake()

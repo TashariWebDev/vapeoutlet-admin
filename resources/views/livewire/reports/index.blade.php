@@ -75,12 +75,20 @@
             </div>
 
             <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">Stock value</dt>
+                <dt class="text-sm font-medium text-gray-500 truncate flex items-center space-x-4">
+                    Stock value
+                    <button wire:click="getStockValue">
+                        <x-icons.refresh wire:target="getStockValue"
+                                         wire:loading.class="animate-spin-slow"
+                                         class="w-4 h-4"
+                        />
+                    </button>
+                </dt>
                 <dd class="mt-1 tracking-tight font-semibold text-gray-900">
-                    {{ number_format(ex_vat(to_rands($this->stock)),2) ?? '0.00' }}
+                    {{ number_format(ex_vat(to_rands($this->stockValue)),2) ?? '0.00' }}
                 </dd>
                 <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
-                    {{ number_format(to_rands($this->stock),2) ?? '0.00' }}
+                    {{ number_format(to_rands($this->stockValue),2) ?? '0.00' }}
                 </dd>
             </div>
         </dl>
