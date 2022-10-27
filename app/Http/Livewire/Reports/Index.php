@@ -19,7 +19,6 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Log;
 use LaravelIdea\Helper\App\Models\_IH_Brand_C;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
@@ -257,29 +256,23 @@ class Index extends Component
 
     public function getStocksByDateRangeDocument()
     {
-        $toDate = $this->toDate;
-
-        $products = Product::whereHas("stocks", function ($query) use (
-            $toDate
-        ) {
-            $query->whereDate("created_at", "<=", Carbon::parse($toDate));
+        $products = Product::whereHas("stocks", function ($query) {
+            $query->whereDate("created_at", "<=", Carbon::parse($this->toDate));
         })
             ->select(["id", "name", "cost", "sku", "brand"])
             ->withSum(
                 [
-                    "stocks" => function ($query) use ($toDate) {
+                    "stocks" => function ($query) {
                         $query->whereDate(
                             "created_at",
                             "<=",
-                            Carbon::parse($toDate)
+                            Carbon::parse($this->toDate)
                         );
                     },
                 ],
                 "qty"
             )
             ->get();
-
-        Log::info($products);
 
         $url = storage_path("app/public/documents/stockByDateRange.pdf");
 
