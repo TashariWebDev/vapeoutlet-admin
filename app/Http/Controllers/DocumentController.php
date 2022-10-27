@@ -477,7 +477,7 @@ class DocumentController extends Controller
             ->emulateMedia("print")
             ->format("a4")
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType("pdf", 90)
             ->save($url);
 
         return response()->json(200);
