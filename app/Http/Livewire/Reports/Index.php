@@ -211,7 +211,7 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-            "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}&category={$this->selectedExpenseCategory}"
+                "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}&category={$this->selectedExpenseCategory}"
         );
         $this->redirect("reports");
     }
@@ -220,7 +220,7 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-            "/webhook/documents/purchases?from={$this->fromDate}&to={$this->toDate}&supplier={$this->selectedSupplierId}"
+                "/webhook/documents/purchases?from={$this->fromDate}&to={$this->toDate}&supplier={$this->selectedSupplierId}"
         );
         $this->redirect("reports");
     }
@@ -229,7 +229,7 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-            "/webhook/documents/credits?from={$this->fromDate}&to={$this->toDate}&admin={$this->selectedAdmin}"
+                "/webhook/documents/credits?from={$this->fromDate}&to={$this->toDate}&admin={$this->selectedAdmin}"
         );
         $this->redirect("reports");
     }
@@ -238,7 +238,7 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-            "/webhook/documents/variances?from={$this->fromDate}&to={$this->toDate}"
+                "/webhook/documents/variances?from={$this->fromDate}&to={$this->toDate}"
         );
         $this->redirect("reports");
     }
@@ -247,19 +247,19 @@ class Index extends Component
     {
         Http::get(
             config("app.admin_url") .
-            "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
+                "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
         );
         $this->redirect("reports");
     }
 
     public function getStocksByDateRangeDocument()
     {
-
-
-        Http::timeout(10)->retry(2)->get(
-            config("app.admin_url") .
-            "/webhook/documents/stocksByDateRange?to=$this->toDate"
-        );
+        Http::timeout(30)
+            ->retry(2)
+            ->get(
+                config("app.admin_url") .
+                    "/webhook/documents/stocksByDateRange?to=$this->toDate"
+            );
 
         $this->redirect("reports");
     }
