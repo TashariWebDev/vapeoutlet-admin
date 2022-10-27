@@ -12,14 +12,17 @@ use App\Models\Supplier;
 use App\Models\SupplierTransaction;
 use App\Models\Transaction;
 use App\Models\User;
+use Carbon\Carbon;
 use DB;
 use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Log;
 use LaravelIdea\Helper\App\Models\_IH_Brand_C;
 use Livewire\Component;
+use Spatie\Browsershot\Browsershot;
 
 class Index extends Component
 {
@@ -254,12 +257,49 @@ class Index extends Component
 
     public function getStocksByDateRangeDocument()
     {
-        Http::timeout(30)
-            ->retry(2)
-            ->get(
-                config("app.admin_url") .
-                    "/webhook/documents/stocksByDateRange?to=$this->toDate"
-            );
+        $toDate = $this->toDate;
+
+        $products = Product::whereHas("stocks", function ($query) use (
+            $toDate
+        ) {
+            $query->whereDate("created_at", "<=", Carbon::parse($toDate));
+        })
+            ->select(["id", "name", "cost", "sku", "brand"])
+            ->withSum(
+                [
+                    "stocks" => function ($query) use ($toDate) {
+                        $query->whereDate(
+                            "created_at",
+                            "<=",
+                            Carbon::parse($toDate)
+                        );
+                    },
+                ],
+                "qty"
+            )
+            ->get();
+
+        Log::info($products);
+
+        $url = storage_path("app/public/documents/stockByDateRange.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        $view = view("templates.pdf.stockByDateRange", [
+            "products" => $products->filter(function ($product) {
+                return $product->stocks_sum_qty > 0;
+            }),
+        ])->render();
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 90)
+            ->save($url);
 
         $this->redirect("reports");
     }
