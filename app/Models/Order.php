@@ -22,7 +22,7 @@ class Order extends Model
         "placed_at", // order created
     ];
 
-    public function getStatus()
+    public function getStatus(): string
     {
         return match ($this->status) {
             "received" => "RECEIVED",
@@ -252,7 +252,9 @@ class Order extends Model
                     $query
                         ->where("id", "like", $term)
                         ->orWhereHas("customer", function ($query) use ($term) {
-                            $query->where("name", "like", $term);
+                            $query
+                                ->where("name", "like", $term)
+                                ->orWhere("company", "like", $term);
                         });
                 });
             });

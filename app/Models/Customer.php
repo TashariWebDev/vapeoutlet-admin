@@ -79,7 +79,7 @@ class Customer extends Authenticatable
 
     public function type(): string
     {
-        return (bool) !$this->is_wholesale ? "retail" : "wholesale";
+        return !$this->is_wholesale ? "retail" : "wholesale";
     }
 
     public function addresses(): HasMany
