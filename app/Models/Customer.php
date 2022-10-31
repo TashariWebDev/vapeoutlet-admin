@@ -127,7 +127,9 @@ class Customer extends Authenticatable
 
     public function salesperson(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault([
+            "name" => "",
+        ]);
     }
 
     public function invoices(): HasMany

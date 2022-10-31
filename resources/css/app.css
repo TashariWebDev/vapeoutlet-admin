@@ -31,5 +31,5 @@ input[type=checkbox] {
 }
 
 .link {
-    @apply capitalize border-b-2 border-b-green-300  py-0.5 lg:pr-4 text-sm font-bold hover:border-b-amber-400 transition-colors ease-in-out duration-300;
+    @apply capitalize border-b-2 border-b-green-300  py-0.5 lg:pr-4 text-xs font-bold hover:border-b-amber-400 transition-colors ease-in-out duration-300;
 }

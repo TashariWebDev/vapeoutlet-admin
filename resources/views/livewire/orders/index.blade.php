@@ -137,12 +137,24 @@
                         <p class="text-xs">{{ $order->created_at }}</p>
                     </div>
                 </x-table.row>
-                <x-table.row class="text-center lg:text-left">
+                <x-table.row class="">
                     <div class="flex items-start justify-between">
                         <div>
                             <a class="link"
                                href="{{ route('customers/show',$order->customer->id) }}"
                             >{{$order->customer->name}}</a>
+                            <div class="pt-1 flex justify-between space-x-2">
+                                <p
+                                    @class([
+                                        'text-xs',
+                                        'text-pink-700' => $order->customer->type() === 'wholesale',
+                                        'text-blue-700' => $order->customer->type() === 'retail',
+                                    ])
+                                >{{ $order->customer->type() }}</p>
+                                <p class="text-xs text-gray-500">
+                                    {{ $order->customer->salesperson->name ?? '' }}
+                                </p>
+                            </div>
                         </div>
                         <div>
                             <button wire:click.prefetch="quickViewCustomerAccount('{{$order->customer->id}}')">
