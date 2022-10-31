@@ -1,6 +1,7 @@
 <div>
 
-    <x-slide-over wire:model.defer="showPurchaseCreateForm" title="New purchase"
+    <x-slide-over wire:model.defer="showPurchaseCreateForm"
+                  title="New purchase"
     >
         <form wire:submit.prevent="save">
             <div class="relative">
@@ -10,7 +11,9 @@
                     </button>
                 </div>
                 <div class="py-4">
-                    <x-select wire:model.defer="selectedSupplier" label="Select a supplier">
+                    <x-select wire:model.defer="selectedSupplier"
+                              label="Select a supplier"
+                    >
                         @foreach($suppliers as $supplier)
                             <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                         @endforeach
@@ -19,14 +22,21 @@
 
             </div>
             <div class="py-4">
-                <x-input type="date" wire:model.defer="date" label="Invoice date"/>
+                <x-input type="date"
+                         wire:model.defer="date"
+                         label="Invoice date"
+                />
             </div>
             <div class="py-4">
-                <x-input type="text" wire:model.defer="invoice_no" label="Invoice number"/>
+                <x-input type="text"
+                         wire:model.defer="invoice_no"
+                         label="Invoice number"
+                />
             </div>
             <div class="py-4 relative">
                 <x-select wire:model.defer="currency"
-                          label="Select a currency">
+                          label="Select a currency"
+                >
                     <option value="ZAR">ZAR</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
@@ -35,16 +45,35 @@
                 </x-select>
             </div>
             <div class="py-4">
-                <x-input-number type="number" wire:model.defer="exchange_rate" placeholder="optional"
-                                label="Exchange rate in ZAR"/>
+                <x-input-number type="number"
+                                wire:model.defer="exchange_rate"
+                                placeholder="optional"
+                                label="Exchange rate in ZAR"
+                />
             </div>
             <div class="py-4">
-                <x-input-number type="number" wire:model.defer="amount"
-                                label="Invoice amount in selected currency (ex shipping)"/>
+                <x-input-number type="number"
+                                wire:model.defer="amount"
+                                label="Invoice amount in selected currency (ex shipping)"
+                />
             </div>
             <div class="py-4">
-                <x-input-number type="number" wire:model.defer="shipping_rate"
-                                label="Shipping rate as %"/>
+                <x-input-number type="number"
+                                wire:model.defer="shipping_rate"
+                                label="Shipping rate as %"
+                />
+            </div>
+            <div class="py-2 bg-gray-100 rounded-md px-2">
+                <label for="taxable"
+                       class="text-xs uppercase font-medium flex items-center space-x-2"
+                >
+                    <input type="checkbox"
+                           wire:model.defer="taxable"
+                           id="taxable"
+                           class="rounded-full text-green-500 focus:ring-gray-200"
+                    />
+                    <span class="ml-3">Taxable</span>
+                </label>
             </div>
             <div class="py-4">
                 <button class="button-success">
@@ -55,47 +84,79 @@
         </form>
     </x-slide-over>
 
-    <x-modal title="Manage suppliers" wire:model.defer="showSuppliersCreateForm">
+    <x-modal title="Manage suppliers"
+             wire:model.defer="showSuppliersCreateForm"
+    >
         <div>
             <form wire:submit.prevent="addSupplier">
                 <div class="py-2">
-                    <x-input type="text" label="Name" wire:model.defer="name"/>
+                    <x-input type="text"
+                             label="Name"
+                             wire:model.defer="name"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Email" wire:model.defer="email"/>
+                    <x-input type="text"
+                             label="Email"
+                             wire:model.defer="email"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Phone" wire:model.defer="phone"/>
+                    <x-input type="text"
+                             label="Phone"
+                             wire:model.defer="phone"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Contact person" wire:model.defer="person"/>
+                    <x-input type="text"
+                             label="Contact person"
+                             wire:model.defer="person"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Address line one" wire:model.defer="address_line_one"/>
+                    <x-input type="text"
+                             label="Address line one"
+                             wire:model.defer="address_line_one"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Address line two" wire:model.defer="address_line_two"/>
+                    <x-input type="text"
+                             label="Address line two"
+                             wire:model.defer="address_line_two"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Suburb" wire:model.defer="suburb"/>
+                    <x-input type="text"
+                             label="Suburb"
+                             wire:model.defer="suburb"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="City" wire:model.defer="city"/>
+                    <x-input type="text"
+                             label="City"
+                             wire:model.defer="city"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Country" wire:model.defer="country"/>
+                    <x-input type="text"
+                             label="Country"
+                             wire:model.defer="country"
+                    />
                 </div>
 
                 <div class="py-2">
-                    <x-input type="text" label="Postal code" wire:model.defer="postal_code"/>
+                    <x-input type="text"
+                             label="Postal code"
+                             wire:model.defer="postal_code"
+                    />
                 </div>
 
                 <div class="py-2">
@@ -111,7 +172,10 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 px-2 md:px-0">
         <div class="lg:col-span-2">
-            <x-inputs.search id="search" wire:model="searchQuery" label="Search"/>
+            <x-inputs.search id="search"
+                             wire:model="searchQuery"
+                             label="Search"
+            />
         </div>
 
         <div class="w-full">
@@ -124,7 +188,9 @@
         </div>
 
         <div>
-            <a href="{{ route('suppliers') }}" class="button-success w-full">
+            <a href="{{ route('suppliers') }}"
+               class="button-success w-full"
+            >
                 <x-icons.users class="w-5 w-5 mr-2"/>
                 suppliers
             </a>
@@ -153,7 +219,8 @@
         </x-table.header>
         @forelse($products as $product)
             <x-table.body
-                class="grid grid-cols-1 md:grid-cols-12 text-sm">
+                class="grid grid-cols-1 md:grid-cols-12 text-sm"
+            >
                 <x-table.row class="lg:col-span-2 text-center lg:text-left">
                     <x-product-listing-simple :product="$product"/>
                 </x-table.row>
@@ -166,7 +233,8 @@
                                inputmode="numeric"
                                pattern="[0-9]"
                                class="w-full border rounded px-0.5"
-                               @keydown.tab="@this.call('updateRetailPrice',{{$product->id}},$event.target.value)"/>
+                               @keydown.tab="@this.call('updateRetailPrice',{{$product->id}},$event.target.value)"
+                        />
                     </label>
                     @else
                         <p class="text-center">{{ $product->retail_price }}</p>
@@ -174,7 +242,8 @@
 
                         @hasPermissionTo('view cost')
                         <span class="text-xs
-                            @if( profit_percentage($product->retail_price, $product->cost) < 0) text-red-700 @else text-green-500 @endif">
+                            @if( profit_percentage($product->retail_price, $product->cost) < 0) text-red-700 @else text-green-500 @endif"
+                        >
                             {{ profit_percentage($product->retail_price,$product->cost) }}
                     </span>
                         @endhasPermissionTo
@@ -196,7 +265,8 @@
                         @endhasPermissionTo
                         @hasPermissionTo('view cost')
                         <span class="text-xs
-                            @if( profit_percentage($product->wholesale_price, $product->cost) < 0) text-red-700 @else text-green-500 @endif">
+                            @if( profit_percentage($product->wholesale_price, $product->cost) < 0) text-red-700 @else text-green-500 @endif"
+                        >
                             {{ profit_percentage($product->wholesale_price,$product->cost) }}
                     </span>
                         @endhasPermissionTo

@@ -164,7 +164,6 @@
 
 ### CHANGES
 
-        - Not vat suppliers
         - Reduce order statuses
                 - combine warehouse & dispatch
                     when will add waybill?
@@ -219,8 +218,11 @@
         - Invoice and packing slip from warehouse
 
 ~~Need to see address~~
+
 ~~Sales rep to show on order screen and customer screen~~
+
 ~~Indicate Wholesale or retail on screen~~
+
 ~~search by shop name~~
 
 - - -
@@ -233,8 +235,9 @@
 
 # Faeeza
 
-        - Non-vatable creditors
         - Discounts on invoices
+
+~~Non-vatable creditors~~
 
 ~~Sales by date range~~
 

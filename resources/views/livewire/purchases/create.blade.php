@@ -1,13 +1,23 @@
 <div x-data="{}">
     <x-loading-screen/>
 
-    <x-slide-over title="Update product" wire:model.defer="showProductUpdateForm">
+    <x-slide-over title="Update product"
+                  wire:model.defer="showProductUpdateForm"
+    >
         <form wire:submit.prevent="update">
             <div class="py-2">
-                <x-input label="name" type="text" wire:model.defer="product.name" required/>
+                <x-input label="name"
+                         type="text"
+                         wire:model.defer="product.name"
+                         required
+                />
             </div>
             <div class="py-2">
-                <x-input label="sku" type="text" wire:model.defer="product.sku" required/>
+                <x-input label="sku"
+                         type="text"
+                         wire:model.defer="product.sku"
+                         required
+                />
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
@@ -15,7 +25,11 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="brand" type="text" wire:model.defer="product.brand" required>
+                <x-select label="brand"
+                          type="text"
+                          wire:model.defer="product.brand"
+                          required
+                >
                     @foreach($brands as $brand)
                         <option value="{{$brand->name}}">{{$brand->name}}</option>
                     @endforeach
@@ -27,7 +41,10 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="categories" wire:model.defer="product.category" required>
+                <x-select label="categories"
+                          wire:model.defer="product.category"
+                          required
+                >
                     @foreach($categories as $category)
                         <option value="{{$category->name}}">{{$category->name}}</option>
                     @endforeach
@@ -39,7 +56,10 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id">
+                <x-select label="Collection name"
+                          type="text"
+                          wire:model.defer="product.product_collection_id"
+                >
                     @foreach($productCollections as $collection)
                         <option value="{{$collection->id}}">{{$collection->name}}</option>
                     @endforeach
@@ -48,16 +68,24 @@
             @if($product)
                 @if($product->id)
                     <div class="py-2">
-                        <x-textarea label="description" type="text" wire:model.defer="product.description"/>
+                        <x-textarea label="description"
+                                    type="text"
+                                    wire:model.defer="product.description"
+                        />
                     </div>
                     <div class="py-2">
-                        <x-input-number label="retail_price" type="number" wire:model.defer="product.retail_price"
-                                        required/>
+                        <x-input-number label="retail_price"
+                                        type="number"
+                                        wire:model.defer="product.retail_price"
+                                        required
+                        />
                     </div>
                     <div class="py-2">
-                        <x-input-number label="wholesale_price" type="number"
+                        <x-input-number label="wholesale_price"
+                                        type="number"
                                         wire:model.defer="product.wholesale_price"
-                                        required/>
+                                        required
+                        />
                     </div>
                     <div class="py-2 relative">
                         <div class="absolute right-0 pt-0.5 z-10">
@@ -65,8 +93,10 @@
                                 <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                             </button>
                         </div>
-                        <x-select label="features" type="text"
-                                  wire:change="addFeature($event.target.value)">
+                        <x-select label="features"
+                                  type="text"
+                                  wire:change="addFeature($event.target.value)"
+                        >
                             @foreach($featureCategories as $category)
                                 <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
@@ -104,13 +134,23 @@
     </x-slide-over>
 
     {{--create product--}}
-    <x-slide-over title="New product" wire:model.defer="showProductCreateForm">
+    <x-slide-over title="New product"
+                  wire:model.defer="showProductCreateForm"
+    >
         <form wire:submit.prevent="save">
             <div class="py-2">
-                <x-input label="name" type="text" wire:model.defer="product.name" required/>
+                <x-input label="name"
+                         type="text"
+                         wire:model.defer="product.name"
+                         required
+                />
             </div>
             <div class="py-2">
-                <x-input label="sku" type="text" wire:model.defer="product.sku" required/>
+                <x-input label="sku"
+                         type="text"
+                         wire:model.defer="product.sku"
+                         required
+                />
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
@@ -118,7 +158,11 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="brand" type="text" wire:model.defer="product.brand" required>
+                <x-select label="brand"
+                          type="text"
+                          wire:model.defer="product.brand"
+                          required
+                >
                     @foreach($brands as $brand)
                         <option value="{{$brand->name}}">{{$brand->name}}</option>
                     @endforeach
@@ -130,7 +174,11 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="categories" type="text" wire:model.defer="product.category" required>
+                <x-select label="categories"
+                          type="text"
+                          wire:model.defer="product.category"
+                          required
+                >
                     @foreach($categories as $category)
                         <option value="{{$category->name}}">{{$category->name}}</option>
                     @endforeach
@@ -142,7 +190,10 @@
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
-                <x-select label="Collection name" type="text" wire:model.defer="product.product_collection_id">
+                <x-select label="Collection name"
+                          type="text"
+                          wire:model.defer="product.product_collection_id"
+                >
                     @foreach($productCollections as $collection)
                         <option value="{{$collection->id}}">{{$collection->name}}</option>
                     @endforeach
@@ -164,17 +215,33 @@
         </button>
     </x-slide-over>
 
-    <x-modal wire:model.defer="showBrandsForm" title="Manage brands" wire:key>
+    <x-modal wire:model.defer="showBrandsForm"
+             title="Manage brands"
+             wire:key
+    >
         <div>
-            <form wire:submit.prevent="addBrand" x-data="" id="brandForm">
+            <form wire:submit.prevent="addBrand"
+                  x-data=""
+                  id="brandForm"
+            >
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="brandName" label="name" required/>
+                    <x-input type="text"
+                             wire:model.defer="brandName"
+                             label="name"
+                             required
+                    />
                 </div>
                 <div class="py-2">
-                    <x-input type="file" wire:model.defer="brandLogo" label="logo" required/>
+                    <x-input type="file"
+                             wire:model.defer="brandLogo"
+                             label="logo"
+                             required
+                    />
                 </div>
                 <div class="py-2">
-                    <button class="button-success" x-on:click="document.getElementById('brandForm').reset()">
+                    <button class="button-success"
+                            x-on:click="document.getElementById('brandForm').reset()"
+                    >
                         <x-icons.save class="w-5 h-5 mr-2"/>
                         save
                     </button>
@@ -183,11 +250,18 @@
         </div>
     </x-modal>
 
-    <x-modal wire:model.defer="showProductCollectionForm" title="Manage product collections" wire:key>
+    <x-modal wire:model.defer="showProductCollectionForm"
+             title="Manage product collections"
+             wire:key
+    >
         <div>
             <form wire:submit.prevent="addProductCollection">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="collectionName" label="Name" required/>
+                    <x-input type="text"
+                             wire:model.defer="collectionName"
+                             label="Name"
+                             required
+                    />
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -199,11 +273,17 @@
         </div>
     </x-modal>
 
-    <x-modal wire:model.defer="showCategoriesForm" title="Manage categories">
+    <x-modal wire:model.defer="showCategoriesForm"
+             title="Manage categories"
+    >
         <div>
             <form wire:submit.prevent="addCategory">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="categoryName" label="name" required/>
+                    <x-input type="text"
+                             wire:model.defer="categoryName"
+                             label="name"
+                             required
+                    />
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -215,11 +295,17 @@
         </div>
     </x-modal>
 
-    <x-modal wire:model.defer="showFeaturesForm" title="Manage feature categories">
+    <x-modal wire:model.defer="showFeaturesForm"
+             title="Manage feature categories"
+    >
         <div>
             <form wire:submit.prevent="addFeatureCategory">
                 <div class="py-2">
-                    <x-input type="text" wire:model.defer="featureCategoryName" label="name" required/>
+                    <x-input type="text"
+                             wire:model.defer="featureCategoryName"
+                             label="name"
+                             required
+                    />
                 </div>
                 <div class="py-2">
                     <button
@@ -233,7 +319,9 @@
         </div>
     </x-modal>
 
-    <x-modal title="Are you sure?" wire:model.defer="showConfirmModal">
+    <x-modal title="Are you sure?"
+             wire:model.defer="showConfirmModal"
+    >
         <div class="flex space-x-4 py-4">
             <button class="button-success"
                     x-on:click="$wire.call('process')"
@@ -272,7 +360,8 @@
                     </div>
                 @else
                     <div class="pb-3">
-                        <button class="button-danger w-full" disabled
+                        <button class="button-danger w-full"
+                                disabled
                         >Processed by {{$this->purchase->creator->name}} on {{ $this->purchase->processed_date }}
                         </button>
                     </div>
@@ -280,7 +369,8 @@
                 <div class="bg-gray-200 rounded-md px-2">
                     <p>
                         <span
-                            class="@if($this->purchase->total === $this->purchase->amount)text-green-600 @else text-red-600 @endif">
+                            class="@if($this->purchase->total === $this->purchase->amount)text-green-600 @else text-red-600 @endif"
+                        >
                             {{$this->purchase->total}} {{$this->purchase->currency}}
                         </span>
                         <span class="font-bold">/ {{$this->purchase->amount}} {{$this->purchase->currency}}</span>
@@ -293,7 +383,9 @@
                 </h1>
                 <h2>
                     <span class="text-xs">shipping</span> {{ money($this->purchase->shipping_cost()) }}
-                    <span class="text-xs">vat</span> {{ money(vat($this->purchase->total_cost_in_zar())) }}
+                    @if($this->purchase->taxable)
+                        <span class="text-xs">vat</span> {{ money(vat($this->purchase->total_cost_in_zar())) }}
+                    @endif
                 </h2>
                 <h2>
                     <span class="text-xs">amount</span>
@@ -303,7 +395,8 @@
                 @if(!$this->purchase->processed)
                     <div>
                         <button class="button-danger w-full"
-                                x-on:click="@this.call('cancel')">
+                                x-on:click="@this.call('cancel')"
+                        >
                             <x-icons.cross class="w-5 h-5 mr-2"/>
                             cancel
                         </button>
@@ -323,7 +416,8 @@
             <div class="text-right">
                 <h1 class="font-bold text-4xl">{{ $this->purchase->invoice_no }}</h1>
                 <a class="text-right font-bold underline underline-offset-2 text-green-600 hover:text-yellow-500"
-                   href="{{ route('suppliers/show',$this->purchase->supplier->id) }}">{{ $this->purchase->supplier->name }}</a>
+                   href="{{ route('suppliers/show',$this->purchase->supplier->id) }}"
+                >{{ $this->purchase->supplier->name }}</a>
                 <h2>{{ $this->purchase->date->format('Y-M-d') }}</h2>
                 @if(!$this->purchase->processed)
                     <div>
@@ -338,20 +432,24 @@
             </div>
         </div>
 
-        <x-slide-over x-cloak title="Select products"
-                      wire:model.defer="showProductSelectorForm">
+        <x-slide-over x-cloak
+                      title="Select products"
+                      wire:model.defer="showProductSelectorForm"
+        >
             <div x-data=
-                 "{ searchQuery: @entangle('searchQuery') }"
+                     "{ searchQuery: @entangle('searchQuery') }"
             >
                 <div class="relative">
                     <label>
-                        <input x-model.lazy="searchQuery" type="search"
+                        <input x-model.lazy="searchQuery"
+                               type="search"
                                class="w-full rounded-md border-2 border-yellow-400 placeholder-gray-300 focus:ring-2"
                                placeholder="search"
                         >
                     </label>
                     <div wire:loading="updatedSearchQuery"
-                         class="absolute top-0 right-0 h-2 w-2 bg-green-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping">
+                         class="absolute top-0 right-0 h-2 w-2 bg-green-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping"
+                    >
 
                     </div>
                 </div>
@@ -374,24 +472,29 @@
                         @forelse($products as $product)
                             <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
                                 <div>
-                                    <input id="{{$product->id}}" aria-describedby="product"
+                                    <input id="{{$product->id}}"
+                                           aria-describedby="product"
                                            wire:model.defer="selectedProducts"
                                            wire:key="{{$product->id}}"
                                            value="{{$product->id}}"
                                            type="checkbox"
-                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded">
+                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                    >
                                 </div>
                                 <div class="flex lg:justify-between ml-3 w-full items-center">
                                     <x-product-listing-simple :product="$product"/>
                                     <div class="rounded-full hidden lg:block">
-                                        <img src="{{ asset($product->image) }}" alt=""
-                                             class="w-10 h-10 rounded-full">
+                                        <img src="{{ asset($product->image) }}"
+                                             alt=""
+                                             class="w-10 h-10 rounded-full"
+                                        >
                                     </div>
                                 </div>
                             </label>
                         @empty
                             <div
-                                class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center">
+                                class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
+                            >
                                 <p>No results</p>
                             </div>
                         @endforelse
@@ -427,7 +530,8 @@
                     <x-table.row class="text-center lg:text-right">
                         @if(!$this->purchase->processed)
                             <div>
-                                <x-input-number type="number" label="Price {{ $this->purchase->currency }}"
+                                <x-input-number type="number"
+                                                label="Price {{ $this->purchase->currency }}"
                                                 value="{{$item->price}}"
                                                 x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
                                                 x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
@@ -445,7 +549,8 @@
                     <x-table.row class="text-center lg:text-right">
                         @if(!$this->purchase->processed)
                             <div>
-                                <x-input-number type="number" label="Qty"
+                                <x-input-number type="number"
+                                                label="Qty"
                                                 value="{{$item->qty}}"
                                                 x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
                                                 x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
@@ -465,7 +570,8 @@
                         @if(!$this->purchase->processed)
                             <button wire:loading.attr="disabled"
                                     x-on:click="@this.call('deleteItem','{{$item->id}}')"
-                                    class="text-red-400 hover:text-red-700">
+                                    class="text-red-400 hover:text-red-700"
+                            >
                                 remove
                             </button>
                         @endif

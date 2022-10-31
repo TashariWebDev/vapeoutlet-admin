@@ -30,6 +30,8 @@ class Index extends Component
 
     public $date;
 
+    public $taxable = true;
+
     public $exchange_rate;
 
     public $shipping_rate;
@@ -70,6 +72,7 @@ class Index extends Component
             "shipping_rate" => ["nullable"],
             "exchange_rate" => ["nullable"],
             "currency" => ["required"],
+            "taxable" => ["required"],
         ];
     }
 
@@ -136,6 +139,7 @@ class Index extends Component
             "shipping_rate" => $this->shipping_rate,
             "currency" => $this->currency,
             "creator_id" => auth()->id(),
+            "taxable" => $this->taxable,
         ]);
 
         $this->redirectRoute("purchases/create", [
