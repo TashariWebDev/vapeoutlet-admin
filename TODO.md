@@ -215,10 +215,10 @@
         - Credit in warehouse
         - Credit complete orders or part of it
         - Dispatch details on invoice
-        - Need to see address
         - Customer statement
         - Invoice and packing slip from warehouse
 
+~~Need to see address~~
 ~~Sales rep to show on order screen and customer screen~~
 ~~Indicate Wholesale or retail on screen~~
 ~~search by shop name~~

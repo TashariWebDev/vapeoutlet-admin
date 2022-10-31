@@ -17,8 +17,11 @@ class Edit extends Component
     use WithNotifications;
 
     public $showAddressForm = false;
+    public $updateAddressForm = false;
 
     public $customer;
+
+    public $address;
 
     public $name;
 
@@ -47,20 +50,32 @@ class Edit extends Component
     public $postal_code;
 
     public $provinces = [
-        'gauteng',
-        'kwazulu natal',
-        'limpopo',
-        'mpumalanga',
-        'north west',
-        'free state',
-        'northern cape',
-        'western cape',
-        'eastern cape',
+        "gauteng",
+        "kwazulu natal",
+        "limpopo",
+        "mpumalanga",
+        "north west",
+        "free state",
+        "northern cape",
+        "western cape",
+        "eastern cape",
     ];
+
+    public function rules(): array
+    {
+        return [
+            "line_one" => "required",
+            "line_two" => "sometimes",
+            "suburb" => "sometimes",
+            "city" => "required",
+            "province" => "required",
+            "postal_code" => "required",
+        ];
+    }
 
     public function mount()
     {
-        $this->customer = Customer::find(request('id'));
+        $this->customer = Customer::find(request("id"))->load("addresses");
         $this->name = $this->customer->name;
         $this->email = $this->customer->email;
         $this->phone = $this->customer->phone;
@@ -77,46 +92,81 @@ class Edit extends Component
         }
     }
 
+    public function editAddress($addressId)
+    {
+        $this->address = CustomerAddress::findOrFail($addressId);
+        $this->line_one = $this->address->line_one;
+        $this->line_two = $this->address->line_two;
+        $this->suburb = $this->address->suburb;
+        $this->city = $this->address->city;
+        $this->province = $this->address->province;
+        $this->postal_code = $this->address->postal_code;
+
+        $this->updateAddressForm = true;
+    }
+
+    public function updateAddress()
+    {
+        $validatedData = $this->validate();
+
+        $this->address->update($validatedData);
+
+        $this->updateAddressForm = false;
+
+        $this->reset([
+            "line_one",
+            "line_two",
+            "suburb",
+            "city",
+            "province",
+            "postal_code",
+        ]);
+
+        $this->customer->refresh();
+
+        $this->notify("Address updated");
+    }
+
     public function updateUser()
     {
         $validatedData = $this->validate([
-            'name' => ['required'],
-            'email' => [
-                'required',
-                Rule::unique('customers', 'email')->ignore($this->customer->id),
+            "name" => ["required"],
+            "email" => [
+                "required",
+                Rule::unique("customers", "email")->ignore($this->customer->id),
             ],
-            'phone' => [
-                'required',
-                Rule::unique('customers', 'phone')->ignore($this->customer->id),
+            "phone" => [
+                "required",
+                Rule::unique("customers", "phone")->ignore($this->customer->id),
             ],
-            'company' => ['nullable'],
-            'vat_number' => ['nullable'],
-            'is_wholesale' => ['sometimes'],
-            'salesperson_id' => ['sometimes'],
+            "company" => ["nullable"],
+            "vat_number" => ["nullable"],
+            "is_wholesale" => ["sometimes"],
+            "salesperson_id" => ["sometimes"],
         ]);
 
         $this->customer->update($validatedData);
 
         if ($this->customer->salesperson_id == 0) {
             $this->customer->update([
-                'salesperson_id' => null,
+                "salesperson_id" => null,
             ]);
         }
 
         if ($this->customer->wasChanged()) {
-            $this->notify('Customer details have been updated');
+            $this->notify("Customer details have been updated");
         }
     }
 
     public function addAddress()
     {
         $validatedData = $this->validate([
-            'province' => ['required'],
-            'line_one' => ['required'],
-            'line_two' => ['nullable'],
-            'suburb' => ['nullable'],
-            'city' => ['required'],
-            'postal_code' => ['required'],
+            "province" => ["required"],
+            "line_one" => ["required"],
+            "line_two" => ["nullable"],
+            "suburb" => ["nullable"],
+            "city" => ["required"],
+            "postal_code" => ["required"],
         ]);
 
         $this->customer->addresses()->create($validatedData);
@@ -124,20 +174,20 @@ class Edit extends Component
         $this->showAddressForm = false;
 
         $this->reset([
-            'province',
-            'line_one',
-            'line_two',
-            'suburb',
-            'city',
-            'postal_code',
+            "province",
+            "line_one",
+            "line_two",
+            "suburb",
+            "city",
+            "postal_code",
         ]);
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.customers.edit', [
-            'salespeople' => User::query()
-                ->where('email', '!=', 'ridwan@tashari.co.za')
+        return view("livewire.customers.edit", [
+            "salespeople" => User::query()
+                ->where("email", "!=", "ridwan@tashari.co.za")
                 ->get(),
         ]);
     }
