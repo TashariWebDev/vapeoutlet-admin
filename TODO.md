@@ -164,7 +164,6 @@
 
 ### CHANGES
 
-        - Not vat suppliers
         - Reduce order statuses
                 - combine warehouse & dispatch
                     when will add waybill?
@@ -236,8 +235,9 @@
 
 # Faeeza
 
-        - Non-vatable creditors
         - Discounts on invoices
+
+~~Non-vatable creditors~~
 
 ~~Sales by date range~~
 
