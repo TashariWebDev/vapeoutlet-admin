@@ -83,12 +83,16 @@
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
                                     <td class="text-left">{{$purchase->date->format('Y-m-d')}}</td>
                                     <td class="text-left">{{$purchase->invoice_no}}</td>
-                                    <td class="text-right">
-                                        {{  number_format(ex_vat($amount),2) }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{  number_format(vat($amount),2) }}
-                                    </td>
+                                    @if($purchase->taxable)
+                                        <td class="text-right">{{  number_format(ex_vat($amount),2) }}</td>
+                                    @else
+                                        <td class="text-right">{{  number_format($amount,2) }}</td>
+                                    @endif
+                                    @if($purchase->taxable)
+                                        <td class="text-right">{{  number_format(vat($amount),2) }}</td>
+                                    @else
+                                        <td class="text-right">{{  number_format(to_rands(0),2) }}</td>
+                                    @endif
                                     <td class="text-right">
                                         {{ number_format($amount,2) }}
                                     </td>
@@ -113,10 +117,10 @@
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>
                                         <td class="text-right bg-gray-800 text-white">
-                                            {{ number_format(ex_vat($totalAmount),2) }}
+                                            {{ number_format($grouped->sum('amount') - vat($grouped->where('taxable',true)->sum('amount')),2) }}
                                         </td>
-                                        <td class="text-right bg-gray-800 text-white">{{ number_format(vat($totalAmount),2) }}</td>
-                                        <td class="text-right bg-gray-800 text-white">{{ number_format($totalAmount,2) }}</td>
+                                        <td class="text-right bg-gray-800 text-white">{{ number_format(vat($grouped->where('taxable',true)->sum('amount')),2) }}</td>
+                                        <td class="text-right bg-gray-800 text-white">{{ number_format($grouped->sum('amount'),2) }}</td>
                                     </tr>
                                     <tr class="text-white">
                                         <td colspan="6"

@@ -219,8 +219,11 @@
         - Invoice and packing slip from warehouse
 
 ~~Need to see address~~
+
 ~~Sales rep to show on order screen and customer screen~~
+
 ~~Indicate Wholesale or retail on screen~~
+
 ~~search by shop name~~
 
 - - -
