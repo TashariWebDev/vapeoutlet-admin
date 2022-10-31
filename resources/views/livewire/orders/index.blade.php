@@ -192,7 +192,7 @@
                 </x-table.row>
                 <x-table.row class="text-center">
                     @php
-                        $orderTotal = $order->total
+                        $orderTotal = $order->getTotal()
                     @endphp
                     <p>
                         <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}</p>

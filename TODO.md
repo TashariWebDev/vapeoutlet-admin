@@ -235,6 +235,7 @@
 
         - Non-vatable creditors
         - Discounts on invoices
-        - Sales by date range
+
+~~Sales by date range~~
 
 ~~stock on hand at specific time~~

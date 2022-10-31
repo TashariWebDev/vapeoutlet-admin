@@ -77,7 +77,11 @@ class Index extends Component
     public function filteredOrders(): Builder|_IH_Order_QB
     {
         $orders = Order::query()
-            ->with(["delivery:id,type", "customer"])
+            ->with([
+                "delivery:id,type",
+                "customer.salesperson",
+                "customer.transactions",
+            ])
             ->whereNotNull("status")
             ->orderBy("created_at", $this->direction);
 
