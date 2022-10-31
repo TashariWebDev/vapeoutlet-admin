@@ -57,7 +57,12 @@
     <!-- Stats -->
     <div class="flex justify-between items-center">
         <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">{{ $this->customer->name }} stats</h3>
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                {{ $this->customer->name }} stats
+                @if($this->customer->salesperson_id)
+                    <span class="text-gray-500">( {{ $this->customer->salesperson->name ?? '' }} )</span>
+                @endif
+            </h3>
             <button class="link"
                     x-on:click="showStats = !showStats"
             >toggle stats

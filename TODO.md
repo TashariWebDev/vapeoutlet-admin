@@ -208,19 +208,20 @@
 
 # Warehouse
 
-        - Indicate Wholesale or retail on screen
         - Invoice number not to change or hide credited invoices
         - Credited invoices not to move to the top of list
         - Edited invoices to be highlighted
         - Where to credit delivery
         - Credit in warehouse
         - Credit complete orders or part of it
-        - search by shop name
         - Dispatch details on invoice
         - Need to see address
         - Customer statement
-        - Sales rep to show on order screen and customer screen
         - Invoice and packing slip from warehouse
+
+~~Sales rep to show on order screen and customer screen~~
+~~Indicate Wholesale or retail on screen~~
+~~search by shop name~~
 
 - - -
 
