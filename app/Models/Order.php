@@ -88,7 +88,11 @@ class Order extends Model
 
     public function total(): Attribute
     {
-        return new Attribute(get: fn($value) => $this->getTotal());
+        return new Attribute(
+            get: fn($value) => to_rands(
+                $this->items()->sum(DB::raw("price * qty"))
+            )
+        );
     }
 
     public function subTotal(): Attribute

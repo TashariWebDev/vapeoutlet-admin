@@ -128,6 +128,7 @@
             <x-table.heading class="text-right">invoice</x-table.heading>
         </x-table.header>
         @forelse($orders as $order)
+            {{--            @dd($order)--}}
             <x-table.body class="grid grid-cols-1 lg:grid-cols-6">
                 <x-table.row class="text-center lg:text-left">
                     <a class="link"
@@ -192,16 +193,20 @@
                 </x-table.row>
                 <x-table.row class="text-center">
                     @php
-                        $orderTotal = $order->getTotal()
+                        $orderTotal = $order->total
                     @endphp
-                    <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}</p>
+                    <p class="text-xs font-bold">
+                        R {{ number_format($order->delivery_charge ,2)}}
+                    </p>
+                    <p class="text-xs font-bold">
+                        <span class="text-xs font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}
+                    </p>
                     <p class="lg:hidden">
-                        <span class="font-bold">Total:</span>R {{ number_format($orderTotal,2) }}
+                        <span class="text-xs font-bold">Total:</span>R {{ number_format($orderTotal,2) }}
                     </p>
                 </x-table.row>
                 <x-table.row class="p-2 text-right hidden lg:block">
-                    <p class="text-gray-900">R {{ number_format($orderTotal,2) }}</p>
+                    <p class="text-xs font-bold text-gray-900">R {{ number_format($orderTotal,2) }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right p-2">
                     @php
