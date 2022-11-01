@@ -51,14 +51,14 @@
                              label="Vat Number"
                     />
                 </div>
-                <div class="py-2 bg-gray-100 rounded-md px-2">
+                <div class="py-2 bg-slate-100 rounded-md px-2">
                     <label for="taxable"
                            class="text-xs uppercase font-medium flex items-center space-x-2"
                     >
                         <input type="checkbox"
                                wire:model.defer="taxable"
                                id="taxable"
-                               class="rounded-full text-green-500 focus:ring-gray-200"
+                               class="rounded-full text-green-500 focus:ring-slate-200"
                         />
                         <span class="ml-3">Taxable</span>
                     </label>
@@ -140,7 +140,7 @@
                     <x-table.row class="text-center lg:text-left lg:col-span-2 text-sm font-semibold">
                         {{ $expense->reference }}
                         <div>
-                            <p class="text-xs text-gray-600">{{ $expense->date->format('Y-m-d') }}</p>
+                            <p class="text-xs text-slate-600">{{ $expense->date->format('Y-m-d') }}</p>
                         </div>
                     </x-table.row>
                     <x-table.row class="text-center lg:text-left uppercase text-sm">

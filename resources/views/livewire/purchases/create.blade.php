@@ -102,7 +102,7 @@
                             @endforeach
                         </x-select>
                     </div>
-                    <div class="py-2 px-4 bg-gray-100 rounded-md">
+                    <div class="py-2 px-4 bg-slate-100 rounded-md">
                         <p class="text-xs">update and click tab to save</p>
                         @foreach($product->features as $feature)
                             <div class="py-2 relative">
@@ -366,7 +366,7 @@
                         </button>
                     </div>
                 @endif
-                <div class="bg-gray-200 rounded-md px-2">
+                <div class="bg-slate-200 rounded-md px-2">
                     <p>
                         <span
                             class="@if($this->purchase->total === $this->purchase->amount)text-green-600 @else text-red-600 @endif"
@@ -443,7 +443,7 @@
                     <label>
                         <input x-model.lazy="searchQuery"
                                type="search"
-                               class="w-full rounded-md border-2 border-yellow-400 placeholder-gray-300 focus:ring-2"
+                               class="w-full rounded-md border-2 border-yellow-400 placeholder-slate-300 focus:ring-2"
                                placeholder="search"
                         >
                     </label>
@@ -470,7 +470,7 @@
                     </div>
                     <fieldset class="space-y-2">
                         @forelse($products as $product)
-                            <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
+                            <label class="relative flex items-start bg-slate-100 py-2 px-4 rounded-md">
                                 <div>
                                     <input id="{{$product->id}}"
                                            aria-describedby="product"
@@ -478,7 +478,7 @@
                                            wire:key="{{$product->id}}"
                                            value="{{$product->id}}"
                                            type="checkbox"
-                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-slate-300 rounded"
                                     >
                                 </div>
                                 <div class="flex lg:justify-between ml-3 w-full items-center">
@@ -493,7 +493,7 @@
                             </label>
                         @empty
                             <div
-                                class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
+                                class="w-full bg-slate-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
                             >
                                 <p>No results</p>
                             </div>
@@ -516,13 +516,13 @@
             @foreach($this->purchase->items as $item)
                 <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                     <x-table.row class="text-center lg:text-left">
-                        <p class="text-xs text-gray-400">{{ $item->product->sku }}</p>
+                        <p class="text-xs text-slate-400">{{ $item->product->sku }}</p>
                         <h4 class="font-bold">
                             {{ $item->product->brand }} {{ $item->product->name }}
                         </h4>
                         <div class="flex flex-wrap justify-center lg:justify-start items-center">
                             @foreach($item->product->features as $feature)
-                                <p class="text-xs text-gray-600 pr-1"
+                                <p class="text-xs text-slate-600 pr-1"
                                 > {{ $feature->name }}</p>
                             @endforeach
                         </div>

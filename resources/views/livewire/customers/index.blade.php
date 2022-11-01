@@ -43,14 +43,14 @@
                     />
                 </div>
                 @hasPermissionTo('upgrade customers')
-                <div class="py-2 bg-gray-100 rounded-md px-2">
+                <div class="py-2 bg-slate-100 rounded-md px-2">
                     <label for="is_wholesale"
                            class="text-xs uppercase font-medium flex items-center space-x-2"
                     >
                         <input type="checkbox"
                                wire:model.defer="is_wholesale"
                                id="is_wholesale"
-                               class="rounded-full text-green-500 focus:ring-gray-200"
+                               class="rounded-full text-green-500 focus:ring-slate-200"
                         />
                         <span class="ml-3">Wholesale</span>
                     </label>
@@ -85,7 +85,7 @@
                        href="{{ route('customers/show',$customer->id) }}"
                     >{{$customer->name}}</a>
                     <div class="pt-1">
-                        <p class="text-xs text-gray-500">{{ $customer->salesperson->name ?? '' }}</p>
+                        <p class="text-xs text-slate-500">{{ $customer->salesperson->name ?? '' }}</p>
                     </div>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left text-sm font-semibold">{{ $customer->email }}</x-table.row>

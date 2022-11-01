@@ -96,7 +96,7 @@
                     </div>
                     <fieldset class="space-y-2">
                         @forelse($products as $product)
-                            <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md">
+                            <label class="relative flex items-start bg-slate-100 py-2 px-4 rounded-md">
                                 <div>
                                     <input id="{{$product->id}}"
                                            aria-describedby="product"
@@ -104,7 +104,7 @@
                                            wire:key="{{$product->id}}"
                                            value="{{$product->id}}"
                                            type="checkbox"
-                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                           class="focus:ring-green-500 h-4 w-4 text-green-600 border-slate-300 rounded"
                                     >
                                 </div>
                                 <div class="flex ml-3 w-full items-center">
@@ -116,15 +116,15 @@
                                     </div>
                                     <div class="text-sm">
                                         <div for="{{$product->id}}"
-                                             class="font-semibold text-gray-700"
+                                             class="font-semibold text-slate-700"
                                         >
                                             {{ $product->brand }} {{ $product->name }}
-                                            <p class="text-gray-700 text-xs">{{ $product->sku }}</p>
+                                            <p class="text-slate-700 text-xs">{{ $product->sku }}</p>
                                         </div>
                                         <div class="flex flex-wrap items-center divide-x">
                                             @foreach($product->features as $feature)
                                                 <p id="features"
-                                                   class="text-gray-500 text-xs px-1"
+                                                   class="text-slate-500 text-xs px-1"
                                                 >
                                                     {{ $feature->name }}
                                                 </p>
@@ -135,7 +135,7 @@
                             </label>
                         @empty
                             <div
-                                class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
+                                class="w-full bg-slate-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
                             >
                                 <p>No results</p>
                             </div>
@@ -165,7 +165,7 @@
                                            x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
                                            x-on:blur="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
                                     />
-                                    <span class="text-xs text-gray-500">Cost</span>
+                                    <span class="text-xs text-slate-500">Cost</span>
                                 </label>
                             </div>
                         @else
@@ -185,7 +185,7 @@
                                            x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
                                            x-on:blur="$wire.call('updateQty',{{$item->id}},$event.target.value)"
                                     />
-                                    <span class="text-xs text-gray-500">Qty ({{ $item->product->qty() }} in stock)</span>
+                                    <span class="text-xs text-slate-500">Qty ({{ $item->product->qty() }} in stock)</span>
                                 </label>
                             </div>
                         @else

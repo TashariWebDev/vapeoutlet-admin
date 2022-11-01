@@ -32,7 +32,7 @@
         <div class="grid grid-cols-1 gap-y-2">
             @foreach($notifications as $notification)
                 <div class="px-2 py-1 grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white rounded-md">
-                    <div class="col-span-3 text-gray-800 py-6">
+                    <div class="col-span-3 text-slate-800 py-6">
                         <p>{{ $notification->body }}</p>
                     </div>
                     <div class="px-2 py-1 text-center">
