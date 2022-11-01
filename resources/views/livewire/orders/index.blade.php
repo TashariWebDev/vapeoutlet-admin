@@ -20,7 +20,6 @@
                 >
             </label>
         </div>
-
         <div class="text-right">
             <label>
                 <select wire:model="filter"
