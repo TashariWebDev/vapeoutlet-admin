@@ -26,18 +26,47 @@
 
     <div class="md:py-12">
         <div class="pb-3">
-            <h2 class="font-bold text-2xl ">Update user</h2>
+            <h2 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">Update user</h2>
         </div>
-        <div class="w-full p-4 bg-white rounded-md">
-            <form wire:submit.prevent="updateUser" class="w-full md:w-1/2">
+        <div class="w-full p-4 bg-white dark:bg-slate-900 rounded-md">
+            <form wire:submit.prevent="updateUser"
+                  class="w-full md:w-1/2"
+            >
                 <div class="py-2">
-                    <x-input type="text" label="name" wire:model.defer="user.name"/>
+                    <label for="name"
+                           class="text-slate-500 text-xs mb-1"
+                    >Name</label>
+                    <div>
+                        <input type="text"
+                               id="name"
+                               class="w-full rounded-md"
+                               wire:model.defer="user.name"
+                        />
+                    </div>
                 </div>
                 <div class="py-2">
-                    <x-input type="email" label="email" wire:model.defer="user.email"/>
+                    <label for="email"
+                           class="text-slate-500 text-xs mb-1"
+                    >Email</label>
+                    <div>
+                        <input type="email"
+                               id="email"
+                               class="w-full rounded-md"
+                               wire:model.defer="user.email"
+                        />
+                    </div>
                 </div>
                 <div class="py-2">
-                    <x-input type="text" label="phone" wire:model.defer="user.phone"/>
+                    <label for="phone"
+                           class="text-slate-500 text-xs mb-1"
+                    >Phone</label>
+                    <div>
+                        <input type="text"
+                               id="phone"
+                               class="w-full rounded-md"
+                               wire:model.defer="user.phone"
+                        />
+                    </div>
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -53,7 +82,8 @@
         <div class="pt-12 pb-6">
             <div class="flex flex-wrap justify-between items-center md:space-x-4 pb-3 px-2 md:px-0">
                 <div>
-                    <h2 class="font-bold text-2xl py-3">User assigned permissions</h2>
+                    <h2 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">User assigned
+                                                                                               permissions</h2>
                 </div>
                 <div>
                     <button
@@ -66,7 +96,8 @@
                 </div>
             </div>
             <div
-                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-y-2 px-0 py-3 bg-white rounded-md overflow-hidden">
+                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-y-2 px-2 py-3 bg-white dark:bg-slate-900 rounded-md overflow-hidden"
+            >
                 @foreach($user->permissions as $permission)
                     <div>
                         <button
@@ -104,7 +135,7 @@
             </div>
 
             <div class="bg-white rounded-md">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-2 py-3">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-2 py-3 px-2">
                     @foreach($permissions as $permission)
                         <div>
                             <button

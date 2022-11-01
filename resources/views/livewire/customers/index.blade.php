@@ -92,9 +92,9 @@
                 <x-table.row class="text-center text-sm">{{ $customer->phone }}</x-table.row>
                 <x-table.row class="flex justify-center">
                     @if($customer->is_wholesale)
-                        <x-icons.tick class="w-5 h-5 text-green-600"/>
+                        <x-icons.tick class="w-5 h-5 text-green-600 dark:text-green-400"/>
                     @else
-                        <x-icons.cross class="w-5 h-5 text-red-600"/>
+                        <x-icons.cross class="w-5 h-5 text-red-600 dark:text-red-400"/>
                     @endif
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">

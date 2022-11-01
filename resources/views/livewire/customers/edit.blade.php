@@ -5,7 +5,7 @@
             <form wire:submit.prevent="updateUser">
                 <div class="py-1">
                     <label for="email-address"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >
                         Email address
                     </label>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="py-1">
                     <label for="name"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Name</label>
                     <input type="text"
                            id="name"
@@ -37,7 +37,7 @@
                 </div>
                 <div class="py-1">
                     <label for="phone"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Phone</label>
                     <input type="text"
                            id="phone"
@@ -52,7 +52,7 @@
                 </div>
                 <div class="py-1">
                     <label for="company"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Company</label>
                     <input type="text"
                            id="company"
@@ -67,7 +67,7 @@
                 </div>
                 <div class="py-1">
                     <label for="vat_number"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Vat number</label>
                     <input type="text"
                            id="vat_number"
@@ -83,7 +83,7 @@
                 @hasPermissionTo('upgrade customers')
                 <div class="py-1">
                     <label for="is_wholesale"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Is Wholesale Customer</label>
                     <select id="is_wholesale"
                             name="is_wholesale"
@@ -110,7 +110,7 @@
                 </div>
                 <div class="py-1">
                     <label for="salesperson_id"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Salesperson</label>
                     <select id="salesperson_id"
                             name="salesperson_id"
@@ -144,7 +144,7 @@
             <form wire:submit.prevent="addAddress">
                 <div class="py-1">
                     <label for="address_line_one"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >
                         Address line one
                     </label>
@@ -162,7 +162,7 @@
 
                 <div class="py-1">
                     <label for="address_line_two"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >
                         Address line two
                     </label>
@@ -180,7 +180,7 @@
 
                 <div class="py-1">
                     <label for="suburb"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >
                         Suburb
                     </label>
@@ -198,7 +198,7 @@
 
                 <div class="py-1">
                     <label for="city"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >
                         City
                     </label>
@@ -216,7 +216,7 @@
 
                 <div class="py-1">
                     <label for="province"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >Province</label>
                     <select id="province"
                             name="province"
@@ -241,7 +241,7 @@
 
                 <div class="py-1">
                     <label for="postal_code"
-                           class="block text-sm font-medium text-gray-700"
+                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                     >
                         Postal code
                     </label>
@@ -266,7 +266,7 @@
 
         <div>
             <div>
-                <p>Addresses</p>
+                <p class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1">Addresses</p>
             </div>
             @foreach($customer->addresses as $address)
                 <div class="bg-white px-2 py-3 rounded-md capitalize mb-2 flex justify-between items-center">
@@ -281,7 +281,7 @@
                 <form wire:submit.prevent="updateAddress">
                     <div class="py-1">
                         <label for="address_line_one"
-                               class="block text-sm font-medium text-gray-700"
+                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                         >
                             Address line one
                         </label>
@@ -299,7 +299,7 @@
 
                     <div class="py-1">
                         <label for="address_line_two"
-                               class="block text-sm font-medium text-gray-700"
+                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                         >
                             Address line two
                         </label>
@@ -317,7 +317,7 @@
 
                     <div class="py-1">
                         <label for="suburb"
-                               class="block text-sm font-medium text-gray-700"
+                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                         >
                             Suburb
                         </label>
@@ -335,7 +335,7 @@
 
                     <div class="py-1">
                         <label for="city"
-                               class="block text-sm font-medium text-gray-700"
+                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                         >
                             City
                         </label>
@@ -353,7 +353,7 @@
 
                     <div class="py-1">
                         <label for="province"
-                               class="block text-sm font-medium text-gray-700"
+                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                         >Province</label>
                         <select id="province"
                                 name="province"
@@ -378,7 +378,7 @@
 
                     <div class="py-1">
                         <label for="postal_code"
-                               class="block text-sm font-medium text-gray-700"
+                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
                         >
                             Postal code
                         </label>

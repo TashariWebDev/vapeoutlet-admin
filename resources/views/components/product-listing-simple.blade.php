@@ -4,15 +4,15 @@
 
 
 <div>
-    <p class="font-medium text-gray-600 text-xs">
+    <p class="font-medium text-slate-500 dark:text-slate-400 text-xs">
         {{ $product->sku }}
     </p>
-    <p class="font-bold text-gray-800 text-sm">
+    <p class="font-semibold text-slate-800 dark:text-slate-300">
         {{ $product->brand }} {{ $product->name }}
     </p>
     <div class="flex space-x-1 items-center">
         @foreach($product->features as $feature)
-            <p class="font-medium text-xs text-gray-600 pr-1 @if(!$loop->last) border-r @endif"
+            <p class="text-xs text-slate-500 dark:text-slate-400 pr-1"
             > {{ $feature->name }}</p>
         @endforeach
     </div>

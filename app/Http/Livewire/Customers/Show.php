@@ -161,7 +161,7 @@ class Show extends Component
                         );
                 })
                 ->where("customer_id", "=", $this->customerId)
-                ->simplePaginate(5),
+                ->paginate(5),
         ]);
     }
 }

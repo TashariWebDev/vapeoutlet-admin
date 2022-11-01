@@ -2,6 +2,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: "class",
     content: [
         "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
         "./storage/framework/views/*.php",
@@ -14,7 +15,7 @@ module.exports = {
                 xxs: [".50rem", "1rem"]
             },
             fontFamily: {
-                sans: ["Nunito", ...defaultTheme.fontFamily.sans]
+                sans: ["Roboto", ...defaultTheme.fontFamily.sans]
             },
             animation: {
                 "spin-slow": "spin 3s linear infinite",
