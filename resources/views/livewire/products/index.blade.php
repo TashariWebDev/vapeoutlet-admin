@@ -20,8 +20,8 @@
                             >
                         </div>
                     @empty
-                        <div class="col-span-4 bg-gray-100 w-full h-32 flex justify-center items-center">
-                            <p class="text-gray-900 font-semibold">no images in gallery. Please upload</p>
+                        <div class="col-span-4 bg-slate-100 w-full h-32 flex justify-center items-center">
+                            <p class="text-slate-900 font-semibold">no images in gallery. Please upload</p>
                         </div>
                     @endforelse
                 </div>
@@ -44,7 +44,7 @@
                              class="object-cover rounded-t-md"
                         >
                     </div>
-                    <div class="bg-gray-200 w-32 mx-auto rounded-b text-xs text-center pt-1">
+                    <div class="bg-slate-200 w-32 mx-auto rounded-b text-xs text-center pt-1">
                         <p>featured</p>
                     </div>
                 @endif
@@ -190,7 +190,7 @@
                             @endforeach
                         </x-select>
                     </div>
-                    <div class="py-2 px-4 bg-gray-100 rounded-md">
+                    <div class="py-2 px-4 bg-slate-100 rounded-md">
                         <p class="text-xs">update and click tab to save</p>
                         @foreach($product->features as $feature)
                             <div class="py-2 relative"

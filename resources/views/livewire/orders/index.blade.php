@@ -43,11 +43,11 @@
                     <div class="grid grid-cols-4 border-b py-0.5">
                         <div>
                             <p class="text-xs font-semibold"> {{ $transaction->id }} {{ strtoupper($transaction->type) }}</p>
-                            <p class="text-xs text-gray-500">{{ $transaction->created_at }}</p>
+                            <p class="text-xs text-slate-500">{{ $transaction->created_at }}</p>
                         </div>
                         <div>
                             <p class="text-xs font-semibold">{{ strtoupper($transaction->reference) }}</p>
-                            <p class="text-xs text-gray-400">{{ $transaction->created_by }}</p>
+                            <p class="text-xs text-slate-400">{{ $transaction->created_by }}</p>
                         </div>
                         <div class="text-right text-xs font-semibold">
                             <p>{{ number_format($transaction->amount,2) }}</p>
@@ -112,7 +112,7 @@
                                         'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
                                     ])
                                 >{{ $order->customer->type() }}</p>
-                                <p class="text-xs text-gray-500">
+                                <p class="text-xs text-slate-500">
                                     {{ $order->customer->salesperson->name ?? '' }}
                                 </p>
                             </div>

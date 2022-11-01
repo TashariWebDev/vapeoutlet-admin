@@ -5,14 +5,14 @@
             <form wire:submit.prevent="updateUser">
                 <div class="py-1">
                     <label for="email-address"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >
                         Email address
                     </label>
                     <input type="email"
                            id="email-address"
                            wire:model.defer="email"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error( 'email')
                     <div class="py-1">
@@ -22,12 +22,12 @@
                 </div>
                 <div class="py-1">
                     <label for="name"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Name</label>
                     <input type="text"
                            id="name"
                            wire:model.defer="name"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error( 'name')
                     <div class="py-1">
@@ -37,12 +37,12 @@
                 </div>
                 <div class="py-1">
                     <label for="phone"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Phone</label>
                     <input type="text"
                            id="phone"
                            wire:model.defer="phone"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error('phone')
                     <div class="py-1">
@@ -52,12 +52,12 @@
                 </div>
                 <div class="py-1">
                     <label for="company"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Company</label>
                     <input type="text"
                            id="company"
                            wire:model.defer="company"
-                           class="block w-full border-gray-300 rounded-md shadow-sm m:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm m:text-sm"
                     >
                     @error('company')
                     <div class="py-1">
@@ -67,12 +67,12 @@
                 </div>
                 <div class="py-1">
                     <label for="vat_number"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Vat number</label>
                     <input type="text"
                            id="vat_number"
                            wire:model.defer="vat_number"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error('vat_number')
                     <div class="py-1">
@@ -83,12 +83,12 @@
                 @hasPermissionTo('upgrade customers')
                 <div class="py-1">
                     <label for="is_wholesale"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Is Wholesale Customer</label>
                     <select id="is_wholesale"
                             name="is_wholesale"
                             wire:model.defer="is_wholesale"
-                            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                            class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                     >
                         <option value="">Choose</option>
                         <option value="0"
@@ -110,12 +110,12 @@
                 </div>
                 <div class="py-1">
                     <label for="salesperson_id"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Salesperson</label>
                     <select id="salesperson_id"
                             name="salesperson_id"
                             wire:model.defer="salesperson_id"
-                            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                            class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                     >
                         <option value="">Choose</option>
                         @foreach($salespeople as $salesperson)
@@ -144,14 +144,14 @@
             <form wire:submit.prevent="addAddress">
                 <div class="py-1">
                     <label for="address_line_one"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >
                         Address line one
                     </label>
                     <input type="text"
                            id="address_line_one"
                            wire:model.defer="line_one"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error( 'line_one')
                     <div class="py-1">
@@ -162,14 +162,14 @@
 
                 <div class="py-1">
                     <label for="address_line_two"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >
                         Address line two
                     </label>
                     <input type="text"
                            id="address_line_two"
                            wire:model.defer="line_two"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error( 'line_two')
                     <div class="pt-1">
@@ -180,14 +180,14 @@
 
                 <div class="py-1">
                     <label for="suburb"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >
                         Suburb
                     </label>
                     <input type="text"
                            id="suburb"
                            wire:model.defer="suburb"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error('suburb')
                     <div class="pt-1">
@@ -198,14 +198,14 @@
 
                 <div class="py-1">
                     <label for="city"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >
                         City
                     </label>
                     <input type="text"
                            id="city"
                            wire:model.defer="city"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error('city')
                     <div class="pt-1">
@@ -216,12 +216,12 @@
 
                 <div class="py-1">
                     <label for="province"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >Province</label>
                     <select id="province"
                             name="province"
                             wire:model.defer="province"
-                            class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                            class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                     >
                         <option value="">Select a province</option>
                         @foreach($provinces as $province)
@@ -241,14 +241,14 @@
 
                 <div class="py-1">
                     <label for="postal_code"
-                           class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                     >
                         Postal code
                     </label>
                     <input type="text"
                            id="postal_code"
                            wire:model.defer="postal_code"
-                           class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                     >
                     @error('postal_code')
                     <div class="pt-1">
@@ -266,7 +266,7 @@
 
         <div>
             <div>
-                <p class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1">Addresses</p>
+                <p class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1">Addresses</p>
             </div>
             @foreach($customer->addresses as $address)
                 <div class="bg-white px-2 py-3 rounded-md capitalize mb-2 flex justify-between items-center">
@@ -281,14 +281,14 @@
                 <form wire:submit.prevent="updateAddress">
                     <div class="py-1">
                         <label for="address_line_one"
-                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                         >
                             Address line one
                         </label>
                         <input type="text"
                                id="address_line_one"
                                wire:model.defer="line_one"
-                               class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                         >
                         @error( 'line_one')
                         <div class="py-1">
@@ -299,14 +299,14 @@
 
                     <div class="py-1">
                         <label for="address_line_two"
-                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                         >
                             Address line two
                         </label>
                         <input type="text"
                                id="address_line_two"
                                wire:model.defer="line_two"
-                               class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                         >
                         @error( 'line_two')
                         <div class="pt-1">
@@ -317,14 +317,14 @@
 
                     <div class="py-1">
                         <label for="suburb"
-                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                         >
                             Suburb
                         </label>
                         <input type="text"
                                id="suburb"
                                wire:model.defer="suburb"
-                               class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                         >
                         @error('suburb')
                         <div class="pt-1">
@@ -335,14 +335,14 @@
 
                     <div class="py-1">
                         <label for="city"
-                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                         >
                             City
                         </label>
                         <input type="text"
                                id="city"
                                wire:model.defer="city"
-                               class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                         >
                         @error('city')
                         <div class="pt-1">
@@ -353,12 +353,12 @@
 
                     <div class="py-1">
                         <label for="province"
-                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                         >Province</label>
                         <select id="province"
                                 name="province"
                                 wire:model.defer="province"
-                                class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                                class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                         >
                             <option value="">Select a province</option>
                             @foreach($provinces as $province)
@@ -378,14 +378,14 @@
 
                     <div class="py-1">
                         <label for="postal_code"
-                               class="block text-xs font-medium text-gray-700 dark:text-slate-300 pb-1"
+                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
                         >
                             Postal code
                         </label>
                         <input type="text"
                                id="postal_code"
                                wire:model.defer="postal_code"
-                               class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                         >
                         @error('postal_code')
                         <div class="pt-1">

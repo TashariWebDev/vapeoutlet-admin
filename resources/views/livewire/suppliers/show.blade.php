@@ -67,8 +67,8 @@
                         <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                             <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                         </div>
-                        <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">Total
-                                                                                                        Purchases</p>
+                        <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Total
+                                                                                                         Purchases</p>
                     </dt>
                     <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                         <div>
@@ -91,7 +91,7 @@
                         <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                             <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                         </div>
-                        <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Credits</p>
+                        <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Credits</p>
                     </dt>
                     <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                         <div>
@@ -107,7 +107,7 @@
                         <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                             <x-icons.ccard class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                         </div>
-                        <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Payments</p>
+                        <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Payments</p>
                     </dt>
                     <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                         <div>
@@ -131,7 +131,7 @@
                         <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                             <x-icons.chart-pie class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                         </div>
-                        <p class="ml-16 text-sm font-medium text-gray-500 truncate">Outstanding</p>
+                        <p class="ml-16 text-sm font-medium text-slate-500 truncate">Outstanding</p>
                     </dt>
                     <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                         <div>
@@ -193,7 +193,7 @@
                                 class="font-semibold link"
                         >{{ $purchase->id }} {{ strtoupper($purchase->invoice_no) }}
                         </button>
-                        <p class="text-gray-500 text-xs pt-1">{{ $purchase->created_at }}</p>
+                        <p class="text-slate-500 text-xs pt-1">{{ $purchase->created_at }}</p>
                     </x-table.row>
                     <x-table.row
                         class="text-center lg:text-right"
@@ -226,16 +226,16 @@
                                 class="font-semibold link"
                         >{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                         </button>
-                        <p class="text-gray-500 text-xs pt-1">{{ $transaction->created_at }}</p>
+                        <p class="text-slate-500 text-xs pt-1">{{ $transaction->created_at }}</p>
                     @elseif($transaction->type == 'supplier credit')
                         <button wire:click="showSupplierCredit('{{$transaction->reference}}')"
                                 class="font-semibold link"
                         >{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                         </button>
-                        <p class="text-gray-500 text-xs pt-1">{{ $transaction->created_at }}</p>
+                        <p class="text-slate-500 text-xs pt-1">{{ $transaction->created_at }}</p>
                     @else
                         <p class="font-semibold">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}</p>
-                        <p class="text-gray-400">{{ $transaction->created_at }}</p>
+                        <p class="text-slate-400">{{ $transaction->created_at }}</p>
                     @endif
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">{{ number_format($transaction->amount,2) }}</x-table.row>

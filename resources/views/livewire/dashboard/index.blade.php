@@ -8,7 +8,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.shopping-bag class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">
                         Received
                     </p>
                 </dt>
@@ -34,7 +34,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.clipboard class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">Processed</p>
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Processed</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
@@ -58,7 +58,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.products class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">Packed</p>
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Packed</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
@@ -82,7 +82,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.truck class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">
                         Shipped
                     </p>
                 </dt>
@@ -108,7 +108,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.tick class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">Completed</p>
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Completed</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
@@ -132,7 +132,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.cross class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">Cancelled</p>
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Cancelled</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">

@@ -60,7 +60,7 @@
             <h3 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">
                 {{ $this->customer->name }} stats
                 @if($this->customer->salesperson_id)
-                    <span class="text-gray-500">( {{ $this->customer->salesperson->name ?? '' }} )</span>
+                    <span class="text-slate-500">( {{ $this->customer->salesperson->name ?? '' }} )</span>
                 @endif
             </h3>
             <button class="link"
@@ -87,7 +87,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-400 dark:text-slate-600 truncate">Total Invoices</p>
+                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Total Invoices</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
@@ -117,7 +117,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.ccard class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Payments</p>
+                    <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Payments</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
@@ -147,7 +147,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.chart-pie class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-500 truncate">Outstanding</p>
+                    <p class="ml-16 text-sm font-medium text-slate-500 truncate">Outstanding</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
@@ -179,7 +179,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.arrow-up class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Debits</p>
+                    <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Debits</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
@@ -203,7 +203,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.arrow-right class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Credits</p>
+                    <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Credits</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
@@ -227,7 +227,7 @@
                     <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
                         <x-icons.arrow-down class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-gray-500 truncate">Total Refunds</p>
+                    <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Refunds</p>
                 </dt>
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
@@ -271,7 +271,7 @@
                              viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor"
-                             class="w-6 h-6 text-gray-600"
+                             class="w-6 h-6 text-slate-600"
                              wire:loading.class="animate-spin-slow"
                              wire:target="updateBalances"
                         >
@@ -333,11 +333,11 @@
             <x-table.body class="grid grid-cols-1 lg:grid-cols-5 text-sm">
                 <x-table.row class="text-sm text-center lg:text-left">
                     <p>{{ $transaction->id }} {{ strtoupper($transaction->type) }}</p>
-                    <p class="text-xs text-gray-500">{{ $transaction->created_at }}</p>
+                    <p class="text-xs text-slate-500">{{ $transaction->created_at }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left">
                     <p class="text-xs font-semibold">{{ strtoupper($transaction->reference) }}</p>
-                    <p class="text-xs text-gray-400">{{ $transaction->created_by }}</p>
+                    <p class="text-xs text-slate-400">{{ $transaction->created_by }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
                     {{ number_format($transaction->amount,2) }}

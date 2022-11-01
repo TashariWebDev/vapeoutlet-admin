@@ -63,14 +63,14 @@
                                 label="Shipping rate as %"
                 />
             </div>
-            <div class="py-2 bg-gray-100 rounded-md px-2">
+            <div class="py-2 bg-slate-100 rounded-md px-2">
                 <label for="taxable"
                        class="text-xs uppercase font-medium flex items-center space-x-2"
                 >
                     <input type="checkbox"
                            wire:model.defer="taxable"
                            id="taxable"
-                           class="rounded-full text-green-500 focus:ring-gray-200"
+                           class="rounded-full text-green-500 focus:ring-slate-200"
                     />
                     <span class="ml-3">Taxable</span>
                 </label>
@@ -281,7 +281,7 @@
                         @if($lastPurchasePrice > $product->cost)
                             <span class="text-green-600 font-extrabold w-4"> &downarrow; </span>
                         @elseif($lastPurchasePrice == $product->cost)
-                            <span class="text-gray-600 font-extrabold w-4"> &rightarrow; </span>
+                            <span class="text-slate-600 font-extrabold w-4"> &rightarrow; </span>
                         @else
                             <span class="text-red-700 font-extrabold w-4"> &uparrow; </span>
                         @endif
