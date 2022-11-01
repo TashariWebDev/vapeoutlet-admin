@@ -29,6 +29,15 @@ class Index extends Component
 
     public $direction = "desc";
 
+    public $statuses = [
+        "received",
+        "processed",
+        "packed",
+        "shipped",
+        "completed",
+        "cancelled",
+    ];
+
     public function selectedCustomerLatestTransactions()
     {
         if ($this->quickViewCustomerAccountModal === false) {
@@ -99,7 +108,7 @@ class Index extends Component
     public function render(): Factory|View|Application
     {
         return view("livewire.orders.index", [
-            "orders" => $this->filteredOrders()->paginate(6),
+            "orders" => $this->filteredOrders()->paginate(10),
         ]);
     }
 }

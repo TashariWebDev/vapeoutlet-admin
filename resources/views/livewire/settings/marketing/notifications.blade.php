@@ -1,9 +1,13 @@
 <div>
-    <x-slide-over title="Add marketing notification" wire:model.defer="showCreateNotificationForm">
+    <x-slide-over title="Add marketing notification"
+                  wire:model.defer="showCreateNotificationForm"
+    >
         <div class="py-6">
             <form wire:submit.prevent="save">
                 <div class="py-6">
-                    <x-textarea label="body" wire:model.defer="body"></x-textarea>
+                    <x-textarea label="body"
+                                wire:model.defer="body"
+                    ></x-textarea>
                 </div>
                 <div>
                     <button class="button-success">
@@ -25,13 +29,13 @@
     </header>
 
     <section class="py-6">
-        <div class="grid grid-cols-1">
+        <div class="grid grid-cols-1 gap-y-2">
             @foreach($notifications as $notification)
-                <div class="p-3 grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white rounded-md">
+                <div class="px-2 py-1 grid grid-cols-2 lg:grid-cols-4 gap-3 bg-white rounded-md">
                     <div class="col-span-3 text-gray-800 py-6">
                         <p>{{ $notification->body }}</p>
                     </div>
-                    <div class="p-3 text-center">
+                    <div class="px-2 py-1 text-center">
                         <button class="button-danger"
                                 x-on:click="@this.call('delete',{{$notification->id}})"
                         >

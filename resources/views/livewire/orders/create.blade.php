@@ -1,23 +1,25 @@
 <div>
     <x-loading-screen/>
-    <div class="w-full bg-white rounded-md p-6 mb-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
+    <div class="w-full bg-white dark:bg-slate-900 rounded-md p-6 mb-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
         <div>
-            <p class="font-semibold">{{ $this->order->number }}</p>
-            <p class="text-xs text-gray-500">{{ $this->order->updated_at }}</p>
-            <div class="p-2 rounded bg-gray-200 flex justify-between">
-                <p class="font-bold text-sm">Total: R {{ number_format($this->order->getTotal(),2)}}</p>
-                <p class="font-bold text-sm">Count: {{ $this->order->items->count()}}</p>
+            <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $this->order->number }}</p>
+            <p class="text-xs text-slate-500">{{ $this->order->updated_at }}</p>
+            <div class="p-2 rounded bg-slate-200 dark:bg-slate-800 flex justify-between mt-2">
+                <p class="font-bold text-sm text-slate-600 dark:text-slate-400">Total:
+                                                                                R {{ number_format($this->order->getTotal(),2)}}</p>
+                <p class="font-bold text-sm text-slate-600 dark:text-slate-400">
+                    Count: {{ $this->order->items->count()}}</p>
             </div>
         </div>
 
         <div>
-            <p class="font-semibold">{{ $this->order->customer->name }}
+            <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $this->order->customer->name }}
                 @isset($this->order->customer->company)
                     <span>| {{ $this->order->customer->company}}</span>
                 @endisset
             </p>
             @isset($this->order->address_id)
-                <div class="text-xs capitalize font-semibold">
+                <div class="text-xs capitalize font-semibold text-slate-600 dark:text-slate-400">
                     <p>{{$this->order->address->line_one }}</p>
                     <p>{{ $this->order->address->line_two }}</p>
                     <p>{{ $this->order->address->suburb }}, {{ $this->order->address->city }},</p>
@@ -36,13 +38,13 @@
                   wire:model.defer="showProductSelectorForm"
     >
         <div x-data=
-             "{ searchQuery: @entangle('searchQuery') }"
+                 "{ searchQuery: @entangle('searchQuery') }"
         >
             <div class="relative">
                 <label>
                     <input x-model.lazy="searchQuery"
                            type="search"
-                           class="w-full rounded-md border-2 border-yellow-400 placeholder-gray-300 focus:ring-2"
+                           class="w-full rounded-md border-2 border-yellow-400 placeholder-slate-300 focus:ring-2"
                            placeholder="search"
                     >
                 </label>
@@ -69,7 +71,7 @@
                 </div>
                 <fieldset class="space-y-2">
                     @forelse($this->products as $product)
-                        <label class="relative flex items-start bg-gray-100 py-2 px-4 rounded-md"
+                        <label class="relative flex items-start bg-slate-100 py-2 px-4 rounded-md"
                                wire:key="'item-'{{$product->id}}"
                         >
                             <div>
@@ -78,7 +80,7 @@
                                        wire:model.defer="selectedProducts"
                                        value="{{$product->id}}"
                                        type="checkbox"
-                                       class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                       class="focus:ring-green-500 h-4 w-4 text-green-600 border-slate-300 rounded"
                                 >
                             </div>
                             <div class="flex lg:justify-between ml-3 w-full items-center">
@@ -92,7 +94,7 @@
                         </label>
                     @empty
                         <div
-                            class="w-full bg-gray-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
+                            class="w-full bg-slate-100 rounded-md flex justify-center items-center inset-0 py-6 px-2 text-center"
                         >
                             <p>No results</p>
                         </div>
@@ -111,7 +113,7 @@
             >cancel order
             </button>
         </div>
-        <p class="text-gray-600 text-xs">This action is non reversible</p>
+        <p class="text-slate-600 text-xs">This action is non reversible</p>
     </x-modal>
 
     <x-modal title="Are your sure?"
@@ -127,7 +129,7 @@
                 process order
             </button>
         </div>
-        <p class="text-gray-600 text-xs">This action is non reversible</p>
+        <p class="text-slate-600 text-xs">This action is non reversible</p>
     </x-modal>
 
 
@@ -190,7 +192,7 @@
     >
         <label>
             <select x-on:change="@this.call('updateAddress',$event.target.value)"
-                    class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                    class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
             >
                 <option value="">Choose</option>
                 @foreach($this->order->customer->addresses as $address)
@@ -212,14 +214,14 @@
         <form wire:submit.prevent="addAddress">
             <div class="py-1">
                 <label for="address_line_one"
-                       class="block text-sm font-medium text-gray-700"
+                       class="block text-sm font-medium text-slate-700"
                 >
                     Address line one
                 </label>
                 <input type="text"
                        id="address_line_one"
                        wire:model.defer="line_one"
-                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                       class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                 >
                 @error( 'line_one')
                 <div class="py-1">
@@ -230,14 +232,14 @@
 
             <div class="py-1">
                 <label for="address_line_two"
-                       class="block text-sm font-medium text-gray-700"
+                       class="block text-sm font-medium text-slate-700"
                 >
                     Address line two
                 </label>
                 <input type="text"
                        id="address_line_two"
                        wire:model.defer="line_two"
-                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                       class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                 >
                 @error( 'line_two')
                 <div class="pt-1">
@@ -248,14 +250,14 @@
 
             <div class="py-1">
                 <label for="suburb"
-                       class="block text-sm font-medium text-gray-700"
+                       class="block text-sm font-medium text-slate-700"
                 >
                     Suburb
                 </label>
                 <input type="text"
                        id="suburb"
                        wire:model.defer="suburb"
-                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                       class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                 >
                 @error('suburb')
                 <div class="pt-1">
@@ -266,14 +268,14 @@
 
             <div class="py-1">
                 <label for="city"
-                       class="block text-sm font-medium text-gray-700"
+                       class="block text-sm font-medium text-slate-700"
                 >
                     City
                 </label>
                 <input type="text"
                        id="city"
                        wire:model.defer="city"
-                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                       class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                 >
                 @error('city')
                 <div class="pt-1">
@@ -284,12 +286,12 @@
 
             <div class="py-1">
                 <label for="province"
-                       class="block text-sm font-medium text-gray-700"
+                       class="block text-sm font-medium text-slate-700"
                 >Province</label>
                 <select id="province"
                         name="province"
                         wire:model.defer="province"
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
+                        class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
                 >
                     <option value="">Select a province</option>
                     @foreach($provinces as $province)
@@ -309,14 +311,14 @@
 
             <div class="py-1">
                 <label for="postal_code"
-                       class="block text-sm font-medium text-gray-700"
+                       class="block text-sm font-medium text-slate-700"
                 >
                     Postal code
                 </label>
                 <input type="text"
                        id="postal_code"
                        wire:model.defer="postal_code"
-                       class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                       class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
                 >
                 @error('postal_code')
                 <div class="pt-1">
@@ -337,7 +339,7 @@
     >
         <label>
             <select x-on:change="@this.call('updateDelivery',$event.target.value)"
-                    class="block w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                    class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
             >
                 <option value="">Choose</option>
                 @foreach($deliveryOptions as $delivery)
@@ -361,7 +363,7 @@
         <div>
             @if(!empty($selectedProductsToDelete))
                 <div>
-                    <button class="text-xs text-red-400 hover:text-red-700"
+                    <button class="text-xs text-red-700 dark:text-red-400 hover:text-red-700"
                             x-on:click="@this.call('removeProducts')"
                     >remove selected items
                     </button>
@@ -383,7 +385,7 @@
                                    wire:model="selectedProductsToDelete"
                                    value="{{$item->id}}"
                                    type="checkbox"
-                                   class="focus:ring-green-500 h-4 w-4 text-green-600 border-gray-300 rounded"
+                                   class="focus:ring-green-500 h-4 w-4 text-green-600 border-slate-300 rounded"
                             >
                         </div>
                         <div>
@@ -399,13 +401,15 @@
                         x-on:keydown.tab="@this.call('updatePrice',{{$item->id}},$event.target.value)"
                         x-on:keydown.enter="@this.call('updatePrice',{{$item->id}},$event.target.value)"
                     >
-                        <x-input type="number"
-                                 value="{{ $item->price }}"
-                                 pattern="[0-9]*"
-                                 inputmode="numeric"
-                                 step="0.01"
-                                 label="price"
-                        />
+                        <label>
+                            <input type="number"
+                                   value="{{ $item->price }}"
+                                   pattern="[0-9]*"
+                                   inputmode="numeric"
+                                   step="0.01"
+                                   class="w-full rounded-md text-slate-700"
+                            />
+                        </label>
                     </form>
                     @else
                         <p>{{ $item->price }}</p>
@@ -421,7 +425,7 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <p class="text-xs text-gray-500">
+                                    <p class="text-xs text-slate-500">
                                         R {{ $item->product->cost }}
                                     </p>
                                 </div>
@@ -433,21 +437,23 @@
                     <form x-on:keydown.tab="@this.call('updateQty',{{$item->id}},$event.target.value)"
                           x-on:keydown.enter="@this.call('updateQty',{{$item->id}},$event.target.value)"
                     >
-                        <x-input type="number"
-                                 value="{{ $item->qty }}"
-                                 label="qty"
-                                 pattern="[0-9]*"
-                                 inputmode="numeric"
-                                 min="1"
-                                 max="{{ $item->product->qty() }}"
-                        />
+                        <label>
+                            <input type="number"
+                                   value="{{ $item->qty }}"
+                                   pattern="[0-9]*"
+                                   inputmode="numeric"
+                                   min="1"
+                                   class="w-full rounded-md text-slate-700"
+                                   max="{{ $item->product->qty() }}"
+                            />
+                        </label>
                     </form>
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center mt-1">
                         <div>
-                            <p class="text-xs text-gray-500">{{ $item->product->qty() - $item->qty }} more
-                                                                                                      available</p>
+                            <p class="text-xs text-slate-500">{{ $item->product->qty() - $item->qty }} more
+                                                                                                       available</p>
                         </div>
-                        <div class="text-red-500 font-bold">
+                        <div class="text-xs text-red-700 dark:text-red-400 hover:text-red-700">
                             <button wire:loading.attr="disabled"
                                     wire:target="removeProducts"
                                     x-on:click="@this.call('removeItem',{{$item->id}})"

@@ -24,7 +24,7 @@
     </x-modal>
 
     <div>
-        <div class="grid grid-col-1 md:grid-cols-4 gap-3 px-2 py-1 border-b pb-4 bg-white rounded-md">
+        <div class="grid grid-col-1 md:grid-cols-4 gap-3 px-2 py-1 pb-4 bg-white dark:bg-slate-900 rounded-md">
             <div class="order-last md:order-first md:col-span-2">
                 @if(!$this->credit->processed)
                     <div class="pb-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
@@ -58,16 +58,16 @@
                 @endif
             </div>
             <div class="text-right">
-                <h1 class="font-bold text-4xl underline underline-offset-4 pl-4">
+                <h1 class="font-bold text-4xl underline underline-offset-4 pl-4 text-slate-600 dark:text-slate-400">
                     R {{ number_format($this->credit->getTotal(),2) }}
                 </h1>
-                <h2>
+                <h2 class="text-slate-600 dark:text-slate-400">
                     <span class="text-xs">vat</span> {{ number_format(vat($this->credit->getTotal()),2) }}
                 </h2>
             </div>
-            <div class="text-right">
+            <div class="text-right text-slate-600 dark:text-slate-400">
                 <h1 class="font-bold text-4xl">{{ $this->credit->number }}</h1>
-                <a class="text-right font-bold underline underline-offset-2 text-green-600 hover:text-yellow-500"
+                <a class="link"
                    href="{{ route('customers/show',$this->customer->id) }}"
                 >{{ $this->customer->name }}</a>
                 <h2>{{ $this->credit->created_at->format('Y-M-d') }}</h2>
@@ -80,7 +80,7 @@
                       wire:model.defer="showProductSelectorForm"
         >
             <div x-data=
-                 "{ searchQuery: @entangle('searchQuery') }"
+                     "{ searchQuery: @entangle('searchQuery') }"
             >
                 <div class="relative">
                     <label>
@@ -144,8 +144,8 @@
         <div class="py-2 grid grid-cols-1 gap-y-2">
             @foreach($this->credit->items as $item)
                 <div>
-                    <div class="w-full bg-white grid grid-cols-2 md:grid-cols-5 gap-4 rounded-md py-2">
-                        <div class="col-span-2 px-2 py-4">
+                    <div class="w-full bg-white grid grid-cols-2 md:grid-cols-5 gap-4 rounded-md py-2 bg-white dark:bg-slate-900">
+                        <div class="col-span-2 px-2 py-4 text-slate-600 dark:text-slate-400">
                             <h4 class="font-bold">
                                 {{ $item->product->brand }} {{ $item->product->name }}
                             </h4>
@@ -159,41 +159,45 @@
                         </div>
                         @if(!$this->credit->processed)
                             <div class="px-2 py-4">
-                                <x-input-number type="number"
-                                                label="Update price"
-                                                value="{{$item->price}}"
-                                                x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
-                                                x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
-                                                x-on:blur="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
-                                />
+                                <label>
+                                    <input type="number"
+                                           class="w-full rounded-md text-slate-600"
+                                           value="{{$item->price}}"
+                                           x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
+                                           x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
+                                           x-on:blur="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
+                                    />
+                                </label>
                             </div>
                         @else
                             <div class="px-2 py-6">
-                                <p class="font-bold">
+                                <p class="font-bold text-slate-600 dark:text-slate-400">
                                     {{number_format($item->price,2)}}
                                 </p>
                             </div>
                         @endif
                         @if(!$this->credit->processed)
                             <div class="px-2 py-4">
-                                <x-input-number type="number"
-                                                label="Update qty"
-                                                value="{{$item->qty}}"
-                                                x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
-                                                x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
-                                                x-on:blur="$wire.call('updateQty',{{$item->id}},$event.target.value)"
-                                />
+                                <label>
+                                    <input type="number"
+                                           class="w-full rounded-md text-slate-600"
+                                           value="{{$item->qty}}"
+                                           x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
+                                           x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
+                                           x-on:blur="$wire.call('updateQty',{{$item->id}},$event.target.value)"
+                                    />
+                                </label>
                             </div>
                         @else
                             <div class="px-2 py-6">
-                                <p class="font-bold">
+                                <p class="font-bold text-slate-600 dark:text-slate-400">
                                     {{$item->qty}}
                                 </p>
                             </div>
                         @endif
                         <div class="px-4 flex items-center justify-between">
                             <div>
-                                <p class="font-bold text-right">
+                                <p class="font-bold text-right text-slate-600 dark:text-slate-400">
                                     {{ number_format($item->line_total,2) }}
                                 </p>
                             </div>

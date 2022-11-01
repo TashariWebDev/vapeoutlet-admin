@@ -21,7 +21,7 @@
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
-                    <button x-on:click.prevent="@this.set('showBrandsForm',true)">
+                    <button x-on:click.prevent="$wire.set('showBrandsForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
@@ -37,7 +37,7 @@
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
-                    <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
+                    <button x-on:click.prevent="$wire.set('showCategoriesForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
@@ -52,7 +52,7 @@
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
-                    <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
+                    <button x-on:click.prevent="$wire.set('showProductCollectionForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="py-2 relative">
                         <div class="absolute right-0 pt-0.5 z-10">
-                            <button x-on:click.prevent="@this.set('showFeaturesForm',true)">
+                            <button x-on:click.prevent="$wire.set('showFeaturesForm',true)">
                                 <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                             </button>
                         </div>
@@ -107,7 +107,7 @@
                         @foreach($product->features as $feature)
                             <div class="py-2 relative">
                                 <div class="absolute right-0 pt-0.5 z-10">
-                                    <button x-on:click.prevent="@this.call('deleteFeature',{{$feature->id}})">
+                                    <button x-on:click.prevent="$wire.call('deleteFeature',{{$feature->id}})">
                                         <x-icons.cross class="text-red-500 hover:text-red-600 w-12 h-12"/>
                                     </button>
                                 </div>
@@ -154,7 +154,7 @@
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
-                    <button x-on:click.prevent="@this.set('showBrandsForm',true)">
+                    <button x-on:click.prevent="$wire.set('showBrandsForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
@@ -170,7 +170,7 @@
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
-                    <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
+                    <button x-on:click.prevent="$wire.set('showCategoriesForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
@@ -186,7 +186,7 @@
             </div>
             <div class="py-2 relative">
                 <div class="absolute right-0 pt-0.5 z-10">
-                    <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
+                    <button x-on:click.prevent="$wire.set('showProductCollectionForm',true)">
                         <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
                     </button>
                 </div>
@@ -208,7 +208,7 @@
         </form>
 
         <button class="button-success w-full"
-                x-on:click="@this.call('saveAndEdit','')"
+                x-on:click="$wire.call('saveAndEdit','')"
         >
             <x-icons.save class="w-5 h-5 mr-2"/>
             save and update
@@ -339,20 +339,20 @@
     </x-modal>
 
     <div>
-        <div class="grid grid-col-1 md:grid-cols-4 gap-3 px-2 py-1 border-b pb-4 bg-white rounded-md">
+        <div class="grid grid-col-1 md:grid-cols-4 gap-3 px-2 py-1 border-b pb-4 bg-white dark:bg-slate-900 rounded-md">
             <div class="order-last md:order-first md:col-span-2">
                 @if(!$this->purchase->processed)
                     <div class="pb-3 grid grid-cols-1 lg:grid-cols-2 gap-2">
                         {{--                        @if($this->purchase->total != $this->purchase->amount)--}}
                         <button class="button-success w-full"
-                                x-on:click="@this.set('showProductSelectorForm',true)"
+                                x-on:click="$wire.set('showProductSelectorForm',true)"
                         >
                             <x-icons.plus class="w-5 h-5 mr-2"/>
                             add products
                         </button>
                         {{--                        @endif--}}
                         <button class="button-success"
-                                x-on:click.prevent="@this.call('create','')"
+                                x-on:click.prevent="$wire.call('create','')"
                         >
                             <x-icons.plus class="w-5 h-5 mr-2"/>
                             create new product
@@ -377,7 +377,7 @@
                     </p>
                 </div>
             </div>
-            <div class="text-right">
+            <div class="text-right text-slate-600 dark:text-slate-400">
                 <h1 class="font-bold text-4xl underline underline-offset-4 pl-4">
                     {{ money($this->purchase->amount_converted_to_zar()) }}
                 </h1>
@@ -395,7 +395,7 @@
                 @if(!$this->purchase->processed)
                     <div>
                         <button class="button-danger w-full"
-                                x-on:click="@this.call('cancel')"
+                                x-on:click="$wire.call('cancel')"
                         >
                             <x-icons.cross class="w-5 h-5 mr-2"/>
                             cancel
@@ -404,7 +404,7 @@
                     @if(!$this->purchase->processed)
                         <div>
                             <button class="button-success w-full lg:hidden mt-2"
-                                    x-on:click="@this.set('showConfirmModal',true)"
+                                    x-on:click="$wire.set('showConfirmModal',true)"
                             >
                                 <x-icons.tick class="w-5 h-5 mr-2"/>
                                 process
@@ -414,15 +414,15 @@
                 @endif
             </div>
             <div class="text-right">
-                <h1 class="font-bold text-4xl">{{ $this->purchase->invoice_no }}</h1>
-                <a class="text-right font-bold underline underline-offset-2 text-green-600 hover:text-yellow-500"
+                <h1 class="font-bold text-4xl text-slate-600 dark:text-slate-400">{{ $this->purchase->invoice_no }}</h1>
+                <a class="link"
                    href="{{ route('suppliers/show',$this->purchase->supplier->id) }}"
                 >{{ $this->purchase->supplier->name }}</a>
-                <h2>{{ $this->purchase->date->format('Y-M-d') }}</h2>
+                <h2 class="text-slate-600 dark:text-slate-400">{{ $this->purchase->date->format('Y-M-d') }}</h2>
                 @if(!$this->purchase->processed)
                     <div>
                         <button class="button-success w-full hidden lg:flex"
-                                x-on:click="@this.set('showConfirmModal',true)"
+                                x-on:click="$wire.set('showConfirmModal',true)"
                         >
                             <x-icons.tick class="w-5 h-5 mr-2"/>
                             process
@@ -522,7 +522,7 @@
                         </h4>
                         <div class="flex flex-wrap justify-center lg:justify-start items-center">
                             @foreach($item->product->features as $feature)
-                                <p class="text-xs text-gray-600 border-r pr-1 @if(!$loop->first) pl-1 @endif"
+                                <p class="text-xs text-gray-600 pr-1"
                                 > {{ $feature->name }}</p>
                             @endforeach
                         </div>
@@ -530,13 +530,15 @@
                     <x-table.row class="text-center lg:text-right">
                         @if(!$this->purchase->processed)
                             <div>
-                                <x-input-number type="number"
-                                                label="Price {{ $this->purchase->currency }}"
-                                                value="{{$item->price}}"
-                                                x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
-                                                x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
-                                                x-on:blur="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
-                                />
+                                <label>
+                                    <input type="number"
+                                           class="w-full rounded-md text-slate-600"
+                                           value="{{$item->price}}"
+                                           x-on:keydown.enter="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
+                                           x-on:keydown.tab="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
+                                           x-on:blur="$wire.call('updatePrice',{{$item->id}},$event.target.value)"
+                                    />
+                                </label>
                             </div>
                         @else
                             <div>
@@ -549,13 +551,15 @@
                     <x-table.row class="text-center lg:text-right">
                         @if(!$this->purchase->processed)
                             <div>
-                                <x-input-number type="number"
-                                                label="Qty"
-                                                value="{{$item->qty}}"
-                                                x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
-                                                x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
-                                                x-on:blur="$wire.call('updateQty',{{$item->id}},$event.target.value)"
-                                />
+                                <label>
+                                    <input type="number"
+                                           class="w-full rounded-md text-slate-600"
+                                           value="{{$item->qty}}"
+                                           x-on:keydown.enter="$wire.call('updateQty',{{$item->id}},$event.target.value)"
+                                           x-on:keydown.tab="$wire.call('updateQty',{{$item->id}},$event.target.value)"
+                                           x-on:blur="$wire.call('updateQty',{{$item->id}},$event.target.value)"
+                                    />
+                                </label>
                             </div>
                         @else
                             <div>
@@ -569,7 +573,7 @@
                         {{ number_format($item->line_total,2) }} {{$this->purchase->currency}}
                         @if(!$this->purchase->processed)
                             <button wire:loading.attr="disabled"
-                                    x-on:click="@this.call('deleteItem','{{$item->id}}')"
+                                    x-on:click="$wire.call('deleteItem','{{$item->id}}')"
                                     class="text-red-400 hover:text-red-700"
                             >
                                 remove

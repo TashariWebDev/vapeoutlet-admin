@@ -4,11 +4,13 @@
 <div {{ $attributes }}  x-cloak
      x-data="{show:@entangle($attributes->whereStartsWith('wire:model.defer')->first())}"
      wire:key
-     class="relative z-20"
-     aria-labelledby="slide-over-title" role="dialog" aria-modal="true"
+     class="relative z-50"
+     aria-labelledby="slide-over-title"
+     role="dialog"
+     aria-modal="true"
 >
     {{-- overlay --}}
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-50"
          x-show="show"
          x-transition:enter="ease-in duration-50"
          x-transition:enter-start="opacity-0"
@@ -18,7 +20,7 @@
          x-transition:leave-end="opacity-0"
     ></div>
 
-    <div class="fixed inset-0 overflow-hidden"
+    <div class="fixed inset-0 overflow-hidden z-50"
          x-show="show"
          x-transition:enter="transform transition ease-in duration-100 sm:duration-100"
          x-transition:enter-start="translate-x-full"
@@ -41,24 +43,36 @@
                     >
                         <button x-on:click="show = !show"
                                 type="button"
-                                class="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
+                                class="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                        >
                             <span class="sr-only">Close panel</span>
                             <!-- Heroicon name: outline/x -->
-                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 stroke-width="2" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                            <svg class="h-6 w-6"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 fill="none"
+                                 viewBox="0 0 24 24"
+                                 stroke-width="2"
+                                 stroke="currentColor"
+                                 aria-hidden="true"
+                            >
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M6 18L18 6M6 6l12 12"
+                                />
                             </svg>
                         </button>
                     </div>
 
                     <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
                         <div class="px-4 sm:px-6">
-                            <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">{{ $title ?? '' }}</h2>
+                            <h2 class="text-lg font-medium text-gray-900"
+                                id="slide-over-title"
+                            >{{ $title ?? '' }}</h2>
                         </div>
                         <div class="relative mt-6 flex-1 px-4 sm:px-6">
                             <!-- Replace with your content -->
-                        {{ $slot }}
-                        <!-- /End replace -->
+                            {{ $slot }}
+                            <!-- /End replace -->
                         </div>
                     </div>
                 </div>

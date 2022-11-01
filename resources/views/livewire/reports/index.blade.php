@@ -17,31 +17,31 @@
             $credits = $transactions->total_refunds + $transactions->total_credits;
             $gross_sales = $transactions->total_sales + $credits
         @endphp
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Current Month</h3>
+        <h3 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">Current Month</h3>
         <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">Sales</dt>
-                <dd class="mt-1  racking-tight font-semibold text-gray-900">
+            <div class="px-4 py-5 bg-white dark:bg-slate-900 shadow rounded-lg overflow-hidden sm:p-6">
+                <dt class="text-sm font-medium text-slate-500 truncate">Sales</dt>
+                <dd class="mt-1 racking-tight font-semibold text-slate-900 dark:text-slate-400">
                     {{ number_format(to_rands(ex_vat($gross_sales)),2) ?? '0.00' }}
                 </dd>
-                <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
+                <dd class="mt-1 text-sm tracking-tight font-semibold text-slate-500">
                     {{ number_format(to_rands($gross_sales),2) ?? '0.00' }}
                 </dd>
             </div>
 
-            <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">Purchases</dt>
-                <dd class="mt-1 tracking-tight font-semibold text-gray-900">
+            <div class="px-4 py-5 bg-white dark:bg-slate-900 shadow rounded-lg overflow-hidden sm:p-6">
+                <dt class="text-sm font-medium text-slate-500 truncate">Purchases</dt>
+                <dd class="mt-1 racking-tight font-semibold text-slate-900 dark:text-slate-400">
                     {{ number_format(to_rands(ex_vat($purchases->total_purchases)),2)}}
                 </dd>
-                <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
+                <dd class="mt-1 text-sm tracking-tight font-semibold text-slate-500">
                     {{ number_format(to_rands($purchases->total_purchases),2) }}
                 </dd>
             </div>
 
-            <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">Expenses</dt>
-                <dd class="mt-1 tracking-tight font-semibold text-gray-900">
+            <div class="px-4 py-5 bg-white dark:bg-slate-900 shadow rounded-lg overflow-hidden sm:p-6">
+                <dt class="text-sm font-medium text-slate-500 truncate">Expenses</dt>
+                <dd class="mt-1 racking-tight font-semibold text-slate-900 dark:text-slate-400">
                     {{ number_format(to_rands($expenses->total_expenses),2 ) ?? '0.00' }}
                 </dd>
             </div>
@@ -54,28 +54,28 @@
             $gross_sales = $transactions->total_sales + $credits
         @endphp
         <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">Refunds</dt>
-                <dd class="mt-1  tracking-tight font-semibold text-gray-900">
+            <div class="px-4 py-5 bg-white dark:bg-slate-900 shadow rounded-lg overflow-hidden sm:p-6">
+                <dt class="text-sm font-medium text-slate-500 truncate">Refunds</dt>
+                <dd class="mt-1 racking-tight font-semibold text-slate-900 dark:text-slate-400">
                     {{ number_format(to_rands(ex_vat($transactions->total_refunds)),2) ?? '0.00' }}
                 </dd>
-                <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
+                <dd class="mt-1 text-sm tracking-tight font-semibold text-slate-500">
                     {{ number_format(to_rands($transactions->total_refunds),2) ?? '0.00' }}
                 </dd>
             </div>
 
-            <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate">Credits</dt>
-                <dd class="mt-1 tracking-tight font-semibold text-gray-900">
+            <div class="px-4 py-5 bg-white dark:bg-slate-900 shadow rounded-lg overflow-hidden sm:p-6">
+                <dt class="text-sm font-medium text-slate-500 truncate">Credits</dt>
+                <dd class="mt-1 racking-tight font-semibold text-slate-900 dark:text-slate-400">
                     {{ number_format(to_rands(ex_vat($transactions->total_credits)),2) ?? '0.00' }}
                 </dd>
-                <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
+                <dd class="mt-1 text-sm tracking-tight font-semibold text-slate-500">
                     {{ number_format(to_rands($transactions->total_credits),2) ?? '0.00' }}
                 </dd>
             </div>
 
-            <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
-                <dt class="text-sm font-medium text-gray-500 truncate flex items-center space-x-4">
+            <div class="px-4 py-5 bg-white dark:bg-slate-900 shadow rounded-lg overflow-hidden sm:p-6">
+                <dt class="text-sm font-medium text-slate-500 truncate flex items-center space-x-4">
                     Stock value
                     <button wire:click="getStockValue">
                         <x-icons.refresh wire:target="getStockValue"
@@ -84,10 +84,10 @@
                         />
                     </button>
                 </dt>
-                <dd class="mt-1 tracking-tight font-semibold text-gray-900">
+                <dd class="mt-1 racking-tight font-semibold text-slate-900 dark:text-slate-400">
                     {{ number_format(ex_vat(to_rands($this->stockValue)),2) ?? '0.00' }}
                 </dd>
-                <dd class="mt-1 text-sm tracking-tight font-semibold text-gray-500">
+                <dd class="mt-1 text-sm tracking-tight font-semibold text-slate-500">
                     {{ number_format(to_rands($this->stockValue),2) ?? '0.00' }}
                 </dd>
             </div>
@@ -96,7 +96,7 @@
 
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-3 py-6">
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             <button x-on:click="@this.set('showStockTakeModal',true)"
                     class="button-success w-full"
             >Create stock take
@@ -114,7 +114,7 @@
                 <form wire:submit.prevent="createStockTake">
                     <div class="h-72 overflow-y-scroll p-3 border shadow-inner">
                         @foreach($this->brands as $brand)
-                            <div class="w-full text-xs bg-gray-100 rounded p-1 mb-1">
+                            <div class="w-full text-xs bg-slate-100 rounded p-1 mb-1">
                                 <input type="checkbox"
                                        wire:model.defer="selectedBrands"
                                        value="{{ $brand->name }}"
@@ -129,7 +129,7 @@
             </x-modal>
         </div>
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $debtors = config('app.admin_url')."/storage/documents/debtors-list.pdf";
 
@@ -156,7 +156,7 @@
         </div>
 
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $creditors = config('app.admin_url')."/storage/documents/creditors-list.pdf";
 
@@ -183,7 +183,7 @@
         </div>
 
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $expenses = config('app.admin_url')."/storage/documents/expenses.pdf";
 
@@ -209,7 +209,7 @@
             </div>
         </div>
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $purchases = config('app.admin_url')."/storage/documents/purchases.pdf";
 
@@ -235,7 +235,7 @@
             </div>
         </div>
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $credits = config('app.admin_url')."/storage/documents/credits.pdf";
 
@@ -261,7 +261,7 @@
             </div>
         </div>
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $variances = config('app.admin_url')."/storage/documents/variances.pdf";
 
@@ -287,7 +287,7 @@
             </div>
         </div>
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $salesByDateRange = config('app.admin_url')."/storage/documents/salesByDateRange.pdf";
 
@@ -313,7 +313,7 @@
             </div>
         </div>
 
-        <div class="p-2 border rounded-md bg-white">
+        <div class="p-2 rounded-md bg-white dark:bg-slate-900">
             @php
                 $stocksByDateRange = config('app.admin_url')."/storage/documents/stockByDateRange.pdf";
 
