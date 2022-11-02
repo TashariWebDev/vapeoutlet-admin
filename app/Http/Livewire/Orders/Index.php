@@ -29,6 +29,8 @@ class Index extends Component
 
     public $customerType;
 
+    public $recordCount = 10;
+
     public $direction = "asc";
 
     public $statuses = [
@@ -118,7 +120,7 @@ class Index extends Component
     public function render(): Factory|View|Application
     {
         return view("livewire.orders.index", [
-            "orders" => $this->filteredOrders()->paginate(10),
+            "orders" => $this->filteredOrders()->paginate($this->recordCount),
         ]);
     }
 }

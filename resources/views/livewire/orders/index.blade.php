@@ -21,9 +21,6 @@
             </label>
         </div>
 
-        {{--        empty--}}
-        <div></div>
-
         <div class="flex items-center rounded-md bg-slate-900 px-2 py-3 w-full grid grid-cols-3">
             <button
                 @class([
@@ -49,6 +46,18 @@
                 wire:click="$set('customerType',true)"
             >WHOLESALE
             </button>
+        </div>
+        <div class="text-right">
+            <label>
+                <select wire:model="recordCount"
+                        class="w-full lg:w-64 rounded-md"
+                >
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </label>
         </div>
         <div class="text-right">
             <label>
