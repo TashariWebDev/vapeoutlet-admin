@@ -164,14 +164,15 @@
 
 ### CHANGES
 
-        - Reduce order statuses
-                - combine warehouse & dispatch
-                    when will add waybill?
-        - allocation of payments -  how to simplify
+~~Reduce order statuses
+- combine warehouse & dispatch
+when will add waybill?~~
+
+~~allocation of payments - how to simplify~~
 
 ### PAIN POINTS/ BUGS
 
-        - how do we prevent users from multi clicking - cause: duplicates
+~~how do we prevent users from multi clicking - cause: duplicates~~
 
 ### FEATURES
 
@@ -191,31 +192,29 @@
 
         - build api
 
-### CONSIDERATIONS
-
-    - do we move the system to a mono repo?
-        - reduces complexity
-        - reduces communication errors
-        - what happens during maintenance?
-            can it still be managed seperately?
-        - reduces duplicate/ redundant code
-        - performance???
-
 ### UPDATES
 
 - - -
 
 # Warehouse
 
-        - Invoice number not to change or hide credited invoices
-        - Credited invoices not to move to the top of list
-        - Edited invoices to be highlighted
-        - Where to credit delivery
-        - Credit in warehouse
-        - Credit complete orders or part of it
-        - Dispatch details on invoice
         - Customer statement
-        - Invoice and packing slip from warehouse
+
+~~Credit complete orders or part of it~~
+
+~~Invoice number not to change or hide credited invoices~~
+
+~~Edited invoices to be highlighted~~
+
+~~Credited invoices not to move to the top of list~~
+
+~~Where to credit delivery~~
+
+~~Credit in warehouse~~
+
+~~Dispatch details on invoice~~
+
+~~Invoice and packing slip from warehouse~~
 
 ~~Need to see address~~
 

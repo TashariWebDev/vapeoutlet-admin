@@ -365,15 +365,21 @@ class Create extends Component
 
             $this->purchase->update(["processed_date" => today()]);
 
-            SupplierTransaction::create([
-                "uuid" => Str::uuid(),
-                "reference" => $this->purchase->invoice_no,
-                "supplier_id" => $this->purchase->supplier_id,
-                "amount" => $this->purchase->amount_converted_to_zar(),
-                "type" => "purchase",
-                "running_balance" => 0,
-                "created_by" => auth()->user()->name,
-            ]);
+            SupplierTransaction::updateOrCreate(
+                [
+                    "reference" => $this->purchase->invoice_no,
+                    "supplier_id" => $this->purchase->supplier_id,
+                ],
+                [
+                    "uuid" => Str::uuid(),
+                    "reference" => $this->purchase->invoice_no,
+                    "supplier_id" => $this->purchase->supplier_id,
+                    "amount" => $this->purchase->amount_converted_to_zar(),
+                    "type" => "purchase",
+                    "running_balance" => 0,
+                    "created_by" => auth()->user()->name,
+                ]
+            );
 
             UpdateSupplierRunningBalanceJob::dispatch(
                 $this->purchase->supplier_id

@@ -1,14 +1,4 @@
 <div x-data="{showStats:false}">
-    @php
-        function check_file_exist($url){
-            $handle = @fopen($url, 'r');
-            if(!$handle){
-                return false;
-            }else{
-                return true;
-            }
-        }
-    @endphp
 
     <x-slide-over title="Add transaction"
                   wire:model.defer="showAddTransactionForm"
@@ -346,22 +336,26 @@
                     <span class="lg:hidden">BAL:</span> {{ number_format($transaction->running_balance,2) }}
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
-                    @php
-                        $document = config('app.admin_url')."/storage/documents/{$transaction->uuid}.pdf";
-                        $documentExists = check_file_exist($document)
-                    @endphp
-                    @if($documentExists)
-                        <a href="{{$document}}"
-                           class="link"
-                        >&darr;
-                         print
-                        </a>
-                    @else
-                        <button class="link-alt"
-                                wire:click="getDocument({{$transaction->id}})"
-                        >request
-                        </button>
-                    @endif
+                    <div class="flex items-start justify-end">
+                        <div>
+                            <button class="button button-success"
+                                    wire:loading.attr="disabled"
+                                    wire:target="getDocument({{$transaction->id}})"
+                                    wire:click="getDocument({{$transaction->id}})"
+                            >
+                        <span class="pr-2"
+                              wire:loading
+                              wire:target="getDocument({{$transaction->id}})"
+                        >
+                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                        </span>
+                                Print
+                            </button>
+                            @if(file_exists(public_path("storage/documents/{$transaction->uuid}.pdf")))
+                                <p class="text-xs text-slate-400">Printed</p>
+                            @endif
+                        </div>
+                    </div>
                 </x-table.row>
             </x-table.body>
         @empty

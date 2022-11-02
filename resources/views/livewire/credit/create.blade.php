@@ -1,5 +1,4 @@
 <div x-data="{}">
-    <x-loading-screen/>
 
     <x-modal title="Are you sure?"
              wire:model.defer="showConfirmModal"

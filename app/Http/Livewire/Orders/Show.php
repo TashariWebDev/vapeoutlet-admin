@@ -9,18 +9,21 @@ use App\Models\Delivery;
 use App\Models\Note;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Spatie\Browsershot\Browsershot;
 
 class Show extends Component
 {
     use WithNotifications;
 
     public $orderId;
+
+    public $showWaybillModal = false;
+
+    public $waybill;
 
     public $searchQuery = "";
 
@@ -46,6 +49,8 @@ class Show extends Component
 
     public $is_private = true;
 
+    public $status;
+
     public function rules(): array
     {
         return [
@@ -57,6 +62,9 @@ class Show extends Component
     public function mount()
     {
         $this->orderId = request("id");
+
+        $this->status = $this->order->status;
+        $this->waybill = $this->order->waybill;
     }
 
     public function getOrderProperty()
@@ -66,89 +74,55 @@ class Show extends Component
             ->first();
     }
 
-    public function pushToWarehouse()
+    public function updatedStatus()
     {
-        $this->order->updateStatus("processed");
-        $this->notify("pushed to warehouse for picking");
-        $this->redirect("/orders?filter=processed");
+        $this->order->updateStatus($this->status);
+        $this->notify("Status updated");
     }
 
     public function pushToComplete()
     {
         $this->order->updateStatus("completed");
         $this->notify("order completed");
-        $this->redirect("/orders?filter=completed");
+        $this->redirect("/orders");
     }
 
     public function edit()
     {
-        DB::transaction(function () {
-            $newOrder = $this->order->replicate()->fill([
-                "status" => null,
-            ]);
-            $newOrder->save();
-
-            foreach ($this->order->items as $item) {
-                $newItem = $item->replicate()->fill([
-                    "order_id" => $newOrder->id,
-                ]);
-                $newItem->save();
-            }
-
-            $this->cancel();
-            $this->redirect("/orders/create/{$newOrder->id}");
-        });
+        $this->redirect("/orders/create/{$this->order->id}");
     }
 
-    public function cancel()
+    public function credit()
     {
-        DB::transaction(function () {
-            $this->order->update([
-                "delivery_charge" => 0,
+        $this->order->updateStatus("cancelled");
+
+        $credit = Credit::create([
+            "customer_id" => $this->order->customer->id,
+            "salesperson_id" => $this->order->salesperson_id,
+            "created_by" => auth()->user()->name,
+            "delivery_charge" => $this->order->delivery_charge,
+            "processed_at" => now(),
+        ]);
+
+        foreach ($this->order->items as $item) {
+            $credit->items()->create([
+                "product_id" => $item->product_id,
+                "qty" => $item->qty,
+                "price" => $item->price,
+                "cost" => $item->cost,
             ]);
+        }
 
-            $transaction = Transaction::where(
-                "reference",
-                "=",
-                $this->order->number
-            )
-                ->where("type", "=", "invoice")
-                ->first();
+        $credit->increaseStock();
 
-            $transaction->update([
-                "amount" => $this->order->getTotal(),
-            ]);
-
-            $credit = Credit::create([
-                "customer_id" => $this->order->customer->id,
-                "salesperson_id" => $this->order->salesperson_id,
-                "created_by" => auth()->user()->name,
-            ]);
-
-            foreach ($this->order->items as $item) {
-                $credit->items()->create([
-                    "product_id" => $item->product_id,
-                    "qty" => $item->qty,
-                    "price" => $item->price,
-                    "cost" => $item->cost,
-                ]);
-            }
-
-            $credit->increaseStock();
-
-            $credit->updateStatus("processed_at");
-
-            $this->order->customer->createCredit($credit, $credit->number);
-
-            $this->order->updateStatus("cancelled");
-        }, 3);
+        $this->order->customer->createCredit($credit, $credit->number);
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id
         )->delay(3);
 
         $this->notify("order deleted");
-        $this->redirect("/orders?filter=cancelled");
+        return redirect()->route("orders");
     }
 
     public function updateDelivery($deliveryId)
@@ -194,6 +168,78 @@ class Show extends Component
         $note->delete();
 
         $this->notify("Note deleted");
+    }
+
+    public function getPickingSlip()
+    {
+        $this->order->load("items.product.features");
+
+        $view = view("templates.pdf.pick-list", [
+            "model" => $this->order,
+        ])->render();
+
+        $url = storage_path("app/public/pick-lists/{$this->order->number}.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        $this->redirect("/pick-lists/{$this->order->number}.pdf");
+    }
+
+    public function getDeliveryNote()
+    {
+        $this->order->load("items.product.features");
+
+        $view = view("templates.pdf.delivery-note", [
+            "model" => $this->order,
+        ])->render();
+
+        $url = storage_path(
+            "app/public/delivery-note/{$this->order->number}.pdf"
+        );
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        $this->redirect("/delivery-note/{$this->order->number}.pdf");
+    }
+
+    public function toggleNoteForm()
+    {
+        $this->addNoteForm = !$this->addNoteForm;
+    }
+
+    public function toggleWaybillForm()
+    {
+        $this->showWaybillModal = !$this->showWaybillModal;
+    }
+
+    public function addWaybill()
+    {
+        if ($this->waybill) {
+            $this->order->update(["waybill" => $this->waybill]);
+            $this->notify("waybill added");
+        }
+
+        $this->toggleWaybillForm();
     }
 
     public function render(): Factory|View|Application

@@ -55,7 +55,8 @@ class Create extends Component
             $this->products = Product::query()
                 ->search($this->searchQuery)
                 ->get();
-        } else {
+        }
+        else {
             $this->products = [];
         }
     }
@@ -104,10 +105,11 @@ class Create extends Component
 
         $this->credit->update([
             "salesperson_id" => $this->credit->customer->salesperson_id,
+            "processed_at" => now()
         ]);
+
         $this->credit->increaseStock();
 
-        $this->credit->updateStatus("processed_at");
 
         $this->customer->createCredit($this->credit, $this->credit->number);
 

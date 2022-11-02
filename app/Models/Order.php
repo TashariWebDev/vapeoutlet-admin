@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\QtyNotAvailableException;
 use DB;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -112,12 +113,6 @@ class Order extends Model
             "is_editing" => false,
         ]);
 
-        if ($status === "received") {
-            $this->update([
-                "created_at" => now(),
-            ]);
-        }
-
         return $this;
     }
 
@@ -155,19 +150,18 @@ class Order extends Model
         }
     }
 
+    /**
+     * @throws QtyNotAvailableException
+     */
     public function verifyIfStockIsAvailable()
     {
         foreach ($this->items as $item) {
-            if ($item->qty > $item->product->qty()) {
-                $item->qty = $item->product->qty();
-                $item->save();
-            }
-            if ($item->qty <= 0) {
-                $this->remove($item);
+            if ($item->qty > $item->product->qtyInStock) {
+                throw new QtyNotAvailableException(
+                    "Products no longer available"
+                );
             }
         }
-
-        return $this;
     }
 
     public function updateDeliveryCharge(): static
@@ -184,7 +178,7 @@ class Order extends Model
     public function decreaseStock(): static
     {
         foreach ($this->items as $item) {
-            $item->product->stocks()->firstOrCreate(
+            $item->product->stocks()->updateOrCreate(
                 [
                     "order_id" => $this->id,
                     "type" => "invoice",

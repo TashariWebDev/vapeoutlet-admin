@@ -1,14 +1,4 @@
 <div class="rounded-md px-2 py-1">
-    @php
-        function check_file_exist($url){
-            $handle = @fopen($url, 'r');
-            if(!$handle){
-                return false;
-            }else{
-                return true;
-            }
-        }
-    @endphp
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-x-1">
         <div class="">
@@ -141,7 +131,7 @@
                             <p
                                 @class([
                                     'rounded-l-full rounded-r-full px-1',
-                                    'bg-yellow-500 text-yellow-100' => $order->created_at->diffInDays(today()) <= 3,
+                                    'bg-yellow-600 text-yellow-200 dark:bg-yellow-900' => $order->created_at->diffInDays(today()) <= 3,
                                     'bg-red-800 text-red-100' => $order->created_at->diffInDays(today()) > 3,
                                 ])
                             >{{ $order->created_at->diffInDays(today()) }}
@@ -198,22 +188,45 @@
                 <x-table.row class="text-center lg:text-right p-2">
                     @php
                         $transaction = $order->customer->transactions->where('reference','=',$order->number)->first();
-                        $document = config('app.admin_url')."/storage/documents/{$transaction->uuid}.pdf";
-                        $documentExists = check_file_exist($document)
                     @endphp
-                    @if($documentExists)
-                        <a href="{{$document}}"
-                           class="link"
+
+                    <div class="flex items-start justify-end space-x-2">
+                        <div>
+                            @if($order->status === 'shipped')
+                                <button class="button button-success"
+                                        wire:loading.attr="disabled"
+                                        wire:target="pushToComplete({{ $order->id }})"
+                                        wire:click="pushToComplete({{ $order->id }})"
+                                >
+                                <span class="pr-2"
+                                      wire:loading
+                                      wire:target="pushToComplete({{ $order->id }})"
+                                >
+                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                                </span>
+                                    Complete
+                                </button>
+                            @endif
+                        </div>
+                        <div>
+                            <button class="button button-success"
+                                    wire:loading.attr="disabled"
+                                    wire:target="getDocument({{$transaction->id}})"
+                                    wire:click="getDocument({{$transaction->id}})"
+                            >
+                        <span class="pr-2"
+                              wire:loading
+                              wire:target="getDocument({{$transaction->id}})"
                         >
-                            &darr; print
-                        </a>
-                    @else
-                        <button class="link-alt"
-                                wire:click="getDocument({{ $transaction->id }})"
-                        >
-                            request
-                        </button>
-                    @endif
+                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                        </span>
+                                Print
+                            </button>
+                            @if(file_exists(public_path("storage/documents/{$transaction->uuid}.pdf")))
+                                <p class="text-xs text-slate-400">Printed</p>
+                            @endif
+                        </div>
+                    </div>
                 </x-table.row>
             </x-table.body>
         @empty

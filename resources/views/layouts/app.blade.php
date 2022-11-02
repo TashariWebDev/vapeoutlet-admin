@@ -130,16 +130,16 @@
                 </li>
                 @endhasPermissionTo
 
-                @hasPermissionTo('view dispatch')
-                <li>
-                    <a href="{{ route('dispatch') }}"
-                       class="group w-full p-3 flex flex-col items-center text-xs"
-                    >
-                        <x-icons.truck class="text-slate-500 dark:text-slate-500 group-hover:text-slate-800 dark:group-hover:text-slate-300 w-6 h-6"/>
-                        <span class="text-slate-500 group-hover:text-slate-800 dark:text-slate-500 dark:group-hover:text-slate-300 font-bold">Dispatch</span>
-                    </a>
-                </li>
-                @endhasPermissionTo
+                {{--                @hasPermissionTo('view dispatch')--}}
+                {{--                <li>--}}
+                {{--                    <a href="{{ route('dispatch') }}"--}}
+                {{--                       class="group w-full p-3 flex flex-col items-center text-xs"--}}
+                {{--                    >--}}
+                {{--                        <x-icons.truck class="text-slate-500 dark:text-slate-500 group-hover:text-slate-800 dark:group-hover:text-slate-300 w-6 h-6"/>--}}
+                {{--                        <span class="text-slate-500 group-hover:text-slate-800 dark:text-slate-500 dark:group-hover:text-slate-300 font-bold">Dispatch</span>--}}
+                {{--                    </a>--}}
+                {{--                </li>--}}
+                {{--                @endhasPermissionTo--}}
 
                 @hasPermissionTo('view settings')
                 <li>
@@ -169,17 +169,21 @@
                     <x-icons.menu class="text-slate-500 dark:text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 w-6 h-6"/>
                 </button>
 
-                <div class="pl-3 text-slate-500 dark:text-slate-500">
-                    <a href="{{ route('users/show',auth()->id()) }}"
-                       class="text-xs font-bold"
+                <div class="pl-3 text-slate-500 dark:text-slate-500 hidden lg:block">
+                    <p
+                        class="text-xs font-bold"
                     >{{ $salutation[rand(0,4)] }}
-                        <span class="link">{{ auth()->user()->name }}</span></a>
+                        <span class="text-green-600 cursor-default">{{ auth()->user()->name }}</span></p>
                     <p class="text-xs font-semibold"
                        x-text="currentTime"
                     ></p>
                 </div>
             </div>
             <div class="px-2 lg:px-4 flex items-center space-x-2">
+
+                <livewire:components.quick-customer/>
+                <livewire:components.quick-order/>
+
                 <div class="h-6 w-6 rounded-full border ring-2 ring-slate-100 dark:ring-slate-800 dark:border-slate-900 shadow-2xl flex items-center justify-center">
                     <button
                         x-on:click="theme = !theme"
