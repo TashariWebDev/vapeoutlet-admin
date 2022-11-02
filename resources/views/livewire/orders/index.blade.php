@@ -20,33 +20,10 @@
                 >
             </label>
         </div>
+
+        {{--        empty--}}
         <div></div>
-        {{--        <div class="flex items-center rounded-md bg-white dark:bg-slate-900 px-2 py-3 w-full grid grid-cols-3">--}}
-        {{--            <button--}}
-        {{--                @class([--}}
-        {{--                    'text-xs px-1 text-slate-400 text-center font-bold',--}}
-        {{--                    'text-green-400' => $monthRange === null,--}}
-        {{--                ])--}}
-        {{--                wire:click="$set('monthRange',null)"--}}
-        {{--            >VIEW ALL--}}
-        {{--            </button>--}}
-        {{--            <button--}}
-        {{--                @class([--}}
-        {{--                    'text-xs px-1 text-slate-400 text-center font-bold',--}}
-        {{--                    'text-blue-400' => $monthRange === 7,--}}
-        {{--                ])--}}
-        {{--                wire:click="$set('monthRange',7)"--}}
-        {{--            >7 DAYS--}}
-        {{--            </button>--}}
-        {{--            <button--}}
-        {{--                @class([--}}
-        {{--                    'text-xs px-1 text-slate-400 text-center font-bold',--}}
-        {{--                    'text-pink-400' => $monthRange === 30,--}}
-        {{--                ])--}}
-        {{--                wire:click="$set('monthRange',30)"--}}
-        {{--            >30 DAYS--}}
-        {{--            </button>--}}
-        {{--        </div>--}}
+
         <div class="flex items-center rounded-md bg-slate-900 px-2 py-3 w-full grid grid-cols-3">
             <button
                 @class([
@@ -147,8 +124,26 @@
                     <a class="link"
                        href="{{ route('orders/show',$order->id) }}"
                     >{{ $order->number}}</a>
-                    <div class="pt-1">
-                        <p class="text-xs">{{ $order->created_at }}</p>
+                    <div class="pt-1 flex justify-between">
+                        <p class="text-xs">
+                            {{ $order->created_at }}
+                        </p>
+                        @if($order->created_at->diffInDays(today()) > 0)
+                            <p
+                                @class([
+                                    'rounded-l-full rounded-r-full px-1',
+                                    'bg-yellow-500 text-yellow-100' => $order->created_at->diffInDays(today()) <= 3,
+                                    'bg-red-800 text-red-100' => $order->created_at->diffInDays(today()) > 3,
+                                ])
+                            >{{ $order->created_at->diffInDays(today()) }}
+                            </p>
+                        @else
+                            <div class="bg-green-800 rounded-l-full rounded-r-full px-2 flex items-center justify-center">
+                                <p class="text-xs text-green-200 leading-0">
+                                    new
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </x-table.row>
                 <x-table.row class="">
