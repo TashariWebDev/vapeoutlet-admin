@@ -2,18 +2,20 @@
 
 namespace App\Http\Livewire\Orders;
 
+use App\Exceptions\QtyNotAvailableException;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Mail\OrderConfirmed;
 use App\Mail\OrderReceived;
+use App\Models\Credit;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -127,7 +129,9 @@ class Create extends Component
 
     public function updateQty(OrderItem $item, $qty)
     {
-        $qtyInStock = $item->product->stocks->sum("qty");
+        $qtyInStock =
+            $item->product->stocks->sum("qty") +
+            (0 - $item->stock()->first()?->qty);
 
         if ($qty <= $qtyInStock) {
             $item->update(["qty" => $qty]);
@@ -140,7 +144,19 @@ class Create extends Component
 
     public function removeItem(OrderItem $item)
     {
+        $stock = $this->order
+            ->stocks()
+            ->where("product_id", "=", $item->product_id)
+            ->first();
+
+        if ($stock) {
+            $stock->delete();
+        }
+
         $item->delete();
+
+        $this->order->refresh();
+
         $this->notify("Item deleted");
     }
 
@@ -149,36 +165,52 @@ class Create extends Component
         if (!$this->order->items->count()) {
             $this->notify("Nothing in order");
             $this->showConfirmModal = false;
-            return;
+            return redirect()->back();
         }
+
+        if ($this->order->stocks()->count() > 0) {
+            $this->order->stocks()->delete();
+        }
+
+        $this->order->refresh();
+
+        try {
+            $this->order->verifyIfStockIsAvailable();
+        } catch (QtyNotAvailableException $e) {
+            foreach ($this->order->items as $item) {
+                if ($item->qty > $item->product->qtyInStock) {
+                    $item->update([
+                        "qty" => $item->product->qtyInStock,
+                    ]);
+
+                    if ($item->qty <= 0) {
+                        $this->order->remove($item);
+                    }
+                }
+            }
+
+            $this->order->refresh();
+
+            $this->notify(
+                "Some of the items in your cart have been adjusted due to stock availability"
+            );
+
+            $this->showConfirmModal = false;
+            return redirect()->back();
+        }
+
+        $delivery = Delivery::find($this->order->delivery_type_id);
+
+        $this->order->update([
+            "delivery_charge" => $delivery->getPrice(
+                $this->order->getSubTotal()
+            ),
+        ]);
 
         $this->showConfirmModal = false;
-        $this->notify("Processing");
-
-        $startItemsCount = $this->order->items->count();
-
-        $this->order->verifyIfStockIsAvailable();
-        $this->order->refresh();
-        $endItemsCount = $this->order->items->count();
-
-        if (!$this->order->items->count()) {
-            $this->notify("Nothing in order");
-            $this->showConfirmModal = false;
-            return;
-        }
-
-        if ($startItemsCount != $endItemsCount) {
-            $this->notify(
-                "Some products out of stock removed from order. Please process again"
-            );
-            return;
-        }
-
-        DB::transaction(function () {
-            $this->order->decreaseStock();
-            $this->order->customer->createInvoice($this->order);
-            $this->order->updateStatus("received");
-        });
+        $this->order->decreaseStock();
+        $this->order->customer->createInvoice($this->order);
+        $this->order->updateStatus("received");
 
         $this->sendOrderEmails();
 
@@ -188,7 +220,7 @@ class Create extends Component
 
         $this->notify("processed");
 
-        $this->redirect("/orders");
+        return redirect()->route("orders");
     }
 
     public function sendOrderEmails()
@@ -204,22 +236,61 @@ class Create extends Component
         );
     }
 
-    public function cancel()
+    public function credit()
     {
         //cancel an order that has not been processed
-        foreach ($this->order->items as $item) {
-            $item->delete();
+        if ($this->order->status === null) {
+            foreach ($this->order->items as $item) {
+                $item->delete();
+            }
+
+            $this->order->delete();
+
+            $this->redirectRoute("orders");
         }
 
-        $this->order->delete();
-        $this->notify("Order deleted");
+        $this->order->updateStatus("cancelled");
 
-        $this->redirectRoute("orders");
+        if ($this->order->getTotal() > 0) {
+            $credit = Credit::create([
+                "customer_id" => $this->order->customer->id,
+                "salesperson_id" => $this->order->salesperson_id,
+                "created_by" => auth()->user()->name,
+                "delivery_charge" => $this->order->delivery_charge,
+                "processed_at" => now(),
+            ]);
+
+            foreach ($this->order->items as $item) {
+                $credit->items()->create([
+                    "product_id" => $item->product_id,
+                    "qty" => $item->qty,
+                    "price" => $item->price,
+                    "cost" => $item->cost,
+                ]);
+            }
+
+            $credit->increaseStock();
+
+            $this->order->customer->createCredit($credit, $credit->number);
+        }
+
+        $invoice = Transaction::where("type", "=", "invoice")
+            ->where("reference", "=", $this->order->number)
+            ->first();
+
+        $invoice?->update(["amount" => $this->order->getTotal()]);
+
+        UpdateCustomerRunningBalanceJob::dispatch(
+            $this->order->customer_id
+        )->delay(3);
+
+        $this->notify("order deleted");
+        return redirect()->route("orders");
     }
 
-    public function getOrderProperty(): Order|array|null
+    public function getOrderProperty()
     {
-        return Order::find($this->orderId)->load(
+        return Order::findOrFail($this->orderId)->load(
             "customer.addresses",
             "items.product.features",
             "items.product.stocks"
@@ -273,7 +344,19 @@ class Create extends Component
     public function render(): Factory|View|Application
     {
         return view("livewire.orders.create", [
-            "deliveryOptions" => Delivery::all(),
+            "deliveryOptions" => Delivery::query()
+                ->when($this->order->address, function ($query) {
+                    $query->where(
+                        "province",
+                        "=",
+                        $this->order->address->province
+                    );
+                })
+                ->where("customer_type", "=", $this->order->customer->type())
+                ->orWhere("customer_type", "=", null)
+                ->where("selectable", true)
+                ->orderBy("price", "asc")
+                ->get(),
         ]);
     }
 }

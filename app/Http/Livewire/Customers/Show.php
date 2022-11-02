@@ -4,15 +4,16 @@ namespace App\Http\Livewire\Customers;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Jobs\UpdateCustomerRunningBalanceJob;
+use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Transaction;
-use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Browsershot\Browsershot;
 use Str;
 
 class Show extends Component
@@ -119,13 +120,48 @@ class Show extends Component
 
     public function getDocument($transactionId)
     {
-        Http::get(
-            config("app.admin_url") . "/webhook/save-document/{$transactionId}"
-        );
+        $model = $transaction = Transaction::findOrFail($transactionId);
 
-        $this->redirect(
-            "/customers/show/{$this->customerId}?page={$this->page}"
-        );
+        if (
+            \Illuminate\Support\Str::startsWith(
+                $transaction->reference,
+                "INV00"
+            )
+        ) {
+            $model = Order::with(
+                "items",
+                "items.product",
+                "items.product.features",
+                "customer",
+                "notes"
+            )->find(Str::after($transaction->reference, "INV00"));
+        }
+
+        if (Str::startsWith($transaction->reference, "CR00")) {
+            $model = Credit::with("items", "items.product", "customer")->find(
+                Str::after($transaction->reference, "CR00")
+            );
+        }
+
+        $view = view("templates.pdf.{$transaction->type}", [
+            "model" => $model,
+        ])->render();
+
+        $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        $this->redirect("/documents/{$transaction->uuid}.pdf");
     }
 
     public function updateBalances()

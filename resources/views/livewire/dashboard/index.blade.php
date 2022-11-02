@@ -154,10 +154,32 @@
     </div>
 
 
-    <div class="border-2 border-yellow-500 w-full h-32 rounded-md mt-4 p-4">
+    <div class="border-2 border-yellow-500 w-full rounded-md mt-4 p-4">
         <p class="text-yellow-600">Dark mode (Just for you @aasif) is enabled in beta and is not 100% complete. </p>
         <p class="text-yellow-600">Please report any issues. </p>
         <p class="text-yellow-600">We will be updating the ordering and credits system over the next few days. </p>
+
+        <p class="text-yellow-600 font-bold py-6">Order Management</p>
+        <ul class="text-yellow-600">
+            <li>Changes: Orders create and edit ui updated</li>
+            <li>Changes: Orders are now editable and will retain order number</li>
+            <li>Changes: Order status and actions are now handled from a single screen</li>
+            <li>Fixes: All buttons and functions updated to avoid duplications</li>
+            <li>Changes: Dispatch module is now redundant</li>
+            <li>Enhancements: Documents are now re-created everytime 'Print' is clicked to ensure that it always has the
+                latest data
+            </li>
+            <li>Enhancements: Delivery charge is now automatically added to credit note if exists</li>
+            <li>Enhancements: Orders can now be edited or credited up to the shipped status</li>
+            <li>Enhancements: search and filters are now retained in orders screen when clicking back</li>
+            <li>Enhancements: Admin orders delivery charge will now consider waiver amount</li>
+            <li>Enhancements: Waybill and tracking link added to invoice</li>
+            <li>Enhancements: Orders will retain its place in the queue after being edited</li>
+            <li>Enhancements: Orders can now be completed directly on the shipped screen filter</li>
+            <li>Enhancements: Added new quick order creation module</li>
+            <li>Enhancements: Added new quick customer creation module</li>
+            <li>Enhancements: Invoice will now indicate if they have been printed</li>
+        </ul>
     </div>
 
 

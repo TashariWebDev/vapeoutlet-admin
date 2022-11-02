@@ -37,7 +37,7 @@ class Credit extends Model
 
     public function getTotal()
     {
-        return $this->getSubTotal();
+        return $this->getSubTotal() + $this->delivery_charge;
     }
 
     public function getSubTotal(): float
@@ -74,7 +74,7 @@ class Credit extends Model
     public function increaseStock(): static
     {
         foreach ($this->items as $item) {
-            $item->product->stocks()->firstOrCreate(
+            $item->product->stocks()->updateOrCreate(
                 [
                     "product_id" => $item->product_id,
                     "reference" => $this->number,

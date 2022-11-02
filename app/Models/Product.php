@@ -20,6 +20,8 @@ class Product extends Model
 
     protected $with = ["features:id,name,product_id"];
 
+    protected $appends = ["qtyInStock"];
+
     protected $casts = [
         "retail_price" => "integer",
         "wholesale_price" => "integer",
@@ -104,6 +106,11 @@ class Product extends Model
     }
 
     //    setters
+
+    public function getQtyInStockAttribute()
+    {
+        return $this->stocks->sum("qty");
+    }
 
     public function qty()
     {

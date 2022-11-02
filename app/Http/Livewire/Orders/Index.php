@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\Orders;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Order;
 use App\Models\Transaction;
-use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -12,10 +12,14 @@ use Illuminate\Database\Eloquent\Builder;
 use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Browsershot\Browsershot;
+use Str;
 
 class Index extends Component
 {
     use WithPagination;
+
+    use WithNotifications;
 
     public $showAddOrderForm = false;
 
@@ -42,6 +46,14 @@ class Index extends Component
         "cancelled",
     ];
 
+    protected $queryString = [
+        "filter",
+        "customerType",
+        "recordCount",
+        "direction",
+        "searchTerm",
+    ];
+
     public function selectedCustomerLatestTransactions()
     {
         if ($this->quickViewCustomerAccountModal === false) {
@@ -60,25 +72,84 @@ class Index extends Component
         $this->quickViewCustomerAccountModal = true;
     }
 
+    public function pushToComplete($orderId)
+    {
+        $order = Order::findOrFail($orderId);
+        $order->updateStatus("completed");
+        $this->notify("order completed");
+        $this->redirect("/orders?filter=shipped");
+    }
+
     public function getDocument($transactionId)
     {
-        Http::get(
-            config("app.admin_url") . "/webhook/save-document/{$transactionId}"
-        );
+        $model = $transaction = Transaction::findOrFail($transactionId);
 
-        $this->redirect(
-            "orders?page={$this->page}&filter={$this->filter}&searchTerm={$this->searchTerm}"
-        );
+        if (
+            \Illuminate\Support\Str::startsWith(
+                $transaction->reference,
+                "INV00"
+            )
+        ) {
+            $model = Order::with(
+                "items",
+                "items.product",
+                "items.product.features",
+                "customer",
+                "notes"
+            )->find(Str::after($transaction->reference, "INV00"));
+        }
+
+        $view = view("templates.pdf.{$transaction->type}", [
+            "model" => $model,
+        ])->render();
+
+        $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        $this->redirect("/documents/{$transaction->uuid}.pdf");
     }
 
     public function mount()
     {
+        //        dd(request()->all());
         if (request()->has("filter")) {
             $this->filter = request("filter");
         }
 
         if (request()->has("searchTerm")) {
             $this->searchTerm = request("searchTerm");
+        }
+
+        if (request()->has("customerType")) {
+            if (request("customerType") === true) {
+                $this->customerType = true;
+            }
+            if (request("customerType") === false) {
+                $this->customerType = false;
+            }
+        }
+
+        if (!request()->has("customerType")) {
+            $this->customerType = null;
+        }
+
+        if (request()->has("recordCount")) {
+            $this->recordCount = request("recordCount");
+        }
+
+        if (request()->has("direction")) {
+            $this->direction = request("direction");
         }
     }
 

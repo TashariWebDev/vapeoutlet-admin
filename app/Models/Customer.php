@@ -193,8 +193,6 @@ class Customer extends Authenticatable
             [
                 "reference" => $reference,
                 "type" => "debit",
-                "amount" => $amount,
-                "created_by" => $createdBy,
             ],
             [
                 "uuid" => Str::uuid(),
@@ -212,8 +210,6 @@ class Customer extends Authenticatable
             [
                 "reference" => $reference,
                 "type" => "credit",
-                "amount" => 0 - $credit->getTotal(),
-                "created_by" => auth()->user()->name,
             ],
             [
                 "uuid" => Str::uuid(),

@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use LaravelIdea\Helper\App\Models\_IH_Stock_QB;
 
 class OrderItem extends Model
 {
@@ -21,6 +23,13 @@ class OrderItem extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class)->withTrashed();
+    }
+
+    public function stock(): Stock|Builder|_IH_Stock_QB|null
+    {
+        return Stock::query()
+            ->where("product_id", "=", $this->product_id)
+            ->where("order_id", "=", $this->order_id);
     }
 
     public function cost(): Attribute

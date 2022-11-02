@@ -1,5 +1,4 @@
 <div>
-    <x-loading-screen/>
     <div class="w-full bg-white dark:bg-slate-900 rounded-md p-6 mb-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
         <div>
             <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $this->order->number }}</p>
@@ -32,10 +31,11 @@
         </div>
     </div>
 
-    <x-slide-over x-cloak
-                  wire:ignore.self="searchQuery"
-                  title="Select products"
-                  wire:model.defer="showProductSelectorForm"
+    <x-slide-over
+        x-cloak
+        wire:ignore.self="searchQuery"
+        title="Select products"
+        wire:model.defer="showProductSelectorForm"
     >
         <div x-data=
                  "{ searchQuery: @entangle('searchQuery') }"
@@ -109,8 +109,14 @@
     >
         <div class="flex items-center space-x-2 py-3">
             <button class="button-danger"
-                    x-on:click="@this.call('cancel')"
-            >cancel order
+                    wire:loading.attr="disabled"
+                    wire:click="credit"
+            >
+                <span class="pr-2"
+                      wire:target="credit"
+                      wire:loading
+                ><x-icons.refresh class="w-3 h-3 text-slate-300 animate-spin-slow"/></span>
+                credit this order
             </button>
         </div>
         <p class="text-slate-600 text-xs">This action is non reversible</p>
@@ -120,12 +126,15 @@
              wire:model.defer="showConfirmModal"
     >
         <div class="flex items-center space-x-2 py-3">
-            <button class="button-success disabled:opacity-25"
-                    x-on:dblclick="return;"
-                    wire:click="process"
-                    wire:target="process"
-                    x-on:click="disable(this)"
+            <button
+                class="button-success disabled:opacity-25"
+                wire:click="process"
+                wire:target="process"
+                wire:loading.attr="disabled"
             >
+                <span class="pr-2"
+                      wire:loading
+                ><x-icons.refresh class="w-3 h-3 text-slate-300 animate-spin-slow"/></span>
                 process order
             </button>
         </div>
@@ -155,6 +164,10 @@
         </div>
         <div>
             <button class="text-xs button-success w-full h-full"
+                    @if($this->order->address_id === null)
+                        disabled
+                    @endif
+
                     x-on:click="@this.set('chooseDeliveryForm',true)"
             >
                 <x-icons.plus class="w-5 h-5 mr-3"/>
@@ -166,7 +179,7 @@
                     x-on:click="@this.set('cancelConfirmation',true)"
             >
                 <x-icons.plus class="w-5 h-5 mr-3"/>
-                cancel
+                Credit this invoice
             </button>
         </div>
         <div>
@@ -175,6 +188,8 @@
                     <div>
                         @isset($this->order->address_id)
                             <button class="text-xs button-warning w-full h-full"
+                                    wire:target="process"
+                                    wire:loading.attr="disabled"
                                     x-on:click="@this.set('showConfirmModal',true)"
                             >
                                 <x-icons.plus class="w-5 h-5 mr-3"/>
@@ -346,7 +361,7 @@
                     <option value="{{$delivery->id}}"
                             class="capitalize"
                     >
-                        {{$delivery->description }}
+                        {{$delivery->type }}
                         {{ number_format($delivery->price,2) }}
                     </option>
                 @endforeach
@@ -411,27 +426,25 @@
                             />
                         </label>
                     </form>
-                    @else
-                        <p>{{ $item->price }}</p>
-                        @endhasPermissionTo
-                        <div>
-                            @hasPermissionTo('view cost')
-                            <div class="flex justify-between items-center pt-1">
-                                <div>
-                                    <p class="text-xs
+                    @endhasPermissionTo
+                    <div>
+                        @hasPermissionTo('view cost')
+                        <div class="flex justify-between items-center pt-1">
+                            <div>
+                                <p class="text-xs
                                                     @if( profit_percentage($item->price, $item->product->cost) < 0) text-red-700 @else text-green-500 @endif"
-                                    >
-                                        {{  profit_percentage($item->price, $item->product->cost) }}
-                                    </p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-slate-500">
-                                        R {{ $item->product->cost }}
-                                    </p>
-                                </div>
+                                >
+                                    {{  profit_percentage($item->price, $item->product->cost) }}
+                                </p>
                             </div>
-                            @endhasPermissionTo
+                            <div>
+                                <p class="text-xs text-slate-500">
+                                    R {{ $item->product->cost }}
+                                </p>
+                            </div>
                         </div>
+                        @endhasPermissionTo
+                    </div>
                 </x-table.row>
                 <x-table.row>
                     <form x-on:keydown.tab="@this.call('updateQty',{{$item->id}},$event.target.value)"
@@ -444,19 +457,20 @@
                                    inputmode="numeric"
                                    min="1"
                                    class="w-full rounded-md text-slate-700"
-                                   max="{{ $item->product->qty() }}"
+                                   max="{{ $item->product->qty() + (0 - $item->stock()->first()?->qty)  }}"
                             />
                         </label>
                     </form>
                     <div class="flex justify-between items-center mt-1">
                         <div>
-                            <p class="text-xs text-slate-500">{{ $item->product->qty() - $item->qty }} more
-                                                                                                       available</p>
+                            <p class="text-xs text-slate-500">{{ $item->product->qty() - $item->qty + (0 - $item->stock()->first()?->qty) }}
+                                more
+                                available</p>
                         </div>
                         <div class="text-xs text-red-700 dark:text-red-400 hover:text-red-700">
                             <button wire:loading.attr="disabled"
                                     wire:target="removeProducts"
-                                    x-on:click="@this.call('removeItem',{{$item->id}})"
+                                    wire:click="removeItem({{$item->id}})"
                             >remove
                             </button>
                         </div>
@@ -465,9 +479,4 @@
             </x-table.body>
         @endforeach
     </x-table.container>
-    <script>
-        function disable(button) {
-            button.disabled = true
-        }
-    </script>
 </div>

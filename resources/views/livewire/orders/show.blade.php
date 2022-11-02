@@ -1,57 +1,167 @@
 <div>
-    <div class="w-full bg-white dark:bg-slate-900 rounded-md p-6 mb-3 grid grid-cols-1 lg:grid-cols-3">
+
+    <x-modal title="Do you want to ship this order?"
+             wire:model.defer="showWaybillModal"
+    >
+        <form wire:submit.prevent="addWaybill">
+            <div class="py-4">
+                <x-input type="text"
+                         id="waybill"
+                         label="waybill"
+                         wire:model.defer="waybill"
+                />
+            </div>
+
+            <div class="pt-4">
+                <button class="button-success">Add waybill</button>
+            </div>
+        </form>
+    </x-modal>
+
+    <div class="p-3 mb-2 bg-white dark:bg-slate-900 w-full rounded-md grid grid-cols-2 lg:grid-cols-6 gap-x-2 gap-y-2 lg:gap-y-0">
         <div>
-            <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $this->order->number }}</p>
-            <p class="text-xs text-slate-500">{{ $this->order->created_at }}</p>
-            <p class="font-bold py-2 text-slate-600 dark:text-slate-400">
-                R {{ number_format($this->order->getTotal(),2)}}</p>
-            <p class="font-bold text-xs pt-2 text-slate-600 dark:text-slate-400">
-                Processed By:
-            </p>
-            <p class="font-bold text-xs pb-2">
-                {{ $this->order->processed_by}}
-            </p>
+            <ul>
+                <li>
+                    <p class="text-sm font-semibold text-slate-600 dark:text-slate-400">{{ $this->order->number }}</p>
+                </li>
+                <li><p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->order->created_at }}</p></li>
+                <li>
+                    <p class="text-xs text-slate-600 dark:text-slate-400 uppercase font-bold">{{ $this->order->status }}</p>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>
+                    <p class="text-sm font-bold text-slate-600 dark:text-slate-400">
+                        R {{ number_format($this->order->getTotal(),2)}}
+                    </p>
+                </li>
+                <li class="flex items-center space-x-2">
+                    <span><x-icons.truck class="text-slate-600 dark:text-slate-400 w-3 h-3"/></span>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">
+                        R {{ number_format($this->order->delivery_charge,2)}}
+                    </p>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>
+                    <p class="text-sm font-bold text-slate-600 dark:text-slate-400">{{ $this->order->customer->name }}</p>
+                </li>
+                @isset($this->order->customer->company)
+                    <p class="text-xs
+                       text-slate-600
+                       dark:text-slate-500"
+                    >{{ $this->order->customer->company}}</p>
+                @endisset
+            </ul>
+        </div>
+        <div>
+            <ul>
+                <li>
+                    @isset($this->order->address_id)
+                        <div class="text-xs capitalize font-semibold text-slate-600 dark:text-slate-400">
+                            <p>{{$this->order->address->line_one }}</p>
+                            <p>{{ $this->order->address->line_two }}</p>
+                            <p>{{ $this->order->address->suburb }}, {{ $this->order->address->city }},</p>
+                            <p>{{ $this->order->address->province }}, {{ $this->order->address->postal_code }}</p>
+                        </div>
+                    @endisset
+                </li>
+            </ul>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-1">
+            <button class="button-success w-full"
+                    wire:loading.attr="disabled"
+                    wire:click="toggleNoteForm"
+            >
+                    <span class="pr-2"
+                          wire:loading
+                          wire:target="toggleNoteForm"
+                    ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
+                Add note
+            </button>
+            @if($this->order->status === 'shipped')
+                <button class="button-success w-full"
+                        wire:loading.attr="disabled"
+                        wire:click="pushToComplete()"
+                        wire:target="pushToComplete()"
+                >
+                    <span class="pr-2"
+                          wire:loading
+                          wire:target="pushToComplete()"
+                    ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
+                    Complete
+                </button>
+            @endif
+            @if($this->order->status != 'shipped' && $this->order->status != 'completed' && $this->order->status != 'cancelled')
+                <button class="button-success w-full"
+                        wire:loading.attr="disabled"
+                        wire:click="toggleWaybillForm"
+                >
+                    <span class="pr-2"
+                          wire:loading
+                          wire:target="toggleWaybillForm"
+                    ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
+                    Add waybill
+                </button>
+
+                <button class="button-success w-full"
+                        wire:loading.attr="disabled"
+                        wire:click="getPickingSlip"
+                >
+                    <span class="pr-2"
+                          wire:loading
+                          wire:target="getPickingSlip"
+                    ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
+                    Picking Slip
+                </button>
+
+                <button class="button-success w-full"
+                        wire:loading.attr="disabled"
+                        wire:click="getDeliveryNote"
+                >
+                    <span class="pr-2"
+                          wire:loading
+                          wire:target="getDeliveryNote"
+                    ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
+                    Delivery Note
+                </button>
+            @endif
         </div>
 
-        <div>
-            <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $this->order->customer->name }}
-                @isset($this->order->customer->company)
-                    <span>| {{ $this->order->customer->company}}</span>
-                @endisset
-            </p>
-            @isset($this->order->address_id)
-                <div class="text-xs capitalize font-semibold text-slate-600 dark:text-slate-400">
-                    <p>{{$this->order->address->line_one }}</p>
-                    <p>{{ $this->order->address->line_two }}</p>
-                    <p>{{ $this->order->address->suburb }}, {{ $this->order->address->city }},</p>
-                    <p>{{ $this->order->address->province }}, {{ $this->order->address->postal_code }}</p>
-                </div>
-            @endisset
-            @isset($this->order?->delivery_type_id)
-                <p class="py-2 capitalize text-slate-600 dark:text-slate-400">{{ $this->order?->delivery->type }}</p>
-            @endisset
-        </div>
-        <div class="flex items-start justify-between">
-            @if($this->order->status == 'cancelled')
+        <div class="grid grid-cols-1 gap-1">
+            @if($this->order->status != 'shipped' && $this->order->status != 'completed' && $this->order->status != 'cancelled')
                 <div>
-                    <h1 class="text-3xl font-extrabold text-red-700">CANCELLED</h1>
-                </div>
-            @endif
-            @if($this->order->status == 'shipped')
-                <div>
-                    <button class="button-success"
-                            x-on:click="@this.call('pushToComplete')"
-                    >Complete order
+                    <button class="text-xs button-danger w-full"
+                            x-on:click="@this.set('cancelConfirmation',true)"
+                    >
+                        credit this order
                     </button>
                 </div>
+                <div>
+                    <button class="text-xs button-warning w-full"
+                            x-on:click="@this.set('showEditModal',true)"
+                    >
+                        edit
+                    </button>
+                </div>
+                <div>
+                    <label>
+                        <select wire:model="status"
+                                class="w-full  rounded-md"
+                        >
+                            <option value="received">Received</option>
+                            <option value="processed">Processed</option>
+                            <option value="packed">Packed</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </label>
+                </div>
             @endif
-            <div class="flex justify-end">
-                <button class="rounded-full p-2 ring ring-green-500"
-                        x-on:click="@this.set('addNoteForm',true)"
-                >
-                    <x-icons.edit class="text-green-500 hover:text-green-600 w-5 h-5"/>
-                </button>
-            </div>
         </div>
     </div>
 
@@ -94,10 +204,18 @@
     >
         <div class="flex items-center space-x-2 py-3">
             <button class="button-danger"
-                    x-on:click="@this.call('cancel')"
-            >cancel order
+                    wire:loading.attr="disabled"
+                    wire:click="credit"
+            >
+                <span class="pr-2"
+                      wire:loading="credit"
+                ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
+                credit this order
             </button>
         </div>
+        <p class="text-slate-600 text-xs"
+           wire:loading="credit"
+        >Crediting this invoice please wait..</p>
         <p class="text-slate-600 text-xs">This action is non reversible</p>
     </x-modal>
 
@@ -106,118 +224,17 @@
     >
         <div class="flex items-center space-x-2 py-3">
             <button class="button-success"
-                    x-on:click="@this.call('edit')"
+                    wire:loading.attr="disabled"
+                    wire:click="edit"
             >
+                <span class="pr-2"
+                      wire:loading="edit"
+                ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
                 edit order
             </button>
         </div>
         <p class="text-slate-600 text-xs">This action is non reversible</p>
     </x-modal>
-
-    <x-modal title="Are your sure?"
-             wire:model.defer="showConfirmModal"
-    >
-        <div class="flex items-center space-x-2 py-3">
-            <button class="button-success"
-                    x-on:click="@this.call('pushToWarehouse')"
-            >
-                process order
-            </button>
-        </div>
-        <p class="text-slate-600 text-xs">This action is non reversible</p>
-    </x-modal>
-
-    <x-modal title="select an address"
-             wire:model.defer="chooseAddressForm"
-    >
-        <label>
-            <select x-on:change="@this.call('updateAddress',$event.target.value)"
-                    class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-            >
-                <option value="">Choose</option>
-                @foreach($this->order->customer->addresses as $address)
-                    <option value="{{$address->id}}"
-                            class="capitalize"
-                    >
-                        {{$address->line_one }}
-                        {{ $address->line_two }}
-                        {{ $address->suburb }},
-                        {{ $address->city }},
-                        {{ $address->province }},
-                        {{ $address->postal_code }}
-                    </option>
-                @endforeach
-            </select>
-        </label>
-    </x-modal>
-
-    <x-modal title="select an delivery option"
-             wire:model.defer="chooseDeliveryForm"
-    >
-        <label>
-            <select x-on:change="@this.call('updateDelivery',$event.target.value)"
-                    class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-            >
-                <option value="">Choose</option>
-                @foreach($deliveryOptions as $delivery)
-                    <option value="{{$delivery->id}}"
-                            class="capitalize"
-                    >
-                        {{$delivery->description }}
-                        {{ number_format($delivery->price,2) }}
-                    </option>
-                @endforeach
-            </select>
-        </label>
-    </x-modal>
-
-    @if($this->order->status == 'received' && $this->order->items->count() > 0)
-        <div wire:loading.class="hidden"
-             wire:target="pushToWarehouse"
-             class="grid grid-cols-1 lg:grid-cols-5 space-y-2 lg:space-y-0 lg:space-x-2 py-2"
-        >
-            <div>
-                <button class="text-xs button-success w-full h-full"
-                        x-on:click="@this.set('chooseDeliveryForm',true)"
-                >
-                    <x-icons.plus class="w-5 h-5 mr-3"/>
-                    delivery option
-                </button>
-            </div>
-            <div>
-                <button class="text-xs button-success w-full h-full"
-                        x-on:click="@this.set('chooseAddressForm',true)"
-                >
-                    <x-icons.plus class="w-5 h-5 mr-3"/>
-                    billing address
-                </button>
-            </div>
-            <div>
-                <button class="text-xs button-danger w-full h-full"
-                        x-on:click="@this.set('cancelConfirmation',true)"
-                >
-                    <x-icons.cross class="w-5 h-5 mr-3"/>
-                    cancel
-                </button>
-            </div>
-            <div>
-                <button class="text-xs button-warning w-full h-full"
-                        x-on:click="@this.set('showEditModal',true)"
-                >
-                    <x-icons.edit class="w-5 h-5 mr-3"/>
-                    edit
-                </button>
-            </div>
-            <div>
-                <button class="text-xs button-warning w-full h-full"
-                        x-on:click="@this.set('showConfirmModal',true)"
-                >
-                    <x-icons.warehouse class="w-5 h-5 mr-3"/>
-                    push to warehouse
-                </button>
-            </div>
-        </div>
-    @endif
 
     <x-table.container>
         <x-table.header class="grid grid-cols-4">
