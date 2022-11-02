@@ -10,7 +10,7 @@
         }
     @endphp
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-y-2">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-x-1">
         <div class="">
             <label>
                 <input type="text"
@@ -19,6 +19,59 @@
                        wire:model="searchTerm"
                 >
             </label>
+        </div>
+        <div></div>
+        {{--        <div class="flex items-center rounded-md bg-white dark:bg-slate-900 px-2 py-3 w-full grid grid-cols-3">--}}
+        {{--            <button--}}
+        {{--                @class([--}}
+        {{--                    'text-xs px-1 text-slate-400 text-center font-bold',--}}
+        {{--                    'text-green-400' => $monthRange === null,--}}
+        {{--                ])--}}
+        {{--                wire:click="$set('monthRange',null)"--}}
+        {{--            >VIEW ALL--}}
+        {{--            </button>--}}
+        {{--            <button--}}
+        {{--                @class([--}}
+        {{--                    'text-xs px-1 text-slate-400 text-center font-bold',--}}
+        {{--                    'text-blue-400' => $monthRange === 7,--}}
+        {{--                ])--}}
+        {{--                wire:click="$set('monthRange',7)"--}}
+        {{--            >7 DAYS--}}
+        {{--            </button>--}}
+        {{--            <button--}}
+        {{--                @class([--}}
+        {{--                    'text-xs px-1 text-slate-400 text-center font-bold',--}}
+        {{--                    'text-pink-400' => $monthRange === 30,--}}
+        {{--                ])--}}
+        {{--                wire:click="$set('monthRange',30)"--}}
+        {{--            >30 DAYS--}}
+        {{--            </button>--}}
+        {{--        </div>--}}
+        <div class="flex items-center rounded-md bg-slate-900 px-2 py-3 w-full grid grid-cols-3">
+            <button
+                @class([
+                    'text-xs px-1 text-slate-400 text-center font-bold',
+                    'text-green-400' => $customerType === null,
+                ])
+                wire:click="$set('customerType',null)"
+            >VIEW ALL
+            </button>
+            <button
+                @class([
+                    'text-xs px-1 text-slate-400 text-center font-bold',
+                    'text-blue-400' => $customerType === false,
+                ])
+                wire:click="$set('customerType',false)"
+            >RETAIL
+            </button>
+            <button
+                @class([
+                    'text-xs px-1 text-slate-400 text-center font-bold',
+                    'text-pink-400' => $customerType === true,
+                ])
+                wire:click="$set('customerType',true)"
+            >WHOLESALE
+            </button>
         </div>
         <div class="text-right">
             <label>

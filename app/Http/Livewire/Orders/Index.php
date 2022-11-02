@@ -27,7 +27,11 @@ class Index extends Component
 
     public $filter = "received";
 
-    public $direction = "desc";
+    public $customerType;
+
+    public $monthRange;
+
+    public $direction = "asc";
 
     public $statuses = [
         "received",
@@ -96,6 +100,22 @@ class Index extends Component
 
         if ($this->filter) {
             $orders->whereStatus($this->filter);
+        }
+
+        if ($this->monthRange === true) {
+            $orders->whereDate(
+                "created_at",
+                ">",
+                today()->subDays($this->monthRange)
+            );
+        }
+
+        if ($this->customerType === true) {
+            $orders->whereRelation("customer", "is_wholesale", "=", true);
+        }
+
+        if ($this->customerType === false) {
+            $orders->whereRelation("customer", "is_wholesale", "=", false);
         }
 
         if ($this->searchTerm) {

@@ -1,7 +1,7 @@
 @props([
     'title'
 ])
-<div class="relative z-20"
+<div class="relative z-50"
      aria-labelledby="modal-title"
      role="dialog"
      aria-modal="true"
