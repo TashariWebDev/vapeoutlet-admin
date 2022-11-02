@@ -29,8 +29,6 @@ class Index extends Component
 
     public $customerType;
 
-    public $monthRange;
-
     public $direction = "asc";
 
     public $statuses = [
@@ -100,14 +98,6 @@ class Index extends Component
 
         if ($this->filter) {
             $orders->whereStatus($this->filter);
-        }
-
-        if ($this->monthRange === true) {
-            $orders->whereDate(
-                "created_at",
-                ">",
-                today()->subDays($this->monthRange)
-            );
         }
 
         if ($this->customerType === true) {
