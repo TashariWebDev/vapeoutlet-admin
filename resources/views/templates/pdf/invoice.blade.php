@@ -120,7 +120,7 @@
                                     </p>
                                     <span class="flex flex-wrap text-xs">
                             @foreach($item->product->features as $feature)
-                                            <span class="text-xs font-thin pr-1">{{ ucwords($feature->name) }}</span>
+                                            <span class="text-xs font-semibold pr-1">{{ ucwords($feature->name) }}</span>
                                         @endforeach
                         </span>
                                 </td>
