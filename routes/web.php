@@ -172,4 +172,12 @@ Route::middleware("auth")->group(function () {
     Route::get("dashboard", Index::class)->name("dashboard");
 });
 
+Route::get("/imitate/{id}", function () {
+    Auth::loginUsingId(request("id"));
+
+    return redirect("/dashboard");
+})
+    ->middleware("auth")
+    ->name("imitate");
+
 require __DIR__ . "/auth.php";
