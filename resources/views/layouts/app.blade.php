@@ -130,16 +130,6 @@
                 </li>
                 @endhasPermissionTo
 
-                {{--                @hasPermissionTo('view dispatch')--}}
-                {{--                <li>--}}
-                {{--                    <a href="{{ route('dispatch') }}"--}}
-                {{--                       class="group w-full p-3 flex flex-col items-center text-xs"--}}
-                {{--                    >--}}
-                {{--                        <x-icons.truck class="text-slate-500 dark:text-slate-500 group-hover:text-slate-800 dark:group-hover:text-slate-300 w-6 h-6"/>--}}
-                {{--                        <span class="text-slate-500 group-hover:text-slate-800 dark:text-slate-500 dark:group-hover:text-slate-300 font-bold">Dispatch</span>--}}
-                {{--                    </a>--}}
-                {{--                </li>--}}
-                {{--                @endhasPermissionTo--}}
 
                 @hasPermissionTo('view settings')
                 <li>
