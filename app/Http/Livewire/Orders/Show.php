@@ -192,7 +192,7 @@ class Show extends Component
             ->setScreenshotType("pdf", 100)
             ->save($url);
 
-        $this->redirect("/pick-lists/{$this->order->number}.pdf");
+        $this->redirect("/storage/pick-lists/{$this->order->number}.pdf");
     }
 
     public function getDeliveryNote()
@@ -219,7 +219,7 @@ class Show extends Component
             ->setScreenshotType("pdf", 100)
             ->save($url);
 
-        $this->redirect("/delivery-note/{$this->order->number}.pdf");
+        $this->redirect("/storage/delivery-note/{$this->order->number}.pdf");
     }
 
     public function toggleNoteForm()
