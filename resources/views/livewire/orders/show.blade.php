@@ -83,6 +83,7 @@
                     ><x-icons.refresh class="h-3 w-3 animate-spin-slow"/></span>
                 Add note
             </button>
+            @hasPermissionTo('complete orders')
             @if($this->order->status === 'shipped')
                 <button class="button-success w-full"
                         wire:loading.attr="disabled"
@@ -96,6 +97,7 @@
                     Complete
                 </button>
             @endif
+            @endhasPermissionTo
             @if($this->order->status != 'shipped' && $this->order->status != 'completed' && $this->order->status != 'cancelled')
                 <button class="button-success w-full"
                         wire:loading.attr="disabled"

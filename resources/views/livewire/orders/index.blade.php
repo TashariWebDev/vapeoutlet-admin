@@ -192,6 +192,7 @@
 
                     <div class="flex items-start justify-end space-x-2">
                         <div>
+                            @hasPermissionTo('complete orders')
                             @if($order->status === 'shipped')
                                 <button class="button button-success"
                                         wire:loading.attr="disabled"
@@ -207,6 +208,7 @@
                                     Complete
                                 </button>
                             @endif
+                            @endhasPermissionTo
                         </div>
                         <div>
                             <button class="button button-success"

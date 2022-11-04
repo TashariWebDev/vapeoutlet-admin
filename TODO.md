@@ -164,9 +164,9 @@
 
 ### CHANGES
 
-~~Reduce order statuses
-- combine warehouse & dispatch
-when will add waybill?~~
+~~Reduce order statuses~~
+~~combine warehouse & dispatch~~
+~~when will add waybill?~~
 
 ~~allocation of payments - how to simplify~~
 
