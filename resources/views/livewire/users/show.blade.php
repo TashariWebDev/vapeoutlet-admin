@@ -117,7 +117,9 @@
         <div class="py-12">
             <div class="flex flex-wrap md:justify-between items-center pb-3 px-2 md:px-0">
                 <div class="py-2">
-                    <h2 class="font-bold text-2xl whitespace-nowrap">Available permissions</h2>
+                    <h2 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">
+                        Available permissions
+                    </h2>
                 </div>
                 <div class="flex space-x-2">
 
