@@ -161,7 +161,7 @@ class Show extends Component
             ->setScreenshotType("pdf", 100)
             ->save($url);
 
-        $this->redirect("/documents/{$transaction->uuid}.pdf");
+        $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
     }
 
     public function updateBalances()
