@@ -150,7 +150,9 @@
                 </div>
                 <div>
                     <label>
-                        <select wire:model="status"
+                        <select wire:change="$toggle('statusModal')"
+                                @change="$wire.set('selectedStatus',event.target.value)"
+                                wire:model.defer="status"
                                 class="w-full  rounded-md"
                         >
                             <option value="received">Received</option>
@@ -164,6 +166,23 @@
             @endif
         </div>
     </div>
+
+    <x-modal wire:model.defer="statusModal">
+        Are your sure your want to update the status?
+        <div class="flex justify-start items-center space-x-4 py-3">
+            <button
+                @click="$wire.call('updateOrderStatus')"
+                wire:click="$toggle('statusModal')"
+                class="button-success"
+            >Set status to {{ $selectedStatus }}</button>
+            <button
+                @click="$wire.set('selectedStatus','')"
+                wire:click="$toggle('statusModal')"
+                class="button-danger"
+            >cancel
+            </button>
+        </div>
+    </x-modal>
 
     <x-modal title="Add note"
              wire:model.defer="addNoteForm"
