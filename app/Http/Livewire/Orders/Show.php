@@ -21,6 +21,10 @@ class Show extends Component
 
     public $orderId;
 
+    public $statusModal = false;
+
+    public $selectedStatus = "";
+
     public $showWaybillModal = false;
 
     public $waybill;
@@ -74,9 +78,15 @@ class Show extends Component
             ->first();
     }
 
-    public function updatedStatus()
+    public function updatedStatusModal()
     {
-        $this->order->updateStatus($this->status);
+        $this->status = $this->order->status;
+    }
+
+    public function updateOrderStatus()
+    {
+        $this->order->updateStatus($this->selectedStatus);
+        $this->status = $this->order->status;
         $this->notify("Status updated");
     }
 
