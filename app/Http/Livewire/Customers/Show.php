@@ -35,12 +35,15 @@ class Show extends Component
 
     public $amount;
 
+    public $date;
+
     public function rules(): array
     {
         return [
             "reference" => ["required"],
             "type" => ["required"],
             "amount" => ["required"],
+            "date" => ["sometimes"],
         ];
     }
 
@@ -63,12 +66,11 @@ class Show extends Component
 
         UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
 
-        $this->reset("amount", "reference", "type");
+        $this->reset("amount", "reference", "type", "date");
 
         $this->notify("transaction created");
         $this->showAddTransactionForm = false;
 
-        sleep(3);
         $this->redirect("/customers/show/{$this->customerId}");
     }
 

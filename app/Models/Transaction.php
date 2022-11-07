@@ -10,6 +10,8 @@ class Transaction extends Model
 {
     protected $guarded = [];
 
+    protected $dates = ["date"];
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
