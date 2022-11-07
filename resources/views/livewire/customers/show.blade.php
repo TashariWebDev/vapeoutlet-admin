@@ -6,25 +6,69 @@
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-3">
-                    <x-input type="text"
-                             wire:model.defer="reference"
-                             label="reference"
-                    />
+                    <label for="reference"
+                           class="text-xs text-gray-600"
+                    >Transaction reference</label>
+                    <div>
+                        <input type="text"
+                               id="reference"
+                               wire:model.defer="reference"
+                               class="w-full rounded-md"
+                        />
+                    </div>
+                    @error('reference')
+                    <p class="text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="py-3">
-                    <x-select wire:model.defer="type"
-                              label=""
-                    >
-                        <option value="debit">Debit</option>
-                        <option value="payment">Payment</option>
-                        <option value="refund">Refund</option>
-                    </x-select>
+                    <label for="date"
+                           class="text-xs text-gray-600"
+                    >Transaction date</label>
+                    <div>
+                        <input type="date"
+                               id="date"
+                               wire:model.defer="date"
+                               class="w-full rounded-md"
+                        />
+                    </div>
+                    @error('date')
+                    <p class="text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="py-3">
-                    <x-input-number type="number"
-                                    wire:model.defer="amount"
-                                    label="amount"
-                    />
+                    <label for="type"
+                           class="text-xs text-gray-600"
+                    >Transaction type</label>
+                    <div>
+                        <select
+                            wire:model.defer="type"
+                            id="type"
+                            class="w-full rounded-md"
+                        >
+                            <option value="">Choose</option>
+                            <option value="debit">Debit</option>
+                            <option value="payment">Payment</option>
+                            <option value="refund">Refund</option>
+                        </select>
+                    </div>
+                    @error('type')
+                    <p class="text-xs text-red-600">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="py-3">
+                    <label for="amount"
+                           class="text-xs text-gray-600"
+                    >Transaction date</label>
+                    <div>
+                        <input type="number"
+                               id="amount"
+                               wire:model.defer="amount"
+                               class="w-full rounded-md"
+                        />
+                    </div>
+                    @error('amount')
+                    <p class="text-xs text-red-600">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div class="py-3">
                     <button class="button-success">
@@ -312,15 +356,16 @@
     </div>
 
     <x-table.container>
-        <x-table.header class="hidden lg:grid lg:grid-cols-5">
+        <x-table.header class="hidden lg:grid lg:grid-cols-6">
             <x-table.heading>Transaction</x-table.heading>
             <x-table.heading>Reference</x-table.heading>
+            <x-table.heading>Date</x-table.heading>
             <x-table.heading class="text-right">Amount</x-table.heading>
             <x-table.heading class="text-right">Balance</x-table.heading>
             <x-table.heading class="text-right">Document</x-table.heading>
         </x-table.header>
         @forelse($transactions as $transaction)
-            <x-table.body class="grid grid-cols-1 lg:grid-cols-5 text-sm">
+            <x-table.body class="grid grid-cols-1 lg:grid-cols-6 text-sm">
                 <x-table.row class="text-sm text-center lg:text-left">
                     <p>{{ $transaction->id }} {{ strtoupper($transaction->type) }}</p>
                     <p class="text-xs text-slate-500">{{ $transaction->created_at }}</p>
@@ -328,6 +373,9 @@
                 <x-table.row class="text-center lg:text-left">
                     <p class="text-xs font-semibold">{{ strtoupper($transaction->reference) }}</p>
                     <p class="text-xs text-slate-400">{{ $transaction->created_by }}</p>
+                </x-table.row>
+                <x-table.row class="text-center lg:text-left">
+                    <p class="text-xs text-slate-400">{{ $transaction->date?->format('Y-m-d') ?? '' }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
                     {{ number_format($transaction->amount,2) }}

@@ -165,8 +165,10 @@
 ### CHANGES
 
 ~~Reduce order statuses
-- combine warehouse & dispatch
-when will add waybill?~~
+
+~~combine warehouse & dispatch
+
+~~when will add waybill?~~
 
 ~~allocation of payments - how to simplify~~
 
@@ -228,9 +230,11 @@ when will add waybill?~~
 
 # Shanu
 
-        - Paygates
+~~Paygates
+
         - Collect from warehouse
-        - Edited details need to be shown on invoices
+
+~~Edited details need to be shown on invoices
 
 # Faeeza
 
