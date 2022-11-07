@@ -164,9 +164,9 @@
 
 ### CHANGES
 
-~~Reduce order statuses
+~~Reduce order statuses~~
 
-~~combine warehouse & dispatch
+~~combine warehouse & dispatch~~
 
 ~~when will add waybill?~~
 
@@ -230,15 +230,17 @@
 
 # Shanu
 
-~~Paygates
+~~Paygates~~
 
         - Collect from warehouse
 
-~~Edited details need to be shown on invoices
+~~Edited details need to be shown on invoices~~
 
 # Faeeza
 
         - Discounts on invoices
+
+~~add date to transactions~~
 
 ~~Non-vatable creditors~~
 
