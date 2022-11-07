@@ -58,12 +58,15 @@
                 <div class="py-3">
                     <label for="amount"
                            class="text-xs text-gray-600"
-                    >Transaction date</label>
+                    >Transaction amount</label>
                     <div>
                         <input type="number"
                                id="amount"
                                wire:model.defer="amount"
                                class="w-full rounded-md"
+                               step="0.01"
+                               inputmode="numeric"
+                               pattern="[0-9.]+"
                         />
                     </div>
                     @error('amount')
