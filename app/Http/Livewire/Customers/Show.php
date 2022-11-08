@@ -206,8 +206,7 @@ class Show extends Component
     public function render(): Factory|View|Application
     {
         return view("livewire.customers.show", [
-            "transactions" => $this->customer
-                ->transactions()
+            "transactions" => Transaction::query()
                 ->when($this->filter, function ($query) {
                     $query->where("type", "=", $this->filter);
                 })
@@ -226,6 +225,7 @@ class Show extends Component
                             to_cents($this->searchTerm) . "%"
                         );
                 })
+                ->where("customer_id", "=", $this->customerId)
                 ->paginate(5),
         ]);
     }
