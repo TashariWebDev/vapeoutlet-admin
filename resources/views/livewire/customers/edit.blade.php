@@ -268,7 +268,7 @@
             <div>
                 <p class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1">Addresses</p>
             </div>
-            @foreach($customer->addresses as $address)
+            @foreach($this->customer->addresses as $address)
                 <div class="bg-white px-2 py-3 rounded-md capitalize mb-2 flex justify-between items-center">
                     <p class="text-xs">{{ $address->line_one }} {{ $address->line_two }} {{ $address->suburb }} {{ $address->city }} {{ $address->province }} {{ $address->postal_code }}</p>
 

@@ -173,7 +173,7 @@
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
                     @php
-                        $orderTotal = $order->getTotal()
+                        $orderTotal = to_rands($order->order_total)
                     @endphp
                     <p>R {{ number_format($order->delivery_charge,2) }}</p>
                     <p>
