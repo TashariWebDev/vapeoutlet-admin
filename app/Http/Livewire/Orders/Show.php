@@ -99,12 +99,39 @@ class Show extends Component
 
     public function edit()
     {
+        $this->note = "Invoice edited";
+        $this->body = "Invoice edited by " . auth()->user()->name;
+        $this->is_private = true;
+        $this->saveNote();
+
         $this->redirect("/orders/create/{$this->order->id}");
+    }
+
+    public function saveNote()
+    {
+        $this->validate();
+
+        $this->order->notes()->create([
+            "body" => $this->note,
+            "is_private" => $this->is_private,
+            "user_id" => auth()->id(),
+        ]);
+
+        $this->reset(["note"]);
+
+        $this->addNoteForm = false;
+
+        $this->notify("note added");
     }
 
     public function credit()
     {
         $this->order->updateStatus("cancelled");
+
+        $this->note = "Invoice credited";
+        $this->body = "Invoice credited by " . auth()->user()->name;
+        $this->is_private = true;
+        $this->saveNote();
 
         $credit = Credit::create([
             "customer_id" => $this->order->customer->id,
@@ -156,23 +183,6 @@ class Show extends Component
         $this->chooseAddressForm = false;
     }
 
-    public function saveNote()
-    {
-        $this->validate();
-
-        $this->order->notes()->create([
-            "body" => $this->note,
-            "is_private" => $this->is_private,
-            "user_id" => auth()->id(),
-        ]);
-
-        $this->reset(["note"]);
-
-        $this->addNoteForm = false;
-
-        $this->notify("note added");
-    }
-
     public function removeNote(Note $note)
     {
         $note->delete();
@@ -203,6 +213,21 @@ class Show extends Component
             ->save($url);
 
         $this->redirect("/storage/pick-lists/{$this->order->number}.pdf");
+    }
+
+    public function render(): Factory|View|Application
+    {
+        return view("livewire.orders.show", [
+            "deliveryOptions" => Delivery::all(),
+            "products" => Product::query()
+                ->with("features")
+                ->where("is_active", "=", true)
+                ->when($this->searchQuery, function ($query) {
+                    $query->search($this->searchQuery);
+                })
+                ->orderBy("brand")
+                ->simplePaginate(6),
+        ]);
     }
 
     public function getDeliveryNote()
@@ -237,11 +262,6 @@ class Show extends Component
         $this->addNoteForm = !$this->addNoteForm;
     }
 
-    public function toggleWaybillForm()
-    {
-        $this->showWaybillModal = !$this->showWaybillModal;
-    }
-
     public function addWaybill()
     {
         if ($this->waybill) {
@@ -252,18 +272,8 @@ class Show extends Component
         $this->toggleWaybillForm();
     }
 
-    public function render(): Factory|View|Application
+    public function toggleWaybillForm()
     {
-        return view("livewire.orders.show", [
-            "deliveryOptions" => Delivery::all(),
-            "products" => Product::query()
-                ->with("features")
-                ->where("is_active", "=", true)
-                ->when($this->searchQuery, function ($query) {
-                    $query->search($this->searchQuery);
-                })
-                ->orderBy("brand")
-                ->simplePaginate(6),
-        ]);
+        $this->showWaybillModal = !$this->showWaybillModal;
     }
 }

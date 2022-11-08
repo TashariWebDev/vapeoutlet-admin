@@ -47,33 +47,6 @@ class Show extends Component
         ];
     }
 
-    public function save()
-    {
-        $additionalFields = [
-            "customer_id" => $this->customerId,
-            "uuid" => Str::uuid(),
-            "created_by" => auth()->user()->name,
-        ];
-
-        $validatedData = $this->validate();
-        $fields = array_merge($additionalFields, $validatedData);
-
-        if ($this->type == "refund" || $this->type == "payment") {
-            $fields["amount"] = 0 - $this->amount;
-        }
-
-        Transaction::create($fields);
-
-        UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
-
-        $this->reset("amount", "reference", "type", "date");
-
-        $this->notify("transaction created");
-        $this->showAddTransactionForm = false;
-
-        $this->redirect("/customers/show/{$this->customerId}");
-    }
-
     public function updatedSearchTerm()
     {
         $this->resetPage();
@@ -190,19 +163,6 @@ class Show extends Component
         $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
     }
 
-    public function updateBalances()
-    {
-        $this->customer->load("transactions");
-        $balance = 0;
-        foreach ($this->customer->transactions as $transaction) {
-            $balance += $transaction->amount;
-            $transaction->running_balance = $balance;
-            $transaction->save();
-        }
-
-        $this->redirect("/customers/show/{$this->customer->id}");
-    }
-
     public function render(): Factory|View|Application
     {
         return view("livewire.customers.show", [
@@ -225,8 +185,49 @@ class Show extends Component
                             to_cents($this->searchTerm) . "%"
                         );
                 })
+                ->latest("id")
                 ->where("customer_id", "=", $this->customerId)
                 ->paginate(5),
         ]);
+    }
+
+    public function save()
+    {
+        $additionalFields = [
+            "customer_id" => $this->customerId,
+            "uuid" => Str::uuid(),
+            "created_by" => auth()->user()->name,
+        ];
+
+        $validatedData = $this->validate();
+        $fields = array_merge($additionalFields, $validatedData);
+
+        if ($this->type == "refund" || $this->type == "payment") {
+            $fields["amount"] = 0 - $this->amount;
+        }
+
+        Transaction::create($fields);
+
+        UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
+
+        $this->reset("amount", "reference", "type", "date");
+
+        $this->notify("transaction created");
+        $this->showAddTransactionForm = false;
+
+        $this->redirect("/customers/show/{$this->customerId}");
+    }
+
+    public function updateBalances()
+    {
+        $this->customer->load("transactions");
+        $balance = 0;
+        foreach ($this->customer->transactions as $transaction) {
+            $balance += $transaction->amount;
+            $transaction->running_balance = $balance;
+            $transaction->save();
+        }
+
+        $this->redirect("/customers/show/{$this->customer->id}");
     }
 }

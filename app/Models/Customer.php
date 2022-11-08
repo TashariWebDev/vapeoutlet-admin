@@ -90,11 +90,9 @@ class Customer extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function MonthlySales(): HasMany
+    public function totalMonthSales(): Attribute
     {
-        return $this->hasMany(Order::class)
-            ->where("status", "!=", "cancelled")
-            ->whereNotNull("status");
+        return new Attribute(get: fn($value) => $this->monthlySalesTotal());
     }
 
     public function monthlySalesTotal(): float|int
@@ -106,9 +104,11 @@ class Customer extends Authenticatable
         return array_sum($totals);
     }
 
-    public function totalMonthSales(): Attribute
+    public function MonthlySales(): HasMany
     {
-        return new Attribute(get: fn($value) => $this->monthlySalesTotal());
+        return $this->hasMany(Order::class)
+            ->where("status", "!=", "cancelled")
+            ->whereNotNull("status");
     }
 
     public function totalMonthlySalesExcl(): Attribute
@@ -163,16 +163,6 @@ class Customer extends Authenticatable
         return $this->hasMany(Transaction::class)->where("type", "=", "refund");
     }
 
-    public function transactions(): HasMany
-    {
-        return $this->hasMany(Transaction::class)->latest("id");
-    }
-
-    public function latestTransaction(): HasOne
-    {
-        return $this->hasOne(Transaction::class)->latestOfMany();
-    }
-
     public function getRunningBalance()
     {
         if ($this->transactions()->count() == 1) {
@@ -183,6 +173,16 @@ class Customer extends Authenticatable
         }
 
         return $this->latestTransaction()->value("running_balance") ?? 0;
+    }
+
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function latestTransaction(): HasOne
+    {
+        return $this->hasOne(Transaction::class)->latestOfMany();
     }
 
     public function createDebit($reference, $amount, $createdBy): Transaction
