@@ -129,13 +129,7 @@
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
-                            R {{ number_format($this->customer->invoices->sum('amount'),2) }}
-                        </p>
-                        <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
-                            Average
-                            spend
-                            R {{  number_format($this->customer->invoices->sum('amount') / ($this->customer->invoices->count() ?: 1) ,2) }}
-                            over {{ $this->customer->invoices->count() }} invoices
+                            R {{ number_format($this->invoices->sum('amount'),2) }}
                         </p>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
@@ -159,13 +153,7 @@
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
-                            R {{ number_format(abs($this->customer->payments?->sum('amount')),2) }}
-                        </p>
-                        <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
-                            Last Payment
-                            {{ $this->customer->payments?->last()?->created_at->diffInDays(now()) }}
-                            {{Str::plural('day', $this->customer->payments?->last()?->created_at->diffInDays(now()) )}}
-                            ago
+                            R {{ number_format(abs($this->payments->sum('amount')),2) }}
                         </p>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
@@ -189,15 +177,8 @@
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
-                            R {{ number_format($this->customer->latestTransaction?->running_balance,2) }}
+                            R {{ number_format($this->transactions->sum('amount'),2) }}
                         </p>
-                        <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
-                            Last Purchase
-                            {{ $this->customer->invoices?->last()?->created_at->diffInDays(now()) }}
-                            {{Str::plural('day', $this->customer->invoices?->last()?->created_at->diffInDays(now()) )}}
-                            ago
-                        </p>
-
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
                         <div class="text-sm">
@@ -221,7 +202,7 @@
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
-                            R {{ number_format(abs($this->customer->debits?->sum('amount')),2) }}
+                            R {{ number_format(abs($this->debits?->sum('amount')),2) }}
                         </p>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
@@ -245,7 +226,7 @@
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
-                            R {{ number_format(abs($this->customer->credits?->sum('amount')),2) }}
+                            R {{ number_format(abs($this->credits?->sum('amount')),2) }}
                         </p>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
@@ -269,7 +250,7 @@
                 <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
-                            R {{ number_format(abs($this->customer->refunds?->sum('amount')),2) }}
+                            R {{ number_format(abs($this->refunds?->sum('amount')),2) }}
                         </p>
                     </div>
                     <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">

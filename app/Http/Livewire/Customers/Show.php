@@ -99,14 +99,38 @@ class Show extends Component
     {
         return Customer::find($this->customerId)->load(
             "transactions",
-            "orders",
-            "latestTransaction",
-            "invoices",
-            "debits",
-            "credits",
-            "refunds",
-            "payments"
+            "salesperson:id,name"
         );
+    }
+
+    public function getTransactionsProperty()
+    {
+        return $this->customer->transactions;
+    }
+
+    public function getInvoicesProperty()
+    {
+        return $this->transactions->where("type", "=", "invoice");
+    }
+
+    public function getDebitsProperty()
+    {
+        return $this->transactions->where("type", "=", "debit");
+    }
+
+    public function getCreditsProperty()
+    {
+        return $this->transactions->where("type", "=", "credit");
+    }
+
+    public function getRefundsProperty()
+    {
+        return $this->transactions->where("type", "=", "refund");
+    }
+
+    public function getPaymentsProperty()
+    {
+        return $this->transactions->where("type", "=", "payment");
     }
 
     public function createOrder()
@@ -182,15 +206,19 @@ class Show extends Component
     public function render(): Factory|View|Application
     {
         return view("livewire.customers.show", [
-            "transactions" => Transaction::query()
-                ->latest("id")
+            "transactions" => $this->customer
+                ->transactions()
                 ->when($this->filter, function ($query) {
                     $query->where("type", "=", $this->filter);
                 })
                 ->when($this->searchTerm, function ($query) {
                     $query
                         ->where("customer_id", "=", $this->customerId)
-                        ->where("reference", "like", $this->searchTerm . "%")
+                        ->where(
+                            "reference",
+                            "like",
+                            "%" . $this->searchTerm . "%"
+                        )
                         ->orWhere("created_by", "like", $this->searchTerm . "%")
                         ->orWhere(
                             "amount",
@@ -198,7 +226,6 @@ class Show extends Component
                             to_cents($this->searchTerm) . "%"
                         );
                 })
-                ->where("customer_id", "=", $this->customerId)
                 ->paginate(5),
         ]);
     }

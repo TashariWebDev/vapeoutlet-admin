@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Order extends Model
 {
@@ -17,7 +16,7 @@ class Order extends Model
 
     protected $guarded = [];
 
-    protected $appends = ["total", "sub_total"];
+    //    protected $appends = ["total", "sub_total"];
 
     protected $dates = [
         "placed_at", // order created
@@ -45,11 +44,6 @@ class Order extends Model
             CustomerAddress::class,
             "address_id"
         )->withTrashed();
-    }
-
-    public function transactions(): HasManyThrough
-    {
-        return $this->HasManyThrough(Customer::class, Transaction::class);
     }
 
     public function delivery(): BelongsTo

@@ -18,9 +18,22 @@ class QuickOrder extends Component
 
     public $searchQuery;
 
+    public $customers = [];
+
     public function updatedSearchQuery()
     {
         $this->searchModal = true;
+
+        if ($this->searchQuery) {
+            $this->customers = Customer::query()
+                ->where("name", "like", "%" . $this->searchQuery . "%")
+                ->orWhere("email", "like", "%" . $this->searchQuery . "%")
+                ->orWhere("phone", "like", "%" . $this->searchQuery . "%")
+                ->orWhere("company", "like", "%" . $this->searchQuery . "%")
+                ->get();
+        } else {
+            $this->customers = [];
+        }
     }
 
     public function createOrder($customerId)
@@ -36,13 +49,6 @@ class QuickOrder extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.components.quick-order", [
-            "customers" => Customer::query()
-                ->where("name", "like", "%" . $this->searchQuery . "%")
-                ->orWhere("email", "like", "%" . $this->searchQuery . "%")
-                ->orWhere("phone", "like", "%" . $this->searchQuery . "%")
-                ->orWhere("company", "like", "%" . $this->searchQuery . "%")
-                ->paginate(5),
-        ]);
+        return view("livewire.components.quick-order");
     }
 }

@@ -18,8 +18,6 @@ class Customer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    protected $appends = ["total_monthly_sales_excl"];
-
     /**
      * The attributes that are mass assignable.
      *
@@ -167,7 +165,7 @@ class Customer extends Authenticatable
 
     public function transactions(): HasMany
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class)->latest("id");
     }
 
     public function latestTransaction(): HasOne

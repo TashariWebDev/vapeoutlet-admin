@@ -33,7 +33,7 @@
             @if($searchQuery)
                 <div class="h-48 w-full mt-1 overflow-y-scroll">
                     <ul>
-                        @foreach($customers as $customer)
+                        @foreach($this->customers as $customer)
                             <li>
                                 <button
                                     wire:click="createOrder({{$customer->id}})"
@@ -41,7 +41,6 @@
                                 >{{$customer->name}} {{$customer?->company}}</button>
                             </li>
                         @endforeach
-                        <li>{{ $customers->links() }}</li>
                     </ul>
                 </div>
             @endif

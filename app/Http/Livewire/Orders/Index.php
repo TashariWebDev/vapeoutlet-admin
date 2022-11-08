@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -165,6 +166,11 @@ class Index extends Component
                 "delivery:id,type",
                 "customer.salesperson",
                 "customer.transactions",
+            ])
+            ->addSelect([
+                "order_total" => OrderItem::query()
+                    ->whereColumn("order_id", "=", "orders.id")
+                    ->selectRaw("sum(qty * price) as order_total"),
             ])
             ->whereNotNull("status")
             ->orderBy("created_at", $this->direction);
