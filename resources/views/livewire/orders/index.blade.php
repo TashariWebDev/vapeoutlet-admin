@@ -102,7 +102,7 @@
 
     @if($filter === 'received')
         <div>
-            @if($this->totalActiveOrders === 0)
+            @if($orders->total()  === 0)
                 <button x-on:click="confetti()">&#128512; <span class="text-xs text-white">click here</span></button>
             @else
                 <p class="text-slate-500 text-xs pb-1"> {{$this->totalActiveOrders}} orders need to dispatched</p>
