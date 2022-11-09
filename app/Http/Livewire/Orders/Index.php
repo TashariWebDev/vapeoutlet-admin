@@ -55,6 +55,15 @@ class Index extends Component
         "searchTerm",
     ];
 
+    public function getTotalActiveOrdersProperty(): int
+    {
+        return Order::query()
+            ->where("status", "=", "received")
+            ->orWhere("status", "=", "processed")
+            ->orWhere("status", "=", "packed")
+            ->count();
+    }
+
     public function selectedCustomerLatestTransactions()
     {
         if ($this->quickViewCustomerAccountModal === false) {
@@ -121,42 +130,11 @@ class Index extends Component
         $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
     }
 
-    public function mount()
+    public function render(): Factory|View|Application
     {
-        //        dd(request()->all());
-        if (request()->has("filter")) {
-            $this->filter = request("filter");
-        }
-
-        if (request()->has("searchTerm")) {
-            $this->searchTerm = request("searchTerm");
-        }
-
-        if (request()->has("customerType")) {
-            if (request("customerType") === true) {
-                $this->customerType = true;
-            }
-            if (request("customerType") === false) {
-                $this->customerType = false;
-            }
-        }
-
-        if (!request()->has("customerType")) {
-            $this->customerType = null;
-        }
-
-        if (request()->has("recordCount")) {
-            $this->recordCount = request("recordCount");
-        }
-
-        if (request()->has("direction")) {
-            $this->direction = request("direction");
-        }
-    }
-
-    public function updatedFilter()
-    {
-        $this->resetPage();
+        return view("livewire.orders.index", [
+            "orders" => $this->filteredOrders()->paginate($this->recordCount),
+        ]);
     }
 
     public function filteredOrders(): Builder|_IH_Order_QB
@@ -194,10 +172,41 @@ class Index extends Component
         return $orders;
     }
 
-    public function render(): Factory|View|Application
+    public function mount()
     {
-        return view("livewire.orders.index", [
-            "orders" => $this->filteredOrders()->paginate($this->recordCount),
-        ]);
+        //        dd(request()->all());
+        if (request()->has("filter")) {
+            $this->filter = request("filter");
+        }
+
+        if (request()->has("searchTerm")) {
+            $this->searchTerm = request("searchTerm");
+        }
+
+        if (request()->has("customerType")) {
+            if (request("customerType") === true) {
+                $this->customerType = true;
+            }
+            if (request("customerType") === false) {
+                $this->customerType = false;
+            }
+        }
+
+        if (!request()->has("customerType")) {
+            $this->customerType = null;
+        }
+
+        if (request()->has("recordCount")) {
+            $this->recordCount = request("recordCount");
+        }
+
+        if (request()->has("direction")) {
+            $this->direction = request("direction");
+        }
+    }
+
+    public function updatedFilter()
+    {
+        $this->resetPage();
     }
 }

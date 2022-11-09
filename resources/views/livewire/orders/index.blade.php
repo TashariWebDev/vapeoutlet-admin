@@ -1,4 +1,6 @@
-<div class="rounded-md px-2 py-1">
+<div class="rounded-md px-2 py-1"
+     x-data=""
+>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-x-1">
         <div class="">
@@ -97,6 +99,25 @@
     <div class="py-2">
         {{ $orders->links() }}
     </div>
+
+    @if($filter === 'received')
+        <div>
+            @if($this->totalActiveOrders === 0)
+                <button x-on:click="confetti()">&#128512; <span class="text-xs text-white">click here</span></button>
+            @else
+                <p class="text-slate-500 text-xs pb-1"> {{$this->totalActiveOrders}} orders need to dispatched</p>
+            @endif
+        </div>
+        <div class="h-3  w-full rounded-l rounded-r mb-2 px-2 bg-gradient-to-r from-green-600 to-red-600 hidden lg:block">
+            <div class="bg-transparent flex justify-end items-center h-full rounded-l rounded-r py-1"
+                 style="width: {{ round(($orders->total() / $this->totalActiveOrders ) * 100)}}%"
+            >
+                <div class="text-xs text-white rounded-l rounded-r bg-transparent px-1">
+                    {{ round(($orders->total() / $this->totalActiveOrders ) * 100)}} %
+                </div>
+            </div>
+        </div>
+    @endif
 
     <x-table.container>
         <x-table.header class="hidden lg:grid lg:grid-cols-5">
@@ -236,4 +257,5 @@
         @endforelse
     </x-table.container>
 
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </div>
