@@ -39,7 +39,7 @@
 </head>
 <body>
     <div class="font-sans w-screen bg-white antialiased overflow-hidden">
-        <div class="p-6 bg-white rounded min-h-screen flex flex-col">
+        <div class="p-4 bg-white rounded">
             <section id="header"
                      class="pb-4"
             >
@@ -83,58 +83,62 @@
                 </div>
             </section>
 
-            <div id="body"
-                 class="break-before-avoid-page"
-            >
-                <div class="w-full grid grid-cols-5 break-inside-avoid">
-                    <div class="border text-left px-1 uppercase text-xs bg-gray-700 text-white">ID</div>
-                    <div class="col-span-2 border text-left px-1 uppercase text-xs bg-gray-700 text-white">
-                        Reference
-                    </div>
-                    <div class="border px-1 text-right uppercase text-xs bg-gray-700 text-white">Amount</div>
-                    <div class="border px-1 text-right uppercase text-xs bg-gray-700 text-white">Balance</div>
-                </div>
+            <div id="body">
+                <table class="w-full">
+                    <thead class="bg-gray-900 text-white text-sm uppercase font-bold">
+                        <tr>
+                            <th class="text-left">ID</th>
+                            <th class="col-span-2 text-left">Reference</th>
+                            <th class="text-right">Amount</th>
+                            <th class="text-right">Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($transactions as $transaction)
+                            <tr class="border-b border-dashed py-1 break-inside-avoid">
+                                <td class="text-left">
+                                    <p class="font-semibold text-xs uppercase">{{ $transaction->id }}</p>
+                                    <p class="font-semibold text-xs uppercase">
+                                        {{ $transaction->date?->format('Y-m-d') ?? $transaction->created_at?->format('Y-m-d') }}
+                                    </p>
+                                </td>
+                                <td class="col-span-2 text-left">
+                                    <p class="text-left text-xs capitalize">
+                                        {{ $transaction->type }}
+                                        @if($transaction->type === 'payment')
+                                            <span class="pl-2 font-semibold">{{ $transaction->created_by }}</span>
+                                        @endif
+                                    </p>
+                                    <p class="text-xs font-bold capitalize">
+                                        {{ $transaction->reference }}
+                                    </p>
+                                </td>
+                                <td class="text-right">
+                                    <p class="text-right text-xs font-mono">
+                                        {{ number_format($transaction->amount,2) }}
+                                    </p>
+                                </td>
+                                <td class="text-right">
+                                    <p class="text-right text-xs font-mono">
+                                        {{ number_format($transaction->running_balance,2) }}
+                                    </p>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="break-before-avoid block">
-                    @foreach($transactions as $transaction)
-                        <div class="w-full grid grid-cols-5 break-after-avoid-page py-1">
-                            <div class="p-1">
-                                <p class="font-semibold text-xs uppercase">{{ $transaction->id }}</p>
-                                <p class="font-semibold text-xs uppercase">
-                                    {{ $transaction->date?->format('Y-m-d') ?? $transaction->created_at?->format('Y-m-d') }}
-                                </p>
-                            </div>
-                            <div class="col-span-2 p-1">
-                                <p class="text-left text-xs capitalize">
-                                    {{ $transaction->type }}
-                                </p>
-                                <p class="text-xs font-bold capitalize">
-                                    {{ $transaction->reference }}
-                                </p>
-                            </div>
-                            <div class="p-1">
-                                <p class="text-right text-xs font-mono">
-                                    R {{ number_format($transaction->amount,2) }}
-                                </p>
-                            </div>
-                            <div class="p-1">
-                                <p class="text-right text-xs font-mono">
-                                    R {{ number_format($transaction->running_balance,2) }}
-                                </p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="block break-before-avoid-page py-3 mt-6 border-t border-b border-gray-500">
-                    <div class="grid grid-cols-1 gap-2">
-                        <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">ACCOUNT BALANCE </span>
-                            R {{ number_format($customer->getRunningBalance(),2) }}
-                        </p>
-                    </div>
+            <div class="block break-before-avoid-page py-3 mt-6 border-t border-b border-gray-500">
+                <div class="grid grid-cols-1 gap-2">
+                    <p class="text-xs text-center whitespace-nowrap">
+                        <span class="font-semibold">ACCOUNT BALANCE </span>
+                        R {{ number_format($customer->getRunningBalance(),2) }}
+                    </p>
                 </div>
             </div>
+
+
             <section id="footer"
                      class="mt-6 border-t pt-2 break-before-avoid-page"
             >
@@ -152,7 +156,7 @@
                             <li class="font-semibold">First National Bank</li>
                             <li class="font-semibold">Sandton City</li>
                             <li class="font-mono mt-2">ACC: 62668652855</li>
-                            <li class="font-mono ">REF: {{ $customer->name }}</li>
+                            <li class="font-mono ">REF: {{ $customer->company ?? $customer->name}}</li>
                         </ul>
                     </div>
                 </div>
