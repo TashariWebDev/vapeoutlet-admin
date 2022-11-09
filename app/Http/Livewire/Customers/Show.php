@@ -8,12 +8,14 @@ use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Transaction;
+use App\Notifications\StatementNotification;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 use Str;
 
 class Show extends Component
@@ -216,6 +218,42 @@ class Show extends Component
         $this->showAddTransactionForm = false;
 
         $this->redirect("/customers/show/{$this->customerId}");
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function sendStatement()
+    {
+        $view = view("templates.pdf.statement", [
+            "customer" => $this->customer,
+            "transactions" => Transaction::query()
+                ->latest("id")
+                ->where("customer_id", "=", $this->customerId)
+                ->take(10)
+                ->get(),
+        ])->render();
+
+        $email = $this->customer->email;
+        $url = storage_path("app/public/documents/$email.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia("print")
+            ->format("a4")
+            ->paperSize(297, 210)
+            ->setScreenshotType("pdf", 100)
+            ->save($url);
+
+        $this->customer->notify(
+            (new StatementNotification($this->customer))->delay(120)
+        );
+
+        $this->notify('Statement queued to be sent');
     }
 
     public function updateBalances()

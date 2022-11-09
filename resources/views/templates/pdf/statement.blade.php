@@ -62,9 +62,8 @@
                     </div>
                     <div class="text-xs text-right font-mono">
                         <ul>
-                            <li class="uppercase">{{ $model->created_by }}</li>
-                            <li>{{ $model->created_at }}</li>
-                            <li class="capitalize">{{ $model->type }} Note</li>
+                            <li>{{ date('Y-m-d') }}</li>
+                            <li class="capitalize">Statement</li>
                         </ul>
                     </div>
                 </div>
@@ -74,11 +73,11 @@
                             <p class="text-white font-semibold uppercase text-xs">Customer Details</p>
                         </div>
                         <ul class="text-sm px-1 py-2">
-                            <li>{{ ucwords($model->customer->name) }}</li>
-                            <li>{{ $model->customer->phone }}</li>
-                            <li>{{ $model->customer->email }}</li>
-                            <li>{{ ucwords($model->customer->company) }}</li>
-                            <li>{{ ucwords($model->customer->vat_number) }}</li>
+                            <li>{{ ucwords($customer->name) }}</li>
+                            <li>{{ $customer->phone }}</li>
+                            <li>{{ $customer->email }}</li>
+                            <li>{{ ucwords($customer->company) }}</li>
+                            <li>{{ ucwords($customer->vat_number) }}</li>
                         </ul>
                     </div>
                 </div>
@@ -89,36 +88,49 @@
             >
                 <div class="w-full grid grid-cols-5 break-inside-avoid">
                     <div class="border text-left px-1 uppercase text-xs bg-gray-700 text-white">ID</div>
-                    <div class="border text-left px-1 uppercase text-xs bg-gray-700 text-white">Date</div>
-                    <div class="col-span-2 border text-left px-1 uppercase text-xs bg-gray-700 text-white">Reference
+                    <div class="col-span-2 border text-left px-1 uppercase text-xs bg-gray-700 text-white">
+                        Reference
                     </div>
                     <div class="border px-1 text-right uppercase text-xs bg-gray-700 text-white">Amount</div>
+                    <div class="border px-1 text-right uppercase text-xs bg-gray-700 text-white">Balance</div>
                 </div>
 
                 <div class="break-before-avoid block">
-                    <div class="w-full grid grid-cols-5 break-after-avoid-page py-1">
-                        <div class="p-1">
-                            <p class="font-semibold text-xs uppercase">{{ $model->id }}</p>
+                    @foreach($transactions as $transaction)
+                        <div class="w-full grid grid-cols-5 break-after-avoid-page py-1">
+                            <div class="p-1">
+                                <p class="font-semibold text-xs uppercase">{{ $transaction->id }}</p>
+                                <p class="font-semibold text-xs uppercase">
+                                    {{ $transaction->date?->format('Y-m-d') ?? $transaction->created_at?->format('Y-m-d') }}
+                                </p>
+                            </div>
+                            <div class="col-span-2 p-1">
+                                <p class="text-left text-xs capitalize">
+                                    {{ $transaction->type }}
+                                </p>
+                                <p class="text-xs font-bold capitalize">
+                                    {{ $transaction->reference }}
+                                </p>
+                            </div>
+                            <div class="p-1">
+                                <p class="text-right text-xs font-mono">
+                                    R {{ number_format($transaction->amount,2) }}
+                                </p>
+                            </div>
+                            <div class="p-1">
+                                <p class="text-right text-xs font-mono">
+                                    R {{ number_format($transaction->running_balance,2) }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="p-1">
-                            <p class="font-semibold text-xs uppercase">{{ $model->date?->format('Y-m-d') ?? $model->created_at?->format('Y-m-d') }}</p>
-                        </div>
-                        <div class="col-span-2 p-1">
-                            <p class="text-xs font-bold capitalize">
-                                {{ $model->reference }}
-                            </p>
-                        </div>
-                        <div class="p-1">
-                            <p class="text-right text-xs font-mono">R {{ number_format($model->amount,2) }}</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
                 <div class="block break-before-avoid-page py-3 mt-6 border-t border-b border-gray-500">
                     <div class="grid grid-cols-1 gap-2">
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">ACCOUNT BALANCE </span>
-                            R {{ number_format($model->customer->getRunningBalance(),2) }}
+                            R {{ number_format($customer->getRunningBalance(),2) }}
                         </p>
                     </div>
                 </div>
@@ -140,7 +152,7 @@
                             <li class="font-semibold">First National Bank</li>
                             <li class="font-semibold">Sandton City</li>
                             <li class="font-mono mt-2">ACC: 62668652855</li>
-                            <li class="font-mono ">REF: {{ $model->number }}</li>
+                            <li class="font-mono ">REF: {{ $customer->name }}</li>
                         </ul>
                     </div>
                 </div>
