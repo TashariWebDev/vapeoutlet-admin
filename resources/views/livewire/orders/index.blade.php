@@ -110,9 +110,9 @@
         </div>
         <div class="h-3  w-full rounded-l rounded-r mb-2 px-2 bg-gradient-to-r from-green-600 to-red-600 hidden lg:block">
             <div class="bg-transparent flex justify-end items-center h-full rounded-l rounded-r py-1"
-                 style="width: {{ round(($orders->total() / $this->totalActiveOrders ) * 100)}}%"
+                 style="width: {{ round(($orders->total() / $this->totalActiveOrders ) * 100 + 1)}}%"
             >
-                <div class="text-xs text-white rounded-l rounded-r bg-transparent px-1">
+                <div class="text-xs text-white rounded-l rounded-r bg-transparent px-1 whitespace-nowrap">
                     {{ round(($orders->total() / $this->totalActiveOrders ) * 100)}} %
                 </div>
             </div>
