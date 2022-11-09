@@ -23,6 +23,8 @@ class Show extends Component
     use WithPagination;
     use WithNotifications;
 
+    public $recordCount = 10;
+
     public $showAddTransactionForm = false;
 
     public $customerId;
@@ -72,10 +74,9 @@ class Show extends Component
 
     public function getCustomerProperty()
     {
-        return Customer::find($this->customerId)->load(
-            "transactions",
-            "salesperson:id,name"
-        );
+        return Customer::find($this->customerId)
+            ->load("transactions", "salesperson:id,name")
+            ->loadCount("transactions");
     }
 
     public function getTransactionsProperty()
@@ -119,6 +120,9 @@ class Show extends Component
         $this->redirect("/orders/create/{$order->id}");
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getDocument($transactionId)
     {
         $model = $transaction = Transaction::findOrFail($transactionId);
@@ -189,7 +193,7 @@ class Show extends Component
                 })
                 ->latest("id")
                 ->where("customer_id", "=", $this->customerId)
-                ->paginate(5),
+                ->paginate($this->recordCount),
         ]);
     }
 
@@ -223,14 +227,26 @@ class Show extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function sendStatement()
+    public function printStatement()
+    {
+        $this->getStatement();
+
+        $email = $this->customer->email;
+
+        $this->redirect("/storage/documents/$email.pdf");
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function getStatement()
     {
         $view = view("templates.pdf.statement", [
             "customer" => $this->customer,
             "transactions" => Transaction::query()
                 ->latest("id")
                 ->where("customer_id", "=", $this->customerId)
-                ->take(10)
+                ->take($this->recordCount)
                 ->get(),
         ])->render();
 
@@ -246,14 +262,22 @@ class Show extends Component
             ->emulateMedia("print")
             ->format("a4")
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType("pdf", 90)
             ->save($url);
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function sendStatement()
+    {
+        $this->getStatement();
 
         $this->customer->notify(
             (new StatementNotification($this->customer))->delay(120)
         );
 
-        $this->notify('Statement queued to be sent');
+        $this->notify("Statement queued to be sent (2 minutes)");
     }
 
     public function updateBalances()

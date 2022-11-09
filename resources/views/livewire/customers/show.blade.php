@@ -280,6 +280,21 @@
                 </button>
             </div>
             <div class="flex flex-wrap space-y-2 lg:space-y-0 lg:space-x-2">
+                <div class="text-right w-full lg:w-auto">
+                    <label>
+                        <x-form.input.select wire:model="recordCount"
+                                             class="w-full lg:w-64 rounded-md"
+                        >
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            @if($this->customer->transaction_count > 100)
+                                <option value="{{ $this->customer->transactions_count }}">{{ $this->customer->transactions_count }}</option>
+                            @endif
+                        </x-form.input.select>
+                    </label>
+                </div>
                 <div class="w-full lg:w-auto">
                     <button
                         x-on:click="$wire.call('updateBalances')"
@@ -324,6 +339,29 @@
                             />
                         </svg>
                         <span class="pl-2">Email Statement</span>
+                    </button>
+                </div>
+                <div class="w-full lg:w-auto">
+                    <button
+                        class="w-full lg:w-auto button-success"
+                        wire:click="printStatement"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-4 h-4 text-slate-600 dark:text-slate-300"
+                             wire:loading
+                             wire:loading.class="animate-spin-slow"
+                             wire:target="printStatement"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                            />
+                        </svg>
+                        <span class="pl-2">Print Statement</span>
                     </button>
                 </div>
                 <div class="w-full lg:w-auto">
