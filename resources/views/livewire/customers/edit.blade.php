@@ -1,7 +1,14 @@
 <div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 lg:space-x-4">
+    <div class="p-2">
+        <a
+            class="link"
+            href="{{ route('customers/show',$customer->id) }}"
+        >Back to customer</a>
+    </div>
 
-        <div class="p-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+        <div class="p-4 bg-slate-300 dark:bg-slate-900 rounded-lg">
             <form wire:submit.prevent="updateUser">
                 <div class="py-1">
                     <label for="email-address"
@@ -140,7 +147,7 @@
             </form>
         </div>
 
-        <div class="p-4">
+        <div class="p-4 bg-slate-300 dark:bg-slate-900 rounded-lg">
             <form wire:submit.prevent="addAddress">
                 <div class="py-1">
                     <label for="address_line_one"
@@ -264,7 +271,7 @@
             </form>
         </div>
 
-        <div>
+        <div class="bg-slate-300 dark:bg-slate-900 p-4 rounded-lg">
             <div>
                 <p class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1">Addresses</p>
             </div>

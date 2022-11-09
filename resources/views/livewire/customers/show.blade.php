@@ -92,7 +92,7 @@
     </x-slide-over>
 
     <!-- Stats -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-end lg:items-center">
         <div>
             <h3 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">
                 {{ $this->customer->name }} stats
@@ -281,15 +281,17 @@
             </div>
             <div class="flex flex-wrap space-y-2 lg:space-y-0 lg:space-x-2">
                 <div class="w-full lg:w-auto">
-                    <button x-on:click="$wire.call('updateBalances')"
-                            class="w-full lg:w-auto flex justify-center items-center h-full w-10 mr-4"
+                    <button
+                        x-on:click="$wire.call('updateBalances')"
+                        class="w-full lg:w-auto button-success"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"
                              viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor"
-                             class="w-6 h-6 text-slate-600"
+                             class="w-4 h-4 text-slate-600 dark:text-slate-300"
+                             wire:loading
                              wire:loading.class="animate-spin-slow"
                              wire:target="updateBalances"
                         >
@@ -298,14 +300,36 @@
                                   d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
                             />
                         </svg>
-
+                        <span class="pl-2">Update account balance</span>
+                    </button>
+                </div>
+                <div class="w-full lg:w-auto">
+                    <button
+                        class="w-full lg:w-auto button-success"
+                        wire:click="sendStatement"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-4 h-4 text-slate-600 dark:text-slate-300"
+                             wire:loading
+                             wire:loading.class="animate-spin-slow"
+                             wire:target="sendStatement"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+                            />
+                        </svg>
+                        <span class="pl-2">Email Statement</span>
                     </button>
                 </div>
                 <div class="w-full lg:w-auto">
                     <button x-on:click="$wire.call('createOrder')"
                             class="w-full lg:w-auto button-success"
                     >
-                        <x-icons.plus class="w-5 h-5 mr-2"/>
                         order
                     </button>
                 </div>
@@ -313,7 +337,6 @@
                     <a href="{{ route('credits/create',$this->customer->id) }}"
                        class="w-full lg:w-auto button-success"
                     >
-                        <x-icons.plus class="w-5 h-5 mr-2"/>
                         credit note
                     </a>
                 </div>
@@ -322,8 +345,7 @@
                     <button class="w-full lg:w-auto button-success"
                             x-on:click="$wire.set('showAddTransactionForm',true)"
                     >
-                        <x-icons.plus class="w-5 h-5 mr-2"/>
-                        add transaction
+                        transaction
                     </button>
                 </div>
                 @endhasPermissionTo
@@ -349,9 +371,30 @@
             <x-table.heading class="text-right">Document</x-table.heading>
         </x-table.header>
         @forelse($transactions as $transaction)
-            <x-table.body class="grid grid-cols-1 lg:grid-cols-6 text-sm">
-                <x-table.row class="text-sm text-center lg:text-left">
-                    <p>{{ $transaction->id }} {{ strtoupper($transaction->type) }}</p>
+            <x-table.body class="hidden lg:grid lg:grid-cols-6 text-sm">
+                <x-table.row class="text-xs text-center lg:text-left">
+                    <p>
+                        <span>
+                            @if(auth()->user()->hasPermissionTo('edit transactions') && $transaction->type != 'invoice')
+                                <a href="{{ route('transactions/edit',$transaction->id) }}"
+                                   class="link"
+                                >
+                                {{ $transaction->id }}
+                            </a>
+                            @else
+                                <span>{{ $transaction->id }}</span>
+                            @endif
+                        </span>
+                        <span @class([
+                                'text-xs font-bold text-red-500' => $transaction->type === 'invoice',
+                                'text-xs font-bold text-green-500' => $transaction->type === 'payment',
+                                'text-xs font-bold text-orange-600' => $transaction->type === 'debit',
+                                'text-xs font-bold text-green-600' => $transaction->type === 'credit',
+                                'text-xs font-bold text-yellow-500' => $transaction->type === 'refund',
+                            ])>
+                            {{ strtoupper($transaction->type) }}
+                        </span>
+                    </p>
                     <p class="text-xs text-slate-500">{{ $transaction->created_at }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left">
@@ -359,7 +402,7 @@
                     <p class="text-xs text-slate-400">{{ $transaction->created_by }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left">
-                    <p class="text-xs text-slate-400">{{ $transaction->date?->format('Y-m-d') ?? '' }}</p>
+                    <p class="text-xs text-slate-400">{{ $transaction->date?->format('Y-m-d') ?? $transaction->created_at?->format('Y-m-d') }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
                     {{ number_format($transaction->amount,2) }}
@@ -390,6 +433,64 @@
                     </div>
                 </x-table.row>
             </x-table.body>
+
+            <div class="bg-slate-300 dark:bg-slate-900 lg:hidden w-full py-2 border-b grid grid-cols-3">
+                <div>
+                    <p>
+                        <span>
+                            @if(auth()->user()->hasPermissionTo('edit transactions') && $transaction->type != 'invoice')
+                                <a href="{{ route('transactions/edit',$transaction->id) }}"
+                                   class="link"
+                                >
+                                {{ $transaction->id }}
+                            </a>
+                            @else
+                                <span class="text-xs font-bold text-slate-500">{{ $transaction->id }}</span>
+                            @endif
+                        </span>
+                        <span @class([
+                                'text-xs font-bold text-red-500' => $transaction->type === 'invoice',
+                                'text-xs font-bold text-green-500' => $transaction->type === 'payment',
+                                'text-xs font-bold text-orange-600' => $transaction->type === 'debit',
+                                'text-xs font-bold text-green-600' => $transaction->type === 'credit',
+                                'text-xs font-bold text-yellow-500' => $transaction->type === 'refund',
+                            ])>
+                            {{ strtoupper($transaction->type) }}
+                        </span>
+                    </p>
+                    <p class="text-xs text-slate-500">
+                        {{ $transaction->date?->format('Y-m-d') ?? $transaction->created_at?->format('Y-m-d') }}
+                    </p>
+                </div>
+                <div class="text-right">
+                    <p class="text-xs text-slate-400">
+                        {{ number_format($transaction->amount,2) }}
+                    </p>
+                    <p class="text-xs text-slate-500">
+                        {{ number_format($transaction->running_balance,2) }}
+                    </p>
+                </div>
+                <div class="flex items-start justify-end">
+                    <div>
+                        <button class="button button-success"
+                                wire:loading.attr="disabled"
+                                wire:target="getDocument({{$transaction->id}})"
+                                wire:click="getDocument({{$transaction->id}})"
+                        >
+                        <span class="pr-2"
+                              wire:loading
+                              wire:target="getDocument({{$transaction->id}})"
+                        >
+                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                        </span>
+                            Print
+                        </button>
+                        @if(file_exists(public_path("storage/documents/{$transaction->uuid}.pdf")))
+                            <p class="text-xs text-slate-400">Printed</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
         @empty
             <x-table.empty></x-table.empty>
         @endforelse

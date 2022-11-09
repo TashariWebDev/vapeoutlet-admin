@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         //
     }
@@ -22,10 +22,12 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Blade::if('hasPermissionTo', function ($permission) {
-            return auth()->user()->hasPermissionTo($permission);
+        Blade::if("hasPermissionTo", function ($permission) {
+            return auth()
+                ->user()
+                ->hasPermissionTo($permission);
         });
     }
 }

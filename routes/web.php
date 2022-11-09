@@ -68,6 +68,13 @@ Route::middleware("auth")->group(function () {
         ->name("credits/create")
         ->middleware("permission:create credit");
 
+    Route::get(
+        "transactions/edit/{id}",
+        \App\Http\Livewire\Transactions\Edit::class
+    )
+        ->name("transactions/edit")
+        ->middleware("permission:edit transactions");
+
     //Settings
     Route::middleware("permission:view settings")->group(function () {
         Route::get("settings/delivery", Delivery\Index::class)->name(

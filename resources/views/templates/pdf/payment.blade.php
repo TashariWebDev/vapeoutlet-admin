@@ -101,7 +101,7 @@
                             <p class="font-semibold text-xs uppercase">{{ $model->id }}</p>
                         </div>
                         <div class="p-1">
-                            <p class="font-semibold text-xs uppercase">{{ $model->date?->format('Y-m-d') }}</p>
+                            <p class="font-semibold text-xs uppercase">{{ $model->date?->format('Y-m-d') ?? $model->created_at?->format('Y-m-d') }}</p>
                         </div>
                         <div class="col-span-2 p-1">
                             <p class="text-xs font-bold capitalize">
