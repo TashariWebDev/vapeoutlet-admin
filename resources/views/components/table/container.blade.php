@@ -1,3 +1,3 @@
-<div class="w-full rounded-md bg-white dark:bg-slate-900 p-6">
+<div class="p-2 w-full bg-white rounded-md lg:p-6 dark:bg-slate-900">
     {{ $slot }}
 </div>
