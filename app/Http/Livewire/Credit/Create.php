@@ -36,14 +36,14 @@ class Create extends Component
 
     public function mount()
     {
-        $this->customerId = request("id");
+        $this->customerId = request('id');
         $this->credit = Credit::firstOrCreate(
             [
-                "customer_id" => $this->customer->id,
-                "processed_at" => null,
+                'customer_id' => $this->customer->id,
+                'processed_at' => null,
             ],
             [
-                "created_by" => auth()->user()->name,
+                'created_by' => auth()->user()->name,
             ]
         );
     }
@@ -55,8 +55,7 @@ class Create extends Component
             $this->products = Product::query()
                 ->search($this->searchQuery)
                 ->get();
-        }
-        else {
+        } else {
             $this->products = [];
         }
     }
@@ -71,29 +70,29 @@ class Create extends Component
         }
 
         $this->showProductSelectorForm = false;
-        $this->reset(["searchQuery"]);
+        $this->reset(['searchQuery']);
         $this->selectedProducts = [];
 
-        $this->notify("Products added");
+        $this->notify('Products added');
         $this->redirect("/credits/{$this->customerId}");
     }
 
     public function updatePrice(CreditItem $item, $value)
     {
-        $item->update(["price" => $value]);
-        $this->notify("Price updated");
+        $item->update(['price' => $value]);
+        $this->notify('Price updated');
     }
 
     public function updateQty(CreditItem $item, $value)
     {
-        $item->update(["qty" => $value]);
-        $this->notify("Qty updated");
+        $item->update(['qty' => $value]);
+        $this->notify('Qty updated');
     }
 
     public function deleteItem(CreditItem $item)
     {
         $item->delete();
-        $this->notify("Item deleted");
+        $this->notify('Item deleted');
 
         $this->redirect("/credits/{$this->customerId}");
     }
@@ -101,15 +100,14 @@ class Create extends Component
     public function process()
     {
         $this->showConfirmModal = false;
-        $this->notify("Processing");
+        $this->notify('Processing');
 
         $this->credit->update([
-            "salesperson_id" => $this->credit->customer->salesperson_id,
-            "processed_at" => now()
+            'salesperson_id' => $this->credit->customer->salesperson_id,
+            'processed_at' => now(),
         ]);
 
         $this->credit->increaseStock();
-
 
         $this->customer->createCredit($this->credit, $this->credit->number);
 
@@ -117,7 +115,7 @@ class Create extends Component
             $this->credit->customer_id
         )->delay(3);
 
-        $this->notify("processed");
+        $this->notify('processed');
 
         $this->redirect("/customers/show/{$this->customerId}");
     }
@@ -129,7 +127,7 @@ class Create extends Component
         }
 
         $this->credit->cancel();
-        $this->notify("Purchase deleted");
+        $this->notify('Purchase deleted');
 
         $this->redirect("/customers/show/{$this->customer->id}");
     }
@@ -141,6 +139,6 @@ class Create extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.credit.create");
+        return view('livewire.credit.create');
     }
 }

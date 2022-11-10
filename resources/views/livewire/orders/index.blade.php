@@ -1,19 +1,21 @@
-<div class="rounded-md px-2 py-1"
-     x-data=""
+<div
+    class="py-1 px-2 rounded-md"
+    x-data=""
 >
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-y-2 lg:gap-x-1">
+    <div class="grid grid-cols-1 gap-y-2 lg:grid-cols-4 lg:gap-x-1">
         <div class="">
             <label>
-                <input type="text"
-                       class="w-full lg:w-64 rounded-md"
-                       placeholder="search"
-                       wire:model="searchTerm"
+                <input
+                    class="w-full rounded-md lg:w-64"
+                    type="text"
+                    placeholder="search"
+                    wire:model="searchTerm"
                 >
             </label>
         </div>
 
-        <div class="flex items-center rounded-md bg-slate-900 px-2 py-3 w-full grid grid-cols-3">
+        <div class="flex grid grid-cols-3 items-center py-3 px-2 w-full rounded-md bg-slate-900">
             <button
                 @class([
                     'text-xs px-1 text-slate-400 text-center font-bold',
@@ -41,8 +43,9 @@
         </div>
         <div class="text-right">
             <label>
-                <select wire:model="recordCount"
-                        class="w-full lg:w-64 rounded-md"
+                <select
+                    class="w-full rounded-md lg:w-64"
+                    wire:model="recordCount"
                 >
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -53,8 +56,9 @@
         </div>
         <div class="text-right">
             <label>
-                <select wire:model="filter"
-                        class="w-full lg:w-64 rounded-md"
+                <select
+                    class="w-full rounded-md lg:w-64"
+                    wire:model="filter"
                 >
                     <option value="received">Received</option>
                     <option value="processed">Processed</option>
@@ -68,23 +72,24 @@
     </div>
 
     <x-modal wire:model.defer="quickViewCustomerAccountModal">
-        @if($selectedCustomerLatestTransactions)
+        @if ($selectedCustomerLatestTransactions)
             <div class="py-6">
                 @forelse($selectedCustomerLatestTransactions as $transaction)
-                    <div class="grid grid-cols-4 border-b py-0.5">
+                    <div class="grid grid-cols-4 py-0.5 border-b">
                         <div>
-                            <p class="text-xs font-semibold"> {{ $transaction->id }} {{ strtoupper($transaction->type) }}</p>
+                            <p class="text-xs font-semibold"> {{ $transaction->id }}
+                                {{ strtoupper($transaction->type) }}</p>
                             <p class="text-xs text-slate-500">{{ $transaction->created_at }}</p>
                         </div>
                         <div>
                             <p class="text-xs font-semibold">{{ strtoupper($transaction->reference) }}</p>
                             <p class="text-xs text-slate-400">{{ $transaction->created_by }}</p>
                         </div>
-                        <div class="text-right text-xs font-semibold">
-                            <p>{{ number_format($transaction->amount,2) }}</p>
+                        <div class="text-xs font-semibold text-right">
+                            <p>{{ number_format($transaction->amount, 2) }}</p>
                         </div>
-                        <div class="text-right text-xs font-semibold">
-                            <p>{{ number_format($transaction->running_balance,2) }}</p>
+                        <div class="text-xs font-semibold text-right">
+                            <p>{{ number_format($transaction->running_balance, 2) }}</p>
                         </div>
                     </div>
                 @empty
@@ -100,20 +105,22 @@
         {{ $orders->links() }}
     </div>
 
-    @if($filter === 'received')
+    @if ($filter === 'received')
         <div>
-            @if($orders->total()  === 0)
+            @if ($orders->total() === 0)
                 <button x-on:click="confetti()">&#128512; <span class="text-xs text-white">click here</span></button>
             @else
-                <p class="text-slate-500 text-xs pb-1"> {{$this->totalActiveOrders}} orders need to dispatched</p>
+                <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to dispatched</p>
             @endif
         </div>
-        <div class="h-3  w-full rounded-l rounded-r mb-2 px-2 bg-gradient-to-r from-green-600 to-red-600 hidden lg:block">
-            <div class="bg-transparent flex justify-end items-center h-full rounded-l rounded-r py-1"
-                 style="width: {{ round(($orders->total() / $this->totalActiveOrders ) * 100 + 1)}}%"
+        <div
+            class="hidden px-2 mb-2 w-full h-3 bg-gradient-to-r from-green-600 to-red-600 rounded-r rounded-l lg:block">
+            <div
+                class="flex justify-end items-center py-1 h-full bg-transparent rounded-r rounded-l"
+                style="width: {{ round(($orders->total() / $this->totalActiveOrders) * 100 + 1) }}%"
             >
-                <div class="text-xs text-white rounded-l rounded-r bg-transparent px-1 whitespace-nowrap">
-                    {{ round(($orders->total() / $this->totalActiveOrders ) * 100)}} %
+                <div class="px-1 text-xs text-white whitespace-nowrap bg-transparent rounded-r rounded-l">
+                    {{ round(($orders->total() / $this->totalActiveOrders) * 100) }} %
                 </div>
             </div>
         </div>
@@ -122,13 +129,15 @@
     <x-table.container>
         <x-table.header class="hidden lg:grid lg:grid-cols-5">
             <x-table.heading>Order #
-                <button wire:click="$set('direction','asc')"
-                        class="@if($direction === 'asc') text-green-600  @endif"
+                <button
+                    class="@if ($direction === 'asc') text-green-600 @endif"
+                    wire:click="$set('direction','asc')"
                 >
                     &uparrow;
                 </button>
-                <button wire:click="$set('direction','desc')"
-                        class="@if($direction === 'desc') text-green-600  @endif"
+                <button
+                    class="@if ($direction === 'desc') text-green-600 @endif"
+                    wire:click="$set('direction','desc')"
                 >
                     &downarrow;
                 </button>
@@ -141,24 +150,25 @@
         @forelse($orders as $order)
             <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
                 <x-table.row class="text-center lg:text-left">
-                    <a class="link"
-                       href="{{ route('orders/show',$order->id) }}"
-                    >{{ $order->number}}</a>
-                    <div class="pt-1 flex justify-between">
+                    <a
+                        class="link"
+                        href="{{ route('orders/show', $order->id) }}"
+                    >{{ $order->number }}</a>
+                    <div class="flex justify-between pt-1">
                         <p class="text-xs">
                             {{ $order->created_at }}
                         </p>
-                        @if($order->created_at->diffInDays(today()) > 0)
-                            <p
-                                @class([
-                                    'rounded-l-full rounded-r-full px-1',
-                                    'bg-yellow-600 text-yellow-200 dark:bg-yellow-900' => $order->created_at->diffInDays(today()) <= 3,
-                                    'bg-red-800 text-red-100' => $order->created_at->diffInDays(today()) > 3,
-                                ])
-                            >{{ $order->created_at->diffInDays(today()) }}
+                        @if ($order->created_at->diffInDays(today()) > 0)
+                            <p @class([
+                                'rounded-l-full rounded-r-full px-1',
+                                'bg-yellow-600 text-yellow-200 dark:bg-yellow-900' =>
+                                    $order->created_at->diffInDays(today()) <= 3,
+                                'bg-red-800 text-red-100' => $order->created_at->diffInDays(today()) > 3,
+                            ])>{{ $order->created_at->diffInDays(today()) }}
                             </p>
                         @else
-                            <div class="bg-green-800 rounded-l-full rounded-r-full px-2 flex items-center justify-center">
+                            <div
+                                class="flex justify-center items-center px-2 bg-green-800 rounded-r-full rounded-l-full">
                                 <p class="text-xs text-green-200 leading-0">
                                     new
                                 </p>
@@ -167,85 +177,90 @@
                     </div>
                 </x-table.row>
                 <x-table.row class="">
-                    <div class="flex lg:items-start justify-center lg:justify-between">
+                    <div class="flex justify-center lg:justify-between lg:items-start">
                         <div>
-                            <a class="link"
-                               href="{{ route('customers/show',$order->customer->id) }}"
-                            >{{$order->customer->name}}</a>
-                            <div class="pt-1 flex justify-between space-x-2">
-                                <p
-                                    @class([
-                                        'text-xs',
-                                        'text-pink-700 dark:text-pink-400' => $order->customer->type() === 'wholesale',
-                                        'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
-                                    ])
-                                >{{ $order->customer->type() }}</p>
+                            <a
+                                class="link"
+                                href="{{ route('customers/show', $order->customer->id) }}"
+                            >{{ $order->customer->name }}</a>
+                            <div class="flex justify-between pt-1 space-x-2">
+                                <p @class([
+                                    'text-xs',
+                                    'text-pink-700 dark:text-pink-400' =>
+                                        $order->customer->type() === 'wholesale',
+                                    'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
+                                ])>{{ $order->customer->type() }}</p>
                                 <p class="text-xs text-slate-500">
                                     {{ $order->customer->salesperson->name ?? '' }}
                                 </p>
                             </div>
                         </div>
                         <div>
-                            <button wire:click.prefetch="quickViewCustomerAccount('{{$order->customer->id}}')">
-                                <x-icons.view class="w-4 h-4 link"/>
+                            <button wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')">
+                                <x-icons.view class="w-4 h-4 link" />
                             </button>
                         </div>
                     </div>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
                     @php
-                        $orderTotal = to_rands($order->order_total)
+                        $orderTotal = to_rands($order->order_total);
                     @endphp
-                    <p>R {{ number_format($order->delivery_charge,2) }}</p>
+                    <p>R {{ number_format($order->delivery_charge, 2) }}</p>
                     <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}</p>
+                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}
+                    </p>
                     <p class="lg:hidden">
-                        <span class="font-bold">Total:</span>R {{ number_format($orderTotal,2) }}
+                        <span class="font-bold">Total:</span>R {{ number_format($orderTotal, 2) }}
                     </p>
                 </x-table.row>
-                <x-table.row class="p-2 text-right hidden lg:block">
-                    <p>R {{ number_format($orderTotal,2) }}</p>
+                <x-table.row class="hidden p-2 text-right lg:block">
+                    <p>R {{ number_format($orderTotal, 2) }}</p>
                 </x-table.row>
-                <x-table.row class="text-center lg:text-right p-2">
+                <x-table.row class="p-2 text-center lg:text-right">
                     @php
-                        $transaction = $order->customer->transactions->where('reference','=',$order->number)->first();
+                        $transaction = $order->customer->transactions->where('reference', '=', $order->number)->first();
                     @endphp
 
-                    <div class="flex items-start justify-end space-x-2">
+                    <div class="flex justify-end items-start space-x-2">
                         <div>
                             @hasPermissionTo('complete orders')
-                            @if($order->status === 'shipped')
-                                <button class="button button-success"
+                                @if ($order->status === 'shipped')
+                                    <button
+                                        class="button button-success"
                                         wire:loading.attr="disabled"
                                         wire:target="pushToComplete({{ $order->id }})"
                                         wire:click="pushToComplete({{ $order->id }})"
-                                >
-                                <span class="pr-2"
-                                      wire:loading
-                                      wire:target="pushToComplete({{ $order->id }})"
-                                >
-                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
-                                </span>
-                                    Complete
-                                </button>
-                            @endif
+                                    >
+                                        <span
+                                            class="pr-2"
+                                            wire:loading
+                                            wire:target="pushToComplete({{ $order->id }})"
+                                        >
+                                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                        </span>
+                                        Complete
+                                    </button>
+                                @endif
                             @endhasPermissionTo
                         </div>
                         <div>
-                            <button class="button button-success"
-                                    wire:loading.attr="disabled"
-                                    wire:target="getDocument({{$transaction->id}})"
-                                    wire:click="getDocument({{$transaction->id}})"
+                            <button
+                                class="button button-success"
+                                wire:loading.attr="disabled"
+                                wire:target="getDocument"
+                                wire:click="getDocument({{ $transaction->id }})"
                             >
-                        <span class="pr-2"
-                              wire:loading
-                              wire:target="getDocument({{$transaction->id}})"
-                        >
-                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
-                        </span>
+                                <span
+                                    class="pr-2"
+                                    wire:loading
+                                    wire:target="getDocument({{ $transaction->id }})"
+                                >
+                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                </span>
                                 Print
                             </button>
-                            @if(file_exists(public_path("storage/documents/{$transaction->uuid}.pdf")))
+                            @if (file_exists(public_path("storage/documents/$transaction->uuid.pdf")))
                                 <p class="text-xs text-slate-400">Printed</p>
                             @endif
                         </div>
@@ -256,6 +271,4 @@
             <x-table.empty></x-table.empty>
         @endforelse
     </x-table.container>
-
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 </div>

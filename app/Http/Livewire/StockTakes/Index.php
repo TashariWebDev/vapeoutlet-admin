@@ -17,7 +17,7 @@ class Index extends Component
     public function getDocument($stockTakeId)
     {
         Http::get(
-            config("app.admin_url") . "/webhook/stock-counts/{$stockTakeId}"
+            config('app.admin_url')."/webhook/stock-counts/{$stockTakeId}"
         );
 
         $this->redirect("stock-takes?page={$this->page}");
@@ -26,7 +26,7 @@ class Index extends Component
     public function getStockTakeDocument($stockTakeId)
     {
         Http::get(
-            config("app.admin_url") . "/webhook/stock-takes/{$stockTakeId}"
+            config('app.admin_url')."/webhook/stock-takes/{$stockTakeId}"
         );
 
         $this->redirect("stock-takes?page={$this->page}");
@@ -34,9 +34,9 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.stock-takes.index", [
-            "stockTakes" => StockTake::query()
-                ->with(["items.product"])
+        return view('livewire.stock-takes.index', [
+            'stockTakes' => StockTake::query()
+                ->with(['items.product'])
                 ->latest()
                 ->paginate(8),
         ]);

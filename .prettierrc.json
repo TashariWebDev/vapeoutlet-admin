@@ -1,0 +1,21 @@
+{
+    "overrides": [
+        {
+            "files": [
+                "resources/views/*.blade.php",
+                "resources/views/**/*.blade.php",
+                "resources/views/**/**/*.blade.php"
+            ],
+            "options": {
+                "tabWidth": 4,
+                "parser": "blade",
+                "printWidth": 120,
+                "wrapAttributes": "force-expand-multiline",
+                "sortTailwindcssClasses": true,
+                "sortHtmlAttributes": "code-guide",
+                "noPhpSyntaxCheck": false,
+                "endWithNewLine": false
+            }
+        }
+    ]
+}

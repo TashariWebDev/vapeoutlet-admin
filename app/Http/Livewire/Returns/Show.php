@@ -14,12 +14,12 @@ class Show extends Component
 
     public function mount()
     {
-        $this->credit = SupplierCredit::find(request("id"));
-        $this->credit->load("items.product");
+        $this->credit = SupplierCredit::find(request('id'));
+        $this->credit->load('items.product');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.returns.show");
+        return view('livewire.returns.show');
     }
 }

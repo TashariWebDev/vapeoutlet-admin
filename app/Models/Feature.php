@@ -11,7 +11,7 @@ class Feature extends Model
 {
     use HasFactory;
 
-    protected $hidden = ["created_at", "updated_at"];
+    protected $hidden = ['created_at', 'updated_at'];
 
     protected $guarded = [];
 
@@ -34,7 +34,7 @@ class Feature extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(FeatureCategory::class, "feature_category_id");
+        return $this->belongsTo(FeatureCategory::class, 'feature_category_id');
     }
 
     public function product(): belongsTo

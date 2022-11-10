@@ -28,27 +28,49 @@ class Index extends Component
     use WithNotifications;
 
     public $showStockTakeModal = false;
+
     public $showPurchasesForm = false;
+
     public $showCreditsForm = false;
+
     public $showVariancesForm = false;
+
     public $showSalesByDateRangeForm = false;
+
     public $showStocksByDateRangeForm = false;
+
     public $brand;
+
     public $transactions;
+
     public $purchases;
+
     public $expenses;
+
     public $fromDate;
+
     public $toDate;
+
     public $showExpenseForm = false;
+
     public $expenseCategories = [];
-    public $selectedExpenseCategory = "";
+
+    public $selectedExpenseCategory = '';
+
     public $suppliers = [];
-    public $selectedSupplierId = "";
+
+    public $selectedSupplierId = '';
+
     public $admins = [];
-    public $selectedAdmin = "";
+
+    public $selectedAdmin = '';
+
     public $selectedBrands = [];
+
     public $salespeople = [];
+
     public $selectedSalespersonId;
+
     public $stockValue;
 
     public function mount()
@@ -58,14 +80,14 @@ class Index extends Component
         $this->admins = User::all();
 
         $this->salespeople = User::where(
-            "email",
-            "!=",
-            "ridwan@tashari.co.za"
+            'email',
+            '!=',
+            'ridwan@tashari.co.za'
         )->get();
 
         $this->transactions = Transaction::query()
             ->select(
-                "*",
+                '*',
                 DB::raw(
                     '(select SUM(amount) FROM transactions where type = "invoice" AND  MONTH(created_at) = MONTH(NOW())) as total_sales'
                 ),
@@ -80,7 +102,7 @@ class Index extends Component
 
         $this->purchases = SupplierTransaction::query()
             ->select(
-                "*",
+                '*',
                 DB::raw(
                     '(select SUM(amount) FROM supplier_transactions where type = "purchase" AND  MONTH(created_at) = MONTH(NOW())) as total_purchases'
                 ),
@@ -92,9 +114,9 @@ class Index extends Component
 
         $this->expenses = Expense::query()
             ->select(
-                "*",
+                '*',
                 DB::raw(
-                    "(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses"
+                    '(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses'
                 )
             )
             ->first();
@@ -104,7 +126,7 @@ class Index extends Component
     {
         $this->transactions = Transaction::query()
             ->select(
-                "*",
+                '*',
                 DB::raw(
                     '(select SUM(amount) FROM transactions where type = "invoice" AND  MONTH(created_at) = MONTH(NOW())) as total_sales'
                 ),
@@ -119,7 +141,7 @@ class Index extends Component
 
         $this->purchases = SupplierTransaction::query()
             ->select(
-                "*",
+                '*',
                 DB::raw(
                     '(select SUM(amount) FROM supplier_transactions where type = "purchase" AND  MONTH(created_at) = MONTH(NOW())) as total_purchases'
                 ),
@@ -131,9 +153,9 @@ class Index extends Component
 
         $this->expenses = Expense::query()
             ->select(
-                "*",
+                '*',
                 DB::raw(
-                    "(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses"
+                    '(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses'
                 )
             )
             ->first();
@@ -141,8 +163,8 @@ class Index extends Component
 
     public function getStockValue()
     {
-        $this->stockValue = Product::select(["id", "cost"])
-            ->withSum("stocks", "qty")
+        $this->stockValue = Product::select(['id', 'cost'])
+            ->withSum('stocks', 'qty')
             ->toBase()
             ->get()
             ->filter(function ($product) {
@@ -156,27 +178,27 @@ class Index extends Component
     public function createStockTake()
     {
         $this->validate([
-            "selectedBrands" => "required|array",
+            'selectedBrands' => 'required|array',
         ]);
 
-        $this->notify("Working on it!");
+        $this->notify('Working on it!');
 
         foreach ($this->selectedBrands as $brand) {
             $stockTake = StockTake::create([
-                "brand" => $brand,
-                "created_by" => auth()->user()->name,
-                "date" => now(),
+                'brand' => $brand,
+                'created_by' => auth()->user()->name,
+                'date' => now(),
             ]);
 
             $selectedProducts = Product::query()
-                ->select("products.id", "products.cost")
-                ->where("brand", "=", $brand)
+                ->select('products.id', 'products.cost')
+                ->where('brand', '=', $brand)
                 ->get();
 
             foreach ($selectedProducts as $product) {
                 $stockTake->items()->create([
-                    "product_id" => $product->id,
-                    "cost" => $product->cost,
+                    'product_id' => $product->id,
+                    'cost' => $product->cost,
                 ]);
             }
         }
@@ -184,8 +206,8 @@ class Index extends Component
         $this->selectedBrands = [];
         $this->showStockTakeModal = false;
 
-        $this->notify("Stock take created");
-        $this->redirect("stock-takes");
+        $this->notify('Stock take created');
+        $this->redirect('stock-takes');
     }
 
     public function getBrandsProperty(): _IH_Brand_C|Collection|array
@@ -195,110 +217,110 @@ class Index extends Component
 
     public function getDebtorListDocument()
     {
-        Http::get(config("app.admin_url") . "/webhook/documents/debtor-list");
+        Http::get(config('app.admin_url').'/webhook/documents/debtor-list');
 
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getCreditorsListDocument()
     {
         Http::get(
-            config("app.admin_url") . "/webhook/documents/creditors-list"
+            config('app.admin_url').'/webhook/documents/creditors-list'
         );
 
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getExpenseListDocument()
     {
         Http::get(
-            config("app.admin_url") .
+            config('app.admin_url').
                 "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}&category={$this->selectedExpenseCategory}"
         );
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getPurchaseListDocument()
     {
         Http::get(
-            config("app.admin_url") .
+            config('app.admin_url').
                 "/webhook/documents/purchases?from={$this->fromDate}&to={$this->toDate}&supplier={$this->selectedSupplierId}"
         );
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getCreditsListDocument()
     {
         Http::get(
-            config("app.admin_url") .
+            config('app.admin_url').
                 "/webhook/documents/credits?from={$this->fromDate}&to={$this->toDate}&admin={$this->selectedAdmin}"
         );
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getVariancesDocument()
     {
         Http::get(
-            config("app.admin_url") .
+            config('app.admin_url').
                 "/webhook/documents/variances?from={$this->fromDate}&to={$this->toDate}"
         );
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getSalesByDateRangeDocument()
     {
         Http::get(
-            config("app.admin_url") .
+            config('app.admin_url').
                 "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
         );
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function getStocksByDateRangeDocument()
     {
-        $products = Product::whereHas("stocks", function ($query) {
-            $query->whereDate("created_at", "<=", Carbon::parse($this->toDate));
+        $products = Product::whereHas('stocks', function ($query) {
+            $query->whereDate('created_at', '<=', Carbon::parse($this->toDate));
         })
-            ->select(["id", "name", "cost", "sku", "brand"])
+            ->select(['id', 'name', 'cost', 'sku', 'brand'])
             ->withSum(
                 [
-                    "stocks" => function ($query) {
+                    'stocks' => function ($query) {
                         $query->whereDate(
-                            "created_at",
-                            "<=",
+                            'created_at',
+                            '<=',
                             Carbon::parse($this->toDate)
                         );
                     },
                 ],
-                "qty"
+                'qty'
             )
             ->get();
 
-        $url = storage_path("app/public/documents/stockByDateRange.pdf");
+        $url = storage_path('app/public/documents/stockByDateRange.pdf');
 
         if (file_exists($url)) {
             unlink($url);
         }
 
-        $view = view("templates.pdf.stockByDateRange", [
-            "products" => $products->filter(function ($product) {
+        $view = view('templates.pdf.stockByDateRange', [
+            'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),
         ])->render();
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 90)
+            ->setScreenshotType('pdf', 90)
             ->save($url);
 
-        $this->redirect("reports");
+        $this->redirect('reports');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.reports.index");
+        return view('livewire.reports.index');
     }
 }

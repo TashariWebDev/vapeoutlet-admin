@@ -15,15 +15,15 @@ class OrderItemFactory extends Factory
     public function definition(): array
     {
         return [
-            "type" => $this->faker->word(),
-            "qty" => $this->faker->randomNumber(),
-            "price" => $this->faker->randomNumber(),
-            "cost" => $this->faker->randomNumber(),
-            "created_at" => Carbon::now(),
-            "updated_at" => Carbon::now(),
+            'type' => $this->faker->word(),
+            'qty' => $this->faker->randomNumber(),
+            'price' => $this->faker->randomNumber(),
+            'cost' => $this->faker->randomNumber(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
 
-            "order_id" => Order::factory(),
-            "product_id" => Product::factory(),
+            'order_id' => Order::factory(),
+            'product_id' => Product::factory(),
         ];
     }
 }

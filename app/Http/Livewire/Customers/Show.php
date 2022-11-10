@@ -31,7 +31,7 @@ class Show extends Component
 
     public $filter;
 
-    public $searchTerm = "";
+    public $searchTerm = '';
 
     public $reference;
 
@@ -44,10 +44,10 @@ class Show extends Component
     public function rules(): array
     {
         return [
-            "reference" => ["required"],
-            "type" => ["required"],
-            "amount" => ["required"],
-            "date" => ["sometimes"],
+            'reference' => ['required'],
+            'type' => ['required'],
+            'amount' => ['required'],
+            'date' => ['sometimes'],
         ];
     }
 
@@ -64,19 +64,19 @@ class Show extends Component
     public function resetFilter()
     {
         $this->resetPage();
-        $this->filter = "";
+        $this->filter = '';
     }
 
     public function mount()
     {
-        $this->customerId = request("id");
+        $this->customerId = request('id');
     }
 
     public function getCustomerProperty()
     {
         return Customer::find($this->customerId)
-            ->load("transactions", "salesperson:id,name")
-            ->loadCount("transactions");
+            ->load('transactions', 'salesperson:id,name')
+            ->loadCount('transactions');
     }
 
     public function getTransactionsProperty()
@@ -86,35 +86,35 @@ class Show extends Component
 
     public function getInvoicesProperty()
     {
-        return $this->transactions->where("type", "=", "invoice");
+        return $this->transactions->where('type', '=', 'invoice');
     }
 
     public function getDebitsProperty()
     {
-        return $this->transactions->where("type", "=", "debit");
+        return $this->transactions->where('type', '=', 'debit');
     }
 
     public function getCreditsProperty()
     {
-        return $this->transactions->where("type", "=", "credit");
+        return $this->transactions->where('type', '=', 'credit');
     }
 
     public function getRefundsProperty()
     {
-        return $this->transactions->where("type", "=", "refund");
+        return $this->transactions->where('type', '=', 'refund');
     }
 
     public function getPaymentsProperty()
     {
-        return $this->transactions->where("type", "=", "payment");
+        return $this->transactions->where('type', '=', 'payment');
     }
 
     public function createOrder()
     {
         $order = Order::firstOrCreate([
-            "customer_id" => $this->customer->id,
-            "status" => null,
-            "processed_by" => auth()->user()->name,
+            'customer_id' => $this->customer->id,
+            'status' => null,
+            'processed_by' => auth()->user()->name,
         ]);
 
         $this->redirect("/orders/create/{$order->id}");
@@ -130,26 +130,26 @@ class Show extends Component
         if (
             \Illuminate\Support\Str::startsWith(
                 $transaction->reference,
-                "INV00"
+                'INV00'
             )
         ) {
             $model = Order::with(
-                "items",
-                "items.product",
-                "items.product.features",
-                "customer",
-                "notes"
-            )->find(Str::after($transaction->reference, "INV00"));
+                'items',
+                'items.product',
+                'items.product.features',
+                'customer',
+                'notes'
+            )->find(Str::after($transaction->reference, 'INV00'));
         }
 
-        if (Str::startsWith($transaction->reference, "CR00")) {
-            $model = Credit::with("items", "items.product", "customer")->find(
-                Str::after($transaction->reference, "CR00")
+        if (Str::startsWith($transaction->reference, 'CR00')) {
+            $model = Credit::with('items', 'items.product', 'customer')->find(
+                Str::after($transaction->reference, 'CR00')
             );
         }
 
         $view = view("templates.pdf.{$transaction->type}", [
-            "model" => $model,
+            'model' => $model,
         ])->render();
 
         $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
@@ -160,10 +160,10 @@ class Show extends Component
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
@@ -171,28 +171,28 @@ class Show extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.customers.show", [
-            "transactions" => Transaction::query()
+        return view('livewire.customers.show', [
+            'transactions' => Transaction::query()
                 ->when($this->filter, function ($query) {
-                    $query->where("type", "=", $this->filter);
+                    $query->where('type', '=', $this->filter);
                 })
                 ->when($this->searchTerm, function ($query) {
                     $query
-                        ->where("customer_id", "=", $this->customerId)
+                        ->where('customer_id', '=', $this->customerId)
                         ->where(
-                            "reference",
-                            "like",
-                            "%" . $this->searchTerm . "%"
+                            'reference',
+                            'like',
+                            '%'.$this->searchTerm.'%'
                         )
-                        ->orWhere("created_by", "like", $this->searchTerm . "%")
+                        ->orWhere('created_by', 'like', $this->searchTerm.'%')
                         ->orWhere(
-                            "amount",
-                            "like",
-                            to_cents($this->searchTerm) . "%"
+                            'amount',
+                            'like',
+                            to_cents($this->searchTerm).'%'
                         );
                 })
-                ->latest("id")
-                ->where("customer_id", "=", $this->customerId)
+                ->latest('id')
+                ->where('customer_id', '=', $this->customerId)
                 ->paginate($this->recordCount),
         ]);
     }
@@ -200,25 +200,25 @@ class Show extends Component
     public function save()
     {
         $additionalFields = [
-            "customer_id" => $this->customerId,
-            "uuid" => Str::uuid(),
-            "created_by" => auth()->user()->name,
+            'customer_id' => $this->customerId,
+            'uuid' => Str::uuid(),
+            'created_by' => auth()->user()->name,
         ];
 
         $validatedData = $this->validate();
         $fields = array_merge($additionalFields, $validatedData);
 
-        if ($this->type == "refund" || $this->type == "payment") {
-            $fields["amount"] = 0 - $this->amount;
+        if ($this->type == 'refund' || $this->type == 'payment') {
+            $fields['amount'] = 0 - $this->amount;
         }
 
         Transaction::create($fields);
 
         UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
 
-        $this->reset("amount", "reference", "type", "date");
+        $this->reset('amount', 'reference', 'type', 'date');
 
-        $this->notify("transaction created");
+        $this->notify('transaction created');
         $this->showAddTransactionForm = false;
 
         $this->redirect("/customers/show/{$this->customerId}");
@@ -241,11 +241,11 @@ class Show extends Component
      */
     public function getStatement()
     {
-        $view = view("templates.pdf.statement", [
-            "customer" => $this->customer,
-            "transactions" => Transaction::query()
-                ->latest("id")
-                ->where("customer_id", "=", $this->customerId)
+        $view = view('templates.pdf.statement', [
+            'customer' => $this->customer,
+            'transactions' => Transaction::query()
+                ->latest('id')
+                ->where('customer_id', '=', $this->customerId)
                 ->take($this->recordCount)
                 ->get(),
         ])->render();
@@ -259,10 +259,10 @@ class Show extends Component
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 90)
+            ->setScreenshotType('pdf', 90)
             ->save($url);
     }
 
@@ -277,12 +277,12 @@ class Show extends Component
             (new StatementNotification($this->customer))->delay(120)
         );
 
-        $this->notify("Statement queued to be sent (2 minutes)");
+        $this->notify('Statement queued to be sent (2 minutes)');
     }
 
     public function updateBalances()
     {
-        $this->customer->load("transactions");
+        $this->customer->load('transactions');
         $balance = 0;
         foreach ($this->customer->transactions as $transaction) {
             $balance += $transaction->amount;

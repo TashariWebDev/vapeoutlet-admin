@@ -36,27 +36,27 @@ class Index extends Component
 
     public $shipping_rate;
 
-    public $currency = "ZAR";
+    public $currency = 'ZAR';
 
-    public $name = "";
+    public $name = '';
 
-    public $email = "";
+    public $email = '';
 
-    public $phone = "";
+    public $phone = '';
 
-    public $person = "";
+    public $person = '';
 
-    public $address_line_one = "";
+    public $address_line_one = '';
 
-    public $address_line_two = "";
+    public $address_line_two = '';
 
-    public $suburb = "";
+    public $suburb = '';
 
-    public $city = "";
+    public $city = '';
 
-    public $country = "";
+    public $country = '';
 
-    public $postal_code = "";
+    public $postal_code = '';
 
     public $showPurchaseCreateForm = false;
 
@@ -65,23 +65,23 @@ class Index extends Component
     public function rules(): array
     {
         return [
-            "selectedSupplier" => ["required", "integer"],
-            "invoice_no" => ["required", "unique:purchases,invoice_no"],
-            "amount" => ["required"],
-            "date" => ["required", "date"],
-            "shipping_rate" => ["nullable"],
-            "exchange_rate" => ["nullable"],
-            "currency" => ["required"],
-            "taxable" => ["required"],
+            'selectedSupplier' => ['required', 'integer'],
+            'invoice_no' => ['required', 'unique:purchases,invoice_no'],
+            'amount' => ['required'],
+            'date' => ['required', 'date'],
+            'shipping_rate' => ['nullable'],
+            'exchange_rate' => ['nullable'],
+            'currency' => ['required'],
+            'taxable' => ['required'],
         ];
     }
 
     public function mount()
     {
-        if (request()->has("showPurchaseCreateForm")) {
+        if (request()->has('showPurchaseCreateForm')) {
             $this->showPurchaseCreateForm = true;
             $this->suppliers = Supplier::query()
-                ->orderBy("name")
+                ->orderBy('name')
                 ->get();
         }
     }
@@ -94,35 +94,35 @@ class Index extends Component
     public function addSupplier()
     {
         $validatedData = $this->validate([
-            "name" => ["required"],
-            "email" => ["required"],
-            "phone" => ["required"],
-            "person" => ["required"],
-            "address_line_one" => ["required"],
-            "address_line_two" => ["sometimes"],
-            "suburb" => ["sometimes"],
-            "city" => ["sometimes"],
-            "country" => ["sometimes"],
-            "postal_code" => ["sometimes"],
+            'name' => ['required'],
+            'email' => ['required'],
+            'phone' => ['required'],
+            'person' => ['required'],
+            'address_line_one' => ['required'],
+            'address_line_two' => ['sometimes'],
+            'suburb' => ['sometimes'],
+            'city' => ['sometimes'],
+            'country' => ['sometimes'],
+            'postal_code' => ['sometimes'],
         ]);
 
         Supplier::create($validatedData);
 
         $this->reset([
-            "name",
-            "email",
-            "phone",
-            "person",
-            "address_line_one",
-            "address_line_two",
-            "suburb",
-            "city",
-            "country",
-            "postal_code",
+            'name',
+            'email',
+            'phone',
+            'person',
+            'address_line_one',
+            'address_line_two',
+            'suburb',
+            'city',
+            'country',
+            'postal_code',
         ]);
 
-        $this->dispatchBrowserEvent("notification", [
-            "body" => "Supplier created",
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'Supplier created',
         ]);
     }
 
@@ -131,19 +131,19 @@ class Index extends Component
         $this->validate();
 
         $purchase = Purchase::create([
-            "supplier_id" => $this->selectedSupplier,
-            "amount" => $this->amount,
-            "invoice_no" => $this->invoice_no,
-            "date" => $this->date,
-            "exchange_rate" => $this->exchange_rate,
-            "shipping_rate" => $this->shipping_rate,
-            "currency" => $this->currency,
-            "creator_id" => auth()->id(),
-            "taxable" => $this->taxable,
+            'supplier_id' => $this->selectedSupplier,
+            'amount' => $this->amount,
+            'invoice_no' => $this->invoice_no,
+            'date' => $this->date,
+            'exchange_rate' => $this->exchange_rate,
+            'shipping_rate' => $this->shipping_rate,
+            'currency' => $this->currency,
+            'creator_id' => auth()->id(),
+            'taxable' => $this->taxable,
         ]);
 
-        $this->redirectRoute("purchases/create", [
-            "id" => $purchase->id,
+        $this->redirectRoute('purchases/create', [
+            'id' => $purchase->id,
         ]);
     }
 
@@ -151,7 +151,7 @@ class Index extends Component
     {
         if ($this->showPurchaseCreateForm) {
             $this->suppliers = Supplier::query()
-                ->orderBy("name")
+                ->orderBy('name')
                 ->get();
         }
     }
@@ -159,25 +159,25 @@ class Index extends Component
     public function updateRetailPrice($productId, $value)
     {
         $product = Product::find($productId);
-        $product->update(["retail_price" => $value]);
-        $this->notify("price updated");
+        $product->update(['retail_price' => $value]);
+        $this->notify('price updated');
     }
 
     public function updateWholesalePrice($productId, $value)
     {
         $product = Product::find($productId);
-        $product->update(["wholesale_price" => $value]);
-        $this->notify("price updated");
+        $product->update(['wholesale_price' => $value]);
+        $this->notify('price updated');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.inventory.index", [
-            "products" => Product::query()
+        return view('livewire.inventory.index', [
+            'products' => Product::query()
                 ->select(
-                    "*",
+                    '*',
                     DB::raw(
-                        "(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id) as total_available"
+                        '(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id) as total_available'
                     ),
                     DB::raw(
                         '(select SUM(qty) FROM stocks WHERE products.id = stocks.product_id && type = "purchase") as total_bought'
@@ -197,12 +197,12 @@ class Index extends Component
                     DB::raw('(select cost FROM stocks WHERE products.id = stocks.product_id && type = "purchase"
                     ORDER BY id DESC LIMIT 1) as last_cost')
                 )
-                ->with(["features"])
+                ->with(['features'])
                 ->when(
                     $this->searchQuery,
-                    fn($query) => $query->search($this->searchQuery)
+                    fn ($query) => $query->search($this->searchQuery)
                 )
-                ->orderByRaw("brand")
+                ->orderByRaw('brand')
                 ->paginate(5),
         ]);
     }

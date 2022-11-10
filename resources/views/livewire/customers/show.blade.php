@@ -409,11 +409,14 @@
             <x-table.heading class="text-right">Document</x-table.heading>
         </x-table.header>
         @forelse($transactions as $transaction)
+            @php
+                $disabledTransactionTypes = ['credit','invoice']
+            @endphp
             <x-table.body class="hidden lg:grid lg:grid-cols-6 text-sm">
                 <x-table.row class="text-xs text-center lg:text-left">
                     <p>
                         <span>
-                            @if(auth()->user()->hasPermissionTo('edit transactions') && $transaction->type != 'invoice')
+                            @if(auth()->user()->hasPermissionTo('edit transactions') && !in_array($transaction->type,$disabledTransactionTypes))
                                 <a href="{{ route('transactions/edit',$transaction->id) }}"
                                    class="link"
                                 >
@@ -476,7 +479,7 @@
                 <div>
                     <p>
                         <span>
-                            @if(auth()->user()->hasPermissionTo('edit transactions') && $transaction->type != 'invoice')
+                            @if(auth()->user()->hasPermissionTo('edit transactions') && !in_array($transaction->type,$disabledTransactionTypes))
                                 <a href="{{ route('transactions/edit',$transaction->id) }}"
                                    class="link"
                                 >

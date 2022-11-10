@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::if("hasPermissionTo", function ($permission) {
+        Blade::if('hasPermissionTo', function ($permission) {
             return auth()
                 ->user()
                 ->hasPermissionTo($permission);

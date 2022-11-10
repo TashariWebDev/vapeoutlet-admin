@@ -26,10 +26,10 @@ class QuickOrder extends Component
 
         if ($this->searchQuery) {
             $this->customers = Customer::query()
-                ->where("name", "like", "%" . $this->searchQuery . "%")
-                ->orWhere("email", "like", "%" . $this->searchQuery . "%")
-                ->orWhere("phone", "like", "%" . $this->searchQuery . "%")
-                ->orWhere("company", "like", "%" . $this->searchQuery . "%")
+                ->where('name', 'like', '%'.$this->searchQuery.'%')
+                ->orWhere('email', 'like', '%'.$this->searchQuery.'%')
+                ->orWhere('phone', 'like', '%'.$this->searchQuery.'%')
+                ->orWhere('company', 'like', '%'.$this->searchQuery.'%')
                 ->get();
         } else {
             $this->customers = [];
@@ -39,9 +39,9 @@ class QuickOrder extends Component
     public function createOrder($customerId)
     {
         $order = Order::firstOrCreate([
-            "customer_id" => $customerId,
-            "status" => null,
-            "processed_by" => auth()->user()->name,
+            'customer_id' => $customerId,
+            'status' => null,
+            'processed_by' => auth()->user()->name,
         ]);
 
         $this->redirect("/orders/create/{$order->id}");
@@ -49,6 +49,6 @@ class QuickOrder extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.components.quick-order");
+        return view('livewire.components.quick-order');
     }
 }

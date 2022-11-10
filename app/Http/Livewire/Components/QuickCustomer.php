@@ -15,13 +15,13 @@ class QuickCustomer extends Component
 {
     use WithNotifications;
 
-    public $name = "";
+    public $name = '';
 
-    public $email = "";
+    public $email = '';
 
-    public $phone = "";
+    public $phone = '';
 
-    public $password = "";
+    public $password = '';
 
     public $is_wholesale = false;
 
@@ -35,11 +35,11 @@ class QuickCustomer extends Component
     public function rules(): array
     {
         return [
-            "name" => ["required"],
-            "email" => ["required", "unique:customers,email"],
-            "phone" => ["sometimes", "unique:customers,phone"],
-            "password" => ["required"],
-            "is_wholesale" => ["sometimes"],
+            'name' => ['required'],
+            'email' => ['required', 'unique:customers,email'],
+            'phone' => ['sometimes', 'unique:customers,phone'],
+            'password' => ['required'],
+            'is_wholesale' => ['sometimes'],
         ];
     }
 
@@ -49,15 +49,15 @@ class QuickCustomer extends Component
 
         Customer::create($validated);
         $this->customerModal = false;
-        Password::sendResetLink(["email" => $this->email]);
+        Password::sendResetLink(['email' => $this->email]);
 
-        $this->reset(["name", "email", "phone", "is_wholesale"]);
+        $this->reset(['name', 'email', 'phone', 'is_wholesale']);
 
-        $this->notify("Customer has been created");
+        $this->notify('Customer has been created');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.components.quick-customer");
+        return view('livewire.components.quick-customer');
     }
 }

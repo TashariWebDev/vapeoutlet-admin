@@ -10,7 +10,7 @@ class Transaction extends Model
 {
     protected $guarded = [];
 
-    protected $dates = ["date"];
+    protected $dates = ['date'];
 
     public function customer(): BelongsTo
     {
@@ -20,16 +20,16 @@ class Transaction extends Model
     public function amount(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function runningBalance(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 }

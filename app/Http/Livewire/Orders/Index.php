@@ -19,7 +19,6 @@ use Str;
 class Index extends Component
 {
     use WithPagination;
-
     use WithNotifications;
 
     public $showAddOrderForm = false;
@@ -28,39 +27,39 @@ class Index extends Component
 
     public $selectedCustomerLatestTransactions = [];
 
-    public $searchTerm = "";
+    public $searchTerm = '';
 
-    public $filter = "received";
+    public $filter = 'received';
 
     public $customerType;
 
     public $recordCount = 10;
 
-    public $direction = "asc";
+    public $direction = 'asc';
 
     public $statuses = [
-        "received",
-        "processed",
-        "packed",
-        "shipped",
-        "completed",
-        "cancelled",
+        'received',
+        'processed',
+        'packed',
+        'shipped',
+        'completed',
+        'cancelled',
     ];
 
     protected $queryString = [
-        "filter",
-        "customerType",
-        "recordCount",
-        "direction",
-        "searchTerm",
+        'filter',
+        'customerType',
+        'recordCount',
+        'direction',
+        'searchTerm',
     ];
 
     public function getTotalActiveOrdersProperty(): int
     {
         return Order::query()
-            ->where("status", "=", "received")
-            ->orWhere("status", "=", "processed")
-            ->orWhere("status", "=", "packed")
+            ->where('status', '=', 'received')
+            ->orWhere('status', '=', 'processed')
+            ->orWhere('status', '=', 'packed')
             ->count();
     }
 
@@ -74,7 +73,7 @@ class Index extends Component
     public function quickViewCustomerAccount($customerId)
     {
         $this->selectedCustomerLatestTransactions = Transaction::query()
-            ->where("customer_id", "=", $customerId)
+            ->where('customer_id', '=', $customerId)
             ->latest()
             ->take(5)
             ->get();
@@ -85,9 +84,9 @@ class Index extends Component
     public function pushToComplete($orderId)
     {
         $order = Order::findOrFail($orderId);
-        $order->updateStatus("completed");
-        $this->notify("order completed");
-        $this->redirect("/orders?filter=shipped");
+        $order->updateStatus('completed');
+        $this->notify('order completed');
+        $this->redirect('/orders?filter=shipped');
     }
 
     public function getDocument($transactionId)
@@ -97,20 +96,20 @@ class Index extends Component
         if (
             \Illuminate\Support\Str::startsWith(
                 $transaction->reference,
-                "INV00"
+                'INV00'
             )
         ) {
             $model = Order::with(
-                "items",
-                "items.product",
-                "items.product.features",
-                "customer",
-                "notes"
-            )->find(Str::after($transaction->reference, "INV00"));
+                'items',
+                'items.product',
+                'items.product.features',
+                'customer',
+                'notes'
+            )->find(Str::after($transaction->reference, 'INV00'));
         }
 
         $view = view("templates.pdf.{$transaction->type}", [
-            "model" => $model,
+            'model' => $model,
         ])->render();
 
         $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
@@ -121,10 +120,10 @@ class Index extends Component
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
@@ -132,8 +131,8 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.orders.index", [
-            "orders" => $this->filteredOrders()->paginate($this->recordCount),
+        return view('livewire.orders.index', [
+            'orders' => $this->filteredOrders()->paginate($this->recordCount),
         ]);
     }
 
@@ -141,28 +140,28 @@ class Index extends Component
     {
         $orders = Order::query()
             ->with([
-                "delivery:id,type",
-                "customer.salesperson",
-                "customer.transactions",
+                'delivery:id,type',
+                'customer.salesperson',
+                'customer.transactions',
             ])
             ->addSelect([
-                "order_total" => OrderItem::query()
-                    ->whereColumn("order_id", "=", "orders.id")
-                    ->selectRaw("sum(qty * price) as order_total"),
+                'order_total' => OrderItem::query()
+                    ->whereColumn('order_id', '=', 'orders.id')
+                    ->selectRaw('sum(qty * price) as order_total'),
             ])
-            ->whereNotNull("status")
-            ->orderBy("created_at", $this->direction);
+            ->whereNotNull('status')
+            ->orderBy('created_at', $this->direction);
 
         if ($this->filter) {
             $orders->whereStatus($this->filter);
         }
 
         if ($this->customerType === true) {
-            $orders->whereRelation("customer", "is_wholesale", "=", true);
+            $orders->whereRelation('customer', 'is_wholesale', '=', true);
         }
 
         if ($this->customerType === false) {
-            $orders->whereRelation("customer", "is_wholesale", "=", false);
+            $orders->whereRelation('customer', 'is_wholesale', '=', false);
         }
 
         if ($this->searchTerm) {
@@ -175,33 +174,33 @@ class Index extends Component
     public function mount()
     {
         //        dd(request()->all());
-        if (request()->has("filter")) {
-            $this->filter = request("filter");
+        if (request()->has('filter')) {
+            $this->filter = request('filter');
         }
 
-        if (request()->has("searchTerm")) {
-            $this->searchTerm = request("searchTerm");
+        if (request()->has('searchTerm')) {
+            $this->searchTerm = request('searchTerm');
         }
 
-        if (request()->has("customerType")) {
-            if (request("customerType") === true) {
+        if (request()->has('customerType')) {
+            if (request('customerType') === true) {
                 $this->customerType = true;
             }
-            if (request("customerType") === false) {
+            if (request('customerType') === false) {
                 $this->customerType = false;
             }
         }
 
-        if (!request()->has("customerType")) {
+        if (! request()->has('customerType')) {
             $this->customerType = null;
         }
 
-        if (request()->has("recordCount")) {
-            $this->recordCount = request("recordCount");
+        if (request()->has('recordCount')) {
+            $this->recordCount = request('recordCount');
         }
 
-        if (request()->has("direction")) {
-            $this->direction = request("direction");
+        if (request()->has('direction')) {
+            $this->direction = request('direction');
         }
     }
 
