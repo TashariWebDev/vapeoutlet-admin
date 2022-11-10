@@ -12,6 +12,7 @@ use App\Notifications\StatementNotification;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use LaravelIdea\Helper\App\Models\_IH_Customer_C;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Browsershot\Browsershot;
@@ -72,7 +73,7 @@ class Show extends Component
         $this->customerId = request('id');
     }
 
-    public function getCustomerProperty()
+    public function getCustomerProperty(): Customer|_IH_Customer_C|array|null
     {
         return Customer::find($this->customerId)
             ->load('transactions', 'salesperson:id,name')
@@ -117,7 +118,7 @@ class Show extends Component
             'processed_by' => auth()->user()->name,
         ]);
 
-        $this->redirect("/orders/create/{$order->id}");
+        $this->redirect("/orders/create/$order->id");
     }
 
     /**
@@ -148,11 +149,11 @@ class Show extends Component
             );
         }
 
-        $view = view("templates.pdf.{$transaction->type}", [
+        $view = view("templates.pdf.$transaction->type", [
             'model' => $model,
         ])->render();
 
-        $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
+        $url = storage_path("app/public/documents/$transaction->uuid.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -166,7 +167,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 100)
             ->save($url);
 
-        $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
+        $this->redirect("/storage/documents/$transaction->uuid.pdf");
     }
 
     public function render(): Factory|View|Application
@@ -221,7 +222,7 @@ class Show extends Component
         $this->notify('transaction created');
         $this->showAddTransactionForm = false;
 
-        $this->redirect("/customers/show/{$this->customerId}");
+        $this->redirect("/customers/show/$this->customerId");
     }
 
     /**
