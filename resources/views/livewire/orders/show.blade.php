@@ -299,9 +299,9 @@
         <x-table.header class="grid grid-cols-6">
             <x-table.heading class="col-span-2">Product</x-table.heading>
             <x-table.heading class="lg:text-right">price</x-table.heading>
-            <x-table.heading class="lg:text-right">discount</x-table.heading>
+            <x-table.heading class="lg:text-right">dis<span class="hidden lg:block">count</span></x-table.heading>
             <x-table.heading class="lg:text-right">qty</x-table.heading>
-            <x-table.heading class="lg:text-right">line total</x-table.heading>
+            <x-table.heading class="lg:text-right">total</x-table.heading>
         </x-table.header>
         @foreach ($this->order->items as $item)
             <x-table.body class="grid grid-cols-6">
@@ -322,12 +322,12 @@
                     </div>
                 </x-table.row>
                 <x-table.row>
-                    <div class="text-right">
+                    <div class="text-right whitespace-nowrap">
                         R {{ number_format($item->price, 2) }}
                     </div>
                 </x-table.row>
                 <x-table.row>
-                    <div class="text-right">
+                    <div class="text-right whitespace-nowrap">
                         R {{ $item->discount }}
                     </div>
                 </x-table.row>
@@ -337,7 +337,7 @@
                     </div>
                 </x-table.row>
                 <x-table.row>
-                    <div class="text-right">
+                    <div class="text-right whitespace-nowrap">
                         R {{ $item->line_total }}
                     </div>
                 </x-table.row>
