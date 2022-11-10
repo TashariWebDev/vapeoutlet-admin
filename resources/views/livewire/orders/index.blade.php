@@ -322,6 +322,9 @@
                 </div>
 
                 <div class="col-span-3 mt-3 w-full">
+                    @if (file_exists(public_path("storage/documents/$transaction->uuid.pdf")))
+                        <p class="text-xs text-slate-400">Printed</p>
+                    @endif
                     <button
                         class="w-full button-success"
                         wire:loading.attr="disabled"
@@ -337,9 +340,6 @@
                         </span>
                         Print
                     </button>
-                    @if (file_exists(public_path("storage/documents/$transaction->uuid.pdf")))
-                        <p class="text-xs text-slate-400">Printed</p>
-                    @endif
                 </div>
 
             </div>

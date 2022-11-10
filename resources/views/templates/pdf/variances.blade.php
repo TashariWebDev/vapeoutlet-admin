@@ -39,7 +39,7 @@
     </style>
 </head>
 <body>
-<div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
+<div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
 
 
     <div class="break-inside-avoid break-after-avoid-page">
@@ -50,7 +50,7 @@
         <div class="px-4">
             <table class="w-full">
                 <thead>
-                <tr class="bg-gray-900 text-white uppercase font-semibold text-xs">
+                <tr class="text-xs font-semibold text-white uppercase bg-gray-900">
                     <th class="text-left">Product</th>
                     <th class="text-center">Reference</th>
                     <th class="text-center">Qty</th>
@@ -71,7 +71,7 @@
                                     </p>
                                     <span class="flex flex-wrap text-xs">
                             @foreach($stock->product->features as $feature)
-                                            <span class="text-xs font-thin pr-1">{{ ucwords($feature->name) }}</span>
+                                            <span class="pr-1 text-xs font-thin">{{ ucwords($feature->name) }}</span>
                                     @endforeach
                                 </div>
                             </td>
@@ -93,15 +93,15 @@
 
                             $totalAmount = array_sum($totals)
                         @endphp
-                        <tr class="break-inside-avoid text-xs">
+                        <tr class="text-xs break-inside-avoid">
                             <td colspan="4"></td>
-                            <td class="bg-gray-900 text-white text-right">
+                            <td class="text-right text-white bg-gray-900">
                                 {{ number_format(ex_vat($totalAmount),2) }}
                             </td>
-                            <td class="bg-gray-900 text-white text-right">
+                            <td class="text-right text-white bg-gray-900">
                                 {{ number_format(vat($totalAmount),2) }}
                             </td>
-                            <td class="bg-gray-900 text-white text-right">
+                            <td class="text-right text-white bg-gray-900">
                                 {{ number_format($totalAmount,2) }}
                             </td>
                         </tr>

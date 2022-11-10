@@ -5,9 +5,9 @@
     >
         <form wire:submit.prevent="save">
             <div class="relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showSuppliersCreateForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <div class="py-4">
@@ -33,7 +33,7 @@
                          label="Invoice number"
                 />
             </div>
-            <div class="py-4 relative">
+            <div class="relative py-4">
                 <x-select wire:model.defer="currency"
                           label="Select a currency"
                 >
@@ -63,21 +63,21 @@
                                 label="Shipping rate as %"
                 />
             </div>
-            <div class="py-2 bg-slate-100 rounded-md px-2">
+            <div class="py-2 px-2 rounded-md bg-slate-100">
                 <label for="taxable"
-                       class="text-xs uppercase font-medium flex items-center space-x-2"
+                       class="flex items-center space-x-2 text-xs font-medium uppercase"
                 >
                     <input type="checkbox"
                            wire:model.defer="taxable"
                            id="taxable"
-                           class="rounded-full text-green-500 focus:ring-slate-200"
+                           class="text-green-500 rounded-full focus:ring-slate-200"
                     />
                     <span class="ml-3">Taxable</span>
                 </label>
             </div>
             <div class="py-4">
                 <button class="button-success">
-                    <x-icons.save class="w-5 h-5 mr-2"/>
+                    <x-icons.save class="mr-2 w-5 h-5"/>
                     save
                 </button>
             </div>
@@ -161,7 +161,7 @@
 
                 <div class="py-2">
                     <button class="button-success">
-                        <x-icons.save class="w-5 h-5 mr-2"/>
+                        <x-icons.save class="mr-2 w-5 h-5"/>
                         save
                     </button>
                 </div>
@@ -170,7 +170,7 @@
     </x-modal>
 
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 px-2 md:px-0">
+    <div class="grid grid-cols-1 gap-2 px-2 md:px-0 lg:grid-cols-4">
         <div class="lg:col-span-2">
             <x-inputs.search id="search"
                              wire:model="searchQuery"
@@ -179,19 +179,19 @@
         </div>
 
         <div class="w-full">
-            <button class="button-success w-full"
+            <button class="w-full button-success"
                     x-on:click="$wire.set('showPurchaseCreateForm',true)"
             >
-                <x-icons.plus class="w-5 w-5 mr-2"/>
+                <x-icons.plus class="mr-2 w-5"/>
                 new purchase
             </button>
         </div>
 
         <div>
             <a href="{{ route('suppliers') }}"
-               class="button-success w-full"
+               class="w-full button-success"
             >
-                <x-icons.users class="w-5 w-5 mr-2"/>
+                <x-icons.users class="mr-2 w-5"/>
                 suppliers
             </a>
         </div>
@@ -204,7 +204,7 @@
     </div>
 
     <x-table.container>
-        <x-table.header class="hidden lg:grid grid-cols-1 md:grid-cols-12">
+        <x-table.header class="hidden grid-cols-1 md:grid-cols-12 lg:grid">
             <x-table.heading class="col-span-2">product</x-table.heading>
             <x-table.heading class="text-center">retail</x-table.heading>
             <x-table.heading class="text-center">wholesale</x-table.heading>
@@ -219,9 +219,9 @@
         </x-table.header>
         @forelse($products as $product)
             <x-table.body
-                class="grid grid-cols-1 md:grid-cols-12 text-sm"
+                class="grid grid-cols-1 text-sm md:grid-cols-12"
             >
-                <x-table.row class="lg:col-span-2 text-center lg:text-left">
+                <x-table.row class="text-center lg:col-span-2 lg:text-left">
                     <x-product-listing-simple :product="$product"/>
                 </x-table.row>
                 <x-table.row>
@@ -232,7 +232,7 @@
                                label="retail"
                                inputmode="numeric"
                                pattern="[0-9]"
-                               class="w-full border rounded px-0.5"
+                               class="px-0.5 w-full rounded border"
                                @keydown.tab="@this.call('updateRetailPrice',{{$product->id}},$event.target.value)"
                         />
                     </label>
@@ -256,7 +256,7 @@
                                label="wholesale"
                                inputmode="numeric"
                                pattern="[0-9]"
-                               class="w-full border rounded px-0.5"
+                               class="px-0.5 w-full rounded border"
                                @keydown.tab="@this.call('updateWholesalePrice',{{$product->id}},$event.target.value)"
                         />
                     </label>
@@ -272,18 +272,18 @@
                         @endhasPermissionTo
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">AVE COST: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">AVE COST: </span>
                     @hasPermissionTo('view cost')
                     <p>
                         @php
                             $lastPurchasePrice = to_rands($product->last_cost) ?? 0
                         @endphp
                         @if($lastPurchasePrice > $product->cost)
-                            <span class="text-green-600 font-extrabold w-4"> &downarrow; </span>
+                            <span class="w-4 font-extrabold text-green-600"> &downarrow; </span>
                         @elseif($lastPurchasePrice == $product->cost)
-                            <span class="text-slate-600 font-extrabold w-4"> &rightarrow; </span>
+                            <span class="w-4 font-extrabold text-slate-600"> &rightarrow; </span>
                         @else
-                            <span class="text-red-700 font-extrabold w-4"> &uparrow; </span>
+                            <span class="w-4 font-extrabold text-red-700"> &uparrow; </span>
                         @endif
                         {{ number_format($product->cost,2) ?? 0}}
                     </p>
@@ -294,34 +294,34 @@
                 <x-table.row class="text-center">
 
                     @hasPermissionTo('view cost')
-                    <span class="text-xs font-semibold lg:hidden underline">LAST COST: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">LAST COST: </span>
                     <p>{{ number_format($lastPurchasePrice,2) ?? 0}}</p>
                     @else
                         <p>---</p>
                         @endhasPermissionTo
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">PUR: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">PUR: </span>
                     <p>{{ $product->total_bought ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">INV: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">INV: </span>
                     <p>{{ $product->total_sold ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">CR: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">CR: </span>
                     <p>{{ $product->total_returned ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">ADJ: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">ADJ: </span>
                     <p>{{ $product->total_adjustments ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">SC: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">SC: </span>
                     <p>{{ $product->total_supplier_credits ?? 0}}</p>
                 </x-table.row>
                 <x-table.row class="text-center">
-                    <span class="text-xs font-semibold lg:hidden underline">STOCK: </span>
+                    <span class="text-xs font-semibold underline lg:hidden">STOCK: </span>
                     <p>{{ $product->total_available ?? 0}}</p>
                 </x-table.row>
             </x-table.body>

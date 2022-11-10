@@ -4,9 +4,9 @@
     >
         @if($product)
             <div>
-                <div class="p-3 grid grid-cols-4 gap-2">
+                <div class="grid grid-cols-4 gap-2 p-3">
                     @forelse($product->images as $image)
-                        <div class="col-span-1 w-20 h-20 rounded-md relative">
+                        <div class="relative col-span-1 w-20 h-20 rounded-md">
                             <div class="absolute top-0 right-0">
                                 <button wire:loading.attr="disabled"
                                         x-on:click="@this.call('deleteImage',{{$image->id}})"
@@ -20,8 +20,8 @@
                             >
                         </div>
                     @empty
-                        <div class="col-span-4 bg-slate-100 w-full h-32 flex justify-center items-center">
-                            <p class="text-slate-900 font-semibold">no images in gallery. Please upload</p>
+                        <div class="flex col-span-4 justify-center items-center w-full h-32 bg-slate-100">
+                            <p class="font-semibold text-slate-900">no images in gallery. Please upload</p>
                         </div>
                     @endforelse
                 </div>
@@ -31,7 +31,7 @@
         <div>
             <div class="pb-4 pl-3 w-32">
                 @if($product)
-                    <div class="col-span-1 w-32 h-32 rounded-md relative border">
+                    <div class="relative col-span-1 w-32 h-32 rounded-md border">
                         @if(!str_contains($product->image,'default-image.png'))
                             <div class="absolute top-0 right-0">
                                 <button x-on:click="@this.call('deleteFeaturedImage')">
@@ -44,7 +44,7 @@
                              class="object-cover rounded-t-md"
                         >
                     </div>
-                    <div class="bg-slate-200 w-32 mx-auto rounded-b text-xs text-center pt-1">
+                    <div class="pt-1 mx-auto w-32 text-xs text-center rounded-b bg-slate-200">
                         <p>featured</p>
                     </div>
                 @endif
@@ -61,8 +61,8 @@
                     />
                 </div>
                 <div class="py-2">
-                    <button class="button-success w-full">
-                        <x-icons.upload class="w-5 h-5 text-white mr-2"/>
+                    <button class="w-full button-success">
+                        <x-icons.upload class="mr-2 w-5 h-5 text-white"/>
                         upload
                     </button>
                 </div>
@@ -80,8 +80,8 @@
                     />
                 </div>
                 <div class="py-2">
-                    <button class="button-success w-full">
-                        <x-icons.upload class="w-5 h-5 text-white mr-2"/>
+                    <button class="w-full button-success">
+                        <x-icons.upload class="mr-2 w-5 h-5 text-white"/>
                         upload
                     </button>
                 </div>
@@ -108,10 +108,10 @@
                          required
                 />
             </div>
-            <div class="py-4 relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+            <div class="relative py-4">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showBrandsForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <x-select label="brand"
@@ -123,10 +123,10 @@
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-4 relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+            <div class="relative py-4">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <x-select label="categories"
@@ -138,10 +138,10 @@
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-4 relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+            <div class="relative py-4">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <x-select label="Collection name"
@@ -174,10 +174,10 @@
                                         required
                         />
                     </div>
-                    <div class="py-2 relative">
-                        <div class="absolute right-0 pt-0.5 z-10">
+                    <div class="relative py-2">
+                        <div class="absolute right-0 z-10 pt-0.5">
                             <button x-on:click.prevent="@this.set('showFeaturesForm',true)">
-                                <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                                <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                             </button>
                         </div>
                         <x-select label="features"
@@ -190,15 +190,15 @@
                             @endforeach
                         </x-select>
                     </div>
-                    <div class="py-2 px-4 bg-slate-100 rounded-md">
+                    <div class="py-2 px-4 rounded-md bg-slate-100">
                         <p class="text-xs">update and click tab to save</p>
                         @foreach($product->features as $feature)
-                            <div class="py-2 relative"
+                            <div class="relative py-2"
                                  wire:key="{{$feature->id}}"
                             >
-                                <div class="absolute right-0 pt-0.5 z-10">
+                                <div class="absolute right-0 z-10 pt-0.5">
                                     <button x-on:click.prevent="@this.call('deleteFeature',{{$feature->id}})">
-                                        <x-icons.cross class="text-red-500 hover:text-red-600 w-12 h-12"/>
+                                        <x-icons.cross class="w-12 h-12 text-red-500 hover:text-red-600"/>
                                     </button>
                                 </div>
                                 <x-input-alpine
@@ -216,8 +216,8 @@
             @endif
 
             <div class="py-2">
-                <button class="button-success w-full">
-                    <x-icons.save class="w-5 h-5 mr-2"/>
+                <button class="w-full button-success">
+                    <x-icons.save class="mr-2 w-5 h-5"/>
                     save
                 </button>
             </div>
@@ -243,10 +243,10 @@
                          required
                 />
             </div>
-            <div class="py-4 relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+            <div class="relative py-4">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showBrandsForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <x-select label="brand"
@@ -258,10 +258,10 @@
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-4 relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+            <div class="relative py-4">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <x-select label="categories"
@@ -273,10 +273,10 @@
                     @endforeach
                 </x-select>
             </div>
-            <div class="py-4 relative">
-                <div class="absolute right-0 pt-0.5 z-10">
+            <div class="relative py-4">
+                <div class="absolute right-0 z-10 pt-0.5">
                     <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
-                        <x-icons.plus class="text-green-500 hover:text-green-600 w-12 h-12"/>
+                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600"/>
                     </button>
                 </div>
                 <x-select label="Collection name"
@@ -288,17 +288,17 @@
                 </x-select>
             </div>
             <div class="py-2">
-                <button class="button-success w-full">
-                    <x-icons.save class="w-5 h-5 mr-2"/>
+                <button class="w-full button-success">
+                    <x-icons.save class="mr-2 w-5 h-5"/>
                     save
                 </button>
             </div>
         </form>
 
-        <button class="button-success w-full"
+        <button class="w-full button-success"
                 x-on:click="@this.call('saveAndEdit','')"
         >
-            <x-icons.save class="w-5 h-5 mr-2"/>
+            <x-icons.save class="mr-2 w-5 h-5"/>
             save and update
         </button>
     </x-slide-over>
@@ -326,7 +326,7 @@
                 </div>
                 <div class="py-2">
                     <button class="button-success">
-                        <x-icons.save class="w-5 h-5 mr-2"/>
+                        <x-icons.save class="mr-2 w-5 h-5"/>
                         save
                     </button>
                 </div>
@@ -348,7 +348,7 @@
                 </div>
                 <div class="py-2">
                     <button class="button-success">
-                        <x-icons.save class="w-5 h-5 mr-2"/>
+                        <x-icons.save class="mr-2 w-5 h-5"/>
                         save
                     </button>
                 </div>
@@ -369,7 +369,7 @@
                 </div>
                 <div class="py-2">
                     <button class="button-success">
-                        <x-icons.save class="w-5 h-5 mr-2"/>
+                        <x-icons.save class="mr-2 w-5 h-5"/>
                         save
                     </button>
                 </div>
@@ -392,7 +392,7 @@
                     <button
                         class="button-success"
                     >
-                        <x-icons.save class="w-5 h-5 mr-2"/>
+                        <x-icons.save class="mr-2 w-5 h-5"/>
                         save
                     </button>
                 </div>
@@ -401,7 +401,7 @@
     </x-modal>
 
     <div>
-        <header class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 px-2 md:px-0">
+        <header class="grid grid-cols-1 gap-2 px-2 md:grid-cols-1 md:px-0 lg:grid-cols-2">
 
             <div>
                 <x-inputs.search id="search"
@@ -410,27 +410,27 @@
                 />
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-2">
+            <div class="grid grid-cols-1 gap-2 items-center md:grid-cols-2">
                 @if($activeFilter == true)
-                    <button class="button-success w-full"
+                    <button class="w-full button-success"
                             x-on:click="@this.set('activeFilter',false)"
                     >
-                        <x-icons.arrow-down class="w-5 h-5 mr-2"/>
+                        <x-icons.arrow-down class="mr-2 w-5 h-5"/>
                         show disabled products
                     </button>
                 @else
-                    <button class="button-success w-full"
+                    <button class="w-full button-success"
                             x-on:click.prevent="@this.set('activeFilter',true)"
                     >
-                        <x-icons.arrow-up class="w-5 h-5 mr-2"/>
+                        <x-icons.arrow-up class="mr-2 w-5 h-5"/>
                         show active products
                     </button>
                 @endif
                 <div>
-                    <button class="button-success w-full"
+                    <button class="w-full button-success"
                             x-on:click.prevent="@this.call('create','')"
                     >
-                        <x-icons.plus class="w-5 h-5 mr-2"/>
+                        <x-icons.plus class="mr-2 w-5 h-5"/>
                         add product
                     </button>
                 </div>
@@ -444,33 +444,33 @@
         <section class="mt-4">
             <div>
                 @forelse($products as $product)
-                    <div class="w-full rounded-md bg-white dark:bg-slate-900 px-4 py-2 mb-2">
+                    <div class="py-2 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-900">
                         <div
-                            class="text-sm font-medium grid grid-cols-1 lg:grid-cols-2 gap-y-3 py-2 lg:gap-y-0 lg:py-0"
+                            class="grid grid-cols-1 gap-y-3 py-2 text-sm font-medium lg:grid-cols-2 lg:gap-y-0 lg:py-0"
                         >
                             {{--left--}}
 
                             <x-product-listing :product="$product"/>
 
                             {{--right--}}
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-2 py-1">
+                            <div class="grid grid-cols-2 gap-y-2 gap-x-4 py-1 md:grid-cols-4">
                                 {{--active--}}
                                 <div>
                                     @if(($product->retail_price * $product->wholesale_price) > 0)
                                         @if($product->is_active)
                                             <button
-                                                class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                                class="flex justify-center items-center space-x-2 w-full button-secondary"
                                                 x-on:click="@this.call('toggleActive',{{$product->id}})"
                                             >
-                                                <x-icons.tick class="text-green-500 dark:text-green-300 w-4 h-4"/>
+                                                <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300"/>
                                                 <p>active</p>
                                             </button>
                                         @else
                                             <button
-                                                class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                                class="flex justify-center items-center space-x-2 w-full button-secondary"
                                                 x-on:click="@this.call('toggleActive',{{$product->id}})"
                                             >
-                                                <x-icons.cross class="text-red-500 dark:text-red-400 w-4 h-4"/>
+                                                <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400"/>
                                                 <p>active</p>
                                             </button>
                                         @endif
@@ -480,18 +480,18 @@
                                 <div>
                                     @if($product->is_featured)
                                         <button
-                                            class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('toggleFeatured',{{$product->id}})"
                                         >
-                                            <x-icons.tick class="text-green-500 dark:text-green-300 w-4 h-4"/>
+                                            <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300"/>
                                             <p>featured</p>
                                         </button>
                                     @else
                                         <button
-                                            class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('toggleFeatured',{{$product->id}})"
                                         >
-                                            <x-icons.cross class="text-red-500 dark:text-red-400 w-4 h-4"/>
+                                            <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400"/>
                                             <p>featured</p>
                                         </button>
                                     @endif
@@ -499,35 +499,35 @@
                                 <div>
                                     @if($product->is_sale)
                                         <button
-                                            class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('toggleSale',{{$product->id}})"
                                         >
-                                            <x-icons.tick class="text-green-500 dark:text-green-300 w-4 h-4"/>
+                                            <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300"/>
                                             <p>sale</p>
                                         </button>
                                     @else
                                         <button
-                                            class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('toggleSale',{{$product->id}})"
                                         >
-                                            <x-icons.cross class="text-red-500 dark:text-red-400 w-4 h-4"/>
+                                            <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400"/>
                                             <p>sale</p>
                                         </button>
                                     @endif
                                 </div>
                                 <div>
-                                    <button class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                    <button class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('edit',{{$product->id}})"
                                     >
-                                        <x-icons.edit class="text-green-500 dark:text-green-300 w-4 h-4"/>
+                                        <x-icons.edit class="w-4 h-4 text-green-500 dark:text-green-300"/>
                                         <p>edit</p>
                                     </button>
                                 </div>
                                 <div>
-                                    <button class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                    <button class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('showGallery',{{$product->id}})"
                                     >
-                                        <x-icons.upload class="text-green-500 dark:text-green-300 w-4 h-4"/>
+                                        <x-icons.upload class="w-4 h-4 text-green-500 dark:text-green-300"/>
                                         <p>gallery</p>
                                     </button>
                                 </div>
@@ -536,18 +536,18 @@
                                 <div>
                                     @if($product->trashed())
                                         <button
-                                            class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('recover',{{$product->id}})"
                                         >
-                                            <x-icons.tick class="text-green-500 dark:text-green-300 w-4 h-4"/>
+                                            <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300"/>
                                             <p>recover</p>
                                         </button>
                                     @else
                                         <button
-                                            class="flex items-center justify-center space-x-2 button-secondary w-full"
+                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
                                             x-on:click="@this.call('delete',{{$product->id}})"
                                         >
-                                            <x-icons.cross class="text-red-500 dark:text-red-400 w-4 h-4"/>
+                                            <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400"/>
                                             <p>archive</p>
                                         </button>
                                     @endif

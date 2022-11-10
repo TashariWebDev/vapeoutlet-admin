@@ -78,7 +78,7 @@
                                 </button>
                             @endif
                         @else
-                            <x-icons.cross class="text-red-600 w-5 h-5"/>
+                            <x-icons.cross class="w-5 h-5 text-red-600"/>
                         @endif
                     </div>
                 </x-table.row>

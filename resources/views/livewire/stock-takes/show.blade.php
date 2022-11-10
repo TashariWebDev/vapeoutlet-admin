@@ -1,6 +1,6 @@
 <div x-data="{}">
 
-    <div class="mb-2 p-3 bg-white rounded-md w-full flex justify-evenly items-center">
+    <div class="flex justify-evenly items-center p-3 mb-2 w-full bg-white rounded-md">
         <div>
             <p class="font-bold">STOCKTAKE ID: {{ $stockTake->id }}</p>
         </div>
@@ -59,16 +59,16 @@
                 </x-table.row>
                 <x-table.row class="text-right">
                     <label>
-                        <input type="number" value="{{ $item->count }}" class="w-full py-1 rounded text-black"
+                        <input type="number" value="{{ $item->count }}" class="py-1 w-full text-black rounded"
                                wire:change.debounce="updateItem({{$item->id}},$event.target.value)"
                                @if($stockTake->processed_at) readonly @endif
                         >
                     </label>
                 </x-table.row>
-                <x-table.row class="text-right pl-4">
+                <x-table.row class="pl-4 text-right">
                     <p>{{ $item->variance }}</p>
                 </x-table.row>
-                <x-table.row class="text-right pl-4">
+                <x-table.row class="pl-4 text-right">
                     <p>{{ number_format(to_rands($item->variance * $item->cost),2) }}</p>
                 </x-table.row>
             </x-table.body>

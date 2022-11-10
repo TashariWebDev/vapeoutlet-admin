@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-    <div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
+    <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
 
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
@@ -52,7 +52,7 @@
             <div class="px-4">
                 <table class="w-full">
                     <thead>
-                        <tr class="bg-gray-800 text-white">
+                        <tr class="text-white bg-gray-800">
                             <th class="text-left">Date</th>
                             <th class="text-left">Invoice No</th>
                             <th class="text-right">Excl</th>
@@ -67,7 +67,7 @@
                         @foreach($purchases as $grouped)
                             @foreach($grouped as $purchase)
                                 @if($loop->first)
-                                    <tr class="bg-gray-200 font-bold">
+                                    <tr class="font-bold bg-gray-200">
                                         <td colspan="6"
                                             class="text-left"
                                         >{{$purchase->supplier->name}}</td>
@@ -116,11 +116,11 @@
                                     @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>
-                                        <td class="text-right bg-gray-800 text-white">
+                                        <td class="text-right text-white bg-gray-800">
                                             {{ number_format($grouped->sum('amount') - vat($grouped->where('taxable',true)->sum('amount')),2) }}
                                         </td>
-                                        <td class="text-right bg-gray-800 text-white">{{ number_format(vat($grouped->where('taxable',true)->sum('amount')),2) }}</td>
-                                        <td class="text-right bg-gray-800 text-white">{{ number_format($grouped->sum('amount'),2) }}</td>
+                                        <td class="text-right text-white bg-gray-800">{{ number_format(vat($grouped->where('taxable',true)->sum('amount')),2) }}</td>
+                                        <td class="text-right text-white bg-gray-800">{{ number_format($grouped->sum('amount'),2) }}</td>
                                     </tr>
                                     <tr class="text-white">
                                         <td colspan="6"
@@ -130,7 +130,7 @@
                                 @endif
                             @endforeach
                         @endforeach
-                        <tr class="bg-white font-bold h-10 border-t-4 border-dashed">
+                        <tr class="h-10 font-bold bg-white border-t-4 border-dashed">
                             <td colspan="6"
                                 class="text-right"
                             >

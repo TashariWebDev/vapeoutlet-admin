@@ -1,4 +1,4 @@
-<div class="rounded-md px-2 py-6">
+<div class="py-6 px-2 rounded-md">
     @php
         function check_file_exist($url){
             $handle = @fopen($url, 'r');
@@ -9,7 +9,7 @@
             }
         }
     @endphp
-    <div class="w-full text-center flex justify-center">
+    <div class="flex justify-center w-full text-center">
         <x-inputs.search wire:model="searchTerm"/>
     </div>
 
@@ -48,7 +48,7 @@
                     <p>{{$order->customer->name}}</p>
                 </x-table.row>
                 <x-table.row>
-                    <div class="w-full flex justify-center items-center">
+                    <div class="flex justify-center items-center w-full">
                         @if($order->status == 'received')
                             <x-icons.shopping-bag class="w-5 h-5 text-green-600"/>
                         @endif
@@ -75,13 +75,13 @@
                         <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery?->type }}</p>
 
                 </x-table.row>
-                <x-table.row class="p-2 text-right text-center lg:text-right">
+                <x-table.row class="p-2 text-center text-right lg:text-right">
                     <button class="button-success"
                             x-on:click="@this.call('confirmToComplete',{{$order->id}})"
                     >Ship
                     </button>
                 </x-table.row>
-                <x-table.row class="text-center lg:text-right p-2">
+                <x-table.row class="p-2 text-center lg:text-right">
                     @php
                         $document = config('app.admin_url')."/storage/delivery-note/{$order->number}.pdf";
                         $documentExists = check_file_exist($document)

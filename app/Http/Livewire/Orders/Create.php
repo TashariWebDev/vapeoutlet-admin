@@ -123,9 +123,14 @@ class Create extends Component
             $this->notify('Price below cost');
         }
 
+        $productPrice =
+            $item->product_price === 0
+                ? $item->product->getPrice($this->order->customer)
+                : $item->product_price;
+
         $item->update([
             'price' => $value,
-            'discount' => $item->product_price - $value,
+            'discount' => $productPrice - $value,
         ]);
 
         $this->notify('Price updated');
