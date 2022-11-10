@@ -131,7 +131,8 @@
         </div>
     @endif
 
-    <x-table.container>
+    {{-- Desktop --}}
+    <x-table.container class="hidden lg:block">
         <x-table.header class="hidden lg:grid lg:grid-cols-5">
             <x-table.heading>Order #
                 <button
@@ -154,7 +155,7 @@
         </x-table.header>
         @forelse($orders as $order)
             <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
-                <x-table.row class="text-center lg:text-left">
+                <x-table.row class="text-left">
                     <a
                         class="link"
                         href="{{ route('orders/show', $order->id) }}"
@@ -215,9 +216,6 @@
                     <p>
                         <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}
                     </p>
-                    <p class="lg:hidden">
-                        <span class="font-bold">Total:</span>R {{ number_format($orderTotal, 2) }}
-                    </p>
                 </x-table.row>
                 <x-table.row class="hidden p-2 text-right lg:block">
                     <p>R {{ number_format($orderTotal, 2) }}</p>
@@ -276,4 +274,77 @@
             <x-table.empty></x-table.empty>
         @endforelse
     </x-table.container>
+
+    {{-- Mobile --}}
+    <div class="grid grid-cols-1 gap-y-4 px-1 lg:hidden">
+        @forelse($orders as $order)
+            <div class="grid grid-cols-3 text-xs bg-white rounded dark:bg-slate-900">
+                <div class="p-1">
+                    <a
+                        class="link"
+                        href="{{ route('orders/show', $order->id) }}"
+                    >{{ $order->number }}</a>
+                    <p class="text-xs text-slate-500">
+                        {{ $order->created_at->format('Y-m-d') }}
+                    </p>
+                </div>
+
+                <div class="p-1">
+                    <a
+                        class="link"
+                        href="{{ route('customers/show', $order->customer->id) }}"
+                    >{{ $order->customer->name }}</a>
+
+                    <div class="pt-1">
+                        <p @class([
+                            'text-xs',
+                            'text-pink-700 dark:text-pink-400' =>
+                                $order->customer->type() === 'wholesale',
+                            'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
+                        ])>{{ $order->customer->type() }}</p>
+                        <p class="text-xs text-slate-500">
+                            {{ $order->customer->salesperson->name ?? '' }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="p-1 text-right">
+                    <p class="font-semibold text-slate-600 dark:text-slate-400">
+                        R {{ number_format($orderTotal, 2) }}
+                    </p>
+                    <p class="font-semibold text-slate-600 dark:text-slate-400">
+                        R {{ number_format($order->delivery_charge, 2) }}
+                    </p>
+                </div>
+
+                <div class="col-span-3 p-1 py-1 mt-3 w-full">
+                    <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $order->delivery->type ?? '' }}</p>
+                </div>
+
+                <div class="col-span-3 mt-3 w-full">
+                    <button
+                        class="w-full button-success"
+                        wire:loading.attr="disabled"
+                        wire:target="getDocument"
+                        wire:click="getDocument({{ $transaction->id }})"
+                    >
+                        <span
+                            class="pr-2"
+                            wire:loading
+                            wire:target="getDocument({{ $transaction->id }})"
+                        >
+                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                        </span>
+                        Print
+                    </button>
+                    @if (file_exists(public_path("storage/documents/$transaction->uuid.pdf")))
+                        <p class="text-xs text-slate-400">Printed</p>
+                    @endif
+                </div>
+
+            </div>
+        @empty
+            <x-table.empty></x-table.empty>
+        @endforelse
+    </div>
 </div>

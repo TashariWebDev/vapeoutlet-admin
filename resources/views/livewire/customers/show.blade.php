@@ -331,9 +331,9 @@
                         @endif
                     </x-form.input.select>
                 </div>
-                <div class="grid grid-cols-1 col-span-1 gap-x-2 lg:grid-cols-6 lg:col-span-4">
+                <div class="grid grid-cols-1 col-span-1 gap-x-2 gap-y-2 lg:grid-cols-6 lg:col-span-4 lg:gap-y-0">
 
-                    <div class="col-span-6">
+                    <div class="hidden col-span-6 lg:block">
                         {{-- Force alignment --}}
                     </div>
                     <div class="w-full">
