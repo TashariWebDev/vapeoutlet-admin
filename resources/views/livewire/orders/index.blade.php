@@ -3,71 +3,76 @@
     x-data=""
 >
 
-    <div class="grid grid-cols-1 gap-y-2 lg:grid-cols-4 lg:gap-x-1">
+    <div class="grid grid-cols-1 gap-y-2 pb-1 lg:grid-cols-4 lg:gap-x-1">
         <div class="">
-            <label>
-                <input
-                    class="w-full rounded-md lg:w-64"
-                    type="text"
-                    placeholder="search"
-                    wire:model="searchTerm"
-                >
-            </label>
+            <x-form.input.label>
+                Search
+            </x-form.input.label>
+            <x-form.input.text
+                type="search"
+                placeholder="search"
+                wire:model="searchTerm"
+            />
         </div>
 
-        <div class="flex grid grid-cols-3 items-center py-3 px-2 w-full rounded-md bg-slate-900">
-            <button
-                @class([
-                    'text-xs px-1 text-slate-400 text-center font-bold',
-                    'text-green-400' => $customerType === null,
-                ])
-                wire:click="$set('customerType',null)"
-            >VIEW ALL
-            </button>
-            <button
-                @class([
-                    'text-xs px-1 text-slate-400 text-center font-bold',
-                    'text-blue-400' => $customerType === false,
-                ])
-                wire:click="$set('customerType',false)"
-            >RETAIL
-            </button>
-            <button
-                @class([
-                    'text-xs px-1 text-slate-400 text-center font-bold',
-                    'text-pink-400' => $customerType === true,
-                ])
-                wire:click="$set('customerType',true)"
-            >WHOLESALE
-            </button>
+        <div>
+            <x-form.input.label>
+                Filters
+            </x-form.input.label>
+            <div class="mt-1 rounded-r-md rounded-l-md border border-slate-700">
+                <div
+                    class="flex grid grid-cols-3 items-center py-2.5 px-2 w-full bg-white rounded-r-md rounded-l-md dark:bg-slate-700">
+                    <button
+                        @class([
+                            'text-xs px-1 text-slate-400 text-center font-bold',
+                            'text-green-400' => $customerType === null,
+                        ])
+                        wire:click="$set('customerType',null)"
+                    >VIEW ALL
+                    </button>
+                    <button
+                        @class([
+                            'text-xs px-1 text-slate-400 text-center font-bold',
+                            'text-blue-400' => $customerType === false,
+                        ])
+                        wire:click="$set('customerType',false)"
+                    >RETAIL
+                    </button>
+                    <button
+                        @class([
+                            'text-xs px-1 text-slate-400 text-center font-bold',
+                            'text-pink-400' => $customerType === true,
+                        ])
+                        wire:click="$set('customerType',true)"
+                    >WHOLESALE
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="text-right">
-            <label>
-                <select
-                    class="w-full rounded-md lg:w-64"
-                    wire:model="recordCount"
-                >
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-            </label>
+
+        <div>
+            <x-form.input.label>
+                No of records
+            </x-form.input.label>
+            <x-form.input.select wire:model="recordCount">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </x-form.input.select>
         </div>
-        <div class="text-right">
-            <label>
-                <select
-                    class="w-full rounded-md lg:w-64"
-                    wire:model="filter"
-                >
-                    <option value="received">Received</option>
-                    <option value="processed">Processed</option>
-                    <option value="packed">Packed</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="completed">Completed</option>
-                    <option value="cancelled">Cancelled</option>
-                </select>
-            </label>
+        <div>
+            <x-form.input.label>
+                Status
+            </x-form.input.label>
+            <x-form.input.select wire:model="filter">
+                <option value="received">Received</option>
+                <option value="processed">Processed</option>
+                <option value="packed">Packed</option>
+                <option value="shipped">Shipped</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
+            </x-form.input.select>
         </div>
     </div>
 

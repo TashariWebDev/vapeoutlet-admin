@@ -32,10 +32,10 @@
     </style>
 </head>
 <body>
-    <div class="font-sans w-screen bg-white antialiased p-6">
+    <div class="p-6 w-screen font-sans antialiased bg-white">
 
         <div
-            class="fixed font-extrabold transform right-0 bottom-0 text-red-600 opacity-20 min-h-screen max-w-7xl z-10 text-4xl"
+            class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-red-600 opacity-20 transform"
         >
             <h1>CANCELLED</h1>
         </div>
@@ -45,7 +45,7 @@
                      class="pb-4"
             >
                 <div class="grid grid-cols-2 border-b">
-                    <div class="flex items-center space-x-6 w-full pb-2">
+                    <div class="flex items-center pb-2 space-x-6 w-full">
                         <div>
                             <img src="{{ config('app.url').'/logo.png' }}"
                                  class="w-16"
@@ -54,26 +54,26 @@
                         </div>
                         <div>
                             <ul>
-                                <li class="font-bold text-sm">Vape Crew (PTY) LTD</li>
+                                <li class="text-sm font-bold">Vape Crew (PTY) LTD</li>
                                 <li class="text-xs">4170276218 | 2012/037716/07</li>
                                 <li class="text-xs">0836459599</li>
                                 <li class="text-xs">sales@vapecrew.co.za</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="text-xs text-right font-mono">
+                    <div class="font-mono text-xs text-right">
                         <ul>
                             <li class="uppercase">{{ $model->created_at }}</li>
                             <li class="capitalize">{{ $model->number }}</li>
                         </ul>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 space-x-2 pt-2">
-                    <div class="border rounded">
-                        <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                            <p class="text-white font-semibold uppercase text-xs">Customer Details</p>
+                <div class="grid grid-cols-2 pt-2 space-x-2">
+                    <div class="rounded border">
+                        <div class="px-1 bg-gray-700 rounded-t border border-gray-700">
+                            <p class="text-xs font-semibold text-white uppercase">Customer Details</p>
                         </div>
-                        <ul class="text-sm px-1 py-2">
+                        <ul class="py-2 px-1 text-sm">
                             <li>{{ ucwords($model->customer->name) }}</li>
                             <li>{{ $model->customer->phone }}</li>
                             <li>{{ $model->customer->email }}</li>
@@ -81,11 +81,11 @@
                             <li>{{ ucwords($model->customer->vat_number) }}</li>
                         </ul>
                     </div>
-                    <div class="border rounded">
-                        <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                            <p class="text-white font-semibold uppercase text-xs">Delivery Details</p>
+                    <div class="rounded border">
+                        <div class="px-1 bg-gray-700 rounded-t border border-gray-700">
+                            <p class="text-xs font-semibold text-white uppercase">Delivery Details</p>
                         </div>
-                        <ul class="text-sm px-1 py-2">
+                        <ul class="py-2 px-1 text-sm">
                             <li>{{ ucwords($model->address->line_one) }}</li>
                             <li>{{ ucwords($model->address->line_two) }}</li>
                             <li>{{ ucwords($model->address->suburb) }}</li>
@@ -99,7 +99,7 @@
             <div id="body">
 
                 <table class="w-full">
-                    <thead class="bg-gray-900 text-white text-sm uppercase font-bold">
+                    <thead class="text-sm font-bold text-white uppercase bg-gray-900">
                         <tr>
                             <th class="text-left">SKU/CODE</th>
                             <th class="col-span-2 text-left">Item</th>
@@ -111,9 +111,9 @@
                     </thead>
                     <tbody>
                         @foreach($model->items as $item)
-                            <tr class="border-b border-dashed py-1 break-inside-avoid">
+                            <tr class="py-1 border-b border-dashed break-inside-avoid">
                                 <td class="text-left">
-                                    <p class="font-semibold text-xs uppercase">{{ $item->product->sku }}</p>
+                                    <p class="text-xs font-semibold uppercase">{{ $item->product->sku }}</p>
                                 </td>
                                 <td class="col-span-2 text-left">
                                     <p class="text-xs font-bold">
@@ -121,25 +121,25 @@
                                     </p>
                                     <span class="flex flex-wrap text-xs">
                             @foreach($item->product->features as $feature)
-                                            <span class="text-xs font-semibold pr-1">{{ ucwords($feature->name) }}</span>
+                                            <span class="pr-1 text-xs font-semibold">{{ ucwords($feature->name) }}</span>
                                         @endforeach
                         </span>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">{{ $item->qty }}</p>
+                                    <p class="font-mono text-xs">{{ $item->qty }}</p>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">
+                                    <p class="font-mono text-xs">
                                         R {{ number_format($item->price,2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">
+                                    <p class="font-mono text-xs">
                                         R {{ number_format($item->discount,2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">
+                                    <p class="font-mono text-xs">
                                         R {{ number_format($item->line_total,2) }}
                                     </p>
                                 </td>
@@ -148,12 +148,12 @@
                     </tbody>
                 </table>
 
-                <div class="block break-before-avoid-page break-inside-avoid py-3 border-t mt-8 border-b border-gray-500">
+                <div class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid">
                     <div class="grid grid-cols-5 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Sub Total </span> R {{ number_format($model->getSubTotal(),2) }}
                         </p>
-                        <p class="text-xs text-center whitespace-nowrap col-span-2">
+                        <p class="col-span-2 text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">{{ ucwords($model->delivery->type) }} </span>
                             R {{ number_format($model->delivery_charge,2) }}
                         </p>
@@ -167,7 +167,7 @@
                         </p>
                     </div>
 
-                    <div class="block break-before-avoid-page py-3 mt-6 border-t border-b border-gray-500">
+                    <div class="block py-3 mt-6 border-t border-b border-gray-500 break-before-avoid-page">
                         <div class="grid grid-cols-1 gap-2">
                             <p class="text-xs text-center whitespace-nowrap">
                                 <span class="font-semibold">ACCOUNT BALANCE </span>
@@ -192,23 +192,23 @@
                 @endif
 
                 <section id="footer"
-                         class="mt-6 border-t pt-2 break-before-avoid-page break-inside-avoid-page"
+                         class="pt-2 mt-6 border-t break-before-avoid-page break-inside-avoid-page"
                 >
-                    <div class="bg-gray-700 text-center py-1 rounded">
-                        <p class="text-white text-xs uppercase">
+                    <div class="py-1 text-center bg-gray-700 rounded">
+                        <p class="text-xs text-white uppercase">
                             thank you for your support </p>
                     </div>
                     <div class="grid grid-cols-3 pt-2 break-before-avoid-page break-inside-avoid-page">
-                        <div class="border rounded">
-                            <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                                <p class="text-white font-semibold uppercase text-xs">Banking Details</p>
+                        <div class="rounded border">
+                            <div class="px-1 bg-gray-700 rounded-t border border-gray-700">
+                                <p class="text-xs font-semibold text-white uppercase">Banking Details</p>
                             </div>
-                            <ul class="text-xs p-1">
+                            <ul class="p-1 text-xs">
                                 <li class="font-semibold">Vape Crew (PTY) LTD</li>
                                 <li class="font-semibold">First National Bank</li>
                                 <li class="font-semibold">Sandton City</li>
-                                <li class="font-mono mt-2">ACC: 62668652855</li>
-                                <li class="font-mono ">REF: {{ $model->number }}</li>
+                                <li class="mt-2 font-mono">ACC: 62668652855</li>
+                                <li class="font-mono">REF: {{ $model->number }}</li>
                             </ul>
                         </div>
                     </div>
@@ -216,7 +216,7 @@
             </div>
 
             @if($model->notes->count())
-                <div class="mt-4 bg-white rounded-md p-4">
+                <div class="p-4 mt-4 bg-white rounded-md">
 
                     @foreach($model->notes as $note)
                         @if(!$note->is_private)
@@ -231,7 +231,7 @@
                                     @endif
                                 </div>
                                 <div class="p-1">
-                                    <p class="capitalize text-sm">{{ $note->body }}</p>
+                                    <p class="text-sm capitalize">{{ $note->body }}</p>
                                 </div>
                             </div>
                         @endif

@@ -75,7 +75,7 @@
                 </div>
                 <div class="py-3">
                     <button class="button-success">
-                        <x-icons.save class="w-5 h-5 mr-3"/>
+                        <x-icons.save class="mr-3 w-5 h-5"/>
                         save
                     </button>
                 </div>
@@ -84,7 +84,7 @@
                      wire:loading
                      wire:target="save"
                 >
-                    <p class="text-green-500 text-xs">Processing! Please wait</p>
+                    <p class="text-xs text-green-500">Processing! Please wait</p>
                 </div>
 
             </form>
@@ -94,7 +94,7 @@
     <!-- Stats -->
     <div class="flex justify-between items-end lg:items-center">
         <div>
-            <h3 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">
+            <h3 class="text-lg font-bold leading-6 text-slate-800 dark:text-slate-500">
                 {{ $this->customer->name }} stats
                 @if($this->customer->salesperson_id)
                     <span class="text-slate-500">( {{ $this->customer->salesperson->name ?? '' }} )</span>
@@ -118,21 +118,21 @@
          x-transition
     >
 
-        <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <div class="relative bg-white dark:bg-slate-900/70 pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden dark:border border-slate-900 dark:border border-slate-900">
+        <dl class="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
-                    <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
-                        <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
+                    <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
+                        <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500"/>
                     </div>
-                    <p class="ml-16 text-sm font-medium text-slate-400 dark:text-slate-600 truncate">Total Invoices</p>
+                    <p class="ml-16 text-sm font-medium text-slate-400 truncate dark:text-slate-600">Total Invoices</p>
                 </dt>
-                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
                             R {{ number_format($this->invoices->sum('amount'),2) }}
                         </p>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
+                    <div class="absolute inset-x-0 bottom-0 py-4 px-4 sm:px-6 bg-slate-100 dark:bg-slate-900">
                         <div class="text-sm">
                             <button class="link"
                                     x-on:click="$wire.set('filter','invoice')"
@@ -143,20 +143,20 @@
                 </dd>
             </div>
 
-            <div class="relative bg-white dark:bg-slate-900/70 pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden dark:border border-slate-900 dark:border border-slate-900">
+            <div class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
-                    <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
-                        <x-icons.ccard class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
+                    <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
+                        <x-icons.ccard class="w-6 h-6 text-green-100 dark:text-slate-500"/>
                     </div>
                     <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Payments</p>
                 </dt>
-                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
                             R {{ number_format(abs($this->payments->sum('amount')),2) }}
                         </p>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
+                    <div class="absolute inset-x-0 bottom-0 py-4 px-4 sm:px-6 bg-slate-100 dark:bg-slate-900">
                         <div class="text-sm">
                             <button class="link"
                                     x-on:click="$wire.set('filter','payment')"
@@ -167,23 +167,23 @@
                 </dd>
             </div>
 
-            <div class="relative bg-white dark:bg-slate-900/70 pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden dark:border border-slate-900 dark:border border-slate-900">
+            <div class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
-                    <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
-                        <x-icons.chart-pie class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
+                    <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
+                        <x-icons.chart-pie class="w-6 h-6 text-green-100 dark:text-slate-500"/>
                     </div>
                     <p class="ml-16 text-sm font-medium text-slate-500 truncate">Outstanding</p>
                 </dt>
-                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
                             R {{ number_format($this->transactions->sum('amount'),2) }}
                         </p>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
+                    <div class="absolute inset-x-0 bottom-0 py-4 px-4 sm:px-6 bg-slate-100 dark:bg-slate-900">
                         <div class="text-sm">
                             <a href="#"
-                               class="font-medium invisible text-indigo-600 hover:text-indigo-500"
+                               class="invisible font-medium text-indigo-600 hover:text-indigo-500"
                             >
                                 View all
                             </a>
@@ -192,20 +192,20 @@
                 </dd>
             </div>
 
-            <div class="relative bg-white dark:bg-slate-900/70 pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden dark:border border-slate-900 dark:border border-slate-900">
+            <div class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
-                    <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
-                        <x-icons.arrow-up class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
+                    <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
+                        <x-icons.arrow-up class="w-6 h-6 text-green-100 dark:text-slate-500"/>
                     </div>
                     <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Debits</p>
                 </dt>
-                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
                             R {{ number_format(abs($this->debits?->sum('amount')),2) }}
                         </p>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
+                    <div class="absolute inset-x-0 bottom-0 py-4 px-4 sm:px-6 bg-slate-100 dark:bg-slate-900">
                         <div class="text-sm">
                             <button class="link"
                                     x-on:click="$wire.set('filter','debit')"
@@ -216,20 +216,20 @@
                 </dd>
             </div>
 
-            <div class="relative bg-white dark:bg-slate-900/70 pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden dark:border border-slate-900 dark:border border-slate-900">
+            <div class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
-                    <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
-                        <x-icons.arrow-right class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
+                    <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
+                        <x-icons.arrow-right class="w-6 h-6 text-green-100 dark:text-slate-500"/>
                     </div>
                     <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Credits</p>
                 </dt>
-                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
                             R {{ number_format(abs($this->credits?->sum('amount')),2) }}
                         </p>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
+                    <div class="absolute inset-x-0 bottom-0 py-4 px-4 sm:px-6 bg-slate-100 dark:bg-slate-900">
                         <div class="text-sm">
                             <button class="link"
                                     x-on:click="$wire.set('filter','credit')"
@@ -240,20 +240,20 @@
                 </dd>
             </div>
 
-            <div class="relative bg-white dark:bg-slate-900/70 pt-5 px-4 pb-12 sm:pt-6 sm:px-6 shadow rounded-lg overflow-hidden dark:border border-slate-900 dark:border border-slate-900">
+            <div class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
-                    <div class="absolute bg-green-500 dark:bg-slate-900 rounded-md p-3">
-                        <x-icons.arrow-down class="w-6 h-6 text-green-100 dark:text-slate-500 dark:text-slate-500"/>
+                    <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
+                        <x-icons.arrow-down class="w-6 h-6 text-green-100 dark:text-slate-500"/>
                     </div>
                     <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Refunds</p>
                 </dt>
-                <dd class="ml-16 pb-6 flex items-baseline sm:pb-7">
+                <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                     <div>
                         <p class="text-2xl font-semibold text-slate-900 dark:text-slate-400">
                             R {{ number_format(abs($this->refunds?->sum('amount')),2) }}
                         </p>
                     </div>
-                    <div class="absolute bottom-0 inset-x-0 bg-slate-100 dark:bg-slate-900 px-4 py-4 sm:px-6">
+                    <div class="absolute inset-x-0 bottom-0 py-4 px-4 sm:px-6 bg-slate-100 dark:bg-slate-900">
                         <div class="text-sm">
                             <button class="link"
                                     x-on:click="$wire.set('filter','refund')"
@@ -270,20 +270,20 @@
 
     <!-- Transaction create -->
     <div class="mt-3">
-        <div class="flex flex-wrap space-y-2 lg:space-y-0 lg:space-x-2 lg:justify-between items-center py-2">
-            <div class="py-3 flex flex-wrap lg:justify-between items-center">
+        <div class="flex flex-wrap items-center py-2 space-y-2 lg:justify-between lg:space-y-0 lg:space-x-2">
+            <div class="flex flex-wrap items-center py-3 lg:justify-between">
                 <x-inputs.search wire:model="searchTerm"/>
 
-                <button class="link pl-4"
+                <button class="pl-4 link"
                         x-on:click="$wire.call('resetFilter')"
                 >reset filter
                 </button>
             </div>
             <div class="flex flex-wrap space-y-2 lg:space-y-0 lg:space-x-2">
-                <div class="text-right w-full lg:w-auto">
+                <div class="w-full text-right lg:w-auto">
                     <label>
                         <x-form.input.select wire:model="recordCount"
-                                             class="w-full lg:w-64 rounded-md"
+                                             class="w-full rounded-md lg:w-64"
                         >
                             <option value="10">10</option>
                             <option value="20">20</option>
@@ -412,7 +412,7 @@
             @php
                 $disabledTransactionTypes = ['credit','invoice']
             @endphp
-            <x-table.body class="hidden lg:grid lg:grid-cols-6 text-sm">
+            <x-table.body class="hidden text-sm lg:grid lg:grid-cols-6">
                 <x-table.row class="text-xs text-center lg:text-left">
                     <p>
                         <span>
@@ -452,7 +452,7 @@
                     <span class="lg:hidden">BAL:</span> {{ number_format($transaction->running_balance,2) }}
                 </x-table.row>
                 <x-table.row class="text-center lg:text-right">
-                    <div class="flex items-start justify-end">
+                    <div class="flex justify-end items-start">
                         <div>
                             <button class="button button-success"
                                     wire:loading.attr="disabled"
@@ -475,7 +475,7 @@
                 </x-table.row>
             </x-table.body>
 
-            <div class="bg-slate-300 dark:bg-slate-900 lg:hidden w-full py-2 border-b grid grid-cols-3">
+            <div class="grid grid-cols-3 py-2 w-full border-b lg:hidden bg-slate-300 dark:bg-slate-900">
                 <div>
                     <p>
                         <span>
@@ -511,7 +511,7 @@
                         {{ number_format($transaction->running_balance,2) }}
                     </p>
                 </div>
-                <div class="flex items-start justify-end">
+                <div class="flex justify-end items-start">
                     <div>
                         <button class="button button-success"
                                 wire:loading.attr="disabled"
