@@ -37,13 +37,6 @@
 <body>
     <div class="p-6 w-screen font-sans antialiased bg-white">
 
-        @if ($this->model->status === 'cancelled')
-            <div
-                class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-red-600 opacity-20 transform">
-                <h1>CANCELLED</h1>
-            </div>
-        @endif
-
         <div class="p-4 bg-white rounded">
             <section
                 class="pb-4"
