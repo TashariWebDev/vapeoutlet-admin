@@ -21,170 +21,170 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/", function () {
-    return view("auth.login");
+Route::get('/', function () {
+    return view('auth.login');
 });
 
-Route::middleware("auth")->group(function () {
-    Route::get("dashboard", Index::class)->name("dashboard");
+Route::middleware('auth')->group(function () {
+    Route::get('dashboard', Index::class)->name('dashboard');
 
-    Route::get("orders", \App\Http\Livewire\Orders\Index::class)
-        ->name("orders")
-        ->middleware("permission:view orders");
+    Route::get('orders', \App\Http\Livewire\Orders\Index::class)
+        ->name('orders')
+        ->middleware('permission:view orders');
 
-    Route::get("shop", Shop::class)
-        ->name("shop")
-        ->middleware("permission:view shop");
+    Route::get('shop', Shop::class)
+        ->name('shop')
+        ->middleware('permission:view shop');
 
-    Route::get("orders/{id}", \App\Http\Livewire\Orders\Show::class)
-        ->name("orders/show")
-        ->middleware("permission:view orders");
+    Route::get('orders/{id}', \App\Http\Livewire\Orders\Show::class)
+        ->name('orders/show')
+        ->middleware('permission:view orders');
 
-    Route::get("orders/create/{id}", \App\Http\Livewire\Orders\Create::class)
-        ->name("orders/create")
-        ->middleware("permission:create orders");
+    Route::get('orders/create/{id}', \App\Http\Livewire\Orders\Create::class)
+        ->name('orders/create')
+        ->middleware('permission:create orders');
 
-    Route::get("products", \App\Http\Livewire\Products\Index::class)
-        ->name("products")
-        ->middleware("permission:view products");
+    Route::get('products', \App\Http\Livewire\Products\Index::class)
+        ->name('products')
+        ->middleware('permission:view products');
 
-    Route::get("inventory", \App\Http\Livewire\Inventory\Index::class)
-        ->name("inventory")
-        ->middleware("permission:view inventory");
+    Route::get('inventory', \App\Http\Livewire\Inventory\Index::class)
+        ->name('inventory')
+        ->middleware('permission:view inventory');
 
-    Route::get("customers", \App\Http\Livewire\Customers\Index::class)
-        ->name("customers")
-        ->middleware("permission:view customers");
+    Route::get('customers', \App\Http\Livewire\Customers\Index::class)
+        ->name('customers')
+        ->middleware('permission:view customers');
 
-    Route::get("customers/show/{id}", \App\Http\Livewire\Customers\Show::class)
-        ->name("customers/show")
-        ->middleware("permission:edit customers");
+    Route::get('customers/show/{id}', \App\Http\Livewire\Customers\Show::class)
+        ->name('customers/show')
+        ->middleware('permission:edit customers');
 
-    Route::get("customers/edit/{id}", Edit::class)
-        ->name("customers/edit")
-        ->middleware("permission:edit customers");
+    Route::get('customers/edit/{id}', Edit::class)
+        ->name('customers/edit')
+        ->middleware('permission:edit customers');
 
-    Route::get("credits/{id}", \App\Http\Livewire\Credit\Create::class)
-        ->name("credits/create")
-        ->middleware("permission:create credit");
+    Route::get('credits/{id}', \App\Http\Livewire\Credit\Create::class)
+        ->name('credits/create')
+        ->middleware('permission:create credit');
 
     Route::get(
-        "transactions/edit/{id}",
+        'transactions/edit/{id}',
         \App\Http\Livewire\Transactions\Edit::class
     )
-        ->name("transactions/edit")
-        ->middleware("permission:edit transactions");
+        ->name('transactions/edit')
+        ->middleware('permission:edit transactions');
 
     //Settings
-    Route::middleware("permission:view settings")->group(function () {
-        Route::get("settings/delivery", Delivery\Index::class)->name(
-            "settings/delivery"
+    Route::middleware('permission:view settings')->group(function () {
+        Route::get('settings/delivery', Delivery\Index::class)->name(
+            'settings/delivery'
         );
 
         Route::get(
-            "settings/marketing/notifications",
+            'settings/marketing/notifications',
             Notifications::class
-        )->name("settings/marketing/notifications");
+        )->name('settings/marketing/notifications');
 
-        Route::get("settings/marketing/banners", Banners::class)->name(
-            "settings/marketing/banners"
+        Route::get('settings/marketing/banners', Banners::class)->name(
+            'settings/marketing/banners'
         );
 
         Route::get(
-            "settings/categories",
+            'settings/categories',
             \App\Http\Livewire\Settings\Categories\Edit::class
-        )->name("settings/categories/edit");
+        )->name('settings/categories/edit');
 
         Route::get(
-            "settings/brands",
+            'settings/brands',
             \App\Http\Livewire\Settings\Brands\Edit::class
-        )->name("settings/brands/edit");
+        )->name('settings/brands/edit');
 
-        Route::get("settings", \App\Http\Livewire\Settings\Index::class)->name(
-            "settings"
+        Route::get('settings', \App\Http\Livewire\Settings\Index::class)->name(
+            'settings'
         );
     });
 
-    Route::get("reports", \App\Http\Livewire\Reports\Index::class)
-        ->name("reports")
-        ->middleware("permission:view reports");
+    Route::get('reports', \App\Http\Livewire\Reports\Index::class)
+        ->name('reports')
+        ->middleware('permission:view reports');
 
-    Route::get("stock-takes", \App\Http\Livewire\StockTakes\Index::class)
-        ->name("stock-takes")
-        ->middleware("permission:view reports");
+    Route::get('stock-takes', \App\Http\Livewire\StockTakes\Index::class)
+        ->name('stock-takes')
+        ->middleware('permission:view reports');
 
-    Route::get("stock-takes/{id}", \App\Http\Livewire\StockTakes\Show::class)
-        ->name("stock-takes/show")
-        ->middleware("permission:view reports");
+    Route::get('stock-takes/{id}', \App\Http\Livewire\StockTakes\Show::class)
+        ->name('stock-takes/show')
+        ->middleware('permission:view reports');
 
-    Route::get("expenses", \App\Http\Livewire\Expenses\Index::class)
-        ->name("expenses")
-        ->middleware("permission:view expenses");
+    Route::get('expenses', \App\Http\Livewire\Expenses\Index::class)
+        ->name('expenses')
+        ->middleware('permission:view expenses');
 
-    Route::get("profile", \App\Http\Livewire\Profile\Index::class)->name(
-        "profile"
+    Route::get('profile', \App\Http\Livewire\Profile\Index::class)->name(
+        'profile'
     );
 
-    Route::get("users", \App\Http\Livewire\Users\Index::class)
-        ->name("users")
-        ->middleware("permission:view users");
+    Route::get('users', \App\Http\Livewire\Users\Index::class)
+        ->name('users')
+        ->middleware('permission:view users');
 
-    Route::get("users/show/{id}", Show::class)
-        ->name("users/show")
-        ->middleware("permission:view users");
+    Route::get('users/show/{id}', Show::class)
+        ->name('users/show')
+        ->middleware('permission:view users');
 
-    Route::get("inventory/purchases/{id}", Create::class)
-        ->name("purchases/create")
-        ->middleware("permission:create purchase");
+    Route::get('inventory/purchases/{id}', Create::class)
+        ->name('purchases/create')
+        ->middleware('permission:create purchase');
 
     Route::get(
-        "supplier-credits/{id}",
+        'supplier-credits/{id}',
         \App\Http\Livewire\Returns\Create::class
     )
-        ->name("supplier-credits/create")
-        ->middleware("permission:create purchase");
+        ->name('supplier-credits/create')
+        ->middleware('permission:create purchase');
 
     Route::get(
-        "supplier-credits/show/{id}",
+        'supplier-credits/show/{id}',
         \App\Http\Livewire\Returns\Show::class
     )
-        ->name("supplier-credits/show")
-        ->middleware("permission:create purchase");
+        ->name('supplier-credits/show')
+        ->middleware('permission:create purchase');
 
-    Route::middleware("permission:view suppliers")->group(function () {
+    Route::middleware('permission:view suppliers')->group(function () {
         Route::get(
-            "inventory/suppliers",
+            'inventory/suppliers',
             \App\Http\Livewire\Suppliers\Index::class
-        )->name("suppliers");
+        )->name('suppliers');
 
         Route::get(
-            "inventory/suppliers/{id}",
+            'inventory/suppliers/{id}',
             \App\Http\Livewire\Suppliers\Show::class
-        )->name("suppliers/show");
+        )->name('suppliers/show');
 
         Route::get(
-            "inventory/suppliers/edit/{id}",
+            'inventory/suppliers/edit/{id}',
             \App\Http\Livewire\Suppliers\Edit::class
-        )->name("suppliers/edit");
+        )->name('suppliers/edit');
     });
 
-    Route::get("warehouse", \App\Http\Livewire\Warehouse\Index::class)
-        ->name("warehouse")
-        ->middleware("permission:view warehouse");
+    Route::get('warehouse', \App\Http\Livewire\Warehouse\Index::class)
+        ->name('warehouse')
+        ->middleware('permission:view warehouse');
 
-    Route::get("dispatch", \App\Http\Livewire\Dispatch\Index::class)
-        ->name("dispatch")
-        ->middleware("permission:view dispatch");
+    Route::get('dispatch', \App\Http\Livewire\Dispatch\Index::class)
+        ->name('dispatch')
+        ->middleware('permission:view dispatch');
 
-    Route::get("dashboard", Index::class)->name("dashboard");
+    Route::get('dashboard', Index::class)->name('dashboard');
 });
 
-Route::get("/imitate/{id}", function () {
-    Auth::loginUsingId(request("id"));
+Route::get('/imitate/{id}', function () {
+    Auth::loginUsingId(request('id'));
 
-    return redirect("/dashboard");
+    return redirect('/dashboard');
 })
-    ->middleware("auth")
-    ->name("imitate");
+    ->middleware('auth')
+    ->name('imitate');
 
-require __DIR__ . "/auth.php";
+require __DIR__.'/auth.php';

@@ -8,13 +8,13 @@ use Illuminate\Console\Command;
 
 class UpdateTransactionsCommand extends Command
 {
-    protected $signature = "update:transactions {customer?}";
+    protected $signature = 'update:transactions {customer?}';
 
-    protected $description = "Update all user transactions to reflect running balance";
+    protected $description = 'Update all user transactions to reflect running balance';
 
     public function handle()
     {
-        $customer = Customer::find($this->argument("customer"));
+        $customer = Customer::find($this->argument('customer'));
 
         if ($customer) {
             UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(60);

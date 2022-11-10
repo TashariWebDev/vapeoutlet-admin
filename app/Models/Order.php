@@ -19,17 +19,17 @@ class Order extends Model
     //    protected $appends = ["total", "sub_total"];
 
     protected $dates = [
-        "placed_at", // order created
+        'placed_at', // order created
     ];
 
     public function getStatus(): string
     {
         return match ($this->status) {
-            "received" => "RECEIVED",
-            "processed" => "PROCESSED",
-            "packed" => "PACKED",
-            "shipped" => "SHIPPED",
-            "completed" => "COMPLETED",
+            'received' => 'RECEIVED',
+            'processed' => 'PROCESSED',
+            'packed' => 'PACKED',
+            'shipped' => 'SHIPPED',
+            'completed' => 'COMPLETED',
         };
     }
 
@@ -42,28 +42,18 @@ class Order extends Model
     {
         return $this->belongsTo(
             CustomerAddress::class,
-            "address_id"
+            'address_id'
         )->withTrashed();
     }
 
     public function delivery(): BelongsTo
     {
-        return $this->belongsTo(Delivery::class, "delivery_type_id");
+        return $this->belongsTo(Delivery::class, 'delivery_type_id');
     }
 
     public function salesperson(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function items(): HasMany
-    {
-        return $this->hasMany(OrderItem::class);
-    }
-
-    public function stocks(): HasMany
-    {
-        return $this->hasMany(Stock::class);
     }
 
     public function notes(): HasMany
@@ -78,33 +68,38 @@ class Order extends Model
 
     public function getSubTotal(): float
     {
-        return to_rands($this->items()->sum(DB::raw("price * qty")));
+        return to_rands($this->items()->sum(DB::raw('price * qty')));
+    }
+
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
     }
 
     public function total(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands(
-                $this->items()->sum(DB::raw("price * qty"))
+            get: fn ($value) => to_rands(
+                $this->items()->sum(DB::raw('price * qty'))
             )
         );
     }
 
     public function subTotal(): Attribute
     {
-        return new Attribute(get: fn($value) => $this->getSubTotal());
+        return new Attribute(get: fn ($value) => $this->getSubTotal());
     }
 
     public function getCost()
     {
-        return $this->items()->sum(DB::raw("cost * qty"));
+        return $this->items()->sum(DB::raw('cost * qty'));
     }
 
     public function updateStatus($status): static
     {
         $this->update([
-            "status" => $status,
-            "is_editing" => false,
+            'status' => $status,
+            'is_editing' => false,
         ]);
 
         return $this;
@@ -113,14 +108,14 @@ class Order extends Model
     public function deliveryCharge(): Attribute
     {
         return new Attribute(
-            get: fn($value) => to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
     public function number(): Attribute
     {
-        return new Attribute(get: fn() => "INV00" . $this->attributes["id"]);
+        return new Attribute(get: fn () => 'INV00'.$this->attributes['id']);
     }
 
     public function addItem($productId, $customer)
@@ -129,18 +124,19 @@ class Order extends Model
 
         $item = $this->items()->firstOrCreate(
             [
-                "product_id" => $product->id,
+                'product_id' => $product->id,
             ],
             [
-                "product_id" => $product->id,
-                "type" => "product",
-                "price" => $product->getPrice($customer),
-                "cost" => $product->cost,
+                'product_id' => $product->id,
+                'type' => 'product',
+                'price' => $product->getPrice($customer),
+                'product_price' => $product->getPrice($customer),
+                'cost' => $product->cost,
             ]
         );
 
         if ($item->qty < $item->product->qty()) {
-            $item->increment("qty");
+            $item->increment('qty');
         }
     }
 
@@ -152,7 +148,7 @@ class Order extends Model
         foreach ($this->items as $item) {
             if ($item->qty > $item->product->qtyInStock) {
                 throw new QtyNotAvailableException(
-                    "Products no longer available"
+                    'Products no longer available'
                 );
             }
         }
@@ -163,7 +159,7 @@ class Order extends Model
         $delivery = Delivery::find($this->delivery_type_id);
 
         $this->update([
-            "delivery_charge" => $delivery->getPrice($this->getSubTotal()),
+            'delivery_charge' => $delivery->getPrice($this->getSubTotal()),
         ]);
 
         return $this;
@@ -174,18 +170,54 @@ class Order extends Model
         foreach ($this->items as $item) {
             $item->product->stocks()->updateOrCreate(
                 [
-                    "order_id" => $this->id,
-                    "type" => "invoice",
-                    "reference" => $this->number,
+                    'order_id' => $this->id,
+                    'type' => 'invoice',
+                    'reference' => $this->number,
                 ],
                 [
-                    "order_id" => $this->id,
-                    "type" => "invoice",
-                    "reference" => $this->number,
-                    "qty" => 0 - $item->qty,
-                    "cost" => $item->product->cost,
+                    'order_id' => $this->id,
+                    'type' => 'invoice',
+                    'reference' => $this->number,
+                    'qty' => 0 - $item->qty,
+                    'cost' => $item->product->cost,
                 ]
             );
+        }
+
+        return $this;
+    }
+
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
+    }
+
+    public function increase(OrderItem $item): static
+    {
+        if ($item->qty < $item->product->qty()) {
+            $item->increment('qty');
+        }
+
+        return $this;
+    }
+
+    public function updateQty(OrderItem $item, $qty): static
+    {
+        if ($qty >= $item->product->qty()) {
+            $qty = $item->product->qty();
+        }
+
+        $item->update(['qty' => $qty]);
+
+        return $this;
+    }
+
+    public function decrease(OrderItem $item): static
+    {
+        $item->decrement('qty');
+
+        if ($item->qty == 0) {
+            $this->remove($item);
         }
 
         return $this;
@@ -198,37 +230,6 @@ class Order extends Model
         return $this;
     }
 
-    public function increase(OrderItem $item): static
-    {
-        if ($item->qty < $item->product->qty()) {
-            $item->increment("qty");
-        }
-
-        return $this;
-    }
-
-    public function updateQty(OrderItem $item, $qty): static
-    {
-        if ($qty >= $item->product->qty()) {
-            $qty = $item->product->qty();
-        }
-
-        $item->update(["qty" => $qty]);
-
-        return $this;
-    }
-
-    public function decrease(OrderItem $item): static
-    {
-        $item->decrement("qty");
-
-        if ($item->qty == 0) {
-            $this->remove($item);
-        }
-
-        return $this;
-    }
-
     public function cancel()
     {
         $this->delete();
@@ -236,17 +237,17 @@ class Order extends Model
 
     public function scopeSearch($query, $terms)
     {
-        collect(explode(" ", $terms))
+        collect(explode(' ', $terms))
             ->filter()
             ->each(function ($term) use ($query) {
-                $term = "%" . $term . "%";
+                $term = '%'.$term.'%';
                 $query->where(function ($query) use ($term) {
                     $query
-                        ->where("id", "like", $term)
-                        ->orWhereHas("customer", function ($query) use ($term) {
+                        ->where('id', 'like', $term)
+                        ->orWhereHas('customer', function ($query) use ($term) {
                             $query
-                                ->where("name", "like", $term)
-                                ->orWhere("company", "like", $term);
+                                ->where('name', 'like', $term)
+                                ->orWhere('company', 'like', $term);
                         });
                 });
             });

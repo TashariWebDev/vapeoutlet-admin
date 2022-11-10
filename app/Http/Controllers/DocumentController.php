@@ -30,24 +30,24 @@ class DocumentController extends Controller
         Log::info($transaction);
         $model = $transaction;
 
-        if (Str::startsWith($transaction->reference, "INV00")) {
+        if (Str::startsWith($transaction->reference, 'INV00')) {
             $model = Order::with(
-                "items",
-                "items.product",
-                "items.product.features",
-                "customer",
-                "notes"
-            )->find(Str::after($transaction->reference, "INV00"));
+                'items',
+                'items.product',
+                'items.product.features',
+                'customer',
+                'notes'
+            )->find(Str::after($transaction->reference, 'INV00'));
         }
 
-        if (Str::startsWith($transaction->reference, "CR00")) {
-            $model = Credit::with("items", "items.product", "customer")->find(
-                Str::after($transaction->reference, "CR00")
+        if (Str::startsWith($transaction->reference, 'CR00')) {
+            $model = Credit::with('items', 'items.product', 'customer')->find(
+                Str::after($transaction->reference, 'CR00')
             );
         }
 
         $view = view("templates.pdf.{$transaction->type}", [
-            "model" => $model,
+            'model' => $model,
         ])->render();
 
         $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
@@ -58,10 +58,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -72,15 +72,15 @@ class DocumentController extends Controller
         Log::info($customer);
 
         $productsGroupedByCategory = Product::query()
-            ->with("features")
-            ->where("is_active", true)
-            ->orderBy("brand", "asc")
+            ->with('features')
+            ->where('is_active', true)
+            ->orderBy('brand', 'asc')
             ->get()
-            ->groupBy("category");
+            ->groupBy('category');
 
-        $view = view("templates.pdf.price-list", [
-            "productsGroupedByCategory" => $productsGroupedByCategory,
-            "customer" => $customer,
+        $view = view('templates.pdf.price-list', [
+            'productsGroupedByCategory' => $productsGroupedByCategory,
+            'customer' => $customer,
         ])->render();
 
         $url = storage_path(
@@ -93,10 +93,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -106,10 +106,10 @@ class DocumentController extends Controller
     {
         Log::info($order);
 
-        $order->load("items.product.features");
+        $order->load('items.product.features');
 
-        $view = view("templates.pdf.pick-list", [
-            "model" => $order,
+        $view = view('templates.pdf.pick-list', [
+            'model' => $order,
         ])->render();
 
         $url = storage_path("app/public/pick-lists/{$order->number}.pdf");
@@ -120,10 +120,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -133,10 +133,10 @@ class DocumentController extends Controller
     {
         Log::info($order);
 
-        $order->load("items.product.features");
+        $order->load('items.product.features');
 
-        $view = view("templates.pdf.delivery-note", [
-            "model" => $order,
+        $view = view('templates.pdf.delivery-note', [
+            'model' => $order,
         ])->render();
 
         $url = storage_path("app/public/delivery-note/{$order->number}.pdf");
@@ -147,10 +147,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -160,10 +160,10 @@ class DocumentController extends Controller
     {
         Log::info($stockTake);
 
-        $stockTake->load("items.product.features");
+        $stockTake->load('items.product.features');
 
-        $view = view("templates.pdf.stock-count", [
-            "model" => $stockTake,
+        $view = view('templates.pdf.stock-count', [
+            'model' => $stockTake,
         ])->render();
 
         $url = storage_path("app/public/stock-counts/{$stockTake->id}.pdf");
@@ -174,10 +174,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -187,10 +187,10 @@ class DocumentController extends Controller
     {
         Log::info($stockTake);
 
-        $stockTake->load("items.product.features");
+        $stockTake->load('items.product.features');
 
-        $view = view("templates.pdf.stock-take", [
-            "model" => $stockTake,
+        $view = view('templates.pdf.stock-take', [
+            'model' => $stockTake,
         ])->render();
 
         $url = storage_path("app/public/stock-takes/{$stockTake->id}.pdf");
@@ -201,10 +201,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -212,11 +212,11 @@ class DocumentController extends Controller
 
     public function getDebtorsList()
     {
-        $view = view("templates.pdf.debtors-list", [
-            "customers" => Customer::orderBy("name")->get(),
+        $view = view('templates.pdf.debtors-list', [
+            'customers' => Customer::orderBy('name')->get(),
         ])->render();
 
-        $url = storage_path("app/public/documents/debtors-list.pdf");
+        $url = storage_path('app/public/documents/debtors-list.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -224,10 +224,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -235,11 +235,11 @@ class DocumentController extends Controller
 
     public function getCreditorsList()
     {
-        $view = view("templates.pdf.creditors-list", [
-            "suppliers" => Supplier::orderBy("name")->get(),
+        $view = view('templates.pdf.creditors-list', [
+            'suppliers' => Supplier::orderBy('name')->get(),
         ])->render();
 
-        $url = storage_path("app/public/documents/creditors-list.pdf");
+        $url = storage_path('app/public/documents/creditors-list.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -247,10 +247,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -258,21 +258,21 @@ class DocumentController extends Controller
 
     public function getExpensesList()
     {
-        $expenses = Expense::whereBetween("date", [
-            request("from"),
-            request("to"),
+        $expenses = Expense::whereBetween('date', [
+            request('from'),
+            request('to'),
         ])
-            ->when(request("category"), function ($query) {
-                $query->whereCategory(request("category"));
+            ->when(request('category'), function ($query) {
+                $query->whereCategory(request('category'));
             })
             ->get()
-            ->groupBy("category");
+            ->groupBy('category');
 
-        $view = view("templates.pdf.expenses", [
-            "expenses" => $expenses,
+        $view = view('templates.pdf.expenses', [
+            'expenses' => $expenses,
         ])->render();
 
-        $url = storage_path("app/public/documents/expenses.pdf");
+        $url = storage_path('app/public/documents/expenses.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -280,10 +280,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -291,21 +291,21 @@ class DocumentController extends Controller
 
     public function getPurchasesList()
     {
-        $purchases = Purchase::whereBetween("date", [
-            request("from"),
-            request("to"),
+        $purchases = Purchase::whereBetween('date', [
+            request('from'),
+            request('to'),
         ])
-            ->when(request("supplier"), function ($query) {
-                $query->whereSupplierId(request("supplier"));
+            ->when(request('supplier'), function ($query) {
+                $query->whereSupplierId(request('supplier'));
             })
             ->get()
-            ->groupBy("supplier_id");
+            ->groupBy('supplier_id');
 
-        $view = view("templates.pdf.purchases", [
-            "purchases" => $purchases,
+        $view = view('templates.pdf.purchases', [
+            'purchases' => $purchases,
         ])->render();
 
-        $url = storage_path("app/public/documents/purchases.pdf");
+        $url = storage_path('app/public/documents/purchases.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -313,10 +313,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -324,21 +324,21 @@ class DocumentController extends Controller
 
     public function getCreditsList()
     {
-        $credits = Credit::whereBetween("created_at", [
-            request("from"),
-            request("to"),
+        $credits = Credit::whereBetween('created_at', [
+            request('from'),
+            request('to'),
         ])
-            ->when(request("admin"), function ($query) {
-                $query->whereCreatedBy(request("admin"));
+            ->when(request('admin'), function ($query) {
+                $query->whereCreatedBy(request('admin'));
             })
             ->get()
-            ->groupBy("created_by");
+            ->groupBy('created_by');
 
-        $view = view("templates.pdf.credits", [
-            "credits" => $credits,
+        $view = view('templates.pdf.credits', [
+            'credits' => $credits,
         ])->render();
 
-        $url = storage_path("app/public/documents/credits.pdf");
+        $url = storage_path('app/public/documents/credits.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -346,10 +346,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -357,20 +357,20 @@ class DocumentController extends Controller
 
     public function getVariancesList()
     {
-        $stocks = Stock::whereBetween("created_at", [
-            request("from"),
-            request("to"),
+        $stocks = Stock::whereBetween('created_at', [
+            request('from'),
+            request('to'),
         ])
-            ->where("type", "=", "adjustment")
-            ->where("qty", "!=", 0)
+            ->where('type', '=', 'adjustment')
+            ->where('qty', '!=', 0)
             ->get()
-            ->sortBy("reference");
+            ->sortBy('reference');
 
-        $view = view("templates.pdf.variances", [
-            "stocks" => $stocks,
+        $view = view('templates.pdf.variances', [
+            'stocks' => $stocks,
         ])->render();
 
-        $url = storage_path("app/public/documents/variances.pdf");
+        $url = storage_path('app/public/documents/variances.pdf');
 
         if (file_exists($url)) {
             unlink($url);
@@ -378,10 +378,10 @@ class DocumentController extends Controller
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -389,46 +389,46 @@ class DocumentController extends Controller
 
     public function getSalesByDateRange()
     {
-        $customers = Customer::withWhereHas("orders", function ($query) {
+        $customers = Customer::withWhereHas('orders', function ($query) {
             $query
-                ->whereBetween("created_at", [request("from"), request("to")])
-                ->where("status", "!=", "cancelled")
-                ->whereNotNull("status");
+                ->whereBetween('created_at', [request('from'), request('to')])
+                ->where('status', '!=', 'cancelled')
+                ->whereNotNull('status');
         })
             ->select([
-                "customers.id",
-                "customers.name",
-                "customers.salesperson_id",
+                'customers.id',
+                'customers.name',
+                'customers.salesperson_id',
             ])
-            ->with("salesperson:id,name")
-            ->when(request("salesperson_id"), function ($query) {
+            ->with('salesperson:id,name')
+            ->when(request('salesperson_id'), function ($query) {
                 $query->where(
-                    "salesperson_id",
-                    "=",
-                    (int) request("salesperson_id")
+                    'salesperson_id',
+                    '=',
+                    (int) request('salesperson_id')
                 );
             })
             ->get()
-            ->groupBy("salesperson.name");
+            ->groupBy('salesperson.name');
 
         Log::info($customers);
 
-        $url = storage_path("app/public/documents/salesByDateRange.pdf");
+        $url = storage_path('app/public/documents/salesByDateRange.pdf');
 
         if (file_exists($url)) {
             unlink($url);
         }
 
-        $view = view("templates.pdf.salesByDateRange", [
-            "customers" => $customers,
+        $view = view('templates.pdf.salesByDateRange', [
+            'customers' => $customers,
         ])->render();
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         return response()->json(200);
@@ -436,48 +436,48 @@ class DocumentController extends Controller
 
     public function getStocksByDateRange()
     {
-        $toDate = request("to");
+        $toDate = request('to');
 
-        $products = Product::whereHas("stocks", function ($query) use (
+        $products = Product::whereHas('stocks', function ($query) use (
             $toDate
         ) {
-            $query->whereDate("created_at", "<=", Carbon::parse($toDate));
+            $query->whereDate('created_at', '<=', Carbon::parse($toDate));
         })
-            ->select(["id", "name", "cost", "sku", "brand"])
+            ->select(['id', 'name', 'cost', 'sku', 'brand'])
             ->withSum(
                 [
-                    "stocks" => function ($query) use ($toDate) {
+                    'stocks' => function ($query) use ($toDate) {
                         $query->whereDate(
-                            "created_at",
-                            "<=",
+                            'created_at',
+                            '<=',
                             Carbon::parse($toDate)
                         );
                     },
                 ],
-                "qty"
+                'qty'
             )
             ->get();
 
         Log::info($products);
 
-        $url = storage_path("app/public/documents/stockByDateRange.pdf");
+        $url = storage_path('app/public/documents/stockByDateRange.pdf');
 
         if (file_exists($url)) {
             unlink($url);
         }
 
-        $view = view("templates.pdf.stockByDateRange", [
-            "products" => $products->filter(function ($product) {
+        $view = view('templates.pdf.stockByDateRange', [
+            'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),
         ])->render();
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 90)
+            ->setScreenshotType('pdf', 90)
             ->save($url);
 
         return response()->json(200);

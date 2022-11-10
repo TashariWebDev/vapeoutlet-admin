@@ -17,17 +17,17 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $searchTerm = "";
+    public $searchTerm = '';
 
     /**
      * @throws CouldNotTakeBrowsershot
      */
     public function getPickingSlip(Order $order)
     {
-        $order->load("items.product.features");
+        $order->load('items.product.features');
 
-        $view = view("templates.pdf.pick-list", [
-            "model" => $order,
+        $view = view('templates.pdf.pick-list', [
+            'model' => $order,
         ])->render();
 
         $url = storage_path("app/public/pick-lists/$order->number.pdf");
@@ -38,10 +38,10 @@ class Index extends Component
 
         Browsershot::html($view)
             ->showBackground()
-            ->emulateMedia("print")
-            ->format("a4")
+            ->emulateMedia('print')
+            ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType("pdf", 100)
+            ->setScreenshotType('pdf', 100)
             ->save($url);
 
         $this->redirect("/storage/pick-lists/$order->number.pdf");
@@ -49,14 +49,14 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.warehouse.index", [
-            "orders" => Order::query()
-                ->with("delivery", "customer", "customer.transactions", "items")
+        return view('livewire.warehouse.index', [
+            'orders' => Order::query()
+                ->with('delivery', 'customer', 'customer.transactions', 'items')
                 ->when(
                     $this->searchTerm,
-                    fn($query) => $query->search($this->searchTerm)
+                    fn ($query) => $query->search($this->searchTerm)
                 )
-                ->where("status", "=", "processed")
+                ->where('status', '=', 'processed')
                 ->latest()
                 ->paginate(5),
         ]);

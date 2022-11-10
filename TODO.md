@@ -9,14 +9,12 @@
             Relationships:
                 - a location hasMany stocks
                 - a stock belongsTo a location
-                - an admin belongsTo a location
-                - a location hasMany admins
+                - an admin belongsToMany a location
+                - a location belongsToMany admins
                 - a order belongsTo a location
                 - a location hasMany orders
                 - a credit belongsTo a location
                 - a location hasMany credits
-                - a customer belongsTo a location
-                - a location hasMany customers
 
             Models: 
                 NEW:
@@ -26,14 +24,12 @@
                   - ORDER
                   - CREDIT
                   - ADMIN
-                  - CUSTOMER
 
             MIGRATIONS:
                 NEW:
                  - locations
+                 - admin_location (pivot) is default
                 CHANGES:
-                    - customers location_id
-                    - admins location_id
                     - orders location_id
                     - credits location_id
                     - stocks locations_id
@@ -51,13 +47,7 @@
                         
                     - ADMINS
                         - create
-                        - edit 
-
-                    - CUSTOMERS
-                        - create
                         - edit
-                        - register
-                        - profile
 
                    - ORDERS
                       - create
@@ -71,16 +61,8 @@
 
                     - INVENTORY
                         - show
-
-                    - CART
-                    - CHECKOUT
-                    - PAYMENT
             
 
-            seperate data table or existing stock table to link location to stock?
-                - seperate
-                    higher chances of write errors
-                    slower
                 - existing
                     better performance
                     how do we update current data
@@ -94,12 +76,7 @@
             who will be responsible for transfers?
             should the system request stock automatically based on stock level?
             who approves this
-            
-        - link customer to location
-                is a customer auto allocated based on type of customer?
-                can this be manually done?
-                who approves this?
-                what happens if location is disabled/deleted?
+
 
         - link admin to location
             - if not linked default (warehouse)
@@ -109,7 +86,8 @@
                 who approves this?
                 what happens if location is disabled/deleted?
 
-        - restrict admins to allocated location ??
+        - restrict admins to allocated location - default or selectable
+
         - link order to location 
             stock availablity check needs to check against allocated location only
             
@@ -135,12 +113,6 @@
             
         - how are payments allocated 
             will need to be seperated for reporting
-
-        - can a product be disabled per location?
-        
-        - Frontend 
-            -- cart - product must be picked from specific location
-                    - stock availablity must be managed per allocation
 
 # TODO
 
@@ -200,7 +172,7 @@
 
 # Warehouse
 
-        - Customer statement
+~~Customer statement~~
 
 ~~Credit complete orders or part of it~~
 
@@ -239,6 +211,7 @@
 # Faeeza
 
         - Discounts on invoices
+        - create credit note from existing order
 
 ~~add date to transactions~~
 

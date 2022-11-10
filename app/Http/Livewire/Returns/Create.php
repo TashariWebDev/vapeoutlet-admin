@@ -35,14 +35,14 @@ class Create extends Component
 
     public function mount()
     {
-        $this->supplierId = request("id");
+        $this->supplierId = request('id');
         $this->credit = SupplierCredit::firstOrCreate(
             [
-                "supplier_id" => $this->supplier->id,
-                "processed_at" => null,
+                'supplier_id' => $this->supplier->id,
+                'processed_at' => null,
             ],
             [
-                "created_by" => auth()->user()->name,
+                'created_by' => auth()->user()->name,
             ]
         );
     }
@@ -65,17 +65,17 @@ class Create extends Component
         }
 
         $this->showProductSelectorForm = false;
-        $this->reset(["searchQuery"]);
+        $this->reset(['searchQuery']);
         $this->selectedProducts = [];
 
-        $this->notify("Products added");
+        $this->notify('Products added');
         $this->redirect("/supplier-credits/{$this->supplierId}");
     }
 
     public function updatePrice(SupplierCreditItem $item, $value)
     {
-        $item->update(["cost" => $value]);
-        $this->notify("Price updated");
+        $item->update(['cost' => $value]);
+        $this->notify('Price updated');
         $this->redirect("/supplier-credits/{$this->supplierId}");
     }
 
@@ -83,18 +83,19 @@ class Create extends Component
     {
         if ($value > $item->product->qty()) {
             $this->notify("We only have {$item->product->qty()} in stock");
+
             return back();
         }
 
-        $item->update(["qty" => $value]);
-        $this->notify("Qty updated");
+        $item->update(['qty' => $value]);
+        $this->notify('Qty updated');
         $this->redirect("/supplier-credits/{$this->supplierId}");
     }
 
     public function deleteItem(SupplierCreditItem $item)
     {
         $item->delete();
-        $this->notify("Item deleted");
+        $this->notify('Item deleted');
 
         $this->redirect("/supplier-credits/{$this->supplierId}");
     }
@@ -102,12 +103,12 @@ class Create extends Component
     public function process()
     {
         $this->showConfirmModal = false;
-        $this->notify("Processing");
+        $this->notify('Processing');
 
         DB::transaction(function () {
             $this->credit->decreaseStock();
 
-            $this->credit->updateStatus("processed_at");
+            $this->credit->updateStatus('processed_at');
 
             $this->supplier->createCredit($this->credit, $this->credit->number);
         }, 3);
@@ -116,7 +117,7 @@ class Create extends Component
             $this->credit->supplier_id
         )->delay(3);
 
-        $this->notify("processed");
+        $this->notify('processed');
 
         $this->redirect("/inventory/suppliers/{$this->supplierId}");
     }
@@ -128,7 +129,7 @@ class Create extends Component
         }
 
         $this->credit->cancel();
-        $this->notify("Purchase deleted");
+        $this->notify('Purchase deleted');
 
         $this->redirect("/suppliers/show/{$this->supplier->id}");
     }
@@ -140,10 +141,10 @@ class Create extends Component
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.returns.create", [
-            "products" => Product::query()
+        return view('livewire.returns.create', [
+            'products' => Product::query()
                 ->inStock()
-                ->with("features")
+                ->with('features')
                 ->when($this->searchQuery, function ($query) {
                     $query->search($this->searchQuery);
                 })

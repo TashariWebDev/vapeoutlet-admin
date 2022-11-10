@@ -15,17 +15,17 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            "processed_by" => $this->faker->word(),
-            "is_editing" => $this->faker->boolean(),
-            "delivery_charge" => $this->faker->randomNumber(),
-            "waybill" => $this->faker->word(),
-            "status" => $this->faker->word(),
-            "created_at" => Carbon::now(),
-            "updated_at" => Carbon::now(),
-            "placed_at" => Carbon::now(),
+            'processed_by' => $this->faker->word(),
+            'is_editing' => $this->faker->boolean(),
+            'delivery_charge' => $this->faker->randomNumber(),
+            'waybill' => $this->faker->word(),
+            'status' => $this->faker->word(),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+            'placed_at' => Carbon::now(),
 
-            "customer_id" => Customer::factory(),
-            "salesperson_id" => User::factory(),
+            'customer_id' => Customer::factory(),
+            'salesperson_id' => User::factory(),
         ];
     }
 }

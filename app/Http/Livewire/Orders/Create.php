@@ -29,9 +29,9 @@ class Create extends Component
 
     public $searchedProducts;
 
-    public $searchQuery = "";
+    public $searchQuery = '';
 
-    public $searchProducts = "";
+    public $searchProducts = '';
 
     public $selectedProducts = [];
 
@@ -62,20 +62,20 @@ class Create extends Component
     public $products = [];
 
     public $provinces = [
-        "gauteng",
-        "kwazulu natal",
-        "limpopo",
-        "mpumalanga",
-        "north west",
-        "free state",
-        "northern cape",
-        "western cape",
-        "eastern cape",
+        'gauteng',
+        'kwazulu natal',
+        'limpopo',
+        'mpumalanga',
+        'north west',
+        'free state',
+        'northern cape',
+        'western cape',
+        'eastern cape',
     ];
 
     public function mount()
     {
-        $this->orderId = request("id");
+        $this->orderId = request('id');
     }
 
     public function updatedSearchQuery()
@@ -98,10 +98,10 @@ class Create extends Component
         }
 
         $this->showProductSelectorForm = false;
-        $this->reset(["searchQuery"]);
+        $this->reset(['searchQuery']);
         $this->selectedProducts = [];
         $this->products = [];
-        $this->notify("Products added");
+        $this->notify('Products added');
         $this->order->refresh();
     }
 
@@ -111,33 +111,37 @@ class Create extends Component
             $this->order->remove($item);
         }
 
-        $this->reset(["searchQuery"]);
+        $this->reset(['searchQuery']);
         $this->selectedProductsToDelete = [];
-        $this->notify("Products removed");
+        $this->notify('Products removed');
         $this->order->refresh();
     }
 
     public function updatePrice(OrderItem $item, $value)
     {
         if ($value < $item->product->cost) {
-            $this->notify("Price below cost");
+            $this->notify('Price below cost');
         }
 
-        $item->update(["price" => $value]);
-        $this->notify("Price updated");
+        $item->update([
+            'price' => $value,
+            'discount' => $item->product_price - $value,
+        ]);
+
+        $this->notify('Price updated');
     }
 
     public function updateQty(OrderItem $item, $qty)
     {
         $qtyInStock =
-            $item->product->stocks->sum("qty") +
+            $item->product->stocks->sum('qty') +
             (0 - $item->stock()->first()?->qty);
 
         if ($qty <= $qtyInStock) {
-            $item->update(["qty" => $qty]);
-            $this->notify("Qty updated");
+            $item->update(['qty' => $qty]);
+            $this->notify('Qty updated');
         } else {
-            $item->update(["qty" => $qtyInStock]);
+            $item->update(['qty' => $qtyInStock]);
             $this->notify("Max Qty of $qtyInStock added");
         }
     }
@@ -146,7 +150,7 @@ class Create extends Component
     {
         $stock = $this->order
             ->stocks()
-            ->where("product_id", "=", $item->product_id)
+            ->where('product_id', '=', $item->product_id)
             ->first();
 
         if ($stock) {
@@ -157,14 +161,15 @@ class Create extends Component
 
         $this->order->refresh();
 
-        $this->notify("Item deleted");
+        $this->notify('Item deleted');
     }
 
     public function process()
     {
-        if (!$this->order->items->count()) {
-            $this->notify("Nothing in order");
+        if (! $this->order->items->count()) {
+            $this->notify('Nothing in order');
             $this->showConfirmModal = false;
+
             return redirect()->back();
         }
 
@@ -180,7 +185,7 @@ class Create extends Component
             foreach ($this->order->items as $item) {
                 if ($item->qty > $item->product->qtyInStock) {
                     $item->update([
-                        "qty" => $item->product->qtyInStock,
+                        'qty' => $item->product->qtyInStock,
                     ]);
 
                     if ($item->qty <= 0) {
@@ -192,17 +197,18 @@ class Create extends Component
             $this->order->refresh();
 
             $this->notify(
-                "Some of the items in your cart have been adjusted due to stock availability"
+                'Some of the items in your cart have been adjusted due to stock availability'
             );
 
             $this->showConfirmModal = false;
+
             return redirect()->back();
         }
 
         $delivery = Delivery::find($this->order->delivery_type_id);
 
         $this->order->update([
-            "delivery_charge" => $delivery->getPrice(
+            'delivery_charge' => $delivery->getPrice(
                 $this->order->getSubTotal()
             ),
         ]);
@@ -210,7 +216,7 @@ class Create extends Component
         $this->showConfirmModal = false;
         $this->order->decreaseStock();
         $this->order->customer->createInvoice($this->order);
-        $this->order->updateStatus("received");
+        $this->order->updateStatus('received');
 
         $this->sendOrderEmails();
 
@@ -218,9 +224,9 @@ class Create extends Component
             $this->order->customer_id
         )->delay(3);
 
-        $this->notify("processed");
+        $this->notify('processed');
 
-        return redirect()->route("orders");
+        return redirect()->route('orders');
     }
 
     public function sendOrderEmails()
@@ -230,7 +236,7 @@ class Create extends Component
             new OrderConfirmed($this->order->customer)
         );
 
-        Mail::to(config("mail.from.address"))->later(
+        Mail::to(config('mail.from.address'))->later(
             60,
             new OrderReceived($this->order->customer)
         );
@@ -246,26 +252,26 @@ class Create extends Component
 
             $this->order->delete();
 
-            $this->redirectRoute("orders");
+            $this->redirectRoute('orders');
         }
 
-        $this->order->updateStatus("cancelled");
+        $this->order->updateStatus('cancelled');
 
         if ($this->order->getTotal() > 0) {
             $credit = Credit::create([
-                "customer_id" => $this->order->customer->id,
-                "salesperson_id" => $this->order->salesperson_id,
-                "created_by" => auth()->user()->name,
-                "delivery_charge" => $this->order->delivery_charge,
-                "processed_at" => now(),
+                'customer_id' => $this->order->customer->id,
+                'salesperson_id' => $this->order->salesperson_id,
+                'created_by' => auth()->user()->name,
+                'delivery_charge' => $this->order->delivery_charge,
+                'processed_at' => now(),
             ]);
 
             foreach ($this->order->items as $item) {
                 $credit->items()->create([
-                    "product_id" => $item->product_id,
-                    "qty" => $item->qty,
-                    "price" => $item->price,
-                    "cost" => $item->cost,
+                    'product_id' => $item->product_id,
+                    'qty' => $item->qty,
+                    'price' => $item->price,
+                    'cost' => $item->cost,
                 ]);
             }
 
@@ -274,26 +280,27 @@ class Create extends Component
             $this->order->customer->createCredit($credit, $credit->number);
         }
 
-        $invoice = Transaction::where("type", "=", "invoice")
-            ->where("reference", "=", $this->order->number)
+        $invoice = Transaction::where('type', '=', 'invoice')
+            ->where('reference', '=', $this->order->number)
             ->first();
 
-        $invoice?->update(["amount" => $this->order->getTotal()]);
+        $invoice?->update(['amount' => $this->order->getTotal()]);
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id
         )->delay(3);
 
-        $this->notify("order deleted");
-        return redirect()->route("orders");
+        $this->notify('order deleted');
+
+        return redirect()->route('orders');
     }
 
     public function getOrderProperty()
     {
         return Order::findOrFail($this->orderId)->load(
-            "customer.addresses",
-            "items.product.features",
-            "items.product.stocks"
+            'customer.addresses',
+            'items.product.features',
+            'items.product.stocks'
         );
     }
 
@@ -301,61 +308,61 @@ class Create extends Component
     {
         $delivery = Delivery::find($deliveryId);
         $this->order->update([
-            "delivery_type_id" => $delivery->id,
-            "delivery_charge" => $delivery->price,
+            'delivery_type_id' => $delivery->id,
+            'delivery_charge' => $delivery->price,
         ]);
 
-        $this->notify("delivery option updated");
+        $this->notify('delivery option updated');
         $this->chooseDeliveryForm = false;
     }
 
     public function updateAddress($addressId)
     {
-        $this->order->update(["address_id" => $addressId]);
-        $this->notify("address updated");
+        $this->order->update(['address_id' => $addressId]);
+        $this->notify('address updated');
         $this->chooseAddressForm = false;
     }
 
     public function addAddress()
     {
         $validatedData = $this->validate([
-            "province" => ["required"],
-            "line_one" => ["required"],
-            "line_two" => ["nullable"],
-            "suburb" => ["nullable"],
-            "city" => ["required"],
-            "postal_code" => ["required"],
+            'province' => ['required'],
+            'line_one' => ['required'],
+            'line_two' => ['nullable'],
+            'suburb' => ['nullable'],
+            'city' => ['required'],
+            'postal_code' => ['required'],
         ]);
 
         $this->order->customer->addresses()->create($validatedData);
 
         $this->reset([
-            "province",
-            "line_one",
-            "line_two",
-            "suburb",
-            "city",
-            "postal_code",
+            'province',
+            'line_one',
+            'line_two',
+            'suburb',
+            'city',
+            'postal_code',
         ]);
 
-        $this->order->customer->load("addresses");
+        $this->order->customer->load('addresses');
     }
 
     public function render(): Factory|View|Application
     {
-        return view("livewire.orders.create", [
-            "deliveryOptions" => Delivery::query()
+        return view('livewire.orders.create', [
+            'deliveryOptions' => Delivery::query()
                 ->when($this->order->address, function ($query) {
                     $query->where(
-                        "province",
-                        "=",
+                        'province',
+                        '=',
                         $this->order->address->province
                     );
                 })
-                ->where("customer_type", "=", $this->order->customer->type())
-                ->orWhere("customer_type", "=", null)
-                ->where("selectable", true)
-                ->orderBy("price", "asc")
+                ->where('customer_type', '=', $this->order->customer->type())
+                ->orWhere('customer_type', '=', null)
+                ->where('selectable', true)
+                ->orderBy('price', 'asc')
                 ->get(),
         ]);
     }

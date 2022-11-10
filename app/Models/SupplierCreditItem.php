@@ -10,9 +10,9 @@ class SupplierCreditItem extends Model
 {
     protected $guarded = [];
 
-    protected $table = "supplier_credit_items";
+    protected $table = 'supplier_credit_items';
 
-    protected $with = ["product.features"];
+    protected $with = ['product.features'];
 
     public function supplier_credit(): BelongsTo
     {
@@ -27,8 +27,8 @@ class SupplierCreditItem extends Model
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
@@ -36,10 +36,10 @@ class SupplierCreditItem extends Model
     {
         foreach ($this->items as $item) {
             $item->product->stocks()->create([
-                "type" => "supplier credit",
-                "reference" => $this->number,
-                "qty" => 0 - $item->qty,
-                "cost" => $item->product->cost,
+                'type' => 'supplier credit',
+                'reference' => $this->number,
+                'qty' => 0 - $item->qty,
+                'cost' => $item->product->cost,
             ]);
         }
 

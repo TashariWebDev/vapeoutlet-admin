@@ -14,64 +14,64 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get("/save-document/{transaction}", [
+Route::get('/save-document/{transaction}', [
     DocumentController::class,
-    "saveDocument",
+    'saveDocument',
 ]);
 
-Route::get("/price-list/{customer}", [
+Route::get('/price-list/{customer}', [
     DocumentController::class,
-    "getPriceList",
+    'getPriceList',
 ]);
-Route::get("/pick-lists/{order}", [DocumentController::class, "getPickList"]);
+Route::get('/pick-lists/{order}', [DocumentController::class, 'getPickList']);
 
-Route::get("/delivery-note/{order}", [
+Route::get('/delivery-note/{order}', [
     DocumentController::class,
-    "getDeliveryNote",
+    'getDeliveryNote',
 ]);
-Route::get("/stock-takes/{stockTake}", [
+Route::get('/stock-takes/{stockTake}', [
     DocumentController::class,
-    "getStockTake",
-]);
-
-Route::get("/stock-counts/{stockTake}", [
-    DocumentController::class,
-    "getStockCount",
+    'getStockTake',
 ]);
 
-Route::get("/documents/debtor-list", [
+Route::get('/stock-counts/{stockTake}', [
     DocumentController::class,
-    "getDebtorsList",
+    'getStockCount',
 ]);
 
-Route::get("/documents/creditors-list", [
+Route::get('/documents/debtor-list', [
     DocumentController::class,
-    "getCreditorsList",
+    'getDebtorsList',
 ]);
 
-Route::get("/documents/expenses", [
+Route::get('/documents/creditors-list', [
     DocumentController::class,
-    "getExpensesList",
+    'getCreditorsList',
 ]);
 
-Route::get("/documents/purchases", [
+Route::get('/documents/expenses', [
     DocumentController::class,
-    "getPurchasesList",
+    'getExpensesList',
 ]);
 
-Route::get("/documents/credits", [DocumentController::class, "getCreditsList"]);
-
-Route::get("/documents/variances", [
+Route::get('/documents/purchases', [
     DocumentController::class,
-    "getVariancesList",
+    'getPurchasesList',
 ]);
 
-Route::get("/documents/salesByDateRange", [
+Route::get('/documents/credits', [DocumentController::class, 'getCreditsList']);
+
+Route::get('/documents/variances', [
     DocumentController::class,
-    "getSalesByDateRange",
+    'getVariancesList',
 ]);
 
-Route::get("/documents/stocksByDateRange", [
+Route::get('/documents/salesByDateRange', [
     DocumentController::class,
-    "getStocksByDateRange",
+    'getSalesByDateRange',
+]);
+
+Route::get('/documents/stocksByDateRange', [
+    DocumentController::class,
+    'getStocksByDateRange',
 ]);

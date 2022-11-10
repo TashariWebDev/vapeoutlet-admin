@@ -12,7 +12,6 @@ use Illuminate\Queue\SerializesModels;
 class UpdateCustomerRunningBalanceJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public Customer $customer;
@@ -24,7 +23,7 @@ class UpdateCustomerRunningBalanceJob implements ShouldQueue
 
     public function handle()
     {
-        $this->customer->load("transactions");
+        $this->customer->load('transactions');
         $balance = 0;
         foreach ($this->customer->transactions as $transaction) {
             $balance += $transaction->amount;

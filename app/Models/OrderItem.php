@@ -28,23 +28,44 @@ class OrderItem extends Model
     public function stock(): Stock|Builder|_IH_Stock_QB|null
     {
         return Stock::query()
-            ->where("product_id", "=", $this->product_id)
-            ->where("order_id", "=", $this->order_id);
+            ->where('product_id', '=', $this->product_id)
+            ->where('order_id', '=', $this->order_id);
     }
 
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
+    }
+
+    public function getDiscount()
+    {
+        return $this->product_price - $this->price;
     }
 
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
+        );
+    }
+
+    public function product_price(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
+        );
+    }
+
+    public function discount(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 

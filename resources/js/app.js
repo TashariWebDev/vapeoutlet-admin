@@ -1,7 +1,11 @@
-import './bootstrap';
+import "./bootstrap";
 
-import Alpine from 'alpinejs';
+import confettiModule from "canvas-confetti";
+
+import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
+
+window.confetti = confettiModule;
 
 Alpine.start();

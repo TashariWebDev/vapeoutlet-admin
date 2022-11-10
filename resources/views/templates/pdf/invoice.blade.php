@@ -11,17 +11,10 @@
     >
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-
-
         @media print {
-            /*section,*/
-            /*td,*/
-            /*tr,*/
-            /*div,*/
             section {
                 page-break-inside: avoid !important;
             }
-
 
             @page {
                 margin-top: 3mm;
@@ -40,6 +33,13 @@
 </head>
 <body>
     <div class="font-sans w-screen bg-white antialiased p-6">
+
+        <div
+            class="fixed font-extrabold transform right-0 bottom-0 text-red-600 opacity-20 min-h-screen max-w-7xl z-10 text-4xl"
+        >
+            <h1>CANCELLED</h1>
+        </div>
+
         <div class="p-4 bg-white rounded">
             <section id="header"
                      class="pb-4"
@@ -105,6 +105,7 @@
                             <th class="col-span-2 text-left">Item</th>
                             <th class="text-right">Qty</th>
                             <th class="text-right">Price</th>
+                            <th class="text-right">Discount</th>
                             <th class="text-right">Amount</th>
                         </tr>
                     </thead>
@@ -130,6 +131,11 @@
                                 <td class="text-right">
                                     <p class="text-xs font-mono">
                                         R {{ number_format($item->price,2) }}
+                                    </p>
+                                </td>
+                                <td class="text-right">
+                                    <p class="text-xs font-mono">
+                                        R {{ number_format($item->discount,2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
@@ -213,20 +219,22 @@
                 <div class="mt-4 bg-white rounded-md p-4">
 
                     @foreach($model->notes as $note)
-                        <div class="pb-2">
-                            <div>
-                                @if($note->customer_id)
-                                    <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
-                                        on {{ $note->created_at }}</p>
-                                @else
-                                    <p class="text-xs text-gray-400 uppercase">{{ $note->user?->name }}
-                                        on {{ $note->created_at }}</p>
-                                @endif
+                        @if(!$note->is_private)
+                            <div class="pb-2">
+                                <div>
+                                    @if($note->customer_id)
+                                        <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
+                                            on {{ $note->created_at }}</p>
+                                    @else
+                                        <p class="text-xs text-gray-400 uppercase">{{ $note->user?->name }}
+                                            on {{ $note->created_at }}</p>
+                                    @endif
+                                </div>
+                                <div class="p-1">
+                                    <p class="capitalize text-sm">{{ $note->body }}</p>
+                                </div>
                             </div>
-                            <div class="p-1">
-                                <p class="capitalize text-sm">{{ $note->body }}</p>
-                            </div>
-                        </div>
+                        @endif
                     @endforeach
 
                 </div>

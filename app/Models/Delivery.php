@@ -15,14 +15,14 @@ class Delivery extends Model
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class, "delivery_type_id");
+        return $this->hasMany(Order::class, 'delivery_type_id');
     }
 
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 
@@ -38,8 +38,8 @@ class Delivery extends Model
     public function waiverValue(): Attribute
     {
         return new Attribute(
-            get: fn($value) => (float) to_rands($value),
-            set: fn($value) => to_cents($value)
+            get: fn ($value) => (float) to_rands($value),
+            set: fn ($value) => to_cents($value)
         );
     }
 }

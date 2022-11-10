@@ -22,7 +22,7 @@ class UpdateSupplierRunningBalanceJob implements ShouldQueue
 
     public function handle()
     {
-        $this->supplier->load("transactions");
+        $this->supplier->load('transactions');
         $balance = 0;
         foreach ($this->supplier->transactions as $transaction) {
             $balance += $transaction->amount;
