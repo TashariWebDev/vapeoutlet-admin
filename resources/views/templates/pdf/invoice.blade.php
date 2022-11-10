@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
     >
     <title>Invoice</title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet"
     >
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -28,28 +31,31 @@
                 size: legal portrait;
             }
         }
-
     </style>
 </head>
+
 <body>
     <div class="p-6 w-screen font-sans antialiased bg-white">
 
-        <div
-            class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-red-600 opacity-20 transform"
-        >
-            <h1>CANCELLED</h1>
-        </div>
+        @if ($this->model->status === 'cancelled')
+            <div
+                class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-red-600 opacity-20 transform">
+                <h1>CANCELLED</h1>
+            </div>
+        @endif
 
         <div class="p-4 bg-white rounded">
-            <section id="header"
-                     class="pb-4"
+            <section
+                class="pb-4"
+                id="header"
             >
                 <div class="grid grid-cols-2 border-b">
                     <div class="flex items-center pb-2 space-x-6 w-full">
                         <div>
-                            <img src="{{ config('app.url').'/logo.png' }}"
-                                 class="w-16"
-                                 alt="Vape Crew"
+                            <img
+                                class="w-16"
+                                src="{{ config('app.url') . '/logo.png' }}"
+                                alt="Vape Crew"
                             >
                         </div>
                         <div>
@@ -110,7 +116,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($model->items as $item)
+                        @foreach ($model->items as $item)
                             <tr class="py-1 border-b border-dashed break-inside-avoid">
                                 <td class="text-left">
                                     <p class="text-xs font-semibold uppercase">{{ $item->product->sku }}</p>
@@ -120,27 +126,28 @@
                                         {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
                                     </p>
                                     <span class="flex flex-wrap text-xs">
-                            @foreach($item->product->features as $feature)
-                                            <span class="pr-1 text-xs font-semibold">{{ ucwords($feature->name) }}</span>
+                                        @foreach ($item->product->features as $feature)
+                                            <span
+                                                class="pr-1 text-xs font-semibold">{{ ucwords($feature->name) }}</span>
                                         @endforeach
-                        </span>
+                                    </span>
                                 </td>
                                 <td class="text-right">
                                     <p class="font-mono text-xs">{{ $item->qty }}</p>
                                 </td>
                                 <td class="text-right">
                                     <p class="font-mono text-xs">
-                                        R {{ number_format($item->price,2) }}
+                                        R {{ number_format($item->price, 2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
                                     <p class="font-mono text-xs">
-                                        R {{ number_format($item->discount,2) }}
+                                        R {{ number_format($item->discount, 2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
                                     <p class="font-mono text-xs">
-                                        R {{ number_format($item->line_total,2) }}
+                                        R {{ number_format($item->line_total, 2) }}
                                     </p>
                                 </td>
                             </tr>
@@ -148,22 +155,24 @@
                     </tbody>
                 </table>
 
-                <div class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid">
+                <div
+                    class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid">
                     <div class="grid grid-cols-5 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">Sub Total </span> R {{ number_format($model->getSubTotal(),2) }}
+                            <span class="font-semibold">Sub Total </span> R
+                            {{ number_format($model->getSubTotal(), 2) }}
                         </p>
                         <p class="col-span-2 text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">{{ ucwords($model->delivery->type) }} </span>
-                            R {{ number_format($model->delivery_charge,2) }}
+                            R {{ number_format($model->delivery_charge, 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Total </span>
-                            R {{ number_format($model->getTotal(),2) }}
+                            R {{ number_format($model->getTotal(), 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">VAT </span>
-                            R {{ number_format(vat($model->getTotal()),2) }}
+                            R {{ number_format(vat($model->getTotal()), 2) }}
                         </p>
                     </div>
 
@@ -171,28 +180,30 @@
                         <div class="grid grid-cols-1 gap-2">
                             <p class="text-xs text-center whitespace-nowrap">
                                 <span class="font-semibold">ACCOUNT BALANCE </span>
-                                R {{ number_format($model->customer->getRunningBalance(),2) }}
+                                R {{ number_format($model->customer->getRunningBalance(), 2) }}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                @if($model->waybill)
+                @if ($model->waybill)
                     <div>
                         <p class="text-xs">To track your order go to and enter your waybill number:</p>
-                        <a href="https://portal.thecourierguy.co.za/track"
-                           class="text-xs"
+                        <a
+                            class="text-xs"
+                            href="https://portal.thecourierguy.co.za/track"
                         >
                             https://portal.thecourierguy.co.za/track
                         </a>
-                        @if($model->waybill)
+                        @if ($model->waybill)
                             <p class="text-xs">Waybill number: <span class="uppercase">{{ $model->waybill }}</span></p>
                         @endif
                     </div>
                 @endif
 
-                <section id="footer"
-                         class="pt-2 mt-6 border-t break-before-avoid-page break-inside-avoid-page"
+                <section
+                    class="pt-2 mt-6 border-t break-before-avoid-page break-inside-avoid-page"
+                    id="footer"
                 >
                     <div class="py-1 text-center bg-gray-700 rounded">
                         <p class="text-xs text-white uppercase">
@@ -215,14 +226,14 @@
                 </section>
             </div>
 
-            @if($model->notes->count())
+            @if ($model->notes->count())
                 <div class="p-4 mt-4 bg-white rounded-md">
 
-                    @foreach($model->notes as $note)
-                        @if(!$note->is_private)
+                    @foreach ($model->notes as $note)
+                        @if (!$note->is_private)
                             <div class="pb-2">
                                 <div>
-                                    @if($note->customer_id)
+                                    @if ($note->customer_id)
                                         <p class="text-xs text-gray-400 uppercase">{{ $note->customer?->name }}
                                             on {{ $note->created_at }}</p>
                                     @else
@@ -242,4 +253,5 @@
         </div>
     </div>
 </body>
+
 </html>
