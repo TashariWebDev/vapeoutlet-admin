@@ -18,7 +18,10 @@ class Show extends Component
     {
         return [
             'user.name' => ['required'],
-            'user.email' => ['required', Rule::unique('users', 'email')->ignore($this->user->id)],
+            'user.email' => [
+                'required',
+                Rule::unique('users', 'email')->ignore($this->user->id),
+            ],
             'user.phone' => ['sometimes'],
         ];
     }
@@ -40,13 +43,17 @@ class Show extends Component
     public function deleteUser()
     {
         $this->user->delete();
-        $this->dispatchBrowserEvent('notification', ['body' => 'User deactivated']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'User deactivated',
+        ]);
     }
 
     public function restoreUser()
     {
         $this->user->restore();
-        $this->dispatchBrowserEvent('notification', ['body' => 'User Activated']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'User Activated',
+        ]);
     }
 
     public function assignAllPermissions()
@@ -55,7 +62,9 @@ class Show extends Component
         $this->user->permissions()->sync($permissions);
         $this->user->refresh();
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'All permissions assigned']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'All permissions assigned',
+        ]);
     }
 
     public function revokeAllPermissions()
@@ -67,7 +76,9 @@ class Show extends Component
         }
         $this->user->refresh();
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'All permissions revoked']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'All permissions revoked',
+        ]);
     }
 
     public function addPermission($permission)
@@ -75,7 +86,9 @@ class Show extends Component
         $this->user->permissions()->attach($permission);
         $this->user->refresh();
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Permission assigned']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'Permission assigned',
+        ]);
     }
 
     public function revokePermission($permission)
@@ -83,7 +96,9 @@ class Show extends Component
         $this->user->permissions()->detach($permission);
         $this->user->refresh();
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Permission revoked']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'Permission revoked',
+        ]);
     }
 
     public function render(): Factory|View|Application
@@ -93,7 +108,7 @@ class Show extends Component
         return view('livewire.users.show', [
             'permissions' => Permission::query()
                 ->whereNotIn('id', $userPermissions)
-                ->orderBy('name', 'asc')
+                ->orderBy('name')
                 ->get(['id', 'name']),
         ]);
     }

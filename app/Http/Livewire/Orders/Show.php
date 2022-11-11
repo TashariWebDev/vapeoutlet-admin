@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Show extends Component
 {
@@ -181,6 +182,9 @@ class Show extends Component
         $this->notify('Note deleted');
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getPickingSlip()
     {
         $this->order->load('items.product.features');
@@ -221,6 +225,9 @@ class Show extends Component
         ]);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getDeliveryNote()
     {
         $this->order->load('items.product.features');

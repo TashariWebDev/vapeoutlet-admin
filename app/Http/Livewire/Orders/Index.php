@@ -14,6 +14,7 @@ use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 use Str;
 
 class Index extends Component
@@ -89,6 +90,9 @@ class Index extends Component
         $this->redirect('/orders?filter=shipped');
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getDocument($transactionId)
     {
         $model = $transaction = Transaction::findOrFail($transactionId);
@@ -108,11 +112,11 @@ class Index extends Component
             )->find(Str::after($transaction->reference, 'INV00'));
         }
 
-        $view = view("templates.pdf.{$transaction->type}", [
+        $view = view("templates.pdf.$transaction->type", [
             'model' => $model,
         ])->render();
 
-        $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
+        $url = storage_path("app/public/documents/$transaction->uuid.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -126,7 +130,7 @@ class Index extends Component
             ->setScreenshotType('pdf', 100)
             ->save($url);
 
-        $this->redirect("/storage/documents/{$transaction->uuid}.pdf");
+        $this->redirect("/storage/documents/$transaction->uuid.pdf");
     }
 
     public function render(): Factory|View|Application

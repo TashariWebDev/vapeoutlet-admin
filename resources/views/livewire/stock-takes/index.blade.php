@@ -1,10 +1,11 @@
 <div>
     @php
-        function check_file_exist($url){
+        function check_file_exist($url)
+        {
             $handle = @fopen($url, 'r');
-            if(!$handle){
+            if (!$handle) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
@@ -26,36 +27,39 @@
         <x-table.body class="grid grid-cols-1 lg:grid-cols-6">
             @forelse($stockTakes as $stockTake)
                 <x-table.row>
-                    <a href="{{ route('stock-takes/show',$stockTake->id) }}"
-                       class="link"
-                    >{{$stockTake->id}}</a>
+                    <a
+                        class="link"
+                        href="{{ route('stock-takes/show', $stockTake->id) }}"
+                    >{{ $stockTake->id }}</a>
                 </x-table.row>
                 <x-table.row>
-                    <p>{{$stockTake->created_at}}</p>
+                    <p>{{ $stockTake->created_at }}</p>
                 </x-table.row>
                 <x-table.row>
-                    <p class="uppercase">{{$stockTake->brand}}</p>
+                    <p class="uppercase">{{ $stockTake->brand }}</p>
                 </x-table.row>
                 <x-table.row>
-                    <p>{{$stockTake->created_by}}</p>
+                    <p>{{ $stockTake->created_by }}</p>
                 </x-table.row>
                 <x-table.row>
                     @php
-                        $document = config('app.admin_url')."/storage/stock-counts/{$stockTake->id}.pdf";
-                        $stockTakeDocument = config('app.admin_url')."/storage/stock-takes/{$stockTake->id}.pdf";
+                        $document = config('app.admin_url') . "/storage/stock-counts/$stockTake->id.pdf";
+                        $stockTakeDocument = config('app.admin_url') . "/storage/stock-takes/$stockTake->id.pdf";
 
                         $stockTakeDocumentExists = check_file_exist($stockTakeDocument);
-                        $documentExists = check_file_exist($document)
+                        $documentExists = check_file_exist($document);
                     @endphp
-                    @if($documentExists)
-                        <a href="{{$document}}"
-                           class="link"
+                    @if ($documentExists)
+                        <a
+                            class="link"
+                            href="{{ $document }}"
                         >
                             &darr; print
                         </a>
                     @else
-                        <button class="link"
-                                wire:click="getDocument({{ $stockTake->id }})"
+                        <button
+                            class="link"
+                            wire:click="getDocument({{ $stockTake->id }})"
                         >
                             request
                         </button>
@@ -63,22 +67,24 @@
                 </x-table.row>
                 <x-table.row class="text-center">
                     <div class="flex justify-center items-center">
-                        @if($stockTake->processed_at)
-                            @if($stockTakeDocumentExists)
-                                <a href="{{$stockTakeDocument}}"
-                                   class="link"
+                        @if ($stockTake->processed_at)
+                            @if ($stockTakeDocumentExists)
+                                <a
+                                    class="link"
+                                    href="{{ $stockTakeDocument }}"
                                 >
                                     &darr; print
                                 </a>
                             @else
-                                <button class="link"
-                                        wire:click="getStockTakeDocument({{ $stockTake->id }})"
+                                <button
+                                    class="link"
+                                    wire:click="getStockTakeDocument({{ $stockTake->id }})"
                                 >
                                     request
                                 </button>
                             @endif
                         @else
-                            <x-icons.cross class="w-5 h-5 text-red-600"/>
+                            <x-icons.cross class="w-5 h-5 text-red-600" />
                         @endif
                     </div>
                 </x-table.row>

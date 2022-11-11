@@ -52,7 +52,7 @@ class SupplierCredit extends Model
         return new Attribute(get: fn () => 'SC00'.$this->attributes['id']);
     }
 
-    public function addItem(Product $product, $supplier)
+    public function addItem(Product $product)
     {
         $item = $this->items()->firstOrCreate(
             [
@@ -90,7 +90,7 @@ class SupplierCredit extends Model
 
     public function updateStatus($status)
     {
-        $this->update(["{$status}" => now()]);
+        $this->update(["$status" => now()]);
     }
 
     public function remove(SupplierCreditItem $item): static

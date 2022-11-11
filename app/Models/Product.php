@@ -138,7 +138,7 @@ class Product extends Model
     public function retailPrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }
@@ -146,7 +146,7 @@ class Product extends Model
     public function wholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }
@@ -154,7 +154,7 @@ class Product extends Model
     public function oldRetailPrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }
@@ -162,7 +162,7 @@ class Product extends Model
     public function oldwholesalePrice(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }
@@ -170,7 +170,7 @@ class Product extends Model
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }

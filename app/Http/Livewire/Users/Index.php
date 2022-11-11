@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Users;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -14,6 +15,7 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
+    use WithNotifications;
 
     public $searchQuery;
 
@@ -27,16 +29,6 @@ class Index extends Component
 
     public $showCreateUserForm = false;
 
-    public function mount()
-    {
-        $this->password = bcrypt(Str::uuid());
-    }
-
-    public function updatedSearchQuery()
-    {
-        $this->resetPage();
-    }
-
     public function rules(): array
     {
         return [
@@ -47,19 +39,25 @@ class Index extends Component
         ];
     }
 
+    public function mount()
+    {
+        $this->password = bcrypt(Str::uuid());
+    }
+
+    public function updatedSearchQuery()
+    {
+        $this->resetPage();
+    }
+
     public function save()
     {
-        $validated = $this->validate();
+        User::query()->create($this->validate());
 
-        User::create($validated);
-        $this->showCreateUserForm = false;
         Password::sendResetLink(['email' => $this->email]);
 
-        $this->reset(['name', 'email', 'phone']);
+        $this->reset(['name', 'email', 'phone', 'showCreateUserForm']);
 
-        $this->dispatchBrowserEvent('notification', [
-            'body' => 'User has been created',
-        ]);
+        $this->notify('User has been created');
     }
 
     public function render(): Factory|View|Application

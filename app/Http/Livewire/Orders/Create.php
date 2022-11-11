@@ -186,7 +186,7 @@ class Create extends Component
 
         try {
             $this->order->verifyIfStockIsAvailable();
-        } catch (QtyNotAvailableException $e) {
+        } catch (QtyNotAvailableException) {
             foreach ($this->order->items as $item) {
                 if ($item->qty > $item->product->qtyInStock) {
                     $item->update([
@@ -367,7 +367,7 @@ class Create extends Component
                 ->where('customer_type', '=', $this->order->customer->type())
                 ->orWhere('customer_type', '=', null)
                 ->where('selectable', true)
-                ->orderBy('price', 'asc')
+                ->orderBy('price')
                 ->get(),
         ]);
     }

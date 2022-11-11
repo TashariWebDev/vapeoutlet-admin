@@ -74,7 +74,7 @@ class Create extends Component
         $this->selectedProducts = [];
 
         $this->notify('Products added');
-        $this->redirect("/credits/{$this->customerId}");
+        $this->redirect("/credits/$this->customerId");
     }
 
     public function updatePrice(CreditItem $item, $value)
@@ -94,7 +94,7 @@ class Create extends Component
         $item->delete();
         $this->notify('Item deleted');
 
-        $this->redirect("/credits/{$this->customerId}");
+        $this->redirect("/credits/$this->customerId");
     }
 
     public function process()
@@ -117,7 +117,7 @@ class Create extends Component
 
         $this->notify('processed');
 
-        $this->redirect("/customers/show/{$this->customerId}");
+        $this->redirect("/customers/show/$this->customerId");
     }
 
     public function cancel()

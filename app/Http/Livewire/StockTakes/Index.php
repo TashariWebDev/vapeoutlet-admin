@@ -17,10 +17,10 @@ class Index extends Component
     public function getDocument($stockTakeId)
     {
         Http::get(
-            config('app.admin_url')."/webhook/stock-counts/{$stockTakeId}"
+            config('app.admin_url')."/webhook/stock-counts/$stockTakeId"
         );
 
-        $this->redirect("stock-takes?page={$this->page}");
+        $this->redirect("stock-takes?page=$this->page");
     }
 
     public function getStockTakeDocument($stockTakeId)
@@ -29,7 +29,7 @@ class Index extends Component
             config('app.admin_url')."/webhook/stock-takes/{$stockTakeId}"
         );
 
-        $this->redirect("stock-takes?page={$this->page}");
+        $this->redirect("stock-takes?page=$this->page");
     }
 
     public function render(): Factory|View|Application

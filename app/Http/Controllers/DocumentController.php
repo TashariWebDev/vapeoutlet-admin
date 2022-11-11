@@ -46,11 +46,11 @@ class DocumentController extends Controller
             );
         }
 
-        $view = view("templates.pdf.{$transaction->type}", [
+        $view = view("templates.pdf.$transaction->type", [
             'model' => $model,
         ])->render();
 
-        $url = storage_path("app/public/documents/{$transaction->uuid}.pdf");
+        $url = storage_path("app/public/documents/$transaction->uuid.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -67,6 +67,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getPriceList(Customer $customer)
     {
         Log::info($customer);
@@ -74,7 +77,7 @@ class DocumentController extends Controller
         $productsGroupedByCategory = Product::query()
             ->with('features')
             ->where('is_active', true)
-            ->orderBy('brand', 'asc')
+            ->orderBy('brand')
             ->get()
             ->groupBy('category');
 
@@ -102,6 +105,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getPickList(Order $order)
     {
         Log::info($order);
@@ -112,7 +118,7 @@ class DocumentController extends Controller
             'model' => $order,
         ])->render();
 
-        $url = storage_path("app/public/pick-lists/{$order->number}.pdf");
+        $url = storage_path("app/public/pick-lists/$order->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -129,6 +135,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getDeliveryNote(Order $order)
     {
         Log::info($order);
@@ -139,7 +148,7 @@ class DocumentController extends Controller
             'model' => $order,
         ])->render();
 
-        $url = storage_path("app/public/delivery-note/{$order->number}.pdf");
+        $url = storage_path("app/public/delivery-note/$order->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -156,6 +165,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getStockCount(StockTake $stockTake)
     {
         Log::info($stockTake);
@@ -166,7 +178,7 @@ class DocumentController extends Controller
             'model' => $stockTake,
         ])->render();
 
-        $url = storage_path("app/public/stock-counts/{$stockTake->id}.pdf");
+        $url = storage_path("app/public/stock-counts/$stockTake->id.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -183,6 +195,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getStockTake(StockTake $stockTake)
     {
         Log::info($stockTake);
@@ -193,7 +208,7 @@ class DocumentController extends Controller
             'model' => $stockTake,
         ])->render();
 
-        $url = storage_path("app/public/stock-takes/{$stockTake->id}.pdf");
+        $url = storage_path("app/public/stock-takes/$stockTake->id.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -210,6 +225,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getDebtorsList()
     {
         $view = view('templates.pdf.debtors-list', [
@@ -233,6 +251,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getCreditorsList()
     {
         $view = view('templates.pdf.creditors-list', [
@@ -256,6 +277,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getExpensesList()
     {
         $expenses = Expense::whereBetween('date', [
@@ -289,6 +313,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getPurchasesList()
     {
         $purchases = Purchase::whereBetween('date', [
@@ -322,6 +349,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getCreditsList()
     {
         $credits = Credit::whereBetween('created_at', [
@@ -355,6 +385,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getVariancesList()
     {
         $stocks = Stock::whereBetween('created_at', [
@@ -387,6 +420,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getSalesByDateRange()
     {
         $customers = Customer::withWhereHas('orders', function ($query) {
@@ -434,6 +470,9 @@ class DocumentController extends Controller
         return response()->json(200);
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getStocksByDateRange()
     {
         $toDate = request('to');

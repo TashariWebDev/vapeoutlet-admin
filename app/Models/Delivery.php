@@ -21,7 +21,7 @@ class Delivery extends Model
     public function price(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }
@@ -38,7 +38,7 @@ class Delivery extends Model
     public function waiverValue(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }

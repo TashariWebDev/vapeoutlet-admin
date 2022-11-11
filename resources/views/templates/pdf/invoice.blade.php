@@ -1,4 +1,4 @@
-@php use App\Models\Order; @endphp
+@php  @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -198,7 +198,7 @@
                         >
                             https://portal.thecourierguy.co.za/track
                         </a>
-                        @if ($model->waybill)
+                        @if ($model->waybill->isNotEmpty())
                             <p class="text-xs">Waybill number: <span class="uppercase">{{ $model->waybill }}</span></p>
                         @endif
                     </div>

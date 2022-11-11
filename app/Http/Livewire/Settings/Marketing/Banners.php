@@ -59,7 +59,7 @@ class Banners extends Component
     public function render(): Factory|View|Application
     {
         return view('livewire.settings.marketing.banners', [
-            'banners' => MarketingBanner::orderBy('order', 'asc')->simplePaginate(1),
+            'banners' => MarketingBanner::orderBy('order')->simplePaginate(1),
         ]);
     }
 }

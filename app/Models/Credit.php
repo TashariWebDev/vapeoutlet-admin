@@ -94,7 +94,7 @@ class Credit extends Model
 
     public function updateStatus($status)
     {
-        $this->update(["{$status}" => now()]);
+        $this->update(["$status" => now()]);
     }
 
     public function remove(CreditItem $item): static

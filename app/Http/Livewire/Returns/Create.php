@@ -11,6 +11,8 @@ use App\Models\SupplierCreditItem;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
 use LaravelIdea\Helper\App\Models\_IH_Supplier_C;
 use Livewire\Component;
@@ -69,18 +71,20 @@ class Create extends Component
         $this->selectedProducts = [];
 
         $this->notify('Products added');
-        $this->redirect("/supplier-credits/{$this->supplierId}");
+        $this->redirect("/supplier-credits/$this->supplierId");
     }
 
     public function updatePrice(SupplierCreditItem $item, $value)
     {
         $item->update(['cost' => $value]);
         $this->notify('Price updated');
-        $this->redirect("/supplier-credits/{$this->supplierId}");
+        $this->redirect("/supplier-credits/$this->supplierId");
     }
 
-    public function updateQty(SupplierCreditItem $item, $value)
-    {
+    public function updateQty(
+        SupplierCreditItem $item,
+        $value
+    ): Redirector|RedirectResponse|Application {
         if ($value > $item->product->qty()) {
             $this->notify("We only have {$item->product->qty()} in stock");
 
@@ -89,7 +93,8 @@ class Create extends Component
 
         $item->update(['qty' => $value]);
         $this->notify('Qty updated');
-        $this->redirect("/supplier-credits/{$this->supplierId}");
+
+        return redirect("/supplier-credits/$this->supplierId");
     }
 
     public function deleteItem(SupplierCreditItem $item)
@@ -97,7 +102,7 @@ class Create extends Component
         $item->delete();
         $this->notify('Item deleted');
 
-        $this->redirect("/supplier-credits/{$this->supplierId}");
+        $this->redirect("/supplier-credits/$this->supplierId");
     }
 
     public function process()
@@ -119,7 +124,7 @@ class Create extends Component
 
         $this->notify('processed');
 
-        $this->redirect("/inventory/suppliers/{$this->supplierId}");
+        $this->redirect("/inventory/suppliers/$this->supplierId");
     }
 
     public function cancel()

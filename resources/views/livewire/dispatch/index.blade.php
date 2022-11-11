@@ -1,22 +1,31 @@
 <div class="py-6 px-2 rounded-md">
     @php
-        function check_file_exist($url){
+        function check_file_exist($url)
+        {
             $handle = @fopen($url, 'r');
-            if(!$handle){
+            if (!$handle) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
         }
     @endphp
     <div class="flex justify-center w-full text-center">
-        <x-inputs.search wire:model="searchTerm"/>
+        <x-inputs.search wire:model="searchTerm" />
     </div>
 
-    <x-modal title="Do you want to ship this order?" wire:model.defer="showConfirmModal">
+    <x-modal
+        title="Do you want to ship this order?"
+        wire:model.defer="showConfirmModal"
+    >
         <form wire:submit.prevent="pushToComplete">
             <div class="py-4">
-                <x-input type="text" id="waybill" label="waybill" wire:model.defer="waybill"/>
+                <x-input
+                    id="waybill"
+                    type="text"
+                    label="waybill"
+                    wire:model.defer="waybill"
+                />
             </div>
 
             <div class="pt-4">
@@ -24,7 +33,6 @@
             </div>
         </form>
     </x-modal>
-
 
     <div class="py-2">
         {{ $orders->links() }}
@@ -42,56 +50,64 @@
         @forelse($orders as $order)
             <x-table.body class="grid grid-cols-1 lg:grid-cols-6">
                 <x-table.row class="text-center lg:text-left">
-                    <p>{{ $order->number}}</p>
+                    <p>{{ $order->number }}</p>
                 </x-table.row>
                 <x-table.row class="text-center lg:text-left">
-                    <p>{{$order->customer->name}}</p>
+                    <p>{{ $order->customer->name }}</p>
                 </x-table.row>
                 <x-table.row>
                     <div class="flex justify-center items-center w-full">
-                        @if($order->status == 'received')
-                            <x-icons.shopping-bag class="w-5 h-5 text-green-600"/>
+                        @if ($order->status == 'received')
+                            <x-icons.shopping-bag class="w-5 h-5 text-green-600" />
                         @endif
 
-                        @if($order->status == 'processed')
-                            <x-icons.clipboard class="w-5 h-5 text-green-600"/>
+                        @if ($order->status == 'processed')
+                            <x-icons.clipboard class="w-5 h-5 text-green-600" />
                         @endif
 
-                        @if($order->status == 'packed')
-                            <x-icons.products class="w-5 h-5 text-green-600"/>
+                        @if ($order->status == 'packed')
+                            <x-icons.products class="w-5 h-5 text-green-600" />
                         @endif
 
-                        @if($order->status == 'shipped')
-                            <x-icons.truck class="w-5 h-5 text-green-600"/>
+                        @if ($order->status == 'shipped')
+                            <x-icons.truck class="w-5 h-5 text-green-600" />
                         @endif
 
-                        @if($order->status == 'completed')
-                            <x-icons.tick class="w-5 h-5 text-green-600"/>
+                        @if ($order->status == 'completed')
+                            <x-icons.tick class="w-5 h-5 text-green-600" />
                         @endif
                     </div>
                 </x-table.row>
                 <x-table.row class="text-center">
                     <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery?->type }}</p>
+                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery?->type }}
+                    </p>
 
                 </x-table.row>
                 <x-table.row class="p-2 text-center text-right lg:text-right">
-                    <button class="button-success"
-                            x-on:click="@this.call('confirmToComplete',{{$order->id}})"
+                    <button
+                        class="button-success"
+                        x-on:click="@this.call('confirmToComplete',{{ $order->id }})"
                     >Ship
                     </button>
                 </x-table.row>
                 <x-table.row class="p-2 text-center lg:text-right">
                     @php
-                        $document = config('app.admin_url')."/storage/delivery-note/{$order->number}.pdf";
-                        $documentExists = check_file_exist($document)
+                        $document = config('app.admin_url') . "/storage/delivery-note/$order->number.pdf";
+                        $documentExists = check_file_exist($document);
                     @endphp
-                    @if($documentExists)
-                        <a href="{{$document}}" class="link">
+                    @if ($documentExists)
+                        <a
+                            class="link"
+                            href="{{ $document }}"
+                        >
                             &darr; print
                         </a>
                     @else
-                        <button class="link" wire:click="getDocument({{$order->id}})">
+                        <button
+                            class="link"
+                            wire:click="getDocument({{ $order->id }})"
+                        >
                             request
                         </button>
                     @endif

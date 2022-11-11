@@ -54,7 +54,9 @@ class Index extends Component
         $this->delivery->save();
         $this->showDeliveryCreateForm = false;
         $this->resetValidation();
-        $this->dispatchBrowserEvent('notification', ['body' => 'Delivery saved']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'Delivery saved',
+        ]);
         $this->delivery->refresh();
     }
 
@@ -62,14 +64,16 @@ class Index extends Component
     {
         $delivery->delete();
 
-        $this->dispatchBrowserEvent('notification', ['body' => 'Delivery deleted']);
+        $this->dispatchBrowserEvent('notification', [
+            'body' => 'Delivery deleted',
+        ]);
     }
 
     public function render(): Factory|View|Application
     {
         return view('livewire.settings.delivery.index', [
             'deliveries' => Delivery::query()
-                ->orderBy('selectable', 'asc')
+                ->orderBy('selectable')
                 ->simplePaginate(5),
         ]);
     }

@@ -34,7 +34,7 @@ class Stock extends Model
     public function cost(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => (float) to_rands($value),
+            get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
     }

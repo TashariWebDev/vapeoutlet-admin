@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnusedLocalVariableInspection */
+
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
@@ -24,7 +26,7 @@ Route::get('/sales', function () {
     return response()->json(['customers' => $customers]);
 });
 
-Route::get('/poduct-stock-counts', function () {
+Route::get('/product-stock-counts', function () {
     $products = Product::where('is_active', '=', true)
         ->select(['id', 'name', 'sku'])
         ->withSum('stocks', 'qty')

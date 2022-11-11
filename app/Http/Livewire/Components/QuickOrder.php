@@ -44,7 +44,7 @@ class QuickOrder extends Component
             'processed_by' => auth()->user()->name,
         ]);
 
-        $this->redirect("/orders/create/{$order->id}");
+        $this->redirect("/orders/create/$order->id");
     }
 
     public function render(): Factory|View|Application

@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Collection;
 use LaravelIdea\Helper\App\Models\_IH_Brand_C;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Index extends Component
 {
@@ -235,7 +236,7 @@ class Index extends Component
     {
         Http::get(
             config('app.admin_url').
-                "/webhook/documents/expenses?from={$this->fromDate}&to={$this->toDate}&category={$this->selectedExpenseCategory}"
+                "/webhook/documents/expenses?from=$this->fromDate&to=$this->toDate&category=$this->selectedExpenseCategory"
         );
         $this->redirect('reports');
     }
@@ -244,7 +245,7 @@ class Index extends Component
     {
         Http::get(
             config('app.admin_url').
-                "/webhook/documents/purchases?from={$this->fromDate}&to={$this->toDate}&supplier={$this->selectedSupplierId}"
+                "/webhook/documents/purchases?from=$this->fromDate&to=$this->toDate&supplier=$this->selectedSupplierId"
         );
         $this->redirect('reports');
     }
@@ -253,7 +254,7 @@ class Index extends Component
     {
         Http::get(
             config('app.admin_url').
-                "/webhook/documents/credits?from={$this->fromDate}&to={$this->toDate}&admin={$this->selectedAdmin}"
+                "/webhook/documents/credits?from=$this->fromDate&to=$this->toDate&admin=$this->selectedAdmin"
         );
         $this->redirect('reports');
     }
@@ -262,7 +263,7 @@ class Index extends Component
     {
         Http::get(
             config('app.admin_url').
-                "/webhook/documents/variances?from={$this->fromDate}&to={$this->toDate}"
+                "/webhook/documents/variances?from=$this->fromDate&to=$this->toDate"
         );
         $this->redirect('reports');
     }
@@ -276,6 +277,9 @@ class Index extends Component
         $this->redirect('reports');
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function getStocksByDateRangeDocument()
     {
         $products = Product::whereHas('stocks', function ($query) {

@@ -51,10 +51,10 @@ class Index extends Component
     public function getDocument(Order $order)
     {
         Http::get(
-            config('app.admin_url')."/webhook/delivery-note/{$order->id}"
+            config('app.admin_url')."/webhook/delivery-note/$order->id"
         );
 
-        $this->redirect("/dispatch?page={$this->page}");
+        $this->redirect("/dispatch?page=$this->page");
     }
 
     public function render(): Factory|View|Application
