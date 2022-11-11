@@ -12,11 +12,16 @@ use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
+use LaravelIdea\Helper\App\Models\_IH_Order_C;
+use LaravelIdea\Helper\App\Models\_IH_OrderItem_C;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -81,6 +86,7 @@ class Create extends Component
     public function updatedSearchQuery()
     {
         $this->showProductSelectorForm = true;
+
         if (strlen($this->searchQuery) > 0) {
             $this->products = Product::query()
                 ->search($this->searchQuery)
@@ -107,8 +113,9 @@ class Create extends Component
 
     public function removeProducts()
     {
-        foreach ($this->selectedProductsToDelete as $item) {
-            $this->order->remove($item);
+        foreach ($this->selectedProductsToDelete as $selectedItem) {
+            $item = OrderItem::findOrFail($selectedItem);
+            $this->removeItem($item);
         }
 
         $this->reset(['searchQuery']);
@@ -169,7 +176,7 @@ class Create extends Component
         $this->notify('Item deleted');
     }
 
-    public function process()
+    public function process(): RedirectResponse
     {
         if (! $this->order->items->count()) {
             $this->notify('Nothing in order');
@@ -247,7 +254,7 @@ class Create extends Component
         );
     }
 
-    public function credit()
+    public function credit(): RedirectResponse
     {
         //cancel an order that has not been processed
         if ($this->order->status === null) {
@@ -300,7 +307,7 @@ class Create extends Component
         return redirect()->route('orders');
     }
 
-    public function getOrderProperty()
+    public function getOrderProperty(): Order|array|_IH_Order_C
     {
         return Order::findOrFail($this->orderId)->load(
             'customer.addresses',

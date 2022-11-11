@@ -223,7 +223,7 @@ class Order extends Model
         return $this;
     }
 
-    public function remove($item): static
+    public function remove(OrderItem $item): static
     {
         $item->delete();
 
