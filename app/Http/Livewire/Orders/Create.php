@@ -16,7 +16,6 @@ use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use LaravelIdea\Helper\App\Models\_IH_Order_C;
 use Livewire\Component;
@@ -251,7 +250,7 @@ class Create extends Component
         );
     }
 
-    public function credit(): RedirectResponse
+    public function credit()
     {
         //cancel an order that has not been processed
         if ($this->order->status === null) {
