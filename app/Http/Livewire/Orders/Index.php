@@ -22,21 +22,23 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $showAddOrderForm = false;
+    public int $ordersCount;
 
-    public $quickViewCustomerAccountModal = false;
+    public bool $showAddOrderForm = false;
+
+    public bool $quickViewCustomerAccountModal = false;
 
     public $selectedCustomerLatestTransactions = [];
 
     public $searchTerm = '';
 
-    public $filter = 'received';
+    public string $filter = 'received';
 
     public $customerType;
 
-    public $recordCount = 10;
+    public int $recordCount = 10;
 
-    public $direction = 'asc';
+    public string $direction = 'asc';
 
     public $statuses = [
         'received',
@@ -135,6 +137,8 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
+        $this->ordersCount = $this->filteredOrders()->count();
+
         return view('livewire.orders.index', [
             'orders' => $this->filteredOrders()->paginate($this->recordCount),
         ]);
@@ -177,7 +181,6 @@ class Index extends Component
 
     public function mount()
     {
-        //        dd(request()->all());
         if (request()->has('filter')) {
             $this->filter = request('filter');
         }

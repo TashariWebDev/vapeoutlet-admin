@@ -17,17 +17,19 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $searchQuery;
+    public string $searchQuery = '';
 
-    public $name = '';
+    public string $name = '';
 
-    public $email = '';
+    public string $email = '';
 
-    public $phone = '';
+    public string $phone = '';
 
-    public $password = '';
+    public string $password = '';
 
-    public $showCreateUserForm = false;
+    public bool $showCreateUserForm = false;
+
+    public bool $withTrashed = false;
 
     public function rules(): array
     {
@@ -65,12 +67,12 @@ class Index extends Component
         return view('livewire.users.index', [
             'users' => User::query()
                 ->where('email', '!=', 'ridwan@tashari.co.za')
-                ->withTrashed()
+                ->withTrashed($this->withTrashed)
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)
                 )
-                ->simplePaginate(15),
+                ->paginate(15),
         ]);
     }
 }

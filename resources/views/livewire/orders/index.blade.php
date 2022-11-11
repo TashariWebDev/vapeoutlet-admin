@@ -1,8 +1,12 @@
 <div
     class="py-1 px-2 rounded-md"
-    x-data=""
+    x-data="{ ordersCount: $wire.entangle('ordersCount') }"
+    x-init="$watch('ordersCount', value => {
+        if (value === 0) {
+            confetti()
+        }
+    })"
 >
-
     <div class="grid grid-cols-1 gap-y-2 pb-1 lg:grid-cols-4 lg:gap-x-1">
         <div class="">
             <x-form.input.label>
@@ -17,36 +21,44 @@
 
         <div>
             <x-form.input.label>
-                Filters
+                Filter orders
             </x-form.input.label>
-            <div class="mt-1 rounded-r-md rounded-l-md border border-slate-700">
-                <div
-                    class="flex grid grid-cols-3 items-center py-2.5 px-2 w-full bg-white rounded-r-md rounded-l-md dark:bg-slate-700">
-                    <button
-                        @class([
-                            'text-xs px-1 text-slate-400 text-center font-bold',
-                            'text-green-400' => $customerType === null,
-                        ])
-                        wire:click="$set('customerType',null)"
-                    >VIEW ALL
-                    </button>
-                    <button
-                        @class([
-                            'text-xs px-1 text-slate-400 text-center font-bold',
-                            'text-blue-400' => $customerType === false,
-                        ])
-                        wire:click="$set('customerType',false)"
-                    >RETAIL
-                    </button>
-                    <button
-                        @class([
-                            'text-xs px-1 text-slate-400 text-center font-bold',
-                            'text-pink-400' => $customerType === true,
-                        ])
-                        wire:click="$set('customerType',true)"
-                    >WHOLESALE
-                    </button>
-                </div>
+            <div
+                class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x shadow-sm border-slate-300 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
+                <button
+                    @class([
+                        'py-0.5 pl-3 w-1/2 text-sm text-left text-slate-500 dark:text-slate-400',
+                        'py-0.5 pl-3 w-1/2 text-sm text-left text-green-700 dark:text-green-600 font-semibold' =>
+                            $customerType === null,
+                    ])
+                    wire:click="$set('customerType',null)"
+                >
+                    View all
+                </button>
+
+                <button
+                    @class([
+                        'py-0.5 pl-3 w-1/2 text-sm text-left text-slate-500  dark:text-slate-400',
+
+                        'py-0.5 pl-3 w-1/2 text-sm text-left text-green-700 dark:text-green-600 font-semibold' =>
+                            $customerType === false,
+                    ])
+                    wire:click="$set('customerType',false)"
+                >
+                    Retail
+                </button>
+
+                <button
+                    @class([
+                        'py-0.5 pl-3 w-1/2 text-sm text-left text-slate-500  dark:text-slate-400',
+
+                        'py-0.5 pl-3 w-1/2 text-sm text-left text-green-700 dark:text-green-600 font-semibold' =>
+                            $customerType === true,
+                    ])
+                    wire:click="$set('customerType',true)"
+                >
+                    Wholesale
+                </button>
             </div>
         </div>
 
@@ -112,11 +124,7 @@
 
     @if ($filter === 'received')
         <div>
-            @if ($orders->total() === 0)
-                <button x-on:click="confetti()">&#128512; <span class="text-xs text-white">click here</span></button>
-            @else
-                <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to dispatched</p>
-            @endif
+            <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to dispatched</p>
         </div>
         <div
             class="hidden px-2 mb-2 w-full h-3 bg-gradient-to-r from-green-600 to-red-600 rounded-r rounded-l lg:block">
