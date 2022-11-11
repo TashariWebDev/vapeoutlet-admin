@@ -12,16 +12,13 @@ use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Stock;
 use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use LaravelIdea\Helper\App\Models\_IH_Order_C;
-use LaravelIdea\Helper\App\Models\_IH_OrderItem_C;
 use Livewire\Component;
 use Livewire\WithPagination;
 
