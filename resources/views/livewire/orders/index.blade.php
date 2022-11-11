@@ -99,14 +99,15 @@
                             <p class="text-xs text-slate-500">{{ $transaction->created_at }}</p>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold">{{ strtoupper($transaction->reference) }}</p>
-                            <p class="text-xs text-slate-400">{{ $transaction->created_by }}</p>
+                            <p class="text-xs font-semibold text-slate-500">{{ strtoupper($transaction->reference) }}
+                            </p>
+                            <p class="text-xs text-slate-500">{{ $transaction->created_by }}</p>
                         </div>
                         <div class="text-xs font-semibold text-right">
-                            <p>{{ number_format($transaction->amount, 2) }}</p>
+                            <p class="text-slate-500">{{ number_format($transaction->amount, 2) }}</p>
                         </div>
                         <div class="text-xs font-semibold text-right">
-                            <p>{{ number_format($transaction->running_balance, 2) }}</p>
+                            <p class="text-slate-500">{{ number_format($transaction->running_balance, 2) }}</p>
                         </div>
                     </div>
                 @empty
@@ -169,7 +170,7 @@
                         href="{{ route('orders/show', $order->id) }}"
                     >{{ $order->number }}</a>
                     <div class="flex justify-between pt-1">
-                        <p class="text-xs">
+                        <p class="text-xs text-slate-500">
                             {{ $order->created_at }}
                         </p>
                         @if ($order->created_at->diffInDays(today()) > 0)
@@ -220,13 +221,14 @@
                     @php
                         $orderTotal = to_rands($order->order_total);
                     @endphp
-                    <p>R {{ number_format($order->delivery_charge, 2) }}</p>
-                    <p>
-                        <span class="font-bold lg:hidden">Delivery:</span> {{ $order->delivery->type ?? '' }}
+                    <p class="text-slate-500">R {{ number_format($order->delivery_charge, 2) }}</p>
+                    <p class="text-slate-500">
+                        <span class="font-bold lg:hidden text-slate-500">Delivery:</span>
+                        {{ $order->delivery->type ?? '' }}
                     </p>
                 </x-table.row>
                 <x-table.row class="hidden p-2 text-right lg:block">
-                    <p>R {{ number_format($orderTotal, 2) }}</p>
+                    <p class="text-slate-500">R {{ number_format($orderTotal, 2) }}</p>
                 </x-table.row>
                 <x-table.row class="p-2 text-center lg:text-right">
                     @php
@@ -317,21 +319,21 @@
                 </div>
 
                 <div class="p-1 text-right">
-                    <p class="font-semibold text-slate-600 dark:text-slate-400">
+                    <p class="font-semibold text-slate-500">
                         R {{ number_format($orderTotal, 2) }}
                     </p>
-                    <p class="font-semibold text-slate-600 dark:text-slate-400">
+                    <p class="font-semibold text-slate-500">
                         R {{ number_format($order->delivery_charge, 2) }}
                     </p>
                 </div>
 
                 <div class="col-span-3 p-1 py-1 mt-3 w-full">
-                    <p class="font-semibold text-slate-600 dark:text-slate-400">{{ $order->delivery->type ?? '' }}</p>
+                    <p class="font-semibold text-slate-500">{{ $order->delivery->type ?? '' }}</p>
                 </div>
 
                 <div class="col-span-3 mt-3 w-full">
                     @if (file_exists(public_path("storage/documents/$transaction->uuid.pdf")))
-                        <p class="text-xs text-slate-400">Printed</p>
+                        <p class="text-xs text-slate-500">Printed</p>
                     @endif
                     <button
                         class="w-full button-success"
