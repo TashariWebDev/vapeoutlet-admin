@@ -150,7 +150,7 @@
                             <div class="text-sm">
                                 <button
                                     class="link"
-                                    x-on:click="$wire.set('filter','invoice')"
+                                    x-on:click="@this.set('filter','invoice')"
                                 >View all
                                 </button>
                             </div>
@@ -176,7 +176,7 @@
                             <div class="text-sm">
                                 <button
                                     class="link"
-                                    x-on:click="$wire.set('filter','payment')"
+                                    x-on:click="@this.set('filter','payment')"
                                 >View all
                                 </button>
                             </div>
@@ -229,7 +229,7 @@
                             <div class="text-sm">
                                 <button
                                     class="link"
-                                    x-on:click="$wire.set('filter','debit')"
+                                    x-on:click="@this.set('filter','debit')"
                                 >View all
                                 </button>
                             </div>
@@ -255,7 +255,7 @@
                             <div class="text-sm">
                                 <button
                                     class="link"
-                                    x-on:click="$wire.set('filter','credit')"
+                                    x-on:click="@this.set('filter','credit')"
                                 >View all
                                 </button>
                             </div>
@@ -281,7 +281,7 @@
                             <div class="text-sm">
                                 <button
                                     class="link"
-                                    x-on:click="$wire.set('filter','refund')"
+                                    x-on:click="@this.set('filter','refund')"
                                 >View all
                                 </button>
                             </div>
@@ -309,7 +309,7 @@
                     </div>
                     <button
                         class="link"
-                        x-on:click="$wire.call('resetFilter')"
+                        x-on:click="@this.call('resetFilter')"
                     >reset filter
                     </button>
                 </div>
@@ -339,7 +339,7 @@
                     <div class="w-full">
                         <button
                             class="w-full button-success"
-                            x-on:click="$wire.call('updateBalances')"
+                            x-on:click="@this.call('updateBalances')"
                         >
                             <x-icons.busy :target="'updateBalances'" />
                             <span class="pl-2">Refresh balance</span>
@@ -386,7 +386,7 @@
                     <div class="w-full">
                         <button
                             class="w-full button-success"
-                            x-on:click="$wire.call('createOrder')"
+                            wire:click="createOrder"
                         >
                             <x-icons.busy :target="'createOrder'" />
                             <span class="pl-2">order</span>
@@ -407,7 +407,7 @@
                         <div class="w-full">
                             <button
                                 class="w-full button-success"
-                                x-on:click="$wire.set('showAddTransactionForm',true)"
+                                wire:click="$toggle('showAddTransactionForm')"
                             >
                                 <span class="pl-2">transaction</span>
                             </button>

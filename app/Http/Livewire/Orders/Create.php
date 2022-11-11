@@ -173,7 +173,7 @@ class Create extends Component
         $this->notify('Item deleted');
     }
 
-    public function process(): RedirectResponse
+    public function process()
     {
         if (! $this->order->items->count()) {
             $this->notify('Nothing in order');
