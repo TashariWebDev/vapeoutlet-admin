@@ -146,7 +146,7 @@ class Order extends Model
     public function verifyIfStockIsAvailable()
     {
         foreach ($this->items as $item) {
-            if ($item->qty > $item->product->qtyInStock) {
+            if ($item->qty > $item->product->qty()) {
                 throw new QtyNotAvailableException(
                     'Products no longer available'
                 );

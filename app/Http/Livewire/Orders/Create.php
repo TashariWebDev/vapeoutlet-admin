@@ -191,9 +191,9 @@ class Create extends Component
             $this->order->verifyIfStockIsAvailable();
         } catch (QtyNotAvailableException) {
             foreach ($this->order->items as $item) {
-                if ($item->qty > $item->product->qtyInStock) {
+                if ($item->qty > $item->product->qty()) {
                     $item->update([
-                        'qty' => $item->product->qtyInStock,
+                        'qty' => $item->product->qty(),
                     ]);
 
                     if ($item->qty <= 0) {

@@ -41,14 +41,18 @@
     >
         <div x-data="{ searchQuery: @entangle('searchQuery') }">
             <div class="relative">
-                <label>
-                    <input
-                        class="w-full rounded-md border-2 border-yellow-400 focus:ring-2 placeholder-slate-300"
-                        type="search"
-                        x-model.lazy="searchQuery"
-                        placeholder="search"
-                    >
-                </label>
+                <x-form.input.label for="search">
+                    Product search
+                </x-form.input.label>
+                <x-form.input.text
+                    class="w-full"
+                    id="search"
+                    type="search"
+                    x-model.lazy="searchQuery"
+                    placeholder="search"
+                >
+                </x-form.input.text>
+
                 <div
                     class="absolute top-0 right-0 w-2 h-2 bg-green-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping"
                     wire:loading="updatedSearchQuery"
@@ -58,7 +62,7 @@
             </div>
             @if (count($products))
                 <div class="p-1">
-                    <p class="text-xs font-semibold uppercase"> {{ count($products) }} results</p>
+                    <p class="text-xs font-semibold uppercase text-slate-500"> {{ count($products) }} results</p>
                 </div>
             @endif
         </div>
@@ -74,7 +78,7 @@
                 <fieldset class="space-y-2">
                     @forelse($this->products as $product)
                         <label
-                            class="flex relative items-start py-2 px-4 rounded-md bg-slate-100"
+                            class="flex relative items-start py-2 px-4 rounded-md bg-slate-300 dark:bg-slate-800"
                             wire:key="'item-'{{ $product->id }}"
                         >
                             <div>
@@ -90,7 +94,7 @@
                             <div class="flex items-center ml-3 w-full lg:justify-between">
                                 <x-product-listing-simple :product="$product" />
                                 <div>
-                                    <p class="text-sm font-bold">
+                                    <p class="text-sm font-bold text-slate-700 dark:text-slate-400">
                                         R {{ number_format($product->getPrice($this->order->customer), 2) }}
                                     </p>
                                 </div>

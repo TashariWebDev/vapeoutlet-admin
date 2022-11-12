@@ -32,7 +32,7 @@ class Create extends Component
     use WithNotifications;
     use WithFileUploads;
 
-    public $searchQuery = '';
+    public $searchQuery;
 
     public $selectedProducts = [];
 
@@ -81,6 +81,8 @@ class Create extends Component
     public $showConfirmModal = false;
 
     public $products = [];
+
+    public $itemQuantities = [];
 
     public function rules(): array
     {
@@ -263,12 +265,16 @@ class Create extends Component
     public function updatedSearchQuery()
     {
         $this->showProductSelectorForm = true;
-        if (strlen($this->searchQuery) > 0) {
-            $this->products = Product::query()
-                ->search($this->searchQuery)
-                ->get();
-        } else {
+
+        if (! $this->searchQuery) {
             $this->products = [];
+        } else {
+            $this->products = Product::query()
+                ->when(
+                    $this->searchQuery,
+                    fn ($query) => $query->search($this->searchQuery)
+                )
+                ->get();
         }
     }
 
@@ -320,7 +326,19 @@ class Create extends Component
 
     public function process()
     {
+        foreach ($this->itemQuantities as $qty) {
+            if ($qty === 0) {
+                $this->showConfirmModal = false;
+                $this->notify(
+                    'There are items with 0 quantities, Please update or remove the item'
+                );
+
+                return;
+            }
+        }
+
         $this->showConfirmModal = false;
+        dd('passed');
         $this->notify('Processing');
 
         DB::transaction(function () {
@@ -399,6 +417,14 @@ class Create extends Component
         $this->notify('Purchase deleted');
 
         $this->redirectRoute('inventory');
+    }
+
+    public function hydrate()
+    {
+        $this->itemQuantities = $this->purchase
+            ->items()
+            ->pluck('qty')
+            ->toArray();
     }
 
     public function render(): Factory|View|Application

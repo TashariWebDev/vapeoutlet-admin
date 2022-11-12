@@ -15,6 +15,7 @@
             <x-form.input.text
                 type="search"
                 placeholder="search"
+                autofocus
                 wire:model="searchTerm"
             />
         </div>

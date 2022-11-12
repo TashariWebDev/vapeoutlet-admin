@@ -14,13 +14,12 @@ use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
+    use SoftDeletes;
 
     protected $guarded = [];
 
     protected $with = ['features:id,name,product_id'];
-
-    protected $appends = ['qtyInStock'];
 
     protected $casts = [
         'retail_price' => 'integer',
@@ -80,10 +79,6 @@ class Product extends Model
             $product->category = Str::title($product->category);
             $product->brand = Str::title($product->brand);
         });
-
-        //        static::addGlobalScope("order", function (Builder $builder) {
-        //            $builder->sortBy("brand", "asc");
-        //        });
     }
 
     //    scopes
@@ -106,12 +101,6 @@ class Product extends Model
     }
 
     //    setters
-
-    public function getQtyInStockAttribute()
-    {
-        return $this->stocks->sum('qty');
-    }
-
     public function qty()
     {
         return $this->stocks->sum('qty');

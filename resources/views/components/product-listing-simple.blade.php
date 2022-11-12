@@ -1,19 +1,15 @@
-@props([
-    'product'
-])
-
+@props(['product'])
 
 <div>
-    <p class="font-medium text-slate-500 dark:text-slate-400 text-xs">
+    <p class="text-xs font-medium text-slate-700 dark:text-slate-400">
         {{ $product->sku }}
     </p>
-    <p class="font-semibold text-slate-800 dark:text-slate-300">
+    <p class="text-xs font-semibold text-slate-700 dark:text-slate-400">
         {{ $product->brand }} {{ $product->name }}
     </p>
-    <div class="flex space-x-1 items-center">
-        @foreach($product->features as $feature)
-            <p class="text-xs text-slate-500 dark:text-slate-400 pr-1"
-            > {{ $feature->name }}</p>
+    <div class="flex items-center space-x-1">
+        @foreach ($product->features as $feature)
+            <p class="pr-1 text-xs text-slate-700 dark:text-slate-400"> {{ $feature->name }}</p>
         @endforeach
     </div>
 </div>

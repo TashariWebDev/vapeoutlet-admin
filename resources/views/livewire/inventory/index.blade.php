@@ -6,72 +6,132 @@
     >
         <form wire:submit.prevent="save">
             <div class="relative">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showSuppliersCreateForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
+                <div class="flex items-end py-2">
+                    <div class="flex-1">
+                        <x-form.input.label
+                            for
+                            supplier
+                        >
+                            Select a supplier
+                        </x-form.input.label>
+                        <x-form.input.select
+                            id="supplier"
+                            wire:model.defer="selectedSupplier"
+                        >
+                            <option value="">Choose</option>
+                            @foreach ($suppliers as $supplier)
+                                <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                            @endforeach
+                        </x-form.input.select>
+                        @error('selectedSupplier')
+                            <x-form.input.error>{{ $message }}</x-form.input.error>
+                        @enderror
+                    </div>
+                    <button x-on:click.prevent="$wire.set('showSuppliersCreateForm',true)">
+                        <x-icons.plus class="w-10 h-10 text-green-500 hover:text-green-600" />
                     </button>
-                </div>
-                <div class="py-4">
-                    <x-select
-                        wire:model.defer="selectedSupplier"
-                        label="Select a supplier"
-                    >
-                        @foreach ($suppliers as $supplier)
-                            <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                        @endforeach
-                    </x-select>
                 </div>
 
             </div>
-            <div class="py-4">
-                <x-input
+            <div class="py-2">
+                <x-form.input.label for="date">
+                    date
+                </x-form.input.label>
+                <x-form.input.text
+                    id="date"
                     type="date"
                     wire:model.defer="date"
-                    label="Invoice date"
                 />
+                @error('date')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-4">
-                <x-input
+            <div class="py-2">
+                <x-form.input.label for="invoice_no">
+                    Invoice no
+                </x-form.input.label>
+                <x-form.input.text
+                    id="invoice_no"
                     type="text"
                     wire:model.defer="invoice_no"
-                    label="Invoice number"
                 />
+                @error('invoice_no')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="relative py-4">
-                <x-select
+            <div class="relative py-2">
+                <x-form.input.label for="currency">
+                    currency
+                </x-form.input.label>
+                <x-form.input.select
+                    id="currency"
                     wire:model.defer="currency"
-                    label="Select a currency"
                 >
                     <option value="ZAR">ZAR</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="GBP">GBP</option>
                     <option value="CNH">CNH</option>
-                </x-select>
+                </x-form.input.select>
+                @error('currency')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-4">
-                <x-input-number
+            <div class="py-2">
+                <x-form.input.label for="exchange_rate">
+                    exchange rate in ZAR ( optional )
+                </x-form.input.label>
+                <x-form.input.text
+                    id="exchange_rate"
                     type="number"
                     wire:model.defer="exchange_rate"
-                    placeholder="optional"
-                    label="Exchange rate in ZAR"
+                    autocomplete="off"
+                    wire:keydown.enter.prevent
+                    step="0.01"
+                    inputmode="numeric"
+                    pattern="[0-9.]+"
                 />
+                @error('exchange_rate')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-4">
-                <x-input-number
+            <div class="py-2">
+                <x-form.input.label for="amount">
+                    Invoice amount in selected currency ( ex shipping )
+                </x-form.input.label>
+                <x-form.input.text
+                    id="amount"
                     type="number"
                     wire:model.defer="amount"
-                    label="Invoice amount in selected currency (ex shipping)"
+                    autocomplete="off"
+                    wire:keydown.enter.prevent
+                    step="0.01"
+                    inputmode="numeric"
+                    pattern="[0-9.]+"
                 />
+                @error('amount')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-4">
-                <x-input-number
+            <div class="py-2">
+                <x-form.input.label for="shipping_rate">
+                    Shipping rate as % ( optional )
+                </x-form.input.label>
+                <x-form.input.text
+                    id="shipping_rate"
                     type="number"
                     wire:model.defer="shipping_rate"
-                    label="Shipping rate as %"
+                    autocomplete="off"
+                    wire:keydown.enter.prevent
+                    step="0.01"
+                    inputmode="numeric"
+                    pattern="[0-9.]+"
                 />
+                @error('shipping_rate')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-2 px-2 rounded-md bg-slate-100">
+            <div class="py-2 px-2 mt-2 rounded-md text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-700">
                 <label
                     class="flex items-center space-x-2 text-xs font-medium uppercase"
                     for="taxable"
@@ -84,10 +144,12 @@
                     />
                     <span class="ml-3">Taxable</span>
                 </label>
+                @error('taxable')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-4">
+            <div class="py-2 mt-2">
                 <button class="button-success">
-                    <x-icons.save class="mr-2 w-5 h-5" />
                     save
                 </button>
             </div>

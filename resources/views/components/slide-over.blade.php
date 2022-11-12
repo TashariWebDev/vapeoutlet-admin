@@ -1,75 +1,82 @@
-@props([
-    'title'
-])
-<div {{ $attributes }}  x-cloak
-     x-data="{show:@entangle($attributes->whereStartsWith('wire:model.defer')->first())}"
-     wire:key
-     class="relative z-50"
-     aria-labelledby="slide-over-title"
-     role="dialog"
-     aria-modal="true"
+@props(['title'])
+<div
+    class="relative z-50"
+    role="dialog"
+    aria-labelledby="slide-over-title"
+    aria-modal="true"
+    {{ $attributes }}
+    x-cloak
+    x-data="{ show: $wire.entangle('{{ $attributes->wire('model.defer')->value() }}') }"
+    wire:key
 >
     {{-- overlay --}}
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity z-50"
-         x-show="show"
-         x-transition:enter="ease-in duration-50"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
+    <div
+        class="fixed inset-0 z-50 bg-opacity-75 transition-opacity backdrop-blur bg-slate-800"
+        x-show="show"
+        x-transition:enter="ease-in duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
     ></div>
 
-    <div class="fixed inset-0 overflow-hidden z-50"
-         x-show="show"
-         x-transition:enter="transform transition ease-in duration-100 sm:duration-100"
-         x-transition:enter-start="translate-x-full"
-         x-transition:enter-end="translate-x-0"
-         x-transition:leave="transform transition ease-in-out duration-200 sm:duration-200"
-         x-transition:leave-start="translate-x-0"
-         x-transition:leave-end="translate-x-full"
+    <div
+        class="overflow-hidden fixed inset-0 z-50"
+        x-show="show"
+        x-transition:enter="transform transition ease-in duration-300 sm:duration-300"
+        x-transition:enter-start="translate-x-full"
+        x-transition:enter-end="translate-x-0"
+        x-transition:leave="transform transition ease-in-out duration-300 sm:duration-300"
+        x-transition:leave-start="translate-x-0"
+        x-transition:leave-end="translate-x-full"
     >
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-                <div class="pointer-events-auto relative w-screen max-w-2xl">
-                    <div class="absolute top-0 left-0 -ml-8 flex pt-4 pr-2 sm:-ml-10 sm:pr-4"
-                         x-show="show"
-                         x-transition:enter="ease-in-out duration-100"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="ease-in-out duration-100"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
+        <div class="overflow-hidden absolute inset-0">
+            <div class="flex fixed inset-y-0 right-0 pl-10 max-w-full pointer-events-none">
+                <div class="relative w-screen max-w-2xl pointer-events-auto">
+                    <div
+                        class="flex absolute top-0 left-0 pt-4 pr-2 -ml-8 sm:pr-4 sm:-ml-10"
+                        x-show="show"
+                        x-transition:enter="ease-in-out duration-100"
+                        x-transition:enter-start="opacity-0"
+                        x-transition:enter-end="opacity-100"
+                        x-transition:leave="ease-in-out duration-100"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0"
                     >
-                        <button x-on:click="show = !show"
-                                type="button"
-                                class="rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                        <button
+                            class="rounded-md hover:text-white focus:ring-2 focus:ring-white focus:outline-none text-slate-300"
+                            type="button"
+                            x-on:click="show = !show"
                         >
                             <span class="sr-only">Close panel</span>
                             <!-- Heroicon name: outline/x -->
-                            <svg class="h-6 w-6"
-                                 xmlns="http://www.w3.org/2000/svg"
-                                 fill="none"
-                                 viewBox="0 0 24 24"
-                                 stroke-width="2"
-                                 stroke="currentColor"
-                                 aria-hidden="true"
+                            <svg
+                                class="w-6 h-6"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="2"
+                                stroke="currentColor"
                             >
-                                <path stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M6 18L18 6M6 6l12 12"
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
                                 />
                             </svg>
                         </button>
                     </div>
 
-                    <div class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                    <div class="flex overflow-y-scroll flex-col py-6 px-2 h-full bg-white shadow-xl dark:bg-slate-900">
                         <div class="px-4 sm:px-6">
-                            <h2 class="text-lg font-medium text-gray-900"
+                            <h2
+                                class="text-lg font-medium text-slate-900 dark:text-slate-500"
                                 id="slide-over-title"
                             >{{ $title ?? '' }}</h2>
                         </div>
-                        <div class="relative mt-6 flex-1 px-4 sm:px-6">
+                        <div class="relative flex-1 py-2 px-4 mt-3 rounded-md sm:px-6 bg-white dark:bg-slate-900">
                             <!-- Replace with your content -->
                             {{ $slot }}
                             <!-- /End replace -->
