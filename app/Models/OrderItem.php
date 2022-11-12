@@ -53,7 +53,7 @@ class OrderItem extends Model
         );
     }
 
-    public function product_price(): Attribute
+    public function productPrice(): Attribute
     {
         return new Attribute(
             get: fn ($value) => to_rands($value),

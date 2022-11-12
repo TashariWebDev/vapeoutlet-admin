@@ -72,8 +72,7 @@
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                     <dt>
                         <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
-                            <x-icons.tax-receipt
-                                class="w-6 h-6 text-green-100 dark:text-slate-500" />
+                            <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500" />
                         </div>
                         <p class="ml-16 text-sm font-medium text-slate-400 truncate dark:text-slate-600">Total
                             Purchases</p>
@@ -100,8 +99,7 @@
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                     <dt>
                         <div class="absolute p-3 bg-green-500 rounded-md dark:bg-slate-900">
-                            <x-icons.tax-receipt
-                                class="w-6 h-6 text-green-100 dark:text-slate-500" />
+                            <x-icons.tax-receipt class="w-6 h-6 text-green-100 dark:text-slate-500" />
                         </div>
                         <p class="ml-16 text-sm font-medium text-slate-500 truncate">Total Credits</p>
                     </dt>
@@ -171,30 +169,35 @@
     <!-- End Stats -->
 
     <!-- Transaction create -->
-    <div class="p-4">
-        <div class="flex flex-wrap items-center space-y-2 lg:justify-between lg:space-y-0 lg:space-x-2">
-            <x-inputs.search
-                type="text"
+    <div
+        class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-4 lg:gap-x-3 bg-slate-100 dark:bg-slate-900">
+        <div>
+            <x-form.input.label for="search">
+                Search
+            </x-form.input.label>
+            <x-form.input.text
+                type="search"
                 wire:model="searchTerm"
                 placeholder="search by reference"
+                autofocus
             />
-
-            <div>
-                <a
-                    class="w-full lg:w-auto button-success"
-                    href="{{ route('supplier-credits/create', $this->supplier->id) }}"
-                >
-                    <x-icons.plus class="mr-2 w-5 h-5" />
-                    supplier credit
-                </a>
-                <button
-                    class="w-full lg:w-72 button-success"
-                    x-on:click="$wire.set('showAddTransactionForm',true)"
-                >
-                    <x-icons.plus class="mr-2 w-5" />
-                    add transaction
-                </button>
-            </div>
+        </div>
+        <div></div>
+        <div class="flex items-end">
+            <a
+                class="w-full button-success"
+                href="{{ route('supplier-credits/create', $this->supplier->id) }}"
+            >
+                supplier credit note
+            </a>
+        </div>
+        <div class="flex items-end">
+            <button
+                class="w-full button-success"
+                x-on:click="$wire.set('showAddTransactionForm',true)"
+            >
+                add transaction
+            </button>
         </div>
     </div>
     <!-- End -->
@@ -255,7 +258,8 @@
                         </button>
                         <p class="pt-1 text-xs text-slate-500">{{ $transaction->created_at }}</p>
                     @else
-                        <p class="font-semibold">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}</p>
+                        <p class="font-semibold">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
+                        </p>
                         <p class="text-slate-400">{{ $transaction->created_at }}</p>
                     @endif
                 </x-table.row>

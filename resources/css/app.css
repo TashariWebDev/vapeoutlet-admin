@@ -31,7 +31,7 @@ input[type=checkbox] {
 }
 
 .link {
-    @apply text-green-700 dark:text-green-200 dark:text-green-600 dark:hover:text-green-800 hover:text-green-700 text-xs font-bold
+    @apply text-green-600 dark:text-green-200 dark:text-green-600 dark:hover:text-green-800 hover:text-green-700 text-xs font-bold
 }
 
 .link-alt {

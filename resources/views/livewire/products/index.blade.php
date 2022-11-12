@@ -436,40 +436,50 @@
     </x-modal>
 
     <div>
-        <header class="grid grid-cols-1 gap-2 px-2 md:grid-cols-1 md:px-0 lg:grid-cols-2">
+
+        <div class="pb-5">
+            <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">Products</h3>
+        </div>
+
+        <header
+            class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-2 lg:gap-x-3 bg-slate-100 dark:bg-slate-900"
+        >
 
             <div>
-                <x-inputs.search
+                <x-form.input.label for="search">
+                    Search
+                </x-form.input.label>
+                <x-form.input.text
+                    class="w-full lg:w-1/2"
                     id="search"
+                    type="search"
                     wire:model="searchQuery"
-                    label="Search"
+                    autofocus
+                    placeholder="Search by SKU, name, category or brand"
                 />
             </div>
 
-            <div class="grid grid-cols-1 gap-2 items-center md:grid-cols-2">
+            <div class="grid grid-cols-1 gap-2 items-center pt-3 md:grid-cols-2">
                 @if ($activeFilter)
                     <button
                         class="w-full button-success"
-                        x-on:click="@this.set('activeFilter',false)"
+                        x-on:click="$wire.set('activeFilter',false)"
                     >
-                        <x-icons.arrow-down class="mr-2 w-5 h-5" />
                         show disabled products
                     </button>
                 @else
                     <button
                         class="w-full button-success"
-                        x-on:click.prevent="@this.set('activeFilter',true)"
+                        x-on:click.prevent="$wire.set('activeFilter',true)"
                     >
-                        <x-icons.arrow-up class="mr-2 w-5 h-5" />
                         show active products
                     </button>
                 @endif
                 <div>
                     <button
                         class="w-full button-success"
-                        x-on:click.prevent="@this.call('create','')"
+                        wire:click="create"
                     >
-                        <x-icons.plus class="mr-2 w-5 h-5" />
                         add product
                     </button>
                 </div>

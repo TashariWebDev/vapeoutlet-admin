@@ -252,31 +252,39 @@
         </div>
     </x-modal>
 
-    <div class="grid grid-cols-1 gap-2 px-2 md:px-0 lg:grid-cols-4">
-        <div class="lg:col-span-2">
-            <x-inputs.search
+    <div class="pb-5">
+        <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">Inventory</h3>
+    </div>
+
+    <div
+        class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-4 lg:gap-x-3 bg-slate-100 dark:bg-slate-900">
+        <div>
+            <x-form.input.label for="search">
+                Search
+            </x-form.input.label>
+            <x-form.input.text
                 id="search"
+                type="text"
                 wire:model="searchQuery"
-                label="Search"
+                autofocus
+                placeholder="Search by name, SKU, category or brand"
             />
         </div>
-
-        <div class="w-full">
+        <div></div>
+        <div class="flex items-end w-full">
             <button
                 class="w-full button-success"
                 x-on:click="$wire.set('showPurchaseCreateForm',true)"
             >
-                <x-icons.plus class="mr-2 w-5" />
                 new purchase
             </button>
         </div>
 
-        <div>
+        <div class="flex items-end">
             <a
                 class="w-full button-success"
                 href="{{ route('suppliers') }}"
             >
-                <x-icons.users class="mr-2 w-5" />
                 suppliers
             </a>
         </div>

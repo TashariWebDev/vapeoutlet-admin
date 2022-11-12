@@ -88,19 +88,22 @@
     </x-slide-over>
 
     <!-- Stats -->
-    <div class="flex justify-between items-end lg:items-center">
+    <div class="flex justify-between items-center">
         <div>
-            <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">
-                {{ $this->customer->name }}
+            <div class="pb-3">
+                <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">
+                    {{ $this->customer->name }}
+                </h3>
                 @if ($this->customer->salesperson_id)
-                    <span class="text-slate-500">( {{ $this->customer->salesperson->name ?? '' }} )</span>
+                    <p class="text-sm font-semibold text-slate-500">( {{ $this->customer->salesperson->name ?? '' }}
+                        )</p>
                 @endif
-            </h3>
-            <button
-                class="link"
-                x-on:click="showStats = !showStats"
-            >toggle stats
-            </button>
+                <button
+                    class="link"
+                    x-on:click="showStats = !showStats"
+                >toggle stats
+                </button>
+            </div>
         </div>
         <div>
             <a
@@ -116,7 +119,7 @@
         x-transition
     >
 
-        <dl class="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
+        <dl class="grid grid-cols-1 gap-5 mt-3 sm:grid-cols-2 lg:grid-cols-3">
             <div
                 class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
@@ -280,9 +283,10 @@
     </div>
     <!-- End Stats -->
 
-    <!-- Transaction create -->
+    <!-- Actions -->
     <div class="mt-3">
-        <div class="grid grid-cols-1 gap-2 lg:grid-cols-6">
+        <div
+            class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-6 lg:gap-y-0 lg:gap-x-2 bg-slate-100 dark:bg-slate-900">
             <div>
                 <div>
                     <x-form.input.label>
@@ -487,7 +491,7 @@
                 </x-table.row>
             </x-table.body>
 
-            <div class="grid grid-cols-3 py-2 w-full border-b lg:hidden bg-slate-300 dark:bg-slate-900">
+            <div class="grid grid-cols-3 py-2 w-full bg-white border-b lg:hidden dark:bg-slate-900">
                 <div>
                     <p>
                         <span>
@@ -516,13 +520,15 @@
                         {{ $transaction->date?->format('Y-m-d') ?? $transaction->created_at?->format('Y-m-d') }}
                     </p>
                 </div>
-                <div class="text-right">
-                    <p class="text-xs text-slate-400">
-                        {{ number_format($transaction->amount, 2) }}
-                    </p>
-                    <p class="text-xs text-slate-500">
-                        {{ number_format($transaction->running_balance, 2) }}
-                    </p>
+                <div class="flex justify-end items-center text-right">
+                    <div>
+                        <p class="text-xs text-slate-400">
+                            {{ number_format($transaction->amount, 2) }}
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            {{ number_format($transaction->running_balance, 2) }}
+                        </p>
+                    </div>
                 </div>
                 <div class="flex justify-end items-start">
                     <div>

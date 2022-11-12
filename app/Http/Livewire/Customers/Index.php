@@ -17,6 +17,8 @@ class Index extends Component
 
     public $searchQuery;
 
+    public $recordCount = 10;
+
     public $name = '';
 
     public $email = '';
@@ -76,7 +78,7 @@ class Index extends Component
                     fn ($query) => $query->search($this->searchQuery)
                 )
                 ->orderBy('name')
-                ->paginate(10),
+                ->paginate($this->recordCount),
         ]);
     }
 }

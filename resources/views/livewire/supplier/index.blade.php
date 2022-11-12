@@ -1,13 +1,23 @@
 <div>
-    <div class="grid grid-cols-1 lg:grid-cols-5 gap-2 px-2 md:px-0">
-        <div class="md:col-span-2">
-            <x-inputs.search id="search" wire:model="searchQuery" label="Search"/>
-        </div>
 
-        <div class="w-full">
+    <div class="pb-5">
+        <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">Inventory</h3>
+    </div>
+
+    <div
+        class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-4 lg:gap-x-3 bg-slate-100 dark:bg-slate-900">
+        <div>
+            <x-form.input.label for="search">
+                Search
+            </x-form.input.label>
+            <x-form.input.text
+                id="search"
+                type="search"
+                wire:model="searchQuery"
+                autofocus
+                placeholder="Search by company"
+            />
         </div>
-        <div></div>
-        <div></div>
     </div>
 
     <div class="py-3">
@@ -23,10 +33,13 @@
             <x-table.heading>contact</x-table.heading>
         </x-table.header>
         @forelse($suppliers as $supplier)
-            <x-table.body class="grid grid-cols-1 lg:grid-cols-6 text-sm">
+            <x-table.body class="grid grid-cols-1 text-sm lg:grid-cols-6">
                 <x-table.row class="text-center lg:text-left">{{ $supplier->id }}</x-table.row>
-                <x-table.row class="lg:col-span-2 text-center lg:text-left">
-                    <a href="{{ route('suppliers/show',$supplier->id) }}" class="link">
+                <x-table.row class="text-center lg:col-span-2 lg:text-left">
+                    <a
+                        class="link"
+                        href="{{ route('suppliers/show', $supplier->id) }}"
+                    >
                         {{ $supplier->name }}
                     </a>
                 </x-table.row>

@@ -198,7 +198,7 @@
                     </div>
                 </x-table.row>
                 <x-table.row class="">
-                    <div class="flex justify-center lg:justify-between lg:items-start">
+                    <div class="flex justify-end lg:justify-between lg:items-end">
                         <div>
                             <a
                                 class="link"
@@ -217,8 +217,11 @@
                             </div>
                         </div>
                         <div>
-                            <button wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')">
-                                <x-icons.view class="w-4 h-4 link" />
+                            <button
+                                class="flex justify-center items-center w-5 h-5 rounded-full bg-slate-300 dark:bg-slate-800"
+                                wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
+                            >
+                                <x-icons.view class="w-3 h-3 link" />
                             </button>
                         </div>
                     </div>
