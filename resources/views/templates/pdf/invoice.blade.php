@@ -198,7 +198,7 @@
                         >
                             https://portal.thecourierguy.co.za/track
                         </a>
-                        @if ($model->waybill->isNotEmpty())
+                        @if (isset($model->waybill))
                             <p class="text-xs">Waybill number: <span class="uppercase">{{ $model->waybill }}</span></p>
                         @endif
                     </div>
