@@ -11,7 +11,7 @@ input[type=checkbox] {
 }
 
 .bg-gradient-gray {
-    @apply bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900;
+    @apply bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900;
 }
 
 .button-success {

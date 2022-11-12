@@ -1,5 +1,12 @@
 <div>
 
+    <div>
+        <a
+            class="link"
+            href="{{ route('settings') }}"
+        >back to settings</a>
+    </div>
+
     @php
         function check_file_exist($url)
         {

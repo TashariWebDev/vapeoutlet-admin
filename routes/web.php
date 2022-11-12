@@ -3,23 +3,8 @@
 use App\Http\Livewire\Customers\Edit;
 use App\Http\Livewire\Dashboard\Index;
 use App\Http\Livewire\Purchases\Create;
-use App\Http\Livewire\Settings\Delivery;
-use App\Http\Livewire\Settings\Marketing\Banners;
-use App\Http\Livewire\Settings\Marketing\Notifications;
-use App\Http\Livewire\Shop;
 use App\Http\Livewire\Users\Show;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('auth.login');
@@ -31,10 +16,6 @@ Route::middleware('auth')->group(function () {
     Route::get('orders', \App\Http\Livewire\Orders\Index::class)
         ->name('orders')
         ->middleware('permission:view orders');
-
-    Route::get('shop', Shop::class)
-        ->name('shop')
-        ->middleware('permission:view shop');
 
     Route::get('orders/{id}', \App\Http\Livewire\Orders\Show::class)
         ->name('orders/show')
@@ -77,28 +58,27 @@ Route::middleware('auth')->group(function () {
 
     //Settings
     Route::middleware('permission:view settings')->group(function () {
-        Route::get('settings/delivery', Delivery\Index::class)->name(
-            'settings/delivery'
+        Route::get('delivery', \App\Http\Livewire\Delivery\Index::class)->name(
+            'delivery'
         );
 
         Route::get(
-            'settings/marketing/notifications',
-            Notifications::class
-        )->name('settings/marketing/notifications');
+            'notifications',
+            \App\Http\Livewire\Notifications\Index::class
+        )->name('notifications');
 
-        Route::get('settings/marketing/banners', Banners::class)->name(
-            'settings/marketing/banners'
+        Route::get('banners', \App\Http\Livewire\Banners\Index::class)->name(
+            'banners'
         );
 
         Route::get(
-            'settings/categories',
-            \App\Http\Livewire\Settings\Categories\Edit::class
-        )->name('settings/categories/edit');
+            'categories',
+            \App\Http\Livewire\Categories\Index::class
+        )->name('categories');
 
-        Route::get(
-            'settings/brands',
-            \App\Http\Livewire\Settings\Brands\Edit::class
-        )->name('settings/brands/edit');
+        Route::get('brands', \App\Http\Livewire\Brands\Index::class)->name(
+            'brands'
+        );
 
         Route::get('settings', \App\Http\Livewire\Settings\Index::class)->name(
             'settings'

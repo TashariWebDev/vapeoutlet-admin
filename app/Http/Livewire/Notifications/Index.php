@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Settings\Marketing;
+namespace App\Http\Livewire\Notifications;
 
 use App\Models\MarketingNotification;
 use Illuminate\Contracts\Foundation\Application;
@@ -8,7 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
-class Notifications extends Component
+class Index extends Component
 {
     public $showCreateNotificationForm = false;
 
@@ -38,7 +38,7 @@ class Notifications extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.settings.marketing.notifications', [
+        return view('livewire.notifications.index', [
             'notifications' => MarketingNotification::latest()->get(),
         ]);
     }

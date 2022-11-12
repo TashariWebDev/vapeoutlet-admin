@@ -1,65 +1,72 @@
 <div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
         @hasPermissionTo('view expenses')
-        <a href="{{ route('expenses') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
-        >
-            Expenses
-        </a>
+            <a
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                href="{{ route('expenses') }}"
+            >
+                Expenses
+            </a>
         @endhasPermissionTo
 
         @hasPermissionTo('view reports')
-        <a href="{{ route('reports') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
-        >
-            Reports
-        </a>
+            <a
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                href="{{ route('reports') }}"
+            >
+                Reports
+            </a>
         @endhasPermissionTo
 
         @hasPermissionTo('view users')
-        <a href="{{ route('users') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
-        >
-            Users
-        </a>
+            <a
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                href="{{ route('users') }}"
+            >
+                Users
+            </a>
         @endhasPermissionTo
     </div>
 
-    <div class="h-0.5 bg-slate-900/20 my-2"></div>
+    <div class="my-2 h-0.5 bg-slate-900/20"></div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-        <a href="{{ route('settings/delivery') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            href="{{ route('delivery') }}"
         >
             Delivery settings
         </a>
 
-        <a href="{{ route('settings/marketing/notifications') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            href="{{ route('notifications') }}"
         >
-            Marketing notifications
+            Notifications
         </a>
 
-        <a href="{{ route('settings/marketing/banners') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            href="{{ route('banners') }}"
         >
-            Marketing banners
+            Banners
         </a>
 
-
-        <a href="{{ route('settings/categories/edit') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            href="{{ route('categories') }}"
         >
-            Manage Categories
+            Categories
         </a>
 
-        <a href="{{ route('settings/brands/edit') }}"
-           class="w-full h-24 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 flex justify-center items-center rounded-lg hover:ring font-bold focus:ring"
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            href="{{ route('brands') }}"
         >
-            Manage Brands
+            Brands
         </a>
 
     </div>
