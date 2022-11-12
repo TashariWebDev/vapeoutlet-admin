@@ -1,5 +1,4 @@
 <div
-    class="py-1 px-2 rounded-md"
     x-data="{ ordersCount: $wire.entangle('ordersCount') }"
     x-init="$watch('ordersCount', value => {
         if (value === 0) {
@@ -7,7 +6,13 @@
         }
     })"
 >
-    <div class="grid grid-cols-1 gap-y-2 pb-1 lg:grid-cols-4 lg:gap-x-1">
+
+    <div class="pb-5">
+        <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">Orders</h3>
+    </div>
+
+    <div
+        class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-4 lg:gap-x-3 bg-slate-100 dark:bg-slate-900">
         <div class="">
             <x-form.input.label>
                 Search
@@ -120,12 +125,12 @@
         @endif
     </x-modal>
 
-    <div class="py-2">
+    <div class="py-4">
         {{ $orders->links() }}
     </div>
 
     @if ($filter === 'received')
-        <div>
+        <div class="hidden lg:block">
             <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to dispatched</p>
         </div>
         <div

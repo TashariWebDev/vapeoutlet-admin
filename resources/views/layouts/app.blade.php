@@ -25,7 +25,7 @@
 </head>
 
 <body
-    class="flex relative min-h-full font-sans antialiased bg-slate-200 dark:bg-slate-800"
+    class="flex relative min-h-full font-sans antialiased bg-slate-300 dark:bg-slate-800"
     x-data="{
         showMenu: false,
         date: '',
@@ -246,7 +246,7 @@
             </div>
         </header>
 
-        <div class="relative py-6 px-2 mt-16 lg:px-4">
+        <div class="relative py-6 px-2 mt-10 lg:px-2">
             <x-notification />
             {{ $slot }}
         </div>

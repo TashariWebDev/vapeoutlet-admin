@@ -1,8 +1,10 @@
 <div wire:poll.3000ms>
-    <div>
-        <h3 class="text-lg font-bold leading-6 text-slate-800 dark:text-slate-500">Orders</h3>
+    <div class="pb-5">
+        <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">Dashboard</h3>
+    </div>
 
-        <dl class="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div>
+        <dl class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <div
                 class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-900/70">
                 <dt>
