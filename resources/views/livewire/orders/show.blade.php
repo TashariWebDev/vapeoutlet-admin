@@ -47,15 +47,15 @@
     </x-modal>
 
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
-        <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
-            <div>
+        <div class="grid grid-cols-2 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
+            <div class="col-span-2 lg:col-span-1">
                 <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $this->order->number }}</p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->order->updated_at }}</p>
                 @isset($this->order->delivery_type_id)
                     <p class="text-xs capitalize text-slate-500 dark:text-slate-400">{{ $this->order->delivery?->type }}
                     </p>
                 @endisset
-                <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
+                <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
                     <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
                         Total: R {{ number_format($this->order->getTotal(), 2) }}
                         <span class="pl-3">(Delivery:{{ number_format($this->order->delivery_charge, 2) }})</span>
@@ -65,7 +65,8 @@
                     </p>
                 </div>
             </div>
-            <div>
+
+            <div class="col-span-2 lg:col-span-1">
                 <p class="font-semibold text-teal-500 dark:text-teal-400">{{ $this->order->customer->name }}
                     @isset($this->order->customer->company)
                         <span>| {{ $this->order->customer->company }}</span>
@@ -80,6 +81,7 @@
                     </div>
                 @endisset
             </div>
+
             <div class="grid grid-cols-2 col-span-2 gap-2 lg:grid-cols-3">
                 <div>
                     <livewire:orders.note :order="$this->order" />
