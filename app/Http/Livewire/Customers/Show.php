@@ -151,9 +151,12 @@ class Show extends Component
 
     public function updateBalances()
     {
-        $this->customer->load('transactions');
+        $transactions = Transaction::where(
+            'customer_id',
+            $this->customerId
+        )->get();
         $balance = 0;
-        foreach ($this->customer->transactions as $transaction) {
+        foreach ($transactions as $transaction) {
             $balance += $transaction->amount;
             $transaction->running_balance = $balance;
             $transaction->save();
