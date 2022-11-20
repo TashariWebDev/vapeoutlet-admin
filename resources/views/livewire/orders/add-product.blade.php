@@ -56,6 +56,14 @@
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">
                                 <x-product-listing-simple :product="$product" />
+
+                                <div>
+                                    <img
+                                        class="w-10 h-10"
+                                        src="{{ asset($product->image) }}"
+                                        alt=""
+                                    >
+                                </div>
                             </div>
                         </label>
                     @empty
