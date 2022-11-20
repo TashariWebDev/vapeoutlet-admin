@@ -97,7 +97,7 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800 dark:bg-slate-900">
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
                 @foreach ($user->permissions as $permission)
                     <div>
                         <button
@@ -128,7 +128,7 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800 dark:bg-slate-900">
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
                 @foreach ($permissions as $permission)
                     <div>
                         <button
