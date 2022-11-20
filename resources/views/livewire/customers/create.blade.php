@@ -1,5 +1,8 @@
 <div>
-    <x-modal x-data="{ show: $wire.entangle('modal') }">
+    <x-modal
+        x-data="{ show: $wire.entangle('modal') }"
+        x-cloak
+    >
 
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New customer</h3>
@@ -52,7 +55,7 @@
                 @hasPermissionTo('upgrade customers')
                     <div class="py-3 px-2 rounded-md bg-slate-100 dark:bg-slate-800">
                         <label
-                            class="flex items-center space-x-2 text-xs text-teal-400 dark:text-teal-400 font-medium uppercase"
+                            class="flex items-center space-x-2 text-xs font-medium text-teal-400 uppercase dark:text-teal-400"
                             for="is_wholesale"
                         >
                             <input
