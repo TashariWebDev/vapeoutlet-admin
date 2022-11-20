@@ -14,7 +14,10 @@
             <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                 <x-table.row>{{ $purchase->id }}</x-table.row>
                 <x-table.row>{{ $purchase->supplier->name }}</x-table.row>
-                <x-table.row>{{ $purchase->invoice_no }}</x-table.row>
+                <x-table.row>
+                    {{ $purchase->invoice_no }}
+                    <p>{{ $purchase->created_at }}</p>
+                </x-table.row>
                 <x-table.row class="text-right">
                     <a
                         class="w-full lg:w-32 button-success"

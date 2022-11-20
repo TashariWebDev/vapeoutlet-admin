@@ -73,7 +73,7 @@
                                 {{ $product->sku }}
                             </a>
                             <p class="font-semibold text-slate-800 dark:text-slate-300">
-                                {{ $product->name }} {{ $product->name }}
+                                {{ $product->brand }} {{ $product->name }}
                             </p>
                             <div class="flex items-center space-x-1">
                                 @foreach ($product->features as $feature)
