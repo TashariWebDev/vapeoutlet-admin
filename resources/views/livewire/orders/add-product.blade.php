@@ -59,8 +59,8 @@
 
                                 <div>
                                     <img
-                                        class="w-10"
-                                        src="{{ asset($product->image) }}"
+                                        class="w-10 h-10"
+                                        src="{{ $product->image }}"
                                         alt=""
                                     >
                                 </div>
