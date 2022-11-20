@@ -59,7 +59,7 @@ class AddProduct extends Component
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)
                 )
-                ->inStock()
+                ->orderBy('brand')
                 ->simplePaginate(10),
         ]);
     }
