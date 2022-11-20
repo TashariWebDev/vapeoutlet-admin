@@ -1,615 +1,279 @@
-<div wire:key>
-    <x-slide-over
-        title="Product gallery"
-        wire:model.defer="showGalleryForm"
-    >
-        @if ($product)
-            <div>
-                <div class="grid grid-cols-4 gap-2 p-3">
-                    @forelse($product->images as $image)
-                        <div class="relative col-span-1 w-20 h-20 rounded-md">
-                            <div class="absolute top-0 right-0">
-                                <button
-                                    wire:loading.attr="disabled"
-                                    x-on:click="@this.call('deleteImage',{{ $image->id }})"
-                                >
-                                    <x-icons.cross class="w-6 h-6 text-red-600" />
-                                </button>
-                            </div>
-                            <img
-                                class="object-cover rounded-md"
-                                src="{{ asset($image->url) }}"
-                                alt=""
-                            >
-                        </div>
-                    @empty
-                        <div class="flex col-span-4 justify-center items-center w-full h-32 bg-slate-100">
-                            <p class="font-semibold text-slate-900">no images in gallery. Please upload</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        @endif
+<div>
+    <div class="py-3 bg-white rounded-lg shadow dark:bg-slate-800">
 
-        <div>
-            <div class="pb-4 pl-3 w-32">
-                @if ($product)
-                    <div class="relative col-span-1 w-32 h-32 rounded-md border">
-                        @if (!str_contains($product->image, 'default-image.png'))
-                            <div class="absolute top-0 right-0">
-                                <button x-on:click="@this.call('deleteFeaturedImage')">
-                                    <x-icons.cross class="w-6 h-6 text-red-600" />
-                                </button>
-                            </div>
-                        @endif
-                        <img
-                            class="object-cover rounded-t-md"
-                            src="{{ asset($product->image) }}"
-                            alt=""
-                        >
-                    </div>
-                    <div class="pt-1 mx-auto w-32 text-xs text-center rounded-b bg-slate-200">
-                        <p>featured</p>
-                    </div>
-                @endif
-            </div>
-            <form
-                id="saveFeaturedImageForm"
-                wire:submit.prevent="saveFeaturedImage"
-                x-data=""
-                x-on:livewire-upload-finish="document.getElementById('saveFeaturedImageForm').reset()"
-            >
-                <div class="py-2">
-                    <x-input
-                        type="file"
-                        label="featured image"
-                        wire:model.defer="image"
+        <header class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-2 lg:gap-x-3">
+
+            <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+                <div>
+                    <x-form.input.label for="search">
+                        Search
+                    </x-form.input.label>
+                    <x-form.input.text
+                        class="w-full"
+                        id="search"
+                        type="search"
+                        wire:model="searchQuery"
+                        autofocus
+                        autocomplete="off"
+                        placeholder="Search by SKU, name, category or brand"
                     />
                 </div>
-                <div class="py-2">
-                    <button class="w-full button-success">
-                        <x-icons.upload class="mr-2 w-5 h-5 text-white" />
-                        upload
-                    </button>
-                </div>
-            </form>
-            <form
-                id="saveGalleryForm"
-                wire:submit.prevent="saveGallery"
-                x-data=""
-                x-on:livewire-upload-finish="document.getElementById('saveGalleryForm').reset()"
-            >
-                <div class="py-2">
-                    <x-input
-                        type="file"
-                        label="upload images"
-                        multiple
-                        wire:model.defer="images"
-                    />
-                </div>
-                <div class="py-2">
-                    <button class="w-full button-success">
-                        <x-icons.upload class="mr-2 w-5 h-5 text-white" />
-                        upload
-                    </button>
-                </div>
-            </form>
-        </div>
-    </x-slide-over>
 
-    {{-- update product --}}
-    <x-slide-over
-        title="Update product"
-        wire:model.defer="showProductUpdateForm"
-    >
-        <form wire:submit.prevent="update">
-            <div class="py-2">
-                <x-input
-                    type="text"
-                    label="name"
-                    wire:model.defer="product.name"
-                    required
-                />
-            </div>
-            <div class="py-2">
-                <x-input
-                    type="text"
-                    label="sku"
-                    wire:model.defer="product.sku"
-                    required
-                />
-            </div>
-            <div class="relative py-4">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showBrandsForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                    </button>
+                <div>
+                    <x-form.input.label>
+                        No of records
+                    </x-form.input.label>
+                    <x-form.input.select wire:model="recordCount">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </x-form.input.select>
                 </div>
-                <x-select
-                    label="brand"
-                    wire:model.defer="product.brand"
-                    required
-                >
-                    @foreach ($brands as $brand)
-                        <option value="{{ $brand->name }}">{{ $brand->name }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-            <div class="relative py-4">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                    </button>
-                </div>
-                <x-select
-                    label="categories"
-                    wire:model.defer="product.category"
-                    required
-                >
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->name }}">{{ $category->name }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-            <div class="relative py-4">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                    </button>
-                </div>
-                <x-select
-                    label="Collection name"
-                    wire:model.defer="product.product_collection_id"
-                >
-                    @foreach ($productCollections as $collection)
-                        <option value="{{ $collection->id }}">{{ $collection->name }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-            @if ($product)
-                @if ($product->id)
-                    <div class="py-2">
-                        <x-textarea
-                            type="text"
-                            label="description"
-                            wire:model.defer="product.description"
-                        />
-                    </div>
-                    <div class="py-2">
-                        <x-input-number
-                            type="number"
-                            label="retail_price"
-                            wire:model.defer="product.retail_price"
-                            required
-                        />
-                    </div>
-                    <div class="py-2">
-                        <x-input-number
-                            type="number"
-                            label="wholesale_price"
-                            wire:model.defer="product.wholesale_price"
-                            required
-                        />
-                    </div>
-                    <div class="relative py-2">
-                        <div class="absolute right-0 z-10 pt-0.5">
-                            <button x-on:click.prevent="@this.set('showFeaturesForm',true)">
-                                <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                            </button>
-                        </div>
-                        <x-select
-                            label="features"
-                            x-on:change="$wire.call('addFeature',$event.target.value)"
-                        >
-                            @foreach ($featureCategories as $category)
-                                <option
-                                    value="{{ $category->id }}"
-                                    wire:key="{{ $category->id }}"
-                                >{{ $category->name }}</option>
-                            @endforeach
-                        </x-select>
-                    </div>
-                    <div class="py-2 px-4 rounded-md bg-slate-100">
-                        <p class="text-xs">update and click tab to save</p>
-                        @foreach ($product->features as $feature)
-                            <div
-                                class="relative py-2"
-                                wire:key="{{ $feature->id }}"
-                            >
-                                <div class="absolute right-0 z-10 pt-0.5">
-                                    <button x-on:click.prevent="@this.call('deleteFeature',{{ $feature->id }})">
-                                        <x-icons.cross class="w-12 h-12 text-red-500 hover:text-red-600" />
-                                    </button>
-                                </div>
-                                <x-input-alpine
-                                    id="{{ $feature->category->name }}-{{ $feature->id }}"
-                                    name="name"
-                                    type="text"
-                                    value="{{ $feature->name }}"
-                                    label="{{ $feature->category->name }}"
-                                    x-on:blur="$wire.call('updateFeature',{{ $feature->id }},$event.target.value)"
-                                />
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-            @endif
-
-            <div class="py-2">
-                <button class="w-full button-success">
-                    <x-icons.save class="mr-2 w-5 h-5" />
-                    save
-                </button>
-            </div>
-        </form>
-    </x-slide-over>
-
-    {{-- create product --}}
-    <x-slide-over
-        title="New product"
-        wire:model.defer="showProductCreateForm"
-    >
-        <form wire:submit.prevent="save">
-            <div class="py-2">
-                <x-input
-                    type="text"
-                    label="name"
-                    wire:model.defer="product.name"
-                    required
-                />
-            </div>
-            <div class="py-2">
-                <x-input
-                    type="text"
-                    label="sku"
-                    wire:model.defer="product.sku"
-                    required
-                />
-            </div>
-            <div class="relative py-4">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showBrandsForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                    </button>
-                </div>
-                <x-select
-                    label="brand"
-                    wire:model.defer="product.brand"
-                    required
-                >
-                    @foreach ($brands as $brand)
-                        <option value="{{ $brand->name }}">{{ $brand->name }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-            <div class="relative py-4">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showCategoriesForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                    </button>
-                </div>
-                <x-select
-                    label="categories"
-                    wire:model.defer="product.category"
-                    required
-                >
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->name }}">{{ $category->name }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-            <div class="relative py-4">
-                <div class="absolute right-0 z-10 pt-0.5">
-                    <button x-on:click.prevent="@this.set('showProductCollectionForm',true)">
-                        <x-icons.plus class="w-12 h-12 text-green-500 hover:text-green-600" />
-                    </button>
-                </div>
-                <x-select
-                    label="Collection name"
-                    wire:model.defer="product.product_collection_id"
-                >
-                    @foreach ($productCollections as $collection)
-                        <option value="{{ $collection->id }}">{{ $collection->name }}</option>
-                    @endforeach
-                </x-select>
-            </div>
-            <div class="py-2">
-                <button class="w-full button-success">
-                    <x-icons.save class="mr-2 w-5 h-5" />
-                    save
-                </button>
-            </div>
-        </form>
-
-        <button
-            class="w-full button-success"
-            x-on:click="@this.call('saveAndEdit','')"
-        >
-            <x-icons.save class="mr-2 w-5 h-5" />
-            save and update
-        </button>
-    </x-slide-over>
-
-    <x-modal
-        title="Manage brands"
-        wire:model.defer="showBrandsForm"
-        wire:key
-    >
-        <div>
-            <form
-                id="brandForm"
-                wire:submit.prevent="addBrand"
-                x-data=""
-            >
-                <div class="py-2">
-                    <x-input
-                        type="text"
-                        wire:model.defer="brandName"
-                        label="name"
-                    />
-                </div>
-                <div class="py-2">
-                    <x-input
-                        type="file"
-                        wire:model.defer="brandLogo"
-                        label="logo"
-                    />
-                </div>
-                <div class="py-2">
-                    <button class="button-success">
-                        <x-icons.save class="mr-2 w-5 h-5" />
-                        save
-                    </button>
-                </div>
-            </form>
-        </div>
-    </x-modal>
-
-    <x-modal
-        title="Manage product collections"
-        wire:model.defer="showProductCollectionForm"
-        wire:key
-    >
-        <div>
-            <form wire:submit.prevent="addProductCollection">
-                <div class="py-2">
-                    <x-input
-                        type="text"
-                        wire:model.defer="collectionName"
-                        label="Name"
-                    />
-                </div>
-                <div class="py-2">
-                    <button class="button-success">
-                        <x-icons.save class="mr-2 w-5 h-5" />
-                        save
-                    </button>
-                </div>
-            </form>
-        </div>
-    </x-modal>
-
-    <x-modal
-        title="Manage categories"
-        wire:model.defer="showCategoriesForm"
-    >
-        <div>
-            <form wire:submit.prevent="addCategory">
-                <div class="py-2">
-                    <x-input
-                        type="text"
-                        wire:model.defer="categoryName"
-                        label="name"
-                    />
-                </div>
-                <div class="py-2">
-                    <button class="button-success">
-                        <x-icons.save class="mr-2 w-5 h-5" />
-                        save
-                    </button>
-                </div>
-            </form>
-        </div>
-    </x-modal>
-
-    <x-modal
-        title="Manage feature categories"
-        wire:model.defer="showFeaturesForm"
-    >
-        <div>
-            <form wire:submit.prevent="addFeatureCategory">
-                <div class="py-2">
-                    <x-input
-                        type="text"
-                        wire:model.defer="featureCategoryName"
-                        label="name"
-                    />
-                </div>
-                <div class="py-2">
-                    <button class="button-success">
-                        <x-icons.save class="mr-2 w-5 h-5" />
-                        save
-                    </button>
-                </div>
-            </form>
-        </div>
-    </x-modal>
-
-    <div>
-
-        <div class="pb-5">
-            <h3 class="text-2xl font-bold text-slate-800 dark:text-slate-400">Products</h3>
-        </div>
-
-        <header
-            class="grid grid-cols-1 gap-y-4 py-3 px-2 rounded-lg shadow lg:grid-cols-2 lg:gap-x-3 bg-slate-100 dark:bg-slate-900"
-        >
-
-            <div>
-                <x-form.input.label for="search">
-                    Search
-                </x-form.input.label>
-                <x-form.input.text
-                    class="w-full lg:w-1/2"
-                    id="search"
-                    type="search"
-                    wire:model="searchQuery"
-                    autofocus
-                    placeholder="Search by SKU, name, category or brand"
-                />
             </div>
 
-            <div class="grid grid-cols-1 gap-2 items-center pt-3 md:grid-cols-2">
-                @if ($activeFilter)
+            <div class="grid grid-cols-1 gap-2 items-center md:grid-cols-2">
+                <div class="grid grid-cols-1 gap-2">
+                    <livewire:products.create wire:key="add={{ now() }}" />
                     <button
                         class="w-full button-success"
-                        x-on:click="$wire.set('activeFilter',false)"
+                        wire:click="toggleFilter"
                     >
                         show disabled products
                     </button>
-                @else
-                    <button
+                </div>
+                <div class="grid grid-cols-1 gap-2">
+                    <a
                         class="w-full button-success"
-                        x-on:click.prevent="$wire.set('activeFilter',true)"
+                        href="{{ route('suppliers') }}"
                     >
-                        show active products
-                    </button>
-                @endif
-                <div>
-                    <button
-                        class="w-full button-success"
-                        wire:click="create"
-                    >
-                        add product
-                    </button>
+                        suppliers
+                    </a>
+                    <div class="w-full">
+                        <livewire:purchases.create />
+                    </div>
                 </div>
             </div>
         </header>
 
-        <div class="py-3">
+        <div class="py-3 px-2">
             {{ $products->links() }}
         </div>
 
-        <section class="mt-4">
-            <div>
-                @forelse($products as $product)
-                    <div class="py-2 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-900">
-                        <div
-                            class="grid grid-cols-1 gap-y-3 py-2 text-sm font-medium lg:grid-cols-2 lg:gap-y-0 lg:py-0">
-                            {{-- left --}}
+        <section class="px-2 mt-4 rounded-b-lg">
+            @forelse($products as $product)
+                <div
+                    class="py-2 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-800 dark:even:bg-slate-700 even:bg-slate-50">
+                    <div class="grid grid-cols-2 gap-3 lg:grid-cols-8">
+                        <div class="col-span-2 w-full text-xs">
+                            <a
+                                class="link"
+                                href="{{ route('products/edit', $product->id) }}"
+                            >
+                                {{ $product->sku }}
+                            </a>
+                            <p class="font-semibold text-slate-800 dark:text-slate-300">
+                                {{ $product->name }} {{ $product->name }}
+                            </p>
+                            <div class="flex items-center space-x-1">
+                                @foreach ($product->features as $feature)
+                                    <p class="pr-1 text-xs text-slate-500 dark:text-slate-400"> {{ $feature->name }}
+                                    </p>
+                                @endforeach
+                            </div>
+                            <p class="font-semibold text-slate-500 dark:text-slate-400">
+                                {{ $product->category }}
+                            </p>
+                            @if (str_contains($product->image, '/storage/images/default-image.png'))
+                                <p class="text-xs font-semibold text-pink-800 dark:text-pink-500">
+                                    ! featured image not set
+                                </p>
+                            @endif
+                        </div>
+                        <div class="w-full h-full">
+                            <div class="flex justify-between">
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">IN STOCK</p>
+                                <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                    {{ $product->stocks->sum('qty') }}</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">PURCHASED</p>
+                                <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                    {{ $product->stocks->where('type', 'purchase')->sum('qty') }}</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">CREDITS</p>
+                                <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                    {{ $product->stocks->where('type', 'credit')->sum('qty') }}</p>
+                            </div>
+                        </div>
+                        <div class="w-full h-full">
+                            <div class="flex justify-between">
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">SOLD</p>
+                                <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                    {{ $product->stocks->where('type', 'invoice')->sum('qty') }}</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">ADJUSTMENTS</p>
+                                <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                    {{ $product->stocks->where('type', 'adjustment')->sum('qty') }}</p>
+                            </div>
+                            <div class="flex justify-between">
+                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">SUPPLIER CREDITS</p>
+                                <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                    {{ $product->stocks->where('type', 'supplier_credit')->sum('qty') }}</p>
+                            </div>
+                        </div>
+                        <div class="w-full h-full">
+                            <div>
+                                <div>
+                                    @if (auth()->user()->hasPermissionTo('edit pricing'))
+                                        <x-form.input.label for="retail">
+                                            Retail price
+                                        </x-form.input.label>
 
-                            <x-product-listing :product="$product" />
-
-                            {{-- right --}}
-                            <div class="grid grid-cols-2 gap-y-2 gap-x-4 py-1 md:grid-cols-4">
-                                {{-- active --}}
-                                <div>
-                                    @if ($product->retail_price * $product->wholesale_price > 0)
-                                        @if ($product->is_active)
-                                            <button
-                                                class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                                x-on:click="@this.call('toggleActive',{{ $product->id }})"
-                                            >
-                                                <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300" />
-                                                <p>active</p>
-                                            </button>
-                                        @else
-                                            <button
-                                                class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                                x-on:click="@this.call('toggleActive',{{ $product->id }})"
-                                            >
-                                                <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400" />
-                                                <p>active</p>
-                                            </button>
-                                        @endif
-                                    @endif
-                                </div>
-                                {{-- featured --}}
-                                <div>
-                                    @if ($product->is_featured)
-                                        <button
-                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                            x-on:click="@this.call('toggleFeatured',{{ $product->id }})"
-                                        >
-                                            <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300" />
-                                            <p>featured</p>
-                                        </button>
+                                        <x-form.input.text
+                                            class="px-0.5 w-full rounded border"
+                                            id="retail"
+                                            type="number"
+                                            value="{{ $product->retail_price }}"
+                                            inputmode="numeric"
+                                            pattern="[0-9]"
+                                            @keydown.tab="$wire.call('updateRetailPrice','{{ $product->id }}',$event.target.value)"
+                                        />
                                     @else
-                                        <button
-                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                            x-on:click="@this.call('toggleFeatured',{{ $product->id }})"
-                                        >
-                                            <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400" />
-                                            <p>featured</p>
-                                        </button>
+                                        <x-form.input.label for="retail">
+                                            Retail price
+                                        </x-form.input.label>
+                                        <p class="text-center">{{ $product->retail_price }}</p>
                                     @endif
-                                </div>
-                                <div>
-                                    @if ($product->is_sale)
-                                        <button
-                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                            x-on:click="@this.call('toggleSale',{{ $product->id }})"
+                                    @if (auth()->user()->hasPermissionTo('view cost'))
+                                        <span
+                                            class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-pink-700 @else text-teal-500 @endif text-xs"
                                         >
-                                            <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300" />
-                                            <p>sale</p>
-                                        </button>
-                                    @else
-                                        <button
-                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                            x-on:click="@this.call('toggleSale',{{ $product->id }})"
-                                        >
-                                            <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400" />
-                                            <p>sale</p>
-                                        </button>
-                                    @endif
-                                </div>
-                                <div>
-                                    <button
-                                        class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                        x-on:click="@this.call('edit',{{ $product->id }})"
-                                    >
-                                        <x-icons.edit class="w-4 h-4 text-green-500 dark:text-green-300" />
-                                        <p>edit</p>
-                                    </button>
-                                </div>
-                                <div>
-                                    <button
-                                        class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                        x-on:click="@this.call('showGallery',{{ $product->id }})"
-                                    >
-                                        <x-icons.upload class="w-4 h-4 text-green-500 dark:text-green-300" />
-                                        <p>gallery</p>
-                                    </button>
-                                </div>
-                                <div></div>
-                                <div></div>
-                                <div>
-                                    @if ($product->trashed())
-                                        <button
-                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                            x-on:click="@this.call('recover',{{ $product->id }})"
-                                        >
-                                            <x-icons.tick class="w-4 h-4 text-green-500 dark:text-green-300" />
-                                            <p>recover</p>
-                                        </button>
-                                    @else
-                                        <button
-                                            class="flex justify-center items-center space-x-2 w-full button-secondary"
-                                            x-on:click="@this.call('delete',{{ $product->id }})"
-                                        >
-                                            <x-icons.cross class="w-4 h-4 text-red-500 dark:text-red-400" />
-                                            <p>archive</p>
-                                        </button>
+                                            {{ profit_percentage($product->retail_price, $product->cost) }}
+                                        </span>
                                     @endif
                                 </div>
                             </div>
                         </div>
+                        <div class="w-full h-full">
+                            <div>
+                                @if (auth()->user()->hasPermissionTo('edit pricing'))
+                                    <x-form.input.label for="wholesale">
+                                        Wholesale price
+                                    </x-form.input.label>
+                                    <x-form.input.text
+                                        class="px-0.5 w-full rounded border"
+                                        id="wholesale"
+                                        type="number"
+                                        value="{{ $product->wholesale_price }}"
+                                        inputmode="numeric"
+                                        pattern="[0-9]"
+                                        @keydown.tab="$wire.call('updateWholesalePrice','{{ $product->id }}',$event.target.value)"
+                                    />
+                                @else
+                                    <x-form.input.label for="wholesale">
+                                        Wholesale price
+                                    </x-form.input.label>
+                                    <p class="text-center">{{ $product->wholesale_price }}</p>
+                                @endif
+                                @if (auth()->user()->hasPermissionTo('view cost'))
+                                    <span
+                                        class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-pink-700 @else text-teal-500 @endif text-xs"
+                                    >
+                                        {{ profit_percentage($product->wholesale_price, $product->cost) }}
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-2 w-full h-full">
+                            <div>
+                                @if ($product->retail_price * $product->wholesale_price > 0)
+                                    @if ($product->is_active)
+                                        <button
+                                            class="flex justify-start items-center space-x-2 w-full button-success"
+                                            x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                                        >
+                                            <x-icons.tick class="w-3 h-3 text-teal-400 dark:text-white" />
+                                            <p>active</p>
+                                        </button>
+                                    @else
+                                        <button
+                                            class="flex justify-start items-center space-x-2 w-full button-success"
+                                            x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                                        >
+                                            <x-icons.cross class="w-3 h-3 text-pink-400 dark:text-pink-400" />
+                                            <p>active</p>
+                                        </button>
+                                    @endif
+                                @endif
+                            </div>
+                            <div>
+                                @if ($product->is_featured)
+                                    <button
+                                        class="flex justify-start items-center space-x-2 w-full button-success"
+                                        x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
+                                    >
+                                        <x-icons.tick class="w-3 h-3 text-teal-400 dark:text-white" />
+                                        <p>featured</p>
+                                    </button>
+                                @else
+                                    <button
+                                        class="flex justify-start items-center space-x-2 w-full button-success"
+                                        x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
+                                    >
+                                        <x-icons.cross class="w-3 h-3 text-pink-400 dark:text-pink-400" />
+                                        <p>featured</p>
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-2 w-full h-full">
+                            <div>
+                                @if ($product->is_sale)
+                                    <button
+                                        class="flex justify-start items-center space-x-2 w-full button-success"
+                                        x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
+                                    >
+                                        <x-icons.tick class="w-3 h-3 text-teal-400 dark:text-white" />
+                                        <p>sale</p>
+                                    </button>
+                                @else
+                                    <button
+                                        class="flex justify-start items-center space-x-2 w-full button-success"
+                                        x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
+                                    >
+                                        <x-icons.cross class="w-3 h-3 text-pink-400 dark:text-pink-400" />
+                                        <p>sale</p>
+                                    </button>
+                                @endif
+                            </div>
+                            <div>
+                                @if ($product->trashed())
+                                    <button
+                                        class="flex justify-start items-center space-x-2 w-full button-success"
+                                        x-on:click="$wire.call('recover','{{ $product->id }}')"
+                                    >
+                                        <x-icons.tick class="w-3 h-3 text-teal-400 dark:text-white" />
+                                        <p>recover</p>
+                                    </button>
+                                @else
+                                    <button
+                                        class="flex justify-start items-center space-x-2 w-full button-success"
+                                        x-on:click="$wire.call('delete','{{ $product->id }}')"
+                                    >
+                                        <x-icons.cross class="w-3 h-3 text-pink-400 dark:text-pink-400" />
+                                        <p>archive</p>
+                                    </button>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                @empty
-                    <x-table.empty></x-table.empty>
-                @endforelse
-            </div>
-
+                </div>
+            @empty
+                <x-table.empty></x-table.empty>
+            @endforelse
         </section>
     </div>
 </div>

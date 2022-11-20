@@ -1,27 +1,26 @@
 <div>
 
-    <div>
-        <a
-            class="link"
-            href="{{ route('settings') }}"
-        >back to settings</a>
-    </div>
-
-    <x-slide-over
-        title="Add marketing notification"
-        wire:model.defer="showCreateNotificationForm"
-    >
+    <x-slide-over x-data="{ show: $wire.entangle('slide') }">
+        <x-page-header>
+            Add notification
+        </x-page-header>
         <div class="py-6">
             <form wire:submit.prevent="save">
                 <div class="py-6">
-                    <x-textarea
-                        label="body"
+                    <x-form.input.label for="body">
+                        Notification
+                    </x-form.input.label>
+                    <x-form.input.textarea
+                        id="body"
                         wire:model.defer="body"
-                    ></x-textarea>
+                    ></x-form.input.textarea>
+                    @error('body')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                    @enderror
                 </div>
                 <div>
                     <button class="button-success">
-                        <x-icons.save class="mr-3 w-5 h-5" />
+                        <x-icons.busy target="save" />
                         save
                     </button>
                 </div>
@@ -29,33 +28,44 @@
         </div>
     </x-slide-over>
 
-    <header class="flex justify-start py-6 lg:justify-end">
-        <button
-            class="button-success"
-            x-on:click="@this.set('showCreateNotificationForm',true)"
-        >
-            <x-icons.plus class="mr-3 w-5 h-5" />
-            add notification
-        </button>
-    </header>
+    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+        <header class="flex justify-between items-center py-6 px-2">
+            <x-page-header>
+                Notification settings
+            </x-page-header>
+            <button
+                class="button-success"
+                wire:click="$toggle('slide')"
+            >
+                add notification
+            </button>
+        </header>
 
-    <section class="py-6">
-        <div class="grid grid-cols-1 gap-y-2">
-            @foreach ($notifications as $notification)
-                <div class="grid grid-cols-2 gap-3 py-1 px-2 bg-white rounded-md lg:grid-cols-4">
-                    <div class="col-span-3 py-6 text-slate-800">
+        <div class="py-3 px-2">
+            {{ $notifications->links() }}
+        </div>
+        <x-table.container>
+            <x-table.header class="hidden lg:grid lg:grid-cols-3">
+                <x-table.heading class="col-span-2">Body</x-table.heading>
+                <x-table.heading class="text-right">Action</x-table.heading>
+            </x-table.header>
+            @forelse ($notifications as $notification)
+                <x-table.body>
+                    <x-table.row class="col-span-2">
                         <p>{{ $notification->body }}</p>
-                    </div>
-                    <div class="py-1 px-2 text-center">
+                    </x-table.row>
+                    <x-table.row class="text-right">
                         <button
                             class="button-danger"
-                            x-on:click="@this.call('delete',{{ $notification->id }})"
+                            wire:click="delete('{{ $notification->id }}')"
                         >
-                            <x-icons.cross />
+                            delete
                         </button>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </section>
+                    </x-table.row>
+                </x-table.body>
+            @empty
+                <x-table.empty></x-table.empty>
+            @endforelse
+        </x-table.container>
+    </div>
 </div>

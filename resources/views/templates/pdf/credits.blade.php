@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
     >
     <title></title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet"
     >
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -15,8 +18,8 @@
             height: 100%;
         }
 
-
         @media print {
+
             /*section,*/
             /*td,*/
             /*tr,*/
@@ -24,7 +27,6 @@
             section {
                 page-break-inside: avoid;
             }
-
 
             @page {
                 margin-top: 10mm;
@@ -37,17 +39,16 @@
                 margin-bottom: 10mm;
                 size: a4 landscape;
             }
-
         }
-
     </style>
 </head>
+
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
 
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
-                {{ date("Y-m-d h:i:sa") }}
+                {{ date('d-m-y h:i:sa') }}
             </div>
             <div class="px-4">
                 <table class="w-full">
@@ -62,35 +63,36 @@
                     </thead>
                     <tbody class="text-sm">
                         @php
-                            $overallTotal = []
+                            $overallTotal = [];
                         @endphp
-                        @foreach($credits as $grouped)
+                        @foreach ($credits as $grouped)
                             @php
 
                                 $collectAllTotals = [];
 
                             @endphp
-                            @foreach($grouped as $credit)
-                                @if($loop->first)
+                            @foreach ($grouped as $credit)
+                                @if ($loop->first)
                                     <tr class="font-bold bg-gray-200">
-                                        <td colspan="6"
+                                        <td
                                             class="text-left"
-                                        >{{$credit->created_by}}</td>
+                                            colspan="6"
+                                        >{{ $credit->created_by }}</td>
                                     </tr>
                                 @endif
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                                    <td class="text-left">{{$credit->created_at}}</td>
-                                    <td class="text-left">{{$credit->customer->name}}</td>
-                                    <td class="text-right">{{  number_format(ex_vat($credit->getTotal()),2) }}</td>
-                                    <td class="text-right">{{  number_format(vat($credit->getTotal()),2) }}</td>
-                                    <td class="text-right">{{  number_format($credit->getTotal(),2) }}</td>
+                                    <td class="text-left">{{ $credit->created_at }}</td>
+                                    <td class="text-left">{{ $credit->customer->name }}</td>
+                                    <td class="text-right">{{ number_format(ex_vat($credit->getTotal()), 2) }}</td>
+                                    <td class="text-right">{{ number_format(vat($credit->getTotal()), 2) }}</td>
+                                    <td class="text-right">{{ number_format($credit->getTotal(), 2) }}</td>
                                 </tr>
-                                @if($loop->last)
+                                @if ($loop->last)
                                     @php
 
                                         $collectAllTotals = [];
 
-                                        foreach ($grouped as $credit){
+                                        foreach ($grouped as $credit) {
                                             $collectAllTotals[] = $credit->getTotal();
                                         }
                                         $totalAmount = array_sum($collectAllTotals);
@@ -101,28 +103,30 @@
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format(ex_vat($totalAmount),2) }}
+                                            {{ number_format(ex_vat($totalAmount), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format(vat($totalAmount),2) }}
+                                            {{ number_format(vat($totalAmount), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($totalAmount,2) }}
+                                            {{ number_format($totalAmount, 2) }}
                                         </td>
                                     </tr>
                                     <tr class="text-white">
-                                        <td colspan="6"
+                                        <td
                                             class="py-2"
+                                            colspan="6"
                                         ></td>
                                     </tr>
                                 @endif
                             @endforeach
                         @endforeach
                         <tr class="h-10 font-bold bg-white border-t-4 border-dashed">
-                            <td colspan="6"
+                            <td
                                 class="text-right"
+                                colspan="6"
                             >
-                                {{ number_format(array_sum($overallTotal),2) }}
+                                {{ number_format(array_sum($overallTotal), 2) }}
                             </td>
                         </tr>
                     </tbody>
@@ -131,4 +135,5 @@
         </div>
     </div>
 </body>
+
 </html>

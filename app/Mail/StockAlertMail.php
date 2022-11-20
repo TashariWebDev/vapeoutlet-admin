@@ -10,7 +10,8 @@ use Illuminate\Queue\SerializesModels;
 
 class StockAlertMail extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $product;
 
@@ -22,7 +23,7 @@ class StockAlertMail extends Mailable implements ShouldQueue
     public function build()
     {
         return $this->view('emails.stock-alert', [
-            'link' => config('app.frontend_url').'/detail/'.$this->product->slug,
+            'link' => config('app.frontend_url').'/detail/'.$this->product->id,
             'name' => $this->product->brand.' '.$this->product->name,
         ]);
     }

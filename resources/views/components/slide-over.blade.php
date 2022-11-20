@@ -1,13 +1,11 @@
-@props(['title'])
 <div
-    class="relative z-50"
+    class="relative z-40"
     role="dialog"
     aria-labelledby="slide-over-title"
     aria-modal="true"
     {{ $attributes }}
+    x-show="show"
     x-cloak
-    x-data="{ show: $wire.entangle('{{ $attributes->wire('model.defer')->value() }}') }"
-    wire:key
 >
     {{-- overlay --}}
     <div
@@ -47,7 +45,7 @@
                         <button
                             class="rounded-md hover:text-white focus:ring-2 focus:ring-white focus:outline-none text-slate-300"
                             type="button"
-                            x-on:click="show = !show"
+                            x-on:click="show = false"
                         >
                             <span class="sr-only">Close panel</span>
                             <!-- Heroicon name: outline/x -->
@@ -70,13 +68,7 @@
                     </div>
 
                     <div class="flex overflow-y-scroll flex-col py-6 px-2 h-full bg-white shadow-xl dark:bg-slate-900">
-                        <div class="px-4 sm:px-6">
-                            <h2
-                                class="text-lg font-medium text-slate-900 dark:text-slate-500"
-                                id="slide-over-title"
-                            >{{ $title ?? '' }}</h2>
-                        </div>
-                        <div class="relative flex-1 py-2 px-4 mt-3 rounded-md sm:px-6 bg-white dark:bg-slate-900">
+                        <div class="relative flex-1 py-2 px-2 mt-3 bg-white rounded-md dark:bg-slate-900">
                             <!-- Replace with your content -->
                             {{ $slot }}
                             <!-- /End replace -->

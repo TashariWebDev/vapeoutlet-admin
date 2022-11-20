@@ -1,9 +1,5 @@
-<div x-data="{}">
-
-    <x-modal
-        title="Are you sure?"
-        wire:model.defer="showConfirmModal"
-    >
+<div class="relative">
+    <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="flex py-4 space-x-4">
             <button
                 class="button-success"
@@ -16,7 +12,7 @@
                 Yes! Process,
             </button>
             <button
-                class="w-32 button-secondary"
+                class="w-32 button-danger"
                 x-on:click="$wire.set('showConfirmModal',false)"
             >
                 <x-icons.cross class="mr-2 w-5 h-5" />
@@ -24,226 +20,241 @@
             </button>
         </div>
     </x-modal>
+    <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
+        <div class="pb-2">
+            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Process this credit note?</h3>
+        </div>
+        <div class="flex items-center py-3 space-x-2">
+            <button
+                class="w-32 button-success"
+                wire:click="process"
+                wire:target="process"
+                wire:loading.attr="disabled"
+            >
+                <span
+                    class="pr-2"
+                    wire:loading
+                ><x-icons.busy target="process" /></span>
+                Yes!
+            </button>
+            <button
+                class="w-32 button-danger"
+                x-on:click="show = !show"
+            >
+                No
+            </button>
+        </div>
+        <p class="text-xs text-slate-600">This action is non reversible</p>
+    </x-modal>
 
-    <div>
-        <div class="grid gap-3 py-1 px-2 pb-4 bg-white rounded-md md:grid-cols-4 grid-col-1 dark:bg-slate-900">
-            <div class="order-last md:order-first md:col-span-2">
+    <div class="bg-white rounded-lg shadow dark:bg-slate-800">
+        <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
+            <div>
+                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $this->credit->number }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->credit->updated_at }}</p>
+                <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
+                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                        Total: R {{ number_format($this->credit->getTotal(), 2) }}
+                    </p>
+                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                        Count: {{ $this->credit->items_count }}
+                    </p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 gap-2 text-xs lg:grid-cols-2">
+                <div>
+                    <p class="font-semibold text-teal-500 dark:text-teal-400">{{ $this->credit->customer->name }}
+                        @isset($this->credit->customer->company)
+                            <span>| {{ $this->credit->customer->company }}</span>
+                        @endisset
+                    </p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 lg:grid-cols-2">
+                <div>
+                    @if (!$this->credit->processed)
+                        <livewire:credit.add-product :credit="$this->credit" />
+                    @endif
+                </div>
 
-                @if (!$this->credit->processed)
-                    <div class="grid grid-cols-1 gap-2 pb-3 lg:grid-cols-2">
-                        <button
-                            class="w-full button-success"
-                            x-on:click="$wire.set('showProductSelectorForm', true)"
-                        >
-                            <x-icons.plus class="mr-2 w-5 h-5" />
-                            add products
-                        </button>
-                        <div></div>
+                <div>
+                    @if (!$this->credit->processed)
                         <button
                             class="w-full button-danger"
-                            x-on:click="$wire.call('cancel')"
+                            wire:click="cancel"
                         >
-                            <x-icons.cross class="mr-2 w-5 h-5" />
+                            <x-icons.busy target="cancel" />
                             cancel
                         </button>
+                    @endif
+                </div>
+
+                <div>
+                    @if ($this->credit->processed)
+                        <button
+                            class="w-full button-warning"
+                            disabled
+                        >
+                            <p>Processed by {{ $this->credit->created_by }} </p>
+                            <p>{{ $this->credit->processed_date }}</p>
+                        </button>
+                    @endif
+                </div>
+                <div>
+                    @if (!$this->credit->processed)
                         <button
                             class="w-full button-success"
-                            x-on:click="$wire.set('showConfirmModal',true)"
+                            wire:click="$toggle('showConfirmModal')"
                         >
-                            <x-icons.tick class="mr-2 w-5 h-5" />
+                            <x-icons.busy target="process" />
                             process
                         </button>
-                    </div>
-                @else
-                    <div class="pb-3">
-                        <button
-                            class="w-full button-danger"
-                            disabled
-                        >Processed by {{ $this->credit->created_by }} on
-                            {{ $this->credit->processed_date }}
-                        </button>
-                    </div>
-                @endif
-            </div>
-            <div class="text-right">
-                <h1 class="pl-4 text-4xl font-bold underline underline-offset-4 text-slate-600 dark:text-slate-400">
-                    R {{ number_format($this->credit->getTotal(), 2) }}
-                </h1>
-                <h2 class="text-slate-600 dark:text-slate-400">
-                    <span class="text-xs">vat</span> {{ number_format(vat($this->credit->getTotal()), 2) }}
-                </h2>
-            </div>
-            <div class="text-right text-slate-600 dark:text-slate-400">
-                <h1 class="text-4xl font-bold">{{ $this->credit->number }}</h1>
-                <a
-                    class="link"
-                    href="{{ route('customers/show', $this->customer->id) }}"
-                >{{ $this->customer->name }}</a>
-                <h2>{{ $this->credit->created_at->format('Y-M-d') }}</h2>
+                    @endif
+                </div>
+
             </div>
         </div>
 
-        <x-slide-over
-            title="Select products"
-            x-cloak
-            wire:ignore.self="searchQuery"
-            wire:model.defer="showProductSelectorForm"
-        >
-            <div x-data="{ searchQuery: @entangle('searchQuery') }">
-                <div class="relative">
-                    <label>
-                        <input
-                            class="w-full rounded-md border-2 border-yellow-400 focus:ring-2 placeholder-slate-300"
-                            type="search"
-                            x-model.lazy="searchQuery"
-                            placeholder="search"
-                        >
-                    </label>
-                    <div
-                        class="absolute top-0 right-0 w-2 h-2 bg-green-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping"
-                        wire:loading="updatedSearchQuery"
+        @if (!$this->credit->processed)
+            <div class="py-0.5 px-2 w-full">
+                <div>
+                    <x-form.input.text
+                        type="text"
+                        placeholder="SKU"
+                        autofocus
+                        wire:model="sku"
                     >
-
-                    </div>
+                    </x-form.input.text>
                 </div>
-                @if (count($products))
-                    <div class="p-1">
-                        <p class="text-xs font-semibold uppercase"> {{ count($products) }} results</p>
-                    </div>
+            </div>
+        @endif
+
+        <x-table.container>
+            <x-table.header class="hidden grid-cols-5 lg:grid">
+                <x-table.heading class="col-span-2">Product</x-table.heading>
+                <x-table.heading class="lg:text-right">price</x-table.heading>
+                <x-table.heading class="lg:text-right">qty</x-table.heading>
+                <x-table.heading class="lg:text-right">Line total</x-table.heading>
+            </x-table.header>
+            <div>
+                @if (!empty($selectedProductsToDelete))
+                    @if (!$this->credit->processed)
+                        <div>
+                            <button
+                                class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700"
+                                x-on:click="$wire.call('removeProducts')"
+                            >remove selected items
+                            </button>
+                        </div>
+                    @endif
                 @endif
             </div>
-
-            <div class="pt-4">
-                <form wire:submit.prevent="addProducts">
-                    <div class="py-6">
-                        <button class="w-full button-success">
-                            <x-icons.plus class="mr-2 w-5 h-5" />
-                            add
-                        </button>
-                    </div>
-                    <fieldset class="space-y-2">
-                        @forelse($this->products as $product)
-                            <label
-                                class="flex relative items-start py-2 px-4 rounded-md bg-slate-100"
-                                wire:key="'item-'{{ $product->id }}"
-                            >
-                                <div>
-                                    <input
-                                        class="w-4 h-4 text-green-600 rounded focus:ring-green-500 border-slate-300"
-                                        id="{{ $product->id }}"
-                                        type="checkbox"
-                                        value="{{ $product->id }}"
-                                        aria-describedby="product"
-                                        wire:model.defer="selectedProducts"
-                                    >
-                                </div>
-                                <div class="flex items-center ml-3 w-full lg:justify-between">
-                                    <x-product-listing-simple :product="$product" />
-                                </div>
-                            </label>
-                        @empty
-                            <div
-                                class="flex inset-0 justify-center items-center py-6 px-2 w-full text-center rounded-md bg-slate-100">
-                                <p>No results</p>
-                            </div>
-                        @endforelse
-                    </fieldset>
-                </form>
-            </div>
-        </x-slide-over>
-
-        <div class="grid grid-cols-1 gap-y-2 py-2">
             @foreach ($this->credit->items as $item)
-                <div>
-                    <div
-                        class="grid grid-cols-2 gap-4 py-2 w-full bg-white rounded-md md:grid-cols-5 dark:bg-slate-900">
-                        <div class="col-span-2 py-4 px-2 text-slate-600 dark:text-slate-400">
-                            <h4 class="font-bold">
-                                {{ $item->product->brand }} {{ $item->product->name }}
-                            </h4>
-                            <div class="flex flex-wrap items-center space-x-1 divide-x">
-                                @foreach ($item->product->features as $feature)
-                                    <p class="px-0.5 text-xs text-slate-600"> {{ $feature->name }}</p>
-                                @endforeach
+                <x-table.body
+                    class="grid lg:grid-cols-5"
+                    wire:key="'item-table-'{{ $item->id }}"
+                >
+                    <x-table.row class="col-span-2">
+                        <div class="flex justify-start items-center">
+                            <div>
+                                <label
+                                    class="hidden"
+                                    for="{{ $item->id }}"
+                                ></label>
+                                <input
+                                    class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 bcredit-slate-300"
+                                    id="{{ $item->id }}"
+                                    type="checkbox"
+                                    value="{{ $item->id }}"
+                                    aria-describedby="product"
+                                    wire:model="selectedProductsToDelete"
+                                >
                             </div>
-                            <p class="text-xs text-slate-400">{{ $item->product->sku }}</p>
+                            <div>
+                                <x-product-listing-simple
+                                    :product="$item->product"
+                                    wire:key="'credit-item-'{{ $item->id }}"
+                                />
+                            </div>
                         </div>
+                    </x-table.row>
+                    <x-table.row>
                         @if (!$this->credit->processed)
-                            <div class="py-4 px-2">
+                            <form
+                                x-on:keydown.tab="@this.call('updatePrice',{{ $item->id }},$event.target.value)"
+                                x-on:keydown.enter="@this.call('updatePrice',{{ $item->id }},$event.target.value)"
+                            >
                                 <label>
-                                    <input
-                                        class="w-full rounded-md text-slate-600"
+                                    <x-form.input.text
                                         type="number"
                                         value="{{ $item->price }}"
-                                        x-on:keydown.enter="$wire.call('updatePrice','{{ $item->id }}',$event.target.value)"
-                                        x-on:keydown.tab="$wire.call('updatePrice','{{ $item->id }}',$event.target.value)"
-                                        x-on:blur="$wire.call('updatePrice','{{ $item->id }}',$event.target.value)"
+                                        pattern="[0-9]*"
+                                        inputmode="numeric"
+                                        step="0.01"
                                     />
                                 </label>
-                            </div>
+                            </form>
                         @else
-                            <div class="py-6 px-2">
-                                <p class="font-bold text-slate-600 dark:text-slate-400">
-                                    {{ number_format($item->price, 2) }}
-                                </p>
-                            </div>
+                            <label>
+                                <x-form.input.text
+                                    type="number"
+                                    value="{{ $item->price }}"
+                                    disabled
+                                />
+                            </label>
                         @endif
+                    </x-table.row>
+                    <x-table.row>
                         @if (!$this->credit->processed)
-                            <div class="py-4 px-2">
+                            <form
+                                x-on:keydown.tab="@this.call('updateQty',{{ $item->id }},$event.target.value)"
+                                x-on:keydown.enter="@this.call('updateQty',{{ $item->id }},$event.target.value)"
+                            >
                                 <label>
-                                    <input
-                                        class="w-full rounded-md text-slate-600"
+                                    <x-form.input.text
                                         type="number"
                                         value="{{ $item->qty }}"
-                                        x-on:keydown.enter="$wire.call('updateQty','{{ $item->id }}',$event.target.value)"
-                                        x-on:keydown.tab="$wire.call('updateQty','{{ $item->id }}',$event.target.value)"
-                                        x-on:blur="$wire.call('updateQty','{{ $item->id }}',$event.target.value)"
+                                        pattern="[0-9]*"
+                                        inputmode="numeric"
+                                        min="1"
+                                        max="{{ $item->product->qty() }}"
                                     />
                                 </label>
-                            </div>
+                            </form>
                         @else
-                            <div class="py-6 px-2">
-                                <p class="font-bold text-slate-600 dark:text-slate-400">
-                                    {{ $item->qty }}
-                                </p>
-                            </div>
+                            <label>
+                                <x-form.input.text
+                                    type="number"
+                                    value="{{ $item->qty }}"
+                                    disabled
+                                />
+                            </label>
                         @endif
-                        <div class="flex justify-between items-center px-4">
-                            <div>
-                                <p class="font-bold text-right text-slate-600 dark:text-slate-400">
-                                    {{ number_format($item->line_total, 2) }}
-                                </p>
-                            </div>
-                            @if (!$this->credit->processed)
-                                <div class="hidden md:block">
+                        <div class="flex justify-between items-center mt-1">
+                            <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
+                                @if (!$this->credit->processed)
                                     <button
-                                        class="button-danger"
                                         wire:loading.attr="disabled"
-                                        x-on:click="$wire.call('deleteItem','{{ $item->id }}')"
+                                        wire:target="removeProducts"
+                                        wire:click="deleteItem('{{ $item->id }}')"
                                     >remove
                                     </button>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
                         </div>
-                        <div class="px-2 md:hidden">
-                            @if (!$this->credit->processed)
-                                <button
-                                    class="w-full button-danger"
-                                    wire:loading.attr="disabled"
-                                    x-on:click="$wire.call('deleteItem','{{ $item->id }}')"
-                                >
-                                    remove
-                                </button>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+                    </x-table.row>
+                    <x-table.row>
+                        <label>
+                            <x-form.input.text
+                                class="w-full rounded-md text-slate-700 bg-slate-400"
+                                type="number"
+                                value="{{ $item->line_total }}"
+                                disabled
+                            />
+                        </label>
+                    </x-table.row>
+                </x-table.body>
             @endforeach
-        </div>
+        </x-table.container>
     </div>
-    <script>
-        function disable(button) {
-            button.disabled = true;
-        }
-    </script>
 </div>

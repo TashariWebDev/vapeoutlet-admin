@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Credit extends Model
 {
@@ -15,6 +17,8 @@ class Credit extends Model
     protected $dates = [
         'processed_at', // order adjusted and sent to warehouse
     ];
+
+    protected $with = ['items:id,product_id,credit_id,price,qty'];
 
     //    Relationships
 
@@ -55,7 +59,7 @@ class Credit extends Model
         return new Attribute(get: fn () => 'CR00'.$this->attributes['id']);
     }
 
-    public function addItem(Product $product, $customer)
+    public function addItem(Product $product)
     {
         $item = $this->items()->firstOrCreate(
             [
@@ -63,7 +67,7 @@ class Credit extends Model
             ],
             [
                 'product_id' => $product->id,
-                'price' => $product->getPrice($customer),
+                'price' => $product->getPrice($this->customer),
                 'cost' => $product->cost,
             ]
         );
@@ -132,5 +136,31 @@ class Credit extends Model
     public function cancel()
     {
         $this->delete();
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function print()
+    {
+        $view = view('templates.pdf.credit', [
+            'credit' => $this,
+        ])->render();
+
+        $url = storage_path("app/public/documents/$this->number.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect("/storage/documents/$this->number.pdf");
     }
 }

@@ -4,7 +4,7 @@
 
         @hasPermissionTo('view expenses')
             <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
                 href="{{ route('expenses') }}"
             >
                 Expenses
@@ -13,7 +13,7 @@
 
         @hasPermissionTo('view reports')
             <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
                 href="{{ route('reports') }}"
             >
                 Reports
@@ -22,7 +22,7 @@
 
         @hasPermissionTo('view users')
             <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
                 href="{{ route('users') }}"
             >
                 Users
@@ -30,40 +30,40 @@
         @endhasPermissionTo
     </div>
 
-    <div class="my-2 h-0.5 bg-slate-900/20"></div>
+    <div class="my-2 h-0.5"></div>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
             href="{{ route('delivery') }}"
         >
             Delivery settings
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
             href="{{ route('notifications') }}"
         >
             Notifications
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
             href="{{ route('banners') }}"
         >
             Banners
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
             href="{{ route('categories') }}"
         >
             Categories
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg hover:ring focus:ring text-slate-600 dark:bg-slate-900 dark:text-slate-300"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
             href="{{ route('brands') }}"
         >
             Brands

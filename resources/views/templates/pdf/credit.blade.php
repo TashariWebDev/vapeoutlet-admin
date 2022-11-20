@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
     >
     <title>Credit Note</title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet"
     >
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
-
         @media print {
+
             /*section,*/
             /*td,*/
             /*tr,*/
@@ -20,7 +23,6 @@
             section {
                 page-break-inside: avoid !important;
             }
-
 
             @page {
                 margin-top: 3mm;
@@ -34,61 +36,64 @@
                 size: legal portrait;
             }
         }
-
     </style>
 </head>
+
 <body>
-    <div class="font-sans w-screen bg-white antialiased p-6">
+    <div class="p-6 w-screen font-sans antialiased bg-white">
         <div class="p-6 bg-white rounded">
-            <section id="header"
-                     class="pb-4"
+            <section
+                class="pb-4"
+                id="header"
             >
                 <div class="grid grid-cols-2 border-b">
-                    <div class="flex items-center space-x-6 w-full pb-2">
+                    <div class="flex items-center pb-2 space-x-6 w-full">
                         <div>
-                            <img src="{{ config('app.url').'/logo.png' }}"
-                                 class="w-16"
-                                 alt="Vape Crew"
+                            <img
+                                class="w-16"
+                                src="{{ config('app.url') . '/logo.png' }}"
+                                alt="Vape Crew"
                             >
                         </div>
                         <div>
                             <ul>
-                                <li class="font-bold text-sm">Vape Crew (PTY) LTD</li>
+                                <li class="text-sm font-bold">Vape Crew (PTY) LTD</li>
                                 <li class="text-xs">4170276218 | 2012/037716/07</li>
                                 <li class="text-xs">0836459599</li>
                                 <li class="text-xs">sales@vapecrew.co.za</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="text-xs text-right font-mono">
+                    <div class="font-mono text-xs text-right">
                         <ul>
-                            <li class="uppercase">{{ $model->created_at }}</li>
-                            <li class="capitalize">{{ $model->number }}</li>
+                            <li class="uppercase">{{ $credit->created_at }}</li>
+                            <li class="capitalize">{{ $credit->number }}</li>
                             <li class="capitalize">Credit Note</li>
                         </ul>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 space-x-2 pt-2">
-                    <div class="border rounded">
-                        <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                            <p class="text-white font-semibold uppercase text-xs">Customer Details</p>
+                <div class="grid grid-cols-2 pt-2 space-x-2">
+                    <div class="rounded border">
+                        <div class="px-1 bg-gray-700 rounded-t border border-gray-700">
+                            <p class="text-xs font-semibold text-white uppercase">Customer Details</p>
                         </div>
-                        <ul class="text-sm px-1 py-2">
-                            <li>{{ ucwords($model->customer->name  ?: "") }}</li>
-                            <li>{{ $model->customer->phone }}</li>
-                            <li>{{ $model->customer->email }}</li>
-                            <li>{{ ucwords($model->customer->company  ?: "") }}</li>
-                            <li>{{ ucwords($model->customer->vat_number  ?: "") }}</li>
+                        <ul class="py-2 px-1 text-sm">
+                            <li>{{ ucwords($credit->customer->name ?: '') }}</li>
+                            <li>{{ $credit->customer->phone }}</li>
+                            <li>{{ $credit->customer->email }}</li>
+                            <li>{{ ucwords($credit->customer->company ?: '') }}</li>
+                            <li>{{ ucwords($credit->customer->vat_number ?: '') }}</li>
                         </ul>
                     </div>
                 </div>
             </section>
 
-            <div id="body"
-                 class="break-before-avoid-page"
+            <div
+                class="break-before-avoid-page"
+                id="body"
             >
                 <table class="w-full">
-                    <thead class="bg-gray-900 text-white text-sm uppercase font-bold">
+                    <thead class="text-sm font-bold text-white uppercase bg-gray-900">
                         <tr>
                             <th class="text-left">SKU/CODE</th>
                             <th class="col-span-2 text-left">Item</th>
@@ -98,32 +103,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($model->items as $item)
-                            <tr class="border-b border-dashed py-1">
+                        @foreach ($credit->items as $item)
+                            <tr class="py-1 border-b border-dashed">
                                 <td class="text-left">
-                                    <p class="font-semibold text-xs uppercase">{{ $item->product->sku }}</p>
+                                    <p class="text-xs font-semibold uppercase">{{ $item->product->sku }}</p>
                                 </td>
                                 <td class="col-span-2 text-left">
                                     <p class="text-xs font-bold">
-                                        {{ ucwords($item->product->brand  ?: "") }} {{ ucwords($item->product->name  ?: "") }}
+                                        {{ ucwords($item->product->brand ?: '') }}
+                                        {{ ucwords($item->product->name ?: '') }}
                                     </p>
                                     <span class="flex flex-wrap text-xs">
-                            @foreach($item->product->features as $feature)
-                                            <span class="text-xs font-thin pr-1">{{ ucwords($feature->name) }}</span>
+                                        @foreach ($item->product->features as $feature)
+                                            <span class="pr-1 text-xs font-thin">{{ ucwords($feature->name) }}</span>
                                         @endforeach
-                        </span>
+                                    </span>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">{{ $item->qty }}</p>
+                                    <p class="font-mono text-xs">{{ $item->qty }}</p>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">
-                                        R {{ number_format($item->price,2) }}
+                                    <p class="font-mono text-xs">
+                                        R {{ number_format($item->price, 2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-xs font-mono">
-                                        R {{ number_format($item->line_total,2) }}
+                                    <p class="font-mono text-xs">
+                                        R {{ number_format($item->line_total, 2) }}
                                     </p>
                                 </td>
                             </tr>
@@ -131,54 +137,56 @@
                     </tbody>
                 </table>
 
-
-                <div class="block break-before-avoid-page break-inside-avoid py-3 mt-8 border-t border-b border-gray-500">
+                <div
+                    class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid">
                     <div class="grid grid-cols-4 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">Sub Total </span> R {{ number_format($model->getSubTotal(),2) }}
+                            <span class="font-semibold">Sub Total </span>
+                            R {{ number_format($credit->getSubTotal(), 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Delivery</span>
-                            R {{ number_format($model->delivery_charge,2) }}
+                            R {{ number_format($credit->delivery_charge, 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Total </span>
-                            R {{ number_format($model->getTotal(),2) }}
+                            R {{ number_format($credit->getTotal(), 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">VAT </span>
-                            R {{ number_format(vat($model->getTotal()),2) }}
+                            R {{ number_format(vat($credit->getTotal()), 2) }}
                         </p>
                     </div>
                 </div>
 
-                <div class="block break-before-avoid-page py-3 mt-6 border-t border-b border-gray-500">
+                <div class="block py-3 mt-6 border-t border-b border-gray-500 break-before-avoid-page">
                     <div class="grid grid-cols-1 gap-2">
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">ACCOUNT BALANCE </span>
-                            R {{ number_format($model->customer->getRunningBalance(),2) }}
+                            R {{ number_format($credit->customer->getRunningBalance(), 2) }}
                         </p>
                     </div>
                 </div>
             </div>
-            <section id="footer"
-                     class="mt-6 border-t pt-2 break-before-avoid-page break-inside-avoid-page overflow-visible"
+            <section
+                class="overflow-visible pt-2 mt-6 border-t break-before-avoid-page break-inside-avoid-page"
+                id="footer"
             >
-                <div class="bg-gray-700 text-center py-1 rounded">
-                    <p class="text-white text-xs uppercase">
+                <div class="py-1 text-center bg-gray-700 rounded">
+                    <p class="text-xs text-white uppercase">
                         thank you for your support </p>
                 </div>
                 <div class="grid grid-cols-3 pt-2 break-before-avoid-page break-inside-avoid-page">
-                    <div class="border rounded">
-                        <div class="bg-gray-700 px-1 rounded-t border border-gray-700">
-                            <p class="text-white font-semibold uppercase text-xs">Banking Details</p>
+                    <div class="rounded border">
+                        <div class="px-1 bg-gray-700 rounded-t border border-gray-700">
+                            <p class="text-xs font-semibold text-white uppercase">Banking Details</p>
                         </div>
-                        <ul class="text-xs p-1">
+                        <ul class="p-1 text-xs">
                             <li class="font-semibold">Vape Crew (PTY) LTD</li>
                             <li class="font-semibold">First National Bank</li>
                             <li class="font-semibold">Sandton City</li>
-                            <li class="font-mono mt-2">ACC: 62668652855</li>
-                            <li class="font-mono ">REF: {{ $model->number }}</li>
+                            <li class="mt-2 font-mono">ACC: 62668652855</li>
+                            <li class="font-mono">REF: {{ $credit->number }}</li>
                         </ul>
                     </div>
                 </div>
@@ -186,4 +194,5 @@
         </div>
     </div>
 </body>
+
 </html>

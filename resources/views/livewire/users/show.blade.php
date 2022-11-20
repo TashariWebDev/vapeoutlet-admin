@@ -1,22 +1,22 @@
 <div>
 
     <div>
-        <div class="flex justify-end items-center w-full px-2 md:px-0">
-            @if(!$user->trashed())
+        <div class="flex justify-end items-center px-2 w-full md:px-0">
+            @if (!$user->trashed())
                 <div>
-                    <button class="button-danger"
-                            x-on:click="@this.call('deleteUser')"
+                    <button
+                        class="button-danger"
+                        wire:click="deleteUser"
                     >
-                        <x-icons.cross class="text-white w-5 h-5 mr-2"/>
                         de-activate user
                     </button>
                 </div>
             @else
                 <div>
-                    <button class="button-success"
-                            x-on:click="@this.call('restoreUser')"
+                    <button
+                        class="button-success"
+                        wire:click="restoreUser"
                     >
-                        <x-icons.tick class="text-white w-5 h-5 mr-2"/>
                         activate user
                     </button>
                 </div>
@@ -24,49 +24,54 @@
         </div>
     </div>
 
-    <div class="md:py-12">
-        <div class="pb-3">
-            <h2 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">Update user</h2>
-        </div>
-        <div class="w-full p-4 bg-white dark:bg-slate-900 rounded-md">
-            <form wire:submit.prevent="updateUser"
-                  class="w-full md:w-1/2"
+    <div>
+        <x-page-header class="pb-2">
+            User details
+        </x-page-header>
+
+        <div class="p-2 w-full bg-white rounded-lg shadow lg:w-1/2 dark:bg-slate-800">
+            <form
+                class="w-full"
+                wire:submit.prevent="updateUser"
             >
                 <div class="py-2">
-                    <label for="name"
-                           class="text-slate-500 text-xs mb-1"
-                    >Name</label>
-                    <div>
-                        <input type="text"
-                               id="name"
-                               class="w-full rounded-md"
-                               wire:model.defer="user.name"
-                        />
-                    </div>
+                    <x-form.input.label for="name">
+                        Full name
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="name"
+                        type="text"
+                        wire:model.defer="user.name"
+                    />
+                    @error('user.name')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                    @enderror
                 </div>
                 <div class="py-2">
-                    <label for="email"
-                           class="text-slate-500 text-xs mb-1"
-                    >Email</label>
-                    <div>
-                        <input type="email"
-                               id="email"
-                               class="w-full rounded-md"
-                               wire:model.defer="user.email"
-                        />
-                    </div>
+                    <x-form.input.label for="email">
+                        Email
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="email"
+                        type="email"
+                        wire:model.defer="user.email"
+                    />
+                    @error('user.email')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                    @enderror
                 </div>
                 <div class="py-2">
-                    <label for="phone"
-                           class="text-slate-500 text-xs mb-1"
-                    >Phone</label>
-                    <div>
-                        <input type="text"
-                               id="phone"
-                               class="w-full rounded-md"
-                               wire:model.defer="user.phone"
-                        />
-                    </div>
+                    <x-form.input.label for="phone">
+                        Phone
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="phone"
+                        type="text"
+                        wire:model.defer="user.phone"
+                    />
+                    @error('user.phone')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                    @enderror
                 </div>
                 <div class="py-2">
                     <button class="button-success">
@@ -77,34 +82,29 @@
         </div>
     </div>
 
-
-    @if($user->permissions->count())
+    @if ($user->permissions->count())
         <div class="pt-12 pb-6">
-            <div class="flex flex-wrap justify-between items-center md:space-x-4 pb-3 px-2 md:px-0">
-                <div>
-                    <h2 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">User assigned
-                                                                                               permissions</h2>
-                </div>
-                <div>
-                    <button
-                        class="w-64 button-danger"
-                        x-on:click="@this.call('revokeAllPermissions')"
-                    >
-                        <x-icons.cross class="w-5 h-5 text-white mr-3"/>
-                        Revoke all permissions
-                    </button>
-                </div>
+            <div class="flex justify-end py-3">
+                <button
+                    class="w-64 button-danger"
+                    wire:click="revokeAllPermissions"
+                >
+                    Revoke all permissions
+                </button>
             </div>
+            <x-page-header class="pb-2">
+                User permissions
+            </x-page-header>
+
             <div
-                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-y-2 px-2 py-3 bg-white dark:bg-slate-900 rounded-md overflow-hidden"
-            >
-                @foreach($user->permissions as $permission)
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800 dark:bg-slate-900">
+                @foreach ($user->permissions as $permission)
                     <div>
                         <button
-                            class="w-64 bg-white group hover:bg-red-600 hover:text-white px-2 py-1 uppercase inline-flex rounded-md text-sm font-semibold"
-                            x-on:click="@this.call('revokePermission',{{$permission->id}})"
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-pink-600 group"
+                            wire:click="revokePermission('{{ $permission->id }}')"
                         >
-                            <x-icons.tick class="w-5 h-5 text-green-500 group-hover:text-white mr-3"/>
+                            <x-icons.tick class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
                             {{ $permission->name }}
                         </button>
                     </div>
@@ -113,44 +113,34 @@
         </div>
     @endif
 
-    @if($permissions->count() != 0)
+    @if ($permissions->count() != 0)
         <div class="py-12">
-            <div class="flex flex-wrap md:justify-between items-center pb-3 px-2 md:px-0">
-                <div class="py-2">
-                    <h2 class="text-lg leading-6 font-bold text-slate-800 dark:text-slate-500">
-                        Available permissions
-                    </h2>
-                </div>
-                <div class="flex space-x-2">
+            <div class="flex justify-end py-3">
+                <button
+                    class="w-64 button-success"
+                    wire:click="assignAllPermissions"
+                >
+                    Assign all permissions
+                </button>
+            </div>
+            <x-page-header class="pb-2">
+                Available permissions
+            </x-page-header>
 
-
+            <div
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800 dark:bg-slate-900">
+                @foreach ($permissions as $permission)
                     <div>
                         <button
-                            class="w-64 button-success"
-                            x-on:click="@this.call('assignAllPermissions')"
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-teal-600 group"
+                            wire:click="addPermission('{{ $permission->id }}')"
                         >
-                            <x-icons.tick class="w-5 h-5 text-white mr-3"/>
-                            Assign all permissions
+                            <x-icons.plus class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            {{ $permission->name }}
                         </button>
                     </div>
-                </div>
+                @endforeach
             </div>
-
-            <div class="bg-white rounded-md">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-2 py-3 px-2">
-                    @foreach($permissions as $permission)
-                        <div>
-                            <button
-                                class="w-64 bg-white group hover:bg-green-600 hover:text-white px-2 py-1 uppercase inline-flex rounded-md text-sm font-semibold"
-                                x-on:click="@this.call('addPermission',{{$permission->id}})"
-                            >
-                                <x-icons.plus class="w-5 h-5 text-green-500 group-hover:text-white mr-3"/>
-                                {{ $permission->name }}
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-        </div>
+    @endif
+</div>
 </div>

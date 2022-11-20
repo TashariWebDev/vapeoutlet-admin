@@ -1,50 +1,69 @@
 <div>
-    <div>
-        <a
-            class="link"
-            href="{{ route('settings') }}"
-        >back to settings</a>
-    </div>
 
-    <x-slide-over
-        title="Add delivery option"
-        wire:model.defer="showDeliveryCreateForm"
-    >
+    <x-slide-over x-data="{ show: $wire.entangle('showDeliveryCreateForm') }">
         <form wire:submit.prevent="save">
-            <div class="py-3">
-                <x-input
+            <div class="py-2">
+                <x-form.input.label for="type">
+                    Type
+                </x-form.input.label>
+                <x-form.input.text
+                    id="type"
                     type="text"
-                    label="name/type"
                     wire:model.defer="delivery.type"
                 />
+                @error('delivery.type')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-3">
-                <x-input
+            <div class="py-2">
+                <x-form.input.label for="description">
+                    Description
+                </x-form.input.label>
+                <x-form.input.text
+                    id="description"
                     type="text"
-                    label="description"
                     wire:model.defer="delivery.description"
                 />
+                @error('delivery.description')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-3">
-                <x-input
+            <div class="py-2">
+                <x-form.input.label for="price">
+                    Price
+                </x-form.input.label>
+                <x-form.input.text
+                    id="price"
                     type="text"
-                    label="price"
                     wire:model.defer="delivery.price"
                 />
+                @error('delivery.price')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-3">
-                <x-input
+            <div class="py-2">
+                <x-form.input.label for="waiver">
+                    Waiver value
+                </x-form.input.label>
+                <x-form.input.text
+                    id="waiver"
                     type="text"
-                    label="waiver order value"
                     wire:model.defer="delivery.waiver_value"
                     placeholder="leave empty if not applicable"
                 />
+                @error('delivery.waiver_value')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-3">
-                <x-select
-                    label=""
+            <div class="py-2">
+                <x-form.input.label for="province">
+                    Province
+                </x-form.input.label>
+                <x-form.input.select
+                    id="province"
                     wire:model.defer="delivery.province"
                 >
+                    <option value="">Choose</option>
                     @foreach ($provinces as $province)
                         <option
                             class="capitalize"
@@ -53,13 +72,20 @@
                             {{ $province }}
                         </option>
                     @endforeach
-                </x-select>
+                </x-form.input.select>
+                @error('delivery.province')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-3">
-                <x-select
-                    label=""
+            <div class="py-2">
+                <x-form.input.label for="customer_type">
+                    Customer type
+                </x-form.input.label>
+                <x-form.input.select
+                    id="customer_type"
                     wire:model.defer="delivery.customer_type"
                 >
+                    <option value="">Choose</option>
                     <option
                         class="capitalize"
                         value="retail"
@@ -72,16 +98,19 @@
                     >
                         Wholesale
                     </option>
-                </x-select>
+                </x-form.input.select>
+                @error('delivery.customer_type')
+                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                @enderror
             </div>
-            <div class="py-3 w-full">
-                <div class="py-2 px-2 rounded-md bg-slate-100">
+            <div class="py-2 w-full">
+                <div class="py-2 px-2 rounded-md bg-slate-100 dark:bg-slate-700">
                     <label
                         class="flex items-center space-x-2 text-xs font-medium uppercase"
                         for="selectable"
                     >
                         <input
-                            class="text-green-500 rounded-full focus:ring-slate-200"
+                            class="text-teal-500 rounded-full focus:ring-slate-200"
                             id="selectable"
                             type="checkbox"
                             wire:model.defer="delivery.selectable"
@@ -90,115 +119,84 @@
                     </label>
                 </div>
             </div>
-            <div class="py-3">
+            <div class="py-2">
                 <button class="button-success">
-                    <x-icons.save class="mr-3 w-5 h-5" />
+                    <x-icons.busy target="save" />
                     save
                 </button>
             </div>
         </form>
     </x-slide-over>
 
-    <header class="flex justify-start lg:justify-end">
-        <button
-            class="button-success"
-            x-on:click="@this.call('edit','')"
-        >
-            <x-icons.plus class="mr-3 w-5 h-5" />
-            add delivery
-        </button>
-    </header>
+    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+        <header class="flex justify-between py-6 px-2">
+            <x-page-header>
+                Delivery settings
+            </x-page-header>
+            <button
+                class="button-success"
+                wire:click="edit"
+            >
+                add delivery
+            </button>
+        </header>
 
-    <div class="py-6">
-        <div
-            class="hidden py-2 text-sm font-semibold text-white uppercase bg-white rounded-t border lg:grid lg:grid-cols-6 bg-gradient-slate">
-            <div class="col-span-2 px-2 border-r">type</div>
-            <div class="px-2 border-r">price</div>
-            <div class="px-2 border-r">waiver amount</div>
-            <div class="px-2 border-r">selectable</div>
-            <div class="px-2 text-center">delete</div>
+        <div class="py-3 px-2">
+            {{ $deliveries->links() }}
         </div>
 
-        <div class="grid grid-cols-1 gap-y-2 py-2">
+        <x-table.container>
+            <x-table.header class="hidden lg:grid lg:grid-cols-5">
+                <x-table.heading>type</x-table.heading>
+                <x-table.heading class="text-right">price</x-table.heading>
+                <x-table.heading class="text-right">waiver amount</x-table.heading>
+                <x-table.heading class="text-center">selectable</x-table.heading>
+                <x-table.heading class="text-right">Action</x-table.heading>
+            </x-table.header>
             @forelse($deliveries as $delivery)
-                <div
-                    class="@if ($loop->last) rounded-b @endif grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border text-sm bg-white md:py-1">
-                    <div class="col-span-2 text-center border-r lg:py-2 lg:px-2 lg:text-left">
-                        <div class="p-2 text-white lg:hidden bg-gradient-slate">
-                            <p>type</p>
-                        </div>
-                        <div class="flex items-center p-2 text-center lg:block lg:text-left">
+                <x-table.body class="grid grid-cols-2 lg:grid-cols-5">
+                    <x-table.row>
+                        <div>
                             <button
                                 class="capitalize link"
-                                x-on:click="@this.call('edit',{{ $delivery->id }})"
+                                wire:click="edit('{{ $delivery->id }}')"
                             >
                                 {{ $delivery->type }}
                             </button>
-                            <p class="ml-2 text-xs md:ml-0 text-slate-500">{{ $delivery->description }}</p>
+                            <p class="ml-2 text-xs md:ml-0 text-slate-500 dark:text-slate-400">
+                                {{ $delivery->description }}
+                            </p>
                         </div>
-                    </div>
-                    <div class="text-center border-r lg:py-6 lg:px-2 lg:text-left">
-                        <div class="p-2 text-white lg:hidden bg-gradient-slate">
-                            <p>price</p>
-                        </div>
-                        <p class="p-2">R {{ number_format($delivery->price, 2) }}</p>
-                    </div>
-                    <div class="text-center border-r lg:py-6 lg:px-2 lg:text-left">
-                        <div class="p-2 text-white lg:hidden bg-gradient-slate">
-                            <p>phone</p>
-                        </div>
-                        <p class="p-2">R {{ number_format($delivery->waiver_value, 2) }}</p>
-                    </div>
-                    <div class="text-center border-r lg:py-6 lg:px-2">
-                        <div class="p-2 text-white lg:hidden bg-gradient-slate">
-                            <p>selectable</p>
-                        </div>
+                    </x-table.row>
+                    <x-table.row class="text-right">
+                        <p class="p-2 text-slate-500 dark:text-slate-400">R {{ number_format($delivery->price, 2) }}
+                        </p>
+                    </x-table.row>
+                    <x-table.row class="text-right">
+                        <p class="p-2 text-slate-500 dark:text-slate-400">
+                            R {{ number_format($delivery->waiver_value, 2) }}</p>
+                    </x-table.row>
+                    <x-table.row>
                         @if ($delivery->selectable)
                             <div class="flex justify-center items-center py-2 space-x-2">
-                                <x-icons.tick class="mr-2 w-5 h-5 text-green-500" />
-                                Available on-line
+                                <p class="text-blue-600 dark:text-blue-300">Available on-line</p>
                             </div>
                         @endif
-                    </div>
-                    <div class="text-center lg:py-4 lg:px-2">
-                        <div class="p-2 text-white lg:hidden bg-gradient-slate">
-                            <p>delete</p>
-                        </div>
-                        <div class="p-2">
+                    </x-table.row>
+                    <x-table.row class="text-right">
+                        <div>
                             <button
                                 class="button-danger"
-                                x-on:click="@this.call('delete',{{ $delivery->id }})"
+                                wire:click="delete('{{ $delivery->id }}')"
                             >
-                                <x-icons.cross class="w-5 h-5" />
+                                delete
                             </button>
                         </div>
-                    </div>
-                </div>
+                    </x-table.row>
+                </x-table.body>
             @empty
-                <div class="py-6">
-                    <div class="py-10 text-center bg-white rounded-md">
-                        <x-icons.truck class="mx-auto w-12 h-12 text-slate-400" />
-                        <h3 class="mt-2 text-sm font-medium text-slate-900">No delivery options</h3>
-                        <p class="mt-1 text-sm text-slate-500">Get started by creating a new delivery.</p>
-                        <div class="mt-6">
-                            <button
-                                class="button-success"
-                                type="button"
-                                x-on:click="@this.call('edit','')"
-                            >
-                                <x-icons.plus
-                                    class="mr-2 -ml-1 w-5 h-5 rounded-full ring-1 ring ring-white animate-pulse"
-                                />
-                                New delivery
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <x-table.empty></x-table.empty>
             @endforelse
-        </div>
-    </div>
-
-    <div class="py-6">
-        {{ $deliveries->links() }}
+        </x-table.container>
     </div>
 </div>

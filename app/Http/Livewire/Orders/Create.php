@@ -7,12 +7,10 @@ use App\Http\Livewire\Traits\WithNotifications;
 use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Mail\OrderConfirmed;
 use App\Mail\OrderReceived;
-use App\Models\Credit;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -28,14 +26,6 @@ class Create extends Component
 
     public $orderId;
 
-    public $searchedProducts;
-
-    public $searchQuery = '';
-
-    public $searchProducts = '';
-
-    public $selectedProducts = [];
-
     public $selectedProductsToDelete = [];
 
     public $chooseAddressForm = false;
@@ -44,67 +34,19 @@ class Create extends Component
 
     public $cancelConfirmation = false;
 
-    public $showProductSelectorForm = false;
-
     public $showConfirmModal = false;
 
-    public $province;
+    public $addressId;
 
-    public $line_one;
+    public $deliveryId;
 
-    public $line_two;
+    public $sku;
 
-    public $suburb;
-
-    public $city;
-
-    public $postal_code;
-
-    public $products = [];
-
-    public $provinces = [
-        'gauteng',
-        'kwazulu natal',
-        'limpopo',
-        'mpumalanga',
-        'north west',
-        'free state',
-        'northern cape',
-        'western cape',
-        'eastern cape',
-    ];
+    protected $listeners = ['refreshData' => '$refresh'];
 
     public function mount()
     {
         $this->orderId = request('id');
-    }
-
-    public function updatedSearchQuery()
-    {
-        $this->showProductSelectorForm = true;
-
-        if (strlen($this->searchQuery) > 0) {
-            $this->products = Product::query()
-                ->search($this->searchQuery)
-                ->inStock()
-                ->get();
-        } else {
-            $this->products = [];
-        }
-    }
-
-    public function addProducts()
-    {
-        foreach ($this->selectedProducts as $product) {
-            $this->order->addItem($product, $this->order->customer);
-        }
-
-        $this->showProductSelectorForm = false;
-        $this->reset(['searchQuery']);
-        $this->selectedProducts = [];
-        $this->products = [];
-        $this->notify('Products added');
-        $this->order->refresh();
     }
 
     public function removeProducts()
@@ -114,10 +56,32 @@ class Create extends Component
             $this->removeItem($item);
         }
 
-        $this->reset(['searchQuery']);
         $this->selectedProductsToDelete = [];
+        $this->emitSelf('refreshData');
         $this->notify('Products removed');
-        $this->order->refresh();
+    }
+
+    public function updatedSku()
+    {
+        $this->validate(['sku' => 'required']);
+
+        $product = Product::where('sku', '=', $this->sku)->first();
+
+        if (! $product) {
+            return;
+        }
+
+        if ($product->outOfStock()) {
+            $this->notify($product->fullName().' currently out of stock');
+        }
+
+        if ($product->inStock()) {
+            $this->order->addItem($product->id);
+            $this->notify('Product added');
+        }
+
+        $this->sku = '';
+        $this->emit('refreshData');
     }
 
     public function updatePrice(OrderItem $item, $value)
@@ -126,16 +90,19 @@ class Create extends Component
             $this->notify('Price below cost');
         }
 
-        $productPrice =
-            $item->product_price === 0
-                ? $item->product->getPrice($this->order->customer)
-                : $item->product_price;
+        if ($item->product_price == 0) {
+            $productPrice = $item->product->getPrice($this->order->customer);
+        } else {
+            $productPrice = $item->product_price;
+        }
 
         $item->update([
             'price' => $value,
+            'product_price' => $productPrice,
             'discount' => $productPrice - $value,
         ]);
 
+        $this->emitSelf('refreshData');
         $this->notify('Price updated');
     }
 
@@ -152,6 +119,8 @@ class Create extends Component
             $item->update(['qty' => $qtyInStock]);
             $this->notify("Max Qty of $qtyInStock added");
         }
+
+        $this->emitSelf('refreshData');
     }
 
     public function removeItem(OrderItem $item)
@@ -167,8 +136,7 @@ class Create extends Component
 
         $item->delete();
 
-        $this->order->refresh();
-
+        $this->emitSelf('refreshData');
         $this->notify('Item deleted');
     }
 
@@ -178,14 +146,19 @@ class Create extends Component
             $this->notify('Nothing in order');
             $this->showConfirmModal = false;
 
-            return redirect()->back();
+            return back();
         }
 
-        if ($this->order->stocks()->count() > 0) {
-            $this->order->stocks()->delete();
-        }
+        foreach ($this->order->items as $item) {
+            if ($item->qty == 0) {
+                $this->notify(
+                    'There are items with 0 Qty. Please update or remove'
+                );
+                $this->showConfirmModal = false;
 
-        $this->order->refresh();
+                return back();
+            }
+        }
 
         try {
             $this->order->verifyIfStockIsAvailable();
@@ -202,7 +175,7 @@ class Create extends Component
                 }
             }
 
-            $this->order->refresh();
+            $this->emitSelf('refreshData');
 
             $this->notify(
                 'Some of the items in your cart have been adjusted due to stock availability'
@@ -215,23 +188,22 @@ class Create extends Component
 
         $delivery = Delivery::find($this->order->delivery_type_id);
 
+        $this->order->decreaseStock();
+        $this->order->customer->createInvoice($this->order);
+
         $this->order->update([
             'delivery_charge' => $delivery->getPrice(
                 $this->order->getSubTotal()
             ),
+            'status' => 'received',
         ]);
-
-        $this->showConfirmModal = false;
-        $this->order->decreaseStock();
-        $this->order->customer->createInvoice($this->order);
-        $this->order->updateStatus('received');
-
         $this->sendOrderEmails();
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id
         )->delay(3);
 
+        $this->showConfirmModal = false;
         $this->notify('processed');
 
         return redirect()->route('orders');
@@ -250,110 +222,37 @@ class Create extends Component
         );
     }
 
-    public function credit()
-    {
-        //cancel an order that has not been processed
-        if ($this->order->status === null) {
-            foreach ($this->order->items as $item) {
-                $item->delete();
-            }
-
-            $this->order->delete();
-
-            $this->redirectRoute('orders');
-        }
-
-        $this->order->updateStatus('cancelled');
-
-        if ($this->order->getTotal() > 0) {
-            $credit = Credit::create([
-                'customer_id' => $this->order->customer->id,
-                'salesperson_id' => $this->order->salesperson_id,
-                'created_by' => auth()->user()->name,
-                'delivery_charge' => $this->order->delivery_charge,
-                'processed_at' => now(),
-            ]);
-
-            foreach ($this->order->items as $item) {
-                $credit->items()->create([
-                    'product_id' => $item->product_id,
-                    'qty' => $item->qty,
-                    'price' => $item->price,
-                    'cost' => $item->cost,
-                ]);
-            }
-
-            $credit->increaseStock();
-
-            $this->order->customer->createCredit($credit, $credit->number);
-        }
-
-        $invoice = Transaction::where('type', '=', 'invoice')
-            ->where('reference', '=', $this->order->number)
-            ->first();
-
-        $invoice?->update(['amount' => $this->order->getTotal()]);
-
-        UpdateCustomerRunningBalanceJob::dispatch(
-            $this->order->customer_id
-        )->delay(3);
-
-        $this->notify('order deleted');
-
-        return redirect()->route('orders');
-    }
-
     public function getOrderProperty(): Order|array|_IH_Order_C
     {
-        return Order::findOrFail($this->orderId)->load(
-            'customer.addresses',
+        return Order::with([
+            'address',
+            'items.product.stocks',
             'items.product.features',
-            'items.product.stocks'
-        );
+        ])
+            ->where('id', $this->orderId)
+            ->withCount('items')
+            ->first();
     }
 
-    public function updateDelivery($deliveryId)
+    public function updateDelivery()
     {
-        $delivery = Delivery::find($deliveryId);
+        $delivery = Delivery::find($this->deliveryId);
         $this->order->update([
             'delivery_type_id' => $delivery->id,
             'delivery_charge' => $delivery->price,
         ]);
 
         $this->notify('delivery option updated');
+        $this->emitSelf('refreshData');
         $this->chooseDeliveryForm = false;
     }
 
-    public function updateAddress($addressId)
+    public function updateAddress()
     {
-        $this->order->update(['address_id' => $addressId]);
+        $this->order->update(['address_id' => $this->addressId]);
         $this->notify('address updated');
+        $this->emitSelf('refreshData');
         $this->chooseAddressForm = false;
-    }
-
-    public function addAddress()
-    {
-        $validatedData = $this->validate([
-            'province' => ['required'],
-            'line_one' => ['required'],
-            'line_two' => ['nullable'],
-            'suburb' => ['nullable'],
-            'city' => ['required'],
-            'postal_code' => ['required'],
-        ]);
-
-        $this->order->customer->addresses()->create($validatedData);
-
-        $this->reset([
-            'province',
-            'line_one',
-            'line_two',
-            'suburb',
-            'city',
-            'postal_code',
-        ]);
-
-        $this->order->customer->load('addresses');
     }
 
     public function render(): Factory|View|Application

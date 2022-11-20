@@ -12,11 +12,17 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('slug')->unique()->nullable();
+            $table
+                ->string('')
+                ->unique()
+                ->nullable();
             $table->string('brand');
             $table->string('category');
             $table->string('image')->nullable();
-            $table->string('sku')->nullable()->unique();
+            $table
+                ->string('sku')
+                ->nullable()
+                ->unique();
             $table->longText('description')->nullable();
 
             $table->integer('retail_price')->default(0);

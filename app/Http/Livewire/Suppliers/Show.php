@@ -3,10 +3,9 @@
 namespace App\Http\Livewire\Suppliers;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Jobs\UpdateSupplierRunningBalanceJob;
 use App\Models\Purchase;
 use App\Models\Supplier;
-use App\Models\SupplierTransaction;
+use App\Models\SupplierCredit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -26,11 +25,7 @@ class Show extends Component
 
     public $searchTerm = '';
 
-    public $reference;
-
-    public $amount;
-
-    public $type;
+    protected $listeners = ['refresh_data' => '$refresh'];
 
     public function updatedSearchTerm()
     {
@@ -42,53 +37,48 @@ class Show extends Component
         $this->supplierId = request('id');
     }
 
-    public function rules(): array
-    {
-        return [
-            'reference' => ['required'],
-            'amount' => ['required'],
-            'type' => ['required'],
-        ];
-    }
-
-    public function save()
-    {
-        $additionalFields = [
-            'supplier_id' => $this->supplierId,
-            'uuid' => Str::uuid(),
-            'created_by' => auth()->user()->name,
-        ];
-
-        $validatedData = $this->validate();
-        $fields = array_merge($additionalFields, $validatedData);
-
-        if ($this->type === 'payment') {
-            $fields['amount'] = 0 - $this->amount;
-        }
-
-        SupplierTransaction::create($fields);
-
-        UpdateSupplierRunningBalanceJob::dispatch($this->supplierId)->delay(2);
-
-        $this->reset('amount', 'reference', 'type');
-        $this->showAddTransactionForm = false;
-
-        $this->notify('payment created');
-    }
-
     public function getSupplierProperty(): _IH_Supplier_C|array|Supplier|null
     {
-        return Supplier::find($this->supplierId)->load(
-            'transactions',
-            'purchases'
+        return Supplier::query()
+            ->with('transactions')
+            ->where('id', $this->supplierId)
+            ->first();
+    }
+
+    public function getTransactionsProperty()
+    {
+        return $this->supplier->transactions();
+    }
+
+    public function getCreditsProperty()
+    {
+        return $this->supplier->transactions->where(
+            'type',
+            '=',
+            'supplier_credit'
         );
+    }
+
+    public function getInvoicesProperty()
+    {
+        return $this->supplier->transactions->where('type', '=', 'purchase');
+    }
+
+    public function getExpensesProperty()
+    {
+        return $this->supplier->transactions->where('type', '=', 'expense');
+    }
+
+    public function getPaymentsProperty()
+    {
+        return $this->supplier->transactions->where('type', '=', 'payment');
     }
 
     public function showPurchase($invoiceNo)
     {
         $purchase = Purchase::where('invoice_no', '=', $invoiceNo)->first();
 
-        $this->redirect("/inventory/purchases/$purchase->id");
+        $this->redirect("/purchases/$purchase->id");
     }
 
     public function showSupplierCredit($creditNumber)
@@ -97,19 +87,36 @@ class Show extends Component
         $this->redirect("/supplier-credits/show/$creditId");
     }
 
+    public function createCredit()
+    {
+        $credit = SupplierCredit::firstOrCreate(
+            [
+                'supplier_id' => $this->supplier->id,
+                'processed_at' => null,
+            ],
+            [
+                'created_by' => auth()->user()->name,
+            ]
+        );
+
+        return redirect()->route('supplier-credits/create', $credit->id);
+    }
+
     public function render(): Factory|View|Application
     {
         return view('livewire.suppliers.show', [
-            'purchases' => $this->supplier
-                ->purchases()
+            'purchases' => Purchase::query()
+                ->with(['items'])
                 ->whereNull('processed_date')
-                ->get(),
-            'transactions' => $this->supplier
-                ->transactions()
+                ->whereBelongsTo($this->supplier)
                 ->latest('id')
+                ->get(),
+            'supplierTransactions' => $this->transactions
                 ->when($this->searchTerm, function ($query) {
-                    $query->where('reference', 'like', $this->searchTerm);
+                    $query->where('reference', 'like', $this->searchTerm.'%');
                 })
+                ->latest('id')
+                ->whereBelongsTo($this->supplier)
                 ->paginate(5),
         ]);
     }

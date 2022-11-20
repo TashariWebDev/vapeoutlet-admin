@@ -1,7 +1,7 @@
 <!--suppress HtmlFormInputWithoutLabel -->
 <div class="mt-1">
     <textarea
-        {{ $attributes->merge(['class' => 'block w-full rounded-md py-2.5 bg-white dark:bg-slate-700 text-slate-700 dark:text-white border-slate-300 dark:border-slate-700 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm']) }}
+        {{ $attributes->merge(['class' => 'block w-full rounded-md px-4 py-2 bg-slate-100 dark:text-teal-100 dark:bg-slate-800 text-slate-700  border-slate-200 dark:border-slate-600 shadow-sm focus:border-teal-400 focus:ring-teal-400 text-xs']) }}
         rows="4"
     >{{ $slot }}</textarea>
 </div>

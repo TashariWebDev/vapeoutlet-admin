@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Brands;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
-use DB;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -21,6 +20,8 @@ class Index extends Component
 
     public $image;
 
+    public $searchQuery;
+
     public function updateImage($brandId)
     {
         $brand = Brand::find($brandId);
@@ -36,16 +37,27 @@ class Index extends Component
     {
         $brand = Brand::find($brandId);
 
-        DB::transaction(function () use ($brand, $name) {
-            foreach ($brand->products as $product) {
-                $product->update([
-                    'brand' => $name,
-                ]);
-            }
+        foreach ($brand->products as $product) {
+            $product->update([
+                'brand' => $name,
+            ]);
+        }
 
-            $brand->update(['name' => $name]);
-        });
+        $brand->update(['name' => $name]);
+
         $this->notify('brand name updated');
+    }
+
+    public function delete(Brand $brand)
+    {
+        $brand->delete();
+
+        $this->notify('Brand deleted');
+    }
+
+    public function updatedSearchQuery()
+    {
+        $this->resetPage();
     }
 
     public function render(): Factory|View|Application
@@ -54,7 +66,14 @@ class Index extends Component
             'brands' => Brand::query()
                 ->withCount('products')
                 ->orderBy('name')
-                ->paginate(10),
+                ->when($this->searchQuery, function ($query) {
+                    $query->where(
+                        'name',
+                        'like',
+                        '%'.$this->searchQuery.'%'
+                    );
+                })
+                ->paginate(6),
         ]);
     }
 }

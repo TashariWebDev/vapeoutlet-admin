@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -11,27 +12,28 @@ class Supplier extends Model
 {
     protected $guarded = [];
 
-    protected static function boot()
+    public function name(): Attribute
     {
-        parent::boot();
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
+    }
 
-        static::creating(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->person = Str::title($user->person);
-            $user->email = Str::lower($user->email);
-        });
+    public function person(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
+    }
 
-        static::saving(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->person = Str::title($user->person);
-            $user->email = Str::lower($user->email);
-        });
-
-        static::updating(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->person = Str::title($user->person);
-            $user->email = Str::lower($user->email);
-        });
+    public function email(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => Str::lower($value),
+            set: fn ($value) => Str::lower($value)
+        );
     }
 
     public function purchases(): HasMany
@@ -47,33 +49,6 @@ class Supplier extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(SupplierTransaction::class);
-    }
-
-    public function invoices(): HasMany
-    {
-        return $this->hasMany(SupplierTransaction::class)->where(
-            'type',
-            '=',
-            'purchase'
-        );
-    }
-
-    public function payments(): HasMany
-    {
-        return $this->hasMany(SupplierTransaction::class)->where(
-            'type',
-            '=',
-            'payment'
-        );
-    }
-
-    public function credits(): HasMany
-    {
-        return $this->hasMany(SupplierTransaction::class)->where(
-            'type',
-            '=',
-            'supplier credit'
-        );
     }
 
     public function latestTransaction(): HasOne
@@ -99,17 +74,33 @@ class Supplier extends Model
     ): SupplierTransaction|Model {
         return $this->transactions()->firstOrCreate(
             [
-                'uuid' => Str::uuid(),
                 'reference' => $reference,
                 'type' => 'supplier credit',
                 'amount' => 0 - $credit->getTotal(),
                 'created_by' => auth()->user()->name,
             ],
             [
-                'uuid' => Str::uuid(),
                 'reference' => $reference,
                 'type' => 'supplier credit',
                 'amount' => 0 - $credit->getTotal(),
+                'created_by' => auth()->user()->name,
+            ]
+        );
+    }
+
+    public function createTransactionFrom(Purchase $purchase)
+    {
+        return $this->transactions()->firstOrCreate(
+            [
+                'purchase_id' => $purchase->id,
+                'supplier_id' => $this->id,
+            ],
+            [
+                'reference' => $purchase->invoice_no,
+                'supplier_id' => $purchase->supplier_id,
+                'amount' => $purchase->amount_converted_to_zar(),
+                'type' => 'purchase',
+                'running_balance' => 0,
                 'created_by' => auth()->user()->name,
             ]
         );

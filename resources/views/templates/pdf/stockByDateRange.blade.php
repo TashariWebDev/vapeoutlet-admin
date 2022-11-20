@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
     >
     <title></title>
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+        rel="stylesheet"
     >
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -15,8 +18,8 @@
             height: 100%;
         }
 
-
         @media print {
+
             /*section,*/
             /*td,*/
             /*tr,*/
@@ -24,7 +27,6 @@
             section {
                 page-break-inside: avoid;
             }
-
 
             @page {
                 margin-top: 10mm;
@@ -37,22 +39,21 @@
                 margin-bottom: 10mm;
                 size: a4 landscape;
             }
-
         }
-
     </style>
 </head>
+
 <body>
-    <div class="font-sans w-screen bg-white antialiased overflow-hidden p-4">
+    <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
 
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
-                {{ date("Y-m-d h:i:sa") }}
+                {{ date('d-m-y h:i:sa') }}
             </div>
             <div class="px-4">
                 <table class="w-full">
                     <thead>
-                        <tr class="bg-gray-800 text-white">
+                        <tr class="text-white bg-gray-800">
                             <th class="text-left">Product</th>
                             <th class="text-left">Qty</th>
                             <th class="text-left">Cost</th>
@@ -65,51 +66,57 @@
                         @php
                             $total = [];
                         @endphp
-                        @foreach($products as $product)
+                        @foreach ($products as $product)
                             @php
                                 $total[] = $product->stocks_sum_qty * $product->cost;
                             @endphp
                             <tr class="py-1 border-b border-dashed break-inside-avoid-page">
                                 <td class="text-left">
                                     <div class="flex items-center space-x-2">
-                                        {{$product->brand}} {{$product->name}}
-                                        @foreach($product->features as $feature)
+                                        {{ $product->brand }} {{ $product->name }}
+                                        @foreach ($product->features as $feature)
                                             <div>
-                                                {{$feature->name}}
+                                                {{ $feature->name }}
                                             </div>
-
                                         @endforeach
                                     </div>
                                     <div>
-                                        {{$product->sku}}
+                                        {{ $product->sku }}
                                     </div>
                                 </td>
-                                <td class="text-left">{{$product->stocks_sum_qty}}</td>
-                                <td class="text-left">{{$product->cost}}</td>
-                                <td class="text-right">{{  number_format($product->stocks_sum_qty * $product->cost,2) }}</td>
-                                <td class="text-right">{{  number_format(vat($product->stocks_sum_qty * $product->cost),2) }}</td>
-                                <td class="text-right">{{  number_format(ex_vat($product->stocks_sum_qty * $product->cost),2) }}</td>
+                                <td class="text-left">{{ $product->stocks_sum_qty }}</td>
+                                <td class="text-left">{{ $product->cost }}</td>
+                                <td class="text-right">{{ number_format($product->stocks_sum_qty * $product->cost, 2) }}
+                                </td>
+                                <td class="text-right">
+                                    {{ number_format(vat($product->stocks_sum_qty * $product->cost), 2) }}</td>
+                                <td class="text-right">
+                                    {{ number_format(ex_vat($product->stocks_sum_qty * $product->cost), 2) }}</td>
                             </tr>
-                            @if($loop->last)
-                                <tr class="bg-white font-bold h-10">
-                                    <td colspan="3"
+                            @if ($loop->last)
+                                <tr class="h-10 font-bold bg-white">
+                                    <td
                                         class="text-right"
+                                        colspan="3"
                                     >
                                     </td>
-                                    <td colspan="1"
+                                    <td
                                         class="text-right"
+                                        colspan="1"
                                     >
-                                        {{ number_format(array_sum($total),2) }}
+                                        {{ number_format(array_sum($total), 2) }}
                                     </td>
-                                    <td colspan="1"
+                                    <td
                                         class="text-right"
+                                        colspan="1"
                                     >
-                                        {{ number_format(vat(array_sum($total)),2) }}
+                                        {{ number_format(vat(array_sum($total)), 2) }}
                                     </td>
-                                    <td colspan="1"
+                                    <td
                                         class="text-right"
+                                        colspan="1"
                                     >
-                                        {{ number_format(ex_vat(array_sum($total)),2) }}
+                                        {{ number_format(ex_vat(array_sum($total)), 2) }}
                                     </td>
                                 </tr>
                             @endif
@@ -120,4 +127,5 @@
         </div>
     </div>
 </body>
+
 </html>

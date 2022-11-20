@@ -3,26 +3,22 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Transaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\Builder;
-use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
-use Str;
 
 class Index extends Component
 {
     use WithPagination;
     use WithNotifications;
 
-    public int $ordersCount;
+    public int $ordersCount = 0;
 
     public bool $showAddOrderForm = false;
 
@@ -73,13 +69,11 @@ class Index extends Component
         }
     }
 
-    public function quickViewCustomerAccount($customerId)
+    public function quickViewCustomerAccount(Customer $customer)
     {
-        $this->selectedCustomerLatestTransactions = Transaction::query()
-            ->where('customer_id', '=', $customerId)
-            ->latest()
-            ->take(5)
-            ->get();
+        $customer->load('lastFivetransactions');
+        $this->selectedCustomerLatestTransactions =
+            $customer->lastFiveTransactions;
 
         $this->quickViewCustomerAccountModal = true;
     }
@@ -95,63 +89,20 @@ class Index extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getDocument($transactionId)
+    public function getDocument(Order $order)
     {
-        $model = $transaction = Transaction::findOrFail($transactionId);
-
-        if (
-            \Illuminate\Support\Str::startsWith(
-                $transaction->reference,
-                'INV00'
-            )
-        ) {
-            $model = Order::with(
-                'items',
-                'items.product',
-                'items.product.features',
-                'customer',
-                'notes'
-            )->find(Str::after($transaction->reference, 'INV00'));
-        }
-
-        $view = view("templates.pdf.$transaction->type", [
-            'model' => $model,
-        ])->render();
-
-        $url = storage_path("app/public/documents/$transaction->uuid.pdf");
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
-            ->save($url);
-
-        $this->redirect("/storage/documents/$transaction->uuid.pdf");
+        $order->print();
     }
 
-    public function render(): Factory|View|Application
-    {
-        $this->ordersCount = $this->filteredOrders()->count();
-
-        return view('livewire.orders.index', [
-            'orders' => $this->filteredOrders()->paginate($this->recordCount),
-        ]);
-    }
-
-    public function filteredOrders(): Builder|_IH_Order_QB
+    public function filteredOrders()
     {
         $orders = Order::query()
+            ->select(['id', 'created_at', 'status', 'customer_id'])
             ->with([
-                'delivery:id,type',
-                'customer.salesperson',
-                'customer.transactions',
+                'customer:id,name,company,salesperson_id,is_wholesale',
+                'customer.salesperson:id,name',
             ])
+            ->without(['items'])
             ->addSelect([
                 'order_total' => OrderItem::query()
                     ->whereColumn('order_id', '=', 'orders.id')
@@ -214,5 +165,14 @@ class Index extends Component
     public function updatedFilter()
     {
         $this->resetPage();
+    }
+
+    public function render(): Factory|View|Application
+    {
+        $this->ordersCount = $this->filteredOrders()->count();
+
+        return view('livewire.orders.index', [
+            'orders' => $this->filteredOrders()->paginate($this->recordCount),
+        ]);
     }
 }

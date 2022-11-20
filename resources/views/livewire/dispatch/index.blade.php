@@ -58,23 +58,23 @@
                 <x-table.row>
                     <div class="flex justify-center items-center w-full">
                         @if ($order->status == 'received')
-                            <x-icons.shopping-bag class="w-5 h-5 text-green-600" />
+                            <x-icons.shopping-bag class="w-5 h-5 text-teal-600" />
                         @endif
 
                         @if ($order->status == 'processed')
-                            <x-icons.clipboard class="w-5 h-5 text-green-600" />
+                            <x-icons.clipboard class="w-5 h-5 text-teal-600" />
                         @endif
 
                         @if ($order->status == 'packed')
-                            <x-icons.products class="w-5 h-5 text-green-600" />
+                            <x-icons.products class="w-5 h-5 text-teal-600" />
                         @endif
 
                         @if ($order->status == 'shipped')
-                            <x-icons.truck class="w-5 h-5 text-green-600" />
+                            <x-icons.truck class="w-5 h-5 text-teal-600" />
                         @endif
 
                         @if ($order->status == 'completed')
-                            <x-icons.tick class="w-5 h-5 text-green-600" />
+                            <x-icons.tick class="w-5 h-5 text-teal-600" />
                         @endif
                     </div>
                 </x-table.row>

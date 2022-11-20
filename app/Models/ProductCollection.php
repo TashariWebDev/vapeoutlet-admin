@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -12,25 +13,11 @@ class ProductCollection extends Model
 
     protected $guarded = [];
 
-    //    events
-    protected static function boot()
+    public function name(): Attribute
     {
-        parent::boot();
-
-        static::creating(function ($collection) {
-            $collection->name = Str::title($collection->name);
-        });
-
-        static::saving(function ($collection) {
-            $collection->name = Str::title($collection->name);
-        });
-
-        static::updating(function ($collection) {
-            $collection->name = Str::title($collection->name);
-        });
-
-        static::updated(function ($collection) {
-            $collection->name = Str::title($collection->name);
-        });
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::lower($value)
+        );
     }
 }

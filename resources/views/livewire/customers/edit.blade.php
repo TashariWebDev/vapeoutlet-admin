@@ -1,144 +1,135 @@
 <div>
     <div class="p-2">
+        <x-page-header>
+            {{ $this->customer->name }}
+        </x-page-header>
         <a
             class="link"
-            href="{{ route('customers/show',$customer->id) }}"
+            href="{{ route('customers/show', $customer->id) }}"
         >Back to customer</a>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 
-        <div class="p-4 bg-slate-300 dark:bg-slate-900 rounded-lg">
-            <form wire:submit.prevent="updateUser">
+        <div class="p-4 rounded-lg bg-white dark:bg-slate-800 shadow">
+            <form wire:submit.prevent="save">
                 <div class="py-1">
-                    <label for="email-address"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >
+                    <x-form.input.label for="email-address">
                         Email address
-                    </label>
-                    <input type="email"
-                           id="email-address"
-                           wire:model.defer="email"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error( 'email')
-                    <div class="py-1">
-                        <p class="uppercase text-red-600 text-xs">{{ $message }}</p>
-                    </div>
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="email-address"
+                        type="email"
+                        wire:model.defer="customer.email"
+                    />
+                    @error('customer.email')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
                     @enderror
                 </div>
                 <div class="py-1">
-                    <label for="name"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Name</label>
-                    <input type="text"
-                           id="name"
-                           wire:model.defer="name"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error( 'name')
-                    <div class="py-1">
-                        <p class="uppercase text-red-600 text-xs">{{ $message }}</p>
-                    </div>
+                    <x-form.input.label for="name">
+                        Full Name
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="name"
+                        type="text"
+                        wire:model.defer="customer.name"
+                    />
+                    @error('customer.name')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
                     @enderror
                 </div>
                 <div class="py-1">
-                    <label for="phone"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Phone</label>
-                    <input type="text"
-                           id="phone"
-                           wire:model.defer="phone"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error('phone')
-                    <div class="py-1">
-                        <p class="uppercase text-red-600 text-xs">{{ $message }}</p>
-                    </div>
+                    <x-form.input.label for="phone">
+                        Phone
+                    </x-form.input.label>
+
+                    <x-form.input.text
+                        id="phone"
+                        type="text"
+                        wire:model.defer="customer.phone"
+                    />
+                    @error('customer.phone')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
                     @enderror
                 </div>
                 <div class="py-1">
-                    <label for="company"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Company</label>
-                    <input type="text"
-                           id="company"
-                           wire:model.defer="company"
-                           class="block w-full border-slate-300 rounded-md shadow-sm m:text-sm"
-                    >
-                    @error('company')
-                    <div class="py-1">
-                        <p class="uppercase text-red-600 text-xs">{{ $message }}</p>
-                    </div>
+                    <x-form.input.label for="company">
+                        Company
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="company"
+                        type="text"
+                        wire:model.defer="customer.company"
+                    />
+                    @error('customer.company')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
                     @enderror
                 </div>
                 <div class="py-1">
-                    <label for="vat_number"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Vat number</label>
-                    <input type="text"
-                           id="vat_number"
-                           wire:model.defer="vat_number"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error('vat_number')
-                    <div class="py-1">
-                        <p class="uppercase text-red-600 text-xs">{{ $message }}</p>
-                    </div>
+                    <x-form.input.label for="vat_number">
+                        Vat number
+                    </x-form.input.label>
+                    <x-form.input.text
+                        id="vat_number"
+                        type="text"
+                        wire:model.defer="customer.vat_number"
+                    />
+                    @error('customer.vat_number')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
                     @enderror
                 </div>
                 @hasPermissionTo('upgrade customers')
-                <div class="py-1">
-                    <label for="is_wholesale"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Is Wholesale Customer</label>
-                    <select id="is_wholesale"
+                    <div class="py-1">
+                        <x-form.input.label for="is_wholesale">
+                            Is Wholesale Customer
+                        </x-form.input.label>
+                        <x-form.input.select
+                            id="is_wholesale"
                             name="is_wholesale"
-                            wire:model.defer="is_wholesale"
-                            class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                    >
-                        <option value="">Choose</option>
-                        <option value="0"
-                                class="capitalize"
+                            wire:model.defer="customer.is_wholesale"
                         >
-                            No
-                        </option>
-                        <option value="1"
+                            <option value="">Choose</option>
+                            <option
                                 class="capitalize"
-                        >
-                            Yes
-                        </option>
-                    </select>
-                    @error('is_wholesale')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-                <div class="py-1">
-                    <label for="salesperson_id"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Salesperson</label>
-                    <select id="salesperson_id"
-                            name="salesperson_id"
-                            wire:model.defer="salesperson_id"
-                            class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                    >
-                        <option value="">Choose</option>
-                        @foreach($salespeople as $salesperson)
-                            <option value="{{$salesperson->id}}"
-                                    class="capitalize"
+                                value="0"
                             >
-                                <p class="capitalize">{{$salesperson->name}}</p>
+                                No
                             </option>
-                        @endforeach
-                    </select>
-                    @error('salesperson_id')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
+                            <option
+                                class="capitalize"
+                                value="1"
+                            >
+                                Yes
+                            </option>
+                        </x-form.input.select>
+                        @error('customer.is_wholesale')
+                            <x-form.input.error>{{ $message }}</x-form.input.error>
+                        @enderror
                     </div>
-                    @enderror
-                </div>
+                    <div class="py-1">
+                        <x-form.input.label for="salesperson_id">
+                            Salesperson
+                        </x-form.input.label>
+                        <x-form.input.select
+                            id="salesperson_id"
+                            name="salesperson_id"
+                            wire:model.defer="customer.salesperson_id"
+                        >
+                            <option value="">Choose</option>
+                            @foreach ($salespeople as $salesperson)
+                                <option
+                                    class="capitalize"
+                                    value="{{ $salesperson->id }}"
+                                >
+                                    <p class="capitalize">{{ $salesperson->name }}</p>
+                                </option>
+                            @endforeach
+                        </x-form.input.select>
+                        @error('customer.salesperson_id')
+                            <x-form.input.error>{{ $message }}</x-form.input.error>
+                        @enderror
+                    </div>
                 @endhasPermissionTo
 
                 <div class="pt-3">
@@ -147,268 +138,28 @@
             </form>
         </div>
 
-        <div class="p-4 bg-slate-300 dark:bg-slate-900 rounded-lg">
-            <form wire:submit.prevent="addAddress">
-                <div class="py-1">
-                    <label for="address_line_one"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >
-                        Address line one
-                    </label>
-                    <input type="text"
-                           id="address_line_one"
-                           wire:model.defer="line_one"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error( 'line_one')
-                    <div class="py-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="py-1">
-                    <label for="address_line_two"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >
-                        Address line two
-                    </label>
-                    <input type="text"
-                           id="address_line_two"
-                           wire:model.defer="line_two"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error( 'line_two')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="py-1">
-                    <label for="suburb"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >
-                        Suburb
-                    </label>
-                    <input type="text"
-                           id="suburb"
-                           wire:model.defer="suburb"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error('suburb')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="py-1">
-                    <label for="city"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >
-                        City
-                    </label>
-                    <input type="text"
-                           id="city"
-                           wire:model.defer="city"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error('city')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="py-1">
-                    <label for="province"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >Province</label>
-                    <select id="province"
-                            name="province"
-                            wire:model.defer="province"
-                            class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                    >
-                        <option value="">Select a province</option>
-                        @foreach($provinces as $province)
-                            <option value="{{ $province }}"
-                                    class="capitalize"
-                            >
-                                {{ $province }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('province')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-
-                <div class="py-1">
-                    <label for="postal_code"
-                           class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                    >
-                        Postal code
-                    </label>
-                    <input type="text"
-                           id="postal_code"
-                           wire:model.defer="postal_code"
-                           class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                    >
-                    @error('postal_code')
-                    <div class="pt-1">
-                        <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                    </div>
-                    @enderror
-                </div>
-                <div class="pt-3">
-                    <button class="button-success">
-                        add address
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <div class="bg-slate-300 dark:bg-slate-900 p-4 rounded-lg">
-            <div>
-                <p class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1">Addresses</p>
+        <div class="p-4 rounded-lg bg-white dark:bg-slate-800 shadow">
+            <div class="flex justify-end">
+                <livewire:address.create customer_id="{{ $this->customer->id }}" />
             </div>
-            @foreach($this->customer->addresses as $address)
-                <div class="bg-white px-2 py-3 rounded-md capitalize mb-2 flex justify-between items-center">
-                    <p class="text-xs">{{ $address->line_one }} {{ $address->line_two }} {{ $address->suburb }} {{ $address->city }} {{ $address->province }} {{ $address->postal_code }}</p>
+            <div class="pb-2">
+                <x-form.input.label>Addresses</x-form.input.label>
+            </div>
+            @foreach ($this->customer->addresses as $address)
+                <div
+                    class="flex justify-between items-center py-3 px-2 mb-2 capitalize text-slate-500 dark:text-slate-300 bg-slate-100 rounded-md dark:bg-slate-700">
+                    <p class="text-xs">{{ $address->line_one }} {{ $address->line_two }} {{ $address->suburb }}
+                        {{ $address->city }} {{ $address->province }} {{ $address->postal_code }}</p>
 
-                    <button wire:click="editAddress({{ $address->id }})">
-                        <x-icons.edit class="text-green-600 w-5 h-5"/>
-                    </button>
+                    <div>
+                        <livewire:address.edit
+                            wire:key="address-{{ $address->id }}"
+                            address-id="{{ $address->id }}"
+                        />
+                    </div>
                 </div>
             @endforeach
-            <x-modal wire:model.defer="updateAddressForm">
-                <form wire:submit.prevent="updateAddress">
-                    <div class="py-1">
-                        <label for="address_line_one"
-                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                        >
-                            Address line one
-                        </label>
-                        <input type="text"
-                               id="address_line_one"
-                               wire:model.defer="line_one"
-                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                        >
-                        @error( 'line_one')
-                        <div class="py-1">
-                            <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="py-1">
-                        <label for="address_line_two"
-                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                        >
-                            Address line two
-                        </label>
-                        <input type="text"
-                               id="address_line_two"
-                               wire:model.defer="line_two"
-                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                        >
-                        @error( 'line_two')
-                        <div class="pt-1">
-                            <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="py-1">
-                        <label for="suburb"
-                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                        >
-                            Suburb
-                        </label>
-                        <input type="text"
-                               id="suburb"
-                               wire:model.defer="suburb"
-                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                        >
-                        @error('suburb')
-                        <div class="pt-1">
-                            <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="py-1">
-                        <label for="city"
-                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                        >
-                            City
-                        </label>
-                        <input type="text"
-                               id="city"
-                               wire:model.defer="city"
-                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                        >
-                        @error('city')
-                        <div class="pt-1">
-                            <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="py-1">
-                        <label for="province"
-                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                        >Province</label>
-                        <select id="province"
-                                name="province"
-                                wire:model.defer="province"
-                                class="w-full border-slate-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm"
-                        >
-                            <option value="">Select a province</option>
-                            @foreach($provinces as $province)
-                                <option value="{{ $province }}"
-                                        class="capitalize"
-                                >
-                                    {{ $province }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('province')
-                        <div class="pt-1">
-                            <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                        </div>
-                        @enderror
-                    </div>
-
-                    <div class="py-1">
-                        <label for="postal_code"
-                               class="block text-xs font-medium text-slate-700 dark:text-slate-300 pb-1"
-                        >
-                            Postal code
-                        </label>
-                        <input type="text"
-                               id="postal_code"
-                               wire:model.defer="postal_code"
-                               class="block w-full border-slate-300 rounded-md shadow-sm sm:text-sm"
-                        >
-                        @error('postal_code')
-                        <div class="pt-1">
-                            <p class="text-xs uppercase text-red-700">{{ $message }}</p>
-                        </div>
-                        @enderror
-                    </div>
-                    <div class="pt-3">
-                        <button class="button-success">
-                            update address
-                        </button>
-                    </div>
-                </form>
-            </x-modal>
         </div>
-
 
     </div>
 </div>

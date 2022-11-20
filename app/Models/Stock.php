@@ -11,24 +11,20 @@ class Stock extends Model
 {
     protected $guarded = [];
 
-    protected static function boot()
+    public function reference(): Attribute
     {
-        parent::boot();
+        return new Attribute(
+            get: fn ($value) => Str::upper($value),
+            set: fn ($value) => Str::upper($value)
+        );
+    }
 
-        static::creating(function ($stock) {
-            $stock->reference = Str::upper($stock->reference);
-            $stock->type = Str::lower($stock->type);
-        });
-
-        static::saving(function ($stock) {
-            $stock->reference = Str::upper($stock->reference);
-            $stock->type = Str::lower($stock->type);
-        });
-
-        static::updating(function ($stock) {
-            $stock->reference = Str::upper($stock->reference);
-            $stock->type = Str::lower($stock->type);
-        });
+    public function type(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => Str::lower($value),
+            set: fn ($value) => Str::lower($value)
+        );
     }
 
     public function cost(): Attribute
@@ -52,6 +48,11 @@ class Stock extends Model
     public function credit(): BelongsTo
     {
         return $this->belongsTo(Credit::class);
+    }
+
+    public function purchase(): BelongsTo
+    {
+        return $this->belongsTo(Purchase::class);
     }
 
     public function supplier_credit(): BelongsTo

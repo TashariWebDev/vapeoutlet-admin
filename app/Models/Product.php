@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\StockAlertMail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use Str;
 
 class Product extends Model
 {
@@ -19,69 +21,6 @@ class Product extends Model
 
     protected $guarded = [];
 
-    protected $with = ['features:id,name,product_id'];
-
-    protected $casts = [
-        'retail_price' => 'integer',
-        'wholesale_price' => 'integer',
-        'cost' => 'integer',
-    ];
-
-    //    events
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($product) {
-            $product->slug =
-                Str::slug($product->brand).
-                '-'.
-                Str::slug($product->name).
-                '-'.
-                $product->sku;
-            $product->name = Str::title($product->name);
-            $product->category = Str::title($product->category);
-            $product->brand = Str::title($product->brand);
-        });
-
-        static::saving(function ($product) {
-            $product->slug =
-                Str::slug($product->brand).
-                '-'.
-                Str::slug($product->name).
-                '-'.
-                $product->sku;
-            $product->name = Str::title($product->name);
-            $product->category = Str::title($product->category);
-            $product->brand = Str::title($product->brand);
-        });
-
-        static::updating(function ($product) {
-            $product->slug =
-                Str::slug($product->brand).
-                '-'.
-                Str::slug($product->name).
-                '-'.
-                $product->sku;
-            $product->name = Str::title($product->name);
-            $product->category = Str::title($product->category);
-            $product->brand = Str::title($product->brand);
-        });
-
-        static::updated(function ($product) {
-            $product->slug =
-                Str::slug($product->brand).
-                '-'.
-                Str::slug($product->name).
-                '-'.
-                $product->sku;
-            $product->name = Str::title($product->name);
-            $product->category = Str::title($product->category);
-            $product->brand = Str::title($product->brand);
-        });
-    }
-
-    //    scopes
     public function scopeSearch($query, $terms)
     {
         collect(explode(' ', $terms))
@@ -92,9 +31,13 @@ class Product extends Model
                     $query
                         ->where('brand', 'like', $term)
                         ->orWhere('name', 'like', $term)
+                        ->orWhere('category', 'like', $term)
                         ->orWhere('sku', 'like', $term)
-                        ->orWhereHas('features', function ($query) use ($term) {
-                            $query->where('name', 'like', $term);
+                        ->orWhereIn('id', function ($query) use ($term) {
+                            $query
+                                ->select('product_id')
+                                ->from('features')
+                                ->where('name', 'like', $term);
                         });
                 });
             });
@@ -104,6 +47,25 @@ class Product extends Model
     public function qty()
     {
         return $this->stocks->sum('qty');
+    }
+
+    public function outOfStock()
+    {
+        return $this->qty() <= 0;
+    }
+
+    public function inStock()
+    {
+        return $this->qty() > 0;
+    }
+
+    public function fullName()
+    {
+        $features = $this->features()
+            ->pluck('name')
+            ->toArray();
+
+        return $this->brand.' '.$this->name.' '.implode(' ', $features);
     }
 
     public function getPrice(Customer $customer)
@@ -122,6 +84,14 @@ class Product extends Model
         }
 
         return $this->retail_price;
+    }
+
+    public function name(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
     }
 
     public function retailPrice(): Attribute
@@ -207,13 +177,6 @@ class Product extends Model
         return $query;
     }
 
-    //    relationships
-
-    //    public function last_purchase_price()
-    //    {
-    //        return $this->stocks->latest('created_at')->value('cost');
-    //    }
-
     public function last_purchase_price(): HasOne
     {
         return $this->hasOne(Stock::class)->latestOfMany();
@@ -264,9 +227,9 @@ class Product extends Model
         return $this->hasMany(Stock::class)->where('type', '=', 'purchase');
     }
 
-    public function returns(): HasMany
+    public function credits(): HasMany
     {
-        return $this->hasMany(Stock::class)->where('type', '=', 'return');
+        return $this->hasMany(Stock::class)->where('type', '=', 'credit');
     }
 
     public function supplier_credit(): HasMany
@@ -281,5 +244,24 @@ class Product extends Model
     public function stockAlerts(): HasMany
     {
         return $this->hasMany(StockAlert::class);
+    }
+
+    public function averageCost(PurchaseItem $item)
+    {
+        $this->update([
+            'cost' => $this->cost > 0
+                    ? ($item->total_cost_in_zar() + $this->cost) / 2
+                    : $item->total_cost_in_zar(),
+        ]);
+    }
+
+    public function sendStockAlerts()
+    {
+        $this->stockAlerts->each(function ($alert) {
+            Mail::to($alert->email)->later(
+                now()->addMinutes(2),
+                new StockAlertMail($this)
+            );
+        });
     }
 }

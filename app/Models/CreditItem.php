@@ -6,6 +6,34 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * App\Models\CreditItem
+ *
+ * @property int $id
+ * @property int $credit_id
+ * @property int $product_id
+ * @property int $qty
+ * @property int $price
+ * @property int $cost
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read int|float $line_total
+ * @property-read \App\Models\Order|null $order
+ * @property-read \App\Models\Product|null $product
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereCost($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereCreditId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CreditItem whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class CreditItem extends Model
 {
     protected $guarded = [];

@@ -4,7 +4,7 @@ body,
 body *:not(html):not(style):not(br):not(tr):not(code) {
     box-sizing: border-box;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     position: relative;
 }
 
@@ -239,7 +239,7 @@ img {
     border-top: 8px solid #2d3748;
 }
 
-.button-green,
+.button-teal,
 .button-success {
     background-color: #48bb78;
     border-bottom: 8px solid #48bb78;
@@ -248,7 +248,7 @@ img {
     border-top: 8px solid #48bb78;
 }
 
-.button-red,
+.button-pink,
 .button-error {
     background-color: #e53e3e;
     border-bottom: 8px solid #e53e3e;

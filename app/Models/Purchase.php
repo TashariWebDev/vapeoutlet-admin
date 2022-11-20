@@ -21,21 +21,12 @@ class Purchase extends Model
 
     protected $appends = ['total'];
 
-    protected static function boot()
+    public function invoiceNo(): Attribute
     {
-        parent::boot();
-
-        static::creating(function ($purchase) {
-            $purchase->invoice_no = Str::upper($purchase->invoice_no);
-        });
-
-        static::saving(function ($purchase) {
-            $purchase->invoice_no = Str::upper($purchase->invoice_no);
-        });
-
-        static::updating(function ($purchase) {
-            $purchase->invoice_no = Str::upper($purchase->invoice_no);
-        });
+        return new Attribute(
+            get: fn ($value) => Str::upper($value),
+            set: fn ($value) => Str::upper($value)
+        );
     }
 
     public function supplier(): BelongsTo
@@ -51,6 +42,11 @@ class Purchase extends Model
     public function items(): HasMany
     {
         return $this->hasMany(PurchaseItem::class);
+    }
+
+    public function stocks(): HasMany
+    {
+        return $this->hasMany(Stock::class);
     }
 
     public function getProcessedAttribute(): float|int
@@ -102,5 +98,19 @@ class Purchase extends Model
             get: fn ($value) => to_rands($value),
             set: fn ($value) => to_cents($value)
         );
+    }
+
+    public function addItem(Product $product)
+    {
+        $item = $this->items()->firstOrCreate(
+            [
+                'product_id' => $product->id,
+            ],
+            [
+                'product_id' => $product->id,
+            ]
+        );
+
+        $item->increment('qty');
     }
 }

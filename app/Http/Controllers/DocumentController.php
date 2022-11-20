@@ -27,7 +27,6 @@ class DocumentController extends Controller
      */
     public function saveDocument(Transaction $transaction)
     {
-        Log::info($transaction);
         $model = $transaction;
 
         if (Str::startsWith($transaction->reference, 'INV00')) {
@@ -50,7 +49,7 @@ class DocumentController extends Controller
             'model' => $model,
         ])->render();
 
-        $url = storage_path("app/public/documents/$transaction->uuid.pdf");
+        $url = storage_path("app/public/documents/$transaction->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);

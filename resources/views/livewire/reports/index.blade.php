@@ -1,12 +1,5 @@
 <div>
 
-    <div>
-        <a
-            class="link"
-            href="{{ route('settings') }}"
-        >back to settings</a>
-    </div>
-
     @php
         function check_file_exist($url)
         {
@@ -24,86 +17,75 @@
             $credits = $transactions->total_refunds + $transactions->total_credits;
             $gross_sales = $transactions->total_sales + $credits;
         @endphp
-        <h3 class="text-lg font-bold leading-6 text-slate-800 dark:text-slate-500">Current Month</h3>
-        <dl class="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-3">
-            <div class="overflow-hidden py-5 px-4 bg-white rounded-lg shadow sm:p-6 dark:bg-slate-900">
-                <dt class="text-sm font-medium text-slate-500 truncate">Sales</dt>
-                <dd class="mt-1 font-semibold racking-tight text-slate-900 dark:text-slate-400">
-                    {{ number_format(to_rands(ex_vat($gross_sales)), 2) ?? '0.00' }}
-                </dd>
-                <dd class="mt-1 text-sm font-semibold tracking-tight text-slate-500">
-                    {{ number_format(to_rands($gross_sales), 2) ?? '0.00' }}
-                </dd>
-            </div>
 
-            <div class="overflow-hidden py-5 px-4 bg-white rounded-lg shadow sm:p-6 dark:bg-slate-900">
-                <dt class="text-sm font-medium text-slate-500 truncate">Purchases</dt>
-                <dd class="mt-1 font-semibold racking-tight text-slate-900 dark:text-slate-400">
-                    {{ number_format(to_rands(ex_vat($purchases->total_purchases)), 2) }}
-                </dd>
-                <dd class="mt-1 text-sm font-semibold tracking-tight text-slate-500">
-                    {{ number_format(to_rands($purchases->total_purchases), 2) }}
-                </dd>
-            </div>
+        <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
+            <x-stat-container>
+                <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Sales</h3>
+                <x-slot:footer>
+                    <p class="text-teal-500">
+                        {{ number_format(to_rands($gross_sales), 2) ?? '0.00' }}
+                    </p>
+                </x-slot:footer>
+            </x-stat-container>
 
-            <div class="overflow-hidden py-5 px-4 bg-white rounded-lg shadow sm:p-6 dark:bg-slate-900">
-                <dt class="text-sm font-medium text-slate-500 truncate">Expenses</dt>
-                <dd class="mt-1 font-semibold racking-tight text-slate-900 dark:text-slate-400">
-                    {{ number_format(to_rands($expenses->total_expenses), 2) ?? '0.00' }}
-                </dd>
-            </div>
-        </dl>
-    </div>
+            <x-stat-container>
+                <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Purchases</h3>
+                <x-slot:footer>
+                    <p class="text-teal-500">
+                        {{ number_format(to_rands($purchases->total_purchases), 2) }}
+                    </p>
+                </x-slot:footer>
+            </x-stat-container>
 
-    <div>
-        @php
-            $credits = $transactions->total_refunds + $transactions->total_credits;
-            $gross_sales = $transactions->total_sales + $credits;
-        @endphp
-        <dl class="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-3">
-            <div class="overflow-hidden py-5 px-4 bg-white rounded-lg shadow sm:p-6 dark:bg-slate-900">
-                <dt class="text-sm font-medium text-slate-500 truncate">Refunds</dt>
-                <dd class="mt-1 font-semibold racking-tight text-slate-900 dark:text-slate-400">
-                    {{ number_format(to_rands(ex_vat($transactions->total_refunds)), 2) ?? '0.00' }}
-                </dd>
-                <dd class="mt-1 text-sm font-semibold tracking-tight text-slate-500">
-                    {{ number_format(to_rands($transactions->total_refunds), 2) ?? '0.00' }}
-                </dd>
-            </div>
+            <x-stat-container>
+                <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Expenses</h3>
+                <x-slot:footer>
+                    <p class="text-teal-500">
+                        {{ number_format(to_rands($expenses->total_expenses), 2) ?? '0.00' }}
+                    </p>
+                </x-slot:footer>
+            </x-stat-container>
 
-            <div class="overflow-hidden py-5 px-4 bg-white rounded-lg shadow sm:p-6 dark:bg-slate-900">
-                <dt class="text-sm font-medium text-slate-500 truncate">Credits</dt>
-                <dd class="mt-1 font-semibold racking-tight text-slate-900 dark:text-slate-400">
-                    {{ number_format(to_rands(ex_vat($transactions->total_credits)), 2) ?? '0.00' }}
-                </dd>
-                <dd class="mt-1 text-sm font-semibold tracking-tight text-slate-500">
-                    {{ number_format(to_rands($transactions->total_credits), 2) ?? '0.00' }}
-                </dd>
-            </div>
+            <x-stat-container>
+                <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Refunds</h3>
+                <x-slot:footer>
+                    <p class="text-teal-500">
+                        {{ number_format(to_rands($transactions->total_refunds), 2) ?? '0.00' }}
+                    </p>
+                </x-slot:footer>
+            </x-stat-container>
 
-            <div class="overflow-hidden py-5 px-4 bg-white rounded-lg shadow sm:p-6 dark:bg-slate-900">
-                <dt class="flex items-center space-x-4 text-sm font-medium text-slate-500 truncate">
-                    Stock value
-                    <button wire:click="getStockValue">
-                        <x-icons.refresh
-                            class="w-4 h-4"
-                            wire:target="getStockValue"
-                            wire:loading.class="animate-spin-slow"
-                        />
-                    </button>
-                </dt>
-                <dd class="mt-1 font-semibold racking-tight text-slate-900 dark:text-slate-400">
-                    {{ number_format(ex_vat(to_rands($this->stockValue)), 2) ?? '0.00' }}
-                </dd>
-                <dd class="mt-1 text-sm font-semibold tracking-tight text-slate-500">
-                    {{ number_format(to_rands($this->stockValue), 2) ?? '0.00' }}
-                </dd>
-            </div>
-        </dl>
+            <x-stat-container>
+                <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Credits</h3>
+                <x-slot:footer>
+                    <p class="text-teal-500">
+                        {{ number_format(to_rands($transactions->total_credits), 2) ?? '0.00' }}
+                    </p>
+                </x-slot:footer>
+            </x-stat-container>
+
+            <x-stat-container>
+                <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Stock value</h3>
+                <x-slot:footer>
+                    <div class="flex justify-between items-center">
+                        <p class="text-teal-500">
+                            {{ number_format(to_rands($this->stockValue), 2) ?? '0.00' }}
+                        </p>
+                        <button wire:click="getStockValue">
+                            <x-icons.refresh
+                                class="w-4 h-4 text-teal-500"
+                                wire:target="getStockValue"
+                                wire:loading.class="animate-spin-slow"
+                            />
+                        </button>
+                    </div>
+                </x-slot:footer>
+            </x-stat-container>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 gap-3 py-6 lg:grid-cols-3">
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             <button
                 class="w-full button-success"
                 x-on:click="@this.set('showStockTakeModal',true)"
@@ -117,10 +99,7 @@
                 >Stock Takes</a>
             </div>
 
-            <x-modal
-                title="Create a stock take"
-                wire:model.defer="showStockTakeModal"
-            >
+            <x-modal x-data="{ show: $wire.entangle('showStockTakeModal') }">
                 <form wire:submit.prevent="createStockTake">
                     <div class="overflow-y-scroll p-3 h-72 border shadow-inner">
                         @foreach ($this->brands as $brand)
@@ -142,7 +121,7 @@
             </x-modal>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $debtors = config('app.admin_url') . '/storage/documents/debtors-list.pdf';
 
@@ -170,7 +149,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $creditors = config('app.admin_url') . '/storage/documents/creditors-list.pdf';
 
@@ -198,7 +177,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $expenses = config('app.admin_url') . '/storage/documents/expenses.pdf';
 
@@ -226,7 +205,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $purchases = config('app.admin_url') . '/storage/documents/purchases.pdf';
 
@@ -254,7 +233,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $credits = config('app.admin_url') . '/storage/documents/credits.pdf';
 
@@ -282,7 +261,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $variances = config('app.admin_url') . '/storage/documents/variances.pdf';
 
@@ -310,7 +289,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $salesByDateRange = config('app.admin_url') . '/storage/documents/salesByDateRange.pdf';
 
@@ -338,7 +317,7 @@
             </div>
         </div>
 
-        <div class="p-2 bg-white rounded-md dark:bg-slate-900">
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $stocksByDateRange = config('app.admin_url') . '/storage/documents/stockByDateRange.pdf';
 
@@ -367,10 +346,7 @@
         </div>
     </div>
 
-    <x-modal
-        title="Get variances by date range"
-        wire:model.defer="showVariancesForm"
-    >
+    <x-modal x-data="{ show: $wire.entangle('showVariancesForm') }">
         <form wire:submit.prevent="getVariancesDocument">
             <div class="py-4">
                 <x-input
@@ -394,10 +370,7 @@
         </form>
     </x-modal>
 
-    <x-modal
-        title="Get sales by date range"
-        wire:model.defer="showStocksByDateRangeForm"
-    >
+    <x-modal x-data="{ show: $wire.entangle('showStocksByDateRangeForm') }">
         <form wire:submit.prevent="getStocksByDateRangeDocument">
 
             <div class="py-4">
@@ -414,10 +387,7 @@
         </form>
     </x-modal>
 
-    <x-modal
-        title="Get sales by date range"
-        wire:model.defer="showSalesByDateRangeForm"
-    >
+    <x-modal x-data="{ show: $wire.entangle('showSalesByDateRangeForm') }">
         <form wire:submit.prevent="getSalesByDateRangeDocument">
             <div class="py-4">
                 <x-input
@@ -449,10 +419,7 @@
         </form>
     </x-modal>
 
-    <x-modal
-        title="Get credits by date range"
-        wire:model.defer="showCreditsForm"
-    >
+    <x-modal x-data="{ show: $wire.entangle('showCreditsForm') }">
         <form wire:submit.prevent="getCreditsListDocument">
             <div class="py-4">
                 <x-input
@@ -484,10 +451,7 @@
         </form>
     </x-modal>
 
-    <x-modal
-        title="Get purchases by date range"
-        wire:model.defer="showPurchasesForm"
-    >
+    <x-modal x-data="{ show: $wire.entangle('showPurchasesForm') }">
         <form wire:submit.prevent="getPurchaseListDocument">
             <div class="py-4">
                 <x-input
@@ -519,10 +483,7 @@
         </form>
     </x-modal>
 
-    <x-modal
-        title="Get expense by date range"
-        wire:model.defer="showExpenseForm"
-    >
+    <x-modal x-data="{ show: $wire.entangle('showExpenseForm') }">
         <form wire:submit.prevent="getExpenseListDocument">
             <div class="py-4">
                 <x-input

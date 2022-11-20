@@ -2,7 +2,7 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-slate-500"/>
+                <x-application-logo class="w-20 h-20 fill-current text-slate-500" />
             </a>
         </x-slot>
 
@@ -11,14 +11,15 @@
         </div>
 
         @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="mb-4 text-sm font-medium text-teal-600">
                 {{ __('A new verification link has been sent to the email address you provided during registration.') }}
             </div>
         @endif
 
-        <div class="mt-4 flex items-center justify-between">
-            <form method="POST"
-                  action="{{ route('verification.send') }}"
+        <div class="flex justify-between items-center mt-4">
+            <form
+                method="POST"
+                action="{{ route('verification.send') }}"
             >
                 @csrf
 
@@ -29,13 +30,15 @@
                 </div>
             </form>
 
-            <form method="POST"
-                  action="{{ route('logout') }}"
+            <form
+                method="POST"
+                action="{{ route('logout') }}"
             >
                 @csrf
 
-                <button type="submit"
-                        class="underline text-sm text-slate-600 hover:text-slate-900"
+                <button
+                    class="text-sm underline text-slate-600 hover:text-slate-900"
+                    type="submit"
                 >
                     {{ __('Log Out') }}
                 </button>

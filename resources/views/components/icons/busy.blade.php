@@ -1,13 +1,13 @@
 @props(['target'])
+
 <svg
-    class="w-4 h-4 text-slate-600 dark:text-slate-300"
+    class="w-2 h-2 text-teal-500 animate-spin dark:text-teal-100"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"
     stroke-width="1.5"
     stroke="currentColor"
     wire:loading
-    wire:loading.class="animate-spin-slow"
     wire:target="{{ $target }}"
 >
     <path

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,14 +14,57 @@ use Laravel\Sanctum\HasApiTokens;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $phone
+ * @property string $password
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Customer[] $customers
+ * @property-read int|null $customers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Note[] $notes
+ * @property-read int|null $notes_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Purchase[] $purchases
+ * @property-read int|null $purchases_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
+ *
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User search($searchQuery)
+ * @method static \Illuminate\Database\Eloquent\Builder|User staff()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable
 {
     use SoftDeletes;
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-
-    protected $with = ['permissions'];
 
     protected $fillable = ['name', 'email', 'password'];
 
@@ -30,24 +74,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected static function boot()
+    public function name(): Attribute
     {
-        parent::boot();
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
+    }
 
-        static::creating(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->email = Str::lower($user->email);
-        });
-
-        static::saving(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->email = Str::lower($user->email);
-        });
-
-        static::updating(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->email = Str::lower($user->email);
-        });
+    public function email(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => Str::lower($value),
+            set: fn ($value) => Str::lower($value)
+        );
     }
 
     public function scopeSearch($query, $searchQuery)
@@ -74,9 +114,7 @@ class User extends Authenticatable
 
     public function permissions(): belongsToMany
     {
-        return $this->belongsToMany(Permission::class)
-            ->as('permission')
-            ->orderBy('name');
+        return $this->belongsToMany(Permission::class)->orderBy('name');
     }
 
     /**
@@ -85,11 +123,7 @@ class User extends Authenticatable
      */
     public function hasPermissionTo($permission): bool
     {
-        if (
-            auth()
-                ->user()
-                ->permissions->contains('name', $permission)
-        ) {
+        if ($this->permissions->contains('name', $permission)) {
             return true;
         }
 

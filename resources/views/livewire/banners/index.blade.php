@@ -1,28 +1,29 @@
 <div>
-    <div>
-        <a
-            class="link"
-            href="{{ route('settings') }}"
-        >back to settings</a>
-    </div>
 
-    <x-slide-over
-        title="Upload banners"
-        wire:model.defer="showCreateBannerForm"
-    >
+    <x-slide-over x-data="{ show: $wire.entangle('slide') }">
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-2">
-                    <x-input
+                    <x-form.input.label for="image">
+                        Image
+                    </x-form.input.label>
+                    <x-form.input.text
                         id="upload{{ $iteration }}"
+                        id="image"
                         type="file"
-                        label="banner image"
                         wire:model.defer="image"
                     />
+                    @error('image')
+                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                    @enderror
                 </div>
                 <div class="py-2">
-                    <button class="w-full button-success">
-                        <x-icons.upload class="mr-2 w-5 h-5 text-white" />
+                    <button class="button-success">
+                        <x-icons.upload
+                            class="mr-2 w-5 h-5 text-white"
+                            wire:loading.class="hidden"
+                        />
+                        <x-icons.busy target="save" />
                         upload
                     </button>
                 </div>
@@ -30,50 +31,62 @@
         </div>
     </x-slide-over>
 
-    <header class="flex justify-start py-6 lg:justify-end">
-        <button
-            class="button-success"
-            x-on:click="@this.set('showCreateBannerForm',true)"
-        >
-            <x-icons.plus class="mr-2 w-5 h-5" />
-            upload banner
-        </button>
-    </header>
+    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+        <header class="flex justify-between px-2 py-6 items-center">
+            <x-page-header>
+                Banners
+            </x-page-header>
+            <button
+                class="button-success"
+                wire:click="$toggle('slide')"
+            >
+                upload banner
+            </button>
+        </header>
 
-    <section class="grid grid-cols-1">
-        @foreach ($banners as $banner)
-            <div class="p-6 bg-white rounded-md">
-                <div class="relative rounded-md">
-                    <img
-                        class="object-cover w-full rounded-md"
-                        src="{{ config('app.admin_url') . '/storage/' . $banner->image }}"
-                        alt=""
-                    >
+        <div class="px-2 py-3">
+            {{ $banners->links() }}
+        </div>
 
-                    <div class="absolute right-0 bottom-0">
+        <x-table.container>
+            <x-table.header class="hidden lg:grid lg:grid-cols-3">
+                <x-table.heading>Image</x-table.heading>
+                <x-table.heading>Order</x-table.heading>
+                <x-table.heading class="text-right">Actions</x-table.heading>
+            </x-table.header>
+            @forelse ($banners as $banner)
+                <x-table.body class="grid grid-cols-2 lg:grid-cols-3">
+                    <x-table.row>
+                        <img
+                            class="object-cover w-full rounded-md"
+                            src="{{ config('app.admin_url') . '/storage/' . $banner->image }}"
+                            alt=""
+                        >
+                    </x-table.row>
+                    <x-table.row>
                         <label>
-                            Display order
-                            <input
+                            <x-form.input.text
                                 type="number"
                                 value="{{ $banner->order }}"
                                 inputmode="numeric"
                                 pattern="[0-9]"
-                                @keydown.tab="@this.call('updateOrder',{{ $banner->id }},$event.target.value)"
+                                @keydown.tab="$wire.call('updateOrder',{{ $banner->id }},$event.target.value)"
                             />
                         </label>
-                    </div>
-
-                    <button
-                        class="absolute top-0 right-0 button-danger"
-                        x-on:click.prevent="@this.call('delete',{{ $banner->id }})"
-                    >
-                        <x-icons.cross />
-                    </button>
-                </div>
-            </div>
-        @endforeach
-    </section>
-    <div class="py-6">
-        {{ $banners->links() }}
+                    </x-table.row>
+                    <x-table.row class="col-span-2 lg:col-span-1 lg:text-right">
+                        <button
+                            class="button-danger w-full lg:w-32"
+                            wire:click="delete('{{ $banner->id }}')"
+                        >
+                            <x-icons.busy target="delete" />
+                            Delete
+                        </button>
+                    </x-table.row>
+                </x-table.body>
+            @empty
+                <x-table.empty></x-table.empty>
+            @endforelse
+        </x-table.container>
     </div>
 </div>

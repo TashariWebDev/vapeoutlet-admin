@@ -18,7 +18,7 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $showCreateBannerForm = false;
+    public $slide = false;
 
     public $image;
 
@@ -34,32 +34,42 @@ class Index extends Component
     public function save()
     {
         $this->validate();
+
         MarketingBanner::create([
             'image' => $this->image->store('banners', 'public'),
         ]);
-        $this->showCreateBannerForm = false;
+
+        $this->slide = false;
+
         $this->iteration++;
+
         $this->notify('Banner saved');
     }
 
     public function updateOrder($bannerId, $orderNumber)
     {
         $banner = MarketingBanner::find($bannerId);
+
         $banner->update(['order' => $orderNumber]);
+
         $this->notify('Banner order updated');
     }
 
     public function delete(MarketingBanner $banner)
     {
         Storage::disk('public')->delete($banner->image);
+
         $banner->delete();
+
         $this->notify('Banner deleted');
     }
 
     public function render(): Factory|View|Application
     {
         return view('livewire.banners.index', [
-            'banners' => MarketingBanner::orderBy('order')->simplePaginate(1),
+            'banners' => MarketingBanner::query()
+                ->orderBy('order')
+                ->paginate(3),
         ]);
     }
 }

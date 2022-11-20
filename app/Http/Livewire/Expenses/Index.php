@@ -109,14 +109,14 @@ class Index extends Component
                 ->orderBy('name')
                 ->get(),
             'expenses' => Expense::query()
-                ->orderBy('date')
+                ->orderByDesc('date')
                 ->when($this->searchTerm, function ($query) {
                     $query
                         ->where('category', 'like', $this->searchTerm.'%')
                         ->orWhere('date', 'like', $this->searchTerm)
                         ->orWhere('invoice_no', 'like', $this->searchTerm);
                 })
-                ->paginate(5),
+                ->paginate(10),
         ]);
     }
 }

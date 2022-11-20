@@ -62,7 +62,7 @@
                     for="remember_me"
                 >
                     <input
-                        class="text-red-600 rounded shadow-sm focus:border-red-300 focus:ring focus:ring-red-200 focus:ring-opacity-50 border-slate-300"
+                        class="text-pink-600 rounded shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50 border-slate-300"
                         id="remember_me"
                         name="remember"
                         type="checkbox"
@@ -75,14 +75,14 @@
             <div class="flex justify-end items-center mt-4">
                 @if (Route::has('password.request'))
                     <a
-                        class="link mr-3"
+                        class="mr-3 link"
                         href="{{ route('password.request') }}"
                     >
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
 
-                <button class="button-success w-20">
+                <button class="w-20 button-success">
                     {{ __('Log in') }}
                 </button>
             </div>

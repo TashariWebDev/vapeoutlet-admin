@@ -24,10 +24,8 @@ class Index extends Component
      */
     public function getPickingSlip(Order $order)
     {
-        $order->load('items.product.features');
-
         $view = view('templates.pdf.pick-list', [
-            'model' => $order,
+            'order' => $order,
         ])->render();
 
         $url = storage_path("app/public/pick-lists/$order->number.pdf");
@@ -41,7 +39,7 @@ class Index extends Component
             ->emulateMedia('print')
             ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
+            ->setScreenshotType('pdf', 60)
             ->save($url);
 
         $this->redirect("/storage/pick-lists/$order->number.pdf");
@@ -51,12 +49,13 @@ class Index extends Component
     {
         return view('livewire.warehouse.index', [
             'orders' => Order::query()
-                ->with('delivery', 'customer', 'customer.transactions', 'items')
-                ->when(
-                    $this->searchTerm,
-                    fn ($query) => $query->search($this->searchTerm)
-                )
-                ->where('status', '=', 'processed')
+                ->select(['id', 'created_at', 'status', 'customer_id'])
+                ->with([
+                    'customer:id,name,company,salesperson_id,is_wholesale',
+                    'customer.salesperson:id,name',
+                ])
+                ->without(['items'])
+                ->whereStatus('processed')
                 ->latest()
                 ->paginate(5),
         ]);

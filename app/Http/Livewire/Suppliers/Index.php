@@ -17,10 +17,13 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.supplier.index', [
+        return view('livewire.suppliers.index', [
             'suppliers' => Supplier::query()
-                ->when($this->searchQuery, fn ($query) => $query->search($this->searchQuery))
-                ->simplePaginate(),
+                ->when(
+                    $this->searchQuery,
+                    fn ($query) => $query->search($this->searchQuery)
+                )
+                ->paginate(),
         ]);
     }
 }

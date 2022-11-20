@@ -38,13 +38,11 @@
 <body>
     <div class="p-6 w-screen font-sans antialiased bg-white">
 
-        @if ($model instanceof App\Models\Order)
-            @if ($model->status === 'cancelled')
-                <div
-                    class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-red-600 opacity-20 transform">
-                    <h1>CANCELLED</h1>
-                </div>
-            @endif
+        @if ($order->status === 'cancelled')
+            <div
+                class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-pink-600 opacity-20 transform">
+                <h1>CANCELLED</h1>
+            </div>
         @endif
 
         <div class="p-4 bg-white rounded">
@@ -72,8 +70,8 @@
                     </div>
                     <div class="font-mono text-xs text-right">
                         <ul>
-                            <li class="uppercase">{{ $model->created_at }}</li>
-                            <li class="capitalize">{{ $model->number }}</li>
+                            <li class="uppercase">{{ $order->created_at }}</li>
+                            <li class="capitalize">{{ $order->number }}</li>
                         </ul>
                     </div>
                 </div>
@@ -83,11 +81,11 @@
                             <p class="text-xs font-semibold text-white uppercase">Customer Details</p>
                         </div>
                         <ul class="py-2 px-1 text-sm">
-                            <li>{{ ucwords($model->customer->name) }}</li>
-                            <li>{{ $model->customer->phone }}</li>
-                            <li>{{ $model->customer->email }}</li>
-                            <li>{{ ucwords($model->customer->company) }}</li>
-                            <li>{{ ucwords($model->customer->vat_number) }}</li>
+                            <li>{{ ucwords($order->customer->name) }}</li>
+                            <li>{{ $order->customer->phone }}</li>
+                            <li>{{ $order->customer->email }}</li>
+                            <li>{{ ucwords($order->customer->company) }}</li>
+                            <li>{{ ucwords($order->customer->vat_number) }}</li>
                         </ul>
                     </div>
                     <div class="rounded border">
@@ -95,11 +93,11 @@
                             <p class="text-xs font-semibold text-white uppercase">Delivery Details</p>
                         </div>
                         <ul class="py-2 px-1 text-sm">
-                            <li>{{ ucwords($model->address->line_one) }}</li>
-                            <li>{{ ucwords($model->address->line_two) }}</li>
-                            <li>{{ ucwords($model->address->suburb) }}</li>
-                            <li>{{ ucwords($model->address->city) }}</li>
-                            <li>{{ ucwords($model->address->postal_code) }}</li>
+                            <li>{{ ucwords($order->address->line_one) }}</li>
+                            <li>{{ ucwords($order->address->line_two) }}</li>
+                            <li>{{ ucwords($order->address->suburb) }}</li>
+                            <li>{{ ucwords($order->address->city) }}</li>
+                            <li>{{ ucwords($order->address->postal_code) }}</li>
                         </ul>
                     </div>
                 </div>
@@ -119,7 +117,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($model->items as $item)
+                        @foreach ($order->items as $item)
                             <tr class="py-1 border-b border-dashed break-inside-avoid">
                                 <td class="text-left">
                                     <p class="text-xs font-semibold uppercase">{{ $item->product->sku }}</p>
@@ -163,19 +161,19 @@
                     <div class="grid grid-cols-5 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Sub Total </span> R
-                            {{ number_format($model->getSubTotal(), 2) }}
+                            {{ number_format($order->getSubTotal(), 2) }}
                         </p>
                         <p class="col-span-2 text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">{{ ucwords($model->delivery->type) }} </span>
-                            R {{ number_format($model->delivery_charge, 2) }}
+                            <span class="font-semibold">{{ ucwords($order->delivery->type) }} </span>
+                            R {{ number_format($order->delivery_charge, 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Total </span>
-                            R {{ number_format($model->getTotal(), 2) }}
+                            R {{ number_format($order->getTotal(), 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">VAT </span>
-                            R {{ number_format(vat($model->getTotal()), 2) }}
+                            R {{ number_format(vat($order->getTotal()), 2) }}
                         </p>
                     </div>
 
@@ -183,13 +181,13 @@
                         <div class="grid grid-cols-1 gap-2">
                             <p class="text-xs text-center whitespace-nowrap">
                                 <span class="font-semibold">ACCOUNT BALANCE </span>
-                                R {{ number_format($model->customer->getRunningBalance(), 2) }}
+                                R {{ number_format($order->customer->getRunningBalance(), 2) }}
                             </p>
                         </div>
                     </div>
                 </div>
 
-                @if ($model->waybill)
+                @if ($order->waybill)
                     <div>
                         <p class="text-xs">To track your order go to and enter your waybill number:</p>
                         <a
@@ -198,8 +196,8 @@
                         >
                             https://portal.thecourierguy.co.za/track
                         </a>
-                        @if (isset($model->waybill))
-                            <p class="text-xs">Waybill number: <span class="uppercase">{{ $model->waybill }}</span></p>
+                        @if (isset($order->waybill))
+                            <p class="text-xs">Waybill number: <span class="uppercase">{{ $order->waybill }}</span></p>
                         @endif
                     </div>
                 @endif
@@ -222,17 +220,17 @@
                                 <li class="font-semibold">First National Bank</li>
                                 <li class="font-semibold">Sandton City</li>
                                 <li class="mt-2 font-mono">ACC: 62668652855</li>
-                                <li class="font-mono">REF: {{ $model->number }}</li>
+                                <li class="font-mono">REF: {{ $order->number }}</li>
                             </ul>
                         </div>
                     </div>
                 </section>
             </div>
 
-            @if ($model->notes->count())
+            @if ($order->notes->count())
                 <div class="p-4 mt-4 bg-white rounded-md">
 
-                    @foreach ($model->notes as $note)
+                    @foreach ($order->notes as $note)
                         @if (!$note->is_private)
                             <div class="pb-2">
                                 <div>

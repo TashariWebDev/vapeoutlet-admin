@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Delivery;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Delivery;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
+    use WithNotifications;
     use WithPagination;
 
     public $delivery;
@@ -54,6 +56,7 @@ class Index extends Component
         $this->delivery->save();
         $this->showDeliveryCreateForm = false;
         $this->resetValidation();
+
         $this->dispatchBrowserEvent('notification', [
             'body' => 'Delivery saved',
         ]);
@@ -73,8 +76,8 @@ class Index extends Component
     {
         return view('livewire.delivery.index', [
             'deliveries' => Delivery::query()
-                ->orderBy('selectable')
-                ->simplePaginate(5),
+                ->orderBy('province')
+                ->paginate(10),
         ]);
     }
 }

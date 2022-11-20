@@ -20,8 +20,6 @@ class Create extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $showProductSelectorForm = false;
-
     public $showConfirmModal = false;
 
     public $searchQuery;
@@ -32,11 +30,18 @@ class Create extends Component
 
     public $selectedProducts = [];
 
+    public $selectedProductsToDelete = [];
+
     public $products = [];
+
+    public $sku;
+
+    protected $listeners = ['refreshData' => '$refresh'];
 
     public function mount()
     {
         $this->customerId = request('id');
+
         $this->credit = Credit::firstOrCreate(
             [
                 'customer_id' => $this->customer->id,
@@ -46,6 +51,35 @@ class Create extends Component
                 'created_by' => auth()->user()->name,
             ]
         );
+    }
+
+    public function removeProducts()
+    {
+        foreach ($this->selectedProductsToDelete as $selectedItem) {
+            $item = CreditItem::findOrFail($selectedItem);
+            $this->deleteItem($item);
+        }
+
+        $this->selectedProductsToDelete = [];
+        $this->emitSelf('refreshData');
+        $this->notify('Products removed');
+    }
+
+    public function updatedSku()
+    {
+        $this->validate(['sku' => 'required']);
+
+        $product = Product::where('sku', '=', $this->sku)->first();
+
+        if (! $product) {
+            return;
+        }
+
+        $this->credit->addItem($product);
+        $this->notify('Product added');
+
+        $this->sku = '';
+        $this->emit('refreshData');
     }
 
     public function updatedSearchQuery()
@@ -60,41 +94,30 @@ class Create extends Component
         }
     }
 
-    public function addProducts()
-    {
-        foreach ($this->selectedProducts as $product) {
-            $this->credit->addItem(
-                Product::find($product),
-                $this->credit->customer
-            );
-        }
-
-        $this->showProductSelectorForm = false;
-        $this->reset(['searchQuery']);
-        $this->selectedProducts = [];
-
-        $this->notify('Products added');
-        $this->redirect("/credits/$this->customerId");
-    }
-
     public function updatePrice(CreditItem $item, $value)
     {
         $item->update(['price' => $value]);
+
+        $this->emitSelf('refreshData');
+
         $this->notify('Price updated');
     }
 
     public function updateQty(CreditItem $item, $value)
     {
         $item->update(['qty' => $value]);
+
+        $this->emitSelf('refreshData');
+
         $this->notify('Qty updated');
     }
 
     public function deleteItem(CreditItem $item)
     {
         $item->delete();
-        $this->notify('Item deleted');
 
-        $this->redirect("/credits/$this->customerId");
+        $this->emitSelf('refreshData');
+        $this->notify('Item deleted');
     }
 
     public function process()
@@ -127,7 +150,7 @@ class Create extends Component
         }
 
         $this->credit->cancel();
-        $this->notify('Purchase deleted');
+        $this->notify('Credit note deleted');
 
         $this->redirect("/customers/show/{$this->customer->id}");
     }

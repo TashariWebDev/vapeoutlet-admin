@@ -7,11 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use JetBrains\PhpStorm\Pure;
 
+/**
+ * App\Models\PurchaseItem
+ *
+ * @property int $id
+ * @property int $purchase_id
+ * @property int $product_id
+ * @property int $price
+ * @property int $qty
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read int|float $line_total
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\Purchase|null $purchase
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem wherePurchaseId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereQty($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class PurchaseItem extends Model
 {
     protected $guarded = [];
-
-    protected $with = ['product:id,name,brand,sku'];
 
     protected $appends = ['line_total'];
 
@@ -60,5 +84,22 @@ class PurchaseItem extends Model
     public function total_cost_in_zar(): float|int
     {
         return $this->amount_converted_to_zar() + $this->shipping_cost();
+    }
+
+    public function bringIntoStock()
+    {
+        $this->purchase->stocks()->firstOrCreate(
+            [
+                'product_id' => $this->product_id,
+                'purchase_id' => $this->purchase->id,
+            ],
+            [
+                'product_id' => $this->product_id,
+                'type' => 'purchase',
+                'reference' => $this->purchase->invoice_no,
+                'qty' => $this->qty,
+                'cost' => $this->total_cost_in_zar(),
+            ]
+        );
     }
 }

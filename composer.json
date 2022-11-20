@@ -12,12 +12,12 @@
         "fedeisas/laravel-mail-css-inliner": "dev-master",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
-        "laravel/framework": "^9.19",
-        "laravel/sanctum": "^2.14.1",
+        "laravel/framework": "^9.39",
+        "laravel/sanctum": "^v2.15.1",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
         "spatie/browsershot": "^3.57",
-      "ext-pdo": "*"
+        "ext-pdo": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

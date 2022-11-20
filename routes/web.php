@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Livewire\Credit\Create;
 use App\Http\Livewire\Customers\Edit;
 use App\Http\Livewire\Dashboard\Index;
-use App\Http\Livewire\Purchases\Create;
+use App\Http\Livewire\Purchases\Pending;
 use App\Http\Livewire\Users\Show;
 use Illuminate\Support\Facades\Route;
 
@@ -29,9 +30,9 @@ Route::middleware('auth')->group(function () {
         ->name('products')
         ->middleware('permission:view products');
 
-    Route::get('inventory', \App\Http\Livewire\Inventory\Index::class)
-        ->name('inventory')
-        ->middleware('permission:view inventory');
+    Route::get('products/{id}', \App\Http\Livewire\Products\Edit::class)
+        ->name('products/edit')
+        ->middleware('permission:view products');
 
     Route::get('customers', \App\Http\Livewire\Customers\Index::class)
         ->name('customers')
@@ -45,7 +46,7 @@ Route::middleware('auth')->group(function () {
         ->name('customers/edit')
         ->middleware('permission:edit customers');
 
-    Route::get('credits/{id}', \App\Http\Livewire\Credit\Create::class)
+    Route::get('credits/{id}', Create::class)
         ->name('credits/create')
         ->middleware('permission:create credit');
 
@@ -113,37 +114,41 @@ Route::middleware('auth')->group(function () {
         ->name('users/show')
         ->middleware('permission:view users');
 
-    Route::get('inventory/purchases/{id}', Create::class)
-        ->name('purchases/create')
+    Route::get('purchases/pending', Pending::class)
+        ->name('purchases/pending')
+        ->middleware('permission:create purchase');
+
+    Route::get('purchases/{id}', \App\Http\Livewire\Purchases\Edit::class)
+        ->name('purchases/edit')
         ->middleware('permission:create purchase');
 
     Route::get(
         'supplier-credits/{id}',
-        \App\Http\Livewire\Returns\Create::class
+        \App\Http\Livewire\SupplierCredits\Create::class
     )
         ->name('supplier-credits/create')
         ->middleware('permission:create purchase');
 
     Route::get(
         'supplier-credits/show/{id}',
-        \App\Http\Livewire\Returns\Show::class
+        \App\Http\Livewire\SupplierCredits\Show::class
     )
         ->name('supplier-credits/show')
         ->middleware('permission:create purchase');
 
     Route::middleware('permission:view suppliers')->group(function () {
         Route::get(
-            'inventory/suppliers',
+            'suppliers',
             \App\Http\Livewire\Suppliers\Index::class
         )->name('suppliers');
 
         Route::get(
-            'inventory/suppliers/{id}',
+            'suppliers/{id}',
             \App\Http\Livewire\Suppliers\Show::class
         )->name('suppliers/show');
 
         Route::get(
-            'inventory/suppliers/edit/{id}',
+            'suppliers/edit/{id}',
             \App\Http\Livewire\Suppliers\Edit::class
         )->name('suppliers/edit');
     });

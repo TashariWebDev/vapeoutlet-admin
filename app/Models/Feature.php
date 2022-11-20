@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,21 +16,12 @@ class Feature extends Model
 
     protected $guarded = [];
 
-    protected static function boot()
+    public function name(): Attribute
     {
-        parent::boot();
-
-        static::creating(function ($feature) {
-            $feature->name = Str::title($feature->name);
-        });
-
-        static::saving(function ($feature) {
-            $feature->name = Str::title($feature->name);
-        });
-
-        static::updating(function ($feature) {
-            $feature->name = Str::title($feature->name);
-        });
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
     }
 
     public function category(): BelongsTo

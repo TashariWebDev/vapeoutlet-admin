@@ -72,9 +72,9 @@
                     </div>
                     <div class="font-mono text-xs text-right">
                         <ul>
-                            <li>{{ $model->placed_at ?? $model->created_at }}</li>
-                            <li class="capitalize">{{ $model->number }}</li>
-                            <li class="text-lg font-extrabold uppercase">{{ $model->delivery->type }}</li>
+                            <li>{{ $order->placed_at ?? $order->created_at }}</li>
+                            <li class="capitalize">{{ $order->number }}</li>
+                            <li class="text-lg font-extrabold uppercase">{{ $order->delivery->type }}</li>
                         </ul>
                     </div>
                     <div class="pt-6">
@@ -87,11 +87,11 @@
                             <p class="text-xs font-semibold text-white uppercase">Customer Details</p>
                         </div>
                         <ul class="py-2 px-1 text-sm">
-                            <li>{{ ucwords($model->customer->name) }}</li>
-                            <li>{{ $model->customer->phone }}</li>
-                            <li>{{ $model->customer->email }}</li>
-                            <li>{{ ucwords($model->customer->company) }}</li>
-                            <li>{{ ucwords($model->customer->vat_number) }}</li>
+                            <li>{{ ucwords($order->customer->name) }}</li>
+                            <li>{{ $order->customer->phone }}</li>
+                            <li>{{ $order->customer->email }}</li>
+                            <li>{{ ucwords($order->customer->company) }}</li>
+                            <li>{{ ucwords($order->customer->vat_number) }}</li>
                         </ul>
                     </div>
                     <div class="rounded border">
@@ -99,11 +99,11 @@
                             <p class="text-xs font-semibold text-white uppercase">Order Details</p>
                         </div>
                         <ul class="py-2 px-1 text-sm">
-                            <li>{{ ucwords($model->address->line_one) }}</li>
-                            <li>{{ ucwords($model->address->line_two) }}</li>
-                            <li>{{ ucwords($model->address->suburb) }}</li>
-                            <li>{{ ucwords($model->address->city) }}</li>
-                            <li>{{ ucwords($model->address->postal_code) }}</li>
+                            <li>{{ ucwords($order->address->line_one) }}</li>
+                            <li>{{ ucwords($order->address->line_two) }}</li>
+                            <li>{{ ucwords($order->address->suburb) }}</li>
+                            <li>{{ ucwords($order->address->city) }}</li>
+                            <li>{{ ucwords($order->address->postal_code) }}</li>
                         </ul>
                     </div>
                 </div>
@@ -121,7 +121,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($model->items as $item)
+                        @foreach ($order->items as $item)
                             <tr class="border-b border-dashed">
                                 <td class="text-left">
                                     <p class="text-xs font-semibold uppercase">{{ $item->product->sku }}</p>
@@ -153,7 +153,7 @@
 
             <div class="p-4 mt-4 bg-white rounded-md">
 
-                @foreach ($model->notes as $note)
+                @foreach ($order->notes as $note)
                     <div class="pb-2">
                         <div>
                             @if ($note->customer_id)

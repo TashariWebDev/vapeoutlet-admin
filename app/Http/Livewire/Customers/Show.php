@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Customers;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Order;
@@ -15,7 +14,6 @@ use Illuminate\Contracts\View\View;
 use LaravelIdea\Helper\App\Models\_IH_Customer_C;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 use Str;
 
@@ -34,23 +32,7 @@ class Show extends Component
 
     public $searchTerm = '';
 
-    public $reference;
-
-    public $type;
-
-    public $amount;
-
-    public $date;
-
-    public function rules(): array
-    {
-        return [
-            'reference' => ['required'],
-            'type' => ['required'],
-            'amount' => ['required'],
-            'date' => ['sometimes'],
-        ];
-    }
+    protected $listeners = ['updateData' => '$refresh'];
 
     public function updatedSearchTerm()
     {
@@ -75,39 +57,7 @@ class Show extends Component
 
     public function getCustomerProperty(): Customer|_IH_Customer_C|array|null
     {
-        return Customer::find($this->customerId)
-            ->load('transactions', 'salesperson:id,name')
-            ->loadCount('transactions');
-    }
-
-    public function getTransactionsProperty()
-    {
-        return $this->customer->transactions;
-    }
-
-    public function getInvoicesProperty()
-    {
-        return $this->transactions->where('type', '=', 'invoice');
-    }
-
-    public function getDebitsProperty()
-    {
-        return $this->transactions->where('type', '=', 'debit');
-    }
-
-    public function getCreditsProperty()
-    {
-        return $this->transactions->where('type', '=', 'credit');
-    }
-
-    public function getRefundsProperty()
-    {
-        return $this->transactions->where('type', '=', 'refund');
-    }
-
-    public function getPaymentsProperty()
-    {
-        return $this->transactions->where('type', '=', 'payment');
+        return Customer::findOrFail($this->customerId);
     }
 
     public function createOrder()
@@ -121,108 +71,57 @@ class Show extends Component
         $this->redirect("/orders/create/$order->id");
     }
 
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
-    public function getDocument($transactionId)
+    public function getTransactionsProperty()
     {
-        $model = $transaction = Transaction::findOrFail($transactionId);
-
-        if (
-            \Illuminate\Support\Str::startsWith(
-                $transaction->reference,
-                'INV00'
-            )
-        ) {
-            $model = Order::with(
-                'items',
-                'items.product',
-                'items.product.features',
-                'customer',
-                'notes'
-            )->find(Str::after($transaction->reference, 'INV00'));
-        }
-
-        if (Str::startsWith($transaction->reference, 'CR00')) {
-            $model = Credit::with('items', 'items.product', 'customer')->find(
-                Str::after($transaction->reference, 'CR00')
-            );
-        }
-
-        $view = view("templates.pdf.$transaction->type", [
-            'model' => $model,
-        ])->render();
-
-        $url = storage_path("app/public/documents/$transaction->uuid.pdf");
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
-            ->save($url);
-
-        $this->redirect("/storage/documents/$transaction->uuid.pdf");
+        return $this->customer->transactions();
     }
 
     public function render(): Factory|View|Application
     {
         return view('livewire.customers.show', [
-            'transactions' => Transaction::query()
+            'lifetimeTransactions' => $this->customer->transactions()->get(),
+            'transactions' => $this->customer
+                ->transactions()
+                ->when($this->searchTerm, function ($query) {
+                    $query->where(function ($query) {
+                        $query
+                            ->where(
+                                'reference',
+                                'like',
+                                '%'.$this->searchTerm.'%'
+                            )
+                            ->orWhere(
+                                'amount',
+                                'like',
+                                '%'.$this->searchTerm.'%'
+                            );
+                    });
+                })
                 ->when($this->filter, function ($query) {
                     $query->where('type', '=', $this->filter);
                 })
-                ->when($this->searchTerm, function ($query) {
-                    $query
-                        ->where('customer_id', '=', $this->customerId)
-                        ->where(
-                            'reference',
-                            'like',
-                            '%'.$this->searchTerm.'%'
-                        )
-                        ->orWhere('created_by', 'like', $this->searchTerm.'%')
-                        ->orWhere(
-                            'amount',
-                            'like',
-                            to_cents($this->searchTerm).'%'
-                        );
-                })
-                ->latest('id')
-                ->where('customer_id', '=', $this->customerId)
                 ->paginate($this->recordCount),
         ]);
     }
 
-    public function save()
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function getDocument(Transaction $transaction)
     {
-        $additionalFields = [
-            'customer_id' => $this->customerId,
-            'uuid' => Str::uuid(),
-            'created_by' => auth()->user()->name,
-        ];
+        if ($transaction->type == 'invoice') {
+            $order = Order::find(Str::after($transaction->reference, 'INV00'));
 
-        $validatedData = $this->validate();
-        $fields = array_merge($additionalFields, $validatedData);
-
-        if ($this->type == 'refund' || $this->type == 'payment') {
-            $fields['amount'] = 0 - $this->amount;
+            return $order->print();
         }
 
-        Transaction::create($fields);
+        if ($transaction->type == 'credit') {
+            $credit = Credit::find(Str::after($transaction->reference, 'CR00'));
 
-        UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
+            return $credit->print();
+        }
 
-        $this->reset('amount', 'reference', 'type', 'date');
-
-        $this->notify('transaction created');
-        $this->showAddTransactionForm = false;
-
-        $this->redirect("/customers/show/$this->customerId");
+        return $transaction->print();
     }
 
     /**
@@ -230,41 +129,10 @@ class Show extends Component
      */
     public function printStatement()
     {
-        $this->getStatement();
+        $this->customer->getStatement($this->recordCount);
+        $statement = $this->customer->statement;
 
-        $email = $this->customer->email;
-
-        $this->redirect("/storage/documents/$email.pdf");
-    }
-
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
-    public function getStatement()
-    {
-        $view = view('templates.pdf.statement', [
-            'customer' => $this->customer,
-            'transactions' => Transaction::query()
-                ->latest('id')
-                ->where('customer_id', '=', $this->customerId)
-                ->take($this->recordCount)
-                ->get(),
-        ])->render();
-
-        $email = $this->customer->email;
-        $url = storage_path("app/public/documents/$email.pdf");
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 90)
-            ->save($url);
+        return redirect("/storage/documents/$statement.pdf");
     }
 
     /**
@@ -272,7 +140,7 @@ class Show extends Component
      */
     public function sendStatement()
     {
-        $this->getStatement();
+        $this->customer->getStatement($this->recordCount);
 
         $this->customer->notify(
             (new StatementNotification($this->customer))->delay(120)

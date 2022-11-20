@@ -23,13 +23,13 @@ class StatementNotification extends Notification implements ShouldQueue
 
     public function toMail($notifiable): MailMessage
     {
-        $email = $this->customer->email;
+        $statement = $this->customer->statement;
 
         return (new MailMessage())
             ->greeting('Hi '.ucwords($this->customer->name))
             ->line('Please find attached statement')
             ->line('Thank you for your loyal support. ')
-            ->attach(storage_path("app/public/documents/$email.pdf"));
+            ->attach(storage_path("app/public/documents/$statement.pdf"));
     }
 
     public function toArray($notifiable): array

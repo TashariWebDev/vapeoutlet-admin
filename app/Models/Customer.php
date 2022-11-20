@@ -13,10 +13,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Customer extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -34,40 +39,26 @@ class Customer extends Authenticatable
         'salesperson_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = ['password', 'remember_token'];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    protected static function boot()
+    public function name(): Attribute
     {
-        parent::boot();
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
+    }
 
-        static::creating(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->email = Str::lower($user->email);
-        });
-
-        static::saving(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->email = Str::lower($user->email);
-        });
-
-        static::updating(function ($user) {
-            $user->name = Str::title($user->name);
-            $user->email = Str::lower($user->email);
-        });
+    public function email(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => Str::title($value),
+            set: fn ($value) => Str::title($value)
+        );
     }
 
     public function isWholesale(): string
@@ -178,7 +169,14 @@ class Customer extends Authenticatable
 
     public function transactions(): HasMany
     {
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(Transaction::class)->latest();
+    }
+
+    public function lastFiveTransactions(): hasMany
+    {
+        return $this->hasMany(Transaction::class)
+            ->latest()
+            ->take(5);
     }
 
     public function latestTransaction(): HasOne
@@ -194,7 +192,6 @@ class Customer extends Authenticatable
                 'type' => 'debit',
             ],
             [
-                'uuid' => Str::uuid(),
                 'reference' => $reference,
                 'type' => 'debit',
                 'amount' => $amount,
@@ -211,7 +208,6 @@ class Customer extends Authenticatable
                 'type' => 'credit',
             ],
             [
-                'uuid' => Str::uuid(),
                 'reference' => $reference,
                 'type' => 'credit',
                 'amount' => 0 - $credit->getTotal(),
@@ -228,13 +224,45 @@ class Customer extends Authenticatable
                 'type' => 'invoice',
             ],
             [
-                'uuid' => Str::uuid(),
                 'reference' => $order->number,
                 'type' => 'invoice',
                 'amount' => $order->getTotal(),
                 'created_by' => auth()->user()->name,
             ]
         );
+    }
+
+    public function statement(): Attribute
+    {
+        return new Attribute(get: fn () => 'STMT00'.$this->attributes['id']);
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function getStatement($numberOfRecords)
+    {
+        $view = view('templates.pdf.statement', [
+            'customer' => $this,
+            'transactions' => $this->transactions()
+                ->latest('id')
+                ->take($numberOfRecords)
+                ->get(),
+        ])->render();
+
+        $url = storage_path("app/public/documents/$this->statement.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
     }
 
     public function scopeDebtors($query)

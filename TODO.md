@@ -157,8 +157,8 @@
 ### FUTURE (LOW PRIORITY OR BEYOND SCOPE)
 
         - picklist scanning
-            
-        - warranty claims
+
+~~warranty claims~~
 
         - discount report
 
@@ -210,8 +210,9 @@
 
 # Faeeza
 
-        - Discounts on invoices
-        - create credit note from existing order
+~~Discounts on invoices~~
+- create credit note from existing order
+- add date range for all reports
 
 ~~add date to transactions~~
 

@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Order extends Model
 {
@@ -16,11 +18,13 @@ class Order extends Model
 
     protected $guarded = [];
 
-    //    protected $appends = ["total", "sub_total"];
-
-    protected $dates = [
-        'placed_at', // order created
+    protected $with = [
+        'items:id,product_id,order_id,price,qty,discount,product_price',
     ];
+
+    protected $withCount = ['items'];
+
+    protected $casts = ['created_at', 'updated_at'];
 
     public function getStatus(): string
     {
@@ -118,7 +122,7 @@ class Order extends Model
         return new Attribute(get: fn () => 'INV00'.$this->attributes['id']);
     }
 
-    public function addItem($productId, $customer)
+    public function addItem($productId)
     {
         $product = Product::find($productId);
 
@@ -129,14 +133,15 @@ class Order extends Model
             [
                 'product_id' => $product->id,
                 'type' => 'product',
-                'price' => $product->getPrice($customer),
-                'product_price' => $product->getPrice($customer),
+                'price' => $product->getPrice($this->customer),
+                'product_price' => $product->getPrice($this->customer),
                 'cost' => $product->cost,
             ]
         );
 
         if ($item->qty < $item->product->qty()) {
             $item->increment('qty');
+            $item->save();
         }
     }
 
@@ -251,5 +256,31 @@ class Order extends Model
                         });
                 });
             });
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function print()
+    {
+        $view = view('templates.pdf.invoice', [
+            'order' => $this,
+        ])->render();
+
+        $url = storage_path("app/public/documents/$this->number.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect("/storage/documents/$this->number.pdf");
     }
 }

@@ -3,12 +3,8 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Jobs\UpdateCustomerRunningBalanceJob;
-use App\Models\Credit;
-use App\Models\Delivery;
 use App\Models\Note;
 use App\Models\Order;
-use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -26,56 +22,28 @@ class Show extends Component
 
     public $selectedStatus = '';
 
-    public $showWaybillModal = false;
-
-    public $waybill;
-
-    public $searchQuery = '';
-
-    public $selectedProducts = [];
-
-    public $selectedProductsToDelete = [];
-
-    public $chooseAddressForm = false;
-
-    public $chooseDeliveryForm = false;
-
-    public $cancelConfirmation = false;
-
-    public $showProductSelectorForm = false;
-
-    public $showConfirmModal = false;
-
     public $showEditModal = false;
-
-    public $addNoteForm = false;
-
-    public $note = '';
-
-    public $is_private = true;
 
     public $status;
 
-    public function rules(): array
-    {
-        return [
-            'note' => ['required'],
-            'is_private' => ['required'],
-        ];
-    }
+    protected $listeners = ['update_order' => '$refresh'];
 
     public function mount()
     {
         $this->orderId = request('id');
 
         $this->status = $this->order->status;
-        $this->waybill = $this->order->waybill;
     }
 
     public function getOrderProperty()
     {
         return Order::where('orders.id', '=', $this->orderId)
-            ->with(['items.product.features', 'customer.addresses', 'notes'])
+            ->with([
+                'items:order_id,product_id,price,discount,qty',
+                'notes',
+                'items.product.features:id,name,product_id',
+            ])
+            ->withCount('stocks')
             ->first();
     }
 
@@ -100,79 +68,11 @@ class Show extends Component
 
     public function edit()
     {
-        $this->redirect("/orders/create/{$this->order->id}");
-    }
-
-    public function saveNote()
-    {
-        $this->validate();
-
-        $this->order->notes()->create([
-            'body' => $this->note,
-            'is_private' => $this->is_private,
-            'user_id' => auth()->id(),
-        ]);
-
-        $this->reset(['note']);
-
-        $this->addNoteForm = false;
-
-        $this->notify('note added');
-    }
-
-    public function credit()
-    {
-        $this->order->updateStatus('cancelled');
-
-        $credit = Credit::create([
-            'customer_id' => $this->order->customer->id,
-            'salesperson_id' => $this->order->salesperson_id,
-            'created_by' => auth()->user()->name,
-            'delivery_charge' => $this->order->delivery_charge,
-            'processed_at' => now(),
-        ]);
-
-        foreach ($this->order->items as $item) {
-            $credit->items()->create([
-                'product_id' => $item->product_id,
-                'qty' => $item->qty,
-                'price' => $item->price,
-                'cost' => $item->cost,
-            ]);
+        if ($this->order->stocks_count > 0) {
+            $this->order->stocks()->delete();
         }
 
-        $credit->increaseStock();
-
-        $this->order->customer->createCredit($credit, $credit->number);
-
-        UpdateCustomerRunningBalanceJob::dispatch(
-            $this->order->customer_id
-        )->delay(3);
-
-        $this->notify('order deleted');
-
-        return redirect()->route('orders');
-    }
-
-    public function updateDelivery($deliveryId)
-    {
-        $delivery = Delivery::find($deliveryId);
-        $this->order->update([
-            'delivery_type_id' => $delivery->id,
-            'delivery_charge' => $delivery->price,
-        ]);
-
-        $this->order->customer->createInvoice($this->order);
-
-        $this->notify('delivery option updated');
-        $this->chooseDeliveryForm = false;
-    }
-
-    public function updateAddress($addressId)
-    {
-        $this->order->update(['address_id' => $addressId]);
-        $this->notify('address updated');
-        $this->chooseAddressForm = false;
+        $this->redirect("/orders/create/{$this->order->id}");
     }
 
     public function removeNote(Note $note)
@@ -187,10 +87,8 @@ class Show extends Component
      */
     public function getPickingSlip()
     {
-        $this->order->load('items.product.features');
-
         $view = view('templates.pdf.pick-list', [
-            'model' => $this->order,
+            'order' => $this->order,
         ])->render();
 
         $url = storage_path("app/public/pick-lists/{$this->order->number}.pdf");
@@ -204,25 +102,10 @@ class Show extends Component
             ->emulateMedia('print')
             ->format('a4')
             ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
+            ->setScreenshotType('pdf', 50)
             ->save($url);
 
         $this->redirect("/storage/pick-lists/{$this->order->number}.pdf");
-    }
-
-    public function render(): Factory|View|Application
-    {
-        return view('livewire.orders.show', [
-            'deliveryOptions' => Delivery::all(),
-            'products' => Product::query()
-                ->with('features')
-                ->where('is_active', '=', true)
-                ->when($this->searchQuery, function ($query) {
-                    $query->search($this->searchQuery);
-                })
-                ->orderBy('brand')
-                ->simplePaginate(6),
-        ]);
     }
 
     /**
@@ -230,10 +113,8 @@ class Show extends Component
      */
     public function getDeliveryNote()
     {
-        $this->order->load('items.product.features');
-
         $view = view('templates.pdf.delivery-note', [
-            'model' => $this->order,
+            'order' => $this->order,
         ])->render();
 
         $url = storage_path(
@@ -255,23 +136,8 @@ class Show extends Component
         $this->redirect("/storage/delivery-note/{$this->order->number}.pdf");
     }
 
-    public function toggleNoteForm()
+    public function render(): Factory|View|Application
     {
-        $this->addNoteForm = ! $this->addNoteForm;
-    }
-
-    public function addWaybill()
-    {
-        if ($this->waybill) {
-            $this->order->update(['waybill' => $this->waybill]);
-            $this->notify('waybill added');
-        }
-
-        $this->toggleWaybillForm();
-    }
-
-    public function toggleWaybillForm()
-    {
-        $this->showWaybillModal = ! $this->showWaybillModal;
+        return view('livewire.orders.show');
     }
 }
