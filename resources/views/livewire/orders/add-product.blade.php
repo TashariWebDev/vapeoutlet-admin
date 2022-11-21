@@ -32,10 +32,6 @@
                 {{ $products->links() }}
             </div>
 
-            <div class="text-white">
-                @json($selectedProducts)
-            </div>
-
             <form wire:submit.prevent="addProducts">
                 <div class="py-4">
                     <button class="w-full button-success">
@@ -45,32 +41,34 @@
                 </div>
                 <fieldset class="space-y-2">
                     @forelse($products as $product)
-                        <label
-                            class="flex relative items-start py-2 px-2 rounded-md bg-slate-100 dark:bg-slate-800"
-                            wire:key="'item-'{{ $product->id }}"
-                        >
-                            <div>
-                                <input
-                                    class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300"
-                                    id="{{ $product->id }}"
-                                    type="checkbox"
-                                    value="{{ $product->id }}"
-                                    aria-describedby="product"
-                                    wire:model="selectedProducts"
-                                >
-                            </div>
-                            <div class="flex justify-between items-center ml-3 w-full">
-                                <x-product-listing-simple :product="$product" />
-
+                        @if ($product->inStock())
+                            <label
+                                class="flex relative items-start py-2 px-2 rounded-md bg-slate-100 dark:bg-slate-800"
+                                wire:key="'item-'{{ $product->id }}"
+                            >
                                 <div>
-                                    <img
-                                        class="w-10 h-10"
-                                        src="{{ asset($product->image) }}"
-                                        alt=""
+                                    <input
+                                        class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300"
+                                        id="{{ $product->id }}"
+                                        type="checkbox"
+                                        value="{{ $product->id }}"
+                                        aria-describedby="product"
+                                        wire:model="selectedProducts"
                                     >
                                 </div>
-                            </div>
-                        </label>
+                                <div class="flex justify-between items-center ml-3 w-full">
+                                    <x-product-listing-simple :product="$product" />
+
+                                    <div>
+                                        <img
+                                            class="w-10 h-10"
+                                            src="{{ asset($product->image) }}"
+                                            alt=""
+                                        >
+                                    </div>
+                                </div>
+                            </label>
+                        @endif
                     @empty
                         <div
                             class="flex inset-0 justify-center items-center py-6 px-2 w-full text-center rounded-md bg-slate-100">

@@ -61,6 +61,7 @@ class AddProduct extends Component
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)
                 )
+                ->whereNull('deleted_at')
                 ->orderBy('brand')
                 ->simplePaginate(10),
         ]);
