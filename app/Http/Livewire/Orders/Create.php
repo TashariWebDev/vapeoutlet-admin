@@ -86,6 +86,12 @@ class Create extends Component
 
     public function updatePrice(OrderItem $item, $value)
     {
+        if ($value == '' || $value <= 0) {
+            $this->notify('Please enter a valid price');
+
+            return;
+        }
+
         if ($value < $item->product->cost) {
             $this->notify('Price below cost');
         }
@@ -108,6 +114,11 @@ class Create extends Component
 
     public function updateQty(OrderItem $item, $qty)
     {
+        if ($qty == '' || $qty == 0) {
+            $this->notify('Please enter a valid qty');
+
+            return;
+        }
         $qtyInStock =
             $item->product->stocks->sum('qty') +
             (0 - $item->stock()->first()?->qty);

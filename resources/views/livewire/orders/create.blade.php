@@ -258,14 +258,12 @@
                     </x-table.row>
                     <x-table.row>
                         @hasPermissionTo('edit pricing')
-                            <form
-                                x-on:keydown.tab="$wire.call('updatePrice',{{ $item->id }},$event.target.value)"
-                                x-on:keydown.enter="$wire.call('updatePrice',{{ $item->id }},$event.target.value)"
-                            >
+                            <form>
                                 <label>
                                     <x-form.input.text
                                         type="number"
                                         value="{{ $item->price }}"
+                                        wire:keyup.debounce.500ms="updatePrice({{ $item->id }},$event.target.value)"
                                         pattern="[0-9]*"
                                         inputmode="numeric"
                                         step="0.01"
@@ -305,14 +303,12 @@
                         </label>
                     </x-table.row>
                     <x-table.row>
-                        <form
-                            x-on:keydown.tab="@this.call('updateQty',{{ $item->id }},$event.target.value)"
-                            x-on:keydown.enter="@this.call('updateQty',{{ $item->id }},$event.target.value)"
-                        >
+                        <form>
                             <label>
                                 <x-form.input.text
                                     type="number"
                                     value="{{ $item->qty }}"
+                                    wire:keyup.debounce.500ms="updateQty({{ $item->id }},$event.target.value)"
                                     inputmode="numeric"
                                     pattern="[0-9]"
                                     min="1"
