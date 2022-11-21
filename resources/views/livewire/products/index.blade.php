@@ -43,12 +43,21 @@
                         >Add product
                         </button>
                     @endif
-                    <button
-                        class="w-full button-success"
-                        wire:click="toggleFilter"
-                    >
-                        show disabled products
-                    </button>
+                    @if ($activeFilter)
+                        <button
+                            class="w-full button-success"
+                            wire:click="toggleFilter"
+                        >
+                            show disabled products
+                        </button>
+                    @else
+                        <button
+                            class="w-full button-success"
+                            wire:click="toggleFilter"
+                        >
+                            show enabled products
+                        </button>
+                    @endif
                 </div>
                 <div class="grid grid-cols-1 gap-2">
                     <a
