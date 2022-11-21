@@ -53,6 +53,11 @@ class Index extends Component
         'searchTerm',
     ];
 
+    public function updatedSearchTerm()
+    {
+        $this->resetPage();
+    }
+
     public function getTotalActiveOrdersProperty(): int
     {
         return Order::query()
