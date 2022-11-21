@@ -51,6 +51,7 @@ class Quick extends Component
             'processed_by' => auth()->user()->name,
         ]);
 
+        $order->touch('created_at');
         $this->redirect("/orders/create/$order->id");
     }
 
