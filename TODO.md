@@ -66,7 +66,7 @@
                 - existing
                     better performance
                     how do we update current data
-                    should the colums be nullable with a sensible default?
+                    should the columns be nullable with a sensible default?
                 
         - link stocks to location
 
@@ -134,19 +134,8 @@
                     - what happens if malicious/corrupt files are uploaded?
                     - performance?
 
-### CHANGES
-
-~~Reduce order statuses~~
-
-~~combine warehouse & dispatch~~
-
-~~when will add waybill?~~
-
-~~allocation of payments - how to simplify~~
-
-### PAIN POINTS/ BUGS
-
-~~how do we prevent users from multi clicking - cause: duplicates~~
+               - create credit note from existing order
+               - add date range for all reports
 
 ### FEATURES
 
@@ -158,66 +147,8 @@
 
         - picklist scanning
 
-~~warranty claims~~
-
         - discount report
 
         - supplier return reports
 
         - build api
-
-### UPDATES
-
-- - -
-
-# Warehouse
-
-~~Customer statement~~
-
-~~Credit complete orders or part of it~~
-
-~~Invoice number not to change or hide credited invoices~~
-
-~~Edited invoices to be highlighted~~
-
-~~Credited invoices not to move to the top of list~~
-
-~~Where to credit delivery~~
-
-~~Credit in warehouse~~
-
-~~Dispatch details on invoice~~
-
-~~Invoice and packing slip from warehouse~~
-
-~~Need to see address~~
-
-~~Sales rep to show on order screen and customer screen~~
-
-~~Indicate Wholesale or retail on screen~~
-
-~~search by shop name~~
-
-- - -
-
-# Shanu
-
-~~Paygates~~
-
-        - Collect from warehouse
-
-~~Edited details need to be shown on invoices~~
-
-# Faeeza
-
-~~Discounts on invoices~~
-- create credit note from existing order
-- add date range for all reports
-
-~~add date to transactions~~
-
-~~Non-vatable creditors~~
-
-~~Sales by date range~~
-
-~~stock on hand at specific time~~
