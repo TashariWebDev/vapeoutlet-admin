@@ -329,6 +329,9 @@
                                 >remove
                                 </button>
                             </div>
+                            <div>
+                                {{ $item->product->stocks->sum('qty') }} in stock
+                            </div>
                         </div>
                     </x-table.row>
                     <x-table.row>
