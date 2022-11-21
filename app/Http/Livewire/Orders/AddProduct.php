@@ -25,30 +25,34 @@ class AddProduct extends Component
 
     public Order $order;
 
+    public function updatedSearchQuery()
+    {
+        $this->resetPage();
+    }
+
     /**
      * @throws QtyNotAvailableException
      */
     public function addProducts()
     {
-        $products = Product::find($this->selectedProducts);
-
-        foreach ($products as $product) {
-            if ($product->outOfStock()) {
-                $this->notify($product->fullName().' currently out of stock');
+        $query = Product::query()->whereIn('id', $this->selectedProducts);
+        $query->chunkById(10, function ($products) {
+            foreach ($products as $product) {
+                if ($product->inStock()) {
+                    $this->order->addItem($product);
+                } else {
+                    $this->notify(
+                        $product->fullName().' currently out of stock'
+                    );
+                }
             }
+        });
 
-            if ($product->inStock()) {
-                $this->order->addItem($product->id);
-            }
-        }
-
-        $this->modal = false;
-
-        $this->reset(['searchQuery']);
-
+        $this->resetPage();
+        $this->searchQuery = '';
         $this->selectedProducts = [];
-
         $this->emit('refreshData');
+        $this->modal = false;
     }
 
     public function render(): Factory|View|Application
@@ -61,7 +65,6 @@ class AddProduct extends Component
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)
                 )
-                ->whereNull('deleted_at')
                 ->orderBy('brand')
                 ->simplePaginate(10),
         ]);

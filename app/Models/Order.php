@@ -122,10 +122,8 @@ class Order extends Model
         return new Attribute(get: fn () => 'INV00'.$this->attributes['id']);
     }
 
-    public function addItem($productId)
+    public function addItem(Product $product)
     {
-        $product = Product::find($productId);
-
         $item = $this->items()->firstOrCreate(
             [
                 'product_id' => $product->id,

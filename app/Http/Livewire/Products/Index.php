@@ -82,6 +82,7 @@ class Index extends Component
                 ->with([
                     'stocks:id,product_id,qty,type',
                     'features:id,product_id,name',
+                    'lastPurchasePrice',
                 ])
                 ->when(
                     $this->searchQuery,

@@ -41,34 +41,32 @@
                 </div>
                 <fieldset class="space-y-2">
                     @forelse($products as $product)
-                        @if ($product->inStock())
-                            <label
-                                class="flex relative items-start py-2 px-2 rounded-md bg-slate-100 dark:bg-slate-800"
-                                wire:key="'item-'{{ $product->id }}"
-                            >
+                        {{--                        @if ($product->inStock()) --}}
+                        <label class="flex relative items-start py-2 px-2 rounded-md bg-slate-100 dark:bg-slate-800">
+                            <div>
+                                <input
+                                    class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300"
+                                    id="{{ $product->id }}"
+                                    type="checkbox"
+                                    value="{{ $product->id }}"
+                                    aria-describedby="product"
+                                    wire:model.defer="selectedProducts"
+                                    wire:key="'item-'{{ $product->id }}"
+                                >
+                            </div>
+                            <div class="flex justify-between items-center ml-3 w-full">
+                                <x-product-listing-simple :product="$product" />
+
                                 <div>
-                                    <input
-                                        class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300"
-                                        id="{{ $product->id }}"
-                                        type="checkbox"
-                                        value="{{ $product->id }}"
-                                        aria-describedby="product"
-                                        wire:model="selectedProducts"
+                                    <img
+                                        class="w-10 h-10"
+                                        src="{{ asset($product->image) }}"
+                                        alt=""
                                     >
                                 </div>
-                                <div class="flex justify-between items-center ml-3 w-full">
-                                    <x-product-listing-simple :product="$product" />
-
-                                    <div>
-                                        <img
-                                            class="w-10 h-10"
-                                            src="{{ asset($product->image) }}"
-                                            alt=""
-                                        >
-                                    </div>
-                                </div>
-                            </label>
-                        @endif
+                            </div>
+                        </label>
+                        {{--                        @endif --}}
                     @empty
                         <div
                             class="flex inset-0 justify-center items-center py-6 px-2 w-full text-center rounded-md bg-slate-100">

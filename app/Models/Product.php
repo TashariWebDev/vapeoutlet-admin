@@ -43,7 +43,6 @@ class Product extends Model
             });
     }
 
-    //    setters
     public function qty()
     {
         return $this->stocks->sum('qty');
@@ -168,18 +167,13 @@ class Product extends Model
 
     public function scopeInStock($query)
     {
-        $query->whereHas('stocks', function ($query) {
+        $query->withWhereHas('stocks', function ($query) {
             $query
                 ->select(DB::raw('SUM(qty) AS available'))
                 ->having('available', '>', 0);
         });
 
         return $query;
-    }
-
-    public function last_purchase_price(): HasOne
-    {
-        return $this->hasOne(Stock::class)->latestOfMany();
     }
 
     public function brand(): BelongsTo
@@ -210,6 +204,11 @@ class Product extends Model
     public function purchases(): hasMany
     {
         return $this->hasMany(PurchaseItem::class);
+    }
+
+    public function lastPurchasePrice(): HasOne
+    {
+        return $this->hasOne(PurchaseItem::class)->latestOfMany();
     }
 
     public function stocks(): HasMany

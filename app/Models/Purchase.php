@@ -34,6 +34,11 @@ class Purchase extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();

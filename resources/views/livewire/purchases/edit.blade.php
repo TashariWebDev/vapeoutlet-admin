@@ -71,6 +71,17 @@
                 </div>
             </div>
             <div class="grid grid-cols-2 gap-2 lg:grid-cols-2">
+                @if ($this->purchase->processed)
+                    <div>
+                        <button
+                            class="w-full button-warning"
+                            disabled
+                        >
+                            <p>Processed by {{ $this->purchase->creator->name }} </p>
+                            <p>{{ $this->purchase->processed_date }}</p>
+                        </button>
+                    </div>
+                @endif
                 <div>
                     @if (!$this->purchase->processed)
                         <livewire:purchases.add-product :purchase="$this->purchase" />
@@ -88,18 +99,12 @@
                         </button>
                     @endif
                 </div>
-
                 <div>
-                    @if ($this->purchase->processed)
-                        <button
-                            class="w-full button-warning"
-                            disabled
-                        >
-                            <p>Processed by {{ $this->purchase->creator->name }} </p>
-                            <p>{{ $this->purchase->processed_date }}</p>
-                        </button>
+                    @if (!$this->purchase->processed)
+                        <livewire:products.create />
                     @endif
                 </div>
+
                 <div>
                     @if (!$this->purchase->processed)
                         <button

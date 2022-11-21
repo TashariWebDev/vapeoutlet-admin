@@ -65,7 +65,7 @@ class Create extends Component
 
     public function updatedSlide()
     {
-        if ($this->slide = true) {
+        if ($this->slide === true) {
             $this->suppliers = $this->getSuppliers();
         } else {
             $this->emitSelf('refreshData');

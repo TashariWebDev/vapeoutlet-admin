@@ -67,7 +67,7 @@
                         suppliers
                     </a>
                     <div class="w-full">
-                        <livewire:purchases.create />
+                        <livewire:purchases.create wire:key="supplier-create" />
                     </div>
                 </div>
             </div>
@@ -105,6 +105,9 @@
                             <p class="font-semibold text-slate-500 dark:text-slate-400">
                                 {{ $product->category }}
                             </p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                ID: {{ $product->id }}
+                            </p>
                             @if (str_contains($product->image, '/storage/images/default-image.png'))
                                 <p class="text-xs font-semibold text-pink-800 dark:text-pink-500">
                                     ! featured image not set
@@ -127,6 +130,20 @@
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
                                     {{ $product->stocks->where('type', 'credit')->sum('qty') }}</p>
                             </div>
+                            @if (auth()->user()->hasPermissionTo('view cost'))
+                                <div class="flex justify-between">
+                                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">AVE COST</p>
+                                    <p @class([
+                                        'text-xs font-semibold text-teal-500 dark:text-teal-400',
+                                        'text-xs font-semibold text-green-800 dark:text-green-500' =>
+                                            $product->cost > $product->lastPurchasePrice?->price,
+                                        'text-xs font-semibold text-red-800 dark:text-red-500' =>
+                                            $product->cost < $product->lastPurchasePrice?->price,
+                                    ])>
+                                        {{ number_format($product->cost, 2) }}
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
@@ -144,6 +161,14 @@
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
                                     {{ $product->stocks->where('type', 'supplier_credit')->sum('qty') }}</p>
                             </div>
+                            @if (auth()->user()->hasPermissionTo('view cost'))
+                                <div class="flex justify-between">
+                                    <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">LAST COST</p>
+                                    <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
+                                        {{ number_format($product->lastPurchasePrice?->price, 2) }}
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                         <div class="w-full h-full">
                             <div>

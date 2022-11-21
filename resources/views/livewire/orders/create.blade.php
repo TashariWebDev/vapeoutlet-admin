@@ -302,6 +302,9 @@
                             />
                         </label>
                     </x-table.row>
+                    @php
+                        $qty = $item->product->qty();
+                    @endphp
                     <x-table.row>
                         <form>
                             <label>
@@ -312,7 +315,7 @@
                                     inputmode="numeric"
                                     pattern="[0-9]"
                                     min="1"
-                                    max="{{ $item->product->stocks->sum('qty') }}"
+                                    max="{{ $qty }}"
                                 />
                             </label>
                         </form>
@@ -326,7 +329,7 @@
                                 </button>
                             </div>
                             <div>
-                                {{ $item->product->stocks->sum('qty') }} in stock
+                                {{ $qty }} in stock
                             </div>
                         </div>
                     </x-table.row>

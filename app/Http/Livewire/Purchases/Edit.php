@@ -138,14 +138,16 @@ class Edit extends Component
 
     public function cancel()
     {
-        foreach ($this->purchase->items as $item) {
-            $item->delete();
+        if ($this->purchase->exists('items')) {
+            foreach ($this->purchase->items as $item) {
+                $item->delete();
+            }
         }
 
         $this->purchase->delete();
         $this->notify('Purchase deleted');
 
-        $this->redirectRoute('inventory');
+        $this->redirectRoute('products');
     }
 
     public function render(): Factory|View|Application

@@ -1,7 +1,7 @@
 <div>
     <button
         class="w-full button-success"
-        wire:click.prevent="$toggle('slide')"
+        wire:click="$toggle('slide')"
     >
         New purchase
     </button>

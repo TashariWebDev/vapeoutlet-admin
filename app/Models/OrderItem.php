@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\OrderItemFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use LaravelIdea\Helper\App\Models\_IH_Stock_QB;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\OrderItem
@@ -19,15 +21,15 @@ use LaravelIdea\Helper\App\Models\_IH_Stock_QB;
  * @property int $qty
  * @property int $price
  * @property int $cost
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $product_price
  * @property int $discount
  * @property-read int|float $line_total
- * @property-read \App\Models\Order $order
- * @property-read \App\Models\Product|null $product
+ * @property-read Order $order
+ * @property-read Product|null $product
  *
- * @method static \Database\Factories\OrderItemFactory factory(...$parameters)
+ * @method static OrderItemFactory factory(...$parameters)
  * @method static Builder|OrderItem newModelQuery()
  * @method static Builder|OrderItem newQuery()
  * @method static Builder|OrderItem query()
@@ -42,7 +44,7 @@ use LaravelIdea\Helper\App\Models\_IH_Stock_QB;
  * @method static Builder|OrderItem whereQty($value)
  * @method static Builder|OrderItem whereType($value)
  * @method static Builder|OrderItem whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class OrderItem extends Model
 {

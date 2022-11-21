@@ -49,6 +49,18 @@ class Create extends Component
         $this->orderId = request('id');
     }
 
+    public function getOrderProperty(): Order|array|_IH_Order_C
+    {
+        return Order::with([
+            'items.product:id,name,brand,sku,retail_price,wholesale_price,cost',
+            'items.product.stocks',
+            'items.product.features:id,product_id,name',
+        ])
+            ->where('id', $this->orderId)
+            ->withCount('items')
+            ->first();
+    }
+
     public function removeProducts()
     {
         foreach ($this->selectedProductsToDelete as $selectedItem) {
@@ -231,18 +243,6 @@ class Create extends Component
             60,
             new OrderReceived($this->order->customer)
         );
-    }
-
-    public function getOrderProperty(): Order|array|_IH_Order_C
-    {
-        return Order::with([
-            'address',
-            'items.product.stocks',
-            'items.product.features',
-        ])
-            ->where('id', $this->orderId)
-            ->withCount('items')
-            ->first();
     }
 
     public function updateDelivery()
