@@ -101,10 +101,18 @@ class Index extends Component
     public function filteredOrders()
     {
         $orders = Order::query()
-            ->select(['id', 'created_at', 'status', 'customer_id'])
+            ->select([
+                'id',
+                'created_at',
+                'status',
+                'customer_id',
+                'delivery_charge',
+                'delivery_type_id',
+            ])
             ->with([
                 'customer:id,name,company,salesperson_id,is_wholesale',
                 'customer.salesperson:id,name',
+                'delivery',
             ])
             ->without(['items'])
             ->addSelect([

@@ -246,6 +246,8 @@
                             @endphp
                             <p class="text-slate-500 dark:text-slate-400">
                                 R {{ number_format($order->delivery_charge, 2) }}</p>
+                            <p class="text-slate-500 dark:text-slate-400">
+                                {{ $order->delivery->description }}</p>
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p class="text-slate-500 dark:text-slate-400">R {{ number_format($orderTotal, 2) }}</p>
