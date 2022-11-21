@@ -31,6 +31,11 @@
             <div class="py-2">
                 {{ $products->links() }}
             </div>
+
+            <div class="text-white">
+                @json($selectedProducts)
+            </div>
+
             <form wire:submit.prevent="addProducts">
                 <div class="py-4">
                     <button class="w-full button-success">
@@ -51,7 +56,7 @@
                                     type="checkbox"
                                     value="{{ $product->id }}"
                                     aria-describedby="product"
-                                    wire:model.defer="selectedProducts"
+                                    wire:model="selectedProducts"
                                 >
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">

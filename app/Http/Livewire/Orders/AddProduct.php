@@ -30,8 +30,9 @@ class AddProduct extends Component
      */
     public function addProducts()
     {
-        foreach ($this->selectedProducts as $productId) {
-            $product = Product::findOrFail($productId);
+        $products = Product::find($this->selectedProducts);
+
+        foreach ($products as $product) {
             if ($product->outOfStock()) {
                 $this->notify($product->fullName().' currently out of stock');
             }
@@ -54,7 +55,8 @@ class AddProduct extends Component
     {
         return view('livewire.orders.add-product', [
             'products' => Product::query()
-                ->with('features')
+                ->select('id', 'name', 'sku', 'brand')
+                ->with('features:id,product_id,name')
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)

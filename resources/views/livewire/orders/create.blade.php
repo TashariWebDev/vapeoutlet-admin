@@ -97,12 +97,19 @@
             </button>
             <button
                 class="w-32 button-danger"
+                wire:loading.class="hidden"
+                wire:target="process"
                 x-on:click="show = !show"
             >
                 No
             </button>
         </div>
-        <p class="text-xs text-slate-600">This action is non reversible</p>
+        <p
+            class="text-xs text-pink-600"
+            wire:loading
+            wire:target="process"
+        >Processing...Do not close this page.</p>
+        <p class="text-xs text-pink-600">This action is non reversible</p>
     </x-modal>
 
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
@@ -145,7 +152,7 @@
                     <button
                         class="w-full text-xs button-success"
                         @if ($this->order->customer->addresses->count() === 0) disabled @endif
-                        x-on:click="@this.set('chooseAddressForm',true)"
+                        x-on:click="$wire.set('chooseAddressForm',true)"
                     >
                         billing address
                     </button>
@@ -154,7 +161,7 @@
                     <button
                         class="w-full text-xs button-success"
                         @if ($this->order->address_id === null) disabled @endif
-                        x-on:click="@this.set('chooseDeliveryForm',true)"
+                        x-on:click="$wire.set('chooseDeliveryForm',true)"
                     >
                         delivery option
                     </button>
@@ -177,7 +184,7 @@
                                         class="w-full text-xs button-warning"
                                         wire:target="process"
                                         wire:loading.attr="disabled"
-                                        x-on:click="@this.set('showConfirmModal',true)"
+                                        x-on:click="$wire.set('showConfirmModal',true)"
                                     >
                                         place order
                                     </button>
@@ -214,7 +221,7 @@
                     <div>
                         <button
                             class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700"
-                            x-on:click="@this.call('removeProducts')"
+                            x-on:click="$wire.call('removeProducts')"
                         >remove selected items
                         </button>
                     </div>
@@ -252,8 +259,8 @@
                     <x-table.row>
                         @hasPermissionTo('edit pricing')
                             <form
-                                x-on:keydown.tab="@this.call('updatePrice',{{ $item->id }},$event.target.value)"
-                                x-on:keydown.enter="@this.call('updatePrice',{{ $item->id }},$event.target.value)"
+                                x-on:keydown.tab="$wire.call('updatePrice',{{ $item->id }},$event.target.value)"
+                                x-on:keydown.enter="$wire.call('updatePrice',{{ $item->id }},$event.target.value)"
                             >
                                 <label>
                                     <x-form.input.text
