@@ -96,6 +96,12 @@ class Create extends Component
 
     public function updatePrice(CreditItem $item, $value)
     {
+        if ($value == '' || $value <= 0) {
+            $this->notify('Please enter a valid price');
+
+            return;
+        }
+
         $item->update(['price' => $value]);
 
         $this->emitSelf('refreshData');
@@ -105,6 +111,12 @@ class Create extends Component
 
     public function updateQty(CreditItem $item, $value)
     {
+        if ($value == '' || $value <= 0) {
+            $this->notify('Please enter a valid qty');
+
+            return;
+        }
+
         $item->update(['qty' => $value]);
 
         $this->emitSelf('refreshData');

@@ -43,6 +43,12 @@ class Edit extends Component
 
     public function updatePrice(PurchaseItem $item, $value)
     {
+        if ($value == '' || $value <= 0) {
+            $this->notify('Please enter a valid price');
+
+            return;
+        }
+
         $item->update(['price' => $value]);
         $this->emitSelf('refreshData');
         $this->notify('Price updated');
@@ -67,6 +73,12 @@ class Edit extends Component
 
     public function updateQty(PurchaseItem $item, $value)
     {
+        if ($value == '' || $value <= 0) {
+            $this->notify('Please enter a valid qty');
+
+            return;
+        }
+
         $item->update(['qty' => $value]);
         $this->emitSelf('refreshData');
         $this->notify('Qty updated');
