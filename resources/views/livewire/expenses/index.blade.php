@@ -76,6 +76,9 @@
                     <x-form.input.text
                         id="amount"
                         type="number"
+                        inputmode="numeric"
+                        pattern="[0-9]"
+                        step="0.01"
                         wire:model.defer="amount"
                     />
                     @error('amount')

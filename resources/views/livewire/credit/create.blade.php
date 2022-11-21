@@ -199,6 +199,9 @@
                                 <x-form.input.text
                                     type="number"
                                     value="{{ $item->price }}"
+                                    inputmode="numeric"
+                                    pattern="[0-9]"
+                                    step="0.01"
                                     disabled
                                 />
                             </label>
@@ -214,8 +217,8 @@
                                     <x-form.input.text
                                         type="number"
                                         value="{{ $item->qty }}"
-                                        pattern="[0-9]*"
                                         inputmode="numeric"
+                                        pattern="[0-9]"
                                         min="1"
                                         max="{{ $item->product->qty() }}"
                                     />
@@ -226,6 +229,8 @@
                                 <x-form.input.text
                                     type="number"
                                     value="{{ $item->qty }}"
+                                    inputmode="numeric"
+                                    pattern="[0-9]"
                                     disabled
                                 />
                             </label>
@@ -249,6 +254,9 @@
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->line_total }}"
+                                inputmode="numeric"
+                                pattern="[0-9]"
+                                step="0.01"
                                 disabled
                             />
                         </label>

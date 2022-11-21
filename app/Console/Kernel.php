@@ -37,6 +37,7 @@ class Kernel extends ConsoleKernel
             ->command('update:transactions')
             ->daily()
             ->withoutOverlapping();
+
         $schedule->command('update:supplier-transactions')->daily();
     }
 

@@ -34,7 +34,15 @@
 
             <div class="grid grid-cols-1 gap-2 items-center md:grid-cols-2">
                 <div class="grid grid-cols-1 gap-2">
-                    <livewire:products.create wire:key="add={{ now() }}" />
+                    @if (auth()->user()->hasPermissionTo('edit products'))
+                        <livewire:products.create wire:key="add={{ now() }}" />
+                    @else
+                        <button
+                            class="button-success"
+                            disabled
+                        >Add product
+                        </button>
+                    @endif
                     <button
                         class="w-full button-success"
                         wire:click="toggleFilter"
@@ -66,12 +74,16 @@
                     class="py-2 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-800 dark:even:bg-slate-700 even:bg-slate-50">
                     <div class="grid grid-cols-2 gap-3 lg:grid-cols-8">
                         <div class="col-span-2 w-full text-xs">
-                            <a
-                                class="link"
-                                href="{{ route('products/edit', $product->id) }}"
-                            >
-                                {{ $product->sku }}
-                            </a>
+                            @if (auth()->user()->hasPermissionTo('edit products'))
+                                <a
+                                    class="link"
+                                    href="{{ route('products/edit', $product->id) }}"
+                                >
+                                    {{ $product->sku }}
+                                </a>
+                            @else
+                                <p class="text-slate-500 dark:text-slate-400">{{ $product->sku }}</p>
+                            @endif
                             <p class="font-semibold text-slate-800 dark:text-slate-300">
                                 {{ $product->brand }} {{ $product->name }}
                             </p>
@@ -139,13 +151,15 @@
                                             value="{{ $product->retail_price }}"
                                             inputmode="numeric"
                                             pattern="[0-9]"
+                                            step="0.01"
                                             @keydown.tab="$wire.call('updateRetailPrice','{{ $product->id }}',$event.target.value)"
                                         />
                                     @else
                                         <x-form.input.label for="retail">
                                             Retail price
                                         </x-form.input.label>
-                                        <p class="text-center">{{ $product->retail_price }}</p>
+                                        <p class="text-center text-slate-500 dark:text-slate-400">
+                                            {{ $product->retail_price }}</p>
                                     @endif
                                     @if (auth()->user()->hasPermissionTo('view cost'))
                                         <span
@@ -170,13 +184,15 @@
                                         value="{{ $product->wholesale_price }}"
                                         inputmode="numeric"
                                         pattern="[0-9]"
+                                        step="0.01"
                                         @keydown.tab="$wire.call('updateWholesalePrice','{{ $product->id }}',$event.target.value)"
                                     />
                                 @else
                                     <x-form.input.label for="wholesale">
                                         Wholesale price
                                     </x-form.input.label>
-                                    <p class="text-center">{{ $product->wholesale_price }}</p>
+                                    <p class="text-center text-slate-500 dark:text-slate-400">
+                                        {{ $product->wholesale_price }}</p>
                                 @endif
                                 @if (auth()->user()->hasPermissionTo('view cost'))
                                     <span

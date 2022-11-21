@@ -35,35 +35,35 @@
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
             href="{{ route('delivery') }}"
         >
             Delivery settings
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
             href="{{ route('notifications') }}"
         >
             Notifications
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
             href="{{ route('banners') }}"
         >
             Banners
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
             href="{{ route('categories') }}"
         >
             Categories
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800 shadow"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
             href="{{ route('brands') }}"
         >
             Brands

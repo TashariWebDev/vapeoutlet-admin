@@ -11,7 +11,7 @@
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 
-        <div class="p-4 rounded-lg bg-white dark:bg-slate-800 shadow">
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-slate-800">
             <form wire:submit.prevent="save">
                 <div class="py-1">
                     <x-form.input.label for="email-address">
@@ -138,7 +138,7 @@
             </form>
         </div>
 
-        <div class="p-4 rounded-lg bg-white dark:bg-slate-800 shadow">
+        <div class="p-4 bg-white rounded-lg shadow dark:bg-slate-800">
             <div class="flex justify-end">
                 <livewire:address.create customer_id="{{ $this->customer->id }}" />
             </div>
@@ -147,7 +147,7 @@
             </div>
             @foreach ($this->customer->addresses as $address)
                 <div
-                    class="flex justify-between items-center py-3 px-2 mb-2 capitalize text-slate-500 dark:text-slate-300 bg-slate-100 rounded-md dark:bg-slate-700">
+                    class="flex justify-between items-center py-3 px-2 mb-2 capitalize rounded-md text-slate-500 bg-slate-100 dark:text-slate-300 dark:bg-slate-700">
                     <p class="text-xs">{{ $address->line_one }} {{ $address->line_two }} {{ $address->suburb }}
                         {{ $address->city }} {{ $address->province }} {{ $address->postal_code }}</p>
 

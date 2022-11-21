@@ -32,7 +32,7 @@
     </x-slide-over>
 
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
-        <header class="flex justify-between px-2 py-6 items-center">
+        <header class="flex justify-between items-center py-6 px-2">
             <x-page-header>
                 Banners
             </x-page-header>
@@ -44,7 +44,7 @@
             </button>
         </header>
 
-        <div class="px-2 py-3">
+        <div class="py-3 px-2">
             {{ $banners->links() }}
         </div>
 
@@ -70,13 +70,14 @@
                                 value="{{ $banner->order }}"
                                 inputmode="numeric"
                                 pattern="[0-9]"
+                                step="0.01"
                                 @keydown.tab="$wire.call('updateOrder',{{ $banner->id }},$event.target.value)"
                             />
                         </label>
                     </x-table.row>
                     <x-table.row class="col-span-2 lg:col-span-1 lg:text-right">
                         <button
-                            class="button-danger w-full lg:w-32"
+                            class="w-full lg:w-32 button-danger"
                             wire:click="delete('{{ $banner->id }}')"
                         >
                             <x-icons.busy target="delete" />

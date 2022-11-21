@@ -4,7 +4,7 @@
         Suppliers
     </x-page-header>
 
-    <div class="rounded-lg shadow bg-white dark:bg-slate-800 px-2">
+    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
             <div>
                 <x-form.input.label for="search">
