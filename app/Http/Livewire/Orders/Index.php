@@ -88,7 +88,6 @@ class Index extends Component
         $order = Order::findOrFail($orderId);
         $order->updateStatus('completed');
         $this->notify('order completed');
-        $this->redirect('/orders?filter=shipped');
     }
 
     /**
