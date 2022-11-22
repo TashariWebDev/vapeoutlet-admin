@@ -35,10 +35,13 @@ class AddProduct extends Component
      */
     public function addProducts()
     {
-        $query = Product::query()->whereIn('id', $this->selectedProducts);
+        $query = Product::query()
+            ->withStockCount()
+            ->whereIn('id', $this->selectedProducts);
+
         $query->chunkById(10, function ($products) {
             foreach ($products as $product) {
-                if ($product->inStock()) {
+                if ($product->total_available > 0) {
                     $this->order->addItem($product);
                 } else {
                     $this->notify(
@@ -61,6 +64,8 @@ class AddProduct extends Component
             'products' => Product::query()
                 ->select('id', 'name', 'sku', 'brand')
                 ->with('features:id,product_id,name')
+                ->withStockCount()
+                ->inStock()
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)

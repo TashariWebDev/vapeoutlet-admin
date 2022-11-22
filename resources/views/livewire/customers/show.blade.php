@@ -378,6 +378,7 @@
                                 wire:loading.attr="disabled"
                                 wire:target="getDocument({{ $transaction->id }})"
                                 wire:click="getDocument({{ $transaction->id }})"
+                                wire:key="transaction->{{ $transaction->id }}"
                             >
                                 <x-icons.busy target="getDocument({{ $transaction->id }})" />
                                 Print

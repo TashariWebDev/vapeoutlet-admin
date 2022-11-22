@@ -17,6 +17,19 @@ class Index extends Component
 
     public $recordCount = 10;
 
+    protected $queryString = ['recordCount', 'searchQuery'];
+
+    public function mount()
+    {
+        if (request()->has('searchQuery')) {
+            $this->searchQuery = request('searchQuery');
+        }
+
+        if (request()->has('recordCount')) {
+            $this->recordCount = request('recordCount');
+        }
+    }
+
     public function updatedSearchQuery()
     {
         $this->resetPage();

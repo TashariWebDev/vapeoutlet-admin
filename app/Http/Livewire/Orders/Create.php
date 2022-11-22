@@ -11,6 +11,7 @@ use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -51,13 +52,18 @@ class Create extends Component
 
     public function getOrderProperty(): Order|array|_IH_Order_C
     {
-        return Order::with([
-            'items.product:id,name,brand,sku,retail_price,wholesale_price,cost',
-            'items.product.stocks',
-            'items.product.features:id,product_id,name',
-        ])
+        return Order::with(['items.product.features:id,product_id,name'])
+            ->with('items', function ($query) {
+                $query->withWhereHas('product', function ($query) {
+                    $query->addSelect([
+                        'total_available' => Stock::whereColumn(
+                            'product_id',
+                            'products.id'
+                        )->selectRaw('sum(qty) as total_available'),
+                    ]);
+                });
+            })
             ->where('id', $this->orderId)
-            ->withCount('items')
             ->first();
     }
 
@@ -77,17 +83,19 @@ class Create extends Component
     {
         $this->validate(['sku' => 'required']);
 
-        $product = Product::where('sku', '=', $this->sku)->first();
+        $product = Product::withStockCount()
+            ->where('sku', '=', $this->sku)
+            ->first();
 
         if (! $product) {
             return;
         }
 
-        if ($product->outOfStock()) {
+        if ($product->total_available <= 0) {
             $this->notify($product->fullName().' currently out of stock');
         }
 
-        if ($product->inStock()) {
+        if ($product->total_available > 0) {
             $this->order->addItem($product->id);
             $this->notify('Product added');
         }

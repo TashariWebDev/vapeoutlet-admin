@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Products;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Product;
+use App\Models\Stock;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -24,6 +25,19 @@ class Index extends Component
     public string $searchQuery = '';
 
     protected $listeners = ['refresh' => '$refresh'];
+
+    protected $queryString = ['recordCount', 'searchQuery'];
+
+    public function mount()
+    {
+        if (request()->has('searchQuery')) {
+            $this->searchQuery = request('searchQuery');
+        }
+
+        if (request()->has('recordCount')) {
+            $this->recordCount = request('recordCount');
+        }
+    }
 
     public function updatedSearchQuery()
     {
@@ -79,10 +93,42 @@ class Index extends Component
     {
         return view('livewire.products.index', [
             'products' => Product::query()
-                ->with([
-                    'stocks:id,product_id,qty,type',
-                    'features:id,product_id,name',
-                    'lastPurchasePrice',
+                ->with(['features:id,product_id,name', 'lastPurchasePrice'])
+                ->addSelect([
+                    'total_available' => Stock::whereColumn(
+                        'product_id',
+                        'products.id'
+                    )->selectRaw('sum(qty) as total_available'),
+                    'total_sold' => Stock::whereColumn(
+                        'product_id',
+                        'products.id'
+                    )
+                        ->where('type', '=', 'invoice')
+                        ->selectRaw('sum(qty) as total_sold'),
+                    'total_credits' => Stock::whereColumn(
+                        'product_id',
+                        'products.id'
+                    )
+                        ->where('type', '=', 'credit')
+                        ->selectRaw('sum(qty) as total_credits'),
+                    'total_adjustments' => Stock::whereColumn(
+                        'product_id',
+                        'products.id'
+                    )
+                        ->where('type', '=', 'adjustment')
+                        ->selectRaw('sum(qty) as total_adjustments'),
+                    'total_purchases' => Stock::whereColumn(
+                        'product_id',
+                        'products.id'
+                    )
+                        ->where('type', '=', 'purchase')
+                        ->selectRaw('sum(qty) as total_purchases'),
+                    'total_supplier_credits' => Stock::whereColumn(
+                        'product_id',
+                        'products.id'
+                    )
+                        ->where('type', '=', 'supplier credit')
+                        ->selectRaw('sum(qty) as total_supplier_credits'),
                 ])
                 ->when(
                     $this->searchQuery,

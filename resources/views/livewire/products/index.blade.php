@@ -118,17 +118,17 @@
                             <div class="flex justify-between">
                                 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">IN STOCK</p>
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                    {{ $product->stocks->sum('qty') }}</p>
+                                    {{ $product->total_available }}</p>
                             </div>
                             <div class="flex justify-between">
                                 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">PURCHASED</p>
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                    {{ $product->stocks->where('type', 'purchase')->sum('qty') }}</p>
+                                    {{ $product->total_purchases }}</p>
                             </div>
                             <div class="flex justify-between">
                                 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">CREDITS</p>
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                    {{ $product->stocks->where('type', 'credit')->sum('qty') }}</p>
+                                    {{ $product->total_credits }}</p>
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
@@ -149,17 +149,17 @@
                             <div class="flex justify-between">
                                 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">SOLD</p>
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                    {{ $product->stocks->where('type', 'invoice')->sum('qty') }}</p>
+                                    {{ $product->total_sold }}</p>
                             </div>
                             <div class="flex justify-between">
                                 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">ADJUSTMENTS</p>
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                    {{ $product->stocks->where('type', 'adjustment')->sum('qty') }}</p>
+                                    {{ $product->total_adjustments }}</p>
                             </div>
                             <div class="flex justify-between">
                                 <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">SUPPLIER CREDITS</p>
                                 <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                    {{ $product->stocks->where('type', 'supplier_credit')->sum('qty') }}</p>
+                                    {{ $product->total_supplier_credits }}</p>
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">

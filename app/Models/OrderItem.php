@@ -66,7 +66,7 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class)->withTrashed();
     }
 
-    public function stock(): Stock|Builder|_IH_Stock_QB|null
+    public function stock(): Stock|Builder|null
     {
         return Stock::query()
             ->where('product_id', '=', $this->product_id)

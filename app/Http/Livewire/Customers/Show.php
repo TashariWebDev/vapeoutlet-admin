@@ -34,6 +34,21 @@ class Show extends Component
 
     protected $listeners = ['updateData' => '$refresh'];
 
+    protected $queryString = ['recordCount', 'searchTerm'];
+
+    public function mount()
+    {
+        $this->customerId = request('id');
+
+        if (request()->has('searchTerm')) {
+            $this->searchTerm = request('searchTerm');
+        }
+
+        if (request()->has('recordCount')) {
+            $this->recordCount = request('recordCount');
+        }
+    }
+
     public function updatedSearchTerm()
     {
         $this->resetPage();
@@ -48,11 +63,6 @@ class Show extends Component
     {
         $this->resetPage();
         $this->filter = '';
-    }
-
-    public function mount()
-    {
-        $this->customerId = request('id');
     }
 
     public function getCustomerProperty(): Customer|_IH_Customer_C|array|null
