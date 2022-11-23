@@ -18,7 +18,7 @@
                         placeholder="Search by SKU, name, category or brand"
                     />
                     <x-input.helper>
-                        Query time {{ round($queryTime, 3) }} ms
+                        Query time {{ round($queryTime, 3) }} s
                     </x-input.helper>
                 </div>
 

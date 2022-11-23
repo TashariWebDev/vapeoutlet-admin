@@ -19,7 +19,7 @@
                 autocomplete="off"
             ></x-input.text>
             <x-input.helper>
-                Query time {{ round($queryTime, 3) }} ms
+                Query time {{ round($queryTime, 3) }} s
             </x-input.helper>
         </div>
 

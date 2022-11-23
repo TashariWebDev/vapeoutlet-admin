@@ -14,7 +14,7 @@
                     placeholder="Search by invoice number or customer"
                 />
                 <x-input.helper>
-                    Query Time {{ round($queryTime, 3) }} ms
+                    Query Time {{ round($queryTime, 3) }} s
                 </x-input.helper>
             </div>
         </div>

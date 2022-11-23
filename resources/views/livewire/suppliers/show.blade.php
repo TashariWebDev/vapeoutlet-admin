@@ -116,7 +116,7 @@
                     autocomplete="off"
                 />
                 <x-input.helper>
-                    Query Time {{ round($queryTime, 3) }} ms
+                    Query Time {{ round($queryTime, 3) }} s
                 </x-input.helper>
             </div>
             <div></div>
