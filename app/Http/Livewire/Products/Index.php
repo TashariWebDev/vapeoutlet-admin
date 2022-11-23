@@ -110,21 +110,21 @@ class Index extends Component
             ->withSum(
                 [
                     'stocks as total_available',
-                    'stocks as total_sold' => function ($query) {
-                        $query->where('type', 'invoice');
-                    },
-                    'stocks as total_purchases' => function ($query) {
-                        $query->where('type', 'purchase');
-                    },
-                    'stocks as total_credits' => function ($query) {
-                        $query->where('type', 'credit');
-                    },
-                    'stocks as total_supplier_credits' => function ($query) {
-                        $query->where('type', 'supplier_credit');
-                    },
-                    'stocks as total_adjustments' => function ($query) {
-                        $query->where('type', 'adjustment');
-                    },
+                    //                    'stocks as total_sold' => function ($query) {
+                    //                        $query->where('type', 'invoice');
+                    //                    },
+                    //                    'stocks as total_purchases' => function ($query) {
+                    //                        $query->where('type', 'purchase');
+                    //                    },
+                    //                    'stocks as total_credits' => function ($query) {
+                    //                        $query->where('type', 'credit');
+                    //                    },
+                    //                    'stocks as total_supplier_credits' => function ($query) {
+                    //                        $query->where('type', 'supplier_credit');
+                    //                    },
+                    //                    'stocks as total_adjustments' => function ($query) {
+                    //                        $query->where('type', 'adjustment');
+                    //                    },
                 ],
                 'qty'
             );
