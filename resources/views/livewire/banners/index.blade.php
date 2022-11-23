@@ -4,17 +4,17 @@
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-2">
-                    <x-form.input.label for="image">
+                    <x-input.label for="image">
                         Image
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="upload{{ $iteration }}"
                         id="image"
                         type="file"
                         wire:model.defer="image"
                     />
                     @error('image')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -65,7 +65,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 type="number"
                                 value="{{ $banner->order }}"
                                 inputmode="numeric"

@@ -118,13 +118,13 @@
         @if (!$this->credit->processed)
             <div class="py-0.5 px-2 w-full">
                 <div>
-                    <x-form.input.text
+                    <x-input.text
                         type="text"
                         placeholder="SKU"
                         autofocus
                         wire:model="sku"
                     >
-                    </x-form.input.text>
+                    </x-input.text>
                 </div>
             </div>
         @endif
@@ -185,7 +185,7 @@
                                 x-on:keydown.enter="@this.call('updatePrice',{{ $item->id }},$event.target.value)"
                             >
                                 <label>
-                                    <x-form.input.text
+                                    <x-input.text
                                         type="number"
                                         value="{{ $item->cost }}"
                                         pattern="[0-9]*"
@@ -196,7 +196,7 @@
                             </form>
                         @else
                             <label>
-                                <x-form.input.text
+                                <x-input.text
                                     type="number"
                                     value="{{ $item->cost }}"
                                     inputmode="numeric"
@@ -214,7 +214,7 @@
                                 x-on:keydown.enter="@this.call('updateQty',{{ $item->id }},$event.target.value)"
                             >
                                 <label>
-                                    <x-form.input.text
+                                    <x-input.text
                                         type="number"
                                         value="{{ $item->qty }}"
                                         pattern="[0-9]*"
@@ -226,7 +226,7 @@
                             </form>
                         @else
                             <label>
-                                <x-form.input.text
+                                <x-input.text
                                     type="number"
                                     value="{{ $item->qty }}"
                                     disabled
@@ -248,7 +248,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->line_total }}"

@@ -2,85 +2,90 @@
     <x-auth-card>
         <x-slot name="logo">
             <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-slate-500"/>
+                <x-application-logo class="w-20 h-20 fill-current text-slate-500" />
             </a>
         </x-slot>
 
         <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4"
-                                  :errors="$errors"
+        <x-auth-validation-errors
+            class="mb-4"
+            :errors="$errors"
         />
 
-        <form method="POST"
-              action="{{ route('register') }}"
+        <form
+            method="POST"
+            action="{{ route('register') }}"
         >
             @csrf
 
             <!-- Name -->
             <div>
 
-                <x-input id="name"
-                         label="name"
-                         class="block mt-1 w-full"
-                         type="text"
-                         name="name"
-                         :value="old('name')"
-                         required
-                         autofocus
+                <x-input.text
+                    class="block mt-1 w-full"
+                    id="name"
+                    name="name"
+                    type="text"
+                    label="name"
+                    :value="old('name')"
+                    required
+                    autofocus
                 />
             </div>
 
             <!-- Email Address -->
             <div class="mt-4">
 
-                <x-input id="email"
-                         label="email"
-                         class="block mt-1 w-full"
-                         type="email"
-                         name="email"
-                         :value="old('email')"
-                         required
+                <x-input.text
+                    class="block mt-1 w-full"
+                    id="email"
+                    name="email"
+                    type="email"
+                    label="email"
+                    :value="old('email')"
+                    required
                 />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password"
-                         :value="__('Password')"
-                />
+                <x-input.label for="password"></x-input.label>
 
-                <x-input label="password"
-                         id="password"
-                         class="block mt-1 w-full"
-                         type="password"
-                         name="password"
-                         required
-                         autocomplete="new-password"
+                <x-input.text
+                    class="block mt-1 w-full"
+                    id="password"
+                    name="password"
+                    type="password"
+                    label="password"
+                    required
+                    autocomplete="new-password"
                 />
             </div>
 
             <!-- Confirm Password -->
             <div class="mt-4">
 
-                <x-input label="confirm password"
-                         id="password_confirmation"
-                         class="block mt-1 w-full"
-                         type="password"
-                         name="password_confirmation"
-                         required
+                <x-input.text
+                    class="block mt-1 w-full"
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    type="password"
+                    label="confirm password"
+                    required
                 />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-slate-600 hover:text-slate-900"
-                   href="{{ route('login') }}"
+            <div class="flex justify-end items-center mt-4">
+                <a
+                    class="text-sm underline text-slate-600 hover:text-slate-900"
+                    href="{{ route('login') }}"
                 >
                     {{ __('Already registered?') }}
                 </a>
 
-                <x-button class="ml-4">
+                <button class="ml-4 button-success">
                     {{ __('Register') }}
-                </x-button>
+                </button>
             </div>
         </form>
     </x-auth-card>

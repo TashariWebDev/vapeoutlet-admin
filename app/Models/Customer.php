@@ -23,11 +23,6 @@ class Customer extends Authenticatable
     use Notifiable;
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -79,35 +74,6 @@ class Customer extends Authenticatable
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
-    }
-
-    public function totalMonthSales(): Attribute
-    {
-        return new Attribute(get: fn ($value) => $this->monthlySalesTotal());
-    }
-
-    public function monthlySalesTotal(): float|int
-    {
-        $totals = [];
-        foreach ($this->monthlySales()->get() as $order) {
-            $totals[] = $order->getSubTotal();
-        }
-
-        return array_sum($totals);
-    }
-
-    public function MonthlySales(): HasMany
-    {
-        return $this->hasMany(Order::class)
-            ->where('status', '!=', 'cancelled')
-            ->whereNotNull('status');
-    }
-
-    public function totalMonthlySalesExcl(): Attribute
-    {
-        return new Attribute(
-            get: fn ($value) => ex_vat($this->monthlySalesTotal())
-        );
     }
 
     public function notes(): HasMany

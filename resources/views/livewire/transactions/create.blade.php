@@ -15,42 +15,42 @@
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-3">
-                    <x-form.input.label for="reference">
+                    <x-input.label for="reference">
                         Reference
-                    </x-form.input.label>
+                    </x-input.label>
 
                     <div>
-                        <x-form.input.text
+                        <x-input.text
                             id="reference"
                             type="text"
                             wire:model.defer="reference"
                         />
                     </div>
                     @error('reference')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
-                    <x-form.input.label for="date">
+                    <x-input.label for="date">
                         Date
-                    </x-form.input.label>
+                    </x-input.label>
                     <div>
-                        <x-form.input.text
+                        <x-input.text
                             id="date"
                             type="date"
                             wire:model.defer="date"
                         />
                     </div>
                     @error('date')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
-                    <x-form.input.label for="type">
+                    <x-input.label for="type">
                         Type
-                    </x-form.input.label>
+                    </x-input.label>
                     <div>
-                        <x-form.input.select
+                        <x-input.select
                             id="type"
                             wire:model.defer="type"
                         >
@@ -59,18 +59,18 @@
                             <option value="payment">Payment</option>
                             <option value="refund">Refund</option>
                             <option value="warranty">Warranty</option>
-                        </x-form.input.select>
+                        </x-input.select>
                     </div>
                     @error('type')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
-                    <x-form.input.label for="amount">
+                    <x-input.label for="amount">
                         Amount
-                    </x-form.input.label>
+                    </x-input.label>
                     <div>
-                        <x-form.input.text
+                        <x-input.text
                             id="amount"
                             type="number"
                             wire:model.defer="amount"
@@ -80,7 +80,7 @@
                         />
                     </div>
                     @error('amount')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">

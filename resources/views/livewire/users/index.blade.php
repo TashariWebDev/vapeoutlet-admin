@@ -4,44 +4,44 @@
         <div class="py-6">
             <form wire:submit.prevent="save">
                 <div class="py-2">
-                    <x-form.input.label for="name">
+                    <x-input.label for="name">
                         Full Name
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="name"
                         type="text"
                         wire:model.defer="name"
                         required
                     />
                     @error('name')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
-                    <x-form.input.label for="email">
+                    <x-input.label for="email">
                         Email
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="email"
                         type="email"
                         wire:model.defer="email"
                         required
                     />
                     @error('email')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
-                    <x-form.input.label for="phone">
+                    <x-input.label for="phone">
                         Phone
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="phone"
                         type="text"
                         wire:model.defer="phone"
                     />
                     @error('phone')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -61,21 +61,26 @@
         </x-page-header>
         <div class="grid grid-cols-1 gap-3 py-3 px-2 lg:grid-cols-3">
             <div>
-                <x-form.input.label>
+                <x-input.label>
                     Search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     type="text"
                     wire:model="searchQuery"
                     placeholder="email or name"
+                    autocomplete="off"
+                    autofocus
                 >
-                </x-form.input.text>
+                </x-input.text>
+                <x-input.helper>
+                    Query Time {{ round($queryTime, 3) }} ms
+                </x-input.helper>
             </div>
 
             <div>
-                <x-form.input.label>
+                <x-input.label>
                     Filter users
-                </x-form.input.label>
+                </x-input.label>
                 <div
                     class="flex items-center mt-1 w-full bg-white rounded-md border divide-x shadow-sm border-slate-300 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
                     <button
@@ -93,7 +98,7 @@
                         @class([
                             'py-2 pl-3 w-1/2 text-xs text-left text-slate-500  dark:text-slate-400' =>
                                 $withTrashed == false,
-
+                        
                             'py-2 pl-3 w-1/2 text-xs text-left text-teal-700 dark:text-teal-600 font-semibold' =>
                                 $withTrashed == true,
                         ])
@@ -105,9 +110,9 @@
             </div>
 
             <div>
-                <x-form.input.label>
+                <x-input.label>
                     Create a new user
-                </x-form.input.label>
+                </x-input.label>
                 <button
                     class="mt-1 w-full button-success"
                     wire:click="$toggle('showCreateUserForm')"

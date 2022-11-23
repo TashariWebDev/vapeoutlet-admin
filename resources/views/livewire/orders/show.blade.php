@@ -160,7 +160,7 @@
                         $this->order->status != 'completed' &&
                         $this->order->status != 'cancelled')
                         <label>
-                            <x-form.input.select
+                            <x-input.select
                                 class="w-full rounded-md"
                                 wire:change="$toggle('statusModal')"
                                 @change="$wire.set('selectedStatus',event.target.value)"
@@ -171,7 +171,7 @@
                                 <option value="packed">Packed</option>
                                 <option value="shipped">Shipped</option>
                                 <option value="completed">Completed</option>
-                            </x-form.input.select>
+                            </x-input.select>
                         </label>
                     @endif
                 </div>
@@ -223,7 +223,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->price }}"
@@ -236,7 +236,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->discount }}"
@@ -250,7 +250,7 @@
                     <x-table.row>
 
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->qty }}"
@@ -263,7 +263,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->line_total }}"

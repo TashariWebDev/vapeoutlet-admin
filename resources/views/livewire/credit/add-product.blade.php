@@ -13,17 +13,17 @@
         </div>
         <div>
             <div class="relative">
-                <x-form.input.label for="search">
+                <x-input.label for="search">
                     Product search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     class="w-full"
                     id="search"
                     type="search"
                     wire:model="searchQuery"
                     placeholder="search"
                 >
-                </x-form.input.text>
+                </x-input.text>
             </div>
         </div>
 

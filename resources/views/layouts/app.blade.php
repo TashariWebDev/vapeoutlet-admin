@@ -26,6 +26,7 @@
 
 <body
     class="flex relative min-h-full font-sans antialiased bg-slate-200 dark:bg-slate-900"
+    x-cloak
     x-data="{
         date: '',
         currentTime: 'checking the time',
@@ -71,10 +72,12 @@
                             <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
                                 <span class="cursor-default">{{ auth()->user()->name }}</span>
                             </p>
-                            <p
-                                class="text-xs font-semibold"
-                                x-text="currentTime"
-                            ></p>
+                            <div class="flex space-x-4">
+                                <p
+                                    class="text-xs font-semibold"
+                                    x-text="currentTime"
+                                ></p>
+                            </div>
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">

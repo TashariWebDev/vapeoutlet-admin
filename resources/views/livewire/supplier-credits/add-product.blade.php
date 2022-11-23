@@ -13,17 +13,17 @@
         </div>
         <div x-data="{ searchQuery: @entangle('searchQuery') }">
             <div class="relative">
-                <x-form.input.label for="search">
+                <x-input.label for="search">
                     Product search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     class="w-full"
                     id="search"
                     type="search"
                     x-model.lazy="searchQuery"
                     placeholder="search"
                 >
-                </x-form.input.text>
+                </x-input.text>
 
                 <div
                     class="absolute top-0 right-0 w-2 h-2 bg-teal-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping"

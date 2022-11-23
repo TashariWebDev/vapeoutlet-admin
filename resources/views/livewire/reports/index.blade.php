@@ -124,7 +124,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $debtors = config('app.admin_url') . '/storage/documents/debtors-list.pdf';
-
+                
                 $debtorsExists = check_file_exist($debtors);
             @endphp
 
@@ -152,7 +152,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $creditors = config('app.admin_url') . '/storage/documents/creditors-list.pdf';
-
+                
                 $creditorsExists = check_file_exist($creditors);
             @endphp
 
@@ -180,7 +180,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $expenses = config('app.admin_url') . '/storage/documents/expenses.pdf';
-
+                
                 $expensesExists = check_file_exist($expenses);
             @endphp
 
@@ -208,7 +208,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $purchases = config('app.admin_url') . '/storage/documents/purchases.pdf';
-
+                
                 $purchasesExists = check_file_exist($purchases);
             @endphp
 
@@ -236,7 +236,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $credits = config('app.admin_url') . '/storage/documents/credits.pdf';
-
+                
                 $creditsExists = check_file_exist($credits);
             @endphp
 
@@ -264,7 +264,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $variances = config('app.admin_url') . '/storage/documents/variances.pdf';
-
+                
                 $variancesExists = check_file_exist($variances);
             @endphp
 
@@ -292,7 +292,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $salesByDateRange = config('app.admin_url') . '/storage/documents/salesByDateRange.pdf';
-
+                
                 $salesByDateRangeExists = check_file_exist($salesByDateRange);
             @endphp
 
@@ -320,7 +320,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @php
                 $stocksByDateRange = config('app.admin_url') . '/storage/documents/stockByDateRange.pdf';
-
+                
                 $stocksByDateRangeExists = check_file_exist($stocksByDateRange);
             @endphp
 
@@ -349,7 +349,7 @@
     <x-modal x-data="{ show: $wire.entangle('showVariancesForm') }">
         <form wire:submit.prevent="getVariancesDocument">
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
@@ -357,7 +357,7 @@
             </div>
 
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
@@ -374,7 +374,7 @@
         <form wire:submit.prevent="getStocksByDateRangeDocument">
 
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
@@ -390,7 +390,7 @@
     <x-modal x-data="{ show: $wire.entangle('showSalesByDateRangeForm') }">
         <form wire:submit.prevent="getSalesByDateRangeDocument">
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
@@ -398,7 +398,7 @@
             </div>
 
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
@@ -422,7 +422,7 @@
     <x-modal x-data="{ show: $wire.entangle('showCreditsForm') }">
         <form wire:submit.prevent="getCreditsListDocument">
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
@@ -430,7 +430,7 @@
             </div>
 
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
@@ -454,7 +454,7 @@
     <x-modal x-data="{ show: $wire.entangle('showPurchasesForm') }">
         <form wire:submit.prevent="getPurchaseListDocument">
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
@@ -462,7 +462,7 @@
             </div>
 
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
@@ -486,7 +486,7 @@
     <x-modal x-data="{ show: $wire.entangle('showExpenseForm') }">
         <form wire:submit.prevent="getExpenseListDocument">
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
@@ -494,7 +494,7 @@
             </div>
 
             <div class="py-4">
-                <x-input
+                <x-input.text
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"

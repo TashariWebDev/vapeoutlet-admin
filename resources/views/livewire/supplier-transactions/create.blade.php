@@ -15,39 +15,39 @@
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-3">
-                    <x-form.input.label for="reference">
+                    <x-input.label for="reference">
                         reference
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="reference"
                         type="text"
                         wire:model.defer="reference"
                     />
                     @error('reference')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
-                    <x-form.input.label for="type">
+                    <x-input.label for="type">
                         type
-                    </x-form.input.label>
-                    <x-form.input.select
+                    </x-input.label>
+                    <x-input.select
                         id="type"
                         wire:model.defer="type"
                     >
                         <option value="">Choose</option>
                         <option value="payment">Payment</option>
                         <option value="expense">Expense</option>
-                    </x-form.input.select>
+                    </x-input.select>
                     @error('type')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
-                    <x-form.input.label for="amount">
+                    <x-input.label for="amount">
                         type
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="amount"
                         type="number"
                         wire:model.defer="amount"
@@ -56,7 +56,7 @@
                         pattern="[0-9.]+"
                     />
                     @error('amount')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">

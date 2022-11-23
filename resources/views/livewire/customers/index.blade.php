@@ -1,30 +1,34 @@
 <div>
-    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
             <div>
-                <x-form.input.label for="search">
+                <x-input.label for="search">
                     Search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="search"
                     type="search"
                     wire:model="searchQuery"
+                    autocomplete="off"
                     autofocus
                     placeholder="Search by name, email, phone, company"
                 />
+                <x-input.helper>
+                    Query Time {{ round($queryTime, 3) }} ms
+                </x-input.helper>
             </div>
             <div></div>
             <div></div>
             <div>
-                <x-form.input.label>
+                <x-input.label>
                     No of records
-                </x-form.input.label>
-                <x-form.input.select wire:model="recordCount">
+                </x-input.label>
+                <x-input.select wire:model="recordCount">
                     <option value="10">10</option>
                     <option value="20">20</option>
                     <option value="50">50</option>
                     <option value="100">100</option>
-                </x-form.input.select>
+                </x-input.select>
             </div>
         </div>
 

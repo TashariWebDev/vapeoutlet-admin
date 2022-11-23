@@ -22,10 +22,10 @@
 
             <!-- Email Address -->
             <div>
-                <x-form.input.label for="email">
+                <x-input.label for="email">
                     Email
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="email"
                     name="email"
                     type="email"
@@ -34,16 +34,16 @@
                     autofocus
                 />
                 @error('email')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <x-form.input.label for="password">
+                <x-input.label for="password">
                     Password
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="password"
                     name="password"
                     type="password"
@@ -51,7 +51,7 @@
                     autocomplete="current-password"
                 />
                 @error('password')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 

@@ -57,14 +57,14 @@
                     <x-table.row class="text-right">
                         <label></label>
                         @if ($stockTake->processed_at)
-                            <x-form.input.text
+                            <x-input.text
                                 type="text"
                                 value="{{ $item->count }}"
                                 disabled
                                 wire:change.debounce="updateItem({{ $item->id }},$event.target.value)"
                             />
                         @else
-                            <x-form.input.text
+                            <x-input.text
                                 type="number"
                                 value="{{ $item->count }}"
                                 wire:change.debounce="updateItem({{ $item->id }},$event.target.value)"

@@ -11,142 +11,142 @@
 
         <div>
             <div class="py-2">
-                <x-form.input.label for="name">
+                <x-input.label for="name">
                     name
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="Name"
                     type="text"
                     wire:model.defer="name"
                 />
                 @error('name')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="email">
+                <x-input.label for="email">
                     email
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="email"
                     type="email"
                     wire:model.defer="email"
                 />
                 @error('email')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="phone">
+                <x-input.label for="phone">
                     phone
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="Phone"
                     type="text"
                     wire:model.defer="phone"
                 />
                 @error('phone')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="person">
+                <x-input.label for="person">
                     Contact person
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="Contact person"
                     type="text"
                     wire:model.defer="person"
                 />
                 @error('person')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="line_one">
+                <x-input.label for="line_one">
                     Address line one
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="line_one"
                     type="text"
                     wire:model.defer="address_line_one"
                 />
                 @error('address_line_one')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="line_two">
+                <x-input.label for="line_two">
                     Address line two
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="line_two"
                     type="text"
                     wire:model.defer="address_line_two"
                 />
                 @error('address_line_two')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="suburb">
+                <x-input.label for="suburb">
                     Suburb
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="suburb"
                     type="text"
                     wire:model.defer="suburb"
                 />
                 @error('suburb')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="city">
+                <x-input.label for="city">
                     City
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="city"
                     type="text"
                     wire:model.defer="city"
                 />
                 @error('city')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="postal_code">
+                <x-input.label for="postal_code">
                     Postal code
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="postal_code"
                     type="text"
                     wire:model.defer="postal_code"
                 />
                 @error('postal_code')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="country">
+                <x-input.label for="country">
                     Country
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="country"
                     type="text"
                     wire:model.defer="country"
                 />
                 @error('country')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 

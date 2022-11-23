@@ -26,7 +26,7 @@ class Index extends Component
 
     public $selectedCustomerLatestTransactions = [];
 
-    public $searchTerm = '';
+    public $searchQuery = '';
 
     public string $filter = 'received';
 
@@ -50,10 +50,10 @@ class Index extends Component
         'customerType',
         'recordCount',
         'direction',
-        'searchTerm',
+        'searchQuery',
     ];
 
-    public function updatedSearchTerm()
+    public function updatedSearchQuery()
     {
         $this->resetPage();
     }
@@ -135,8 +135,8 @@ class Index extends Component
             $orders->whereRelation('customer', 'is_wholesale', '=', false);
         }
 
-        if ($this->searchTerm) {
-            $orders->search($this->searchTerm);
+        if ($this->searchQuery) {
+            $orders->search($this->searchQuery);
         }
 
         return $orders;
@@ -148,8 +148,8 @@ class Index extends Component
             $this->filter = request('filter');
         }
 
-        if (request()->has('searchTerm')) {
-            $this->searchTerm = request('searchTerm');
+        if (request()->has('searchQuery')) {
+            $this->searchQuery = request('searchQuery');
         }
 
         if (request()->has('customerType')) {

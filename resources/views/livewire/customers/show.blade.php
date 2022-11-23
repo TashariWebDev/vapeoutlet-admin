@@ -195,15 +195,19 @@
                 <div class="grid grid-cols-1 gap-y-4 lg:grid-cols-6 lg:gap-y-0 lg:gap-x-2">
                     <div>
                         <div>
-                            <x-form.input.label>
+                            <x-input.label>
                                 Search
-                            </x-form.input.label>
-                            <x-form.input.text
+                            </x-input.label>
+                            <x-input.text
                                 type="search"
-                                wire:model="searchTerm"
+                                wire:model="searchQuery"
                                 autofocus
+                                autocomplete="off"
                             >
-                            </x-form.input.text>
+                            </x-input.text>
+                            <x-input.helper>
+                                Query Time {{ round($queryTime, 3) }} ms
+                            </x-input.helper>
                         </div>
                         <button
                             class="link"
@@ -212,10 +216,10 @@
                         </button>
                     </div>
                     <div>
-                        <x-form.input.label>
+                        <x-input.label>
                             No of records
-                        </x-form.input.label>
-                        <x-form.input.select
+                        </x-input.label>
+                        <x-input.select
                             class="w-full rounded-md"
                             wire:model="recordCount"
                         >
@@ -227,7 +231,7 @@
                                 <option value="{{ $this->customer->transactions_count }}">
                                     {{ $this->customer->transactions_count }}</option>
                             @endif
-                        </x-form.input.select>
+                        </x-input.select>
                     </div>
                     <div
                         class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-2 mb-1 lg:grid-cols-6 lg:col-span-4 lg:gap-y-0">

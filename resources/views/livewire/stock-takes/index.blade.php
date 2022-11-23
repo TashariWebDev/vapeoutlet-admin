@@ -3,10 +3,10 @@
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="py-3">
             <div class="w-full lg:w-64">
-                <x-form.input.label>
+                <x-input.label>
                     Search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     type="search"
                     placeholder="search"
                     autofocus

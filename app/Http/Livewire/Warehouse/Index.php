@@ -17,7 +17,7 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public $searchTerm = '';
+    public $searchQuery = '';
 
     /**
      * @throws CouldNotTakeBrowsershot

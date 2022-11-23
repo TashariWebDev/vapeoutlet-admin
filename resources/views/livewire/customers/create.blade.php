@@ -11,10 +11,10 @@
         <div class="py-6">
             <form wire:submit.prevent="save">
                 <div class="py-2">
-                    <x-form.input.label for="name">
+                    <x-input.label for="name">
                         Name
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="name"
                         type="text"
                         wire:model.defer="name"
@@ -22,34 +22,34 @@
                         required
                     />
                     @error('name')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
-                    <x-form.input.label for="email">
+                    <x-input.label for="email">
                         Email
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="email"
                         type="email"
                         wire:model.defer="email"
                         required
                     />
                     @error('email')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
-                    <x-form.input.label for="phone">
+                    <x-input.label for="phone">
                         phone
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="phone"
                         type="text"
                         wire:model.defer="phone"
                     />
                     @error('phone')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 @hasPermissionTo('upgrade customers')

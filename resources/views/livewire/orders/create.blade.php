@@ -6,10 +6,10 @@
         </div>
 
         <form wire:submit.prevent="updateAddress">
-            <x-form.input.label for="address_id">
+            <x-input.label for="address_id">
                 Address
-            </x-form.input.label>
-            <x-form.input.select
+            </x-input.label>
+            <x-input.select
                 id="address_id"
                 wire:model.defer="addressId"
             >
@@ -27,7 +27,7 @@
                         {{ $address->postal_code }}
                     </option>
                 @endforeach
-            </x-form.input.select>
+            </x-input.select>
             <div class="py-2">
                 <button
                     class="button-success"
@@ -47,10 +47,10 @@
         </div>
 
         <form wire:submit.prevent="updateDelivery">
-            <x-form.input.label for="updateDelivery">
+            <x-input.label for="updateDelivery">
                 Delivery options
-            </x-form.input.label>
-            <x-form.input.select
+            </x-input.label>
+            <x-input.select
                 id="updateDelivery"
                 wire:model.defer="deliveryId"
             >
@@ -64,7 +64,7 @@
                         {{ number_format($delivery->price, 2) }}
                     </option>
                 @endforeach
-            </x-form.input.select>
+            </x-input.select>
             <div class="py-2">
                 <button
                     class="button-success"
@@ -198,13 +198,13 @@
 
         <div class="py-0.5 px-2 w-full">
             <div>
-                <x-form.input.text
+                <x-input.text
                     type="text"
                     placeholder="SKU"
                     autofocus
                     wire:model="sku"
                 >
-                </x-form.input.text>
+                </x-input.text>
             </div>
         </div>
 
@@ -260,7 +260,7 @@
                         @hasPermissionTo('edit pricing')
                             <form>
                                 <label>
-                                    <x-form.input.text
+                                    <x-input.text
                                         type="number"
                                         value="{{ $item->price }}"
                                         wire:keyup.debounce.500ms="updatePrice({{ $item->id }},$event.target.value)"
@@ -291,7 +291,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->discount }}"
@@ -306,7 +306,7 @@
                     <x-table.row>
                         <form>
                             <label>
-                                <x-form.input.text
+                                <x-input.text
                                     type="number"
                                     value="{{ $item->qty }}"
                                     wire:keyup.debounce.500ms="updateQty({{ $item->id }},$event.target.value)"
@@ -333,7 +333,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->line_total }}"

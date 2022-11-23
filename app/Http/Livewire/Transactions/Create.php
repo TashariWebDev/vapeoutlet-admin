@@ -38,11 +38,6 @@ class Create extends Component
         ];
     }
 
-    public function mount()
-    {
-        $this->customerId = request('id');
-    }
-
     public function getCustomerProperty(): Customer|_IH_Customer_C|array|null
     {
         return Customer::find($this->customerId);
@@ -51,7 +46,7 @@ class Create extends Component
     public function save()
     {
         $additionalFields = [
-            'customer_id' => $this->customerId,
+            'customer_id' => $this->customer->id,
             'created_by' => auth()->user()->name,
         ];
 
@@ -70,13 +65,9 @@ class Create extends Component
 
         UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
 
-        $this->reset('amount', 'reference', 'type', 'date');
-
         $this->notify('transaction created');
-
+        $this->reset('amount', 'reference', 'type', 'date', 'modal');
         $this->emit('updateData');
-
-        $this->modal = true;
     }
 
     public function render(): Factory|View|Application

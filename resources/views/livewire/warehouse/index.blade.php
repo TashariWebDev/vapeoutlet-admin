@@ -2,16 +2,20 @@
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-3 lg:gap-x-3">
             <div>
-                <x-form.input.label for="search">
+                <x-input.label for="search">
                     Search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="search"
                     type="search"
                     autofocus
-                    wire:model="searchTerm"
+                    autocomplete="off"
+                    wire:model="searchQuery"
                     placeholder="Search by invoice number or customer"
                 />
+                <x-input.helper>
+                    Query Time {{ round($queryTime, 3) }} ms
+                </x-input.helper>
             </div>
         </div>
 

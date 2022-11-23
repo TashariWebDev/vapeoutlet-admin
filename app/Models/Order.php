@@ -94,11 +94,6 @@ class Order extends Model
         return new Attribute(get: fn ($value) => $this->getSubTotal());
     }
 
-    public function getCost()
-    {
-        return $this->items()->sum(DB::raw('cost * qty'));
-    }
-
     public function updateStatus($status): static
     {
         $this->update([

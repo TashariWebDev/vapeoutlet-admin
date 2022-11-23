@@ -7,17 +7,20 @@
         </x-page-header>
 
         <div class="py-3 px-2 w-64">
-            <x-form.input.label for="search">
+            <x-input.label for="search">
                 Search
-            </x-form.input.label>
-            <x-form.input.text
+            </x-input.label>
+            <x-input.text
                 id="search"
                 type="text"
                 placeholder="name"
                 wire:model="searchQuery"
                 autofocus
                 autocomplete="off"
-            ></x-form.input.text>
+            ></x-input.text>
+            <x-input.helper>
+                Query time {{ round($queryTime, 3) }} ms
+            </x-input.helper>
         </div>
 
         <div class="py-3 px-2">
@@ -41,7 +44,7 @@
                         >
                     </x-table.row>
                     <x-table.row>
-                        <x-form.input.text
+                        <x-input.text
                             class="z-10"
                             type="file"
                             wire:model="image"
@@ -53,7 +56,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 type="text"
                                 value="{{ $brand->name }}"
                                 x-on:keydown.tab="$wire.call('updateBrand','{{ $brand->id }}',$event.target.value)"

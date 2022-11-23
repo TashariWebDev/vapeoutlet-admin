@@ -19,13 +19,13 @@
         <form wire:submit.prevent="save">
 
             <div class="py-3">
-                <x-form.input.label for="body">
+                <x-input.label for="body">
                     Note
-                </x-form.input.label>
-                <x-form.input.textarea
+                </x-input.label>
+                <x-input.textarea
                     id="body"
                     wire:model.defer="body"
-                ></x-form.input.textarea>
+                ></x-input.textarea>
             </div>
 
             <div>

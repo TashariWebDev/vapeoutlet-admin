@@ -30,18 +30,18 @@ class Show extends Component
 
     public $filter;
 
-    public $searchTerm = '';
+    public $searchQuery = '';
 
     protected $listeners = ['updateData' => '$refresh'];
 
-    protected $queryString = ['recordCount', 'searchTerm'];
+    protected $queryString = ['recordCount', 'searchQuery'];
 
     public function mount()
     {
         $this->customerId = request('id');
 
-        if (request()->has('searchTerm')) {
-            $this->searchTerm = request('searchTerm');
+        if (request()->has('searchQuery')) {
+            $this->searchQuery = request('searchQuery');
         }
 
         if (request()->has('recordCount')) {
@@ -49,7 +49,7 @@ class Show extends Component
         }
     }
 
-    public function updatedSearchTerm()
+    public function updatedSearchQuery()
     {
         $this->resetPage();
     }
@@ -92,18 +92,18 @@ class Show extends Component
             'lifetimeTransactions' => $this->customer->transactions()->get(),
             'transactions' => $this->customer
                 ->transactions()
-                ->when($this->searchTerm, function ($query) {
+                ->when($this->searchQuery, function ($query) {
                     $query->where(function ($query) {
                         $query
                             ->where(
                                 'reference',
                                 'like',
-                                '%'.$this->searchTerm.'%'
+                                '%'.$this->searchQuery.'%'
                             )
                             ->orWhere(
                                 'amount',
                                 'like',
-                                '%'.$this->searchTerm.'%'
+                                '%'.$this->searchQuery.'%'
                             );
                     });
                 })

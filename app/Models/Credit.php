@@ -14,13 +14,9 @@ class Credit extends Model
 {
     protected $guarded = [];
 
-    protected $dates = [
-        'processed_at', // order adjusted and sent to warehouse
-    ];
+    protected $dates = ['processed_at'];
 
     protected $with = ['items:id,product_id,credit_id,price,qty'];
-
-    //    Relationships
 
     public function customer(): BelongsTo
     {
@@ -37,8 +33,6 @@ class Credit extends Model
         return $this->hasMany(Stock::class);
     }
 
-    //    getters and setters
-
     public function getTotal()
     {
         return $this->getSubTotal() + $this->delivery_charge;
@@ -47,11 +41,6 @@ class Credit extends Model
     public function getSubTotal(): float
     {
         return to_rands($this->items()->sum(DB::raw('price * qty')));
-    }
-
-    public function getCost()
-    {
-        return to_rands($this->items()->sum(DB::raw('cost * qty')));
     }
 
     public function number(): Attribute

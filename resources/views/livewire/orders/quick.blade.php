@@ -17,7 +17,7 @@
                     Customer search
                 </label>
                 <div>
-                    <x-form.input.text
+                    <x-input.text
                         id="search"
                         type="text"
                         autofocus

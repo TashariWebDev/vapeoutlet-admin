@@ -8,10 +8,10 @@
                 <div class="relative">
                     <div class="flex items-end py-4">
                         <div class="flex-1">
-                            <x-form.input.label for="category">
+                            <x-input.label for="category">
                                 Category
-                            </x-form.input.label>
-                            <x-form.input.select
+                            </x-input.label>
+                            <x-input.select
                                 id="category"
                                 wire:model.defer="category"
                             >
@@ -19,9 +19,9 @@
                                 @foreach ($expenseCategories as $category)
                                     <option value="{{ $category->name }}">{{ $category->name }}</option>
                                 @endforeach
-                            </x-form.input.select>
+                            </x-input.select>
                             @error('category')
-                                <x-form.input.error>{{ $message }}</x-form.input.error>
+                                <x-input.error>{{ $message }}</x-input.error>
                             @enderror
                         </div>
                         <button x-on:click.prevent="$wire.set('showExpenseCategoryCreateForm',true)">
@@ -31,49 +31,49 @@
 
                 </div>
                 <div class="py-4">
-                    <x-form.input.label for="reference">
+                    <x-input.label for="reference">
                         Reference
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="reference"
                         type="text"
                         wire:model.defer="reference"
                     />
                     @error('reference')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-4">
-                    <x-form.input.label for="date">
+                    <x-input.label for="date">
                         Date
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="date"
                         type="date"
                         wire:model.defer="date"
                     />
                     @error('date')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-4">
-                    <x-form.input.label for="invoice_no">
+                    <x-input.label for="invoice_no">
                         Invoice no
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="invoice_no"
                         type="text"
                         wire:model.defer="invoice_no"
                     />
                     @error('invoice_no')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-4">
-                    <x-form.input.label for="amount">
+                    <x-input.label for="amount">
                         Amount
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="amount"
                         type="number"
                         inputmode="numeric"
@@ -82,20 +82,20 @@
                         wire:model.defer="amount"
                     />
                     @error('amount')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-4">
-                    <x-form.input.label for="vat_number">
+                    <x-input.label for="vat_number">
                         Vat number
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="vat_number"
                         type="text"
                         wire:model.defer="vat_number"
                     />
                     @error('vat_number')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2 px-2 rounded-md bg-slate-100">
@@ -133,16 +133,16 @@
         <div>
             <form wire:submit.prevent="addCategory">
                 <div class="py-2">
-                    <x-form.input.label for="name">
+                    <x-input.label for="name">
                         Name
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="name"
                         type="text"
                         wire:model.defer="categoryName"
                     />
                     @error('categoryName')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -158,24 +158,26 @@
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <!-- Transaction create -->
         <div class="p-2">
-            <div class="grid grid-cols-1 gap-2 space-y-2 lg:grid-cols-3">
+            <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
                 <div>
-                    <x-form.input.label>
+                    <x-input.label>
                         Search
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         type="text"
-                        wire:model="searchTerm"
+                        wire:model="searchQuery"
                         placeholder="search by reference"
                     />
+                    <x-input.helper>
+                        Query Time {{ round($queryTime, 3) }} ms
+                    </x-input.helper>
                 </div>
                 <div></div>
-                <div class="flex justify-end pt-3">
+                <div class="flex justify-end">
                     <button
-                        class="w-full lg:w-72 button-success"
+                        class="w-full h-10 lg:w-32 button-success"
                         x-on:click="$wire.set('showAddExpenseForm',true)"
                     >
-                        <x-icons.plus class="mr-2 w-5" />
                         add expense
                     </button>
                 </div>

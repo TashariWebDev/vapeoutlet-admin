@@ -12,10 +12,10 @@
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-5">
             @foreach ($categories as $category)
                 <div class="p-2 rounded-md bg-slate-200 dark:bg-slate-900">
-                    <x-form.input.label for="name-{{ $category->id }}">
+                    <x-input.label for="name-{{ $category->id }}">
                         Name
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="name-{{ $category->id }}"
                         type="text"
                         value="{{ $category->name }}"

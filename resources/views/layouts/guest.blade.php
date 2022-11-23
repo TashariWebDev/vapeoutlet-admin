@@ -15,7 +15,7 @@
         content="{{ csrf_token() }}"
     >
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Vape Crew') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>

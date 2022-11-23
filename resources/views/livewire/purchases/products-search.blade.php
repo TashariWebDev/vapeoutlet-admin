@@ -14,10 +14,10 @@
 
         <div>
             <div class="relative">
-                <x-form.input.label for="searchQuery">
+                <x-input.label for="searchQuery">
                     Product search
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     type="search"
                     wire:model="searchQuery"
                     placeholder="search"

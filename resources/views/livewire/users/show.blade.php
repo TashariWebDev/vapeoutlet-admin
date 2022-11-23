@@ -35,42 +35,42 @@
                 wire:submit.prevent="updateUser"
             >
                 <div class="py-2">
-                    <x-form.input.label for="name">
+                    <x-input.label for="name">
                         Full name
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="name"
                         type="text"
                         wire:model.defer="user.name"
                     />
                     @error('user.name')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
-                    <x-form.input.label for="email">
+                    <x-input.label for="email">
                         Email
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="email"
                         type="email"
                         wire:model.defer="user.email"
                     />
                     @error('user.email')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
-                    <x-form.input.label for="phone">
+                    <x-input.label for="phone">
                         Phone
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="phone"
                         type="text"
                         wire:model.defer="user.phone"
                     />
                     @error('user.phone')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">

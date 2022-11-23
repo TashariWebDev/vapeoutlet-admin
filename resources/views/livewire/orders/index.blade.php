@@ -56,21 +56,24 @@
 
             <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div class="">
-                    <x-form.input.label>
+                    <x-input.label>
                         Search
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         type="search"
                         placeholder="search"
                         autofocus
-                        wire:model="searchTerm"
+                        wire:model="searchQuery"
                     />
+                    <x-input.helper>
+                        Query Time {{ round($queryTime, 3) }} ms
+                    </x-input.helper>
                 </div>
 
                 <div>
-                    <x-form.input.label>
+                    <x-input.label>
                         Filter orders
-                    </x-form.input.label>
+                    </x-input.label>
                     <div
                         class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
                         <button
@@ -109,28 +112,28 @@
                 </div>
 
                 <div>
-                    <x-form.input.label>
+                    <x-input.label>
                         No of records
-                    </x-form.input.label>
-                    <x-form.input.select wire:model="recordCount">
+                    </x-input.label>
+                    <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
-                    </x-form.input.select>
+                    </x-input.select>
                 </div>
                 <div>
-                    <x-form.input.label>
+                    <x-input.label>
                         Status
-                    </x-form.input.label>
-                    <x-form.input.select wire:model="filter">
+                    </x-input.label>
+                    <x-input.select wire:model="filter">
                         <option value="received">Received</option>
                         <option value="processed">Processed</option>
                         <option value="packed">Packed</option>
                         <option value="shipped">Shipped</option>
                         <option value="completed">Completed</option>
                         <option value="cancelled">Cancelled</option>
-                    </x-form.input.select>
+                    </x-input.select>
                 </div>
             </div>
 

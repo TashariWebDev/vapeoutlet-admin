@@ -17,7 +17,7 @@ class Index extends Component
 
     public $showAddExpenseForm = false;
 
-    public $searchTerm = '';
+    public $searchQuery = '';
 
     public $categoryName;
 
@@ -35,7 +35,7 @@ class Index extends Component
 
     public $taxable = true;
 
-    public function updatedSearchTerm()
+    public function updatedSearchQuery()
     {
         $this->resetPage();
     }
@@ -110,11 +110,12 @@ class Index extends Component
                 ->get(),
             'expenses' => Expense::query()
                 ->orderByDesc('date')
-                ->when($this->searchTerm, function ($query) {
+                ->when($this->searchQuery, function ($query) {
                     $query
-                        ->where('category', 'like', $this->searchTerm.'%')
-                        ->orWhere('date', 'like', $this->searchTerm)
-                        ->orWhere('invoice_no', 'like', $this->searchTerm);
+                        ->where('category', 'like', $this->searchQuery.'%')
+                        ->orWhere('reference', 'like', $this->searchQuery.'%')
+                        ->orWhere('date', 'like', $this->searchQuery)
+                        ->orWhere('invoice_no', 'like', $this->searchQuery);
                 })
                 ->paginate(10),
         ]);

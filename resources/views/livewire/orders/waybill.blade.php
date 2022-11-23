@@ -17,10 +17,10 @@
 
         <form wire:submit.prevent="save">
             <div class="py-4">
-                <x-form.input.label>
+                <x-input.label>
                     Waybill No:
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="waybill"
                     type="text"
                     wire:model.defer="waybill"

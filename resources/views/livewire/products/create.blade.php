@@ -13,40 +13,40 @@
 
         <form wire:submit.prevent="save">
             <div class="py-2">
-                <x-form.input.label for="name">
+                <x-input.label for="name">
                     Name
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="name"
                     type="text"
                     wire:model.defer="name"
                     required
                 />
                 @error('name')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="sku">
+                <x-input.label for="sku">
                     SKU
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="sku"
                     type="text"
                     wire:model.defer="sku"
                     required
                 />
                 @error('sku')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
                 <div class="flex items-end">
                     <div class="flex-1">
-                        <x-form.input.label for="brand">
+                        <x-input.label for="brand">
                             Brand
-                        </x-form.input.label>
-                        <x-form.input.select
+                        </x-input.label>
+                        <x-input.select
                             id="brand"
                             type="text"
                             wire:model.defer="brand"
@@ -56,9 +56,9 @@
                             @foreach ($brands as $brand)
                                 <option value="{{ $brand->name }}">{{ $brand->name }}</option>
                             @endforeach
-                        </x-form.input.select>
+                        </x-input.select>
                         @error('brand')
-                            <x-form.input.error>{{ $message }}</x-form.input.error>
+                            <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -69,10 +69,10 @@
             <div class="py-2">
                 <div class="flex items-end">
                     <div class="flex-1">
-                        <x-form.input.label for="category">
+                        <x-input.label for="category">
                             Category
-                        </x-form.input.label>
-                        <x-form.input.select
+                        </x-input.label>
+                        <x-input.select
                             id="category"
                             wire:model.defer="category"
                             required
@@ -81,9 +81,9 @@
                             @foreach ($categories as $category)
                                 <option value="{{ $category->name }}">{{ $category->name }}</option>
                             @endforeach
-                        </x-form.input.select>
+                        </x-input.select>
                         @error('category')
-                            <x-form.input.error>{{ $message }}</x-form.input.error>
+                            <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -93,11 +93,11 @@
             </div>
             <div class="flex items-end py-2">
                 <div class="flex-1">
-                    <x-form.input.label for="collection">
+                    <x-input.label for="collection">
                         Collection ( optional )
-                    </x-form.input.label>
+                    </x-input.label>
 
-                    <x-form.input.select
+                    <x-input.select
                         id="collection"
                         type="text"
                         wire:model.defer="product_collection_id"
@@ -106,10 +106,10 @@
                         @foreach ($productCollections as $collection)
                             <option value="{{ $collection->id }}">{{ $collection->name }}</option>
                         @endforeach
-                    </x-form.input.select>
+                    </x-input.select>
 
                     @error('product_collection_id')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div>
@@ -131,24 +131,24 @@
 
         @if ($product)
             <div class="py-2">
-                <x-form.input.label for="description">
+                <x-input.label for="description">
                     Description
-                </x-form.input.label>
-                <x-form.input.textarea
+                </x-input.label>
+                <x-input.textarea
                     id="description"
                     type="text"
                     wire:model="description"
                 />
                 @error('description')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="py-2">
-                <x-form.input.label for="retail_price">
+                <x-input.label for="retail_price">
                     Retail price
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="retail_price"
                     type="number"
                     wire:model="retail_price"
@@ -160,14 +160,14 @@
                     required
                 />
                 @error('retail_price')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="wholesale_price">
+                <x-input.label for="wholesale_price">
                     wholesale price
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="wholesale_price"
                     type="number"
                     wire:model="wholesale_price"
@@ -179,16 +179,16 @@
                     required
                 />
                 @error('wholesale_price')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
             <div class="flex items-end py-2">
                 <div class="flex-1">
-                    <x-form.input.label for="features">
+                    <x-input.label for="features">
                         features
-                    </x-form.input.label>
-                    <x-form.input.select
+                    </x-input.label>
+                    <x-input.select
                         id="features"
                         type="text"
                         wire:change="addFeature($event.target.value)"
@@ -197,7 +197,7 @@
                         @foreach ($featureCategories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
-                    </x-form.input.select>
+                    </x-input.select>
                 </div>
                 <div>
                     <livewire:feature-categories.create wire:key="add-feature-category" />
@@ -212,10 +212,10 @@
                     <div class="flex items-end py-2">
 
                         <div class="flex-1">
-                            <x-form.input.label for="{{ $feature->category->name }}-{{ $feature->id }}">
+                            <x-input.label for="{{ $feature->category->name }}-{{ $feature->id }}">
                                 {{ $feature->category->name }}
-                            </x-form.input.label>
-                            <x-form.input.text
+                            </x-input.label>
+                            <x-input.text
                                 id="{{ $feature->category->name }}-{{ $feature->id }}"
                                 type="text"
                                 value="{{ $feature->name ?? '' }}"

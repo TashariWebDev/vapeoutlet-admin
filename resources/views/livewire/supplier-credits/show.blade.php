@@ -71,7 +71,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->cost }}"
@@ -84,7 +84,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->qty }}"
@@ -94,7 +94,7 @@
                     </x-table.row>
                     <x-table.row>
                         <label>
-                            <x-form.input.text
+                            <x-input.text
                                 class="w-full rounded-md text-slate-700 bg-slate-400"
                                 type="number"
                                 value="{{ $item->line_total }}"

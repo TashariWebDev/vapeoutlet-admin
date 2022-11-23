@@ -3,63 +3,63 @@
     <x-slide-over x-data="{ show: $wire.entangle('showDeliveryCreateForm') }">
         <form wire:submit.prevent="save">
             <div class="py-2">
-                <x-form.input.label for="type">
+                <x-input.label for="type">
                     Type
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="type"
                     type="text"
                     wire:model.defer="delivery.type"
                 />
                 @error('delivery.type')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="description">
+                <x-input.label for="description">
                     Description
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="description"
                     type="text"
                     wire:model.defer="delivery.description"
                 />
                 @error('delivery.description')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="price">
+                <x-input.label for="price">
                     Price
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="price"
                     type="text"
                     wire:model.defer="delivery.price"
                 />
                 @error('delivery.price')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="waiver">
+                <x-input.label for="waiver">
                     Waiver value
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="waiver"
                     type="text"
                     wire:model.defer="delivery.waiver_value"
                     placeholder="leave empty if not applicable"
                 />
                 @error('delivery.waiver_value')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="province">
+                <x-input.label for="province">
                     Province
-                </x-form.input.label>
-                <x-form.input.select
+                </x-input.label>
+                <x-input.select
                     id="province"
                     wire:model.defer="delivery.province"
                 >
@@ -72,16 +72,16 @@
                             {{ $province }}
                         </option>
                     @endforeach
-                </x-form.input.select>
+                </x-input.select>
                 @error('delivery.province')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="customer_type">
+                <x-input.label for="customer_type">
                     Customer type
-                </x-form.input.label>
-                <x-form.input.select
+                </x-input.label>
+                <x-input.select
                     id="customer_type"
                     wire:model.defer="delivery.customer_type"
                 >
@@ -98,9 +98,9 @@
                     >
                         Wholesale
                     </option>
-                </x-form.input.select>
+                </x-input.select>
                 @error('delivery.customer_type')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2 w-full">

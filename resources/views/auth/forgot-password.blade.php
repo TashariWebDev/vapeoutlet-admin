@@ -25,10 +25,10 @@
             <!-- Email Address -->
             <div>
 
-                <x-form.input.label for="email">
+                <x-input.label for="email">
                     email
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="email"
                     name="email"
                     type="email"
@@ -39,9 +39,9 @@
             </div>
 
             <div class="flex justify-end items-center mt-4">
-                <x-button class="button-success">
+                <button class="button-success">
                     {{ __('Email Password Reset Link') }}
-                </x-button>
+                </button>
             </div>
         </form>
     </x-auth-card>

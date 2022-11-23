@@ -23,11 +23,11 @@ class Show extends Component
 
     public $supplierId;
 
-    public $searchTerm = '';
+    public $searchQuery = '';
 
     protected $listeners = ['refresh_data' => '$refresh'];
 
-    public function updatedSearchTerm()
+    public function updatedSearchQuery()
     {
         $this->resetPage();
     }
@@ -112,8 +112,12 @@ class Show extends Component
                 ->latest('id')
                 ->get(),
             'supplierTransactions' => $this->transactions
-                ->when($this->searchTerm, function ($query) {
-                    $query->where('reference', 'like', $this->searchTerm.'%');
+                ->when($this->searchQuery, function ($query) {
+                    $query->where(
+                        'reference',
+                        'like',
+                        $this->searchQuery.'%'
+                    );
                 })
                 ->latest('id')
                 ->whereBelongsTo($this->supplier)

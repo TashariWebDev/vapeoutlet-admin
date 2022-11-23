@@ -11,10 +11,10 @@
             <div class="relative">
                 <div class="flex items-end py-2">
                     <div class="flex-1">
-                        <x-form.input.label for="supplier">
+                        <x-input.label for="supplier">
                             Select a supplier
-                        </x-form.input.label>
-                        <x-form.input.select
+                        </x-input.label>
+                        <x-input.select
                             id="supplier"
                             wire:model.defer="supplier_id"
                         >
@@ -22,9 +22,9 @@
                             @foreach ($suppliers as $supplier)
                                 <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                             @endforeach
-                        </x-form.input.select>
+                        </x-input.select>
                         @error('supplier_id')
-                            <x-form.input.error>{{ $message }}</x-form.input.error>
+                            <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -34,36 +34,36 @@
 
             </div>
             <div class="py-2">
-                <x-form.input.label for="date">
+                <x-input.label for="date">
                     date
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="date"
                     type="date"
                     wire:model.defer="date"
                 />
                 @error('date')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="invoice_no">
+                <x-input.label for="invoice_no">
                     Invoice no
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="invoice_no"
                     type="text"
                     wire:model.defer="invoice_no"
                 />
                 @error('invoice_no')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="relative py-2">
-                <x-form.input.label for="currency">
+                <x-input.label for="currency">
                     currency
-                </x-form.input.label>
-                <x-form.input.select
+                </x-input.label>
+                <x-input.select
                     id="currency"
                     wire:model.defer="currency"
                 >
@@ -72,16 +72,16 @@
                     <option value="EUR">EUR</option>
                     <option value="GBP">GBP</option>
                     <option value="CNH">CNH</option>
-                </x-form.input.select>
+                </x-input.select>
                 @error('currency')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="exchange_rate">
+                <x-input.label for="exchange_rate">
                     exchange rate in ZAR ( optional )
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="exchange_rate"
                     type="number"
                     wire:model.defer="exchange_rate"
@@ -92,14 +92,14 @@
                     pattern="[0-9.]+"
                 />
                 @error('exchange_rate')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="amount">
+                <x-input.label for="amount">
                     Invoice amount in selected currency ( ex shipping )
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="amount"
                     type="number"
                     wire:model.defer="amount"
@@ -110,14 +110,14 @@
                     pattern="[0-9.]+"
                 />
                 @error('amount')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
-                <x-form.input.label for="shipping_rate">
+                <x-input.label for="shipping_rate">
                     Shipping rate as % ( optional )
-                </x-form.input.label>
-                <x-form.input.text
+                </x-input.label>
+                <x-input.text
                     id="shipping_rate"
                     type="number"
                     wire:model.defer="shipping_rate"
@@ -128,7 +128,7 @@
                     pattern="[0-9.]+"
                 />
                 @error('shipping_rate')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2 px-2 mt-2 rounded-md text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-700">
@@ -145,7 +145,7 @@
                     <span class="ml-3">Taxable</span>
                 </label>
                 @error('taxable')
-                    <x-form.input.error>{{ $message }}</x-form.input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2 mt-2">

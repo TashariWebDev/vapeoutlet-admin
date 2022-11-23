@@ -7,15 +7,15 @@
         <div class="py-6">
             <form wire:submit.prevent="save">
                 <div class="py-6">
-                    <x-form.input.label for="body">
+                    <x-input.label for="body">
                         Notification
-                    </x-form.input.label>
-                    <x-form.input.textarea
+                    </x-input.label>
+                    <x-input.textarea
                         id="body"
                         wire:model.defer="body"
-                    ></x-form.input.textarea>
+                    ></x-input.textarea>
                     @error('body')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div>

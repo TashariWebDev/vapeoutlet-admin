@@ -5,10 +5,10 @@
 
             <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
                 <div>
-                    <x-form.input.label for="search">
+                    <x-input.label for="search">
                         Search
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         class="w-full"
                         id="search"
                         type="search"
@@ -17,18 +17,21 @@
                         autocomplete="off"
                         placeholder="Search by SKU, name, category or brand"
                     />
+                    <x-input.helper>
+                        Query time {{ round($queryTime, 3) }} ms
+                    </x-input.helper>
                 </div>
 
                 <div>
-                    <x-form.input.label>
+                    <x-input.label>
                         No of records
-                    </x-form.input.label>
-                    <x-form.input.select wire:model="recordCount">
+                    </x-input.label>
+                    <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
-                    </x-form.input.select>
+                    </x-input.select>
                 </div>
             </div>
 
@@ -174,11 +177,11 @@
                             <div>
                                 <div>
                                     @if (auth()->user()->hasPermissionTo('edit pricing'))
-                                        <x-form.input.label for="retail">
+                                        <x-input.label for="retail">
                                             Retail price
-                                        </x-form.input.label>
+                                        </x-input.label>
 
-                                        <x-form.input.text
+                                        <x-input.text
                                             class="px-0.5 w-full rounded border"
                                             id="retail"
                                             type="number"
@@ -189,9 +192,9 @@
                                             @keydown.tab="$wire.call('updateRetailPrice','{{ $product->id }}',$event.target.value)"
                                         />
                                     @else
-                                        <x-form.input.label for="retail">
+                                        <x-input.label for="retail">
                                             Retail price
-                                        </x-form.input.label>
+                                        </x-input.label>
                                         <p class="text-center text-slate-500 dark:text-slate-400">
                                             {{ $product->retail_price }}</p>
                                     @endif
@@ -208,10 +211,10 @@
                         <div class="w-full h-full">
                             <div>
                                 @if (auth()->user()->hasPermissionTo('edit pricing'))
-                                    <x-form.input.label for="wholesale">
+                                    <x-input.label for="wholesale">
                                         Wholesale price
-                                    </x-form.input.label>
-                                    <x-form.input.text
+                                    </x-input.label>
+                                    <x-input.text
                                         class="px-0.5 w-full rounded border"
                                         id="wholesale"
                                         type="number"
@@ -222,9 +225,9 @@
                                         @keydown.tab="$wire.call('updateWholesalePrice','{{ $product->id }}',$event.target.value)"
                                     />
                                 @else
-                                    <x-form.input.label for="wholesale">
+                                    <x-input.label for="wholesale">
                                         Wholesale price
-                                    </x-form.input.label>
+                                    </x-input.label>
                                     <p class="text-center text-slate-500 dark:text-slate-400">
                                         {{ $product->wholesale_price }}</p>
                                 @endif

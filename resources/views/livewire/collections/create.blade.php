@@ -13,17 +13,17 @@
         <div>
             <div>
                 <div class="py-2">
-                    <x-form.input.label for="name">
+                    <x-input.label for="name">
                         Name
-                    </x-form.input.label>
-                    <x-form.input.text
+                    </x-input.label>
+                    <x-input.text
                         id="name"
                         type="text"
                         wire:model.defer="name"
                         required
                     />
                     @error('name')
-                        <x-form.input.error>{{ $message }}</x-form.input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
