@@ -406,11 +406,12 @@
             </div>
 
             <div class="py-4">
-                <x-select wire:model.defer="selectedSalespersonId">
+                <x-input.select wire:model.defer="selectedSalespersonId">
+                    <option value="">Choose</option>
                     @foreach ($salespeople as $salesperson)
                         <option value="{{ $salesperson->id }}">{{ $salesperson->name }}</option>
                     @endforeach
-                </x-select>
+                </x-input.select>
             </div>
 
             <div class="py-2">
@@ -438,11 +439,12 @@
             </div>
 
             <div class="py-4">
-                <x-select wire:model.defer="selectedAdmin">
+                <x-input.select wire:model.defer="selectedAdmin">
+                    <option value="">Choose</option>
                     @foreach ($admins as $admin)
                         <option value="{{ $admin->name }}">{{ $admin->name }}</option>
                     @endforeach
-                </x-select>
+                </x-input.select>
             </div>
 
             <div class="py-2">
@@ -470,11 +472,12 @@
             </div>
 
             <div class="py-4">
-                <x-select wire:model.defer="selectedSupplierId">
+                <x-input.select wire:model.defer="selectedSupplierId">
+                    <option value="">Choose</option>
                     @foreach ($suppliers as $supplier)
                         <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
                     @endforeach
-                </x-select>
+                </x-input.select>
             </div>
 
             <div class="py-2">
@@ -502,14 +505,12 @@
             </div>
 
             <div class="py-4">
-                <x-select
-                    wire:model.defer="selectedExpenseCategory"
-                    s
-                >
+                <x-input.select wire:model.defer="selectedExpenseCategory">
+                    <option value="">Choose</option>
                     @foreach ($expenseCategories as $category)
                         <option value="{{ $category->name }}">{{ $category->name }}</option>
                     @endforeach
-                </x-select>
+                </x-input.select>
             </div>
 
             <div class="py-2">
