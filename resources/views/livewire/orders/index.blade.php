@@ -8,7 +8,6 @@
         }
     })"
 >
-
     <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Latest transactions</h3>
