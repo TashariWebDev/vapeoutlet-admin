@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Products;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Product;
-use App\Models\Stock;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -26,7 +25,7 @@ class Index extends Component
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    protected $queryString = ['recordCount', 'searchQuery'];
+    protected $queryString = ['recordCount', 'searchQuery' => ['except' => '']];
 
     public function mount()
     {
@@ -89,47 +88,52 @@ class Index extends Component
         $this->notify('price updated');
     }
 
+    public function getProductsProperty()
+    {
+        return Product::query()
+            ->select(
+                'products.id',
+                'products.name',
+                'products.brand',
+                'products.category',
+                'products.sku',
+                'products.retail_price',
+                'products.wholesale_price',
+                'products.cost',
+                'products.is_active',
+                'products.is_featured',
+                'products.is_sale',
+                'products.deleted_at',
+                'products.image'
+            )
+            ->with(['features:id,product_id,name', 'lastPurchasePrice'])
+            ->withSum(
+                [
+                    'stocks as total_available',
+                    'stocks as total_sold' => function ($query) {
+                        $query->where('type', 'invoice');
+                    },
+                    'stocks as total_purchases' => function ($query) {
+                        $query->where('type', 'purchase');
+                    },
+                    'stocks as total_credits' => function ($query) {
+                        $query->where('type', 'credit');
+                    },
+                    'stocks as total_supplier_credits' => function ($query) {
+                        $query->where('type', 'supplier_credit');
+                    },
+                    'stocks as total_adjustments' => function ($query) {
+                        $query->where('type', 'adjustment');
+                    },
+                ],
+                'qty'
+            );
+    }
+
     public function render(): Factory|View|Application
     {
         return view('livewire.products.index', [
-            'products' => Product::query()
-                ->with(['features:id,product_id,name', 'lastPurchasePrice'])
-                ->addSelect([
-                    'total_available' => Stock::whereColumn(
-                        'product_id',
-                        'products.id'
-                    )->selectRaw('sum(qty) as total_available'),
-                    'total_sold' => Stock::whereColumn(
-                        'product_id',
-                        'products.id'
-                    )
-                        ->where('type', '=', 'invoice')
-                        ->selectRaw('sum(qty) as total_sold'),
-                    'total_credits' => Stock::whereColumn(
-                        'product_id',
-                        'products.id'
-                    )
-                        ->where('type', '=', 'credit')
-                        ->selectRaw('sum(qty) as total_credits'),
-                    'total_adjustments' => Stock::whereColumn(
-                        'product_id',
-                        'products.id'
-                    )
-                        ->where('type', '=', 'adjustment')
-                        ->selectRaw('sum(qty) as total_adjustments'),
-                    'total_purchases' => Stock::whereColumn(
-                        'product_id',
-                        'products.id'
-                    )
-                        ->where('type', '=', 'purchase')
-                        ->selectRaw('sum(qty) as total_purchases'),
-                    'total_supplier_credits' => Stock::whereColumn(
-                        'product_id',
-                        'products.id'
-                    )
-                        ->where('type', '=', 'supplier credit')
-                        ->selectRaw('sum(qty) as total_supplier_credits'),
-                ])
+            'products' => $this->products
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)
