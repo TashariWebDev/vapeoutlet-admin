@@ -43,6 +43,7 @@ class AddProduct extends Component
             foreach ($products as $product) {
                 if ($product->total_available > 0) {
                     $this->order->addItem($product);
+                    $this->notify($product->fullName().' added to order.');
                 } else {
                     $this->notify(
                         $product->fullName().' currently out of stock'
@@ -51,11 +52,8 @@ class AddProduct extends Component
             }
         });
 
-        $this->resetPage();
-        $this->searchQuery = '';
-        $this->selectedProducts = [];
+        $this->reset(['searchQuery', 'selectedProducts', 'modal']);
         $this->emit('refreshData');
-        $this->modal = false;
     }
 
     public function render(): Factory|View|Application

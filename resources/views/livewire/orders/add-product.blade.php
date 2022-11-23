@@ -59,8 +59,8 @@
                                 <div class="flex items-center space-x-4">
                                     <div>
                                         <p class="text-xs font-medium text-slate-500 dark:text-slate-400">
-                                            {{ $product->total_available }}
-                                            in stock</p>
+                                            {{ $product->total_available }} in stock
+                                        </p>
                                     </div>
                                     <div>
                                         <img

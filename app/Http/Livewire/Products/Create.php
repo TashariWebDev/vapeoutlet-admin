@@ -46,18 +46,14 @@ class Create extends Component
 
     public $wholesale_price;
 
-    protected $listeners = ['updateFormData', 'refresh' => '$refresh'];
-
-    public function mount()
-    {
-    }
+    protected $listeners = ['updateFormData', 'refreshData' => '$refresh'];
 
     public function updatedSlide()
     {
         if ($this->slide = true) {
             $this->updateFormData();
         } else {
-            $this->emitSelf('refresh');
+            $this->emitSelf('refreshData');
 
             $this->reset([
                 'brands',
@@ -121,16 +117,15 @@ class Create extends Component
 
     public function updatedRetailPrice()
     {
-        $this->product->retail_price = $this->retail_price;
         $this->product->old_retail_price = $this->product->retail_price;
+        $this->product->retail_price = $this->retail_price;
         $this->product->save();
-        $this->product->old_wholesale_price = $this->product->wholesale_price;
     }
 
     public function updatedWholesalePrice()
     {
-        $this->product->wholesale_price = $this->wholesale_price;
         $this->product->old_wholesale_price = $this->product->wholesale_price;
+        $this->product->wholesale_price = $this->wholesale_price;
         $this->product->save();
     }
 
@@ -146,10 +141,7 @@ class Create extends Component
             $this->product->features()->create([
                 'feature_category_id' => $categoryId,
             ]);
-            $this->product->unsetRelation('features');
             $this->product->load('features');
-
-            $this->notify('Feature created');
         }
     }
 

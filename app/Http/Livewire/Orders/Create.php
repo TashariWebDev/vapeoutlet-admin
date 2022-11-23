@@ -11,7 +11,6 @@ use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Stock;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -53,14 +52,10 @@ class Create extends Component
     public function getOrderProperty(): Order|array|_IH_Order_C
     {
         return Order::with(['items.product.features:id,product_id,name'])
+            ->withCount('items')
             ->with('items', function ($query) {
                 $query->withWhereHas('product', function ($query) {
-                    $query->addSelect([
-                        'total_available' => Stock::whereColumn(
-                            'product_id',
-                            'products.id'
-                        )->selectRaw('sum(qty) as total_available'),
-                    ]);
+                    $query->withStockCount();
                 });
             })
             ->where('id', $this->orderId)

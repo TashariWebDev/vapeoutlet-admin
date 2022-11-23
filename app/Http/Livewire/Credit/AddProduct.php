@@ -32,21 +32,19 @@ class AddProduct extends Component
      */
     public function addProducts()
     {
-        foreach ($this->selectedProducts as $productId) {
-            $product = Product::findOrFail($productId);
+        $query = Product::query()->whereIn('id', $this->selectedProducts);
 
-            $this->credit->addItem($product);
-        }
-
-        $this->modal = false;
+        $query->chunkById(10, function ($products) {
+            foreach ($products as $product) {
+                $this->credit->addItem($product);
+            }
+        });
 
         $this->reset(['searchQuery']);
-
         $this->selectedProducts = [];
-
         $this->emit('refreshData');
-
         $this->notify('Products added');
+        $this->modal = false;
     }
 
     public function render()

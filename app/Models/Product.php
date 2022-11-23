@@ -167,12 +167,7 @@ class Product extends Model
 
     public function scopeWithStockCount($query)
     {
-        return $query->addSelect([
-            'total_available' => Stock::whereColumn(
-                'product_id',
-                'products.id'
-            )->selectRaw('sum(qty) as total_available'),
-        ]);
+        return $query->withSum(['stocks as total_available'], 'qty');
     }
 
     public function scopeInStock($query)
