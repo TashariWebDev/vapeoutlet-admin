@@ -234,7 +234,7 @@
                         </x-input.select>
                     </div>
                     <div
-                        class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-2 mb-1 lg:grid-cols-6 lg:col-span-4 lg:gap-y-0">
+                        class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-2 mb-6 lg:grid-cols-6 lg:col-span-4 lg:gap-y-0">
 
                         <div class="hidden col-span-6 lg:block">
                             {{-- Force alignment --}}
