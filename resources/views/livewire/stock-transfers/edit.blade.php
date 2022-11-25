@@ -1,7 +1,7 @@
 <div class="relative">
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Process this credit note?</h3>
+            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Process this transfer?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -29,35 +29,23 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
-                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $this->credit->number }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->credit->updated_at }}</p>
-                <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
-                        Total: R {{ number_format($this->credit->getTotal(), 2) }}
-                    </p>
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
-                        Count: {{ $this->credit->items_count }}
-                    </p>
-                </div>
+                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $stockTransfer->number() }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $stockTransfer->date }}</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                    Transferring from {{ $stockTransfer->dispatcher->name }}
+                    to {{ $stockTransfer->receiver->name }}
+                </p>
             </div>
-            <div class="grid grid-cols-1 gap-2 text-xs lg:grid-cols-2">
-                <div>
-                    <p class="font-semibold text-teal-500 dark:text-teal-400">{{ $this->credit->customer->name }}
-                        @isset($this->credit->customer->company)
-                            <span>| {{ $this->credit->customer->company }}</span>
-                        @endisset
-                    </p>
-                </div>
-            </div>
+            <div></div>
             <div class="grid grid-cols-2 gap-2 lg:grid-cols-2">
                 <div>
-                    @if (!$this->credit->processed)
-                        <livewire:credit.add-product :credit="$this->credit" />
+                    @if (!$stockTransfer->is_processed)
+                        <livewire:stock-transfers.add-products :stockTransferId="$stockTransfer->id" />
                     @endif
                 </div>
 
                 <div>
-                    @if (!$this->credit->processed)
+                    @if (!$stockTransfer->is_processed)
                         <button
                             class="w-full button-danger"
                             wire:click="cancel"
@@ -69,18 +57,18 @@
                 </div>
 
                 <div>
-                    @if ($this->credit->processed)
+                    @if ($stockTransfer->is_processed)
                         <button
                             class="w-full button-warning"
                             disabled
                         >
-                            <p>Processed by {{ $this->credit->created_by }} </p>
-                            <p>{{ $this->credit->processed_date }}</p>
+                            <p>Processed by {{ $stockTransfer->user->name }} </p>
+                            <p>{{ $stockTransfer->updated_at }}</p>
                         </button>
                     @endif
                 </div>
                 <div>
-                    @if (!$this->credit->processed)
+                    @if (!$stockTransfer->is_processed)
                         <button
                             class="w-full button-success"
                             wire:click="$toggle('showConfirmModal')"
@@ -94,7 +82,7 @@
             </div>
         </div>
 
-        @if (!$this->credit->processed)
+        @if (!$stockTransfer->is_processed)
             <div class="py-0.5 px-2 w-full">
                 <div>
                     <x-input.text
@@ -109,15 +97,13 @@
         @endif
 
         <x-table.container>
-            <x-table.header class="hidden grid-cols-5 lg:grid">
+            <x-table.header class="hidden grid-cols-2 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
-                <x-table.heading class="lg:text-right">price</x-table.heading>
-                <x-table.heading class="lg:text-right">qty</x-table.heading>
-                <x-table.heading class="lg:text-right">Line total</x-table.heading>
+                <x-table.heading class="lg:text-right">qty to transfer</x-table.heading>
             </x-table.header>
             <div>
                 @if (!empty($selectedProductsToDelete))
-                    @if (!$this->credit->processed)
+                    @if (!$stockTransfer->is_processed)
                         <div>
                             <button
                                 class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700"
@@ -128,7 +114,7 @@
                     @endif
                 @endif
             </div>
-            @foreach ($this->credit->items as $item)
+            @foreach ($stockTransfer->items as $item)
                 <x-table.body
                     class="grid lg:grid-cols-5"
                     wire:key="'item-table-'{{ $item->id }}"
@@ -152,50 +138,23 @@
                             <div>
                                 <x-product-listing-simple
                                     :product="$item->product"
-                                    wire:key="'credit-item-'{{ $item->id }}"
+                                    wire:key="'stockTransfer-item-'{{ $item->id }}"
                                 />
                             </div>
                         </div>
                     </x-table.row>
                     <x-table.row>
-                        @if (!$this->credit->processed)
-                            <form>
-                                <label>
-                                    <x-input.text
-                                        type="number"
-                                        value="{{ $item->price }}"
-                                        wire:keyup.debounce.500ms="updatePrice({{ $item->id }},$event.target.value)"
-                                        pattern="[0-9]*"
-                                        inputmode="numeric"
-                                        step="0.01"
-                                    />
-                                </label>
-                            </form>
-                        @else
-                            <label>
-                                <x-input.text
-                                    type="number"
-                                    value="{{ $item->price }}"
-                                    inputmode="numeric"
-                                    pattern="[0-9]"
-                                    step="0.01"
-                                    disabled
-                                />
-                            </label>
-                        @endif
-                    </x-table.row>
-                    <x-table.row>
-                        @if (!$this->credit->processed)
+                        @if (!$stockTransfer->processed)
                             <form>
                                 <label>
                                     <x-input.text
                                         type="number"
                                         value="{{ $item->qty }}"
-                                        wire:keyup.debounce.500ms="updateQty({{ $item->id }},$event.target.value)"
+                                        wire:keyup.debounce.500ms="updateQty({{ $item->id }},$event.target.value,{{ $item->product->total_available }})"
                                         inputmode="numeric"
                                         pattern="[0-9]"
                                         min="1"
-                                        max="{{ $item->product->qty() }}"
+                                        max="{{ $item->product->total_available }}"
                                     />
                                 </label>
                             </form>
@@ -212,29 +171,17 @@
                         @endif
                         <div class="flex justify-between items-center mt-1">
                             <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
-                                @if (!$this->credit->processed)
-                                    <button
-                                        wire:loading.attr="disabled"
-                                        wire:target="removeProducts"
-                                        wire:click="deleteItem('{{ $item->id }}')"
-                                    >remove
-                                    </button>
-                                @endif
+                                <button
+                                    wire:loading.attr="disabled"
+                                    wire:target="removeProducts"
+                                    wire:click="deleteItem({{ $item->id }})"
+                                >remove
+                                </button>
+                            </div>
+                            <div>
+                                {{ $item->product->total_available }} in {{ $stockTransfer->dispatcher->name }}
                             </div>
                         </div>
-                    </x-table.row>
-                    <x-table.row>
-                        <label>
-                            <x-input.text
-                                class="w-full rounded-md text-slate-700 bg-slate-400"
-                                type="number"
-                                value="{{ $item->line_total }}"
-                                inputmode="numeric"
-                                pattern="[0-9]"
-                                step="0.01"
-                                disabled
-                            />
-                        </label>
                     </x-table.row>
                 </x-table.body>
             @endforeach

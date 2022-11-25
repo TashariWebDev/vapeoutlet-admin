@@ -28,6 +28,24 @@
                 Users
             </a>
         @endhasPermissionTo
+
+        @hasPermissionTo('edit outlets')
+            <a
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
+                href="{{ route('outlets') }}"
+            >
+                Sales channels
+            </a>
+        @endhasPermissionTo
+
+        @hasPermissionTo('transfer stock')
+            <a
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg ring-teal-400 shadow dark:text-teal-600 hover:ring focus:ring text-slate-600 dark:bg-slate-800"
+                href="{{ route('stock-transfers') }}"
+            >
+                Stock transfers
+            </a>
+        @endhasPermissionTo
     </div>
 
     <div class="my-2 h-0.5"></div>

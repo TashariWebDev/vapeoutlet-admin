@@ -55,6 +55,16 @@ class Stock extends Model
         return $this->belongsTo(Purchase::class);
     }
 
+    public function transfer(): BelongsTo
+    {
+        return $this->belongsTo(StockTransfer::class);
+    }
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class);
+    }
+
     public function supplier_credit(): BelongsTo
     {
         return $this->belongsTo(SupplierCredit::class);

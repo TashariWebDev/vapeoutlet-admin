@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use JetBrains\PhpStorm\Pure;
 
 /**
@@ -15,23 +18,23 @@ use JetBrains\PhpStorm\Pure;
  * @property int $product_id
  * @property int $price
  * @property int $qty
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property-read int|float $line_total
- * @property-read \App\Models\Product|null $product
- * @property-read \App\Models\Purchase|null $purchase
+ * @property-read Product|null $product
+ * @property-read Purchase|null $purchase
  *
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem query()
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem wherePurchaseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereQty($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PurchaseItem whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|PurchaseItem newModelQuery()
+ * @method static Builder|PurchaseItem newQuery()
+ * @method static Builder|PurchaseItem query()
+ * @method static Builder|PurchaseItem whereCreatedAt($value)
+ * @method static Builder|PurchaseItem whereId($value)
+ * @method static Builder|PurchaseItem wherePrice($value)
+ * @method static Builder|PurchaseItem whereProductId($value)
+ * @method static Builder|PurchaseItem wherePurchaseId($value)
+ * @method static Builder|PurchaseItem whereQty($value)
+ * @method static Builder|PurchaseItem whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class PurchaseItem extends Model
 {
@@ -99,6 +102,7 @@ class PurchaseItem extends Model
                 'reference' => $this->purchase->invoice_no,
                 'qty' => $this->qty,
                 'cost' => $this->total_cost_in_zar(),
+                'outlet_id' => 1,
             ]
         );
     }

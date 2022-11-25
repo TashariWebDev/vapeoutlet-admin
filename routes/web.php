@@ -14,6 +14,7 @@ use App\Http\Livewire\Notifications\Index as NotificationsIndex;
 use App\Http\Livewire\Orders\Create as OrdersCreate;
 use App\Http\Livewire\Orders\Index as OrdersIndex;
 use App\Http\Livewire\Orders\Show as OrdersShow;
+use App\Http\Livewire\Outlets\Index as OutletsIndex;
 use App\Http\Livewire\Products\Edit as ProductsEdit;
 use App\Http\Livewire\Products\Index as ProductsIndex;
 use App\Http\Livewire\Profile\Index as ProfileIndex;
@@ -23,6 +24,8 @@ use App\Http\Livewire\Reports\Index as ReportsIndex;
 use App\Http\Livewire\Settings\Index as SettingsIndex;
 use App\Http\Livewire\StockTakes\Index as StockTakesIndex;
 use App\Http\Livewire\StockTakes\Show as StockTakesShow;
+use App\Http\Livewire\StockTransfers\Edit as StockTransfersEdit;
+use App\Http\Livewire\StockTransfers\Index as StockTransfersIndex;
 use App\Http\Livewire\SupplierCredits\Create as SupplierCreditsCreate;
 use App\Http\Livewire\SupplierCredits\Show as SupplierCreditsShow;
 use App\Http\Livewire\Suppliers\Edit as SuppliersEdit;
@@ -155,6 +158,18 @@ Route::middleware('auth')->group(function () {
     Route::get('warehouse', WarehouseIndex::class)
         ->name('warehouse')
         ->middleware('permission:view warehouse');
+
+    Route::get('outlets', OutletsIndex::class)
+        ->name('outlets')
+        ->middleware('permission:edit outlets');
+
+    Route::get('stock-transfers', StockTransfersIndex::class)
+        ->name('stock-transfers')
+        ->middleware('permission:transfer stock');
+
+    Route::get('stock-transfers/edit/{id}', StockTransfersEdit::class)
+        ->name('stock-transfers/edit')
+        ->middleware('permission:transfer stock');
 
     Route::get('dashboard', Index::class)->name('dashboard');
 });

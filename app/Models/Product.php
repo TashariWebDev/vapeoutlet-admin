@@ -236,6 +236,11 @@ class Product extends Model
         return $this->hasMany(Stock::class)->where('type', '=', 'credit');
     }
 
+    public function stockTransferItems(): HasMany
+    {
+        return $this->hasMany(StockTransferItem::class);
+    }
+
     public function supplier_credit(): HasMany
     {
         return $this->hasMany(Stock::class)->where(

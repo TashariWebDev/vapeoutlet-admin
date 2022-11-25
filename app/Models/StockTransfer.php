@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class StockTransfer extends Model
+{
+    protected $guarded = [];
+
+    protected $dates = ['date'];
+
+    public function receiver()
+    {
+        return $this->belongsTo(Outlet::class);
+    }
+
+    public function dispatcher()
+    {
+        return $this->belongsTo(Outlet::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function items()
+    {
+        return $this->hasMany(StockTransferItem::class);
+    }
+
+    public function stock()
+    {
+        return $this->hasMany(Stock::class);
+    }
+
+    public function markAsProcessed()
+    {
+        $this->is_processed = true;
+        $this->save();
+    }
+
+    public function isProcessed()
+    {
+        return $this->is_processed;
+    }
+
+    public function addItem(Product $product)
+    {
+        $item = $this->items()->firstOrCreate(
+            [
+                'product_id' => $product->id,
+            ],
+            [
+                'product_id' => $product->id,
+            ]
+        );
+
+        $item->increment('qty');
+    }
+
+    public function transferStock()
+    {
+        foreach ($this->items as $item) {
+            Stock::firstOrCreate(
+                [
+                    'product_id' => $item->product->id,
+                    'reference' => $this->number(),
+                    'outlet_id' => $this->receiver_id,
+                    'stock_transfer_id' => $this->id,
+                ],
+                [
+                    'type' => 'transfer',
+                    'qty' => $item->qty,
+                    'cost' => $item->product->cost,
+                ]
+            );
+
+            Stock::firstOrCreate(
+                [
+                    'product_id' => $item->product->id,
+                    'reference' => $this->number(),
+                    'outlet_id' => $this->dispatcher_id,
+                    'stock_transfer_id' => $this->id,
+                ],
+                [
+                    'type' => 'transfer',
+                    'qty' => 0 - $item->qty,
+                    'cost' => $item->product->cost,
+                ]
+            );
+        }
+    }
+
+    public function number()
+    {
+        return 'TRN00'.$this->id;
+    }
+}
