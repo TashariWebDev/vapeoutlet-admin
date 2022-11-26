@@ -2,23 +2,38 @@
 
 - - -
 
-### STOCK LOCATIONS
+### STOCK outlets
 
-        - create location module (model / migrations / livewire-components )
+~~Permission - can transfer stock~~
+
+- create stock transfer and print
+- Sales Channel
+- warehouse outlets and sales channels
+- Branch
+- Inventory
+- Stock Transfers
+- Reporting
+- Stock Takes
+- Quick Stock Lookup
+- Sales Channel
+- Point of sale
+- Outlet Model
+
+        - create outlet module (model / migrations / livewire-components )
 
             Relationships:
-                - a location hasMany stocks
-                - a stock belongsTo a location
-                - an admin belongsToMany a location
-                - a location belongsToMany admins
-                - a order belongsTo a location
-                - a location hasMany orders
-                - a credit belongsTo a location
-                - a location hasMany credits
+                - a outlet hasMany stocks
+                - a stock belongsTo a outlet
+                - an admin belongsToMany a outlet
+                - a outlet belongsToMany admins
+                - a order belongsTo a outlet
+                - a outlet hasMany orders
+                - a credit belongsTo a outlet
+                - a outlet hasMany credits
 
             Models: 
                 NEW:
-                - LOCATION
+                - outlet
                 CHANGES:
                   - STOCK
                   - ORDER
@@ -27,18 +42,18 @@
 
             MIGRATIONS:
                 NEW:
-                 - locations
-                 - admin_location (pivot) is default
+                 - outlets
+                 - admin_outlet (pivot) is default
                 CHANGES:
-                    - orders location_id
-                    - credits location_id
-                    - stocks locations_id
+                    - orders outlet_id
+                    - credits outlet_id
+                    - stocks outlets_id
                     - permissions name
 
 
             COMPONENTS/VIEWS
                 NEW:
-                    - LOCATION
+                    - outlet
                         - create
                         - update
                         - delete ?? should this be allowed
@@ -68,47 +83,47 @@
                     how do we update current data
                     should the columns be nullable with a sensible default?
                 
-        - link stocks to location
+        - link stocks to outlet
 
-            Admin must be able to create location
-            what happens if location is disabled/deleted?
-            stock must be transfered between locations
+            Admin must be able to create outlet
+            what happens if outlet is disabled/deleted?
+            stock must be transfered between outlets
             who will be responsible for transfers?
             should the system request stock automatically based on stock level?
             who approves this
 
 
-        - link admin to location
+        - link admin to outlet
             - if not linked default (warehouse)
-            - super-admin to be able to choose active location
+            - super-admin to be able to choose active outlet
                 is this handled as a permission?
                 can this be manually done?
                 who approves this?
-                what happens if location is disabled/deleted?
+                what happens if outlet is disabled/deleted?
 
-        - restrict admins to allocated location - default or selectable
+        - restrict admins to allocated outlet - default or selectable
 
-        - link order to location 
-            stock availablity check needs to check against allocated location only
+        - link order to outlet 
+            stock availablity check needs to check against allocated outlet only
             
-        - link credit note to location ????
+        - link credit note to outlet ????
 
         - inventory table
             who gets to view this
             should we have multiple inventory tables
             
     
-        - reports per location
-            do we use the same report and allow selection of location
+        - reports per outlet
+            do we use the same report and allow selection of outlet
             what if we need a overall report
             performance ? 
-                - stock will need to be queried per location before processing report
+                - stock will need to be queried per outlet before processing report
 
             - sales
             - inventory
             - stock take
 
-        - create stock take module per location
+        - create stock take module per outlet
             how is adjustments handled?
             
         - how are payments allocated 
@@ -134,13 +149,13 @@
                     - what happens if malicious/corrupt files are uploaded?
                     - performance?
 
-               - create credit note from existing order
-               - add date range for all reports
+         - create credit note from existing order
+         - add date range for all reports
 
 ### FEATURES
 
         - Bundle (combos) Products
-            how will this be handled per location?
+            how will this be handled per outlet?
         - Mailchimp API
 
 ### FUTURE (LOW PRIORITY OR BEYOND SCOPE)
@@ -153,4 +168,6 @@
 
         - build api
 
-        - new purchase toggle not working
+    
+
+        - add date to supplier transactions and update label to amount
