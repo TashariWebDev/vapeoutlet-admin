@@ -22,7 +22,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Sales</h3>
                 <x-slot:footer>
-                    <div class="flex space-x-3">
+                    <div class="flex items-baseline space-x-3">
                         <p class="text-teal-500">
                             {{ number_format(to_rands($gross_sales), 2) ?? '0.00' }}
                         </p>
