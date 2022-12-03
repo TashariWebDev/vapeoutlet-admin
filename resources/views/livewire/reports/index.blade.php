@@ -36,7 +36,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Purchases</h3>
                 <x-slot:footer>
-                    <div class="flex space-x-3">
+                    <div class="flex items-baseline space-x-3">
                         <p class="text-teal-500">
                             {{ number_format(to_rands($purchases->total_purchases), 2) }}
                         </p>
@@ -78,7 +78,7 @@
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Stock value</h3>
                 <x-slot:footer>
                     <div class="flex justify-between items-center">
-                        <div class="flex space-x-3">
+                        <div class="flex items-baseline space-x-3">
                             <p class="text-teal-500">
                                 {{ number_format(to_rands($this->stockValue), 2) ?? '0.00' }}
                             </p>
