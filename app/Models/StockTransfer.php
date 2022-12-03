@@ -12,17 +12,17 @@ class StockTransfer extends Model
 
     public function receiver()
     {
-        return $this->belongsTo(Outlet::class);
+        return $this->belongsTo(SalesChannel::class)->withTrashed();
     }
 
     public function dispatcher()
     {
-        return $this->belongsTo(Outlet::class);
+        return $this->belongsTo(SalesChannel::class)->withTrashed();
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function items()
@@ -67,7 +67,7 @@ class StockTransfer extends Model
                 [
                     'product_id' => $item->product->id,
                     'reference' => $this->number(),
-                    'outlet_id' => $this->receiver_id,
+                    'sales_channel_id' => $this->receiver_id,
                     'stock_transfer_id' => $this->id,
                 ],
                 [
@@ -81,7 +81,7 @@ class StockTransfer extends Model
                 [
                     'product_id' => $item->product->id,
                     'reference' => $this->number(),
-                    'outlet_id' => $this->dispatcher_id,
+                    'sales_channel_id' => $this->dispatcher_id,
                     'stock_transfer_id' => $this->id,
                 ],
                 [

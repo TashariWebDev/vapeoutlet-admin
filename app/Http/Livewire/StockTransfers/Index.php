@@ -20,7 +20,7 @@ class Index extends Component
     {
         $transfer->delete();
 
-        $this->notify('Outlet cancelled');
+        $this->notify('SalesChannel cancelled');
     }
 
     public function render()

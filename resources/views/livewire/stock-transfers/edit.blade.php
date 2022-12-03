@@ -35,6 +35,11 @@
                     Transferring from {{ $stockTransfer->dispatcher->name }}
                     to {{ $stockTransfer->receiver->name }}
                 </p>
+                @if ($stockTransfer->is_processed)
+                    <p class="text-xs text-yellow-500 dark:text-yellow-400">
+                        Processed by {{ $stockTransfer->user->name }} </p>
+                    <p class="text-xs text-yellow-500 dark:text-yellow-400">{{ $stockTransfer->updated_at }}</p>
+                @endif
             </div>
             <div></div>
             <div class="grid grid-cols-2 gap-2 lg:grid-cols-2">
@@ -56,17 +61,6 @@
                     @endif
                 </div>
 
-                <div>
-                    @if ($stockTransfer->is_processed)
-                        <button
-                            class="w-full button-warning"
-                            disabled
-                        >
-                            <p>Processed by {{ $stockTransfer->user->name }} </p>
-                            <p>{{ $stockTransfer->updated_at }}</p>
-                        </button>
-                    @endif
-                </div>
                 <div>
                     @if (!$stockTransfer->is_processed)
                         <button
@@ -120,20 +114,23 @@
                     wire:key="'item-table-'{{ $item->id }}"
                 >
                     <x-table.row class="col-span-2">
+
                         <div class="flex justify-start items-center">
                             <div>
-                                <label
-                                    class="hidden"
-                                    for="{{ $item->id }}"
-                                ></label>
-                                <input
-                                    class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 bcredit-slate-300"
-                                    id="{{ $item->id }}"
-                                    type="checkbox"
-                                    value="{{ $item->id }}"
-                                    aria-describedby="product"
-                                    wire:model="selectedProductsToDelete"
-                                >
+                                @if (!$stockTransfer->is_processed)
+                                    <label
+                                        class="hidden"
+                                        for="{{ $item->id }}"
+                                    ></label>
+                                    <input
+                                        class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 bcredit-slate-300"
+                                        id="{{ $item->id }}"
+                                        type="checkbox"
+                                        value="{{ $item->id }}"
+                                        aria-describedby="product"
+                                        wire:model="selectedProductsToDelete"
+                                    >
+                                @endif
                             </div>
                             <div>
                                 <x-product-listing-simple
@@ -144,7 +141,7 @@
                         </div>
                     </x-table.row>
                     <x-table.row>
-                        @if (!$stockTransfer->processed)
+                        @if (!$stockTransfer->is_processed)
                             <form>
                                 <label>
                                     <x-input.text
@@ -169,19 +166,21 @@
                                 />
                             </label>
                         @endif
-                        <div class="flex justify-between items-center mt-1">
-                            <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
-                                <button
-                                    wire:loading.attr="disabled"
-                                    wire:target="removeProducts"
-                                    wire:click="deleteItem({{ $item->id }})"
-                                >remove
-                                </button>
+                        @if (!$stockTransfer->is_processed)
+                            <div class="flex justify-between items-center mt-1">
+                                <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
+                                    <button
+                                        wire:loading.attr="disabled"
+                                        wire:target="removeProducts"
+                                        wire:click="deleteItem({{ $item->id }})"
+                                    >remove
+                                    </button>
+                                </div>
+                                <div>
+                                    {{ $item->product->total_available }} in {{ $stockTransfer->dispatcher->name }}
+                                </div>
                             </div>
-                            <div>
-                                {{ $item->product->total_available }} in {{ $stockTransfer->dispatcher->name }}
-                            </div>
-                        </div>
+                        @endif
                     </x-table.row>
                 </x-table.body>
             @endforeach

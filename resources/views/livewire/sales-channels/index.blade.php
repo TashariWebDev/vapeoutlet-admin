@@ -14,7 +14,7 @@
                     placeholder="Search name"
                 />
                 <x-input.helper>
-                    Query Time {{ round($queryTime, 3) }} s
+                    Query Time {{ round($queryTime, 3) }} ms
                 </x-input.helper>
             </div>
             <div></div>
@@ -30,12 +30,12 @@
                 </x-input.select>
             </div>
             <div class="flex justify-end">
-                <livewire:outlets.create />
+                <livewire:sales-channels.create />
             </div>
         </div>
 
         <div class="py-2 px-2">
-            {{ $outlets->links() }}
+            {{ $channels->links() }}
         </div>
 
         {{-- desktop --}}
@@ -47,31 +47,31 @@
                     <x-table.heading>Allows Shipping</x-table.heading>
                     <x-table.heading>Actions</x-table.heading>
                 </x-table.header>
-                @forelse($outlets as $outlet)
+                @forelse($channels as $channel)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row>
-                            <p>{{ $outlet->id }}</p>
+                            <p>{{ $channel->id }}</p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
                             <div class="pt-1">
                                 <p class="capitalize">
-                                    {{ $outlet->name }}
+                                    {{ $channel->name }}
                                 </p>
                             </div>
                         </x-table.row>
                         <x-table.row>
                             <div class="pt-1">
-                                @if (!$outlet->isLocked())
-                                    @if ($outlet->allowsShipping())
+                                @if (!$channel->isLocked())
+                                    @if ($channel->allowsShipping())
                                         <button
                                             class="button-danger"
-                                            wire:click="disableShipping({{ $outlet->id }})"
+                                            wire:click="disableShipping({{ $channel->id }})"
                                         >Disable shipping
                                         </button>
                                     @else
                                         <button
                                             class="button-success"
-                                            wire:click="enableShipping({{ $outlet->id }})"
+                                            wire:click="enableShipping({{ $channel->id }})"
                                         >Enable shipping
                                         </button>
                                     @endif
@@ -81,15 +81,28 @@
                             </div>
                         </x-table.row>
                         <x-table.row>
-                            @if (!$outlet->isLocked())
-                                <button
-                                    class="button-danger"
-                                    wire:click="deleteOutlet({{ $outlet->id }})"
-                                >Delete outlet
-                                </button>
+                            @if (!$channel->isLocked())
+                                @if ($channel->stocks_sum_qty < 1)
+                                    @if ($channel->trashed())
+                                        <button
+                                            class="button-success"
+                                            wire:click="enableChannel({{ $channel->id }})"
+                                        >Enable sales channel
+                                        </button>
+                                    @else
+                                        <button
+                                            class="button-danger"
+                                            wire:click="disableChannel({{ $channel->id }})"
+                                        >Disable sales channel
+                                        </button>
+                                    @endif
+                                @else
+                                    {{ $channel->stocks_sum_qty }} items in stock
+                                @endif
                             @else
                                 <p>locked</p>
                             @endif
+
                         </x-table.row>
                     </x-table.body>
                 @empty

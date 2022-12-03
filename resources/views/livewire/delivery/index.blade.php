@@ -9,7 +9,7 @@
                 <x-input.text
                     id="type"
                     type="text"
-                    wire:model.defer="delivery.type"
+                    wire:model="delivery.type"
                 />
                 @error('delivery.type')
                     <x-input.error>{{ $message }}</x-input.error>
@@ -22,7 +22,7 @@
                 <x-input.text
                     id="description"
                     type="text"
-                    wire:model.defer="delivery.description"
+                    wire:model="delivery.description"
                 />
                 @error('delivery.description')
                     <x-input.error>{{ $message }}</x-input.error>
@@ -35,7 +35,7 @@
                 <x-input.text
                     id="price"
                     type="text"
-                    wire:model.defer="delivery.price"
+                    wire:model="delivery.price"
                 />
                 @error('delivery.price')
                     <x-input.error>{{ $message }}</x-input.error>
@@ -48,7 +48,7 @@
                 <x-input.text
                     id="waiver"
                     type="text"
-                    wire:model.defer="delivery.waiver_value"
+                    wire:model="delivery.waiver_value"
                     placeholder="leave empty if not applicable"
                 />
                 @error('delivery.waiver_value')
@@ -61,7 +61,7 @@
                 </x-input.label>
                 <x-input.select
                     id="province"
-                    wire:model.defer="delivery.province"
+                    wire:model="delivery.province"
                 >
                     <option value="">Choose</option>
                     @foreach ($provinces as $province)
@@ -83,7 +83,7 @@
                 </x-input.label>
                 <x-input.select
                     id="customer_type"
-                    wire:model.defer="delivery.customer_type"
+                    wire:model="delivery.customer_type"
                 >
                     <option value="">Choose</option>
                     <option
@@ -113,10 +113,13 @@
                             class="text-teal-500 rounded-full focus:ring-slate-200"
                             id="selectable"
                             type="checkbox"
-                            wire:model.defer="delivery.selectable"
+                            wire:model="delivery.selectable"
                         />
                         <span class="ml-3">Selectable</span>
                     </label>
+                    @error('delivery.selectable')
+                        <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
                 </div>
             </div>
             <div class="py-2">

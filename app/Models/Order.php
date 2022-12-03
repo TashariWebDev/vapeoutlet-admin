@@ -60,6 +60,11 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function sales_channel(): BelongsTo
+    {
+        return $this->belongsTo(SalesChannel::class);
+    }
+
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);

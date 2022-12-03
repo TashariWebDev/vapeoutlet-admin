@@ -127,7 +127,7 @@ class Edit extends Component
                         [
                             'stocks as total_available' => function ($query) {
                                 $query->where(
-                                    'outlet_id',
+                                    'sales_channel_id',
                                     $this->transfer->dispatcher_id
                                 );
                             },

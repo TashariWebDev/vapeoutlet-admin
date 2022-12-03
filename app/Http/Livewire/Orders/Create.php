@@ -55,7 +55,31 @@ class Create extends Component
             ->withCount('items')
             ->with('items', function ($query) {
                 $query->withWhereHas('product', function ($query) {
-                    $query->withStockCount();
+                    $query
+                        ->whereHas(
+                            'stocks',
+                            fn ($query) => $query->where(
+                                'sales_channel_id',
+                                auth()
+                                    ->user()
+                                    ->defaultSalesChannel()->id
+                            )
+                        )
+                        ->withSum(
+                            [
+                                'stocks as total_available' => function (
+                                    $query
+                                ) {
+                                    $query->where(
+                                        'sales_channel_id',
+                                        auth()
+                                            ->user()
+                                            ->defaultSalesChannel()->id
+                                    );
+                                },
+                            ],
+                            'qty'
+                        );
                 });
             })
             ->where('id', $this->orderId)
@@ -78,7 +102,28 @@ class Create extends Component
     {
         $this->validate(['sku' => 'required']);
 
-        $product = Product::withStockCount()
+        $product = Product::whereHas(
+            'stocks',
+            fn ($query) => $query->where(
+                'sales_channel_id',
+                auth()
+                    ->user()
+                    ->defaultSalesChannel()->id
+            )
+        )
+            ->withSum(
+                [
+                    'stocks as total_available' => function ($query) {
+                        $query->where(
+                            'sales_channel_id',
+                            auth()
+                                ->user()
+                                ->defaultSalesChannel()->id
+                        );
+                    },
+                ],
+                'qty'
+            )
             ->where('sku', '=', $this->sku)
             ->first();
 
@@ -135,7 +180,14 @@ class Create extends Component
             return;
         }
         $qtyInStock =
-            $item->product->stocks->sum('qty') +
+            $item->product->stocks
+                ->where(
+                    'sales_channel_id',
+                    auth()
+                        ->user()
+                        ->defaultSalesChannel()->id
+                )
+                ->sum('qty') +
             (0 - $item->stock()->first()?->qty);
 
         if ($qty <= $qtyInStock) {

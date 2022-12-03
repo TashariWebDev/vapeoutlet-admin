@@ -14,13 +14,14 @@ use App\Http\Livewire\Notifications\Index as NotificationsIndex;
 use App\Http\Livewire\Orders\Create as OrdersCreate;
 use App\Http\Livewire\Orders\Index as OrdersIndex;
 use App\Http\Livewire\Orders\Show as OrdersShow;
-use App\Http\Livewire\Outlets\Index as OutletsIndex;
 use App\Http\Livewire\Products\Edit as ProductsEdit;
 use App\Http\Livewire\Products\Index as ProductsIndex;
+use App\Http\Livewire\Products\Tracking;
 use App\Http\Livewire\Profile\Index as ProfileIndex;
 use App\Http\Livewire\Purchases\Edit as PurchasesEdit;
 use App\Http\Livewire\Purchases\Pending;
 use App\Http\Livewire\Reports\Index as ReportsIndex;
+use App\Http\Livewire\SalesChannels\Index as SalesChannelsIndex;
 use App\Http\Livewire\Settings\Index as SettingsIndex;
 use App\Http\Livewire\StockTakes\Index as StockTakesIndex;
 use App\Http\Livewire\StockTakes\Show as StockTakesShow;
@@ -62,6 +63,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('products/{id}', ProductsEdit::class)
         ->name('products/edit')
+        ->middleware('permission:view products');
+
+    Route::get('products/tracking/{id}', Tracking::class)
+        ->name('products/tracking')
         ->middleware('permission:view products');
 
     Route::get('customers', CustomersIndex::class)
@@ -159,9 +164,9 @@ Route::middleware('auth')->group(function () {
         ->name('warehouse')
         ->middleware('permission:view warehouse');
 
-    Route::get('outlets', OutletsIndex::class)
-        ->name('outlets')
-        ->middleware('permission:edit outlets');
+    Route::get('sales-channels', SalesChannelsIndex::class)
+        ->name('sales-channels')
+        ->middleware('permission:edit sales channels');
 
     Route::get('stock-transfers', StockTransfersIndex::class)
         ->name('stock-transfers')

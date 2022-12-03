@@ -40,7 +40,7 @@ class AddProducts extends Component
             ->withSum(
                 [
                     'stocks as total_available' => function ($query) {
-                        $query->where('outlet_id', $this->dispatcher_id);
+                        $query->where('sales_channel_id', $this->dispatcher_id);
                     },
                 ],
                 'qty'
@@ -73,14 +73,17 @@ class AddProducts extends Component
                 ->whereHas(
                     'stocks',
                     fn ($query) => $query->where(
-                        'outlet_id',
+                        'sales_channel_id',
                         $this->dispatcher_id
                     )
                 )
                 ->withSum(
                     [
                         'stocks as total_available' => function ($query) {
-                            $query->where('outlet_id', $this->dispatcher_id);
+                            $query->where(
+                                'sales_channel_id',
+                                $this->dispatcher_id
+                            );
                         },
                     ],
                     'qty'

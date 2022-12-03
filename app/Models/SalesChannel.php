@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 
-class Outlet extends Model
+class SalesChannel extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [];
 
     public function isLocked()
@@ -22,6 +26,11 @@ class Outlet extends Model
     public function stocks()
     {
         return $this->hasMany(Stock::class);
+    }
+
+    public function users(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class);
     }
 
     public function scopeHasStock($query)

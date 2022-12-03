@@ -167,13 +167,32 @@ class Product extends Model
 
     public function scopeWithStockCount($query)
     {
-        return $query->withSum(['stocks as total_available'], 'qty');
+        return $query->withSum(
+            [
+                'stocks as total_available' => function ($query) {
+                    $query->where(
+                        'sales_channel_id',
+                        auth()
+                            ->user()
+                            ->defaultSalesChannel()->id
+                    );
+                },
+            ],
+            'qty'
+        );
     }
 
     public function scopeInStock($query)
     {
         $query->withWhereHas('stocks', function ($query) {
             $query
+                ->where(
+                    'sales_channel_id',
+                    '=',
+                    auth()
+                        ->user()
+                        ->defaultSalesChannel()->id
+                )
                 ->select(DB::raw('SUM(qty) AS available'))
                 ->having('available', '>', 0);
         });

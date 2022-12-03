@@ -141,6 +141,64 @@
                     </div>
                 @endforeach
             </div>
+        </div>
     @endif
-</div>
+
+    {{--    Sales Channels --}}
+
+    @if ($user->sales_channels->count())
+        <div class="pt-12 pb-6">
+            <x-page-header class="pb-2">
+                User Sales Channels
+            </x-page-header>
+
+            <div
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
+                @foreach ($user->sales_channels as $channel)
+                    <div>
+                        <button
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-pink-600 group"
+                            wire:click="revokeSalesChannel('{{ $channel->id }}')"
+                        >
+                            <x-icons.tick class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            {{ $channel->name }}
+                        </button>
+
+                        @if (!$channel->pivot->is_default)
+                            <button
+                                class="px-2 text-slate-500"
+                                wire:click="setDefaultChannel('{{ $channel->id }}')"
+                            >
+                                make default
+                            </button>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
+    @if ($salesChannels->count() != 0)
+        <div class="py-12">
+            <x-page-header class="pb-2">
+                Available Sales Channels
+            </x-page-header>
+
+            <div
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
+                @foreach ($salesChannels as $chanel)
+                    <div>
+                        <button
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-teal-600 group"
+                            wire:click="addSalesChannel('{{ $chanel->id }}')"
+                        >
+                            <x-icons.plus class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            {{ $chanel->name }}
+                        </button>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+
 </div>

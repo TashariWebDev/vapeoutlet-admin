@@ -14,7 +14,7 @@
                     placeholder="Search name"
                 />
                 <x-input.helper>
-                    Query Time {{ round($queryTime, 3) }} s
+                    Query Time {{ round($queryTime, 3) }} ms
                 </x-input.helper>
             </div>
             <div></div>
@@ -50,7 +50,12 @@
                 @forelse($transfers as $transfer)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row>
-                            <p>{{ $transfer->number() }}</p>
+                            <a
+                                class="link"
+                                href="{{ route('stock-transfers/edit', $transfer->id) }}"
+                            >
+                                {{ $transfer->number() }}
+                            </a>
                             <p>{{ $transfer->date->format('d-m-y H:i') }}</p>
                         </x-table.row>
                         <x-table.row>

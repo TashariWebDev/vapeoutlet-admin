@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Livewire\Outlets;
+namespace App\Http\Livewire\SalesChannels;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Models\Outlet;
+use App\Models\SalesChannel;
 use Livewire\Component;
 
 class Create extends Component
@@ -17,7 +17,7 @@ class Create extends Component
     public function rules(): array
     {
         return [
-            'name' => ['required', 'unique:outlets,name'],
+            'name' => ['required', 'unique:sales_channels,name'],
         ];
     }
 
@@ -25,19 +25,19 @@ class Create extends Component
     {
         $this->validate();
 
-        Outlet::create([
+        SalesChannel::create([
             'name' => strtolower($this->name),
         ]);
 
         $this->reset(['name', 'modal']);
 
-        $this->notify('Outlet created');
+        $this->notify('SalesChannel created');
 
         $this->emit('updateFormData');
     }
 
     public function render()
     {
-        return view('livewire.outlets.create');
+        return view('livewire.sales-channels.create');
     }
 }

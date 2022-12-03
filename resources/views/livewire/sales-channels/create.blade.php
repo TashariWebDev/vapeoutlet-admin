@@ -4,13 +4,13 @@
         class="mt-5 w-full lg:w-auto button-success"
         wire:click.prevent="$toggle('modal')"
     >
-        Create outlet
+        Create Sales Channel
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
 
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New outlet</h3>
+            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New sales channel</h3>
         </div>
 
         <div>

@@ -70,7 +70,9 @@
                     <div class="flex items-center py-4">
                         <div class="hidden pl-3 lg:block text-slate-500 dark:text-slate-500">
                             <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
-                                <span class="cursor-default">{{ auth()->user()->name }}</span>
+                                <span class="cursor-default">
+                                    {{ auth()->user()->name }} <livewire:users.default-sales-channel />
+                                </span>
                             </p>
                             <div class="flex space-x-4">
                                 <p
@@ -81,6 +83,11 @@
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
+                        @if (auth()->user()->sales_channels_count > 1)
+                            <div>
+                                <livewire:users.sales-channel-change-button />
+                            </div>
+                        @endif
                         <div>
                             <livewire:orders.quick-toggle-button />
                         </div>
@@ -169,6 +176,7 @@
         </nav>
 
         <div class="relative py-8 px-2 mx-auto lg:px-6 max-w-8xl">
+            <livewire:users.sales-channel-change />
             <livewire:customers.create />
             <livewire:orders.quick />
             <x-notification />

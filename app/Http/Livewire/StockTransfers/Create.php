@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\StockTransfers;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Models\Outlet;
+use App\Models\SalesChannel;
 use App\Models\StockTransfer;
 use Livewire\Component;
 
@@ -49,7 +49,7 @@ class Create extends Component
     public function updatedSlide()
     {
         if ($this->slide) {
-            $this->dispatchers = Outlet::query()
+            $this->dispatchers = SalesChannel::query()
                 ->hasStock()
                 ->select(['id', 'name'])
                 ->orderBy('name')
@@ -68,7 +68,7 @@ class Create extends Component
 
     public function updatedDispatcherId()
     {
-        $this->receivers = Outlet::query()
+        $this->receivers = SalesChannel::query()
             ->whereNotIn('id', [$this->dispatcher_id])
             ->select(['id', 'name'])
             ->orderBy('name')

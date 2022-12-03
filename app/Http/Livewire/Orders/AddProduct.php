@@ -62,8 +62,29 @@ class AddProduct extends Component
             'products' => Product::query()
                 ->select('id', 'name', 'sku', 'brand')
                 ->with('features:id,product_id,name')
-                ->withStockCount()
-                ->inStock()
+                ->whereHas(
+                    'stocks',
+                    fn ($query) => $query->where(
+                        'sales_channel_id',
+                        auth()
+                            ->user()
+                            ->defaultSalesChannel()->id
+                    )
+                )
+                ->withSum(
+                    [
+                        'stocks as total_available' => function ($query) {
+                            $query->where(
+                                'sales_channel_id',
+                                auth()
+                                    ->user()
+                                    ->defaultSalesChannel()->id
+                            );
+                        },
+                    ],
+                    'qty'
+                )
+                ->having('total_available', '>', 0)
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)

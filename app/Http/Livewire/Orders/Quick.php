@@ -49,6 +49,9 @@ class Quick extends Component
             'customer_id' => $customerId,
             'status' => null,
             'processed_by' => auth()->user()->name,
+            'sales_channel_id' => auth()
+                ->user()
+                ->defaultSalesChannel()->id,
         ]);
 
         $order->touch('created_at');

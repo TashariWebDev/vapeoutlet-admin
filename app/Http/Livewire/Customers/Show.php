@@ -76,6 +76,9 @@ class Show extends Component
             'customer_id' => $this->customer->id,
             'status' => null,
             'processed_by' => auth()->user()->name,
+            'sales_channel_id' => auth()
+                ->user()
+                ->defaultSalesChannel()->id,
         ]);
 
         $this->redirect("/orders/create/$order->id");

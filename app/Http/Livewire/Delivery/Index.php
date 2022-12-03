@@ -38,7 +38,7 @@ class Index extends Component
             'delivery.description' => ['required'],
             'delivery.price' => ['required'],
             'delivery.waiver_value' => ['nullable'],
-            'delivery.selectable' => ['boolean'],
+            'delivery.selectable' => ['nullable'],
             'delivery.province' => ['nullable'],
             'delivery.customer_type' => ['nullable'],
         ];
@@ -57,19 +57,15 @@ class Index extends Component
         $this->showDeliveryCreateForm = false;
         $this->resetValidation();
 
-        $this->dispatchBrowserEvent('notification', [
-            'body' => 'Delivery saved',
-        ]);
+        $this->notify('Delivery saved');
+
         $this->delivery->refresh();
     }
 
     public function delete(Delivery $delivery)
     {
         $delivery->delete();
-
-        $this->dispatchBrowserEvent('notification', [
-            'body' => 'Delivery deleted',
-        ]);
+        $this->notify('Delivery deleted');
     }
 
     public function render(): Factory|View|Application

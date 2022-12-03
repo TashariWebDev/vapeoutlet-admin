@@ -60,9 +60,9 @@ class Stock extends Model
         return $this->belongsTo(StockTransfer::class);
     }
 
-    public function outlet()
+    public function sales_channel()
     {
-        return $this->belongsTo(Outlet::class);
+        return $this->belongsTo(SalesChannel::class)->withTrashed();
     }
 
     public function supplier_credit(): BelongsTo

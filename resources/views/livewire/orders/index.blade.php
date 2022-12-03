@@ -66,7 +66,7 @@
                         wire:model="searchQuery"
                     />
                     <x-input.helper>
-                        Query Time {{ round($queryTime, 3) }} s
+                        Query Time {{ round($queryTime, 3) }} ms
                     </x-input.helper>
                 </div>
 

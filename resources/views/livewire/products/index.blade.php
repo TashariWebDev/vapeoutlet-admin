@@ -18,7 +18,7 @@
                         placeholder="Search by SKU, name, category or brand"
                     />
                     <x-input.helper>
-                        Query time {{ round($queryTime, 3) }} s
+                        Query Time {{ round($queryTime, 3) }} ms
                     </x-input.helper>
                 </div>
 
@@ -147,6 +147,14 @@
                                     </p>
                                 </div>
                             @endif
+                            <div class="flex justify-between">
+                                <a
+                                    class="link"
+                                    href="{{ route('products/tracking', $product->id) }}"
+                                >
+                                    Stock tracking
+                                </a>
+                            </div>
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">

@@ -169,7 +169,7 @@
                         placeholder="search by reference"
                     />
                     <x-input.helper>
-                        Query Time {{ round($queryTime, 3) }} s
+                        Query Time {{ round($queryTime, 3) }} ms
                     </x-input.helper>
                 </div>
                 <div></div>

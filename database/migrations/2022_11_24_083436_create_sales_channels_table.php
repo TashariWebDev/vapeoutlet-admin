@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('outlets', function (Blueprint $table) {
+        Schema::create('sales_channels', function (Blueprint $table) {
             $table->id();
 
             $table

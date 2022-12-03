@@ -8,11 +8,8 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::table('stocks', function (Blueprint $table) {
-            $table
-                ->foreignId('outlet_id')
-                ->default(1)
-                ->index();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->unsignedBigInteger('sales_channel_id')->default(1);
         });
     }
 };

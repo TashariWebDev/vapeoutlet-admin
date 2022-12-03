@@ -115,7 +115,9 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-2 p-2 lg:grid-cols-4">
             <div>
-                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $this->order->number }}</p>
+                <p class="text-xs font-bold uppercase dark:text-teal-400 text-slate-500">
+                    {{ $this->order->number }} ( {{ $this->order->sales_channel->name }} )
+                </p>
                 <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->order->updated_at }}</p>
                 @isset($this->order->delivery_type_id)
                     <p class="text-xs capitalize text-slate-500 dark:text-slate-400">{{ $this->order->delivery?->type }}
