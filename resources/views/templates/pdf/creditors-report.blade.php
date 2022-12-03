@@ -7,11 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title></title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <title>Creditors Report</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -49,37 +45,29 @@
         <div class="break-inside-avoid break-after-avoid-page">
 
             <div class="px-4">
-                {{ date('d-m-y h:i:sa') }}
-            </div>
-            <div class="px-4">
-                @php
-                    $overallTotal = [];
-                @endphp
                 @foreach ($suppliers as $supplier)
-                    @if ($supplier->getRunningBalance() != 0)
-                        <div class="flex justify-between items-center pb-1 border-b border-dashed">
-                            <div class="break-inside-avoid">
-                                <p class="text-sm font-medium text-gray-900 uppercase">
-                                    {{ $supplier->name }}
-                                </p>
-                            </div>
-                            <div>
-                                <p class="text-sm text-gray-500">
-                                    R {{ number_format($supplier->getRunningBalance(), 2) }}
-                                </p>
-                            </div>
+                    <div class="flex justify-between items-center pb-1 border-b border-dashed">
+                        <div class="break-inside-avoid">
+                            <p class="text-xs font-semibold uppercase text-slate-900">
+                                {{ $supplier->name }}
+                            </p>
                         </div>
-                        @php
-                            $overallTotal[] = $supplier->getRunningBalance();
-                        @endphp
-                    @endif
+                        <div>
+                            <p class="text-xs font-semibold text-slate-500">
+                                R {{ number_format(to_rands($supplier->latest_transaction_sum_running_balance), 2) }}
+                            </p>
+                        </div>
+                    </div>
                 @endforeach
                 <div class="flex justify-end border-t-4 border-dashed">
                     <td
                         class="text-right"
                         colspan="6"
                     >
-                        {{ number_format(array_sum($overallTotal), 2) }}
+                        <p class="text-xs font-bold">
+                            R
+                            {{ number_format(to_rands($suppliers->sum('latest_transaction_sum_running_balance')), 2) }}
+                        </p>
                     </td>
                 </div>
             </div>

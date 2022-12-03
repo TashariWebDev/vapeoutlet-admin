@@ -7,11 +7,8 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title></title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <title>Purchases Report - {{ $fromDate }} - {{ $toDate }}</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -47,9 +44,6 @@
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
 
         <div class="break-inside-avoid break-after-avoid-page">
-            <div class="px-4">
-                {{ date('d-m-y h:i:sa') }}
-            </div>
             <div class="px-4">
                 <table class="w-full">
                     <thead>
@@ -101,9 +95,9 @@
                                 </tr>
                                 @if ($loop->last)
                                     @php
-
+                                        
                                         $amountsConvertedToRands = [];
-
+                                        
                                         if ($purchase->exchange_rate > 0) {
                                             foreach ($grouped as $purchase) {
                                                 $amountsConvertedToRands[] = $purchase->amount * $purchase->exchange_rate;
@@ -112,9 +106,9 @@
                                         } else {
                                             $totalAmount = $grouped->sum('amount');
                                         }
-
+                                        
                                         $overallTotal[] = $totalAmount;
-
+                                        
                                     @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>

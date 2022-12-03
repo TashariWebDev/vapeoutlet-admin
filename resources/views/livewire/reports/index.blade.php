@@ -122,115 +122,22 @@
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $debtors = config('app.admin_url') . '/storage/documents/debtors-list.pdf';
-                
-                $debtorsExists = check_file_exist($debtors);
-            @endphp
-
-            <button
-                class="w-full button-success"
-                wire:click="getDebtorListDocument"
-            >
-                Debtors
-            </button>
-
-            <div class="py-4">
-                @if ($debtorsExists)
-                    <a
-                        class="link"
-                        href="{{ $debtors }}"
-                        wire:loading.class="hidden"
-                        wire:target="getDebtorsListDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.debtor-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $creditors = config('app.admin_url') . '/storage/documents/creditors-list.pdf';
-                
-                $creditorsExists = check_file_exist($creditors);
-            @endphp
 
-            <button
-                class="w-full button-success"
-                wire:click="getCreditorsListDocument"
-            >
-                Creditors
-            </button>
-
-            <div class="py-4">
-                @if ($creditorsExists)
-                    <a
-                        class="link"
-                        href="{{ $creditors }}"
-                        wire:loading.class="hidden"
-                        wire:target="getCreditorsListDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.creditors-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $expenses = config('app.admin_url') . '/storage/documents/expenses.pdf';
-                
-                $expensesExists = check_file_exist($expenses);
-            @endphp
 
-            <button
-                class="w-full button-success"
-                x-on:click="@this.set('showExpenseForm',true)"
-            >
-                Expenses
-            </button>
+            <livewire:reports.expense-report />
 
-            <div class="py-4">
-                @if ($expensesExists)
-                    <a
-                        class="link"
-                        href="{{ $expenses }}"
-                        wire:loading.class="hidden"
-                        wire:target="getExpenseListDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $purchases = config('app.admin_url') . '/storage/documents/purchases.pdf';
-                
-                $purchasesExists = check_file_exist($purchases);
-            @endphp
-
-            <button
-                class="w-full button-success"
-                x-on:click="@this.set('showPurchasesForm',true)"
-            >
-                Purchases
-            </button>
-
-            <div class="py-4">
-                @if ($purchasesExists)
-                    <a
-                        class="link"
-                        href="{{ $purchases }}"
-                        wire:loading.class="hidden"
-                        wire:target="getPurchaseListDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.purchase-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
@@ -453,69 +360,4 @@
         </form>
     </x-modal>
 
-    <x-modal x-data="{ show: $wire.entangle('showPurchasesForm') }">
-        <form wire:submit.prevent="getPurchaseListDocument">
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="From date"
-                    wire:model.defer="fromDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="To date"
-                    wire:model.defer="toDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.select wire:model.defer="selectedSupplierId">
-                    <option value="">Choose</option>
-                    @foreach ($suppliers as $supplier)
-                        <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
-                    @endforeach
-                </x-input.select>
-            </div>
-
-            <div class="py-2">
-                <button class="button-success">Get report</button>
-            </div>
-        </form>
-    </x-modal>
-
-    <x-modal x-data="{ show: $wire.entangle('showExpenseForm') }">
-        <form wire:submit.prevent="getExpenseListDocument">
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="From date"
-                    wire:model.defer="fromDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="To date"
-                    wire:model.defer="toDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.select wire:model.defer="selectedExpenseCategory">
-                    <option value="">Choose</option>
-                    @foreach ($expenseCategories as $category)
-                        <option value="{{ $category->name }}">{{ $category->name }}</option>
-                    @endforeach
-                </x-input.select>
-            </div>
-
-            <div class="py-2">
-                <button class="button-success">Get report</button>
-            </div>
-        </form>
-    </x-modal>
 </div>

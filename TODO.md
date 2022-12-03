@@ -7,7 +7,7 @@
 ~~Permission - can transfer stock~~
 
 - create stock transfer and print
-- Sales Channel
+- ~~Sales Channel~~
 - warehouse outlets and sales channels
 - Branch
 - Inventory
@@ -167,7 +167,3 @@
         - supplier return reports
 
         - build api
-
-    
-
-        - add date to supplier transactions and update label to amount
