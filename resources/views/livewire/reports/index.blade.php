@@ -23,7 +23,7 @@
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Sales</h3>
                 <x-slot:footer>
                     <div class="flex items-baseline space-x-3">
-                        <p class="text-teal-500">
+                        <p class="font-bold text-teal-500">
                             {{ number_format(to_rands($gross_sales), 2) ?? '0.00' }}
                         </p>
                         <p class="text-sm text-teal-500">
@@ -37,7 +37,7 @@
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Purchases</h3>
                 <x-slot:footer>
                     <div class="flex items-baseline space-x-3">
-                        <p class="text-teal-500">
+                        <p class="font-bold text-teal-500">
                             {{ number_format(to_rands($purchases->total_purchases), 2) }}
                         </p>
                         <p class="text-sm text-teal-500">
@@ -50,7 +50,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Expenses</h3>
                 <x-slot:footer>
-                    <p class="text-teal-500">
+                    <p class="font-bold text-teal-500">
                         {{ number_format(to_rands($expenses->total_expenses), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
@@ -59,7 +59,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Refunds</h3>
                 <x-slot:footer>
-                    <p class="text-teal-500">
+                    <p class="font-bold text-teal-500">
                         {{ number_format(to_rands($transactions->total_refunds), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
@@ -68,7 +68,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-500 dark:text-slate-400">Credits</h3>
                 <x-slot:footer>
-                    <p class="text-teal-500">
+                    <p class="font-bold text-teal-500">
                         {{ number_format(to_rands($transactions->total_credits), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
@@ -79,7 +79,7 @@
                 <x-slot:footer>
                     <div class="flex justify-between items-center">
                         <div class="flex items-baseline space-x-3">
-                            <p class="text-teal-500">
+                            <p class="font-bold text-teal-500">
                                 {{ number_format(to_rands($this->stockValue), 2) ?? '0.00' }}
                             </p>
                             <p class="text-sm text-teal-500">
