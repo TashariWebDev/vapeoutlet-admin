@@ -43,7 +43,7 @@
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
                     <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
                         Total:
-                        <span class="@if ($this->purchase->total === $this->purchase->amount) text-teal-600 @else text-pink-600 @endif">
+                        <span class="text-teal-600">
                             {{ $this->purchase->total }} {{ $this->purchase->currency }}
                         </span>
                         <span class="font-bold">/ {{ $this->purchase->amount }}
