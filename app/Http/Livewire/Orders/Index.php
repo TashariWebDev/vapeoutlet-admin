@@ -120,6 +120,12 @@ class Index extends Component
                     ->whereColumn('order_id', '=', 'orders.id')
                     ->selectRaw('sum(qty * price) as order_total'),
             ])
+            ->where(
+                'sales_channel_id',
+                auth()
+                    ->user()
+                    ->defaultSalesChannel()->id
+            )
             ->whereNotNull('status')
             ->orderBy('created_at', $this->direction);
 

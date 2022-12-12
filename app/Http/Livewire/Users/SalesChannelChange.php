@@ -32,10 +32,7 @@ class SalesChannelChange extends Component
     public function render()
     {
         return view('livewire.users.sales-channel-change', [
-            'salesChannels' => auth()
-                ->user()
-                ->sales_channels()
-                ->get(),
+            'salesChannels' => auth()->user()->sales_channels,
         ]);
     }
 }
