@@ -9,7 +9,7 @@
 
         <div class="p-2">
             <p class="text-xs text-slate-500">
-                Stock on hand report upto a specified date
+                Stock on hand upto a specified date
             </p>
         </div>
     </div>

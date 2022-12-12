@@ -68,13 +68,15 @@
                                         >{{ $credit->created_by }}</td>
                                     </tr>
                                 @endif
-                                <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                                    <td class="text-left">{{ $credit->created_at }}</td>
-                                    <td class="text-left">{{ $credit->customer->name }}</td>
-                                    <td class="text-right">{{ number_format(ex_vat($credit->getTotal()), 2) }}</td>
-                                    <td class="text-right">{{ number_format(vat($credit->getTotal()), 2) }}</td>
-                                    <td class="text-right">{{ number_format($credit->getTotal(), 2) }}</td>
-                                </tr>
+                                @if ($credit->getTotal() > 0)
+                                    <tr class="py-1 border-b border-dashed break-inside-avoid-page">
+                                        <td class="text-left">{{ $credit->created_at }}</td>
+                                        <td class="text-left">{{ $credit->customer->name }}</td>
+                                        <td class="text-right">{{ number_format(ex_vat($credit->getTotal()), 2) }}</td>
+                                        <td class="text-right">{{ number_format(vat($credit->getTotal()), 2) }}</td>
+                                        <td class="text-right">{{ number_format($credit->getTotal(), 2) }}</td>
+                                    </tr>
+                                @endif
                                 @if ($loop->last)
                                     @php
                                         

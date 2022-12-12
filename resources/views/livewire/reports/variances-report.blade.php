@@ -4,12 +4,12 @@
             class="w-full button-success"
             wire:click="$toggle('showVariancesForm')"
         >
-            Variances Report
+            Stock Variance Report
         </button>
 
         <div class="p-2">
             <p class="text-xs text-slate-500">
-                Stock variances report between a specified date
+                Stock variances between a specified date
             </p>
         </div>
     </div>

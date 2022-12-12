@@ -4,11 +4,11 @@
             class="w-full button-success"
             wire:click="$toggle('showCreditsForm')"
         >
-            Credits Report
+            Credits Notes Report
         </button>
 
         <div class="p-2">
-            <p class="text-xs text-slate-500">Credits report between a specified date</p>
+            <p class="text-xs text-slate-500">Credit Notes report between a specified date</p>
         </div>
     </div>
 
