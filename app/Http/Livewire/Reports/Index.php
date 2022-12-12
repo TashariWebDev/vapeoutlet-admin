@@ -9,7 +9,6 @@ use App\Models\Product;
 use App\Models\StockTake;
 use App\Models\SupplierTransaction;
 use App\Models\Transaction;
-use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Http;
@@ -28,12 +27,6 @@ class Index extends Component
 
     public $showStockTakeModal = false;
 
-    public $showCreditsForm = false;
-
-    public $showVariancesForm = false;
-
-    public $showSalesByDateRangeForm = false;
-
     public $showStocksByDateRangeForm = false;
 
     public $brand;
@@ -50,13 +43,7 @@ class Index extends Component
 
     public $suppliers = [];
 
-    public $admins = [];
-
-    public $selectedAdmin = '';
-
     public $selectedBrands = [];
-
-    public $salespeople = [];
 
     public $selectedSalespersonId;
 
@@ -64,14 +51,6 @@ class Index extends Component
 
     public function mount()
     {
-        $this->admins = User::all();
-
-        $this->salespeople = User::where(
-            'email',
-            '!=',
-            'ridwan@tashari.co.za'
-        )->get();
-
         $this->transactions = Transaction::query()
             ->select(
                 '*',
@@ -211,15 +190,6 @@ class Index extends Component
         $this->redirect('reports');
     }
 
-    public function getCreditsListDocument()
-    {
-        Http::get(
-            config('app.admin_url').
-                "/webhook/documents/credits?from=$this->fromDate&to=$this->toDate&admin=$this->selectedAdmin"
-        );
-        $this->redirect('reports');
-    }
-
     public function getVariancesDocument()
     {
         Http::get(
@@ -267,7 +237,7 @@ class Index extends Component
             unlink($url);
         }
 
-        $view = view('templates.pdf.stockByDateRange', [
+        $view = view('templates.pdf.stock-report.blade.php', [
             'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),

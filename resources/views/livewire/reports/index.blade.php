@@ -141,12 +141,10 @@
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-
             <livewire:reports.creditors-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-
             <livewire:reports.expense-report />
 
         </div>
@@ -156,223 +154,20 @@
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $credits = config('app.admin_url') . '/storage/documents/credits.pdf';
-                
-                $creditsExists = check_file_exist($credits);
-            @endphp
-
-            <button
-                class="w-full button-success"
-                x-on:click="@this.set('showCreditsForm',true)"
-            >
-                Credits
-            </button>
-
-            <div class="py-4">
-                @if ($creditsExists)
-                    <a
-                        class="link"
-                        href="{{ $credits }}"
-                        wire:loading.class="hidden"
-                        wire:target="getCreditsListDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.credit-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $variances = config('app.admin_url') . '/storage/documents/variances.pdf';
-                
-                $variancesExists = check_file_exist($variances);
-            @endphp
-
-            <button
-                class="w-full button-success"
-                x-on:click="@this.set('showVariancesForm',true)"
-            >
-                Variances
-            </button>
-
-            <div class="py-4">
-                @if ($variancesExists)
-                    <a
-                        class="link"
-                        href="{{ $variances }}"
-                        wire:loading.class="hidden"
-                        wire:target="getVariancesListDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.variances-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $salesByDateRange = config('app.admin_url') . '/storage/documents/salesByDateRange.pdf';
-                
-                $salesByDateRangeExists = check_file_exist($salesByDateRange);
-            @endphp
-
-            <button
-                class="w-full button-success"
-                x-on:click="@this.set('showSalesByDateRangeForm',true)"
-            >
-                Sales by date range
-            </button>
-
-            <div class="py-4">
-                @if ($salesByDateRangeExists)
-                    <a
-                        class="link"
-                        href="{{ $salesByDateRange }}"
-                        wire:loading.class="hidden"
-                        wire:target="getSalesByDateRangeDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.sales-report />
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            @php
-                $stocksByDateRange = config('app.admin_url') . '/storage/documents/stockByDateRange.pdf';
-                
-                $stocksByDateRangeExists = check_file_exist($stocksByDateRange);
-            @endphp
-
-            <button
-                class="w-full button-success"
-                x-on:click="@this.set('showStocksByDateRangeForm',true)"
-            >
-                Stocks by date range
-            </button>
-
-            <div class="py-4">
-                @if ($stocksByDateRangeExists)
-                    <a
-                        class="link"
-                        href="{{ $stocksByDateRange }}"
-                        wire:loading.class="hidden"
-                        wire:target="getStocksByDateRangeDocument"
-                    >
-                        &darr; print
-                    </a>
-                @endif
-            </div>
+            <livewire:reports.stock-report />
         </div>
     </div>
-
-    <x-modal x-data="{ show: $wire.entangle('showVariancesForm') }">
-        <form wire:submit.prevent="getVariancesDocument">
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="From date"
-                    wire:model.defer="fromDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="To date"
-                    wire:model.defer="toDate"
-                />
-            </div>
-
-            <div class="py-2">
-                <button class="button-success">Get report</button>
-            </div>
-        </form>
-    </x-modal>
-
-    <x-modal x-data="{ show: $wire.entangle('showStocksByDateRangeForm') }">
-        <form wire:submit.prevent="getStocksByDateRangeDocument">
-
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="To date"
-                    wire:model.defer="toDate"
-                />
-            </div>
-
-            <div class="py-2">
-                <button class="button-success">Get report</button>
-            </div>
-        </form>
-    </x-modal>
-
-    <x-modal x-data="{ show: $wire.entangle('showSalesByDateRangeForm') }">
-        <form wire:submit.prevent="getSalesByDateRangeDocument">
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="From date"
-                    wire:model.defer="fromDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="To date"
-                    wire:model.defer="toDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.select wire:model.defer="selectedSalespersonId">
-                    <option value="">Choose</option>
-                    @foreach ($salespeople as $salesperson)
-                        <option value="{{ $salesperson->id }}">{{ $salesperson->name }}</option>
-                    @endforeach
-                </x-input.select>
-            </div>
-
-            <div class="py-2">
-                <button class="button-success">Get report</button>
-            </div>
-        </form>
-    </x-modal>
-
-    <x-modal x-data="{ show: $wire.entangle('showCreditsForm') }">
-        <form wire:submit.prevent="getCreditsListDocument">
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="From date"
-                    wire:model.defer="fromDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.text
-                    type="date"
-                    label="To date"
-                    wire:model.defer="toDate"
-                />
-            </div>
-
-            <div class="py-4">
-                <x-input.select wire:model.defer="selectedAdmin">
-                    <option value="">Choose</option>
-                    @foreach ($admins as $admin)
-                        <option value="{{ $admin->name }}">{{ $admin->name }}</option>
-                    @endforeach
-                </x-input.select>
-            </div>
-
-            <div class="py-2">
-                <button class="button-success">Get report</button>
-            </div>
-        </form>
-    </x-modal>
 
 </div>

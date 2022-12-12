@@ -236,7 +236,7 @@ class DocumentController extends Controller
             ->get()
             ->groupBy('created_by');
 
-        $view = view('templates.pdf.credits', [
+        $view = view('templates.pdf.credits-report', [
             'credits' => $credits,
         ])->render();
 
@@ -271,7 +271,7 @@ class DocumentController extends Controller
             ->get()
             ->sortBy('reference');
 
-        $view = view('templates.pdf.variances', [
+        $view = view('templates.pdf.variances-report', [
             'stocks' => $stocks,
         ])->render();
 
@@ -327,7 +327,7 @@ class DocumentController extends Controller
             unlink($url);
         }
 
-        $view = view('templates.pdf.salesByDateRange', [
+        $view = view('templates.pdf.sales-report', [
             'customers' => $customers,
         ])->render();
 
@@ -377,7 +377,7 @@ class DocumentController extends Controller
             unlink($url);
         }
 
-        $view = view('templates.pdf.stockByDateRange', [
+        $view = view('templates.pdf.stock-report', [
             'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),
