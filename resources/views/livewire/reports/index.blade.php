@@ -123,6 +123,10 @@
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.transaction-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             <livewire:reports.variances-report />
         </div>
 
