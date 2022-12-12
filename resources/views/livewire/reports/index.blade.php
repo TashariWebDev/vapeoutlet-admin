@@ -135,6 +135,10 @@
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.discount-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             <livewire:reports.stock-report />
         </div>
 
