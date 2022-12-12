@@ -4,6 +4,7 @@
             class="w-full button-success"
             wire:click="$toggle('showExpenseForm')"
         >
+            <x-icons.busy target="print" />
             Expense Report
         </button>
 

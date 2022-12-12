@@ -4,6 +4,7 @@
             class="w-full button-success"
             wire:click="$toggle('showPurchasesForm')"
         >
+            <x-icons.busy target="print" />
             Purchase Report
         </button>
 

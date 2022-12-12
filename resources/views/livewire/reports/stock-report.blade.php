@@ -9,7 +9,7 @@
 
         <div class="p-2">
             <p class="text-xs text-slate-500">
-                Stock variances report upto a specified date
+                Stock on hand report upto a specified date
             </p>
         </div>
     </div>
@@ -26,7 +26,10 @@
             </div>
 
             <div class="py-2">
-                <button class="button-success">Get report</button>
+                <button class="button-success">
+                    <x-icons.busy target="print" />
+                    Get report
+                </button>
             </div>
         </form>
     </x-modal>

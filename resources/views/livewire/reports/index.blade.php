@@ -100,6 +100,40 @@
     </div>
 
     <div class="grid grid-cols-1 gap-3 py-6 lg:grid-cols-3">
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.debtor-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.creditors-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.expense-report />
+
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.purchase-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.credit-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.variances-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.sales-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.stock-report />
+        </div>
+
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             <button
                 class="w-full button-success"
@@ -134,39 +168,6 @@
                     </div>
                 </form>
             </x-modal>
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.debtor-report />
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.creditors-report />
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.expense-report />
-
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.purchase-report />
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.credit-report />
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.variances-report />
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.sales-report />
-        </div>
-
-        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
-            <livewire:reports.stock-report />
         </div>
     </div>
 
