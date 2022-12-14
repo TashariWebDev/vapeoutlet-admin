@@ -218,7 +218,7 @@ class Product extends Model
 
     public function getLastCost()
     {
-        return $this->lastPurchasePrice->total_cost_in_zar();
+        return $this->lastPurchasePrice?->total_cost_in_zar();
     }
 
     public function stocks(): HasMany
