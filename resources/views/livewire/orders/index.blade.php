@@ -243,16 +243,14 @@
                             </div>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-right">
-                            @php
-                                $orderTotal = to_rands($order->order_total);
-                            @endphp
                             <p class="text-slate-500 dark:text-slate-400">
                                 R {{ number_format($order->delivery_charge, 2) }}</p>
                             <p class="text-slate-500 dark:text-slate-400">
                                 {{ $order->delivery->description }}</p>
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
-                            <p class="text-slate-500 dark:text-slate-400">R {{ number_format($orderTotal, 2) }}</p>
+                            <p class="text-slate-500 dark:text-slate-400">
+                                R {{ number_format(to_rands($order->order_total), 2) }}</p>
                         </x-table.row>
                         <x-table.row class="p-2 text-center lg:text-right">
                             <div class="flex justify-end items-start space-x-2">
@@ -342,7 +340,7 @@
 
                 <div class="p-1 text-right">
                     <p class="font-semibold text-slate-500 dark:text-slate-400">
-                        R {{ number_format($orderTotal, 2) }}
+                        R {{ number_format(to_rands($order->order_total), 2) }}
                     </p>
                     <p class="font-semibold text-slate-500 dark:text-slate-400">
                         R {{ number_format($order->delivery_charge, 2) }}

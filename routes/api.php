@@ -150,3 +150,13 @@ Route::get('/stocks-by-date', function () {
         'products' => $products,
     ]);
 });
+
+//Route::get('get-products', function () {
+//    $products = Product::with(['features'])
+//        ->inStock()
+//        ->withStockCount()
+//        ->where('is_active', '=', true)
+//        ->paginate();
+//
+//    return response()->json(['data' => $products]);
+//});
