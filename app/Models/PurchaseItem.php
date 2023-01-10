@@ -61,7 +61,7 @@ class PurchaseItem extends Model
     {
         return new Attribute(
             get: fn ($value) => to_rands($value),
-            set: fn ($value) => (float) to_cents($value)
+            set: fn ($value) => to_cents($value)
         );
     }
 

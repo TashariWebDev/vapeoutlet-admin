@@ -7,11 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title></title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <title>Credits Report | {{ $from }} - {{ $to }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -19,11 +15,6 @@
         }
 
         @media print {
-
-            /*section,*/
-            /*td,*/
-            /*tr,*/
-            /*div,*/
             section {
                 page-break-inside: avoid;
             }
@@ -48,14 +39,11 @@
 
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
-                {{ date('d-m-y h:i:sa') }}
-            </div>
-            <div class="px-4">
                 <table class="w-full">
                     <thead>
                         <tr class="text-white bg-gray-800">
                             <th class="text-left">Date</th>
-                            <th class="text-left">Invoice No</th>
+                            <th class="text-left">Customer</th>
                             <th class="text-right">Excl</th>
                             <th class="text-right">Vat</th>
                             <th class="text-right">Incl</th>
@@ -65,67 +53,54 @@
                         @php
                             $overallTotal = [];
                         @endphp
-                        @foreach ($purchases as $grouped)
-                            @foreach ($grouped as $purchase)
+                        @foreach ($credits as $grouped)
+                            @php
+                                
+                                $collectAllTotals = [];
+                                
+                            @endphp
+                            @foreach ($grouped as $credit)
                                 @if ($loop->first)
                                     <tr class="font-bold bg-gray-200">
                                         <td
                                             class="text-left"
                                             colspan="6"
-                                        >{{ $purchase->supplier->name }}</td>
+                                        >{{ $credit->created_by }}</td>
                                     </tr>
                                 @endif
-                                @php
-                                    if ($purchase->exchange_rate > 0) {
-                                        $amount = $purchase->amount * $purchase->exchange_rate;
-                                    } else {
-                                        $amount = $purchase->amount;
-                                    }
-                                @endphp
-                                <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                                    <td class="text-left">{{ $purchase->date->format('d-m-y') }}</td>
-                                    <td class="text-left">{{ $purchase->invoice_no }}</td>
-                                    @if ($purchase->taxable)
-                                        <td class="text-right">{{ number_format(ex_vat($amount), 2) }}</td>
-                                    @else
-                                        <td class="text-right">{{ number_format($amount, 2) }}</td>
-                                    @endif
-                                    @if ($purchase->taxable)
-                                        <td class="text-right">{{ number_format(vat($amount), 2) }}</td>
-                                    @else
-                                        <td class="text-right">{{ number_format(to_rands(0), 2) }}</td>
-                                    @endif
-                                    <td class="text-right">
-                                        {{ number_format($amount, 2) }}
-                                    </td>
-                                </tr>
+                                @if ($credit->getTotal() > 0)
+                                    <tr class="py-1 border-b border-dashed break-inside-avoid-page">
+                                        <td class="text-left">{{ $credit->created_at }}</td>
+                                        <td class="text-left">{{ $credit->customer->name }}</td>
+                                        <td class="text-right">{{ number_format(ex_vat($credit->getTotal()), 2) }}</td>
+                                        <td class="text-right">{{ number_format(vat($credit->getTotal()), 2) }}</td>
+                                        <td class="text-right">{{ number_format($credit->getTotal(), 2) }}</td>
+                                    </tr>
+                                @endif
                                 @if ($loop->last)
                                     @php
-
-                                        $amountsConvertedToRands = [];
-
-                                        if ($purchase->exchange_rate > 0) {
-                                            foreach ($grouped as $purchase) {
-                                                $amountsConvertedToRands[] = $purchase->amount * $purchase->exchange_rate;
-                                            }
-                                            $totalAmount = array_sum($amountsConvertedToRands);
-                                        } else {
-                                            $totalAmount = $grouped->sum('amount');
+                                        
+                                        $collectAllTotals = [];
+                                        
+                                        foreach ($grouped as $credit) {
+                                            $collectAllTotals[] = $credit->getTotal();
                                         }
-
+                                        $totalAmount = array_sum($collectAllTotals);
+                                        
                                         $overallTotal[] = $totalAmount;
-
+                                        
                                     @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($grouped->sum('amount') - vat($grouped->where('taxable', true)->sum('amount')), 2) }}
+                                            {{ number_format(ex_vat($totalAmount), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format(vat($grouped->where('taxable', true)->sum('amount')), 2) }}
+                                            {{ number_format(vat($totalAmount), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($grouped->sum('amount'), 2) }}</td>
+                                            {{ number_format($totalAmount, 2) }}
+                                        </td>
                                     </tr>
                                     <tr class="text-white">
                                         <td

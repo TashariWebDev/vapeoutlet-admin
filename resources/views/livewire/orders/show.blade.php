@@ -224,7 +224,7 @@
                     <x-table.row>
                         <label>
                             <x-input.text
-                                class="w-full rounded-md text-slate-700 bg-slate-400"
+                                class="w-full rounded-md text-slate-900 bg-slate-300"
                                 type="number"
                                 value="{{ $item->price }}"
                                 disabled
@@ -237,7 +237,7 @@
                     <x-table.row>
                         <label>
                             <x-input.text
-                                class="w-full rounded-md text-slate-700 bg-slate-400"
+                                class="w-full rounded-md text-slate-900 bg-slate-300"
                                 type="number"
                                 value="{{ $item->discount }}"
                                 inputmode="numeric"
@@ -251,7 +251,7 @@
 
                         <label>
                             <x-input.text
-                                class="w-full rounded-md text-slate-700 bg-slate-400"
+                                class="w-full rounded-md text-slate-900 bg-slate-300"
                                 type="number"
                                 value="{{ $item->qty }}"
                                 inputmode="numeric"
@@ -264,7 +264,7 @@
                     <x-table.row>
                         <label>
                             <x-input.text
-                                class="w-full rounded-md text-slate-700 bg-slate-400"
+                                class="w-full rounded-md text-slate-900 bg-slate-300"
                                 type="number"
                                 value="{{ $item->line_total }}"
                                 inputmode="numeric"

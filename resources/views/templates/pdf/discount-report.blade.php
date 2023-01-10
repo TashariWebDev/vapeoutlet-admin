@@ -7,11 +7,9 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title></title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet"
-    >
+    <title>
+        Discount Report | {{ $from }} - {{ $to }}
+    </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -19,11 +17,6 @@
         }
 
         @media print {
-
-            /*section,*/
-            /*td,*/
-            /*tr,*/
-            /*div,*/
             section {
                 page-break-inside: avoid;
             }
@@ -48,69 +41,55 @@
 
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
-                {{ date('d-m-y h:i:sa') }}
-            </div>
-            <div class="px-4">
                 <table class="w-full">
                     <thead>
                         <tr class="text-white bg-gray-800">
                             <th class="text-left">Date</th>
-                            <th class="text-left">Customer</th>
+                            <th class="text-left">Invoice No</th>
+                            <th class="text-left">Product</th>
                             <th class="text-right">Excl</th>
                             <th class="text-right">Vat</th>
                             <th class="text-right">Incl</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm">
+                    <tbody class="text-xs">
+
                         @php
                             $overallTotal = [];
                         @endphp
-                        @foreach ($credits as $grouped)
-                            @php
 
-                                $collectAllTotals = [];
-
-                            @endphp
-                            @foreach ($grouped as $credit)
-                                @if ($loop->first)
-                                    <tr class="font-bold bg-gray-200">
-                                        <td
-                                            class="text-left"
-                                            colspan="6"
-                                        >{{ $credit->created_by }}</td>
-                                    </tr>
-                                @endif
+                        @foreach ($discounts as $grouped)
+                            @foreach ($grouped as $discount)
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                                    <td class="text-left">{{ $credit->created_at }}</td>
-                                    <td class="text-left">{{ $credit->customer->name }}</td>
-                                    <td class="text-right">{{ number_format(ex_vat($credit->getTotal()), 2) }}</td>
-                                    <td class="text-right">{{ number_format(vat($credit->getTotal()), 2) }}</td>
-                                    <td class="text-right">{{ number_format($credit->getTotal(), 2) }}</td>
+                                    <td class="text-left">{{ $discount->created_at->format('d-m-y') }}</td>
+                                    <td class="text-left">{{ $discount->order->number }}</td>
+                                    <td class="text-left">
+                                        <x-product-listing-simple :product="$discount->product" />
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format(ex_vat($discount->discount), 2) }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format(vat($discount->discount), 2) }}
+                                    </td>
+                                    <td class="text-right">{{ number_format($discount->discount, 2) }}</td>
                                 </tr>
+
+                                @php
+                                    $overallTotal[] = $discount->discount;
+                                @endphp
+
                                 @if ($loop->last)
-                                    @php
-
-                                        $collectAllTotals = [];
-
-                                        foreach ($grouped as $credit) {
-                                            $collectAllTotals[] = $credit->getTotal();
-                                        }
-                                        $totalAmount = array_sum($collectAllTotals);
-
-                                        $overallTotal[] = $totalAmount;
-
-                                    @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
-                                        <td colspan="2"></td>
+                                        <td colspan="3"></td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format(ex_vat($totalAmount), 2) }}
+                                            {{ number_format($grouped->sum('discount') - vat($grouped->sum('discount')), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format(vat($totalAmount), 2) }}
+                                            {{ number_format(vat($grouped->sum('discount')), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($totalAmount, 2) }}
-                                        </td>
+                                            {{ number_format($grouped->sum('discount'), 2) }}</td>
                                     </tr>
                                     <tr class="text-white">
                                         <td

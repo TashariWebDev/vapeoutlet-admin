@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Credit;
 use App\Models\Customer;
-use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\Purchase;
 use App\Models\Stock;
 use App\Models\StockTake;
-use App\Models\Supplier;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -227,130 +224,6 @@ class DocumentController extends Controller
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getDebtorsList()
-    {
-        $view = view('templates.pdf.debtors-list', [
-            'customers' => Customer::orderBy('name')->get(),
-        ])->render();
-
-        $url = storage_path('app/public/documents/debtors-list.pdf');
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
-            ->save($url);
-
-        return response()->json(200);
-    }
-
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
-    public function getCreditorsList()
-    {
-        $view = view('templates.pdf.creditors-list', [
-            'suppliers' => Supplier::orderBy('name')->get(),
-        ])->render();
-
-        $url = storage_path('app/public/documents/creditors-list.pdf');
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
-            ->save($url);
-
-        return response()->json(200);
-    }
-
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
-    public function getExpensesList()
-    {
-        $expenses = Expense::whereBetween('date', [
-            request('from'),
-            request('to'),
-        ])
-            ->when(request('category'), function ($query) {
-                $query->whereCategory(request('category'));
-            })
-            ->get()
-            ->groupBy('category');
-
-        $view = view('templates.pdf.expenses', [
-            'expenses' => $expenses,
-        ])->render();
-
-        $url = storage_path('app/public/documents/expenses.pdf');
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
-            ->save($url);
-
-        return response()->json(200);
-    }
-
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
-    public function getPurchasesList()
-    {
-        $purchases = Purchase::whereBetween('date', [
-            request('from'),
-            request('to'),
-        ])
-            ->when(request('supplier'), function ($query) {
-                $query->whereSupplierId(request('supplier'));
-            })
-            ->get()
-            ->groupBy('supplier_id');
-
-        $view = view('templates.pdf.purchases', [
-            'purchases' => $purchases,
-        ])->render();
-
-        $url = storage_path('app/public/documents/purchases.pdf');
-
-        if (file_exists($url)) {
-            unlink($url);
-        }
-
-        Browsershot::html($view)
-            ->showBackground()
-            ->emulateMedia('print')
-            ->format('a4')
-            ->paperSize(297, 210)
-            ->setScreenshotType('pdf', 100)
-            ->save($url);
-
-        return response()->json(200);
-    }
-
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
     public function getCreditsList()
     {
         $credits = Credit::whereBetween('created_at', [
@@ -363,7 +236,7 @@ class DocumentController extends Controller
             ->get()
             ->groupBy('created_by');
 
-        $view = view('templates.pdf.credits', [
+        $view = view('templates.pdf.credits-report', [
             'credits' => $credits,
         ])->render();
 
@@ -398,7 +271,7 @@ class DocumentController extends Controller
             ->get()
             ->sortBy('reference');
 
-        $view = view('templates.pdf.variances', [
+        $view = view('templates.pdf.variances-report', [
             'stocks' => $stocks,
         ])->render();
 
@@ -454,7 +327,7 @@ class DocumentController extends Controller
             unlink($url);
         }
 
-        $view = view('templates.pdf.salesByDateRange', [
+        $view = view('templates.pdf.sales-report', [
             'customers' => $customers,
         ])->render();
 
@@ -504,7 +377,7 @@ class DocumentController extends Controller
             unlink($url);
         }
 
-        $view = view('templates.pdf.stockByDateRange', [
+        $view = view('templates.pdf.stock-report', [
             'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),

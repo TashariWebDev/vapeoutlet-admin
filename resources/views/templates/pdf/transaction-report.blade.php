@@ -7,9 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>
-        Expense Report | {{ $from }} - {{ $to }}
-    </title>
+    <title>{{ ucwords($type) }} Report | {{ $from }} - {{ $to }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -17,11 +15,6 @@
         }
 
         @media print {
-
-            /*section,*/
-            /*td,*/
-            /*tr,*/
-            /*div,*/
             section {
                 page-break-inside: avoid;
             }
@@ -50,66 +43,75 @@
                     <thead>
                         <tr class="text-white bg-gray-800">
                             <th class="text-left">Date</th>
-                            <th class="text-left">Invoice No</th>
-                            <th class="text-left">Reference</th>
+                            <th class="text-left">Customer</th>
+                            <th
+                                class="text-left"
+                                colspan="2"
+                            >Ref
+                            </th>
                             <th class="text-right">Excl</th>
                             <th class="text-right">Vat</th>
                             <th class="text-right">Incl</th>
                         </tr>
                     </thead>
-                    <tbody class="text-sm">
-
+                    <tbody class="text-xs">
                         @php
                             $overallTotal = [];
                         @endphp
 
-                        @foreach ($expenses as $grouped)
-                            @foreach ($grouped as $expense)
+                        @foreach ($transactions as $grouped)
+                            @php
+                                $collectAllTotals = [];
+                            @endphp
+                            @foreach ($grouped as $transaction)
                                 @if ($loop->first)
                                     <tr class="font-bold bg-gray-200">
                                         <td
                                             class="text-left"
-                                            colspan="6"
-                                        >{{ $expense->category }}</td>
+                                            colspan="7"
+                                        >{{ $transaction->created_by }}</td>
                                     </tr>
                                 @endif
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                                    <td class="text-left">{{ $expense->date->format('d-m-y') }}</td>
-                                    <td class="text-left">{{ $expense->invoice_no }}</td>
-                                    <td class="text-left">{{ $expense->reference }}</td>
-                                    @if ($expense->taxable)
-                                        <td class="text-right">{{ number_format(ex_vat($expense->amount), 2) }}</td>
-                                    @else
-                                        <td class="text-right">{{ number_format($expense->amount, 2) }}</td>
-                                    @endif
-                                    @if ($expense->taxable)
-                                        <td class="text-right">{{ number_format(vat($expense->amount), 2) }}</td>
-                                    @else
-                                        <td class="text-right">{{ number_format(to_rands(0), 2) }}</td>
-                                    @endif
-                                    <td class="text-right">{{ number_format($expense->amount, 2) }}</td>
+                                    <td class="text-left">{{ $transaction->created_at }}</td>
+                                    <td class="text-left">{{ $transaction->customer->name }}</td>
+                                    <td
+                                        class="text-left"
+                                        colspan="2"
+                                    >{{ $transaction->reference }}</td>
+                                    <td class="text-right">{{ number_format(ex_vat(0 - $transaction->amount), 2) }}</td>
+                                    <td class="text-right">{{ number_format(vat(0 - $transaction->amount), 2) }}</td>
+                                    <td class="text-right">{{ number_format(0 - $transaction->amount, 2) }}</td>
                                 </tr>
-
-                                @php
-                                    $overallTotal[] = $expense->amount;
-                                @endphp
-
                                 @if ($loop->last)
+                                    @php
+                                        
+                                        $collectAllTotals = [];
+                                        
+                                        foreach ($grouped as $transaction) {
+                                            $collectAllTotals[] = 0 - $transaction->amount;
+                                        }
+                                        $totalAmount = array_sum($collectAllTotals);
+                                        
+                                        $overallTotal[] = $totalAmount;
+                                        
+                                    @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
-                                        <td colspan="3"></td>
+                                        <td colspan="4"></td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($grouped->sum('amount') - vat($grouped->where('taxable', true)->sum('amount')), 2) }}
+                                            {{ number_format(ex_vat($totalAmount), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format(vat($grouped->where('taxable', true)->sum('amount')), 2) }}
+                                            {{ number_format(vat($totalAmount), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($grouped->sum('amount'), 2) }}</td>
+                                            {{ number_format($totalAmount, 2) }}
+                                        </td>
                                     </tr>
                                     <tr class="text-white">
                                         <td
                                             class="py-2"
-                                            colspan="6"
+                                            colspan="7"
                                         ></td>
                                     </tr>
                                 @endif
@@ -118,7 +120,7 @@
                         <tr class="h-10 font-bold bg-white border-t-4 border-dashed">
                             <td
                                 class="text-right"
-                                colspan="6"
+                                colspan="7"
                             >
                                 {{ number_format(array_sum($overallTotal), 2) }}
                             </td>

@@ -5,13 +5,10 @@ namespace App\Http\Livewire\Reports;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
 use App\Models\Expense;
-use App\Models\ExpenseCategory;
 use App\Models\Product;
 use App\Models\StockTake;
-use App\Models\Supplier;
 use App\Models\SupplierTransaction;
 use App\Models\Transaction;
-use App\Models\User;
 use Carbon\Carbon;
 use DB;
 use Http;
@@ -30,14 +27,6 @@ class Index extends Component
 
     public $showStockTakeModal = false;
 
-    public $showPurchasesForm = false;
-
-    public $showCreditsForm = false;
-
-    public $showVariancesForm = false;
-
-    public $showSalesByDateRangeForm = false;
-
     public $showStocksByDateRangeForm = false;
 
     public $brand;
@@ -52,23 +41,9 @@ class Index extends Component
 
     public $toDate;
 
-    public $showExpenseForm = false;
-
-    public $expenseCategories = [];
-
-    public $selectedExpenseCategory = '';
-
     public $suppliers = [];
 
-    public $selectedSupplierId = '';
-
-    public $admins = [];
-
-    public $selectedAdmin = '';
-
     public $selectedBrands = [];
-
-    public $salespeople = [];
 
     public $selectedSalespersonId;
 
@@ -76,16 +51,6 @@ class Index extends Component
 
     public function mount()
     {
-        $this->expenseCategories = ExpenseCategory::all();
-        $this->suppliers = Supplier::all();
-        $this->admins = User::all();
-
-        $this->salespeople = User::where(
-            'email',
-            '!=',
-            'ridwan@tashari.co.za'
-        )->get();
-
         $this->transactions = Transaction::query()
             ->select(
                 '*',
@@ -216,46 +181,12 @@ class Index extends Component
         return Brand::all();
     }
 
-    public function getDebtorListDocument()
-    {
-        Http::get(config('app.admin_url').'/webhook/documents/debtor-list');
-
-        $this->redirect('reports');
-    }
-
     public function getCreditorsListDocument()
     {
         Http::get(
             config('app.admin_url').'/webhook/documents/creditors-list'
         );
 
-        $this->redirect('reports');
-    }
-
-    public function getExpenseListDocument()
-    {
-        Http::get(
-            config('app.admin_url').
-                "/webhook/documents/expenses?from=$this->fromDate&to=$this->toDate&category=$this->selectedExpenseCategory"
-        );
-        $this->redirect('reports');
-    }
-
-    public function getPurchaseListDocument()
-    {
-        Http::get(
-            config('app.admin_url').
-                "/webhook/documents/purchases?from=$this->fromDate&to=$this->toDate&supplier=$this->selectedSupplierId"
-        );
-        $this->redirect('reports');
-    }
-
-    public function getCreditsListDocument()
-    {
-        Http::get(
-            config('app.admin_url').
-                "/webhook/documents/credits?from=$this->fromDate&to=$this->toDate&admin=$this->selectedAdmin"
-        );
         $this->redirect('reports');
     }
 
@@ -306,7 +237,7 @@ class Index extends Component
             unlink($url);
         }
 
-        $view = view('templates.pdf.stockByDateRange', [
+        $view = view('templates.pdf.stock-report.blade.php', [
             'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),

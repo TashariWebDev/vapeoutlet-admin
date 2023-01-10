@@ -90,7 +90,7 @@ class Index extends Component
 
     public function getProductsProperty()
     {
-        return Product::select(
+        return Product::select([
             'products.id',
             'products.name',
             'products.brand',
@@ -103,8 +103,8 @@ class Index extends Component
             'products.is_featured',
             'products.is_sale',
             'products.deleted_at',
-            'products.image'
-        )
+            'products.image',
+        ])
             ->with(['features:id,product_id,name', 'lastPurchasePrice'])
             ->withSum(
                 [

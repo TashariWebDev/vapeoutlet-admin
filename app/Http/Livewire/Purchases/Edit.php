@@ -38,7 +38,9 @@ class Edit extends Component
 
     public function getPurchaseProperty(): Purchase|array|_IH_Purchase_C|null
     {
-        return Purchase::where('purchases.id', $this->purchaseId)->first();
+        return Purchase::where('purchases.id', $this->purchaseId)
+            ->withCount('items')
+            ->first();
     }
 
     public function updatePrice(PurchaseItem $item, $value)

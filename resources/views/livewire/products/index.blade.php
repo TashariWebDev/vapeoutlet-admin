@@ -176,7 +176,7 @@
                                 <div class="flex justify-between">
                                     <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">LAST COST</p>
                                     <p class="text-xs font-semibold text-teal-800 dark:text-teal-500">
-                                        {{ number_format($product->lastPurchasePrice?->price, 2) }}
+                                        {{ number_format($product->getLastCost(), 2) }}
                                     </p>
                                 </div>
                             @endif

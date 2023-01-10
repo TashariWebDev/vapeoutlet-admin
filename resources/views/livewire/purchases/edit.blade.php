@@ -43,7 +43,7 @@
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
                     <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
                         Total:
-                        <span class="@if ($this->purchase->total === $this->purchase->amount) text-teal-600 @else text-pink-600 @endif">
+                        <span class="text-teal-600">
                             {{ $this->purchase->total }} {{ $this->purchase->currency }}
                         </span>
                         <span class="font-bold">/ {{ $this->purchase->amount }}
@@ -52,6 +52,17 @@
                     <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
                         Count: {{ $this->purchase->items_count }}
                     </p>
+                </div>
+                <div class="flex px-2 space-x-2 text-xs text-slate-500">
+                    @if ($this->purchase->taxable)
+                        <p>vat {{ number_format(vat($this->purchase->amount), 2) }}</p>
+                    @endif
+                    @if ($this->purchase->shipping_rate)
+                        <p>shipping {{ $this->purchase->shipping_rate }} %</p>
+                    @endif
+                    @if ($this->purchase->exchange_rate)
+                        <p>exchange R {{ number_format($this->purchase->exchange_rate, 2) }}</p>
+                    @endif
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-2 text-xs lg:grid-cols-2">
