@@ -17,6 +17,12 @@ class Index extends Component
     {
         return Order::query()
             ->without('items')
+            ->where(
+                'sales_channel_id',
+                auth()
+                    ->user()
+                    ->defaultSalesChannel()->id
+            )
             ->selectRaw(
                 "count(case when status = 'received' then 1 end) as received"
             )

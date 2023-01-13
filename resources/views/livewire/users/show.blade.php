@@ -101,10 +101,10 @@
                 @foreach ($user->permissions as $permission)
                     <div>
                         <button
-                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-pink-600 group"
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-rose-600 group"
                             wire:click="revokePermission('{{ $permission->id }}')"
                         >
-                            <x-icons.tick class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            <x-icons.tick class="mr-3 w-5 h-5 group-hover:text-white text-sky-500" />
                             {{ $permission->name }}
                         </button>
                     </div>
@@ -132,10 +132,10 @@
                 @foreach ($permissions as $permission)
                     <div>
                         <button
-                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-teal-600 group"
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white group hover:bg-sky-600"
                             wire:click="addPermission('{{ $permission->id }}')"
                         >
-                            <x-icons.plus class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            <x-icons.plus class="mr-3 w-5 h-5 group-hover:text-white text-sky-500" />
                             {{ $permission->name }}
                         </button>
                     </div>
@@ -157,10 +157,10 @@
                 @foreach ($user->sales_channels as $channel)
                     <div>
                         <button
-                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-pink-600 group"
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-rose-600 group"
                             wire:click="revokeSalesChannel('{{ $channel->id }}')"
                         >
-                            <x-icons.tick class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            <x-icons.tick class="mr-3 w-5 h-5 group-hover:text-white text-sky-500" />
                             {{ $channel->name }}
                         </button>
 
@@ -189,10 +189,10 @@
                 @foreach ($salesChannels as $chanel)
                     <div>
                         <button
-                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white hover:bg-teal-600 group"
+                            class="inline-flex py-1 px-2 w-64 text-sm font-semibold uppercase bg-white rounded-md hover:text-white group hover:bg-sky-600"
                             wire:click="addSalesChannel('{{ $chanel->id }}')"
                         >
-                            <x-icons.plus class="mr-3 w-5 h-5 text-teal-500 group-hover:text-white" />
+                            <x-icons.plus class="mr-3 w-5 h-5 group-hover:text-white text-sky-500" />
                             {{ $chanel->name }}
                         </button>
                     </div>

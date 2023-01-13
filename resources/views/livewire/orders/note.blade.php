@@ -14,7 +14,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New note</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">New note</h3>
         </div>
         <form wire:submit.prevent="save">
 
@@ -35,7 +35,7 @@
                         for="is_private"
                     >
                         <input
-                            class="text-teal-500 rounded-full focus:ring-slate-200"
+                            class="rounded-full text-sky-500 focus:ring-slate-200"
                             id="is_private"
                             type="checkbox"
                             wire:model.defer="is_private"

@@ -239,7 +239,7 @@ img {
     border-top: 8px solid #2d3748;
 }
 
-.button-teal,
+.button-sky,
 .button-success {
     background-color: #48bb78;
     border-bottom: 8px solid #48bb78;
@@ -248,7 +248,7 @@ img {
     border-top: 8px solid #48bb78;
 }
 
-.button-pink,
+.button-rose,
 .button-error {
     background-color: #e53e3e;
     border-bottom: 8px solid #e53e3e;

@@ -186,7 +186,7 @@
                 </div>
                 <div class="py-3">
                     <div>
-                        <p class="text-xs text-teal-500 dark:text-teal-400">update and click tab to save</p>
+                        <p class="text-xs text-sky-500 dark:text-sky-400">update and click tab to save</p>
                     </div>
 
                     @foreach ($product->features as $feature)
@@ -205,7 +205,7 @@
                             </div>
 
                             <button x-on:click.prevent="$wire.call('deleteFeature', {{ $feature->id }})">
-                                <x-icons.cross class="w-10 h-10 text-pink-500 hover:text-pink-600" />
+                                <x-icons.cross class="w-10 h-10 text-rose-500 hover:text-rose-600" />
                             </button>
                         </div>
                     @endforeach
@@ -235,7 +235,7 @@
                                         wire:loading.attr="disabled"
                                         x-on:click="$wire.call('deleteImage','{{ $image->id }}')"
                                     >
-                                        <x-icons.cross class="w-6 h-6 text-pink-600" />
+                                        <x-icons.cross class="w-6 h-6 text-rose-600" />
                                     </button>
                                 </div>
                                 <img
@@ -260,7 +260,7 @@
                             @if (!str_contains($product->image, 'default-image.png'))
                                 <div class="absolute top-0 right-0">
                                     <button x-on:click="$wire.call('deleteFeaturedImage')">
-                                        <x-icons.cross class="w-6 h-6 text-pink-600" />
+                                        <x-icons.cross class="w-6 h-6 text-rose-600" />
                                     </button>
                                 </div>
                             @endif

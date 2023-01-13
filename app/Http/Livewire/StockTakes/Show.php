@@ -81,6 +81,7 @@ class Show extends Component
                         'reference' => 'ST00'.$stockTake->id,
                         'qty' => $item->variance,
                         'cost' => $item->product->cost,
+                        'sales_channel_id' => $stockTake->sales_channel_id,
                     ]);
                 }
             }

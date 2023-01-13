@@ -1,3 +1,5 @@
 <div>
-    <p class="text-xs">({{ auth()->user()->defaultSalesChannel()->name }})</p>
+    <p class="text-lg font-bold text-rose-600">
+        {{ auth()->user()->defaultSalesChannel()->name }}
+    </p>
 </div>

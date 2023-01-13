@@ -23,6 +23,11 @@ class Index extends Component
         $this->notify('SalesChannel cancelled');
     }
 
+    public function print(StockTransfer $transfer)
+    {
+        $transfer->print();
+    }
+
     public function render()
     {
         return view('livewire.stock-transfers.index', [
@@ -32,6 +37,7 @@ class Index extends Component
                     $this->searchQuery,
                     fn ($query) => $query
                         ->where('date', '=', $this->searchQuery)
+                        ->orWhere('id', '=', $this->searchQuery)
                         ->orWhereHas('user', function ($query) {
                             $query->where(
                                 'name',

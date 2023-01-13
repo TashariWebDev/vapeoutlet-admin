@@ -37,12 +37,12 @@
         <div class="grid grid-cols-1 gap-5 mt-3 mb-2 sm:grid-cols-2 lg:grid-cols-3">
             <x-stat-container>
                 <div>
-                    <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                        <x-icons.tax-receipt class="w-6 h-6 text-teal-100 dark:text-teal-500" />
+                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                        <x-icons.tax-receipt class="w-6 h-6 text-sky-100 dark:text-sky-500" />
                     </div>
                     <div class="ml-16">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">Invoices</p>
-                        <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                             R {{ number_format($lifetimeTransactions->where('type', 'invoice')->sum('amount'), 2) }}
                         </p>
                     </div>
@@ -60,12 +60,12 @@
 
             <x-stat-container>
                 <div>
-                    <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                        <x-icons.ccard class="w-6 h-6 text-teal-100 dark:text-teal-500" />
+                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                        <x-icons.ccard class="w-6 h-6 text-sky-100 dark:text-sky-500" />
                     </div>
                     <div class="ml-16">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">Total Payments</p>
-                        <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                             R
                             {{ number_format(abs($lifetimeTransactions->where('type', 'payment')->sum('amount')), 2) }}
                         </p>
@@ -84,12 +84,12 @@
 
             <x-stat-container>
                 <div>
-                    <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                        <x-icons.chart-pie class="w-6 h-6 text-teal-100 dark:text-teal-500" />
+                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                        <x-icons.chart-pie class="w-6 h-6 text-sky-100 dark:text-sky-500" />
                     </div>
                     <div class="ml-16">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">Outstanding</p>
-                        <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                             R {{ number_format(abs($lifetimeTransactions->sum('amount')), 2) }}
                         </p>
                     </div>
@@ -108,12 +108,12 @@
 
             <x-stat-container>
                 <div>
-                    <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                        <x-icons.arrow-up class="w-6 h-6 text-teal-100 dark:text-teal-500" />
+                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                        <x-icons.arrow-up class="w-6 h-6 text-sky-100 dark:text-sky-500" />
                     </div>
                     <div class="ml-16">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">Debits</p>
-                        <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                             R
                             {{ number_format(abs($lifetimeTransactions->where('type', 'debit')->sum('amount')), 2) }}
                         </p>
@@ -134,12 +134,12 @@
 
             <x-stat-container>
                 <div>
-                    <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                        <x-icons.arrow-right class="w-6 h-6 text-teal-100 dark:text-teal-500" />
+                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                        <x-icons.arrow-right class="w-6 h-6 text-sky-100 dark:text-sky-500" />
                     </div>
                     <div class="ml-16">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">Credits</p>
-                        <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                             R
                             {{ number_format(abs($lifetimeTransactions->where('type', 'credit')->sum('amount')), 2) }}
                         </p>
@@ -160,12 +160,12 @@
 
             <x-stat-container>
                 <div>
-                    <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                        <x-icons.arrow-down class="w-6 h-6 text-teal-100 dark:text-teal-500" />
+                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                        <x-icons.arrow-down class="w-6 h-6 text-sky-100 dark:text-sky-500" />
                     </div>
                     <div class="ml-16">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">Refunds</p>
-                        <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                             R
                             {{ number_format(abs($lifetimeTransactions->where('type', 'refund')->sum('amount')), 2) }}
                         </p>
@@ -349,11 +349,11 @@
                                 @endif
                             </span>
                             <span @class([
-                                'text-xs text-pink-500 dark:text-pink-400' =>
+                                'text-xs text-rose-500 dark:text-rose-400' =>
                                     $transaction->type === 'invoice' ||
                                     $transaction->type === 'debit' ||
                                     $transaction->type === 'refund',
-                                'text-xs text-green-500 dark:text-green-400' =>
+                                'text-xs text-indigo-500 dark:text-indigo-400' =>
                                     $transaction->type === 'payment' ||
                                     $transaction->type === 'credit' ||
                                     $transaction->type === 'warranty',
@@ -361,7 +361,7 @@
                                 {{ strtoupper($transaction->type) }}
                             </span>
                         </p>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                        <p class="text-xs text-slate-600 dark:text-slate-500">
                             {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
                         </p>
                     </div>
@@ -370,7 +370,7 @@
                             <p class="text-xs text-slate-400">
                                 Total: {{ number_format($transaction->amount, 2) }}
                             </p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                            <p class="text-xs text-slate-600 dark:text-slate-500">
                                 Balance: {{ number_format($transaction->running_balance, 2) }}
                             </p>
                         </div>
@@ -425,15 +425,15 @@
                                             {{ $transaction->id }}
                                         </a>
                                     @else
-                                        <span class="text-slate-500 dark:text-slate-400">{{ $transaction->id }}</span>
+                                        <span class="text-slate-600 dark:text-slate-500">{{ $transaction->id }}</span>
                                     @endif
                                 </span>
                                 <span @class([
-                                    'text-xs text-pink-500 dark:text-pink-400' =>
+                                    'text-xs text-rose-500 dark:text-rose-600' =>
                                         $transaction->type === 'invoice' ||
                                         $transaction->type === 'debit' ||
                                         $transaction->type === 'refund',
-                                    'text-xs text-green-500 dark:text-green-400' =>
+                                    'text-xs text-indigo-500 dark:text-indigo-400' =>
                                         $transaction->type === 'payment' ||
                                         $transaction->type === 'credit' ||
                                         $transaction->type === 'warranty',
@@ -441,23 +441,23 @@
                                     {{ strtoupper($transaction->type) }}
                                 </span>
                             </p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                            <p class="text-xs text-slate-600 dark:text-slate-500">
                                 {{ $transaction->created_at->format('d-m-y H:i') }}</p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                            <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">
                                 {{ strtoupper($transaction->reference) }}</p>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">{{ $transaction->created_by }}</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-500">{{ $transaction->created_by }}</p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                            <p class="text-xs text-slate-600 dark:text-slate-500">
                                 {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
                             </p>
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right text-slate-500 dark:text-slate-400">
+                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-500">
                             {{ number_format($transaction->amount, 2) }}
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right text-slate-500 dark:text-slate-400">
+                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-500">
                             <span class="lg:hidden">BAL:</span> {{ number_format($transaction->running_balance, 2) }}
                         </x-table.row>
                         <x-table.row class="text-center lg:text-right">

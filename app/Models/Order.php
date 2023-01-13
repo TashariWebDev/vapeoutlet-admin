@@ -183,6 +183,9 @@ class Order extends Model
                     'reference' => $this->number,
                     'qty' => 0 - $item->qty,
                     'cost' => $item->product->cost,
+                    'sales_channel_id' => auth()
+                        ->user()
+                        ->defaultSalesChannel()->id,
                 ]
             );
         }

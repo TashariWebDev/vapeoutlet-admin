@@ -41,14 +41,15 @@
         {{-- desktop --}}
         <div class="hidden lg:block">
             <x-table.container>
-                <x-table.header class="hidden lg:grid lg:grid-cols-4">
+                <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>ID</x-table.heading>
                     <x-table.heading>From</x-table.heading>
                     <x-table.heading>To</x-table.heading>
                     <x-table.heading>Status</x-table.heading>
+                    <x-table.heading class="lg:text-right">Print</x-table.heading>
                 </x-table.header>
                 @forelse($transfers as $transfer)
-                    <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
+                    <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
                         <x-table.row>
                             <a
                                 class="link"
@@ -70,17 +71,38 @@
                         </x-table.row>
                         <x-table.row>
                             @if (!$transfer->isProcessed())
-                                <div class="py-1 px-3 text-red-800 uppercase bg-red-300">
+                                <div
+                                    class="py-1 px-3 text-xs text-center text-rose-800 uppercase bg-rose-300 rounded-r-full rounded-l-full">
                                     <p>Pending</p>
                                 </div>
                             @else
-                                <div class="py-1 px-3 text-green-800 uppercase bg-green-300">
+                                <div
+                                    class="py-1 px-3 text-xs text-center text-indigo-800 uppercase bg-indigo-300 rounded-r-full rounded-l-full">
                                     <p>Processed</p>
                                 </div>
                             @endif
-                            <p class="capitalize">
+                            <p class="py-1 text-center capitalize">
                                 {{ $transfer->user->name }}
                             </p>
+                        </x-table.row>
+                        <x-table.row class="lg:text-right">
+                            <div>
+                                <button
+                                    class="button button-success"
+                                    wire:loading.attr="disabled"
+                                    wire:target="print"
+                                    wire:click="print({{ $transfer->id }})"
+                                >
+                                    <span
+                                        class="pr-2"
+                                        wire:loading
+                                        wire:target="print({{ $transfer->id }})"
+                                    >
+                                        <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                    </span>
+                                    Print
+                                </button>
+                            </div>
                         </x-table.row>
                     </x-table.body>
                 @empty

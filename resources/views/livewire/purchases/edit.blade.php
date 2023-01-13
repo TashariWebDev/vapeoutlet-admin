@@ -24,7 +24,7 @@
         </div>
         <div class="h-10">
             <p
-                class="hidden text-xs font-semibold text-pink-600 uppercase"
+                class="hidden text-xs font-semibold text-rose-600 uppercase"
                 wire:target="process"
                 wire:loading.class.remove="hidden"
             >
@@ -37,19 +37,19 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
-                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">
+                <p class="text-xs font-bold text-slate-500 dark:text-sky-400">
                     INVOICE: {{ $this->purchase->invoice_no }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->purchase->date }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->purchase->date }}</p>
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Total:
-                        <span class="text-teal-600">
+                        <span class="text-sky-600">
                             {{ $this->purchase->total }} {{ $this->purchase->currency }}
                         </span>
                         <span class="font-bold">/ {{ $this->purchase->amount }}
                             {{ $this->purchase->currency }}</span>
                     </p>
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Count: {{ $this->purchase->items_count }}
                     </p>
                 </div>
@@ -75,7 +75,7 @@
                             {{ $this->purchase->supplier->name }}
                         </a>
                     @else
-                        <p class="font-semibold text-slate-500 dark:text-slate-400">
+                        <p class="font-semibold text-slate-600 dark:text-slate-500">
                             {{ $this->purchase->supplier->name }}
                         </p>
                     @endif
@@ -157,7 +157,7 @@
                     @if (!$this->purchase->processed)
                         <div>
                             <button
-                                class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700"
+                                class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700"
                                 x-on:click="$wire.call('removeProducts')"
                             >remove selected items
                             </button>
@@ -179,7 +179,7 @@
                                         for="{{ $item->id }}"
                                     ></label>
                                     <input
-                                        class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 bg-slate-300"
+                                        class="w-4 h-4 rounded text-sky-600 bg-slate-300 focus:ring-sky-500"
                                         id="{{ $item->id }}"
                                         type="checkbox"
                                         value="{{ $item->id }}"
@@ -248,7 +248,7 @@
                             </label>
                         @endif
                         <div class="flex justify-between items-center mt-1">
-                            <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
+                            <div class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700">
                                 @if (!$this->purchase->processed)
                                     <button
                                         wire:loading.attr="disabled"

@@ -40,12 +40,12 @@
                     />
                     @if ($transaction->date)
                         <div class="mt-2">
-                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                            <p class="text-xs text-slate-600 dark:text-slate-500">
                                 {{ $transaction->date->format('d-m-y') }}</p>
                         </div>
                     @else
                         <div class="mt-2">
-                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                            <p class="text-xs text-slate-600 dark:text-slate-500">
                                 {{ $transaction->created_at->format('d-m-y H:i') }}</p>
                         </div>
                     @endif
@@ -112,7 +112,7 @@
                 wire:loading
                 wire:target="update"
             >
-                <p class="text-xs text-teal-500">Processing! Please wait</p>
+                <p class="text-xs text-sky-500">Processing! Please wait</p>
             </div>
         </form>
 

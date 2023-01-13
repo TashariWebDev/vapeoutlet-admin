@@ -25,7 +25,7 @@
                             @enderror
                         </div>
                         <button x-on:click.prevent="$wire.set('showExpenseCategoryCreateForm',true)">
-                            <x-icons.plus class="w-12 h-12 text-teal-500 hover:text-teal-600" />
+                            <x-icons.plus class="w-12 h-12 text-sky-500 hover:text-sky-600" />
                         </button>
                     </div>
 
@@ -104,7 +104,7 @@
                         for="taxable"
                     >
                         <input
-                            class="text-teal-500 rounded-full focus:ring-slate-200"
+                            class="rounded-full text-sky-500 focus:ring-slate-200"
                             id="taxable"
                             type="checkbox"
                             wire:model.defer="taxable"
@@ -204,7 +204,7 @@
                             <p>{{ $expense->category }}</p>
                             <p class="lg:hidden"> {{ $expense->invoice_no }}</p>
                             <button
-                                class="hidden text-pink-600 lg:block dark:text-pink-400 hover:text-pink-"
+                                class="hidden text-rose-600 lg:block dark:text-rose-400 hover:text-rose-"
                                 x-on:click="$wire.call('remove',{{ $expense->id }})"
                             >remove
                             </button>
@@ -212,7 +212,7 @@
                         <x-table.row class="text-sm font-semibold text-left lg:col-span-2">
                             {{ $expense->reference }}
                             <div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">
+                                <p class="text-xs text-slate-600 dark:text-slate-500">
                                     {{ $expense->date->format('d-m-y') }}</p>
                             </div>
                         </x-table.row>
@@ -225,8 +225,8 @@
                                     <p class="text-xs text-blue-900">Taxable</p>
                                 </div>
                             @else
-                                <div class="px-3 text-center bg-pink-200 rounded pxy-1">
-                                    <p class="text-xs text-pink-900">Non Taxable</p>
+                                <div class="px-3 text-center bg-rose-200 rounded pxy-1">
+                                    <p class="text-xs text-rose-900">Non Taxable</p>
                                 </div>
                             @endif
                         </x-table.row>

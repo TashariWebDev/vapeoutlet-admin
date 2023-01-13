@@ -85,9 +85,9 @@
                     class="flex items-center mt-1 w-full bg-white rounded-md border divide-x shadow-sm border-slate-300 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
                     <button
                         @class([
-                            'py-2 pl-3 w-1/2 text-xs text-left text-slate-500 dark:text-slate-400' =>
+                            'py-2 pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-500' =>
                                 $withTrashed == true,
-                            'py-2 pl-3 w-1/2 text-xs text-left text-teal-700 dark:text-teal-600 font-semibold' =>
+                            'py-2 pl-3 w-1/2 text-xs text-left text-sky-700 dark:text-sky-600 font-semibold' =>
                                 $withTrashed == false,
                         ])
                         wire:click="$set('withTrashed',false)"
@@ -99,7 +99,7 @@
                             'py-2 pl-3 w-1/2 text-xs text-left text-slate-500  dark:text-slate-400' =>
                                 $withTrashed == false,
                         
-                            'py-2 pl-3 w-1/2 text-xs text-left text-teal-700 dark:text-teal-600 font-semibold' =>
+                            'py-2 pl-3 w-1/2 text-xs text-left text-sky-700 dark:text-sky-600 font-semibold' =>
                                 $withTrashed == true,
                         ])
                         wire:click="$set('withTrashed',true)"
@@ -143,7 +143,7 @@
                         >
                             {{ $user->name }}
                             @if ($user->trashed())
-                                <span class="text-xs text-pink-600">( de-activated )</span>
+                                <span class="text-xs text-rose-600">( de-activated )</span>
                             @endif
                         </a>
                     </x-table.row>

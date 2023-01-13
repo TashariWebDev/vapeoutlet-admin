@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class StockTransfer extends Model
 {
@@ -44,6 +46,11 @@ class StockTransfer extends Model
     public function isProcessed()
     {
         return $this->is_processed;
+    }
+
+    public function cancel()
+    {
+        $this->delete();
     }
 
     public function addItem(Product $product)
@@ -96,5 +103,33 @@ class StockTransfer extends Model
     public function number()
     {
         return 'TRN00'.$this->id;
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function print()
+    {
+        $document = $this->number();
+        $view = view('templates.pdf.stock-transfer', [
+            'transfer' => $this,
+        ])->render();
+
+        $url = storage_path("app/public/documents/$document.pdf");
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->showBrowserHeaderAndFooter()
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect("/storage/documents/$document.pdf");
     }
 }

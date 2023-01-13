@@ -68,6 +68,7 @@
                         <ul>
                             <li class="uppercase">{{ $credit->created_at }}</li>
                             <li class="capitalize">{{ $credit->number }}</li>
+                            <li class="capitalize">{{ $credit->sales_channel->name }}</li>
                             <li class="capitalize">Credit Note</li>
                         </ul>
                     </div>

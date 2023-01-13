@@ -9,7 +9,7 @@
 
     <x-slide-over x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Add products</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Add products</h3>
         </div>
         <div x-data="{ searchQuery: @entangle('searchQuery') }">
             <div class="relative">
@@ -26,7 +26,7 @@
                 </x-input.text>
 
                 <div
-                    class="absolute top-0 right-0 w-2 h-2 bg-teal-600 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping"
+                    class="absolute top-0 right-0 w-2 h-2 rounded-full ring-1 ring-blue-400 ring-offset-1 animate-ping bg-sky-600"
                     wire:loading="updatedSearchQuery"
                 >
 
@@ -55,7 +55,7 @@
                         >
                             <div>
                                 <input
-                                    class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300"
+                                    class="w-4 h-4 rounded text-sky-600 border-slate-300 focus:ring-sky-500"
                                     id="{{ $product->id }}"
                                     type="checkbox"
                                     value="{{ $product->id }}"

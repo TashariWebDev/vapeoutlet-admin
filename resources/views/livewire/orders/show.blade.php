@@ -1,7 +1,7 @@
 <div class="relative">
     <x-modal x-data="{ show: $wire.entangle('statusModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">
                 Are your sure your want to update the status?
             </h3>
         </div>
@@ -22,7 +22,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('showEditModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Edit this order?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Edit this order?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -49,31 +49,31 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-2 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
             <div class="col-span-2 lg:col-span-1">
-                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $this->order->number }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->order->updated_at }}</p>
+                <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $this->order->number }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->order->updated_at }}</p>
                 @isset($this->order->delivery_type_id)
-                    <p class="text-xs capitalize text-slate-500 dark:text-slate-400">{{ $this->order->delivery?->type }}
+                    <p class="text-xs capitalize text-slate-600 dark:text-slate-500">{{ $this->order->delivery?->type }}
                     </p>
                 @endisset
                 <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Total: R {{ number_format($this->order->getTotal(), 2) }}
                         <span class="pl-3">(Delivery:{{ number_format($this->order->delivery_charge, 2) }})</span>
                     </p>
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Count: {{ $this->order->items_count }}
                     </p>
                 </div>
             </div>
 
             <div class="col-span-2 lg:col-span-1">
-                <p class="font-semibold text-teal-500 dark:text-teal-400">{{ $this->order->customer->name }}
+                <p class="font-semibold text-sky-500 dark:text-sky-400">{{ $this->order->customer->name }}
                     @isset($this->order->customer->company)
                         <span>| {{ $this->order->customer->company }}</span>
                     @endisset
                 </p>
                 @isset($this->order->address_id)
-                    <div class="text-xs font-semibold text-teal-500 capitalize dark:text-teal-400">
+                    <div class="text-xs font-semibold capitalize text-sky-500 dark:text-sky-400">
                         <p>{{ $this->order->address?->line_one }}</p>
                         <p>{{ $this->order->address?->line_two }}</p>
                         <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>
@@ -118,10 +118,10 @@
                         </button>
                     @endif
                     @if ($this->order->status == 'cancelled')
-                        <p class="font-extrabold text-pink-600">CANCELLED</p>
+                        <p class="font-extrabold text-rose-600">CANCELLED</p>
                     @endif
                     @if ($this->order->status == 'completed')
-                        <p class="font-extrabold text-pink-600">COMPLETED</p>
+                        <p class="font-extrabold text-rose-600">COMPLETED</p>
                     @endif
                 </div>
                 <div>
@@ -286,22 +286,22 @@
             <div class="py-3">
                 <div>
                     @if ($note->customer_id)
-                        <p class="text-xs text-teal-500 uppercase dark:text-teal-400">{{ $note->customer?->name }}
+                        <p class="text-xs uppercase text-sky-500 dark:text-sky-400">{{ $note->customer?->name }}
                             on {{ $note->created_at->format('d-m-y H:i') }}</p>
                     @else
-                        <p class="text-xs text-teal-500 uppercase dark:text-teal-400">{{ $note->user?->name }}
+                        <p class="text-xs uppercase text-sky-500 dark:text-sky-400">{{ $note->user?->name }}
                             on {{ $note->created_at->format('d-m-y H:i') }}</p>
                     @endif
                 </div>
                 @if ($note->body)
                     <div class="p-1 mt-2 rounded-md bg-slate-100 dark:bg-slate-700">
-                        <p class="text-sm text-teal-500 capitalize dark:text-teal-400">{{ $note->body }}</p>
+                        <p class="text-sm capitalize text-sky-500 dark:text-sky-400">{{ $note->body }}</p>
                     </div>
                 @endif
                 @if ($note->user_id === auth()->id())
                     <div>
                         <button
-                            class="text-xs text-pink-500"
+                            class="text-xs text-rose-500"
                             x-on:click="@this.call('removeNote',{{ $note->id }})"
                         >remove
                         </button>

@@ -49,9 +49,21 @@ class AddProduct extends Component
 
     public function render()
     {
+        $existingCreditItems = $this->credit->items()->pluck('product_id');
+
         return view('livewire.credit.add-product', [
             'products' => Product::query()
                 ->with('features')
+                ->whereNotIn('id', $existingCreditItems)
+                ->whereHas(
+                    'stocks',
+                    fn ($query) => $query->where(
+                        'sales_channel_id',
+                        auth()
+                            ->user()
+                            ->defaultSalesChannel()->id
+                    )
+                )
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)

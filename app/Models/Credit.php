@@ -33,6 +33,11 @@ class Credit extends Model
         return $this->hasMany(Stock::class);
     }
 
+    public function sales_channel(): BelongsTo
+    {
+        return $this->belongsTo(SalesChannel::class);
+    }
+
     public function getTotal()
     {
         return $this->getSubTotal() + $this->delivery_charge;
@@ -78,6 +83,9 @@ class Credit extends Model
                     'reference' => $this->number,
                     'qty' => $item->qty,
                     'cost' => $item->product->cost,
+                    'sales_channel_id' => auth()
+                        ->user()
+                        ->defaultSalesChannel()->id,
                 ]
             );
         }

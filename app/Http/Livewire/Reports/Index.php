@@ -6,7 +6,6 @@ use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
 use App\Models\Expense;
 use App\Models\Product;
-use App\Models\StockTake;
 use App\Models\SupplierTransaction;
 use App\Models\Transaction;
 use Carbon\Carbon;
@@ -49,8 +48,20 @@ class Index extends Component
 
     public $stockValue;
 
+    public $salesPerChannel;
+
     public function mount()
     {
+        //        $this->salesPerChannel = Transaction::query()
+        //            ->select(
+        //                '*',
+        //                DB::raw(
+        //                    '(select SUM(amount) FROM transactions where status = "invoice" AND  MONTH(created_at) = MONTH(NOW()) ) as total_sales'
+        //                )
+        //            )
+        //            ->groupBy('sales_channel_id')
+        //            ->first();
+
         $this->transactions = Transaction::query()
             ->select(
                 '*',
@@ -90,6 +101,15 @@ class Index extends Component
 
     public function hydrate()
     {
+        $this->salesPerChannel = Transaction::query()
+            ->select(
+                '*',
+                DB::raw(
+                    '(select SUM(amount) FROM transactions  where type = "invoice" AND  MONTH(created_at) = MONTH(NOW()) ) as total_sales'
+                )
+            )
+            ->first();
+
         $this->transactions = Transaction::query()
             ->select(
                 '*',
@@ -139,41 +159,6 @@ class Index extends Component
             ->sum(function ($product) {
                 return $product->cost * $product->stocks_sum_qty;
             });
-    }
-
-    public function createStockTake()
-    {
-        $this->validate([
-            'selectedBrands' => 'required|array',
-        ]);
-
-        $this->notify('Working on it!');
-
-        foreach ($this->selectedBrands as $brand) {
-            $stockTake = StockTake::create([
-                'brand' => $brand,
-                'created_by' => auth()->user()->name,
-                'date' => now(),
-            ]);
-
-            $selectedProducts = Product::query()
-                ->select('products.id', 'products.cost')
-                ->where('brand', '=', $brand)
-                ->get();
-
-            foreach ($selectedProducts as $product) {
-                $stockTake->items()->create([
-                    'product_id' => $product->id,
-                    'cost' => $product->cost,
-                ]);
-            }
-        }
-
-        $this->selectedBrands = [];
-        $this->showStockTakeModal = false;
-
-        $this->notify('Stock take created');
-        $this->redirect('stock-takes');
     }
 
     public function getBrandsProperty(): _IH_Brand_C|Collection|array

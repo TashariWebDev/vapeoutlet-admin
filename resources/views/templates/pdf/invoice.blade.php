@@ -39,7 +39,7 @@
 
         @if ($order->status === 'cancelled')
             <div
-                class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-pink-600 opacity-20 transform">
+                class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-rose-600 opacity-20 transform">
                 <h1>CANCELLED</h1>
             </div>
         @endif
@@ -71,6 +71,7 @@
                         <ul>
                             <li class="uppercase">{{ $order->created_at }}</li>
                             <li class="capitalize">{{ $order->number }}</li>
+                            <li class="capitalize">{{ $order->sales_channel->name }}</li>
                         </ul>
                     </div>
                 </div>

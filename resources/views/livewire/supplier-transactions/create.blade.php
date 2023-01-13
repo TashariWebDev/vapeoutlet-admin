@@ -9,7 +9,7 @@
     <x-modal x-data="{ show: $wire.entangle('modal') }">
 
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New transaction</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">New transaction</h3>
         </div>
 
         <div>

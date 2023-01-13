@@ -1,13 +1,4 @@
-<div
-    x-data="{
-        ordersCount: $wire.entangle('ordersCount')
-    }"
-    x-init="$watch('ordersCount', value => {
-        if (value === 0) {
-            confetti()
-        }
-    })"
->
+<div>
     <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Latest transactions</h3>
@@ -47,6 +38,82 @@
                     @endforelse
                 </div>
             @endif
+        </div>
+    </x-modal>
+
+    <x-modal x-data="{ show: $wire.entangle('modal') }">
+
+        <div class="pb-2">
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">
+                New Payment
+            </h3>
+            <p class="text-xs font-bold text-slate-600 dark:text-slate-500">
+                {{ $customer->name ?? '' }}
+            </p>
+        </div>
+
+        <div>
+            <form wire:submit.prevent="save()">
+                <div class="py-3">
+                    <x-input.label for="reference">
+                        Reference
+                    </x-input.label>
+
+                    <div>
+                        <x-input.text
+                            id="reference"
+                            type="text"
+                            wire:model.defer="reference"
+                        />
+                    </div>
+                    @error('reference')
+                        <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-3">
+                    <x-input.label for="date">
+                        Date
+                    </x-input.label>
+                    <div>
+                        <x-input.text
+                            id="date"
+                            type="date"
+                            wire:model.defer="date"
+                        />
+                    </div>
+                    @error('date')
+                        <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-3">
+                    <x-input.label for="amount">
+                        Amount
+                    </x-input.label>
+                    <div>
+                        <x-input.text
+                            id="amount"
+                            type="number"
+                            wire:model.defer="amount"
+                            step="0.01"
+                            inputmode="numeric"
+                            pattern="[0-9.]+"
+                        />
+                    </div>
+                    @error('amount')
+                        <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-3">
+                    <button
+                        class="button-success"
+                        wire:loading.attr="disabled"
+                        wire:target="save"
+                    >
+                        <x-icons.busy target="save" />
+                        save
+                    </button>
+                </div>
+            </form>
         </div>
     </x-modal>
 
@@ -124,15 +191,12 @@
                 </div>
                 <div>
                     <x-input.label>
-                        Status
+                        Sales Channel
                     </x-input.label>
-                    <x-input.select wire:model="filter">
-                        <option value="received">Received</option>
-                        <option value="processed">Processed</option>
-                        <option value="packed">Packed</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
+                    <x-input.select wire:model="defaultSalesChannel">
+                        @foreach ($salesChannels as $salesChannel)
+                            <option value="{{ $salesChannel->id }}">{{ $salesChannel->name }}</option>
+                        @endforeach
                     </x-input.select>
                 </div>
             </div>
@@ -140,29 +204,11 @@
             <div class="py-4 px-2">
                 {{ $orders->links() }}
             </div>
-
-            @if ($filter === 'received')
-                <div class="hidden lg:block">
-                    <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to dispatched</p>
-                </div>
-                <div
-                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r to-rose-400 rounded-r-full rounded-l-full lg:block from-sky-400">
-                    <div
-                        class="flex justify-end items-center py-1 px-2 h-full bg-transparent rounded-r-full rounded-l-full"
-                        style="width: {{ round(($orders->total() / $this->totalActiveOrders) * 100 + 1) }}%"
-                    >
-                        <div
-                            class="px-1 text-xs font-bold whitespace-nowrap bg-transparent rounded-r rounded-l text-sky-900">
-                            {{ round(($orders->total() / $this->totalActiveOrders) * 100) }} %
-                        </div>
-                    </div>
-                </div>
-            @endif
         </div>
 
         <div class="px-2">
             <x-table.container class="hidden lg:block">
-                <x-table.header class="hidden lg:grid lg:grid-cols-5">
+                <x-table.header class="hidden lg:grid lg:grid-cols-4">
                     <x-table.heading>Order #
                         <button
                             class="@if ($direction === 'asc') text-sky-600 @endif"
@@ -178,12 +224,11 @@
                         </button>
                     </x-table.heading>
                     <x-table.heading>customer</x-table.heading>
-                    <x-table.heading class="text-right">delivery</x-table.heading>
                     <x-table.heading class="text-right">total</x-table.heading>
                     <x-table.heading class="text-right">invoice</x-table.heading>
                 </x-table.header>
                 @forelse($orders as $order)
-                    <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
+                    <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row class="text-left">
                             <a
                                 class="link"
@@ -193,24 +238,7 @@
                                 <p class="text-xs text-slate-600 dark:text-slate-500">
                                     {{ $order->created_at->format('d-m-y H:i') }}
                                 </p>
-                                @if ($order->status != 'completed' && $order->status != 'cancelled')
-                                    @if ($order->created_at->diffInDays(today()) > 0)
-                                        <p @class([
-                                            'rounded-l-full rounded-r-full px-1',
-                                            'bg-yellow-200 text-yellow-800 dark:bg-yellow-100' =>
-                                                $order->created_at->diffInDays(today()) <= 3,
-                                            'bg-rose-200 text-rose-800' => $order->created_at->diffInDays(today()) > 3,
-                                        ])>{{ $order->created_at->diffInDays(today()) }}
-                                        </p>
-                                    @else
-                                        <div
-                                            class="flex justify-center items-center px-2 rounded-r-full rounded-l-full bg-sky-200">
-                                            <p class="text-xs leading-0 text-sky-900">
-                                                new
-                                            </p>
-                                        </div>
-                                    @endif
-                                @endif
+                                {{ $order->status }}
                             </div>
                         </x-table.row>
                         <x-table.row class="">
@@ -242,12 +270,6 @@
                                 </div>
                             </div>
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right">
-                            <p class="text-slate-600 dark:text-slate-500">
-                                R {{ number_format($order->delivery_charge, 2) }}</p>
-                            <p class="text-slate-600 dark:text-slate-500">
-                                {{ $order->delivery->description }}</p>
-                        </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p class="text-slate-600 dark:text-slate-500">
                                 R {{ number_format(to_rands($order->order_total), 2) }}</p>
@@ -255,44 +277,30 @@
                         <x-table.row class="p-2 text-center lg:text-right">
                             <div class="flex justify-end items-start space-x-2">
                                 <div>
-                                    @hasPermissionTo('complete orders')
-                                        @if ($order->status === 'shipped')
-                                            <button
-                                                class="button button-success"
-                                                wire:loading.attr="disabled"
-                                                wire:target="pushToComplete({{ $order->id }})"
-                                                wire:click="pushToComplete({{ $order->id }})"
-                                            >
-                                                <span
-                                                    class="pr-2"
-                                                    wire:loading
-                                                    wire:target="pushToComplete({{ $order->id }})"
-                                                >
-                                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                                                </span>
-                                                Complete
-                                            </button>
-                                        @endif
-                                    @endhasPermissionTo
-                                </div>
-                                <div>
                                     <button
-                                        class="button button-success"
-                                        wire:loading.attr="disabled"
-                                        wire:target="getDocument"
-                                        wire:click="getDocument({{ $order->id }})"
-                                    >
-                                        <span
-                                            class="pr-2"
-                                            wire:loading
-                                            wire:target="getDocument({{ $order->id }})"
-                                        >
-                                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                                        </span>
-                                        Print
+                                        class="w-full button-success"
+                                        wire:click="togglePaymentForm( {{ $order->customer_id }})"
+                                    ><span class="pl-2">Add Payment</span>
                                     </button>
-                                    @if (file_exists(public_path("storage/documents/$order->number.pdf")))
-                                        <p class="text-xs text-slate-400">Printed</p>
+                                </div>
+
+                                <div>
+                                    @if ($order->status === 'shipped')
+                                        <button
+                                            class="button button-success"
+                                            wire:loading.attr="disabled"
+                                            wire:target="pushToComplete({{ $order->id }})"
+                                            wire:click="pushToComplete({{ $order->id }})"
+                                        >
+                                            <span
+                                                class="pr-2"
+                                                wire:loading
+                                                wire:target="pushToComplete({{ $order->id }})"
+                                            >
+                                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                            </span>
+                                            Complete
+                                        </button>
                                     @endif
                                 </div>
                             </div>
@@ -342,34 +350,35 @@
                     <p class="font-semibold text-slate-600 dark:text-slate-500">
                         R {{ number_format(to_rands($order->order_total), 2) }}
                     </p>
-                    <p class="font-semibold text-slate-600 dark:text-slate-500">
-                        R {{ number_format($order->delivery_charge, 2) }}
-                    </p>
                 </div>
 
-                <div class="col-span-3 p-1 py-1 mt-3 w-full">
-                    <p class="font-semibold text-slate-600 dark:text-slate-500">{{ $order->delivery->type ?? '' }}</p>
-                </div>
-
-                <div class="col-span-3 mt-3 w-full">
-                    @if (file_exists(public_path("storage/documents/$order->number.pdf")))
-                        <p class="text-xs text-slate-600 dark:text-slate-500">Printed</p>
-                    @endif
-                    <button
-                        class="w-full button-success"
-                        wire:loading.attr="disabled"
-                        wire:target="getDocument"
-                        wire:click="getDocument({{ $order->id }})"
-                    >
-                        <span
-                            class="pr-2"
-                            wire:loading
-                            wire:target="getDocument({{ $order->id }})"
-                        >
-                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                        </span>
-                        Print
-                    </button>
+                <div class="flex col-span-3 justify-between items-center">
+                    <div>
+                        <button
+                            class="w-full button-success"
+                            wire:click="togglePaymentForm( {{ $order->customer_id }})"
+                        ><span class="pl-2">Add Payment</span>
+                        </button>
+                    </div>
+                    <div>
+                        @if ($order->status === 'shipped')
+                            <button
+                                class="button button-success"
+                                wire:loading.attr="disabled"
+                                wire:target="pushToComplete({{ $order->id }})"
+                                wire:click="pushToComplete({{ $order->id }})"
+                            >
+                                <span
+                                    class="pr-2"
+                                    wire:loading
+                                    wire:target="pushToComplete({{ $order->id }})"
+                                >
+                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                </span>
+                                Complete
+                            </button>
+                        @endif
+                    </div>
                 </div>
 
             </div>

@@ -1,11 +1,11 @@
 <div>
     <button wire:click="$toggle('modal')">
-        <x-icons.edit class="w-5 h-5 text-teal-600" />
+        <x-icons.edit class="w-5 h-5 text-sky-600" />
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Edit address</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Edit address</h3>
         </div>
 
         <form wire:submit.prevent="update">

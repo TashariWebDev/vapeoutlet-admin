@@ -58,6 +58,8 @@ class AddProduct extends Component
 
     public function render(): Factory|View|Application
     {
+        $existingOrderItems = $this->order->items()->pluck('product_id');
+
         return view('livewire.orders.add-product', [
             'products' => Product::query()
                 ->select('id', 'name', 'sku', 'brand')
@@ -89,6 +91,8 @@ class AddProduct extends Component
                     $this->searchQuery,
                     fn ($query) => $query->search($this->searchQuery)
                 )
+                ->where('is_active', true)
+                ->whereNotIn('id', $existingOrderItems)
                 ->orderBy('brand')
                 ->simplePaginate(10),
         ]);

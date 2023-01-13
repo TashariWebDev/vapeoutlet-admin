@@ -1,17 +1,53 @@
 <div>
 
+    <x-modal x-data="{ show: $wire.entangle('showStockTakeModal') }">
+        <div class="py-3">
+            <p class="text-slate-800 dark:text-slate-500">Ensure you are on the correct sales channel!</p>
+        </div>
+        <form wire:submit.prevent="createStockTake">
+            <div class="overflow-y-scroll p-3 h-72 border shadow-inner border-slate-800">
+                @foreach ($this->brands as $brand)
+                    <div
+                        class="p-1 mb-1 w-full text-xs rounded dark:text-white bg-slate-100 text-slate-800 dark:bg-sky-700">
+                        <label>
+                            <input
+                                type="checkbox"
+                                value="{{ $brand->name }}"
+                                wire:model.defer="selectedBrands"
+                            >
+                        </label>{{ $brand->name }}
+                    </div>
+                @endforeach
+            </div>
+            <div class="mt-2">
+                <button class="button-success">Create</button>
+            </div>
+        </form>
+    </x-modal>
+
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="py-3">
-            <div class="w-full lg:w-64">
-                <x-input.label>
-                    Search
-                </x-input.label>
-                <x-input.text
-                    type="search"
-                    placeholder="search"
-                    autofocus
-                    wire:model="searchQuery"
-                />
+            <div class="flex justify-between w-full">
+                <div>
+                    <x-input.label>
+                        Search
+                    </x-input.label>
+                    <x-input.text
+                        type="search"
+                        placeholder="search"
+                        autofocus
+                        wire:model="searchQuery"
+                    />
+                </div>
+
+                <div>
+                    <button
+                        class="button-success"
+                        x-on:click="@this.set('showStockTakeModal',true)"
+                    >Create stock take
+                    </button>
+                </div>
+
             </div>
             <div class="py-6">
                 {{ $stockTakes->links() }}
@@ -40,6 +76,7 @@
                     </x-table.row>
                     <x-table.row>
                         <p class="uppercase">{{ $stockTake->brand }}</p>
+                        <p class="font-bold">{{ $stockTake->sales_channel->name }}</p>
                     </x-table.row>
                     <x-table.row>
                         <p>{{ $stockTake->created_by }}</p>

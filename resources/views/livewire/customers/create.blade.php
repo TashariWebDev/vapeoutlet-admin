@@ -5,7 +5,7 @@
     >
 
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New customer</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">New customer</h3>
         </div>
 
         <div class="py-6">
@@ -55,11 +55,11 @@
                 @hasPermissionTo('upgrade customers')
                     <div class="py-3 px-2 rounded-md bg-slate-100 dark:bg-slate-800">
                         <label
-                            class="flex items-center space-x-2 text-xs font-medium text-teal-400 uppercase dark:text-teal-400"
+                            class="flex items-center space-x-2 text-xs font-medium uppercase text-sky-400 dark:text-sky-400"
                             for="is_wholesale"
                         >
                             <input
-                                class="text-teal-500 rounded-full focus:ring-slate-200"
+                                class="rounded-full text-sky-500 focus:ring-slate-200"
                                 id="is_wholesale"
                                 type="checkbox"
                                 wire:model.defer="is_wholesale"

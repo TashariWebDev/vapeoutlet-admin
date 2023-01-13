@@ -2,7 +2,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('chooseAddressForm') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Select address</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Select address</h3>
         </div>
 
         <form wire:submit.prevent="updateAddress">
@@ -43,7 +43,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('chooseDeliveryForm') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Select an option</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Select an option</h3>
         </div>
 
         <form wire:submit.prevent="updateDelivery">
@@ -80,7 +80,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Process this order?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Process this order?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -105,42 +105,42 @@
             </button>
         </div>
         <p
-            class="text-xs text-pink-600"
+            class="text-xs text-rose-600"
             wire:loading
             wire:target="process"
         >Processing...Do not close this page.</p>
-        <p class="text-xs text-pink-600">This action is non reversible</p>
+        <p class="text-xs text-rose-600">This action is non reversible</p>
     </x-modal>
 
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-2 p-2 lg:grid-cols-4">
             <div>
-                <p class="text-xs font-bold uppercase dark:text-teal-400 text-slate-500">
+                <p class="text-xs font-bold uppercase text-slate-500 dark:text-sky-400">
                     {{ $this->order->number }} ( {{ $this->order->sales_channel->name }} )
                 </p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $this->order->updated_at }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->order->updated_at }}</p>
                 @isset($this->order->delivery_type_id)
-                    <p class="text-xs capitalize text-slate-500 dark:text-slate-400">{{ $this->order->delivery?->type }}
+                    <p class="text-xs capitalize text-slate-600 dark:text-slate-500">{{ $this->order->delivery?->type }}
                     </p>
                 @endisset
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Total: R {{ number_format($this->order->getTotal(), 2) }}
                         <span class="pl-3">(Delivery:{{ number_format($this->order->delivery_charge, 2) }})</span>
                     </p>
-                    <p class="text-xs font-bold text-teal-500 dark:text-teal-400">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Count: {{ $this->order->items_count }}
                     </p>
                 </div>
             </div>
             <div>
-                <p class="font-semibold text-teal-500 dark:text-teal-400">{{ $this->order->customer->name }}
+                <p class="font-semibold text-sky-500 dark:text-sky-400">{{ $this->order->customer->name }}
                     @isset($this->order->customer->company)
                         <span>| {{ $this->order->customer->company }}</span>
                     @endisset
                 </p>
                 @isset($this->order->address_id)
-                    <div class="text-xs font-semibold text-teal-500 capitalize dark:text-teal-400">
+                    <div class="text-xs font-semibold capitalize text-sky-500 dark:text-sky-400">
                         <p>{{ $this->order->address?->line_one }}</p>
                         <p>{{ $this->order->address?->line_two }}</p>
                         <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>
@@ -222,7 +222,7 @@
                 @if (!empty($selectedProductsToDelete))
                     <div>
                         <button
-                            class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700"
+                            class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700"
                             x-on:click="$wire.call('removeProducts')"
                         >remove selected items
                         </button>
@@ -242,7 +242,7 @@
                                     for="{{ $item->id }}"
                                 ></label>
                                 <input
-                                    class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 border-slate-300"
+                                    class="w-4 h-4 rounded text-sky-600 border-slate-300 focus:ring-sky-500"
                                     id="{{ $item->id }}"
                                     type="checkbox"
                                     value="{{ $item->id }}"
@@ -278,12 +278,12 @@
                                 <div class="flex justify-between items-center pt-1">
                                     <div>
                                         <p
-                                            class="@if (profit_percentage($item->price, $item->product->cost) < 0) text-pink-700 @else text-teal-500 @endif text-xs">
+                                            class="@if (profit_percentage($item->price, $item->product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs">
                                             {{ profit_percentage($item->price, $item->product->cost) }}
                                         </p>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                                        <p class="text-xs text-slate-600 dark:text-slate-500">
                                             R {{ $item->product->cost }}
                                         </p>
                                     </div>
@@ -320,7 +320,7 @@
                             </label>
                         </form>
                         <div class="flex justify-between items-center mt-1">
-                            <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
+                            <div class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700">
                                 <button
                                     wire:loading.attr="disabled"
                                     wire:target="removeProducts"

@@ -12,7 +12,7 @@
                 <div class="flex items-end py-2">
                     <div class="flex-1">
                         <x-input.label for="supplier">
-                            Select an outlet to transfer from
+                            Select an sales channel to transfer from
                         </x-input.label>
                         <x-input.select
                             id="dispatcher_id"
@@ -35,7 +35,7 @@
                 <div class="flex items-end py-2">
                     <div class="flex-1">
                         <x-input.label for="receiver_id">
-                            Select an outlet to transfer to
+                            Select an sales channel to transfer to
                         </x-input.label>
                         <x-input.select
                             id="receiver_id"

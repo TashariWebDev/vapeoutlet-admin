@@ -3,17 +3,16 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
+use App\Models\SalesChannel;
+use App\Models\Transaction;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
-class Index extends Component
+class CashUp extends Component
 {
     use WithPagination;
     use WithNotifications;
@@ -28,8 +27,6 @@ class Index extends Component
 
     public $searchQuery = '';
 
-    public string $filter = 'received';
-
     public $customerType;
 
     public int $recordCount = 10;
@@ -37,6 +34,8 @@ class Index extends Component
     public string $direction = 'asc';
 
     public $defaultSalesChannel;
+
+    public $salesChannels;
 
     public $statuses = [
         'received',
@@ -48,12 +47,35 @@ class Index extends Component
     ];
 
     protected $queryString = [
-        'filter',
         'customerType',
         'recordCount',
         'direction',
         'searchQuery',
     ];
+
+    public $modal = false;
+
+    public $reference;
+
+    public $type = 'payment';
+
+    public $amount;
+
+    public $date;
+
+    public $customerId;
+
+    public $customer;
+
+    public function rules(): array
+    {
+        return [
+            'reference' => ['required'],
+            'type' => ['required'],
+            'amount' => ['required'],
+            'date' => ['sometimes'],
+        ];
+    }
 
     public function updatedSearchQuery()
     {
@@ -67,13 +89,16 @@ class Index extends Component
 
     public function mount()
     {
-        $this->defaultSalesChannel = auth()
-            ->user()
-            ->defaultSalesChannel();
+        $this->salesChannels = SalesChannel::all();
 
-        if (request()->has('filter')) {
-            $this->filter = request('filter');
-        }
+        $this->defaultSalesChannel = $this->salesChannels
+            ->where('name', 'warehouse')
+            ->first()
+            ->value('id');
+
+        //        if (request()->has('filter')) {
+        //            $this->filter = request('filter');
+        //        }
 
         if (request()->has('searchQuery')) {
             $this->searchQuery = request('searchQuery');
@@ -101,15 +126,6 @@ class Index extends Component
         }
     }
 
-    public function getTotalActiveOrdersProperty(): int
-    {
-        return Order::query()
-            ->where('status', '=', 'received')
-            ->orWhere('status', '=', 'processed')
-            ->orWhere('status', '=', 'packed')
-            ->count();
-    }
-
     public function filteredOrders()
     {
         $orders = Order::query()
@@ -132,13 +148,11 @@ class Index extends Component
                     ->whereColumn('order_id', '=', 'orders.id')
                     ->selectRaw('sum(qty * price) as order_total'),
             ])
-            ->where('sales_channel_id', $this->defaultSalesChannel->id)
-            ->whereNotNull('status')
+            ->when($this->defaultSalesChannel, function ($query) {
+                $query->where('sales_channel_id', $this->defaultSalesChannel);
+            })
+            ->whereStatus('shipped')
             ->orderBy('created_at', $this->direction);
-
-        if ($this->filter) {
-            $orders->whereStatus($this->filter);
-        }
 
         if ($this->customerType === true) {
             $orders->whereRelation('customer', 'is_wholesale', '=', true);
@@ -178,19 +192,44 @@ class Index extends Component
         $this->notify('order completed');
     }
 
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
-    public function getDocument(Order $order)
+    public function togglePaymentForm($customerId)
     {
-        $order->print();
+        $this->modal = true;
+        $this->customerId = $customerId;
+        $this->customer = Customer::find($customerId);
     }
 
-    public function render(): Factory|View|Application
+    public function save()
     {
-        $this->ordersCount = $this->filteredOrders()->count();
+        $additionalFields = [
+            'customer_id' => $this->customerId,
+            'created_by' => auth()->user()->name,
+        ];
 
-        return view('livewire.orders.index', [
+        $validatedData = $this->validate();
+        $fields = array_merge($additionalFields, $validatedData);
+
+        $fields['amount'] = 0 - $this->amount;
+
+        Transaction::create($fields);
+
+        UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
+
+        $this->notify('transaction created');
+        $this->reset(
+            'amount',
+            'reference',
+            'type',
+            'date',
+            'modal',
+            'customerId'
+        );
+        $this->emit('updateData');
+    }
+
+    public function render()
+    {
+        return view('livewire.orders.cash-up', [
             'orders' => $this->filteredOrders()->paginate($this->recordCount),
         ]);
     }

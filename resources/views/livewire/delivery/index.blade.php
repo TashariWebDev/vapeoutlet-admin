@@ -110,7 +110,7 @@
                         for="selectable"
                     >
                         <input
-                            class="text-teal-500 rounded-full focus:ring-slate-200"
+                            class="rounded-full text-sky-500 focus:ring-slate-200"
                             id="selectable"
                             type="checkbox"
                             wire:model="delivery.selectable"
@@ -166,17 +166,17 @@
                             >
                                 {{ $delivery->type }}
                             </button>
-                            <p class="ml-2 text-xs md:ml-0 text-slate-500 dark:text-slate-400">
+                            <p class="ml-2 text-xs md:ml-0 text-slate-600 dark:text-slate-500">
                                 {{ $delivery->description }}
                             </p>
                         </div>
                     </x-table.row>
                     <x-table.row class="text-right">
-                        <p class="p-2 text-slate-500 dark:text-slate-400">R {{ number_format($delivery->price, 2) }}
+                        <p class="p-2 text-slate-600 dark:text-slate-500">R {{ number_format($delivery->price, 2) }}
                         </p>
                     </x-table.row>
                     <x-table.row class="text-right">
-                        <p class="p-2 text-slate-500 dark:text-slate-400">
+                        <p class="p-2 text-slate-600 dark:text-slate-500">
                             R {{ number_format($delivery->waiver_value, 2) }}</p>
                     </x-table.row>
                     <x-table.row>

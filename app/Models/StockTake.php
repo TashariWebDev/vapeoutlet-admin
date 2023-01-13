@@ -5,6 +5,7 @@ namespace App\Models;
 use DB;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -18,6 +19,11 @@ class StockTake extends Model
     public function items(): HasMany
     {
         return $this->hasMany(StockTakeItem::class);
+    }
+
+    public function sales_channel(): BelongsTo
+    {
+        return $this->belongsTo(SalesChannel::class);
     }
 
     public function getTotal(): float

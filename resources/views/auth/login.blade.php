@@ -62,7 +62,7 @@
                     for="remember_me"
                 >
                     <input
-                        class="text-pink-600 rounded shadow-sm focus:border-pink-300 focus:ring focus:ring-pink-200 focus:ring-opacity-50 border-slate-300"
+                        class="text-rose-600 rounded shadow-sm focus:border-rose-300 focus:ring focus:ring-rose-200 focus:ring-opacity-50 border-slate-300"
                         id="remember_me"
                         name="remember"
                         type="checkbox"

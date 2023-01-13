@@ -36,11 +36,17 @@ class Create extends Component
 
     public $sku;
 
+    public $defaultSalesChannel;
+
     protected $listeners = ['refreshData' => '$refresh'];
 
     public function mount()
     {
         $this->customerId = request('id');
+
+        $this->defaultSalesChannel = auth()
+            ->user()
+            ->defaultSalesChannel()->id;
 
         $this->credit = Credit::firstOrCreate(
             [
@@ -49,6 +55,7 @@ class Create extends Component
             ],
             [
                 'created_by' => auth()->user()->name,
+                'sales_channel_id' => $this->defaultSalesChannel,
             ]
         );
     }
@@ -140,6 +147,7 @@ class Create extends Component
         $this->credit->update([
             'salesperson_id' => $this->credit->customer->salesperson_id,
             'processed_at' => now(),
+            'sales_channel_id' => $this->defaultSalesChannel,
         ]);
 
         $this->credit->increaseStock();

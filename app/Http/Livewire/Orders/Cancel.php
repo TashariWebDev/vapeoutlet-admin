@@ -44,6 +44,9 @@ class Cancel extends Component
                 'created_by' => auth()->user()->name,
                 'delivery_charge' => $this->order->delivery_charge,
                 'processed_at' => now(),
+                'sales_channel_id' => auth()
+                    ->user()
+                    ->defaultSalesChannel()->id,
             ]);
 
             foreach ($this->order->items as $item) {

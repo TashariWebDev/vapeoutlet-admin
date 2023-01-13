@@ -1,13 +1,13 @@
 <div>
 
     <button wire:click.prevent="$toggle('modal')">
-        <x-icons.plus class="w-10 h-10 text-teal-500 hover:text-teal-600" />
+        <x-icons.plus class="w-10 h-10 text-sky-500 hover:text-sky-600" />
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
 
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New feature category</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">New feature category</h3>
         </div>
 
         <div>

@@ -22,7 +22,7 @@
                         wire:keyup.debounce.300ms="updateCategory({{ $category->id }},$event.target.value)"
                     />
                     <div class="flex justify-between items-center py-2">
-                        <p class="text-xs text-teal-500 dark:text-teal-400">
+                        <p class="text-xs text-sky-500 dark:text-sky-400">
                             {{ $category->products_count }} products linked
                         </p>
                         @if ($category->products_count == 0)

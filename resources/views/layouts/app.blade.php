@@ -64,7 +64,7 @@
         @endphp
 
         <nav
-            class="sticky top-0 z-40 w-full border-t-4 border-teal-400 dark:bg-transparent dark:border-teal-500 bg-white/60 backdrop-blur">
+            class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500">
             <div class="px-4 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
                     <div class="flex items-center py-4">
@@ -111,7 +111,7 @@
                         </div>
 
                         <div
-                            class="flex justify-center items-center w-6 h-6 rounded-full border border-teal-400 ring-2 ring-slate-100 dark:ring-slate-800">
+                            class="flex justify-center items-center w-6 h-6 rounded-full border ring-2 border-sky-400 ring-slate-100 dark:ring-slate-800">
                             <button x-on:click="theme = !theme">
                                 <x-icons.moon
                                     class="w-4 h-4 text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-800"
@@ -130,7 +130,7 @@
             </div>
             <div class="items-center w-full">
                 <container
-                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:py-2 lg:pb-1 lg:max-w-7xl border-teal-400/50"
+                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
                 >
                     <a
                         class="link"

@@ -1,7 +1,7 @@
 <div class="relative">
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">Process this transfer?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Process this transfer?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -29,9 +29,9 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
-                <p class="text-xs font-bold dark:text-teal-400 text-slate-500">{{ $stockTransfer->number() }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">{{ $stockTransfer->date }}</p>
-                <p class="text-xs text-slate-500 dark:text-slate-400">
+                <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $stockTransfer->number() }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $stockTransfer->date }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-500">
                     Transferring from {{ $stockTransfer->dispatcher->name }}
                     to {{ $stockTransfer->receiver->name }}
                 </p>
@@ -100,7 +100,7 @@
                     @if (!$stockTransfer->is_processed)
                         <div>
                             <button
-                                class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700"
+                                class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700"
                                 x-on:click="$wire.call('removeProducts')"
                             >remove selected items
                             </button>
@@ -123,7 +123,7 @@
                                         for="{{ $item->id }}"
                                     ></label>
                                     <input
-                                        class="w-4 h-4 text-teal-600 rounded focus:ring-teal-500 bcredit-slate-300"
+                                        class="w-4 h-4 rounded bcredit-slate-300 text-sky-600 focus:ring-sky-500"
                                         id="{{ $item->id }}"
                                         type="checkbox"
                                         value="{{ $item->id }}"
@@ -168,7 +168,7 @@
                         @endif
                         @if (!$stockTransfer->is_processed)
                             <div class="flex justify-between items-center mt-1">
-                                <div class="text-xs text-pink-700 dark:text-pink-400 hover:text-pink-700">
+                                <div class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700">
                                     <button
                                         wire:loading.attr="disabled"
                                         wire:target="removeProducts"

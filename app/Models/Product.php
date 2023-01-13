@@ -45,7 +45,15 @@ class Product extends Model
 
     public function qty()
     {
-        return $this->stocks->sum('qty');
+        return $this->stocks
+            ->where(
+                'sales_channel_id',
+                '=',
+                auth()
+                    ->user()
+                    ->defaultSalesChannel()->id
+            )
+            ->sum('qty');
     }
 
     public function outOfStock()

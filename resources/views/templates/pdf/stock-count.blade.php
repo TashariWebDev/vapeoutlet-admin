@@ -73,6 +73,7 @@
                         <ul>
                             <li>{{ $stockTake->created_at }}</li>
                             <li class="capitalize">STOCK TAKE ID:{{ $stockTake->id }}</li>
+                            <li class="capitalize">{{ $stockTake->sales_channel->name }}</li>
                             <li class="text-lg font-extrabold uppercase">{{ $stockTake->created_by }}</li>
                         </ul>
                     </div>

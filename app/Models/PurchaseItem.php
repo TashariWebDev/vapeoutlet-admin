@@ -102,7 +102,7 @@ class PurchaseItem extends Model
                 'reference' => $this->purchase->invoice_no,
                 'qty' => $this->qty,
                 'cost' => $this->total_cost_in_zar(),
-                'outlet_id' => 1,
+                'sales_channel_id' => 1,
             ]
         );
     }

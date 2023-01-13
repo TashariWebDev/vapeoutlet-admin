@@ -33,7 +33,7 @@
 
                 <div class="absolute top-0 right-0 m-4">
                     <button x-on:click="show = !show">
-                        <x-icons.close class="w-5 h-5 text-pink-500 hover:text-pink-600" />
+                        <x-icons.close class="w-5 h-5 text-rose-500 hover:text-rose-600" />
                     </button>
                 </div>
                 {{ $slot }}

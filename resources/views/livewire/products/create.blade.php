@@ -8,7 +8,7 @@
 
     <x-slide-over x-data="{ show: $wire.entangle('slide') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-500 dark:text-slate-400">New product</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">New product</h3>
         </div>
 
         <form wire:submit.prevent="save">
@@ -205,7 +205,7 @@
             </div>
             <div class="py-3">
                 <div>
-                    <p class="text-xs text-teal-500 dark:text-teal-400">update and click tab to save</p>
+                    <p class="text-xs text-sky-500 dark:text-sky-400">update and click tab to save</p>
                 </div>
 
                 @foreach ($product->features as $feature)
@@ -224,7 +224,7 @@
                         </div>
 
                         <button x-on:click.prevent="$wire.call('deleteFeature', {{ $feature->id }})">
-                            <x-icons.cross class="w-10 h-10 text-pink-500 hover:text-pink-600" />
+                            <x-icons.cross class="w-10 h-10 text-rose-500 hover:text-rose-600" />
                         </button>
                     </div>
                 @endforeach

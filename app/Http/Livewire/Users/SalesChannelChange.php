@@ -26,7 +26,11 @@ class SalesChannelChange extends Component
             ->sales_channels()
             ->updateExistingPivot($channelId, ['is_default' => true]);
 
+        $this->toggle();
+
         $this->emit('refreshUser');
+
+        return redirect()->route('dashboard');
     }
 
     public function render()

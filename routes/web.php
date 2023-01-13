@@ -11,6 +11,7 @@ use App\Http\Livewire\Dashboard\Index;
 use App\Http\Livewire\Delivery\Index as DeliveryIndex;
 use App\Http\Livewire\Expenses\Index as ExpensesIndex;
 use App\Http\Livewire\Notifications\Index as NotificationsIndex;
+use App\Http\Livewire\Orders\CashUp as OrdersCashUp;
 use App\Http\Livewire\Orders\Create as OrdersCreate;
 use App\Http\Livewire\Orders\Index as OrdersIndex;
 use App\Http\Livewire\Orders\Show as OrdersShow;
@@ -56,6 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::get('orders/create/{id}', OrdersCreate::class)
         ->name('orders/create')
         ->middleware('permission:create orders');
+
+    Route::get('cash-up', OrdersCashUp::class)
+        ->name('cash-up')
+        ->middleware('permission:complete orders');
 
     Route::get('products', ProductsIndex::class)
         ->name('products')

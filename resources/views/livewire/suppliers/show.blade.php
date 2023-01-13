@@ -28,8 +28,8 @@
                 <div
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800">
                     <dt>
-                        <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                            <x-icons.tax-receipt class="w-6 h-6 text-teal-100 dark:text-teal-800" />
+                        <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                            <x-icons.tax-receipt class="w-6 h-6 text-sky-100 dark:text-sky-800" />
                         </div>
                         <p class="ml-16 text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Total Purchases
@@ -37,7 +37,7 @@
                     </dt>
                     <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                         <div>
-                            <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                                 R {{ number_format(to_rands($this->invoices->sum('amount')), 2) }}
                             </p>
                         </div>
@@ -46,15 +46,15 @@
                 <div
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800">
                     <dt>
-                        <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                            <x-icons.tax-receipt class="w-6 h-6 text-teal-100 dark:text-teal-800" />
+                        <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                            <x-icons.tax-receipt class="w-6 h-6 text-sky-100 dark:text-sky-800" />
                         </div>
                         <p class="ml-16 text-sm font-medium text-slate-400 truncate dark:text-slate-400">Total
                             Credits</p>
                     </dt>
                     <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                         <div>
-                            <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                                 R {{ number_format($this->credits->sum('amount'), 2) }}
                             </p>
                         </div>
@@ -64,8 +64,8 @@
                 <div
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800">
                     <dt>
-                        <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                            <x-icons.ccard class="w-6 h-6 text-teal-100 dark:text-teal-800" />
+                        <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                            <x-icons.ccard class="w-6 h-6 text-sky-100 dark:text-sky-800" />
                         </div>
                         <p class="ml-16 text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Total Payments
@@ -73,7 +73,7 @@
                     </dt>
                     <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                         <div>
-                            <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                                 R {{ number_format(abs($this->payments->sum('amount')), 2) }}
                             </p>
                         </div>
@@ -83,14 +83,14 @@
                 <div
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800">
                     <dt>
-                        <div class="absolute p-3 bg-teal-500 rounded-md dark:bg-slate-900">
-                            <x-icons.chart-pie class="w-6 h-6 text-teal-100 dark:text-teal-800" />
+                        <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                            <x-icons.chart-pie class="w-6 h-6 text-sky-100 dark:text-sky-800" />
                         </div>
                         <p class="ml-16 text-sm font-medium text-slate-400 truncate dark:text-slate-400">Outstanding</p>
                     </dt>
                     <dd class="flex items-baseline pb-6 ml-16 sm:pb-7">
                         <div>
-                            <p class="text-2xl font-semibold text-teal-800 dark:text-teal-500">
+                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
                                 R {{ number_format($this->supplier->latestTransaction?->running_balance, 2) }}
                             </p>
                         </div>
@@ -157,8 +157,8 @@
                             </x-table.row>
                             <x-table.row>
                                 <div
-                                    class="py-1 px-4 w-48 text-center whitespace-nowrap bg-pink-100 rounded-r-full rounded-l-full">
-                                    <p class="text-xs text-pink-900">NOT PROCESSED</p>
+                                    class="py-1 px-4 w-48 text-center whitespace-nowrap bg-rose-100 rounded-r-full rounded-l-full">
+                                    <p class="text-xs text-rose-900">NOT PROCESSED</p>
                                 </div>
                             </x-table.row>
                             <x-table.row
@@ -203,7 +203,7 @@
                             <p class="font-semibold">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                             </p>
                         @endif
-                        <p class="text-slate-500 dark:text-slate-400">
+                        <p class="text-slate-600 dark:text-slate-500">
                             {{ $transaction->created_at->format('d-m-y H:i') }}
                         </p>
                     </x-table.row>

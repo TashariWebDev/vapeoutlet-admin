@@ -17,12 +17,12 @@
     >
         <div class="flex flex-col items-center space-y-4 w-full sm:items-end">
             <div
-                class="overflow-hidden w-full max-w-sm rounded-lg border border-teal-400 ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto dark:bg-transparent bg-white/60 backdrop-blur">
+                class="overflow-hidden w-full max-w-sm rounded-lg border ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur">
                 <div class="p-4">
                     <div class="flex items-start">
                         <div class="flex-shrink-0">
                             <svg
-                                class="w-6 h-6 text-teal-400"
+                                class="w-6 h-6 text-sky-400"
                                 aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -39,13 +39,13 @@
                         </div>
                         <div class="flex-1 pt-0.5 ml-3 w-0">
                             <p
-                                class="text-xs font-medium text-slate-500 dark:text-slate-400"
+                                class="text-xs font-medium text-slate-600 dark:text-slate-500"
                                 x-text="body"
                             ></p>
                         </div>
                         <div class="flex flex-shrink-0 ml-4">
                             <button
-                                class="inline-flex bg-transparent rounded-md focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:outline-none text-slate-400 hover:text-slate-500"
+                                class="inline-flex bg-transparent rounded-md focus:ring-2 focus:ring-offset-2 focus:outline-none text-slate-400 hover:text-slate-500 focus:ring-sky-500"
                                 type="button"
                                 x-on:click="body = ''"
                             >
