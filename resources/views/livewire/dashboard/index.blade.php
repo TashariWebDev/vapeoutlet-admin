@@ -191,7 +191,7 @@
             <ul>
                 <li>Update ui colours for easier readability</li>
                 <li>Implemented Sale Channel Module</li>
-                <li>Warranty report (under warranty report)</li>
+                <li>Warranty report (under transaction report)</li>
                 <li>Debits report (under transaction report)</li>
                 <li>Cash up module</li>
                 <li>Updated stock take module (under admin)</li>
