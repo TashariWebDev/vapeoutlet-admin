@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\StockTakeItem
@@ -15,23 +18,23 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int|null $count
  * @property int $variance
  * @property int $cost
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Product|null $product
- * @property-read \App\Models\StockTake|null $stockTake
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Product|null $product
+ * @property-read StockTake|null $stockTake
  *
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem query()
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereCost($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereCount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereStockTakeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|StockTakeItem whereVariance($value)
- * @mixin \Eloquent
+ * @method static Builder|StockTakeItem newModelQuery()
+ * @method static Builder|StockTakeItem newQuery()
+ * @method static Builder|StockTakeItem query()
+ * @method static Builder|StockTakeItem whereCost($value)
+ * @method static Builder|StockTakeItem whereCount($value)
+ * @method static Builder|StockTakeItem whereCreatedAt($value)
+ * @method static Builder|StockTakeItem whereId($value)
+ * @method static Builder|StockTakeItem whereProductId($value)
+ * @method static Builder|StockTakeItem whereStockTakeId($value)
+ * @method static Builder|StockTakeItem whereUpdatedAt($value)
+ * @method static Builder|StockTakeItem whereVariance($value)
+ * @mixin Eloquent
  */
 class StockTakeItem extends Model
 {

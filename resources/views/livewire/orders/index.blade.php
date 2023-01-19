@@ -188,19 +188,23 @@
                             <a
                                 class="link"
                                 href="{{ route('orders/show', $order->id) }}"
+                                title="View Order {{ $order->number }}"
                             >{{ $order->number }}</a>
-                            <div class="flex justify-between pt-1">
+                            <div class="flex justify-between pt-1 cursor-default">
                                 <p class="text-xs text-slate-600 dark:text-slate-500">
                                     {{ $order->created_at->format('d-m-y H:i') }}
                                 </p>
                                 @if ($order->status != 'completed' && $order->status != 'cancelled')
                                     @if ($order->created_at->diffInDays(today()) > 0)
-                                        <p @class([
-                                            'rounded-l-full rounded-r-full px-1',
-                                            'bg-yellow-200 text-yellow-800 dark:bg-yellow-100' =>
-                                                $order->created_at->diffInDays(today()) <= 3,
-                                            'bg-rose-200 text-rose-800' => $order->created_at->diffInDays(today()) > 3,
-                                        ])>{{ $order->created_at->diffInDays(today()) }}
+                                        <p
+                                            title="Order Placed {{ $order->created_at->diffInDays(today()) }} Days Ago"
+                                            @class([
+                                                'rounded-l-full rounded-r-full px-1',
+                                                'bg-yellow-200 text-yellow-800 dark:bg-yellow-100' =>
+                                                    $order->created_at->diffInDays(today()) <= 3,
+                                                'bg-rose-200 text-rose-800' => $order->created_at->diffInDays(today()) > 3,
+                                            ])
+                                        >{{ $order->created_at->diffInDays(today()) }}
                                         </p>
                                     @else
                                         <div
@@ -219,6 +223,7 @@
                                     <a
                                         class="link"
                                         href="{{ route('customers/show', $order->customer->id) }}"
+                                        title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
                                     <div class="flex justify-between pt-1 space-x-2">
                                         <p @class([
@@ -235,6 +240,7 @@
                                 <div>
                                     <button
                                         class="flex justify-center items-center w-5 h-5 rounded-full bg-sky-200 dark:bg-sky-200"
+                                        title="View {{ $order->customer->name }}'s Last Five Transactions"
                                         wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
                                     >
                                         <x-icons.view class="w-3 h-3 text-sky-700" />
@@ -242,14 +248,23 @@
                                 </div>
                             </div>
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right">
-                            <p class="text-slate-600 dark:text-slate-500">
+                        <x-table.row class="text-center cursor-default lg:text-right">
+                            <p
+                                class="text-slate-600 dark:text-slate-500"
+                                title="Delivery Charge"
+                            >
                                 R {{ number_format($order->delivery_charge, 2) }}</p>
-                            <p class="text-slate-600 dark:text-slate-500">
+                            <p
+                                class="text-slate-600 dark:text-slate-500"
+                                title="Delivery Type"
+                            >
                                 {{ $order->delivery->description }}</p>
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
-                            <p class="text-slate-600 dark:text-slate-500">
+                            <p
+                                class="cursor-default text-slate-600 dark:text-slate-500"
+                                title="Order Total"
+                            >
                                 R {{ number_format(to_rands($order->order_total), 2) }}</p>
                         </x-table.row>
                         <x-table.row class="p-2 text-center lg:text-right">
@@ -259,6 +274,7 @@
                                         @if ($order->status === 'shipped')
                                             <button
                                                 class="button button-success"
+                                                title="Complete Order"
                                                 wire:loading.attr="disabled"
                                                 wire:target="pushToComplete({{ $order->id }})"
                                                 wire:click="pushToComplete({{ $order->id }})"
@@ -278,6 +294,7 @@
                                 <div>
                                     <button
                                         class="button button-success"
+                                        title="Print Invoice"
                                         wire:loading.attr="disabled"
                                         wire:target="getDocument"
                                         wire:click="getDocument({{ $order->id }})"

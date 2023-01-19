@@ -31,6 +31,11 @@ class StockTake extends Model
         return to_rands($this->items()->sum(DB::raw('variance * cost')));
     }
 
+    public function getCount(): float
+    {
+        return $this->items()->sum('variance');
+    }
+
     public function number(): Attribute
     {
         return new Attribute(get: fn () => 'ST00'.$this->attributes['id']);

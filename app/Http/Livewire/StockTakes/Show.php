@@ -29,32 +29,36 @@ class Show extends Component
 
     public function updateItem(StockTakeItem $item, $count)
     {
-        if ($count != '' && $count < 0) {
-            $item->update([
-                'count' => null,
-                'variance' => 0,
-            ]);
-            $this->notify('qty cannot be negative');
-
-            return;
+        if ($count == '' || $count < 0) {
+            return $this->excludeItem(
+                $item,
+                'item will be excluded from stock count'
+            );
         }
 
-        if ($count == '') {
-            $item->update([
-                'count' => null,
-                'variance' => 0,
-            ]);
-            $this->notify('item will be excluded from stock count');
-
-            return;
-        } else {
-            $item->update([
-                'count' => $count,
-                'variance' => $count - $item->product->qty(),
-            ]);
-        }
+        $item->update([
+            'count' => $count,
+            'variance' => $count -
+                $item->product->stocks
+                    ->where(
+                        'sales_channel_id',
+                        '=',
+                        $item->stockTake->sales_channel_id
+                    )
+                    ->sum('qty'),
+        ]);
 
         $this->notify('updated');
+    }
+
+    public function excludeItem($item, $message)
+    {
+        $item->update([
+            'count' => null,
+            'variance' => 0,
+        ]);
+
+        $this->notify($message);
     }
 
     public function process()
@@ -62,18 +66,11 @@ class Show extends Component
         $this->notify('processing');
 
         DB::transaction(function () {
-            $stockTake = StockTake::with('items.product.features')
-                ->where('id', '=', $this->stockTakeId)
-                ->first();
+            $stockTake = StockTake::find($this->stockTakeId)->load(
+                'items.product'
+            );
 
             foreach ($stockTake->items as $item) {
-                if ($item->count < 0) {
-                    $this->showConfirmModal = false;
-                    $this->notify('qty cannot be negative');
-
-                    return;
-                }
-
                 if ($item->variance != 0) {
                     Stock::create([
                         'product_id' => $item->product->id,

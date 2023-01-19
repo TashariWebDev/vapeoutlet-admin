@@ -5,6 +5,7 @@ namespace App\Http\Livewire\StockTakes;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\SalesChannel;
 use App\Models\StockTake;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -24,7 +25,11 @@ class Index extends Component
 
     public $searchQuery;
 
+    public $salesChannels;
+
     public $selectedBrands = [];
+
+    public $salesChannelId;
 
     public function updatedSearchQuery()
     {
@@ -33,17 +38,12 @@ class Index extends Component
 
     public function getBrandsProperty(): _IH_Brand_C|Collection|array
     {
-        return Brand::whereHas('products', function ($query) {
-            $query->whereHas('stocks', function ($query) {
-                $query->where(
-                    'sales_channel_id',
-                    '=',
-                    auth()
-                        ->user()
-                        ->defaultSalesChannel()->id
-                );
-            });
-        })->get();
+        return Brand::orderBy('name')->get();
+    }
+
+    public function getSalesChannelsProperty(): _IH_Brand_C|Collection|array
+    {
+        return SalesChannel::all();
     }
 
     /**
@@ -77,6 +77,7 @@ class Index extends Component
     {
         $this->validate([
             'selectedBrands' => 'required|array',
+            'salesChannelId' => 'required|int',
         ]);
 
         $this->notify('Working on it!');
@@ -85,29 +86,25 @@ class Index extends Component
             $stockTake = StockTake::updateOrCreate(
                 [
                     'brand' => $brand,
-                    'sales_channel_id' => auth()
-                        ->user()
-                        ->defaultSalesChannel()->id,
+                    'sales_channel_id' => $this->salesChannelId,
                     'processed_at' => null,
                 ],
                 [
                     'brand' => $brand,
                     'created_by' => auth()->user()->name,
                     'date' => now(),
-                    'sales_channel_id' => auth()
-                        ->user()
-                        ->defaultSalesChannel()->id,
+                    'sales_channel_id' => $this->salesChannelId,
                 ]
             );
 
             $selectedProducts = Product::query()
                 ->select('products.id', 'products.cost')
                 ->where('brand', '=', $brand)
-                ->whereHas('stocks', function ($query) use ($stockTake) {
+                ->whereHas('stocks', function ($query) {
                     $query->where(
                         'sales_channel_id',
                         '=',
-                        $stockTake->sales_channel_id
+                        $this->salesChannelId
                     );
                 })
                 ->get();
@@ -120,8 +117,7 @@ class Index extends Component
             }
         }
 
-        $this->selectedBrands = [];
-        $this->showStockTakeModal = false;
+        $this->reset(['searchQuery', 'salesChannels', 'showStockTakeModal']);
 
         $this->notify('Stock take created');
         $this->redirect('stock-takes');
