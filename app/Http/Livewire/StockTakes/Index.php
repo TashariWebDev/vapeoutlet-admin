@@ -25,15 +25,20 @@ class Index extends Component
 
     public $searchQuery;
 
-    public $salesChannels;
-
     public $selectedBrands = [];
 
-    public $salesChannelId;
+    public $salesChannelId = 1;
+
+    public bool $isProcessed = false;
 
     public function updatedSearchQuery()
     {
         $this->resetPage();
+    }
+
+    public function selectAllBrands()
+    {
+        $this->selectedBrands = $this->brands->pluck('name');
     }
 
     public function getBrandsProperty(): _IH_Brand_C|Collection|array
@@ -98,7 +103,7 @@ class Index extends Component
             );
 
             $selectedProducts = Product::query()
-                ->select('products.id', 'products.cost')
+                ->select('id', 'cost', 'brand')
                 ->where('brand', '=', $brand)
                 ->whereHas('stocks', function ($query) {
                     $query->where(
@@ -129,10 +134,22 @@ class Index extends Component
             'stockTakes' => StockTake::query()
                 ->with(['items.product'])
                 ->latest()
+                ->when($this->isProcessed === true, function ($query) {
+                    $query->where('processed_at', '!=', null);
+                })
+                ->when($this->isProcessed === false, function ($query) {
+                    $query->where('processed_at', '=', null);
+                })
                 ->when($this->searchQuery, function ($query) {
                     $query
                         ->where('brand', 'like', '%'.$this->searchQuery.'%')
-                        ->orWhere('id', 'like', '%'.$this->searchQuery.'%');
+                        ->orWhere('id', 'like', '%'.$this->searchQuery.'%')
+                        ->when($this->isProcessed === true, function ($query) {
+                            $query->where('processed_at', '!=', null);
+                        })
+                        ->when($this->isProcessed === false, function ($query) {
+                            $query->where('processed_at', '=', null);
+                        });
                 })
                 ->paginate(8),
         ]);

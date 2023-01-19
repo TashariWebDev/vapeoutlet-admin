@@ -1,37 +1,62 @@
 <div>
 
     <x-modal x-data="{ show: $wire.entangle('showStockTakeModal') }">
-        <div class="py-3">
-            <p class="text-slate-800 dark:text-slate-500">Ensure you are on the correct sales channel!</p>
+        <div class="py-6">
+            <form wire:submit.prevent="createStockTake">
+
+                <div class="pb-4">
+                    <button
+                        class="text-slate-500"
+                        wire:click.prevent="selectAllBrands"
+                    >Select All
+                    </button>
+
+                    @if (!empty($selectedBrands))
+                        <button
+                            class="text-slate-500"
+                            wire:click.prevent="$set('selectedBrands',[])"
+                        >Deselect All
+                        </button>
+                    @endif
+                </div>
+
+                <div class="overflow-y-scroll h-72 border shadow-inner border-slate-800">
+                    @foreach ($this->brands as $brand)
+                        <div
+                            class="py-2 px-1 mb-1 w-full text-xs rounded dark:text-white bg-slate-100 text-slate-800 dark:bg-sky-700">
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    value="{{ $brand->name }}"
+                                    wire:model.defer="selectedBrands"
+                                >
+                            </label>{{ $brand->name }}
+                        </div>
+                    @endforeach
+                </div>
+                <div class="pt-4">
+                    <x-input.label>
+                        Select a Sales Channel
+                    </x-input.label>
+                    <x-input.select wire:model="salesChannelId">
+                        @foreach ($this->salesChannels as $salesChannel)
+                            <option value="{{ $salesChannel->id }}">{{ $salesChannel->name }}</option>
+                        @endforeach
+                    </x-input.select>
+
+                </div>
+                <div class="mt-2">
+                    <button class="button-success">Create</button>
+                </div>
+            </form>
         </div>
-        <form wire:submit.prevent="createStockTake">
-            <div class="overflow-y-scroll p-3 h-72 border shadow-inner border-slate-800">
-                @foreach ($this->brands as $brand)
-                    <div
-                        class="p-1 mb-1 w-full text-xs rounded dark:text-white bg-slate-100 text-slate-800 dark:bg-sky-700">
-                        <label>
-                            <input
-                                type="checkbox"
-                                value="{{ $brand->name }}"
-                                wire:model.defer="selectedBrands"
-                            >
-                        </label>{{ $brand->name }}
-                    </div>
-                @endforeach
-            </div>
-            <div class="mt-2">
-                <button class="button-success">Create</button>
-            </div>
-        </form>
     </x-modal>
 
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="py-3">
-            <div class="flex justify-between w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-3">
                 <div>
-                    <x-input.label>
-                        Search
-                    </x-input.label>
+
                     <x-input.text
                         type="search"
                         placeholder="search"
@@ -40,7 +65,27 @@
                     />
                 </div>
 
-                <div>
+                <div class="text-right">
+                    <x-input.label>
+                    </x-input.label>
+                    @if ($this->isProcessed)
+                        <button
+                            class="button-success"
+                            wire:click.prevent="$toggle('isProcessed')"
+                        >Show Not Processed
+                        </button>
+                    @else
+                        <button
+                            class="button-success"
+                            wire:click.prevent="$toggle('isProcessed')"
+                        >Show Processed
+                        </button>
+                    @endif
+                </div>
+
+                <div class="text-right">
+                    <x-input.label>
+                    </x-input.label>
                     <button
                         class="button-success"
                         x-on:click="@this.set('showStockTakeModal',true)"
