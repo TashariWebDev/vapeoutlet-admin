@@ -150,12 +150,8 @@
                         @endif
                     </x-table.row>
                     <x-table.row class="text-center">
-                        @if ($stockTake->processed_at)
+                        @if (!empty($stockTake->processed_at))
                             <div>
-                                <p>PROCESSED</p>
-                            </div>
-                        @else
-                            <div class="flex items-center space-x-2">
                                 <button
                                     class="button button-success"
                                     wire:loading.attr="disabled"
@@ -171,7 +167,9 @@
                                     </span>
                                     Print
                                 </button>
-
+                            </div>
+                        @else
+                            <div>
                                 <button
                                     class="button-danger"
                                     wire:click="delete('{{ $stockTake->id }}')"

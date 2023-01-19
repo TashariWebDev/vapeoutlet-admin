@@ -7,15 +7,8 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title></title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
-        rel="stylesheet"
-    >
-    <link
-        href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
-        rel="stylesheet"
-    >
+    <title>Stock Take</title>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @media print {
@@ -80,11 +73,15 @@
                             <li>{{ $stockTake->created_at }}</li>
                             <li class="capitalize">STOCK TAKE ID:{{ $stockTake->id }}</li>
                             <li class="capitalize">{{ $stockTake->sales_channel->name }}</li>
+
                             <li class="text-lg font-extrabold uppercase">
                                 {{ $stockTake->processed_by }}
                                 on {{ $stockTake->processed_at }}</li>
                             <li class="text-lg font-extrabold uppercase">
                                 {{ number_format(to_rands($stockTake->getTotal()), 2) }}</li>
+                            <li class="text-lg font-extrabold uppercase">
+                                {{ $stockTake->getCount() }} Units
+                            </li>
                         </ul>
                     </div>
                 </div>
