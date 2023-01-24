@@ -160,3 +160,11 @@ Route::get('/stocks-by-date', function () {
 //
 //    return response()->json(['data' => $products]);
 //});
+
+//Route::get('incomplete-orders', function () {
+//    $orders = Order::where('status', '=', null)
+//        ->withSum('stocks', 'qty')
+//        ->get();
+//
+//    return $orders;
+//});

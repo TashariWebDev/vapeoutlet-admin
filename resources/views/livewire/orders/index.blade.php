@@ -292,24 +292,27 @@
                                     @endhasPermissionTo
                                 </div>
                                 <div>
-                                    <button
-                                        class="button button-success"
-                                        title="Print Invoice"
-                                        wire:loading.attr="disabled"
-                                        wire:target="getDocument"
-                                        wire:click="getDocument({{ $order->id }})"
-                                    >
-                                        <span
-                                            class="pr-2"
-                                            wire:loading
-                                            wire:target="getDocument({{ $order->id }})"
+                                    @if (($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled') ||
+                                        auth()->user()->hasPermissionTo('complete orders'))
+                                        <button
+                                            class="button button-success"
+                                            title="Print Invoice"
+                                            wire:loading.attr="disabled"
+                                            wire:target="getDocument"
+                                            wire:click="getDocument({{ $order->id }})"
                                         >
-                                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                                        </span>
-                                        Print
-                                    </button>
-                                    @if (file_exists(public_path("storage/documents/$order->number.pdf")))
-                                        <p class="text-xs text-slate-400">Printed</p>
+                                            <span
+                                                class="pr-2"
+                                                wire:loading
+                                                wire:target="getDocument({{ $order->id }})"
+                                            >
+                                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                            </span>
+                                            Print
+                                        </button>
+                                        @if (file_exists(public_path("storage/documents/$order->number.pdf")))
+                                            <p class="text-xs text-slate-400">Printed</p>
+                                        @endif
                                     @endif
                                 </div>
                             </div>
@@ -369,24 +372,26 @@
                 </div>
 
                 <div class="col-span-3 mt-3 w-full">
-                    @if (file_exists(public_path("storage/documents/$order->number.pdf")))
-                        <p class="text-xs text-slate-600 dark:text-slate-500">Printed</p>
-                    @endif
-                    <button
-                        class="w-full button-success"
-                        wire:loading.attr="disabled"
-                        wire:target="getDocument"
-                        wire:click="getDocument({{ $order->id }})"
-                    >
-                        <span
-                            class="pr-2"
-                            wire:loading
-                            wire:target="getDocument({{ $order->id }})"
+                    @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')
+                        @if (file_exists(public_path("storage/documents/$order->number.pdf")))
+                            <p class="text-xs text-slate-600 dark:text-slate-500">Printed</p>
+                        @endif
+                        <button
+                            class="w-full button-success"
+                            wire:loading.attr="disabled"
+                            wire:target="getDocument"
+                            wire:click="getDocument({{ $order->id }})"
                         >
-                            <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                        </span>
-                        Print
-                    </button>
+                            <span
+                                class="pr-2"
+                                wire:loading
+                                wire:target="getDocument({{ $order->id }})"
+                            >
+                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                            </span>
+                            Print
+                        </button>
+                    @endif
                 </div>
 
             </div>

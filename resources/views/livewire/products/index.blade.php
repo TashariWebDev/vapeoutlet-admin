@@ -63,6 +63,7 @@
                     @endif
                 </div>
                 <div class="grid grid-cols-1 gap-2">
+                    @hasPermissionTo('create purchase')
                     <a
                         class="w-full button-success"
                         href="{{ route('suppliers') }}"
@@ -72,6 +73,7 @@
                     <div class="w-full">
                         <livewire:purchases.create wire:key="supplier-create" />
                     </div>
+                    @endif
                 </div>
             </div>
         </header>
@@ -250,84 +252,92 @@
                         </div>
                         <div class="grid grid-cols-1 gap-2 w-full h-full">
                             <div>
-                                @if ($product->retail_price * $product->wholesale_price > 0)
-                                    @if ($product->is_active)
+                                @hasPermissionTo('edit products')
+                                    @if ($product->retail_price * $product->wholesale_price > 0)
+                                        @if ($product->is_active)
+                                            <button
+                                                class="flex justify-start items-center space-x-2 w-full button-success"
+                                                x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                                            >
+                                                <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                                <p>active</p>
+                                            </button>
+                                        @else
+                                            <button
+                                                class="flex justify-start items-center space-x-2 w-full button-success"
+                                                x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                                            >
+                                                <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
+                                                <p>active</p>
+                                            </button>
+                                        @endif
+                                    @endif
+                                @endhasPermissionTo
+                            </div>
+                            <div>
+                                @hasPermissionTo('edit products')
+                                    @if ($product->is_featured)
                                         <button
                                             class="flex justify-start items-center space-x-2 w-full button-success"
-                                            x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                                            x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                                         >
                                             <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                                            <p>active</p>
+                                            <p>featured</p>
                                         </button>
                                     @else
                                         <button
                                             class="flex justify-start items-center space-x-2 w-full button-success"
-                                            x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                                            x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                                         >
                                             <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                                            <p>active</p>
+                                            <p>featured</p>
                                         </button>
                                     @endif
-                                @endif
-                            </div>
-                            <div>
-                                @if ($product->is_featured)
-                                    <button
-                                        class="flex justify-start items-center space-x-2 w-full button-success"
-                                        x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
-                                    >
-                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                                        <p>featured</p>
-                                    </button>
-                                @else
-                                    <button
-                                        class="flex justify-start items-center space-x-2 w-full button-success"
-                                        x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
-                                    >
-                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                                        <p>featured</p>
-                                    </button>
-                                @endif
+                                @endhasPermissionTo
                             </div>
                         </div>
                         <div class="grid grid-cols-1 gap-2 w-full h-full">
                             <div>
-                                @if ($product->is_sale)
-                                    <button
-                                        class="flex justify-start items-center space-x-2 w-full button-success"
-                                        x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
-                                    >
-                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                                        <p>sale</p>
-                                    </button>
-                                @else
-                                    <button
-                                        class="flex justify-start items-center space-x-2 w-full button-success"
-                                        x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
-                                    >
-                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                                        <p>sale</p>
-                                    </button>
-                                @endif
+                                @hasPermissionTo('edit products')
+                                    @if ($product->is_sale)
+                                        <button
+                                            class="flex justify-start items-center space-x-2 w-full button-success"
+                                            x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
+                                        >
+                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                            <p>sale</p>
+                                        </button>
+                                    @else
+                                        <button
+                                            class="flex justify-start items-center space-x-2 w-full button-success"
+                                            x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
+                                        >
+                                            <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
+                                            <p>sale</p>
+                                        </button>
+                                    @endif
+                                @endhasPermissionTo
                             </div>
                             <div>
-                                @if ($product->trashed())
-                                    <button
-                                        class="flex justify-start items-center space-x-2 w-full button-success"
-                                        x-on:click="$wire.call('recover','{{ $product->id }}')"
-                                    >
-                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                                        <p>recover</p>
-                                    </button>
-                                @else
-                                    <button
-                                        class="flex justify-start items-center space-x-2 w-full button-success"
-                                        x-on:click="$wire.call('delete','{{ $product->id }}')"
-                                    >
-                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                                        <p>archive</p>
-                                    </button>
-                                @endif
+                                @hasPermissionTo('edit products')
+                                    @if ($product->trashed())
+                                        <button
+                                            class="flex justify-start items-center space-x-2 w-full button-success"
+                                            x-on:click="$wire.call('recover','{{ $product->id }}')"
+                                        >
+                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                            <p>recover</p>
+                                        </button>
+                                    @else
+                                        <button
+                                            class="flex justify-start items-center space-x-2 w-full button-success"
+                                            x-on:click="$wire.call('delete','{{ $product->id }}')"
+                                        >
+                                            <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
+                                            <p>archive</p>
+                                        </button>
+                                    @endif
+                                @endhasPermissionTo
                             </div>
                         </div>
                     </div>

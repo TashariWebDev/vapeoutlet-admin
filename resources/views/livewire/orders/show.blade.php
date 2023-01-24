@@ -94,11 +94,13 @@
                     @endif
                 </div>
                 <div>
-                    @if ($this->order->status != 'shipped' &&
-                        $this->order->status != 'completed' &&
-                        $this->order->status != 'cancelled')
-                        <livewire:orders.cancel :order="$this->order" />
-                    @endif
+                    @hasPermissionTo('edit orders')
+                        @if ($this->order->status != 'shipped' &&
+                            $this->order->status != 'completed' &&
+                            $this->order->status != 'cancelled')
+                            <livewire:orders.cancel :order="$this->order" />
+                        @endif
+                    @endhasPermissionTo
                 </div>
                 <div>
                     @if ($this->order->status != 'shipped' &&
@@ -144,16 +146,18 @@
                 </div>
 
                 <div>
-                    @if ($this->order->status != 'shipped' &&
-                        $this->order->status != 'completed' &&
-                        $this->order->status != 'cancelled')
-                        <button
-                            class="w-full text-xs button-warning"
-                            x-on:click="@this.set('showEditModal',true)"
-                        >
-                            edit
-                        </button>
-                    @endif
+                    @hasPermissionTo('edit orders')
+                        @if ($this->order->status != 'shipped' &&
+                            $this->order->status != 'completed' &&
+                            $this->order->status != 'cancelled')
+                            <button
+                                class="w-full text-xs button-warning"
+                                x-on:click="@this.set('showEditModal',true)"
+                            >
+                                edit
+                            </button>
+                        @endif
+                    @endhasPermissionTo
                 </div>
                 <div>
                     @if ($this->order->status != 'shipped' &&
