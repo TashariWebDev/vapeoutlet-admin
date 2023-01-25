@@ -36,14 +36,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        //        $userPermissions = Cache::remember(
-        //            'user-permissions',
-        //            now()->addMinutes(60 * 8),
-        //            function () {
-        //                return auth()->user()->permissions->pluck('name');
-        //            }
-        //        );
-
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
