@@ -68,7 +68,9 @@ class PurchaseItem extends Model
     public function shipping_cost(): float|int
     {
         if ($this->purchase->shipping_rate) {
-            return ($this->price * $this->purchase->shipping_rate) / 100;
+            return ($this->amount_converted_to_zar() *
+                $this->purchase->shipping_rate) /
+                100;
         }
 
         return 0;
