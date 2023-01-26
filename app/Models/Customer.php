@@ -254,8 +254,7 @@ class Customer extends Authenticatable
                             $term
                         ) {
                             $query
-                                ->where('suburb', 'like', $term)
-                                ->orWhere('city', 'like', $term)
+                                ->where('city', 'like', $term)
                                 ->orWhere('province', 'like', $term);
                         });
                 });

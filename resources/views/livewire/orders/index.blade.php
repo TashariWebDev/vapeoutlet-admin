@@ -192,7 +192,7 @@
                             >{{ $order->number }}</a>
                             <div class="flex justify-between pt-1 cursor-default">
                                 <p class="text-xs text-slate-600 dark:text-slate-500">
-                                    {{ $order->created_at->format('d-m-y H:i') }}
+                                    {{ $order->created_at->format('d M Y H:i') }}
                                 </p>
                                 @if ($order->status != 'completed' && $order->status != 'cancelled')
                                     @if ($order->created_at->diffInDays(today()) > 0)

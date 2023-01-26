@@ -274,6 +274,7 @@ class Create extends Component
                 $this->order->getSubTotal()
             ),
             'status' => 'received',
+            'created_at' => now(),
         ]);
         $this->sendOrderEmails();
 
