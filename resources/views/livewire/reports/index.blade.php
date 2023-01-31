@@ -122,6 +122,10 @@
         </div>
 
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.payment-report />
+        </div>
+
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             <livewire:reports.credit-report />
         </div>
 
