@@ -2,7 +2,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('chooseAddressForm') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Select address</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select address</h3>
         </div>
 
         <form wire:submit.prevent="updateAddress">
@@ -43,7 +43,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('chooseDeliveryForm') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Select an option</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select an option</h3>
         </div>
 
         <form wire:submit.prevent="updateDelivery">
@@ -80,7 +80,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Process this order?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Process this order?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -118,9 +118,9 @@
                 <p class="text-xs font-bold uppercase text-slate-500 dark:text-sky-400">
                     {{ $this->order->number }} ( {{ $this->order->sales_channel->name }} )
                 </p>
-                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->order->updated_at }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->updated_at }}</p>
                 @isset($this->order->delivery_type_id)
-                    <p class="text-xs capitalize text-slate-600 dark:text-slate-500">{{ $this->order->delivery?->type }}
+                    <p class="text-xs capitalize text-slate-600 dark:text-slate-300">{{ $this->order->delivery?->type }}
                     </p>
                 @endisset
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
@@ -283,7 +283,7 @@
                                         </p>
                                     </div>
                                     <div>
-                                        <p class="text-xs text-slate-600 dark:text-slate-500">
+                                        <p class="text-xs text-slate-600 dark:text-slate-300">
                                             R {{ $item->product->cost }}
                                         </p>
                                     </div>

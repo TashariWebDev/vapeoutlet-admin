@@ -9,7 +9,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Cancel this order?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Cancel this order?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button

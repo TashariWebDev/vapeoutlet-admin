@@ -19,4 +19,9 @@ class StockTransferItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function getLineTotal()
+    {
+        return $this->qty * $this->product->cost;
+    }
 }

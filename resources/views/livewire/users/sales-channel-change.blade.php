@@ -5,7 +5,7 @@
     >
 
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Select active sales channel</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select active sales channel</h3>
         </div>
 
         <div class="py-6">

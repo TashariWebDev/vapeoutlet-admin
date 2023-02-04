@@ -35,7 +35,7 @@
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-3">
                         <x-table.row class="text-center lg:text-left">
                             <p>{{ $order->number }}</p>
-                            <p class="text-slate-600 dark:text-slate-500">{{ $order->created_at->format('d-m-y H:i') }}
+                            <p class="text-slate-600 dark:text-slate-300">{{ $order->created_at->format('d-m-y H:i') }}
                             </p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
@@ -50,7 +50,7 @@
                                                 $order->customer->type() === 'wholesale',
                                             'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
                                         ])>{{ $order->customer->type() }}</p>
-                                        <p class="text-xs text-slate-600 dark:text-slate-500">
+                                        <p class="text-xs text-slate-600 dark:text-slate-300">
                                             {{ $order->customer->salesperson->name ?? '' }}
                                         </p>
                                     </div>
@@ -74,7 +74,7 @@
                                 Print
                             </button>
                             @if (file_exists(public_path("storage/pick-lists/$order->number.pdf")))
-                                <p class="text-xs text-slate-600 dark:text-slate-500">Printed</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-300">Printed</p>
                             @endif
                         </x-table.row>
                     </x-table.body>
@@ -93,7 +93,7 @@
                             class="link"
                             href="{{ route('orders/show', $order->id) }}"
                         >{{ $order->number }}</a>
-                        <p class="text-xs text-slate-600 dark:text-slate-500">
+                        <p class="text-xs text-slate-600 dark:text-slate-300">
                             {{ $order->created_at->format('d-m-y H:i') }}
                         </p>
                     </div>
@@ -111,20 +111,20 @@
                                     $order->customer->type() === 'wholesale',
                                 'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
                             ])>{{ $order->customer->type() }}</p>
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $order->customer->salesperson->name ?? '' }}
                             </p>
                         </div>
                     </div>
 
                     <div class="col-span-2 p-1 py-1 mt-3 w-full">
-                        <p class="font-semibold text-slate-600 dark:text-slate-500">{{ $order->delivery->type ?? '' }}
+                        <p class="font-semibold text-slate-600 dark:text-slate-300">{{ $order->delivery->type ?? '' }}
                         </p>
                     </div>
 
                     <div class="col-span-3 mt-3 w-full">
                         @if (file_exists(public_path("storage/pick-lists/$order->number.pdf")))
-                            <p class="text-xs text-slate-600 dark:text-slate-500">Printed</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">Printed</p>
                         @endif
                         <button
                             class="w-full button-success"

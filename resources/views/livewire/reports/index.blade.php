@@ -20,7 +20,7 @@
 
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
             <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-500">Sales</h3>
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Sales</h3>
                 <x-slot:footer>
                     <div class="flex items-baseline space-x-3">
                         <p class="font-bold text-sky-500">
@@ -34,7 +34,7 @@
             </x-stat-container>
 
             <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-500">Purchases</h3>
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Purchases</h3>
                 <x-slot:footer>
                     <div class="flex items-baseline space-x-3">
                         <p class="font-bold text-sky-500">
@@ -48,7 +48,7 @@
             </x-stat-container>
 
             <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-500">Expenses</h3>
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
                 <x-slot:footer>
                     <p class="font-bold text-sky-500">
                         {{ number_format(to_rands($expenses->total_expenses), 2) ?? '0.00' }}
@@ -57,7 +57,7 @@
             </x-stat-container>
 
             <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-500">Refunds</h3>
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
                 <x-slot:footer>
                     <p class="font-bold text-sky-500">
                         {{ number_format(to_rands($transactions->total_refunds), 2) ?? '0.00' }}
@@ -66,7 +66,7 @@
             </x-stat-container>
 
             <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-500">Credits</h3>
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
                 <x-slot:footer>
                     <p class="font-bold text-sky-500">
                         {{ number_format(to_rands($transactions->total_credits), 2) ?? '0.00' }}
@@ -75,7 +75,7 @@
             </x-stat-container>
 
             <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-500">Stock value</h3>
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Stock value</h3>
                 <x-slot:footer>
                     <div class="flex justify-between items-center">
                         <div class="flex items-baseline space-x-3">

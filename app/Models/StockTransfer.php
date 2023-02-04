@@ -37,6 +37,13 @@ class StockTransfer extends Model
         return $this->hasMany(Stock::class);
     }
 
+    public function getTotal()
+    {
+        return $this->items->reduce(function ($carry, $item) {
+            return (float) $carry + $item->getLineTotal();
+        }, 0);
+    }
+
     public function markAsProcessed()
     {
         $this->is_processed = true;

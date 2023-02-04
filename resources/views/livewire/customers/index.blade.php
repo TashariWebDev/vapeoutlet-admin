@@ -54,7 +54,7 @@
                                 href="{{ route('customers/show', $customer->id) }}"
                             >{{ $customer->name }}</a>
                             <div class="pt-1">
-                                <p class="text-xs text-slate-600 dark:text-slate-500">
+                                <p class="text-xs text-slate-600 dark:text-slate-300">
                                     {{ $customer->salesperson->name ?? '' }}</p>
                             </div>
                         </x-table.row>
@@ -68,7 +68,7 @@
                                 <p class="text-blue-600 dark:text-blue-400">Retail</p>
                             @endif
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-500">
+                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-300">
                             R {{ number_format($customer->latestTransaction?->running_balance, 2) ?? 0.0 }}
                         </x-table.row>
                     </x-table.body>
@@ -88,13 +88,13 @@
                             href="{{ route('customers/show', $customer->id) }}"
                         >{{ $customer->name }}</a>
                         <div class="pt-1">
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $customer->salesperson->name ?? '' }}
                             </p>
                         </div>
                     </div>
                     <div>
-                        <p class="text-xs text-slate-600 dark:text-slate-500">{{ $customer->phone }}</p>
+                        <p class="text-xs text-slate-600 dark:text-slate-300">{{ $customer->phone }}</p>
                         @if ($customer->is_wholesale)
                             <p class="text-xs text-rose-600 dark:text-rose-400">Wholesale</p>
                         @else
@@ -103,10 +103,10 @@
                     </div>
                     <div class="text-right">
                         @if ($customer->latestTransaction?->running_balance || $customer->latestTransaction?->running_balance > 0)
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 R {{ number_format($customer->latestTransaction?->running_balance, 2) }}</p>
                         @else
-                            <p class="text-xs text-slate-600 dark:text-slate-500">0.00</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">0.00</p>
                         @endif
                     </div>
                 </div>

@@ -39,7 +39,7 @@
             <div>
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-400">
                     INVOICE: {{ $this->purchase->invoice_no }}</p>
-                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->purchase->date }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->purchase->date }}</p>
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
                     <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Total:
@@ -75,7 +75,7 @@
                             {{ $this->purchase->supplier->name }}
                         </a>
                     @else
-                        <p class="font-semibold text-slate-600 dark:text-slate-500">
+                        <p class="font-semibold text-slate-600 dark:text-slate-300">
                             {{ $this->purchase->supplier->name }}
                         </p>
                     @endif

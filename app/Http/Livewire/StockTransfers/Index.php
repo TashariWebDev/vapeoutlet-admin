@@ -32,7 +32,7 @@ class Index extends Component
     {
         return view('livewire.stock-transfers.index', [
             'transfers' => StockTransfer::query()
-                ->with(['receiver', 'dispatcher', 'user'])
+                ->with(['receiver', 'dispatcher', 'user', 'items'])
                 ->when(
                     $this->searchQuery,
                     fn ($query) => $query

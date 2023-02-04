@@ -40,12 +40,12 @@
                     />
                     @if ($transaction->date)
                         <div class="mt-2">
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $transaction->date->format('d-m-y') }}</p>
                         </div>
                     @else
                         <div class="mt-2">
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $transaction->created_at->format('d-m-y H:i') }}</p>
                         </div>
                     @endif

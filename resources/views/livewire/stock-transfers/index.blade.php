@@ -41,15 +41,15 @@
         {{-- desktop --}}
         <div class="hidden lg:block">
             <x-table.container>
-                <x-table.header class="hidden lg:grid lg:grid-cols-5">
+                <x-table.header class="hidden lg:grid lg:grid-cols-4">
                     <x-table.heading>ID</x-table.heading>
-                    <x-table.heading>From</x-table.heading>
-                    <x-table.heading>To</x-table.heading>
+                    <x-table.heading>From/To</x-table.heading>
                     <x-table.heading>Status</x-table.heading>
                     <x-table.heading class="lg:text-right">Print</x-table.heading>
                 </x-table.header>
                 @forelse($transfers as $transfer)
-                    <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
+                    @dd($transfer)
+                    <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row>
                             <a
                                 class="link"
@@ -61,13 +61,13 @@
                         </x-table.row>
                         <x-table.row>
                             <p class="capitalize">
-                                {{ $transfer->dispatcher->name }}
+                                Stock transfer from
+                                <span class="text-blue-600 dark:text-blue-400">{{ $transfer->dispatcher->name }}</span>
+                                to
+                                <span
+                                    class="text-yellow-600 dark:text-yellow-300">{{ $transfer->receiver->name }}</span>
                             </p>
-                        </x-table.row>
-                        <x-table.row>
-                            <p class="capitalize">
-                                {{ $transfer->receiver->name }}
-                            </p>
+                            <p>{{ $transfer->getTotal() }}</p>
                         </x-table.row>
                         <x-table.row>
                             @if (!$transfer->isProcessed())

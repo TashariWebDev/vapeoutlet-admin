@@ -5,13 +5,13 @@
             <x-stat-container>
                 <div class="flex items-start">
                     <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                        <x-icons.shopping-bag class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                        <x-icons.shopping-bag class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Received
                         </p>
-                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                             {{ $lifetime_orders->received }}
                         </p>
                     </div>
@@ -30,13 +30,13 @@
             <x-stat-container>
                 <div class="flex items-start">
                     <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                        <x-icons.clipboard class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                        <x-icons.clipboard class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Processed
                         </p>
-                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                             {{ $lifetime_orders->processed }}
                         </p>
                     </div>
@@ -55,13 +55,13 @@
             <x-stat-container>
                 <div class="flex items-start">
                     <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                        <x-icons.products class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                        <x-icons.products class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Packed
                         </p>
-                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                             {{ $lifetime_orders->packed }}
                         </p>
                     </div>
@@ -80,13 +80,13 @@
             <x-stat-container>
                 <div class="flex items-start">
                     <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                        <x-icons.truck class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                        <x-icons.truck class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Shipped
                         </p>
-                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                             {{ $orders->shipped }}
                             <span class="text-sm subcopy">/ {{ $lifetime_orders->shipped }}</span>
                         </p>
@@ -106,13 +106,13 @@
             <x-stat-container>
                 <div class="flex items-start">
                     <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                        <x-icons.tick class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                        <x-icons.tick class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Completed
                         </p>
-                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                             {{ $orders->completed }}
                             <span class="text-sm subcopy">/ {{ $lifetime_orders->completed }}</span>
                         </p>
@@ -132,13 +132,13 @@
             <x-stat-container>
                 <div class="flex items-start">
                     <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                        <x-icons.cross class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                        <x-icons.cross class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                             Cancelled
                         </p>
-                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                        <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                             {{ $orders->cancelled }} <span class="text-sm subcopy">/
                                 {{ $lifetime_orders->cancelled }}</span>
                         </p>
@@ -159,13 +159,13 @@
                 <x-stat-container>
                     <div class="flex items-start">
                         <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
-                            <x-icons.exclamation class="w-6 h-6 text-sky-100 dark:text-sky-500" />
+                            <x-icons.exclamation class="w-6 h-6 text-sky-100 dark:text-sky-300" />
                         </div>
                         <div class="ml-6">
                             <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
                                 Pending Purchases
                             </p>
-                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-500">
+                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
                                 {{ $pendingPurchases }}
                             </p>
                         </div>

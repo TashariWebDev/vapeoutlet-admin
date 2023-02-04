@@ -14,7 +14,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">New note</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">New note</h3>
         </div>
         <form wire:submit.prevent="save">
 

@@ -9,7 +9,7 @@
 
     <x-slide-over x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Add products</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Add products</h3>
         </div>
         <div>
             <div class="relative">

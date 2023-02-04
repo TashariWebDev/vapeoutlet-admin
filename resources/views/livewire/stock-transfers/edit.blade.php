@@ -1,7 +1,7 @@
 <div class="relative">
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Process this transfer?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Process this transfer?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -30,11 +30,13 @@
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $stockTransfer->number() }}</p>
-                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $stockTransfer->date }}</p>
-                <p class="text-xs text-slate-600 dark:text-slate-500">
+                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $stockTransfer->date }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-300">
                     Transferring from {{ $stockTransfer->dispatcher->name }}
                     to {{ $stockTransfer->receiver->name }}
                 </p>
+                <p class="text-xs font-extrabold text-slate-600 dark:text-slate-300">
+                    R {{ $stockTransfer->getTotal() }}</p>
                 @if ($stockTransfer->is_processed)
                     <p class="text-xs text-yellow-500 dark:text-yellow-400">
                         Processed by {{ $stockTransfer->user->name }} </p>
@@ -91,9 +93,10 @@
         @endif
 
         <x-table.container>
-            <x-table.header class="hidden grid-cols-2 lg:grid">
+            <x-table.header class="hidden grid-cols-2 lg:grid lg:grid-cols-4">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
                 <x-table.heading class="lg:text-right">qty to transfer</x-table.heading>
+                <x-table.heading class="text-right">line total</x-table.heading>
             </x-table.header>
             <div>
                 @if (!empty($selectedProductsToDelete))
@@ -110,7 +113,7 @@
             </div>
             @foreach ($stockTransfer->items as $item)
                 <x-table.body
-                    class="grid lg:grid-cols-5"
+                    class="grid lg:grid-cols-4"
                     wire:key="'item-table-'{{ $item->id }}"
                 >
                     <x-table.row class="col-span-2">
@@ -181,6 +184,10 @@
                                 </div>
                             </div>
                         @endif
+                    </x-table.row>
+
+                    <x-table.row class="text-right">
+                        <p>R {{ $item->getLineTotal() }}</p>
                     </x-table.row>
                 </x-table.body>
             @endforeach

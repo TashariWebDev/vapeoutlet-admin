@@ -166,17 +166,17 @@
                             >
                                 {{ $delivery->type }}
                             </button>
-                            <p class="ml-2 text-xs md:ml-0 text-slate-600 dark:text-slate-500">
+                            <p class="ml-2 text-xs md:ml-0 text-slate-600 dark:text-slate-300">
                                 {{ $delivery->description }}
                             </p>
                         </div>
                     </x-table.row>
                     <x-table.row class="text-right">
-                        <p class="p-2 text-slate-600 dark:text-slate-500">R {{ number_format($delivery->price, 2) }}
+                        <p class="p-2 text-slate-600 dark:text-slate-300">R {{ number_format($delivery->price, 2) }}
                         </p>
                     </x-table.row>
                     <x-table.row class="text-right">
-                        <p class="p-2 text-slate-600 dark:text-slate-500">
+                        <p class="p-2 text-slate-600 dark:text-slate-300">
                             R {{ number_format($delivery->waiver_value, 2) }}</p>
                     </x-table.row>
                     <x-table.row>

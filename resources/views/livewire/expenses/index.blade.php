@@ -212,7 +212,7 @@
                         <x-table.row class="text-sm font-semibold text-left lg:col-span-2">
                             {{ $expense->reference }}
                             <div>
-                                <p class="text-xs text-slate-600 dark:text-slate-500">
+                                <p class="text-xs text-slate-600 dark:text-slate-300">
                                     {{ $expense->date->format('d-m-y') }}</p>
                             </div>
                         </x-table.row>

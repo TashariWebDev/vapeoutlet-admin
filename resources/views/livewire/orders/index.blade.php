@@ -10,7 +10,7 @@
 >
     <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }">
         <div class="pb-3">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Latest transactions</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Latest transactions</h3>
         </div>
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @if ($selectedCustomerLatestTransactions)
@@ -18,25 +18,25 @@
                     @forelse($selectedCustomerLatestTransactions as $transaction)
                         <div class="grid grid-cols-4 py-3">
                             <div>
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                                     {{ $transaction->id }}
                                     {{ strtoupper($transaction->type) }}</p>
-                                <p class="text-xs text-slate-600 dark:text-slate-500">
+                                <p class="text-xs text-slate-600 dark:text-slate-300">
                                     {{ $transaction->created_at->format('d-m-y H:i') }}</p>
                             </div>
                             <div>
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                                     {{ strtoupper($transaction->reference) }}
                                 </p>
-                                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $transaction->created_by }}</p>
+                                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $transaction->created_by }}</p>
                             </div>
                             <div class="text-xs font-semibold text-right">
-                                <p class="text-slate-600 dark:text-slate-500">
+                                <p class="text-slate-600 dark:text-slate-300">
                                     {{ number_format($transaction->amount, 2) }}
                                 </p>
                             </div>
                             <div class="text-xs font-semibold text-right">
-                                <p class="text-slate-600 dark:text-slate-500">
+                                <p class="text-slate-600 dark:text-slate-300">
                                     {{ number_format($transaction->running_balance, 2) }}</p>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                         class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
                         <button
                             @class([
-                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-500',
+                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
                                 'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
                                     $customerType === null,
                             ])
@@ -89,7 +89,7 @@
 
                         <button
                             @class([
-                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-500',
+                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
                                 'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
                                     $customerType === false,
                             ])
@@ -100,7 +100,7 @@
 
                         <button
                             @class([
-                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-500',
+                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
                                 'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
                                     $customerType === true,
                             ])
@@ -191,7 +191,7 @@
                                 title="View Order {{ $order->number }}"
                             >{{ $order->number }}</a>
                             <div class="flex justify-between pt-1 cursor-default">
-                                <p class="text-xs text-slate-600 dark:text-slate-500">
+                                <p class="text-xs text-slate-600 dark:text-slate-300">
                                     {{ $order->created_at->format('d M Y H:i') }}
                                 </p>
                                 @if ($order->status != 'completed' && $order->status != 'cancelled')
@@ -232,7 +232,7 @@
                                                 $order->customer->type() === 'wholesale',
                                             'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
                                         ])>{{ $order->customer->type() }}</p>
-                                        <p class="text-xs text-slate-600 dark:text-slate-500">
+                                        <p class="text-xs text-slate-600 dark:text-slate-300">
                                             {{ $order->customer->salesperson->name ?? '' }}
                                         </p>
                                     </div>
@@ -250,19 +250,19 @@
                         </x-table.row>
                         <x-table.row class="text-center cursor-default lg:text-right">
                             <p
-                                class="text-slate-600 dark:text-slate-500"
+                                class="text-slate-600 dark:text-slate-300"
                                 title="Delivery Charge"
                             >
                                 R {{ number_format($order->delivery_charge, 2) }}</p>
                             <p
-                                class="text-slate-600 dark:text-slate-500"
+                                class="text-slate-600 dark:text-slate-300"
                                 title="Delivery Type"
                             >
                                 {{ $order->delivery->description }}</p>
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p
-                                class="cursor-default text-slate-600 dark:text-slate-500"
+                                class="cursor-default text-slate-600 dark:text-slate-300"
                                 title="Order Total"
                             >
                                 R {{ number_format(to_rands($order->order_total), 2) }}</p>
@@ -334,7 +334,7 @@
                         class="link"
                         href="{{ route('orders/show', $order->id) }}"
                     >{{ $order->number }}</a>
-                    <p class="text-xs text-slate-600 dark:text-slate-500">
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
                         {{ $order->created_at->format('d-m-y H:i') }}
                     </p>
                 </div>
@@ -352,29 +352,29 @@
                                 $order->customer->type() === 'wholesale',
                             'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
                         ])>{{ $order->customer->type() }}</p>
-                        <p class="text-xs text-slate-600 dark:text-slate-500">
+                        <p class="text-xs text-slate-600 dark:text-slate-300">
                             {{ $order->customer->salesperson->name ?? '' }}
                         </p>
                     </div>
                 </div>
 
                 <div class="p-1 text-right">
-                    <p class="font-semibold text-slate-600 dark:text-slate-500">
+                    <p class="font-semibold text-slate-600 dark:text-slate-300">
                         R {{ number_format(to_rands($order->order_total), 2) }}
                     </p>
-                    <p class="font-semibold text-slate-600 dark:text-slate-500">
+                    <p class="font-semibold text-slate-600 dark:text-slate-300">
                         R {{ number_format($order->delivery_charge, 2) }}
                     </p>
                 </div>
 
                 <div class="col-span-3 p-1 py-1 mt-3 w-full">
-                    <p class="font-semibold text-slate-600 dark:text-slate-500">{{ $order->delivery->type ?? '' }}</p>
+                    <p class="font-semibold text-slate-600 dark:text-slate-300">{{ $order->delivery->type ?? '' }}</p>
                 </div>
 
                 <div class="col-span-3 mt-3 w-full">
                     @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')
                         @if (file_exists(public_path("storage/documents/$order->number.pdf")))
-                            <p class="text-xs text-slate-600 dark:text-slate-500">Printed</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">Printed</p>
                         @endif
                         <button
                             class="w-full button-success"

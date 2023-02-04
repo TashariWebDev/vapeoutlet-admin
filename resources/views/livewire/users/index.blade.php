@@ -85,7 +85,7 @@
                     class="flex items-center mt-1 w-full bg-white rounded-md border divide-x shadow-sm border-slate-300 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
                     <button
                         @class([
-                            'py-2 pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-500' =>
+                            'py-2 pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300' =>
                                 $withTrashed == true,
                             'py-2 pl-3 w-1/2 text-xs text-left text-sky-700 dark:text-sky-600 font-semibold' =>
                                 $withTrashed == false,

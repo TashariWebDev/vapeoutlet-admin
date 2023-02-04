@@ -203,7 +203,7 @@
                             <p class="font-semibold">{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                             </p>
                         @endif
-                        <p class="text-slate-600 dark:text-slate-500">
+                        <p class="text-slate-600 dark:text-slate-300">
                             {{ $transaction->created_at->format('d-m-y H:i') }}
                         </p>
                     </x-table.row>

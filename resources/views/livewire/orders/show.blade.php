@@ -1,7 +1,7 @@
 <div class="relative">
     <x-modal x-data="{ show: $wire.entangle('statusModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">
                 Are your sure your want to update the status?
             </h3>
         </div>
@@ -22,7 +22,7 @@
 
     <x-modal x-data="{ show: $wire.entangle('showEditModal') }">
         <div class="pb-2">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-500">Edit this order?</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Edit this order?</h3>
         </div>
         <div class="flex items-center py-3 space-x-2">
             <button
@@ -50,9 +50,9 @@
         <div class="grid grid-cols-2 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
             <div class="col-span-2 lg:col-span-1">
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $this->order->number }}</p>
-                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->order->updated_at }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->updated_at }}</p>
                 @isset($this->order->delivery_type_id)
-                    <p class="text-xs capitalize text-slate-600 dark:text-slate-500">{{ $this->order->delivery?->type }}
+                    <p class="text-xs capitalize text-slate-600 dark:text-slate-300">{{ $this->order->delivery?->type }}
                     </p>
                 @endisset
                 <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">

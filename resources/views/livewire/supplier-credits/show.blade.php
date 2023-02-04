@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $this->credit->number }}</p>
-                <p class="text-xs text-slate-600 dark:text-slate-500">{{ $this->credit->updated_at }}</p>
+                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->credit->updated_at }}</p>
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
                     <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
                         Total: R {{ number_format($this->credit->getTotal(), 2) }}

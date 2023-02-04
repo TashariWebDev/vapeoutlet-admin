@@ -23,7 +23,10 @@ class Cancel extends Component
     public function credit()
     {
         //cancel an order that has not been processed
-        if ($this->order->status === null) {
+        if (
+            $this->order->status === 'received' &&
+            $this->order->stocks()->count() === 0
+        ) {
             foreach ($this->order->items as $item) {
                 $item->delete();
             }

@@ -361,7 +361,7 @@
                                 {{ strtoupper($transaction->type) }}
                             </span>
                         </p>
-                        <p class="text-xs text-slate-600 dark:text-slate-500">
+                        <p class="text-xs text-slate-600 dark:text-slate-300">
                             {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
                         </p>
                     </div>
@@ -370,7 +370,7 @@
                             <p class="text-xs text-slate-400">
                                 Total: {{ number_format($transaction->amount, 2) }}
                             </p>
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 Balance: {{ number_format($transaction->running_balance, 2) }}
                             </p>
                         </div>
@@ -425,7 +425,7 @@
                                             {{ $transaction->id }}
                                         </a>
                                     @else
-                                        <span class="text-slate-600 dark:text-slate-500">{{ $transaction->id }}</span>
+                                        <span class="text-slate-600 dark:text-slate-300">{{ $transaction->id }}</span>
                                     @endif
                                 </span>
                                 <span @class([
@@ -441,23 +441,23 @@
                                     {{ strtoupper($transaction->type) }}
                                 </span>
                             </p>
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $transaction->created_at->format('d-m-y H:i') }}</p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">
+                            <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                                 {{ strtoupper($transaction->reference) }}</p>
-                            <p class="text-xs text-slate-600 dark:text-slate-500">{{ $transaction->created_by }}</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">{{ $transaction->created_by }}</p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
                             </p>
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-500">
+                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-300">
                             {{ number_format($transaction->amount, 2) }}
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-500">
+                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-300">
                             <span class="lg:hidden">BAL:</span> {{ number_format($transaction->running_balance, 2) }}
                         </x-table.row>
                         <x-table.row class="text-center lg:text-right">

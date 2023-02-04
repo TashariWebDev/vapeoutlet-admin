@@ -96,21 +96,21 @@
                                     {{ $product->sku }}
                                 </a>
                             @else
-                                <p class="text-slate-600 dark:text-slate-500">{{ $product->sku }}</p>
+                                <p class="text-slate-600 dark:text-slate-300">{{ $product->sku }}</p>
                             @endif
                             <p class="font-semibold text-slate-800 dark:text-slate-300">
                                 {{ $product->brand }} {{ $product->name }}
                             </p>
                             <div class="flex items-center space-x-1">
                                 @foreach ($product->features as $feature)
-                                    <p class="pr-1 text-xs text-slate-600 dark:text-slate-500"> {{ $feature->name }}
+                                    <p class="pr-1 text-xs text-slate-600 dark:text-slate-300"> {{ $feature->name }}
                                     </p>
                                 @endforeach
                             </div>
-                            <p class="font-semibold text-slate-600 dark:text-slate-500">
+                            <p class="font-semibold text-slate-600 dark:text-slate-300">
                                 {{ $product->category }}
                             </p>
-                            <p class="text-xs text-slate-600 dark:text-slate-500">
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
                                 ID: {{ $product->id }}
                             </p>
                             @if (str_contains($product->image, '/storage/images/default-image.png'))
@@ -121,23 +121,23 @@
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">IN STOCK</p>
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">IN STOCK</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_available }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">PURCHASED</p>
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">PURCHASED</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_purchases }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">CREDITS</p>
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">CREDITS</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_credits }}</p>
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
-                                    <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">AVE COST</p>
+                                    <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">AVE COST</p>
                                     <p @class([
                                         'text-xs font-semibold text-slate-800 dark:text-slate-500',
                                         'text-xs font-semibold text-green-800 dark:text-green-500' =>
@@ -160,23 +160,23 @@
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">SOLD</p>
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">SOLD</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_sold }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">ADJUSTMENTS</p>
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">ADJUSTMENTS</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_adjustments }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">SUPPLIER CREDITS</p>
+                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">SUPPLIER CREDITS</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_supplier_credits }}</p>
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
-                                    <p class="text-xs font-semibold text-slate-600 dark:text-slate-500">LAST COST</p>
+                                    <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">LAST COST</p>
                                     <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                         {{ number_format($product->getLastCost(), 2) }}
                                     </p>
@@ -205,7 +205,7 @@
                                         <x-input.label for="retail">
                                             Retail price
                                         </x-input.label>
-                                        <p class="text-center text-slate-600 dark:text-slate-500">
+                                        <p class="text-center text-slate-600 dark:text-slate-300">
                                             {{ $product->retail_price }}</p>
                                     @endif
                                     @if (auth()->user()->hasPermissionTo('view cost'))
@@ -238,7 +238,7 @@
                                     <x-input.label for="wholesale">
                                         Wholesale price
                                     </x-input.label>
-                                    <p class="text-center text-slate-600 dark:text-slate-500">
+                                    <p class="text-center text-slate-600 dark:text-slate-300">
                                         {{ $product->wholesale_price }}</p>
                                 @endif
                                 @if (auth()->user()->hasPermissionTo('view cost'))

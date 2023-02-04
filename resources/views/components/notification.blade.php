@@ -39,7 +39,7 @@
                         </div>
                         <div class="flex-1 pt-0.5 ml-3 w-0">
                             <p
-                                class="text-xs font-medium text-slate-600 dark:text-slate-500"
+                                class="text-xs font-medium text-slate-600 dark:text-slate-300"
                                 x-text="body"
                             ></p>
                         </div>
