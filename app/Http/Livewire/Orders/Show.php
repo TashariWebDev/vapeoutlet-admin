@@ -91,7 +91,7 @@ class Show extends Component
             'order' => $this->order,
         ])->render();
 
-        $url = storage_path("app/public/pick-lists/{$this->order->number}.pdf");
+        $url = storage_path("app/public/documents/PS-$this->order->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -105,7 +105,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 50)
             ->save($url);
 
-        $this->redirect("/storage/pick-lists/{$this->order->number}.pdf");
+        $this->redirect("/storage/documents/PS-$this->order->number.pdf");
     }
 
     /**
@@ -118,7 +118,7 @@ class Show extends Component
         ])->render();
 
         $url = storage_path(
-            "app/public/delivery-note/{$this->order->number}.pdf"
+            "app/public/documents/DN-$this->order->number.pdf"
         );
 
         if (file_exists($url)) {
@@ -133,7 +133,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 100)
             ->save($url);
 
-        $this->redirect("/storage/delivery-note/{$this->order->number}.pdf");
+        $this->redirect("/storage/documents/DN-$this->order->number.pdf");
     }
 
     public function render(): Factory|View|Application

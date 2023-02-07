@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('brand')->nullable();
             $table->string('created_by')->nullable();
             $table->string('processed_by')->nullable();
+            $table->unsignedBigInteger('sales_channel_id')->default(1);
 
             $table->timestamps();
         });

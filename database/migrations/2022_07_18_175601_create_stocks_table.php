@@ -11,13 +11,22 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('product_id');
+            $table->foreignId('product_id')->index();
             $table->string('type');
             $table->string('reference')->nullable();
-            $table->integer('qty');
+            $table->integer('qty')->index();
             $table->integer('cost');
             $table->foreignId('order_id')->nullable();
             $table->foreignId('credit_id')->nullable();
+            $table->foreignId('purchase_id')->nullable();
+            $table->foreignId('supplier_credit_id')->nullable();
+
+            $table
+                ->foreignId('sales_channel_id')
+                ->default(1)
+                ->index();
+
+            $table->unsignedBigInteger('stock_transfer_id')->nullable();
 
             $table->timestamps();
         });

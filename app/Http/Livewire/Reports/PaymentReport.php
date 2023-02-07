@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Reports;
 
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -22,17 +25,15 @@ class PaymentReport extends Component
 
     public function mount()
     {
-        $this->salespeople = User::where(
-            'email',
-            '!=',
-            'ridwan@tashari.co.za'
-        )->get();
+        $this->salespeople = User::query()
+            ->where('is_super_admin', false)
+            ->get();
     }
 
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function print()
+    public function print(): Redirector|Application|RedirectResponse
     {
         $transactions = Transaction::whereBetween('created_at', [
             $this->fromDate,

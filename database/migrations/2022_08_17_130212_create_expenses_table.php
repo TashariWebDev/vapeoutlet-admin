@@ -11,11 +11,11 @@ return new class extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
 
-            $table->string('category');
-            $table->string('reference');
+            $table->string('category')->index();
+            $table->string('reference')->index();
             $table->string('vat_number')->nullable();
             $table->string('invoice_no');
-            $table->integer('amount');
+            $table->integer('amount')->index();
             $table->date('date');
             $table->boolean('taxable')->default(true);
             $table->string('created_by');

@@ -36,7 +36,7 @@ class Index extends Component
         $this->validate();
 
         MarketingBanner::create([
-            'image' => $this->image->store('banners', 'public'),
+            'image' => $this->image->store('uploads', 'public'),
         ]);
 
         $this->slide = false;

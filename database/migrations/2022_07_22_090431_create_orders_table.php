@@ -24,6 +24,9 @@ return new class extends Migration
 
             $table->string('status')->nullable(); // order created
 
+            $table->timestamp('placed_at')->nullable();
+            $table->unsignedBigInteger('sales_channel_id')->default(1);
+
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('currency');
             $table->foreignId('creator_id');
             $table->timestamp('processed_date')->nullable();
+            $table->integer('taxable')->default(true);
 
             $table->timestamps();
         });

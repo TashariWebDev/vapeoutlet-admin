@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Reports;
 
 use App\Models\Credit;
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -64,7 +67,7 @@ class CreditReport extends Component
         return redirect('/storage/documents/credits-report.pdf');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.reports.credit-report');
     }

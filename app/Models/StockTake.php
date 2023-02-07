@@ -50,7 +50,7 @@ class StockTake extends Model
             'stockTake' => $this,
         ])->render();
 
-        $url = storage_path("app/public/stock-takes/$this->number.pdf");
+        $url = storage_path("app/public/documents/$this->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -74,7 +74,7 @@ class StockTake extends Model
             'stockTake' => $this,
         ])->render();
 
-        $url = storage_path("app/public/stock-counts/$this->number.pdf");
+        $url = storage_path("app/public/documents/$this->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);

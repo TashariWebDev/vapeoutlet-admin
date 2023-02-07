@@ -22,11 +22,7 @@ class SalesReport extends Component
 
     public function mount()
     {
-        $this->salespeople = User::where(
-            'email',
-            '!=',
-            'ridwan@tashari.co.za'
-        )->get();
+        $this->salespeople = User::where('is_super_admin', false)->get();
     }
 
     /**

@@ -18,6 +18,164 @@
         name=”robots”
         content=”noindex”
     >
+    <link rel="icon"
+          type="image/png"
+          sizes="196x196"
+          href="{{ asset('favicon-196.png') }}"
+    >
+    <meta name="msapplication-square70x70logo"
+          content="{{ asset('mstile-icon-128.png') }}"
+    >
+    <meta name="msapplication-square150x150logo"
+          content="{{ asset('mstile-icon-270.png') }}"
+    >
+    <meta name="msapplication-square310x310logo"
+          content="{{ asset('mstile-icon-558.png') }}"
+    >
+    <meta name="msapplication-wide310x150logo"
+          content="{{ asset('mstile-icon-558-270.png') }}"
+    >
+    <link rel="apple-touch-icon"
+          href="{{ asset('apple-icon-180.png') }}"
+    >
+
+    <meta name="apple-mobile-web-app-capable"
+          content="yes"
+    >
+    <meta name="mobile-web-app-capable"
+          content="yes"
+    >
+    <meta name="apple-touch-fullscreen"
+          content="yes"
+    />
+    <meta name="apple-mobile-web-app-title"
+          content="Vape Outlet"
+    />
+    <meta name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+    />
+
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2048-2732.jpg') }}"
+          media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2732-2048.jpg') }}"
+          media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link
+        rel="apple-touch-startup-image"
+        media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+        href="{{ asset('apple-splash-2388-1668.jpg') }}"
+    />
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1668-2388.jpg') }}"
+          media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2388-1668.jpg') }}"
+          media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1536-2048.jpg') }}"
+          media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2048-1536.jpg') }}"
+          media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1668-2224.jpg') }}"
+          media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2224-1668.jpg') }}"
+          media="(device-width: 834px) and (device-height: 1112px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1620-2160.jpg') }}"
+          media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2160-1620.jpg') }}"
+          media="(device-width: 810px) and (device-height: 1080px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2160-1620.jpg') }}"
+          media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1284-2778.jpg') }}"
+          media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2778-1284.jpg') }}"
+          media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1170-2532.jpg') }}"
+          media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2532-1170.jpg') }}"
+          media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1125-2436.jpg') }}"
+          media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1125-2436.jpg') }}"
+          media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2436-1125.jpg') }}"
+          media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1242-2688.jpg') }}"
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2688-1242.jpg') }}"
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-828-1792.jpg') }}"
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1792-828.jpg') }}"
+          media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1242-2208.jpg') }}"
+          media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-2208-1242.jpg') }}"
+          media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-750-1334.jpg') }}"
+          media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1334-750.jpg') }}"
+          media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-640-1136.jpg') }}"
+          media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    >
+    <link rel="apple-touch-startup-image"
+          href="{{ asset('apple-splash-1136-640.jpg') }}"
+          media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
+    >
+    <link rel="manifest"
+          href="{{ asset('manifest.json') }}"
+    >
 
     <title>{{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -64,7 +222,8 @@
         @endphp
 
         <nav
-            class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500">
+            class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500"
+        >
             <div class="px-4 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
                     <div class="flex items-center py-4">
@@ -111,7 +270,8 @@
                         </div>
 
                         <div
-                            class="flex justify-center items-center w-6 h-6 rounded-full border ring-2 border-sky-400 ring-slate-100 dark:ring-slate-800">
+                            class="flex justify-center items-center w-6 h-6 rounded-full border ring-2 border-sky-400 ring-slate-100 dark:ring-slate-800"
+                        >
                             <button x-on:click="theme = !theme">
                                 <x-icons.moon
                                     class="w-4 h-4 text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-800"
@@ -138,38 +298,38 @@
                     >dashboard</a>
 
                     @hasPermissionTo('view orders')
-                        <a
-                            class="link"
-                            href="{{ route('orders') }}"
-                        >orders</a>
+                    <a
+                        class="link"
+                        href="{{ route('orders') }}"
+                    >orders</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view products')
-                        <a
-                            class="link"
-                            href="{{ route('products') }}"
-                        >products</a>
+                    <a
+                        class="link"
+                        href="{{ route('products') }}"
+                    >products</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view customers')
-                        <a
-                            class="link"
-                            href="{{ route('customers') }}"
-                        >customers</a>
+                    <a
+                        class="link"
+                        href="{{ route('customers') }}"
+                    >customers</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view warehouse')
-                        <a
-                            class="link"
-                            href="{{ route('warehouse') }}"
-                        >warehouse</a>
+                    <a
+                        class="link"
+                        href="{{ route('warehouse') }}"
+                    >warehouse</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view settings')
-                        <a
-                            class="link"
-                            href="{{ route('settings') }}"
-                        >admin</a>
+                    <a
+                        class="link"
+                        href="{{ route('settings') }}"
+                    >admin</a>
                     @endhasPermissionTo
                 </container>
             </div>

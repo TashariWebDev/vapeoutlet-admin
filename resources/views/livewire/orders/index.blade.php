@@ -75,7 +75,8 @@
                         Filter orders
                     </x-input.label>
                     <div
-                        class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
+                        class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700"
+                    >
                         <button
                             @class([
                                 'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
@@ -141,18 +142,20 @@
                 {{ $orders->links() }}
             </div>
 
-            @if ($filter === 'received')
+            @if ($filter === 'received' && $this->totalActiveOrders > 0)
                 <div class="hidden lg:block">
                     <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to dispatched</p>
                 </div>
                 <div
-                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r to-rose-400 rounded-r-full rounded-l-full lg:block from-sky-400">
+                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r to-rose-400 rounded-r-full rounded-l-full lg:block from-sky-400"
+                >
                     <div
                         class="flex justify-end items-center py-1 px-2 h-full bg-transparent rounded-r-full rounded-l-full"
                         style="width: {{ round(($orders->total() / $this->totalActiveOrders) * 100 + 1) }}%"
                     >
                         <div
-                            class="px-1 text-xs font-bold whitespace-nowrap bg-transparent rounded-r rounded-l text-sky-900">
+                            class="px-1 text-xs font-bold whitespace-nowrap bg-transparent rounded-r rounded-l text-sky-900"
+                        >
                             {{ round(($orders->total() / $this->totalActiveOrders) * 100) }} %
                         </div>
                     </div>
@@ -208,7 +211,8 @@
                                         </p>
                                     @else
                                         <div
-                                            class="flex justify-center items-center px-2 rounded-r-full rounded-l-full bg-sky-200">
+                                            class="flex justify-center items-center px-2 rounded-r-full rounded-l-full bg-sky-200"
+                                        >
                                             <p class="text-xs leading-0 text-sky-900">
                                                 new
                                             </p>
@@ -271,14 +275,14 @@
                             <div class="flex justify-end items-start space-x-2">
                                 <div>
                                     @hasPermissionTo('complete orders')
-                                        @if ($order->status === 'shipped')
-                                            <button
-                                                class="button button-success"
-                                                title="Complete Order"
-                                                wire:loading.attr="disabled"
-                                                wire:target="pushToComplete({{ $order->id }})"
-                                                wire:click="pushToComplete({{ $order->id }})"
-                                            >
+                                    @if ($order->status === 'shipped')
+                                        <button
+                                            class="button button-success"
+                                            title="Complete Order"
+                                            wire:loading.attr="disabled"
+                                            wire:target="pushToComplete({{ $order->id }})"
+                                            wire:click="pushToComplete({{ $order->id }})"
+                                        >
                                                 <span
                                                     class="pr-2"
                                                     wire:loading
@@ -286,9 +290,9 @@
                                                 >
                                                     <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
                                                 </span>
-                                                Complete
-                                            </button>
-                                        @endif
+                                            Complete
+                                        </button>
+                                    @endif
                                     @endhasPermissionTo
                                 </div>
                                 <div>

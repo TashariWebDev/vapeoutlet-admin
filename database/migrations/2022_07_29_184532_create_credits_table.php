@@ -16,6 +16,8 @@ return new class extends Migration
             $table->boolean('is_editing')->default(true);
             $table->timestamp('processed_at')->nullable();
             $table->foreignId('salesperson_id')->nullable();
+            $table->integer('delivery_charge')->nullable();
+            $table->unsignedBigInteger('sales_channel_id')->default(1);
 
             $table->timestamps();
         });

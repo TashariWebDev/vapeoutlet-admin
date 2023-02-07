@@ -12,12 +12,12 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('supplier_id');
-            $table->uuid('uuid');
             $table->string('reference');
             $table->string('type');
             $table->integer('amount');
             $table->integer('running_balance')->default(0);
             $table->string('created_by');
+            $table->foreignId('purchase_id')->nullable();
 
             $table->timestamps();
         });

@@ -33,6 +33,7 @@ use App\Http\Livewire\SupplierCredits\Show as SupplierCreditsShow;
 use App\Http\Livewire\Suppliers\Edit as SuppliersEdit;
 use App\Http\Livewire\Suppliers\Index as SuppliersIndex;
 use App\Http\Livewire\Suppliers\Show as SuppliersShow;
+use App\Http\Livewire\SystemSettings\Index as SystemSettingsIndex;
 use App\Http\Livewire\Transactions\Edit as TransactionsEdit;
 use App\Http\Livewire\Users\Index as UsersIndex;
 use App\Http\Livewire\Users\Show;
@@ -45,6 +46,7 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', Index::class)->name('dashboard');
+    Route::get('system-settings', SystemSettingsIndex::class)->name('system-settings');
 
     Route::get('orders', OrdersIndex::class)
         ->name('orders')

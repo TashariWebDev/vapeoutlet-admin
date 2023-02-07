@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('company')->nullable();
             $table->string('vat_number')->nullable();
             $table->boolean('is_wholesale')->default(false);
+            $table->foreignId('salesperson_id')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

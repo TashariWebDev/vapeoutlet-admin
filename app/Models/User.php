@@ -65,6 +65,7 @@ use Psr\Container\NotFoundExceptionInterface;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static Builder|User withTrashed()
  * @method static Builder|User withoutTrashed()
+ *
  * @mixin Eloquent
  */
 class User extends Authenticatable
@@ -74,9 +75,9 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'is_super_admin'];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'is_super_admin'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -162,6 +163,6 @@ class User extends Authenticatable
 
     public function scopeStaff($query)
     {
-        return $query->where('email', '!=', 'ridwan@tashari.co.za');
+        return $query->where('is_super_admin', false);
     }
 }

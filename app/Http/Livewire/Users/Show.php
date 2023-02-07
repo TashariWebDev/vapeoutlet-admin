@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -108,6 +109,12 @@ class Show extends Component
         $this->user
             ->sales_channels()
             ->updateExistingPivot($channelId, ['is_default' => true]);
+    }
+
+    public function sendPasswordResetLink()
+    {
+        Password::sendResetLink(['email' => $this->user->email]);
+        $this->notify('Password reset link sent');
     }
 
     public function render(): Factory|View|Application

@@ -7,32 +7,32 @@
         </div>
 
         @hasPermissionTo('edit sales channels')
-            <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                href="{{ route('sales-channels') }}"
-            >
-                Sales channels
-            </a>
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('sales-channels') }}"
+        >
+            Sales channels
+        </a>
         @endhasPermissionTo
 
         @hasPermissionTo('transfer stock')
-            @if (App\Models\SalesChannel::count() > 1)
-                <a
-                    class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                    href="{{ route('stock-transfers') }}"
-                >
-                    Stock transfers
-                </a>
-            @endif
+        @if (App\Models\SalesChannel::count() > 1)
+            <a
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+                href="{{ route('stock-transfers') }}"
+            >
+                Stock transfers
+            </a>
+        @endif
         @endhasPermissionTo
 
         @hasPermissionTo('manage stock takes')
-            <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                href="{{ route('stock-takes') }}"
-            >
-                Stock takes
-            </a>
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('stock-takes') }}"
+        >
+            Stock takes
+        </a>
         @endhasPermissionTo
 
         <div class="flex col-span-1 items-center h-20 border-b lg:col-span-3 border-slate-500">
@@ -40,30 +40,30 @@
         </div>
 
         @hasPermissionTo('complete orders')
-            <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                href="{{ route('cash-up') }}"
-            >
-                Cash Up
-            </a>
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('cash-up') }}"
+        >
+            Cash Up
+        </a>
         @endhasPermissionTo
 
         @hasPermissionTo('view expenses')
-            <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                href="{{ route('expenses') }}"
-            >
-                Expenses
-            </a>
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('expenses') }}"
+        >
+            Expenses
+        </a>
         @endhasPermissionTo
 
         @hasPermissionTo('view reports')
-            <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                href="{{ route('reports') }}"
-            >
-                Reports
-            </a>
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('reports') }}"
+        >
+            Reports
+        </a>
         @endhasPermissionTo
 
         <div class="flex col-span-1 items-center h-20 border-b lg:col-span-3 border-slate-500">
@@ -71,12 +71,12 @@
         </div>
 
         @hasPermissionTo('view users')
-            <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
-                href="{{ route('users') }}"
-            >
-                Users
-            </a>
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('users') }}"
+        >
+            Users
+        </a>
         @endhasPermissionTo
 
         <a
@@ -84,6 +84,13 @@
             href="{{ route('delivery') }}"
         >
             Delivery settings
+        </a>
+
+        <a
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
+            href="{{ route('system-settings') }}"
+        >
+            System settings
         </a>
 
         <div class="flex col-span-1 items-center h-20 border-b lg:col-span-3 border-slate-500">

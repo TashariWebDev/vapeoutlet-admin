@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CompressImagesCommand;
 use App\Console\Commands\DeleteOldDocumentsCommand;
 use App\Console\Commands\DeleteOldPriceListCommand;
+use App\Console\Commands\ShopSetupCommand;
 use App\Console\Commands\TestEmailCommand;
 use App\Console\Commands\UpdateSupplierTransactionsCommand;
 use App\Console\Commands\UpdateTransactionsCommand;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
         UpdateSupplierTransactionsCommand::class,
         CompressImagesCommand::class,
         TestEmailCommand::class,
+        ShopSetupCommand::class,
     ];
 
     /**

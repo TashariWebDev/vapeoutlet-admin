@@ -4,6 +4,11 @@ namespace App\Http\Livewire\Reports;
 
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 
@@ -24,7 +29,7 @@ class ExpenseReport extends Component
         $this->categories = ExpenseCategory::all();
     }
 
-    public function print()
+    public function print(): Redirector|Application|RedirectResponse
     {
         $expenses = Expense::whereBetween('date', [
             $this->fromDate,
@@ -60,7 +65,7 @@ class ExpenseReport extends Component
         return redirect('/storage/documents/expenses.pdf');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.reports.expense-report');
     }

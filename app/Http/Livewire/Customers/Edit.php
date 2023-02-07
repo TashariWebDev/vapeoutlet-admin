@@ -78,7 +78,7 @@ class Edit extends Component
     {
         return view('livewire.customers.edit', [
             'salespeople' => User::query()
-                ->where('email', '!=', 'ridwan@tashari.co.za')
+                ->where('is_super_admin', false)
                 ->get(),
         ]);
     }

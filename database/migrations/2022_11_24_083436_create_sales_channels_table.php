@@ -16,7 +16,9 @@ return new class extends Migration
                 ->unique()
                 ->index();
             $table->boolean('is_locked_for_deletion')->default(false); // Default warehouse
-            $table->boolean('allows_shipping')->default(false); // counter sales updates status to shipped
+            $table->boolean('allows_shipping')->default(false);        // counter sales updates status to shipped
+
+            $table->softDeletes();
 
             $table->timestamps();
         });

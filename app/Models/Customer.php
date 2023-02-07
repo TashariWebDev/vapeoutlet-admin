@@ -83,7 +83,7 @@ class Customer extends Authenticatable
 
     public function salesperson(): BelongsTo
     {
-        return $this->belongsTo(User::class)->withDefault([
+        return $this->belongsTo(User::class)->where('is_super_admin', false)->withDefault([
             'name' => '',
         ]);
     }

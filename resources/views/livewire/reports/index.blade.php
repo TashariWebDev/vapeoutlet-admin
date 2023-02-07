@@ -14,8 +14,8 @@
 
     <div>
         @php
-            $credits = $transactions->total_refunds + $transactions->total_credits;
-            $gross_sales = $transactions->total_sales + $credits;
+            $credits = ($transactions->total_refunds ?? 0 ) + ($transactions->total_credits ?? 0);
+            $gross_sales = ($transactions->total_sales ?? 0) + $credits ;
         @endphp
 
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
@@ -38,10 +38,10 @@
                 <x-slot:footer>
                     <div class="flex items-baseline space-x-3">
                         <p class="font-bold text-sky-500">
-                            {{ number_format(to_rands($purchases->total_purchases), 2) }}
+                            {{ number_format(to_rands($purchases->total_purchases ?? 0), 2) }}
                         </p>
                         <p class="text-sm text-sky-500">
-                            {{ number_format(to_rands(ex_vat($purchases->total_purchases)), 2) }} (ex vat)
+                            {{ number_format(to_rands(ex_vat($purchases->total_purchases ?? 0)), 2) }} (ex vat)
                         </p>
                     </div>
                 </x-slot:footer>
@@ -51,28 +51,31 @@
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
                 <x-slot:footer>
                     <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands($expenses->total_expenses), 2) ?? '0.00' }}
+                        {{ number_format(to_rands($expenses->total_expenses ?? 0), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
             </x-stat-container>
+            @if($transactions)
+                <x-stat-container>
+                    <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
+                    <x-slot:footer>
+                        <p class="font-bold text-sky-500">
+                            {{ number_format(to_rands($transactions->total_refunds ?? 0), 2) ?? '0.00' }}
+                        </p>
+                    </x-slot:footer>
+                </x-stat-container>
+            @endif
 
-            <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
-                <x-slot:footer>
-                    <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands($transactions->total_refunds), 2) ?? '0.00' }}
-                    </p>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
-                <x-slot:footer>
-                    <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands($transactions->total_credits), 2) ?? '0.00' }}
-                    </p>
-                </x-slot:footer>
-            </x-stat-container>
+            @if($transactions)
+                <x-stat-container>
+                    <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
+                    <x-slot:footer>
+                        <p class="font-bold text-sky-500">
+                            {{ number_format(to_rands($transactions->total_credits ?? 0), 2) ?? '0.00' }}
+                        </p>
+                    </x-slot:footer>
+                </x-stat-container>
+            @endif
 
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Stock value</h3>
@@ -80,10 +83,10 @@
                     <div class="flex justify-between items-center">
                         <div class="flex items-baseline space-x-3">
                             <p class="font-bold text-sky-500">
-                                {{ number_format(to_rands($this->stockValue), 2) ?? '0.00' }}
+                                {{ number_format(to_rands($this->stockValue ?? 0), 2) }}
                             </p>
                             <p class="text-sm text-sky-500">
-                                {{ number_format(to_rands(ex_vat($this->stockValue)), 2) ?? '0.00' }} (ex vat)
+                                {{ number_format(to_rands(ex_vat($this->stockValue ?? 0)), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                         <button wire:click="getStockValue">

@@ -19,6 +19,8 @@ return new class extends Migration
             $table->text('province');
             $table->text('postal_code');
 
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

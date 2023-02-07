@@ -11,8 +11,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('customer_id');
-            $table->uuid('uuid');
+            $table->foreignId('customer_id')->index();
             $table->string('reference');
             $table->string('type');
             $table->integer('amount');
@@ -20,6 +19,7 @@ return new class extends Migration
                 ->nullable()
                 ->default(0);
             $table->string('created_by');
+            $table->timestamp('date')->nullable();
 
             $table->timestamps();
         });

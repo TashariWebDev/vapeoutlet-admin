@@ -1,5 +1,18 @@
 <div>
 
+    <div class="py-10">
+        <div class="flex justify-end items-center px-2 w-full md:px-0">
+            <div>
+                <button
+                    class="button-success"
+                    wire:click="sendPasswordResetLink"
+                >
+                    Send password reset link
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div>
         <div class="flex justify-end items-center px-2 w-full md:px-0">
             @if (!$user->trashed())
@@ -44,7 +57,7 @@
                         wire:model.defer="user.name"
                     />
                     @error('user.name')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -57,7 +70,7 @@
                         wire:model.defer="user.email"
                     />
                     @error('user.email')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -70,7 +83,7 @@
                         wire:model.defer="user.phone"
                     />
                     @error('user.phone')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -97,7 +110,8 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800"
+            >
                 @foreach ($user->permissions as $permission)
                     <div>
                         <button
@@ -128,7 +142,8 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800"
+            >
                 @foreach ($permissions as $permission)
                     <div>
                         <button
@@ -153,7 +168,8 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800"
+            >
                 @foreach ($user->sales_channels as $channel)
                     <div>
                         <button
@@ -185,7 +201,8 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800">
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-800"
+            >
                 @foreach ($salesChannels as $chanel)
                     <div>
                         <button

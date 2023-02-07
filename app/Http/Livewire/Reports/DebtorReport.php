@@ -3,6 +3,11 @@
 namespace App\Http\Livewire\Reports;
 
 use App\Models\Customer;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -12,7 +17,7 @@ class DebtorReport extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function print()
+    public function print(): Redirector|Application|RedirectResponse
     {
         $customers = Customer::withWhereHas('latestTransaction', function (
             $query
@@ -44,7 +49,7 @@ class DebtorReport extends Component
         return redirect('/storage/documents/debtors-report.pdf');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.reports.debtor-report');
     }
