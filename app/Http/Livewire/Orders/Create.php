@@ -136,7 +136,7 @@ class Create extends Component
         }
 
         if ($product->total_available > 0) {
-            $this->order->addItem($product->id);
+            $this->order->addItem($product);
             $this->notify('Product added');
         }
 

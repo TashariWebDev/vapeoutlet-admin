@@ -52,23 +52,7 @@
                 id="header"
             >
                 <div class="grid grid-cols-2 border-b">
-                    <div class="flex items-center pb-2 space-x-6 w-full">
-                        <div>
-                            <img
-                                class="w-16"
-                                src="{{ config('app.url') . '/logo.png' }}"
-                                alt="Vape Crew"
-                            >
-                        </div>
-                        <div>
-                            <ul>
-                                <li class="text-sm font-bold">Vape Crew (PTY) LTD</li>
-                                <li class="text-xs">4170276218 | 2012/037716/07</li>
-                                <li class="text-xs">0836459599</li>
-                                <li class="text-xs">sales@vapecrew.co.za</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <x-document.company />
                     <div class="font-mono text-xs text-right">
                         <ul>
                             <li>{{ $stockTake->created_at }}</li>

@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 import { homedir } from "os";
 import { resolve } from "path";
 
-let host = "vapecrew-admin.test";
+let host = "ecommerce-admin.test";
 
 export default defineConfig({
     plugins: [
@@ -12,12 +12,12 @@ export default defineConfig({
             input: [
                 "resources/css/app.css",
                 "resources/css/email.css",
-                "resources/js/app.js"
+                "resources/js/app.js",
             ],
-            refresh: true
-        })
+            refresh: true,
+        }),
     ],
-    server: detectServerConfig(host)
+    server: detectServerConfig(host),
 });
 
 function detectServerConfig(host) {
@@ -40,7 +40,7 @@ function detectServerConfig(host) {
         host,
         https: {
             key: fs.readFileSync(keyPath),
-            cert: fs.readFileSync(certificatePath)
-        }
+            cert: fs.readFileSync(certificatePath),
+        },
     };
 }

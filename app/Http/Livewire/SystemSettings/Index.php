@@ -48,6 +48,8 @@ class Index extends Component
 
     public $bank_account_no;
 
+    public $bank_account_name;
+
     public $logo;
 
     public function mount()
@@ -86,10 +88,6 @@ class Index extends Component
 
     public function updatedEmailAddress()
     {
-        $this->validate([
-            'email_address' => 'required',
-        ]);
-
         $this->company->update([
             'email_address' => $this->email_address,
         ]);
@@ -97,10 +95,6 @@ class Index extends Component
 
     public function updatedPhone()
     {
-        $this->validate([
-            'phone' => 'required',
-        ]);
-
         $this->company->update([
             'phone' => $this->phone,
         ]);
@@ -108,10 +102,6 @@ class Index extends Component
 
     public function updatedAddressLineOne()
     {
-        $this->validate([
-            'address_line_one' => 'required',
-        ]);
-
         $this->company->update([
             'address_line_one' => $this->address_line_one,
         ]);
@@ -119,10 +109,6 @@ class Index extends Component
 
     public function updatedAddressLineTwo()
     {
-        $this->validate([
-            'address_line_two' => 'required',
-        ]);
-
         $this->company->update([
             'address_line_two' => $this->address_line_two,
         ]);
@@ -130,10 +116,6 @@ class Index extends Component
 
     public function updatedSuburb()
     {
-        $this->validate([
-            'suburb' => 'required',
-        ]);
-
         $this->company->update([
             'suburb' => $this->suburb,
         ]);
@@ -141,10 +123,6 @@ class Index extends Component
 
     public function updatedCity()
     {
-        $this->validate([
-            'city' => 'required',
-        ]);
-
         $this->company->update([
             'city' => $this->city,
         ]);
@@ -152,10 +130,6 @@ class Index extends Component
 
     public function updatedPostalCode()
     {
-        $this->validate([
-            'postal_code' => 'required',
-        ]);
-
         $this->company->update([
             'postal_code' => $this->postal_code,
         ]);
@@ -163,10 +137,6 @@ class Index extends Component
 
     public function updatedCountry()
     {
-        $this->validate([
-            'country' => 'required',
-        ]);
-
         $this->company->update([
             'country' => $this->country,
         ]);
@@ -174,10 +144,6 @@ class Index extends Component
 
     public function updatedVatRegistrationNumber()
     {
-        $this->validate([
-            'vat_registration_number' => 'required',
-        ]);
-
         $this->company->update([
             'vat_registration_number' => $this->vat_registration_number,
         ]);
@@ -185,10 +151,6 @@ class Index extends Component
 
     public function updatedCompanyRegistrationNumber()
     {
-        $this->validate([
-            'company_registration_number' => 'required',
-        ]);
-
         $this->company->update([
             'company_registration_number' => $this->company_registration_number,
         ]);
@@ -196,21 +158,20 @@ class Index extends Component
 
     public function updatedBankName()
     {
-        $this->validate([
-            'bank_name' => 'required',
-        ]);
-
         $this->company->update([
             'bank_name' => $this->bank_name,
         ]);
     }
 
+    public function updatedBankAccountName()
+    {
+        $this->company->update([
+            'bank_account_name' => $this->bank_account_name,
+        ]);
+    }
+
     public function updatedBankBranch()
     {
-        $this->validate([
-            'bank_branch' => 'required',
-        ]);
-
         $this->company->update([
             'bank_branch' => $this->bank_branch,
         ]);
@@ -218,10 +179,6 @@ class Index extends Component
 
     public function updatedBankBranchNo()
     {
-        $this->validate([
-            'bank_branch_no' => 'required',
-        ]);
-
         $this->company->update([
             'bank_branch_no' => $this->bank_branch_no,
         ]);
@@ -229,10 +186,6 @@ class Index extends Component
 
     public function updatedBankAccountNo()
     {
-        $this->validate([
-            'bank_account_no' => 'required',
-        ]);
-
         $this->company->update([
             'bank_account_no' => $this->bank_account_no,
         ]);

@@ -25,7 +25,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="company_registration_number"
                                            class="block text-sm font-medium text-gray-700"
@@ -36,7 +36,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="vat_registration_number"
                                            class="block text-sm font-medium text-gray-700"
@@ -47,23 +47,23 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 my-16 sm:col-span-3">
-
+                                
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="email_address"
                                            class="block text-sm font-medium text-gray-700"
                                     >Email Address</label>
                                     <input type="email"
-                                           wire:model="vat_registration_number"
-                                           id="vat_registration_number"
+                                           wire:model="email_address"
+                                           id="email_address"
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
-
+                                
+                                
                                 <div class="col-span-6 sm:col-span-3">
                                     <label for="phone"
                                            class="block text-sm font-medium text-gray-700"
@@ -74,11 +74,11 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 mb-16 sm:col-span-3">
-
+                                
                                 </div>
-
+                                
                                 <div class="col-span-6">
                                     <label for="address_line_one"
                                            class="block text-sm font-medium text-gray-700"
@@ -90,7 +90,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6">
                                     <label for="address_line_two"
                                            class="block text-sm font-medium text-gray-700"
@@ -101,18 +101,19 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="suburb"
                                            class="block text-sm font-medium text-gray-700"
                                     >Suburb</label>
                                     <input type="text"
                                            wire:model="suburb"
+                                           autocomplete="address-level2"
                                            id="suburb"
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="city"
                                            class="block text-sm font-medium text-gray-700"
@@ -124,8 +125,8 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
-
+                                
+                                
                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                                     <label for="province"
                                            class="block text-sm font-medium text-gray-700"
@@ -137,7 +138,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                                     <label for="postal_code"
                                            class="block text-sm font-medium text-gray-700"
@@ -149,7 +150,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-3 lg:col-span-2">
                                     <label for="country"
                                            class="block text-sm font-medium text-gray-700"
@@ -161,11 +162,11 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 mb-16">
-
+                                
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="bank_name"
                                            class="block text-sm font-medium text-gray-700"
@@ -176,7 +177,18 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                <div class="col-span-6 sm:col-span-6 lg:col-span-2">
+                                    <label for="bank_account_name"
+                                           class="block text-sm font-medium text-gray-700"
+                                    >Bank account name</label>
+                                    <input type="text"
+                                           wire:model="bank_account_name"
+                                           id="bank_account_name"
+                                           class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                                    >
+                                </div>
+                                
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="bank_branch"
                                            class="block text-sm font-medium text-gray-700"
@@ -187,7 +199,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="bank_branch_no"
                                            class="block text-sm font-medium text-gray-700"
@@ -198,7 +210,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="bank_account_no"
                                            class="block text-sm font-medium text-gray-700"
@@ -209,12 +221,12 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
-
+                                
+                                
                                 <div class="col-span-6 mb-16">
-
+                                
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     <label for="logo"
                                            class="block text-sm font-medium text-gray-700"
@@ -225,7 +237,7 @@
                                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm sm:text-sm focus:border-indigo-500 focus:ring-indigo-500"
                                     >
                                 </div>
-
+                                
                                 <div class="col-span-6 sm:col-span-6 lg:col-span-2">
                                     @if($this->company->logo)
                                         <div class="w-20 h-20">
@@ -238,11 +250,11 @@
                                         >remove
                                         </button>
                                     @endif
-
+                                
                                 </div>
                             </div>
                         </div>
-
+                    
                     </div>
                 </div>
             </div>

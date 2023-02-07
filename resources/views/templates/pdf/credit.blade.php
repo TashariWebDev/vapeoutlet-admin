@@ -47,23 +47,7 @@
                 id="header"
             >
                 <div class="grid grid-cols-2 border-b">
-                    <div class="flex items-center pb-2 space-x-6 w-full">
-                        <div>
-                            <img
-                                class="w-16"
-                                src="{{ config('app.url') . '/logo.png' }}"
-                                alt="Vape Crew"
-                            >
-                        </div>
-                        <div>
-                            <ul>
-                                <li class="text-sm font-bold">Vape Crew (PTY) LTD</li>
-                                <li class="text-xs">4170276218 | 2012/037716/07</li>
-                                <li class="text-xs">0836459599</li>
-                                <li class="text-xs">sales@vapecrew.co.za</li>
-                            </ul>
-                        </div>
-                    </div>
+                    <x-document.company />
                     <div class="font-mono text-xs text-right">
                         <ul>
                             <li class="uppercase">{{ $credit->created_at }}</li>
@@ -88,7 +72,7 @@
                     </div>
                 </div>
             </section>
-
+            
             <div
                 class="break-before-avoid-page"
                 id="body"
@@ -137,9 +121,10 @@
                         @endforeach
                     </tbody>
                 </table>
-
+                
                 <div
-                    class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid">
+                    class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid"
+                >
                     <div class="grid grid-cols-4 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Sub Total </span>
@@ -159,7 +144,7 @@
                         </p>
                     </div>
                 </div>
-
+                
                 <div class="block py-3 mt-6 border-t border-b border-gray-500 break-before-avoid-page">
                     <div class="grid grid-cols-1 gap-2">
                         <p class="text-xs text-center whitespace-nowrap">
@@ -176,20 +161,6 @@
                 <div class="py-1 text-center bg-gray-700 rounded">
                     <p class="text-xs text-white uppercase">
                         thank you for your support </p>
-                </div>
-                <div class="grid grid-cols-3 pt-2 break-before-avoid-page break-inside-avoid-page">
-                    <div class="rounded border">
-                        <div class="px-1 bg-gray-700 rounded-t border border-gray-700">
-                            <p class="text-xs font-semibold text-white uppercase">Banking Details</p>
-                        </div>
-                        <ul class="p-1 text-xs">
-                            <li class="font-semibold">Vape Crew (PTY) LTD</li>
-                            <li class="font-semibold">First National Bank</li>
-                            <li class="font-semibold">Sandton City</li>
-                            <li class="mt-2 font-mono">ACC: 62668652855</li>
-                            <li class="font-mono">REF: {{ $credit->number }}</li>
-                        </ul>
-                    </div>
                 </div>
             </section>
         </div>

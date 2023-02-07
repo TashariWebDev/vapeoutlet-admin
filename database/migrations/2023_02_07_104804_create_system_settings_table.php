@@ -23,6 +23,7 @@ return new class extends Migration
             $table->longText('phone')->nullable();
 
             $table->longText('bank_name')->nullable();
+            $table->longText('bank_account_name')->nullable();
             $table->longText('bank_branch')->nullable();
             $table->longText('bank_branch_no')->nullable();
             $table->longText('bank_account_no')->nullable();
