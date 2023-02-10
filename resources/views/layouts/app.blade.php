@@ -224,24 +224,70 @@
         <nav
             class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500"
         >
+            <div class="flex justify-between items-center py-1 px-6 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
+                <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
+                    <span>
+                        {{ auth()->user()->name }}
+                    </span>
+                </p>
+                <div>
+                    <p
+                        class="text-xs font-semibold"
+                        x-text="currentTime"
+                    ></p>
+                </div>
+            </div>
             <div class="px-4 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
-                    <div class="flex items-center py-4">
-                        <div class="hidden pl-3 lg:block text-slate-500 dark:text-slate-500">
-                            <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
-                                <span class="cursor-default">
-                                    {{ auth()->user()->name }} <livewire:users.default-sales-channel />
-                                </span>
-                            </p>
-                            <div class="flex space-x-4">
-                                <p
-                                    class="text-xs font-semibold"
-                                    x-text="currentTime"
-                                ></p>
-                            </div>
+                    <div class="flex items-center py-2 lg:justify-between lg:py-1">
+                        <div class="hidden lg:block text-slate-500 dark:text-slate-500">
+                            <livewire:users.default-sales-channel />
                         </div>
+                        <container
+                            class="hidden items-center px-4 mx-auto space-x-6 lg:flex lg:py-2 lg:pb-1 lg:max-w-7xl"
+                        >
+                            <a
+                                class="link"
+                                href="{{ route('dashboard') }}"
+                            >dashboard</a>
+
+                            @hasPermissionTo('view orders')
+                            <a
+                                class="link"
+                                href="{{ route('orders') }}"
+                            >orders</a>
+                            @endhasPermissionTo
+
+                            @hasPermissionTo('view products')
+                            <a
+                                class="link"
+                                href="{{ route('products') }}"
+                            >products</a>
+                            @endhasPermissionTo
+
+                            @hasPermissionTo('view customers')
+                            <a
+                                class="link"
+                                href="{{ route('customers') }}"
+                            >customers</a>
+                            @endhasPermissionTo
+
+                            @hasPermissionTo('view warehouse')
+                            <a
+                                class="link"
+                                href="{{ route('warehouse') }}"
+                            >warehouse</a>
+                            @endhasPermissionTo
+
+                            @hasPermissionTo('view settings')
+                            <a
+                                class="link"
+                                href="{{ route('settings') }}"
+                            >admin</a>
+                            @endhasPermissionTo
+                        </container>
                     </div>
-                    <div class="flex items-center space-x-4">
+                    <div class="flex items-center py-2 space-x-4 lg:py-1">
                         @if (auth()->user()->sales_channels_count > 1)
                             <div>
                                 <livewire:users.sales-channel-change-button />
@@ -290,7 +336,7 @@
             </div>
             <div class="items-center w-full">
                 <container
-                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
+                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
                 >
                     <a
                         class="link"

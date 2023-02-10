@@ -7,6 +7,8 @@ use App\Http\Livewire\Credit\Create;
 use App\Http\Livewire\Customers\Edit;
 use App\Http\Livewire\Customers\Index as CustomersIndex;
 use App\Http\Livewire\Customers\Show as CustomersShow;
+use App\Http\Livewire\Customers\WholesaleApplications;
+use App\Http\Livewire\Customers\WholesaleApproval;
 use App\Http\Livewire\Dashboard\Index;
 use App\Http\Livewire\Delivery\Index as DeliveryIndex;
 use App\Http\Livewire\Expenses\Index as ExpensesIndex;
@@ -87,6 +89,14 @@ Route::middleware('auth')->group(function () {
     Route::get('customers/edit/{id}', Edit::class)
         ->name('customers/edit')
         ->middleware('permission:edit customers');
+
+    Route::get('customers/wholesale/applications', WholesaleApplications::class)
+        ->name('customers/wholesale/applications')
+        ->middleware('permission:upgrade customers');
+
+    Route::get('customers/wholesale/approval/{id}', WholesaleApproval::class)
+        ->name('customers/wholesale/approval')
+        ->middleware('permission:upgrade customers');
 
     Route::get('credits/{id}', Create::class)
         ->name('credits/create')

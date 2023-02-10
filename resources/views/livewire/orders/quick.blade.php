@@ -18,6 +18,7 @@
                 </label>
                 <div>
                     <x-input.text
+                        placeholder="name, email, phone or company"
                         id="search"
                         type="text"
                         autofocus

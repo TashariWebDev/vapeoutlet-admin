@@ -23,7 +23,7 @@
                         wire:model.defer="customer.email"
                     />
                     @error('customer.email')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-1">
@@ -36,7 +36,7 @@
                         wire:model.defer="customer.name"
                     />
                     @error('customer.name')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-1">
@@ -50,12 +50,39 @@
                         wire:model.defer="customer.phone"
                     />
                     @error('customer.phone')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-1">
+                    <x-input.label for="alt_phone">
+                        Alternate Phone (landline)
+                    </x-input.label>
+
+                    <x-input.text
+                        id="alt_phone"
+                        type="text"
+                        wire:model.defer="customer.alt_phone"
+                    />
+                    @error('customer.alt_phone')
+                    <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-1">
+                    <x-input.label for="registered_company_name">
+                        Registered Company Name
+                    </x-input.label>
+                    <x-input.text
+                        id="registered_company_name"
+                        type="text"
+                        wire:model.defer="customer.registered_company_name"
+                    />
+                    @error('customer.registered_company_name')
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-1">
                     <x-input.label for="company">
-                        Company
+                        Company (Trading Name)
                     </x-input.label>
                     <x-input.text
                         id="company"
@@ -63,7 +90,7 @@
                         wire:model.defer="customer.company"
                     />
                     @error('customer.company')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-1">
@@ -76,60 +103,60 @@
                         wire:model.defer="customer.vat_number"
                     />
                     @error('customer.vat_number')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 @hasPermissionTo('upgrade customers')
-                    <div class="py-1">
-                        <x-input.label for="is_wholesale">
-                            Is Wholesale Customer
-                        </x-input.label>
-                        <x-input.select
-                            id="is_wholesale"
-                            name="is_wholesale"
-                            wire:model.defer="customer.is_wholesale"
+                <div class="py-1">
+                    <x-input.label for="is_wholesale">
+                        Is Wholesale Customer
+                    </x-input.label>
+                    <x-input.select
+                        id="is_wholesale"
+                        name="is_wholesale"
+                        wire:model.defer="customer.is_wholesale"
+                    >
+                        <option value="">Choose</option>
+                        <option
+                            class="capitalize"
+                            value="0"
                         >
-                            <option value="">Choose</option>
+                            No
+                        </option>
+                        <option
+                            class="capitalize"
+                            value="1"
+                        >
+                            Yes
+                        </option>
+                    </x-input.select>
+                    @error('customer.is_wholesale')
+                    <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-1">
+                    <x-input.label for="salesperson_id">
+                        Salesperson
+                    </x-input.label>
+                    <x-input.select
+                        id="salesperson_id"
+                        name="salesperson_id"
+                        wire:model.defer="customer.salesperson_id"
+                    >
+                        <option value="">Choose</option>
+                        @foreach ($salespeople as $salesperson)
                             <option
                                 class="capitalize"
-                                value="0"
+                                value="{{ $salesperson->id }}"
                             >
-                                No
+                                <p class="capitalize">{{ $salesperson->name }}</p>
                             </option>
-                            <option
-                                class="capitalize"
-                                value="1"
-                            >
-                                Yes
-                            </option>
-                        </x-input.select>
-                        @error('customer.is_wholesale')
-                            <x-input.error>{{ $message }}</x-input.error>
-                        @enderror
-                    </div>
-                    <div class="py-1">
-                        <x-input.label for="salesperson_id">
-                            Salesperson
-                        </x-input.label>
-                        <x-input.select
-                            id="salesperson_id"
-                            name="salesperson_id"
-                            wire:model.defer="customer.salesperson_id"
-                        >
-                            <option value="">Choose</option>
-                            @foreach ($salespeople as $salesperson)
-                                <option
-                                    class="capitalize"
-                                    value="{{ $salesperson->id }}"
-                                >
-                                    <p class="capitalize">{{ $salesperson->name }}</p>
-                                </option>
-                            @endforeach
-                        </x-input.select>
-                        @error('customer.salesperson_id')
-                            <x-input.error>{{ $message }}</x-input.error>
-                        @enderror
-                    </div>
+                        @endforeach
+                    </x-input.select>
+                    @error('customer.salesperson_id')
+                    <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
                 @endhasPermissionTo
 
                 <div class="pt-3">
@@ -147,7 +174,8 @@
             </div>
             @foreach ($this->customer->addresses as $address)
                 <div
-                    class="flex justify-between items-center py-3 px-2 mb-2 capitalize rounded-md text-slate-500 bg-slate-100 dark:text-slate-300 dark:bg-slate-700">
+                    class="flex justify-between items-center py-3 px-2 mb-2 capitalize rounded-md text-slate-500 bg-slate-100 dark:text-slate-300 dark:bg-slate-700"
+                >
                     <p class="text-xs">{{ $address->line_one }} {{ $address->line_two }} {{ $address->suburb }}
                         {{ $address->city }} {{ $address->province }} {{ $address->postal_code }}</p>
 

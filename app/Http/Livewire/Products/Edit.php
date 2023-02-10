@@ -178,9 +178,9 @@ class Edit extends Component
 
     public function saveFeaturedImage()
     {
-        $this->validate([
-            'image' => 'image|max:1024|sometimes',
-        ]);
+//        $this->validate([
+//            'image' => 'image|max:1024|sometimes',
+//        ]);
 
         $this->product->update([
             'image' => $this->image->store('uploads', 'public'),

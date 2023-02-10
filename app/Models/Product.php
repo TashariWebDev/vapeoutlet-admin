@@ -56,6 +56,16 @@ class Product extends Model
             ->sum('qty');
     }
 
+    public function qtyAvailableInWarehouse()
+    {
+        return $this->stocks
+            ->where(
+                'sales_channel_id',
+                '=', 1
+            )
+            ->sum('qty');
+    }
+
     public function outOfStock()
     {
         return $this->qty() <= 0;
@@ -294,8 +304,8 @@ class Product extends Model
     {
         $this->update([
             'cost' => $this->cost > 0
-                    ? ($item->total_cost_in_zar() + $this->cost) / 2
-                    : $item->total_cost_in_zar(),
+                ? ($item->total_cost_in_zar() + $this->cost) / 2
+                : $item->total_cost_in_zar(),
         ]);
     }
 

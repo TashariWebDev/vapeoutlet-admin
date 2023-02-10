@@ -55,6 +55,7 @@ class Quick extends Component
         ]);
 
         $order->touch('created_at');
+
         $this->redirect("/orders/create/$order->id");
     }
 

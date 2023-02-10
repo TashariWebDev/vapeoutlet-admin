@@ -181,6 +181,33 @@
                     </x-slot:footer>
                 </x-stat-container>
             @endif
+
+            @if (auth()->user()->hasPermissionTo('upgrade customers'))
+                <x-stat-container>
+                    <div class="flex items-start">
+                        <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-900">
+                            <x-icons.exclamation class="w-6 h-6 text-sky-100 dark:text-sky-300" />
+                        </div>
+                        <div class="ml-6">
+                            <p class="text-sm font-medium text-slate-400 truncate dark:text-slate-400">
+                                Pending Wholesale Applications
+                            </p>
+                            <p class="text-2xl font-semibold text-sky-800 dark:text-sky-300">
+                                {{ $wholesaleApplications }}
+                            </p>
+                        </div>
+                    </div>
+                    <x-slot:footer>
+                        <div class="text-sm">
+                            <a
+                                class="link"
+                                href="{{ route('customers/wholesale/applications') }}"
+                            >
+                                View all<span class="sr-only"> Wholesale Applications</span></a>
+                        </div>
+                    </x-slot:footer>
+                </x-stat-container>
+            @endif
         </div>
     </div>
 

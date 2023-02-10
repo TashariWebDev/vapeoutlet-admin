@@ -67,6 +67,7 @@ class Index extends Component
         $this->postal_code = $this->company->postal_code;
         $this->country = $this->company->country;
         $this->bank_name = $this->company->bank_name;
+        $this->bank_account_name = $this->company->bank_account_name;
         $this->bank_branch = $this->company->bank_branch;
         $this->bank_branch_no = $this->company->bank_branch_no;
         $this->bank_account_no = $this->company->bank_account_no;
@@ -75,119 +76,26 @@ class Index extends Component
         $this->logo = $this->company->logo;
     }
 
-    public function updatedCompany()
+    public function updated()
     {
-        $this->validate([
-            'company_name' => 'required',
-        ]);
-
         $this->company->update([
             'company_name' => $this->company_name,
-        ]);
-    }
-
-    public function updatedEmailAddress()
-    {
-        $this->company->update([
             'email_address' => $this->email_address,
-        ]);
-    }
-
-    public function updatedPhone()
-    {
-        $this->company->update([
             'phone' => $this->phone,
-        ]);
-    }
-
-    public function updatedAddressLineOne()
-    {
-        $this->company->update([
             'address_line_one' => $this->address_line_one,
-        ]);
-    }
-
-    public function updatedAddressLineTwo()
-    {
-        $this->company->update([
             'address_line_two' => $this->address_line_two,
-        ]);
-    }
-
-    public function updatedSuburb()
-    {
-        $this->company->update([
             'suburb' => $this->suburb,
-        ]);
-    }
-
-    public function updatedCity()
-    {
-        $this->company->update([
             'city' => $this->city,
-        ]);
-    }
-
-    public function updatedPostalCode()
-    {
-        $this->company->update([
+            'province' => $this->province,
             'postal_code' => $this->postal_code,
-        ]);
-    }
-
-    public function updatedCountry()
-    {
-        $this->company->update([
             'country' => $this->country,
-        ]);
-    }
-
-    public function updatedVatRegistrationNumber()
-    {
-        $this->company->update([
-            'vat_registration_number' => $this->vat_registration_number,
-        ]);
-    }
-
-    public function updatedCompanyRegistrationNumber()
-    {
-        $this->company->update([
-            'company_registration_number' => $this->company_registration_number,
-        ]);
-    }
-
-    public function updatedBankName()
-    {
-        $this->company->update([
             'bank_name' => $this->bank_name,
-        ]);
-    }
-
-    public function updatedBankAccountName()
-    {
-        $this->company->update([
             'bank_account_name' => $this->bank_account_name,
-        ]);
-    }
-
-    public function updatedBankBranch()
-    {
-        $this->company->update([
             'bank_branch' => $this->bank_branch,
-        ]);
-    }
-
-    public function updatedBankBranchNo()
-    {
-        $this->company->update([
             'bank_branch_no' => $this->bank_branch_no,
-        ]);
-    }
-
-    public function updatedBankAccountNo()
-    {
-        $this->company->update([
             'bank_account_no' => $this->bank_account_no,
+            'company_registration_number' => $this->company_registration_number,
+            'vat_registration_number' => $this->vat_registration_number,
         ]);
     }
 

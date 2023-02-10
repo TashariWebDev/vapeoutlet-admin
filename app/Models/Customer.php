@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\Api\ResetPasswordNotification;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -27,18 +28,31 @@ class Customer extends Authenticatable
         'name',
         'email',
         'phone',
+        'alt_phone',
         'company',
+        'registered_company_name',
         'vat_number',
         'is_wholesale',
         'password',
         'salesperson_id',
+        'requested_wholesale_account',
+        'id_document',
+        'cipc_documents',
+
     ];
 
-    protected $hidden = ['password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token', 'id_document', 'cipc_documents'];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = config('app.frontend_url')."/reset-password/$token?email=".$this->email;
+
+        $this->notify(new ResetPasswordNotification($url));
+    }
 
     public function name(): Attribute
     {
@@ -51,8 +65,8 @@ class Customer extends Authenticatable
     public function email(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => Str::title($value),
-            set: fn ($value) => Str::title($value)
+            get: fn ($value) => Str::lower($value),
+            set: fn ($value) => Str::lower($value)
         );
     }
 
@@ -79,6 +93,11 @@ class Customer extends Authenticatable
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);
+    }
+
+    public function businessImages(): HasMany
+    {
+        return $this->hasMany(CustomerBusinessImage::class);
     }
 
     public function salesperson(): BelongsTo

@@ -17,7 +17,7 @@
                         required
                     />
                     @error('product.name')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -31,7 +31,7 @@
                         required
                     />
                     @error('product.sku')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -52,7 +52,7 @@
                                 @endforeach
                             </x-input.select>
                             @error('product.brand')
-                                <x-input.error>{{ $message }}</x-input.error>
+                            <x-input.error>{{ $message }}</x-input.error>
                             @enderror
                         </div>
                         <div>
@@ -77,7 +77,7 @@
                                 @endforeach
                             </x-input.select>
                             @error('product.category')
-                                <x-input.error>{{ $message }}</x-input.error>
+                            <x-input.error>{{ $message }}</x-input.error>
                             @enderror
                         </div>
                         <div>
@@ -103,7 +103,7 @@
                         </x-input.select>
 
                         @error('product.product_collection_id')
-                            <x-input.error>{{ $message }}</x-input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -121,7 +121,7 @@
                         wire:model="product.description"
                     />
                     @error('product.description')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
 
@@ -141,7 +141,7 @@
                         required
                     />
                     @error('product.retail_price')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -160,7 +160,7 @@
                         required
                     />
                     @error('product.wholesale_price')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
 
@@ -229,7 +229,8 @@
                     <div class="grid grid-cols-3 gap-2 p-3 lg:grid-cols-6">
                         @forelse($product->images as $image)
                             <div
-                                class="flex relative col-span-1 justify-center items-center w-20 h-20 bg-white rounded-md">
+                                class="flex relative col-span-1 justify-center items-center w-20 h-20 bg-white rounded-md"
+                            >
                                 <div class="absolute top-0 right-0">
                                     <button
                                         wire:loading.attr="disabled"
@@ -275,53 +276,60 @@
                         </div>
                     @endif
                 </div>
-                <form
-                    id="saveFeaturedImageForm"
-                    wire:submit.prevent="saveFeaturedImage"
-                    x-data=""
-                    x-on:livewire-upload-finish="document.getElementById('saveFeaturedImageForm').reset()"
-                >
-                    <div class="py-2">
-                        <x-input.label for="image">
-                            Featured image
-                        </x-input.label>
-                        <x-input.text
-                            id="featured image"
-                            type="file"
-                            wire:model.defer="image"
-                        />
-                    </div>
-                    <div class="py-2">
-                        <button class="w-full button-success">
-                            <x-icons.upload class="mr-2 w-5 h-5 text-white" />
-                            upload
-                        </button>
-                    </div>
-                </form>
-                <form
-                    id="saveGalleryForm"
-                    wire:submit.prevent="saveGallery"
-                    x-data=""
-                    x-on:livewire-upload-finish="document.getElementById('saveGalleryForm').reset()"
-                >
-                    <div class="py-2">
-                        <x-input.label for="images">
-                            Gallery images
-                        </x-input.label>
-                        <x-input.text
-                            type="file"
-                            label="upload images"
-                            multiple
-                            wire:model.defer="images"
-                        />
-                    </div>
-                    <div class="py-2">
-                        <button class="w-full button-success">
-                            <x-icons.upload class="mr-2 w-5 h-5 text-white" />
-                            upload
-                        </button>
-                    </div>
-                </form>
+                <div>
+                    <form
+                        id="saveFeaturedImageForm"
+                        wire:submit.prevent="saveFeaturedImage"
+                        x-data=""
+                        x-on:livewire-upload-finish="document.getElementById('saveFeaturedImageForm').reset()"
+                    >
+                        <div class="py-2">
+                            <x-input.label for="image">
+                                Featured image
+                            </x-input.label>
+                            <x-input.text
+                                id="image"
+                                type="file"
+                                wire:model.defer="image"
+                            />
+                            @error('image')
+                            <p>{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div class="py-2">
+                            <button class="w-full button-success">
+                                <x-icons.upload class="mr-2 w-5 h-5 text-white" />
+                                upload
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form
+                        id="saveGalleryForm"
+                        wire:submit.prevent="saveGallery"
+                        x-data=""
+                        x-on:livewire-upload-finish="document.getElementById('saveGalleryForm').reset()"
+                    >
+                        <div class="py-2">
+                            <x-input.label for="images">
+                                Gallery images
+                            </x-input.label>
+                            <x-input.text
+                                type="file"
+                                label="upload images"
+                                multiple
+                                wire:model.defer="images"
+                            />
+                        </div>
+                        <div class="py-2">
+                            <button class="w-full button-success">
+                                <x-icons.upload class="mr-2 w-5 h-5 text-white" />
+                                upload
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

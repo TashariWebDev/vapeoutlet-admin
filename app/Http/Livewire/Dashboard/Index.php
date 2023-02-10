@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Purchase;
 use Illuminate\Contracts\Foundation\Application;
@@ -52,6 +53,10 @@ class Index extends Component
                 ->first(),
             'pendingPurchases' => Purchase::query()
                 ->whereNull('processed_date')
+                ->count(),
+            'wholesaleApplications' => Customer::query()
+                ->whereNot('is_wholesale', true)
+                ->where('requested_wholesale_account', true)
                 ->count(),
         ]);
     }

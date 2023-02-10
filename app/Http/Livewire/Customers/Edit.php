@@ -47,6 +47,9 @@ class Edit extends Component
             'customer.vat_number' => ['nullable'],
             'customer.is_wholesale' => ['sometimes'],
             'customer.salesperson_id' => ['sometimes'],
+            'customer.alt_phone' => ['sometimes'],
+            'customer.registered_company_name' => ['sometimes'],
+            'customer.registered_company_name' => ['sometimes'],
         ];
     }
 
