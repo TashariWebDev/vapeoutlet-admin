@@ -58,7 +58,7 @@ class Index extends Component
     {
         $stockTake->printCountSheet();
 
-        return redirect("/storage/stock-counts/$stockTake->number.pdf");
+        return redirect("/storage/documents/$stockTake->number.pdf");
     }
 
     /**
@@ -68,7 +68,7 @@ class Index extends Component
     {
         $stockTake->print();
 
-        return redirect("/storage/stock-takes/$stockTake->number.pdf");
+        return redirect("/storage/documents/$stockTake->number.pdf");
     }
 
     public function delete(StockTake $stockTake)
