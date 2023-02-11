@@ -48,7 +48,6 @@
                     <x-table.heading class="lg:text-right">Print</x-table.heading>
                 </x-table.header>
                 @forelse($transfers as $transfer)
-                    @dd($transfer)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row>
                             <a
@@ -65,19 +64,22 @@
                                 <span class="text-blue-600 dark:text-blue-400">{{ $transfer->dispatcher->name }}</span>
                                 to
                                 <span
-                                    class="text-yellow-600 dark:text-yellow-300">{{ $transfer->receiver->name }}</span>
+                                    class="text-yellow-600 dark:text-yellow-300"
+                                >{{ $transfer->receiver->name }}</span>
                             </p>
                             <p>{{ $transfer->getTotal() }}</p>
                         </x-table.row>
                         <x-table.row>
                             @if (!$transfer->isProcessed())
                                 <div
-                                    class="py-1 px-3 text-xs text-center text-rose-800 uppercase bg-rose-300 rounded-r-full rounded-l-full">
+                                    class="py-1 px-3 text-xs text-center text-rose-800 uppercase bg-rose-300 rounded-r-full rounded-l-full"
+                                >
                                     <p>Pending</p>
                                 </div>
                             @else
                                 <div
-                                    class="py-1 px-3 text-xs text-center text-indigo-800 uppercase bg-indigo-300 rounded-r-full rounded-l-full">
+                                    class="py-1 px-3 text-xs text-center text-indigo-800 uppercase bg-indigo-300 rounded-r-full rounded-l-full"
+                                >
                                     <p>Processed</p>
                                 </div>
                             @endif
