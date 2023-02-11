@@ -60,7 +60,7 @@ class Stock extends Model
         return $this->belongsTo(StockTransfer::class);
     }
 
-    public function sales_channel()
+    public function sales_channel(): BelongsTo
     {
         return $this->belongsTo(SalesChannel::class)->withTrashed();
     }

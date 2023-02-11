@@ -2,9 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\ImageFactory;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\Image
@@ -12,20 +17,21 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $product_id
  * @property string $url
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Product|null $product
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Product|null $product
  *
- * @method static \Database\Factories\ImageFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Image newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Image newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Image query()
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereProductId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Image whereUrl($value)
- * @mixin \Eloquent
+ * @method static ImageFactory factory(...$parameters)
+ * @method static Builder|Image newModelQuery()
+ * @method static Builder|Image newQuery()
+ * @method static Builder|Image query()
+ * @method static Builder|Image whereCreatedAt($value)
+ * @method static Builder|Image whereId($value)
+ * @method static Builder|Image whereProductId($value)
+ * @method static Builder|Image whereUpdatedAt($value)
+ * @method static Builder|Image whereUrl($value)
+ *
+ * @mixin Eloquent
  */
 class Image extends Model
 {
@@ -33,7 +39,7 @@ class Image extends Model
 
     protected $guarded = [];
 
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

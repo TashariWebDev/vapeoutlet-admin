@@ -28,7 +28,7 @@ class Index extends Component
             'order' => $order,
         ])->render();
 
-        $url = storage_path("app/public/pick-lists/$order->number.pdf");
+        $url = storage_path("app/public/documents/$order->number.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -42,7 +42,7 @@ class Index extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        $this->redirect("/storage/pick-lists/$order->number.pdf");
+        $this->redirect("/storage/documents/$order->number.pdf");
     }
 
     public function render(): Factory|View|Application

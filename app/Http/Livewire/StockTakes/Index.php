@@ -73,6 +73,7 @@ class Index extends Component
 
     public function delete(StockTake $stockTake)
     {
+        $stockTake->items()->delete();
         $stockTake->delete();
 
         $this->notify('Stock take deleted');
@@ -115,7 +116,9 @@ class Index extends Component
                 ->get();
 
             foreach ($selectedProducts as $product) {
-                $stockTake->items()->create([
+                $stockTake->items()->updateOrCreate([
+                    'product_id' => $product->id,
+                ], [
                     'product_id' => $product->id,
                     'cost' => $product->cost,
                 ]);

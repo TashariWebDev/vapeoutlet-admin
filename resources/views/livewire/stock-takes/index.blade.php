@@ -23,7 +23,8 @@
                 <div class="overflow-y-scroll h-72 border shadow-inner border-slate-800">
                     @foreach ($this->brands as $brand)
                         <div
-                            class="py-2 px-1 mb-1 w-full text-xs rounded dark:text-white bg-slate-100 text-slate-800 dark:bg-sky-700">
+                            class="py-2 px-1 mb-1 w-full text-xs rounded dark:text-white bg-slate-100 text-slate-800 dark:bg-sky-700"
+                        >
                             <label>
                                 <input
                                     type="checkbox"
@@ -117,7 +118,7 @@
                         >{{ $stockTake->id }}</a>
                     </x-table.row>
                     <x-table.row>
-                        <p>{{ $stockTake->created_at }}</p>
+                        <p>{{ $stockTake->date }}</p>
                     </x-table.row>
                     <x-table.row>
                         <p class="uppercase">{{ $stockTake->brand }}</p>
