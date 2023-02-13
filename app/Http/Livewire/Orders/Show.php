@@ -135,7 +135,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 100)
             ->save($url);
 
-        $this->redirect("/storage/documents/$this->order->number.pdf");
+        $this->redirect("/storage/documents/$name.pdf");
     }
 
     public function render(): Factory|View|Application
