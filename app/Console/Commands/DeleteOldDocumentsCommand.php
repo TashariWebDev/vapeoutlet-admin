@@ -15,9 +15,7 @@ class DeleteOldDocumentsCommand extends Command
         $folder = glob(storage_path('app/public/documents/*'));
 
         foreach ($folder as $document) {
-            if (is_file($document)) {
-                unlink($document);
-            }
+            unlink($document);
         }
     }
 }
