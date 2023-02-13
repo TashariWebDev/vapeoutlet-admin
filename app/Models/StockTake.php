@@ -50,7 +50,9 @@ class StockTake extends Model
             'stockTake' => $this,
         ])->render();
 
-        $url = storage_path("app/public/documents/$this->number.pdf");
+        $name = 'STK-'.$this->number;
+
+        $url = storage_path("app/public/documents/$name.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -63,6 +65,8 @@ class StockTake extends Model
             ->paperSize(297, 210)
             ->setScreenshotType('pdf', 60)
             ->save($url);
+
+        return redirect("/storage/documents/$name.pdf");
     }
 
     /**
@@ -74,7 +78,8 @@ class StockTake extends Model
             'stockTake' => $this,
         ])->render();
 
-        $url = storage_path("app/public/documents/$this->number.pdf");
+        $name = 'CS-'.$this->number;
+        $url = storage_path("app/public/documents/$name.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -87,5 +92,7 @@ class StockTake extends Model
             ->paperSize(297, 210)
             ->setScreenshotType('pdf', 60)
             ->save($url);
+
+        return redirect("/storage/documents/$name.pdf");
     }
 }

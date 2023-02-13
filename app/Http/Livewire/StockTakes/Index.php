@@ -57,8 +57,6 @@ class Index extends Component
     public function getDocument(StockTake $stockTake)
     {
         $stockTake->printCountSheet();
-
-        return redirect("/storage/documents/$stockTake->number.pdf");
     }
 
     /**
@@ -67,8 +65,6 @@ class Index extends Component
     public function getStockTakeDocument(StockTake $stockTake)
     {
         $stockTake->print();
-
-        return redirect("/storage/documents/$stockTake->number.pdf");
     }
 
     public function delete(StockTake $stockTake)
