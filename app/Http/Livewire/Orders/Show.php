@@ -91,7 +91,8 @@ class Show extends Component
             'order' => $this->order,
         ])->render();
 
-        $url = storage_path("app/public/documents/PS-$this->order->number.pdf");
+        $name = $this->order->number;
+        $url = storage_path("app/public/documents/PS-$name.pdf");
 
         if (file_exists($url)) {
             unlink($url);
@@ -105,7 +106,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 50)
             ->save($url);
 
-        $this->redirect("/storage/documents/PS-$this->order->number.pdf");
+        $this->redirect("/storage/documents/PS-$name.pdf");
     }
 
     /**
