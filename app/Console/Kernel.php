@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('delete:old-price-list')->everyTenMinutes();
-        $schedule->command('delete:old-documents')->daily();
+        $schedule->command('delete:old-documents')->days(2);
         $schedule->command('compress:images')->weeklyOn(6);
         $schedule
             ->command('update:transactions')
