@@ -22,6 +22,7 @@ class CompressImagesCommand extends Command
                 $optimizerChain = OptimizerChainFactory::create();
                 $optimizerChain
                     ->optimize($image);
+                $this->info($image);
             }
         }
     }
