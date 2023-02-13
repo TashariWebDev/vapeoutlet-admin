@@ -30,11 +30,11 @@ class Kernel extends ConsoleKernel
      * @param  Schedule  $schedule
      * @return void
      */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
         $schedule->command('delete:old-price-list')->everyTenMinutes();
-        $schedule->command('delete:old-documents')->everyTwoHours();
-        $schedule->command('compress:images')->daily();
+        $schedule->command('delete:old-documents')->everyMinute();
+        $schedule->command('compress:images')->weeklyOn(6);
         $schedule
             ->command('update:transactions')
             ->daily()
@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
      *
      * @return void
      */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
 
