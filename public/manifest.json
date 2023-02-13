@@ -1,25 +1,25 @@
 {
     "icons": [
         {
-            "src": "env('FRONTEND_URL')/manifest-icon-192.maskable.png",
+            "src": "`${process.env.FRONTEND_URL}`/manifest-icon-192.maskable.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "env('FRONTEND_URL')/manifest-icon-192.maskable.png",
+            "src": "`${process.env.FRONTEND_URL}`/manifest-icon-192.maskable.png",
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "maskable"
         },
         {
-            "src": "env('FRONTEND_URL')/manifest-icon-512.maskable.png",
+            "src": "`${process.env.FRONTEND_URL}`/manifest-icon-512.maskable.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any"
         },
         {
-            "src": "env('FRONTEND_URL')/manifest-icon-512.maskable.png",
+            "src": "`${process.env.FRONTEND_URL}`/manifest-icon-512.maskable.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"

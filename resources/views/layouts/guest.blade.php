@@ -14,7 +14,7 @@
         name="csrf-token"
         content="{{ csrf_token() }}"
     >
-    
+
     <link rel="icon"
           type="image/png"
           sizes="196x196"
@@ -35,7 +35,7 @@
     <link rel="apple-touch-icon"
           href="{{ config('app.frontend_url').'/apple-icon-180.png' ?? asset('apple-icon-180.png') }}"
     >
-    
+
     <meta name="apple-mobile-web-app-capable"
           content="yes"
     >
@@ -51,7 +51,7 @@
     <meta name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
     />
-    
+
     <link rel="apple-touch-startup-image"
           href="{{ config('app.frontend_url').'/apple-splash-2048-2732.jpg' ?? asset('apple-splash-2048-2732.jpg') }}"
           media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
@@ -101,7 +101,7 @@
           href="{{ config('app.frontend_url').'/apple-splash-2160-1620.jpg' ?? asset('apple-splash-2160-1620.jpg') }}"
           media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     >
-    
+
     <link rel="apple-touch-startup-image"
           href="{{ config('app.frontend_url').'/apple-splash-1284-2778.jpg' ?? asset('apple-splash-1284-2778.jpg') }}"
           media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
@@ -171,11 +171,11 @@
           media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     >
     <link rel="manifest"
-          href="{{  asset('manifest.json') }}"
+          href="{{ config('app.frontend_url').'/manifest.json' ?? asset('manifest.json') }}"
     >
-    
+
     <title>{{ config('app.name') }}</title>
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
