@@ -46,7 +46,7 @@
           content="yes"
     />
     <meta name="apple-mobile-web-app-title"
-          content="Vape Outlet"
+          content="{{ config('app.name') }}"
     />
     <meta name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"

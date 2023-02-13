@@ -38,7 +38,7 @@
     <link rel="apple-touch-icon"
           href="{{ config('app.frontend_url').'/apple-icon-180.png' ?? asset('apple-icon-180.png') }}"
     >
-
+    
     <meta name="apple-mobile-web-app-capable"
           content="yes"
     >
@@ -49,12 +49,12 @@
           content="yes"
     />
     <meta name="apple-mobile-web-app-title"
-          content="Vape Outlet"
+          content="{{ config('app.name') }}"
     />
     <meta name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
     />
-
+    
     <link rel="apple-touch-startup-image"
           href="{{ config('app.frontend_url').'/apple-splash-2048-2732.jpg' ?? asset('apple-splash-2048-2732.jpg') }}"
           media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
@@ -104,7 +104,7 @@
           href="{{ config('app.frontend_url').'/apple-splash-2160-1620.jpg' ?? asset('apple-splash-2160-1620.jpg') }}"
           media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     >
-
+    
     <link rel="apple-touch-startup-image"
           href="{{ config('app.frontend_url').'/apple-splash-1284-2778.jpg' ?? asset('apple-splash-1284-2778.jpg') }}"
           media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
@@ -176,7 +176,7 @@
     <link rel="manifest"
           href="{{ config('app.frontend_url').'/manifest.json' ?? asset('manifest.json') }}"
     >
-
+    
     <title>{{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -214,13 +214,13 @@
     checkTheme();
     $watch('theme', () => toggleTheme());"
 >
-
+    
     <main class="w-full h-full">
-
+        
         @php
             $salutation = ['Hi, ', 'Howzit, ', 'Wazup, ', 'Hello, ', 'Hey there, '];
         @endphp
-
+        
         <nav
             class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500"
         >
@@ -250,35 +250,35 @@
                                 class="link"
                                 href="{{ route('dashboard') }}"
                             >dashboard</a>
-
+                            
                             @hasPermissionTo('view orders')
                             <a
                                 class="link"
                                 href="{{ route('orders') }}"
                             >orders</a>
                             @endhasPermissionTo
-
+                            
                             @hasPermissionTo('view products')
                             <a
                                 class="link"
                                 href="{{ route('products') }}"
                             >products</a>
                             @endhasPermissionTo
-
+                            
                             @hasPermissionTo('view customers')
                             <a
                                 class="link"
                                 href="{{ route('customers') }}"
                             >customers</a>
                             @endhasPermissionTo
-
+                            
                             @hasPermissionTo('view warehouse')
                             <a
                                 class="link"
                                 href="{{ route('warehouse') }}"
                             >warehouse</a>
                             @endhasPermissionTo
-
+                            
                             @hasPermissionTo('view settings')
                             <a
                                 class="link"
@@ -299,14 +299,14 @@
                         <div>
                             <livewire:customers.quick-customer-button />
                         </div>
-
+                        
                         <div>
                             <button
                                 class="link"
                                 x-on:click="document.getElementById('logout-form').submit()"
                             >Sign out
                             </button>
-
+                            
                             <form
                                 class="hidden"
                                 id="logout-form"
@@ -314,7 +314,7 @@
                                 method="POST"
                             >@csrf</form>
                         </div>
-
+                        
                         <div
                             class="flex justify-center items-center w-6 h-6 rounded-full border ring-2 border-sky-400 ring-slate-100 dark:ring-slate-800"
                         >
@@ -342,35 +342,35 @@
                         class="link"
                         href="{{ route('dashboard') }}"
                     >dashboard</a>
-
+                    
                     @hasPermissionTo('view orders')
                     <a
                         class="link"
                         href="{{ route('orders') }}"
                     >orders</a>
                     @endhasPermissionTo
-
+                    
                     @hasPermissionTo('view products')
                     <a
                         class="link"
                         href="{{ route('products') }}"
                     >products</a>
                     @endhasPermissionTo
-
+                    
                     @hasPermissionTo('view customers')
                     <a
                         class="link"
                         href="{{ route('customers') }}"
                     >customers</a>
                     @endhasPermissionTo
-
+                    
                     @hasPermissionTo('view warehouse')
                     <a
                         class="link"
                         href="{{ route('warehouse') }}"
                     >warehouse</a>
                     @endhasPermissionTo
-
+                    
                     @hasPermissionTo('view settings')
                     <a
                         class="link"
@@ -380,7 +380,7 @@
                 </container>
             </div>
         </nav>
-
+        
         <div class="relative py-8 px-2 mx-auto lg:px-6 max-w-8xl">
             <livewire:users.sales-channel-change />
             <livewire:customers.create />
@@ -388,9 +388,9 @@
             <x-notification />
             {{ $slot }}
         </div>
-
+    
     </main>
-
+    
     @livewireScripts
 </body>
 
