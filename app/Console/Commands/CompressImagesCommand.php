@@ -13,12 +13,12 @@ class CompressImagesCommand extends Command
 
     public function handle()
     {
-        $folder = glob(storage_path('app/public/uploads/*'));
+        $images = glob(storage_path('app/public/uploads/*'));
 
-        foreach ($folder as $image) {
+        foreach ($images as $image) {
             $optimizerChain = OptimizerChainFactory::create();
-            $optimizerChain->optimize($image);
-            info($image);
+            $optimizerChain
+                ->optimize($image);
         }
     }
 }
