@@ -35,13 +35,13 @@ class AppServiceProvider extends ServiceProvider
             view()->share('queryTime', $query->time);
         });
 
-        $folders = ['documents', 'images', 'uploads'];
-        foreach ($folders as $folder) {
-            if (! file_exists(storage_path("app/public/$folder"))) {
-                mkdir(storage_path("app/public/$folder"), 0777, true);
-            }
-
-            chmod(storage_path("app/public/$folder"), 0777);
-        }
+//        $folders = ['documents', 'images', 'uploads'];
+//        foreach ($folders as $folder) {
+//            if (! file_exists(storage_path("app/public/$folder"))) {
+//                mkdir(storage_path("app/public/$folder"), 0777, true);
+//            }
+//
+//            chmod(storage_path("app/public/$folder"), 0777);
+//        }
     }
 }
