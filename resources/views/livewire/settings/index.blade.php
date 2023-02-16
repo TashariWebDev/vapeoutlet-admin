@@ -79,6 +79,7 @@
         </a>
         @endhasPermissionTo
 
+        @hasPermissionTo('view reports')
         <a
             class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
             href="{{ route('delivery') }}"
@@ -92,11 +93,13 @@
         >
             System settings
         </a>
+        @endhasPermissionTo
 
         <div class="flex col-span-1 items-center h-20 border-b lg:col-span-3 border-slate-500">
             <h2 class="font-bold text-slate-500 dark:text-slate-300">Marketing</h2>
         </div>
 
+        @hasPermissionTo('create products')
         <a
             class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow hover:ring focus:ring ring-sky-400 text-slate-600 dark:text-sky-300 dark:bg-slate-800"
             href="{{ route('banners') }}"
@@ -110,6 +113,9 @@
         >
             Notifications
         </a>
+        @endhasPermissionTo
+
+        @hasPermissionTo('create products')
 
         <div class="flex col-span-1 items-center h-20 border-b lg:col-span-3 border-slate-500">
             <h2 class="font-bold text-slate-500 dark:text-slate-300">Product Management</h2>
@@ -128,6 +134,8 @@
         >
             Brands
         </a>
+
+        @endhasPermissionTo
 
     </div>
 </div>
