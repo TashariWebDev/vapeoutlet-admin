@@ -42,7 +42,7 @@ class Create extends Component
 
     public $sku;
 
-    protected $listeners = ['refreshData' => '$refresh'];
+    protected $listeners = ['refresh_data' => '$refresh'];
 
     public function mount()
     {
@@ -94,7 +94,7 @@ class Create extends Component
         }
 
         $this->selectedProductsToDelete = [];
-        $this->emitSelf('refreshData');
+        $this->emitSelf('refresh_data');
         $this->notify('Products removed');
     }
 
@@ -168,7 +168,7 @@ class Create extends Component
             'discount' => $productPrice - $value,
         ]);
 
-        $this->emitSelf('refreshData');
+        $this->emitSelf('refresh_data');
         $this->notify('Price updated');
     }
 
@@ -198,7 +198,7 @@ class Create extends Component
             $this->notify("Max Qty of $qtyInStock added");
         }
 
-        $this->emitSelf('refreshData');
+        $this->emitSelf('refresh_data');
     }
 
     public function removeItem(OrderItem $item)
@@ -214,7 +214,7 @@ class Create extends Component
 
         $item->delete();
 
-        $this->emitSelf('refreshData');
+        $this->emitSelf('refresh_data');
         $this->notify('Item deleted');
     }
 
@@ -253,7 +253,7 @@ class Create extends Component
                 }
             }
 
-            $this->emitSelf('refreshData');
+            $this->emitSelf('refresh_data');
 
             $this->notify(
                 'Some of the items in your cart have been adjusted due to stock availability'
@@ -310,7 +310,7 @@ class Create extends Component
         ]);
 
         $this->notify('delivery option updated');
-        $this->emitSelf('refreshData');
+        $this->emitSelf('refresh_data');
         $this->chooseDeliveryForm = false;
     }
 
@@ -318,7 +318,7 @@ class Create extends Component
     {
         $this->order->update(['address_id' => $this->addressId]);
         $this->notify('address updated');
-        $this->emitSelf('refreshData');
+        $this->emitSelf('refresh_data');
         $this->chooseAddressForm = false;
     }
 

@@ -12,7 +12,7 @@
             class="w-full button-danger"
             disabled
         >
-            No Stock Available
+            No Other Stock Available
         </button>
     @endif
 
@@ -86,7 +86,8 @@
                         </label>
                     @empty
                         <div
-                            class="flex inset-0 justify-center items-center py-6 px-2 w-full text-center rounded-md bg-slate-100">
+                            class="flex inset-0 justify-center items-center py-6 px-2 w-full text-center rounded-md bg-slate-100"
+                        >
                             <p>No results</p>
                         </div>
                     @endforelse
