@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +13,7 @@ class Credit extends Model
 {
     protected $guarded = [];
 
-    protected $dates = ['processed_at'];
+    protected $casts = ['processed_at' => 'datetime'];
 
     protected $with = ['items:id,product_id,credit_id,price,qty'];
 
@@ -45,7 +44,9 @@ class Credit extends Model
 
     public function getSubTotal(): float
     {
-        return to_rands($this->items()->sum(DB::raw('price * qty')));
+        return $this->items->sum(function ($item) {
+            return $item->price * $item->qty;
+        });
     }
 
     public function number(): Attribute

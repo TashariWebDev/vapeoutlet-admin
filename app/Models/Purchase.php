@@ -17,7 +17,7 @@ class Purchase extends Model
         'supplier:id,name',
     ];
 
-    protected $dates = ['date'];
+    protected $casts = ['date' => 'datetime'];
 
     protected $appends = ['total'];
 

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +13,7 @@ class StockTake extends Model
 {
     protected $guarded = [];
 
-    protected $dates = ['date'];
+    protected $casts = ['date' => 'datetime'];
 
     public function items(): HasMany
     {
@@ -28,7 +27,9 @@ class StockTake extends Model
 
     public function getTotal(): float
     {
-        return to_rands($this->items()->sum(DB::raw('variance * cost')));
+        return $this->items->sum(function ($item) {
+            return $item->variance * $item->cost;
+        });
     }
 
     public function getCount(): float

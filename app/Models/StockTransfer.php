@@ -10,7 +10,7 @@ class StockTransfer extends Model
 {
     protected $guarded = [];
 
-    protected $dates = ['date'];
+    protected $casts = ['date' => 'datetime'];
 
     public function receiver()
     {

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use DB;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\SupplierCredit
@@ -15,26 +18,27 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int|null $supplier_id
  * @property string $created_by
  * @property int $is_editing
- * @property \Illuminate\Support\Carbon|null $processed_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SupplierCreditItem[] $items
+ * @property Carbon|null $processed_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|SupplierCreditItem[] $items
  * @property-read int|null $items_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Stock[] $stocks
+ * @property-read Collection|Stock[] $stocks
  * @property-read int|null $stocks_count
- * @property-read \App\Models\Supplier|null $supplier
+ * @property-read Supplier|null $supplier
  *
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit query()
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereIsEditing($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereProcessedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereSupplierId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierCredit whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|SupplierCredit newModelQuery()
+ * @method static Builder|SupplierCredit newQuery()
+ * @method static Builder|SupplierCredit query()
+ * @method static Builder|SupplierCredit whereCreatedAt($value)
+ * @method static Builder|SupplierCredit whereCreatedBy($value)
+ * @method static Builder|SupplierCredit whereId($value)
+ * @method static Builder|SupplierCredit whereIsEditing($value)
+ * @method static Builder|SupplierCredit whereProcessedAt($value)
+ * @method static Builder|SupplierCredit whereSupplierId($value)
+ * @method static Builder|SupplierCredit whereUpdatedAt($value)
+ *
+ * @mixin Eloquent
  */
 class SupplierCredit extends Model
 {
@@ -42,8 +46,8 @@ class SupplierCredit extends Model
 
     protected $table = 'supplier_credits';
 
-    protected $dates = [
-        'processed_at', // order adjusted and sent to warehouse
+    protected $casts = [
+        'processed_at' => 'datetime', // order adjusted and sent to warehouse
     ];
 
     public function supplier(): BelongsTo
@@ -68,7 +72,9 @@ class SupplierCredit extends Model
 
     public function getSubTotal(): float
     {
-        return to_rands($this->items()->sum(DB::raw('cost * qty')));
+        return $this->items->sum(function ($item) {
+            return $item->cost * $item->qty;
+        });
     }
 
     public function number(): Attribute

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Exceptions\QtyNotAvailableException;
-use DB;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -77,7 +76,9 @@ class Order extends Model
 
     public function getSubTotal(): float
     {
-        return to_rands($this->items()->sum(DB::raw('price * qty')));
+        return $this->items->sum(function ($item) {
+            return $item->price * $item->qty;
+        });
     }
 
     public function items(): HasMany
@@ -88,9 +89,9 @@ class Order extends Model
     public function total(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => to_rands(
-                $this->items()->sum(DB::raw('price * qty'))
-            )
+            get: fn () => $this->items->sum(function ($item) {
+                return $item->price * $item->qty;
+            })
         );
     }
 

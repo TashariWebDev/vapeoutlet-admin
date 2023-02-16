@@ -20,7 +20,7 @@
     "dependencies": {
         "@prettier/plugin-php": "^0.19.2",
         "canvas-confetti": "^1.6.0",
-        "puppeteer": "^15.5.0",
+        "puppeteer": "^19.7.1",
         "pwa-asset-generator": "^6.2.1",
         "rustywind": "^0.15.1"
     }
