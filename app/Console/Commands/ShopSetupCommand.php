@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Permission;
+use App\Models\PermissionUser;
 use App\Models\SalesChannel;
 use App\Models\SystemSetting;
 use App\Models\User;
@@ -83,17 +84,28 @@ class ShopSetupCommand extends Command
 
         $this->info('creating permissions');
 
+        Permission::truncate();
+
         foreach ($permissions as $permission) {
-            Permission::updateOrCreate(['name' => $permission], ['name' => $permission]);
+            Permission::updateOrCreate([
+                'name' => $permission,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
 
         $this->info('assigning all permissions to default user');
 
         $permissions = Permission::all()->pluck('id');
+
+        PermissionUser::truncate();
+
         $superAdmin->permissions()->sync($permissions);
         $admin->permissions()->sync($permissions);
 
         $this->info('creating default sales channel');
+
+        SalesChannel::truncate();
 
         $defaultSalesChannel = SalesChannel::updateOrCreate([
             'name' => 'warehouse',
@@ -104,12 +116,14 @@ class ShopSetupCommand extends Command
         ]);
 
         $this->info('assigning default user to default sales channel');
+
         $superAdmin->sales_channels()->detach($defaultSalesChannel);
         $admin->sales_channels()->detach($defaultSalesChannel);
         $superAdmin->sales_channels()->attach($defaultSalesChannel, ['is_default' => true]);
         $admin->sales_channels()->attach($defaultSalesChannel, ['is_default' => true]);
 
-        SystemSetting::updateOrCreate(['company_name' => config('app.name')], ['company_name' => config('app.name')]);
+        SystemSetting::updateOrCreate(['company_name' => config('app.name')],
+            ['company_name' => config('app.name')]);
 
         $folders = [
             'images', 'documents', 'uploads',
