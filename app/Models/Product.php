@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Mail\StockAlertMail;
+use App\Notifications\StockAlertNotification;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Str;
 
 class Product extends Model
@@ -312,10 +312,8 @@ class Product extends Model
     public function sendStockAlerts()
     {
         $this->stockAlerts->each(function ($alert) {
-            Mail::to($alert->email)->later(
-                now()->addMinutes(2),
-                new StockAlertMail($this)
-            );
+            Notification::route('mail', $alert->email)
+                ->notify(new StockAlertNotification($this));
         });
     }
 }

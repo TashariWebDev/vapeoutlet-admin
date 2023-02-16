@@ -5,16 +5,16 @@ namespace App\Http\Livewire\Orders;
 use App\Exceptions\QtyNotAvailableException;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Jobs\UpdateCustomerRunningBalanceJob;
-use App\Mail\OrderConfirmed;
-use App\Mail\OrderReceived;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Notifications\OrderConfirmedNotification;
+use App\Notifications\OrderReceivedNotification;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use LaravelIdea\Helper\App\Models\_IH_Order_C;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -290,14 +290,12 @@ class Create extends Component
 
     public function sendOrderEmails()
     {
-        Mail::to($this->order->customer->email)->later(
-            60,
-            new OrderConfirmed($this->order->customer)
+        Notification::route('mail', $this->order->customer->email)->notify(
+            new OrderConfirmedNotification()
         );
 
-        Mail::to(config('mail.from.address'))->later(
-            60,
-            new OrderReceived($this->order->customer)
+        Notification::route('mail', config('mail.from.address'))->notify(
+            new OrderReceivedNotification($this->order->customer)
         );
     }
 
