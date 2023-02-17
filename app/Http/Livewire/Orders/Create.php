@@ -141,7 +141,8 @@ class Create extends Component
         }
 
         $this->sku = '';
-        $this->emit('refreshData');
+        $this->emitSelf('refresh_data');
+        $this->emit('refresh_products');
     }
 
     public function updatePrice(OrderItem $item, $value)
@@ -199,6 +200,7 @@ class Create extends Component
         }
 
         $this->emitSelf('refresh_data');
+        $this->emit('refresh_products');
     }
 
     public function removeItem(OrderItem $item)
@@ -214,8 +216,9 @@ class Create extends Component
 
         $item->delete();
 
-        $this->emitSelf('refresh_data');
         $this->notify('Item deleted');
+        $this->emitSelf('refresh_data');
+        $this->emit('refresh_products');
     }
 
     public function process()

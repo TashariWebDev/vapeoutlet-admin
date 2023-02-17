@@ -25,6 +25,8 @@ class AddProduct extends Component
 
     public Order $order;
 
+    protected $listeners = ['refresh_products' => '$refresh'];
+
     public function updatedSearchQuery()
     {
         $this->resetPage();
@@ -53,7 +55,8 @@ class AddProduct extends Component
         });
 
         $this->reset(['searchQuery', 'selectedProducts', 'modal']);
-        $this->emit('refreshData');
+        $this->emit('refresh_data');
+        $this->emit('refresh_products');
     }
 
     public function render(): Factory|View|Application
