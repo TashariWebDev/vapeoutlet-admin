@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\MarketingBanner
@@ -10,20 +14,28 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $image
  * @property int|null $order
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner query()
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner whereImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MarketingBanner whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|MarketingBanner newModelQuery()
+ * @method static Builder|MarketingBanner newQuery()
+ * @method static Builder|MarketingBanner query()
+ * @method static Builder|MarketingBanner whereCreatedAt($value)
+ * @method static Builder|MarketingBanner whereId($value)
+ * @method static Builder|MarketingBanner whereImage($value)
+ * @method static Builder|MarketingBanner whereOrder($value)
+ * @method static Builder|MarketingBanner whereUpdatedAt($value)
+ *
+ * @mixin Eloquent
  */
 class MarketingBanner extends Model
 {
     protected $guarded = [];
+
+    public function image(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => 'storage/'.$value ?: '/images/no_image.jpeg'
+        );
+    }
 }
