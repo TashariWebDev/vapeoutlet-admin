@@ -1,11 +1,11 @@
 <div>
-    
+
     <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-800">
-        
+
         <x-page-header class="px-2">
             Brands
         </x-page-header>
-        
+
         <div class="py-3 px-2 w-64">
             <x-input.label for="search">
                 Search
@@ -22,11 +22,11 @@
                 Query Time {{ round($queryTime, 3) }} ms
             </x-input.helper>
         </div>
-        
+
         <div class="py-3 px-2">
             {{ $brands->links() }}
         </div>
-        
+
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-4">
                 <x-table.heading>Image</x-table.heading>
@@ -39,7 +39,7 @@
                     <x-table.row>
                         <img
                             class="w-20 h-20 bg-white rounded-sm"
-                            src="{{ asset('storage/'.$brand->image) }}"
+                            src="{{ asset($brand->image) }}"
                             alt=""
                         >
                     </x-table.row>

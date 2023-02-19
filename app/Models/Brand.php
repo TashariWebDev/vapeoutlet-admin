@@ -25,7 +25,7 @@ class Brand extends Model
     public function image(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value ?: '/images/no_image.jpeg'
+            get: fn ($value) => 'storage/'.$value ?: '/images/no_image.jpeg'
         );
     }
 
