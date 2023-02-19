@@ -269,7 +269,11 @@ class Order extends Model
             'order' => $this,
         ])->render();
 
-        $url = storage_path("app/public/documents/$this->number.pdf");
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$this->number.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -283,6 +287,10 @@ class Order extends Model
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect("/storage/documents/$this->number.pdf");
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                "/documents/$this->number.pdf"
+        );
     }
 }

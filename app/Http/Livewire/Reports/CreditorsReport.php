@@ -27,7 +27,11 @@ class CreditorsReport extends Component
             'suppliers' => $suppliers,
         ])->render();
 
-        $url = storage_path('app/public/documents/creditors-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/creditors-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -42,7 +46,11 @@ class CreditorsReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/creditors-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/creditors-report.pdf'
+        );
     }
 
     public function render()

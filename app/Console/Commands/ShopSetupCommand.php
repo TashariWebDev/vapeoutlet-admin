@@ -35,24 +35,30 @@ class ShopSetupCommand extends Command
 
         $this->info('encrypting password');
 
-        $superAdmin = User::updateOrCreate([
-            'name' => 'Super Admin',
-            'email' => $email,
-        ], [
-            'name' => 'Super Admin',
-            'email' => $email,
-            'password' => $encryptedPassword,
-            'is_super_admin' => true,
-        ]);
+        $superAdmin = User::updateOrCreate(
+            [
+                'name' => 'Super Admin',
+                'email' => $email,
+            ],
+            [
+                'name' => 'Super Admin',
+                'email' => $email,
+                'password' => $encryptedPassword,
+                'is_super_admin' => true,
+            ]
+        );
 
-        $admin = User::updateOrCreate([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-        ], [
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('password'),
-        ]);
+        $admin = User::updateOrCreate(
+            [
+                'name' => 'Admin',
+                'email' => 'admin@admin.com',
+            ],
+            [
+                'name' => 'Admin',
+                'email' => 'admin@admin.com',
+                'password' => bcrypt('password'),
+            ]
+        );
 
         $permissions = [
             'view orders',
@@ -107,35 +113,63 @@ class ShopSetupCommand extends Command
 
         SalesChannel::truncate();
 
-        $defaultSalesChannel = SalesChannel::updateOrCreate([
-            'name' => 'warehouse',
-        ], [
-            'name' => 'warehouse',
-            'is_locked_for_deletion' => true,
-            'allows_shipping' => true,
-        ]);
+        $defaultSalesChannel = SalesChannel::updateOrCreate(
+            [
+                'name' => 'warehouse',
+            ],
+            [
+                'name' => 'warehouse',
+                'is_locked_for_deletion' => true,
+                'allows_shipping' => true,
+            ]
+        );
 
         $this->info('assigning default user to default sales channel');
 
         $superAdmin->sales_channels()->detach($defaultSalesChannel);
         $admin->sales_channels()->detach($defaultSalesChannel);
-        $superAdmin->sales_channels()->attach($defaultSalesChannel, ['is_default' => true]);
-        $admin->sales_channels()->attach($defaultSalesChannel, ['is_default' => true]);
+        $superAdmin
+            ->sales_channels()
+            ->attach($defaultSalesChannel, ['is_default' => true]);
+        $admin
+            ->sales_channels()
+            ->attach($defaultSalesChannel, ['is_default' => true]);
 
-        SystemSetting::updateOrCreate(['company_name' => config('app.name')],
-            ['company_name' => config('app.name')]);
+        SystemSetting::updateOrCreate(
+            ['company_name' => config('app.name')],
+            ['company_name' => config('app.name')]
+        );
 
-        $folders = [
-            'images', 'documents', 'uploads',
-        ];
+        $folders = ['images', 'documents', 'uploads'];
 
         $this->info('setting up storage folders');
 
         foreach ($folders as $folder) {
-            if (! file_exists(storage_path("app/public/$folder/"))) {
-                mkdir(storage_path("app/public/$folder/"), 0777, true);
+            if (
+                ! file_exists(
+                    storage_path(
+                        'app/public/'.
+                            config('app.storage_folder').
+                            "/$folder/"
+                    )
+                )
+            ) {
+                mkdir(
+                    storage_path(
+                        'app/public/'.
+                            config('app.storage_folder').
+                            "/$folder/"
+                    ),
+                    0777,
+                    true
+                );
             }
-            chmod(storage_path("app/public/$folder/"), 0777);
+            chmod(
+                storage_path(
+                    'app/public/'.config('app.storage_folder')."/$folder/"
+                ),
+                0777
+            );
         }
 
         Artisan::call('storage:link');

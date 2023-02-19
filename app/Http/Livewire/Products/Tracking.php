@@ -3,6 +3,11 @@
 namespace App\Http\Livewire\Products;
 
 use App\Models\Stock;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
+use LaravelIdea\Helper\App\Models\_IH_Stock_C;
 use Livewire\Component;
 
 class Tracking extends Component
@@ -14,7 +19,7 @@ class Tracking extends Component
         $this->productId = request('id');
     }
 
-    public function getStocksProperty()
+    public function getStocksProperty(): Collection|array|_IH_Stock_C
     {
         return Stock::query()
             ->where('product_id', $this->productId)
@@ -45,7 +50,7 @@ class Tracking extends Component
             ->get();
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.products.tracking');
     }

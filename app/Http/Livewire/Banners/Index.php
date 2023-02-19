@@ -24,7 +24,7 @@ class Index extends Component
 
     public $iteration = 1;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'image' => ['image', 'required'],
@@ -36,7 +36,10 @@ class Index extends Component
         $this->validate();
 
         MarketingBanner::create([
-            'image' => $this->image->store('uploads', 'public'),
+            'image' => $this->image->store(
+                config('app.storage_folder').'/uploads',
+                'public'
+            ),
         ]);
 
         $this->slide = false;

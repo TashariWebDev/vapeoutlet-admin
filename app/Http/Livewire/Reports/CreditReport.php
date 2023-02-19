@@ -49,7 +49,11 @@ class CreditReport extends Component
             'to' => $this->toDate,
         ])->render();
 
-        $url = storage_path('app/public/documents/credits-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/credits-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -64,7 +68,11 @@ class CreditReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/credits-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/credits-report.pdf'
+        );
     }
 
     public function render(): Factory|View|Application

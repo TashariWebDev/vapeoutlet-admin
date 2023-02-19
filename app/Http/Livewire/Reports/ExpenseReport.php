@@ -47,7 +47,11 @@ class ExpenseReport extends Component
             'to' => $this->toDate,
         ])->render();
 
-        $url = storage_path('app/public/documents/expenses.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/expenses.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -62,7 +66,11 @@ class ExpenseReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/expenses.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/expenses.pdf'
+        );
     }
 
     public function render(): Factory|View|Application

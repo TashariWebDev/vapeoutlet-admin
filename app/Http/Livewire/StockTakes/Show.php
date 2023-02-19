@@ -30,10 +30,14 @@ class Show extends Component
     public function updateItem(StockTakeItem $item, $count)
     {
         if ($count == '' || $count < 0) {
-            return $this->excludeItem(
-                $item,
-                'item will be excluded from stock count'
-            );
+            $item->update([
+                'count' => null,
+                'variance' => 0,
+            ]);
+
+            $this->notify('item will be excluded from count');
+
+            return;
         }
 
         $item->update([
@@ -49,16 +53,6 @@ class Show extends Component
         ]);
 
         $this->notify('updated');
-    }
-
-    public function excludeItem($item, $message)
-    {
-        $item->update([
-            'count' => null,
-            'variance' => 0,
-        ]);
-
-        $this->notify($message);
     }
 
     public function process()

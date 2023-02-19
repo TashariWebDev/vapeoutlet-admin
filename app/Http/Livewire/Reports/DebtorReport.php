@@ -31,7 +31,11 @@ class DebtorReport extends Component
             'customers' => $customers,
         ])->render();
 
-        $url = storage_path('app/public/documents/debtors-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/debtors-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -46,7 +50,11 @@ class DebtorReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/debtors-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/debtors-report.pdf'
+        );
     }
 
     public function render(): Factory|View|Application

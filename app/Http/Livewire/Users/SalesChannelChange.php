@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Users;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 
 class SalesChannelChange extends Component
@@ -33,7 +36,7 @@ class SalesChannelChange extends Component
         return redirect()->route('dashboard');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.users.sales-channel-change', [
             'salesChannels' => auth()->user()->sales_channels,

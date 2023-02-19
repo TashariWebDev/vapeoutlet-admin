@@ -49,7 +49,6 @@ class Edit extends Component
             'customer.salesperson_id' => ['sometimes'],
             'customer.alt_phone' => ['sometimes'],
             'customer.registered_company_name' => ['sometimes'],
-            'customer.registered_company_name' => ['sometimes'],
         ];
     }
 

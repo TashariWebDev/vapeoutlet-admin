@@ -42,7 +42,11 @@ class PurchaseReport extends Component
             'toDate' => $this->toDate,
         ])->render();
 
-        $url = storage_path('app/public/documents/purchases-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/purchases-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -57,7 +61,11 @@ class PurchaseReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/purchases-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/purchases-report.pdf'
+        );
     }
 
     public function render()

@@ -28,7 +28,11 @@ class Index extends Component
             'order' => $order,
         ])->render();
 
-        $url = storage_path("app/public/documents/$order->number.pdf");
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$order->number.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -42,7 +46,11 @@ class Index extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        $this->redirect("/storage/documents/$order->number.pdf");
+        $this->redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                "/documents/$order->number.pdf"
+        );
     }
 
     public function render(): Factory|View|Application

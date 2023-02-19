@@ -10,6 +10,9 @@ use App\Models\FeatureCategory;
 use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductCollection;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -84,10 +87,13 @@ class Edit extends Component
         $this->brands = Brand::query()
             ->orderBy('name')
             ->get();
+
         $this->categories = Category::query()
             ->orderBy('name')
             ->get();
+
         $this->featureCategories = FeatureCategory::orderBy('name')->get();
+
         $this->productCollections = ProductCollection::orderBy('name')->get();
     }
 
@@ -166,29 +172,41 @@ class Edit extends Component
 
         foreach ($this->images as $image) {
             $this->product->images()->create([
-                'url' => $image->store('uploads', 'public'),
+                'url' => $image->store(
+                    config('app.storage_folder').'/uploads',
+                    'public'
+                ),
             ]);
         }
 
         $this->reset(['image', 'images']);
+
         $this->product->unsetRelation('images');
+
         $this->product->load('images');
+
         $this->notify('Images uploaded');
     }
 
     public function saveFeaturedImage()
     {
-//        $this->validate([
-//            'image' => 'image|max:1024|sometimes',
-//        ]);
+        $this->validate([
+            'image' => 'image|max:1024|sometimes',
+        ]);
 
         $this->product->update([
-            'image' => $this->image->store('uploads', 'public'),
+            'image' => $this->image->store(
+                config('app.storage_folder').'/uploads',
+                'public'
+            ),
         ]);
 
         $this->reset(['image', 'images']);
+
         $this->product->unsetRelation('images');
+
         $this->product->load('images');
+
         $this->notify('Image saved');
     }
 
@@ -209,7 +227,7 @@ class Edit extends Component
         $this->notify('Image deleted');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.products.edit');
     }

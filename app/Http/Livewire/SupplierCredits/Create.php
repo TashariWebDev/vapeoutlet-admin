@@ -30,7 +30,7 @@ class Create extends Component
 
     public $sku;
 
-    protected $listeners = ['refreshData' => '$refresh'];
+    protected $listeners = ['refresh_data' => '$refresh'];
 
     public function mount()
     {
@@ -108,6 +108,7 @@ class Create extends Component
         $this->credit->decreaseStock();
 
         $this->credit->updateStatus('processed_at');
+
         $this->supplier->createCredit($this->credit, $this->credit->number);
 
         UpdateSupplierRunningBalanceJob::dispatch($this->supplier->id)->delay(

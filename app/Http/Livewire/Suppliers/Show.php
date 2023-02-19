@@ -84,6 +84,7 @@ class Show extends Component
     public function showSupplierCredit($creditNumber)
     {
         $creditId = Str::after($creditNumber, 'SC00');
+
         $this->redirect("/supplier-credits/show/$creditId");
     }
 

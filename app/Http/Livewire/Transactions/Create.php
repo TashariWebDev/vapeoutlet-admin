@@ -51,6 +51,7 @@ class Create extends Component
         ];
 
         $validatedData = $this->validate();
+
         $fields = array_merge($additionalFields, $validatedData);
 
         if (

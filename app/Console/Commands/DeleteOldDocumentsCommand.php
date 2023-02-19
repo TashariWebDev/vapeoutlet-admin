@@ -12,7 +12,11 @@ class DeleteOldDocumentsCommand extends Command
 
     public function handle()
     {
-        $folder = glob(storage_path('app/public/documents/*'));
+        $folder = glob(
+            storage_path(
+                'app/public/'.config('app.storage_folder').'/documents/*'
+            )
+        );
 
         foreach ($folder as $document) {
             unlink($document);

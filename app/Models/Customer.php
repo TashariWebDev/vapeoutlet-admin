@@ -235,7 +235,8 @@ class Customer extends Authenticatable
                 ->get(),
         ])->render();
 
-        $url = storage_path("app/public/documents/$this->statement.pdf");
+        $url = storage_path('app/public/'.
+            config('app.storage_folder')."/documents/$this->statement.pdf");
 
         if (file_exists($url)) {
             unlink($url);

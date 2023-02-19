@@ -65,7 +65,7 @@ class AddProduct extends Component
 
         return view('livewire.orders.add-product', [
             'products' => Product::query()
-                ->select('id', 'name', 'sku', 'brand')
+                ->select('id', 'name', 'sku', 'brand', 'image')
                 ->with('features:id,product_id,name')
                 ->whereHas(
                     'stocks',

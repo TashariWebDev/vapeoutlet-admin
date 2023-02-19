@@ -8,6 +8,9 @@ use App\Models\Order;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -35,7 +38,7 @@ class Show extends Component
         $this->status = $this->order->status;
     }
 
-    public function getOrderProperty()
+    public function getOrderProperty(): Model|Order|Builder|_IH_Order_QB|null
     {
         return Order::where('orders.id', '=', $this->orderId)
             ->with([
@@ -92,7 +95,12 @@ class Show extends Component
         ])->render();
 
         $name = 'PS-'.$this->order->number;
-        $url = storage_path("app/public/documents/$name.pdf");
+
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$name.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -106,7 +114,9 @@ class Show extends Component
             ->setScreenshotType('pdf', 50)
             ->save($url);
 
-        $this->redirect("/storage/documents/$name.pdf");
+        $this->redirect(
+            '/storage/'.config('app.storage_folder')."/documents/$name.pdf"
+        );
     }
 
     /**
@@ -119,8 +129,11 @@ class Show extends Component
         ])->render();
 
         $name = 'DN-'.$this->order->number;
+
         $url = storage_path(
-            "app/public/documents/$name.pdf"
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$name.pdf"
         );
 
         if (file_exists($url)) {
@@ -135,7 +148,9 @@ class Show extends Component
             ->setScreenshotType('pdf', 100)
             ->save($url);
 
-        $this->redirect("/storage/documents/$name.pdf");
+        $this->redirect(
+            '/storage/'.config('app.storage_folder')."/documents/$name.pdf"
+        );
     }
 
     public function render(): Factory|View|Application

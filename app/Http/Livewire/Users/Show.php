@@ -21,7 +21,7 @@ class Show extends Component
 
     protected $listeners = ['refreshData' => '$refresh'];
 
-    public function rules()
+    public function rules(): array
     {
         return [
             'user.name' => ['required'],
@@ -61,7 +61,9 @@ class Show extends Component
     public function assignAllPermissions()
     {
         $permissions = Permission::all()->pluck('id');
+
         $this->user->permissions()->sync($permissions);
+
         $this->notify('All permissions assigned');
     }
 
@@ -122,6 +124,7 @@ class Show extends Component
         $this->emitSelf('refreshData');
 
         $userPermissions = $this->user->permissions()->pluck('permission_id');
+
         $userSalesChannels = $this->user
             ->sales_channels()
             ->pluck('sales_channel_id');

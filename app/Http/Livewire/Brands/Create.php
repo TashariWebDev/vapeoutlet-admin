@@ -35,7 +35,10 @@ class Create extends Component
 
         Brand::create([
             'name' => strtolower($this->name),
-            'image' => $this->logo->store('uploads', 'public'),
+            'image' => $this->logo->store(
+                'uploads/'.config('app.storage_folder'),
+                'public'
+            ),
         ]);
 
         $this->reset(['name', 'logo', 'modal']);

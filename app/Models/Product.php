@@ -58,12 +58,7 @@ class Product extends Model
 
     public function qtyAvailableInWarehouse()
     {
-        return $this->stocks
-            ->where(
-                'sales_channel_id',
-                '=', 1
-            )
-            ->sum('qty');
+        return $this->stocks->where('sales_channel_id', '=', 1)->sum('qty');
     }
 
     public function outOfStock()
@@ -135,7 +130,7 @@ class Product extends Model
         );
     }
 
-    public function oldwholesalePrice(): Attribute
+    public function oldWholesalePrice(): Attribute
     {
         return new Attribute(
             get: fn ($value) => to_rands($value),
@@ -154,9 +149,7 @@ class Product extends Model
     public function image(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value
-                ? config('app.app_url').'/storage/'.$value
-                : config('app.app_url').'/storage/images/default-image.png'
+            get: fn ($value) => $value ?: '/images/no_image.jpeg'
         );
     }
 
@@ -304,16 +297,17 @@ class Product extends Model
     {
         $this->update([
             'cost' => $this->cost > 0
-                ? ($item->total_cost_in_zar() + $this->cost) / 2
-                : $item->total_cost_in_zar(),
+                    ? ($item->total_cost_in_zar() + $this->cost) / 2
+                    : $item->total_cost_in_zar(),
         ]);
     }
 
     public function sendStockAlerts()
     {
         $this->stockAlerts->each(function ($alert) {
-            Notification::route('mail', $alert->email)
-                ->notify(new StockAlertNotification($this));
+            Notification::route('mail', $alert->email)->notify(
+                new StockAlertNotification($this)
+            );
         });
     }
 }

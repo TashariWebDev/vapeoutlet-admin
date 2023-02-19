@@ -12,13 +12,21 @@ class DeleteOldPriceListCommand extends Command
 
     public function handle()
     {
-        $url = storage_path('app/public/documents/price-list-wholesale.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/price-list-wholesale.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
         }
 
-        $url = storage_path('app/public/documents/price-list-retail.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/price-list-retail.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);

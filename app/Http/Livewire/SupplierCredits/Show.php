@@ -15,6 +15,7 @@ class Show extends Component
     public function mount()
     {
         $this->credit = SupplierCredit::find(request('id'));
+
         $this->credit->load('items.product');
     }
 

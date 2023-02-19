@@ -28,7 +28,12 @@ class Index extends Component
 
         Storage::disk('public')->delete($brand->image);
 
-        $brand->update(['image' => $this->image->store('uploads', 'public')]);
+        $brand->update([
+            'image' => $this->image->store(
+                config('app.storage_folder').'/uploads',
+                'public'
+            ),
+        ]);
 
         $this->notify('brand name updated');
     }

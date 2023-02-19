@@ -47,9 +47,7 @@ class Image extends Model
     public function url(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value
-                ? config('app.app_url').'/storage/'.$value
-                : config('app.app_url').'/storage/images/default-image.png'
+            get: fn ($value) => $value ?: '/images/no_image.jpeg'
         );
     }
 }

@@ -22,7 +22,7 @@ class StockTake extends Model
 
     public function sales_channel(): BelongsTo
     {
-        return $this->belongsTo(SalesChannel::class);
+        return $this->belongsTo(SalesChannel::class)->withTrashed();
     }
 
     public function getTotal(): float
@@ -53,7 +53,11 @@ class StockTake extends Model
 
         $name = 'STK-'.$this->number;
 
-        $url = storage_path("app/public/documents/$name.pdf");
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$name.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -67,7 +71,9 @@ class StockTake extends Model
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect("/storage/documents/$name.pdf");
+        return redirect(
+            '/storage/'.config('app.storage_folder')."/documents/$name.pdf"
+        );
     }
 
     /**
@@ -80,7 +86,11 @@ class StockTake extends Model
         ])->render();
 
         $name = 'CS-'.$this->number;
-        $url = storage_path("app/public/documents/$name.pdf");
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$name.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -94,6 +104,8 @@ class StockTake extends Model
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect("/storage/documents/$name.pdf");
+        return redirect(
+            '/storage/'.config('app.storage_folder')."/documents/$name.pdf"
+        );
     }
 }

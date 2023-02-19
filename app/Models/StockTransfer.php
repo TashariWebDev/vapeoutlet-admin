@@ -122,7 +122,11 @@ class StockTransfer extends Model
             'transfer' => $this,
         ])->render();
 
-        $url = storage_path("app/public/documents/$document.pdf");
+        $url = storage_path(
+            "app/public/'.
+                config('app.storage_folder').
+                '/documents/$document.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -137,6 +141,10 @@ class StockTransfer extends Model
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect("/storage/documents/$document.pdf");
+        return redirect(
+            "/storage/public/'.
+                config('app.storage_folder').
+                '/documents/$document.pdf"
+        );
     }
 }

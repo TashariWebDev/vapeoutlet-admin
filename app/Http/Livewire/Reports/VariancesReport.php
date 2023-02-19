@@ -3,6 +3,11 @@
 namespace App\Http\Livewire\Reports;
 
 use App\Models\Stock;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -18,7 +23,7 @@ class VariancesReport extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function print()
+    public function print(): Redirector|Application|RedirectResponse
     {
         $stocks = Stock::whereBetween('created_at', [
             $this->fromDate,
@@ -35,7 +40,11 @@ class VariancesReport extends Component
             'to' => $this->toDate,
         ])->render();
 
-        $url = storage_path('app/public/documents/variances-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/variances-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -50,10 +59,14 @@ class VariancesReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/variances-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/variances-report.pdf'
+        );
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.reports.variances-report');
     }

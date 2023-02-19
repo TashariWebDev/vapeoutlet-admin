@@ -39,7 +39,11 @@ class DiscountReport extends Component
             'to' => $this->toDate,
         ])->render();
 
-        $url = storage_path('app/public/documents/discount-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/discount-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -54,7 +58,11 @@ class DiscountReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/discount-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/discount-report.pdf'
+        );
     }
 
     public function render(): Factory|View|Application

@@ -39,7 +39,11 @@ class TransactionReport extends Component
             'type' => $this->type,
         ])->render();
 
-        $url = storage_path('app/public/documents/transaction-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/transaction-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -54,7 +58,11 @@ class TransactionReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/transaction-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/transaction-report.pdf'
+        );
     }
 
     public function render()

@@ -71,8 +71,10 @@ class Index extends Component
         $this->bank_branch = $this->company->bank_branch;
         $this->bank_branch_no = $this->company->bank_branch_no;
         $this->bank_account_no = $this->company->bank_account_no;
-        $this->company_registration_number = $this->company->company_registration_number;
-        $this->vat_registration_number = $this->company->vat_registration_number;
+        $this->company_registration_number =
+            $this->company->company_registration_number;
+        $this->vat_registration_number =
+            $this->company->vat_registration_number;
         $this->logo = $this->company->logo;
     }
 
@@ -106,7 +108,10 @@ class Index extends Component
         ]);
 
         $this->company->update([
-            'logo' => $this->logo->store('uploads', 'public'),
+            'logo' => $this->logo->store(
+                config('app.storage_folder').'/uploads',
+                'public'
+            ),
         ]);
     }
 

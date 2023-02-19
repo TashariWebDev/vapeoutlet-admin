@@ -168,9 +168,7 @@ class Index extends Component
 
     public function getCreditorsListDocument()
     {
-        Http::get(
-            config('app.admin_url').'/webhook/documents/creditors-list'
-        );
+        Http::get(config('app.app_url').'/webhook/documents/creditors-list');
 
         $this->redirect('reports');
     }
@@ -178,7 +176,7 @@ class Index extends Component
     public function getVariancesDocument()
     {
         Http::get(
-            config('app.admin_url').
+            config('app.app_url').
                 "/webhook/documents/variances?from=$this->fromDate&to=$this->toDate"
         );
         $this->redirect('reports');
@@ -187,7 +185,7 @@ class Index extends Component
     public function getSalesByDateRangeDocument()
     {
         Http::get(
-            config('app.admin_url').
+            config('app.app_url').
                 "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
         );
         $this->redirect('reports');
@@ -216,13 +214,17 @@ class Index extends Component
             )
             ->get();
 
-        $url = storage_path('app/public/documents/stockByDateRange.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/stockByDateRange.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
         }
 
-        $view = view('templates.pdf.stock-report.blade.php', [
+        $view = view('templates.pdf.stock-report', [
             'products' => $products->filter(function ($product) {
                 return $product->stocks_sum_qty > 0;
             }),

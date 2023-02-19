@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Reports;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
 use Livewire\Component;
@@ -52,7 +54,11 @@ class PaymentReport extends Component
             'to' => $this->toDate,
         ])->render();
 
-        $url = storage_path('app/public/documents/payment-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/payment-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -67,10 +73,14 @@ class PaymentReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/payment-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/payment-report.pdf'
+        );
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.reports.payment-report');
     }

@@ -5,6 +5,9 @@ namespace App\Http\Livewire\StockTransfers;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Product;
 use App\Models\StockTransfer;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -64,11 +67,11 @@ class AddProducts extends Component
         $this->emit('refreshData');
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.stock-transfers.add-products', [
             'products' => Product::query()
-                ->select('id', 'name', 'sku', 'brand')
+                ->select('id', 'name', 'sku', 'brand', 'image')
                 ->with('features:id,product_id,name')
                 ->whereHas(
                     'stocks',

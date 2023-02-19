@@ -35,7 +35,9 @@ class Edit extends Component
     public function mount()
     {
         $this->transaction = Transaction::findOrFail(request('id'));
+
         $this->customerId = $this->transaction->customer_id;
+
         if (
             $this->transaction->type == 'refund' ||
             $this->transaction->type == 'payment'

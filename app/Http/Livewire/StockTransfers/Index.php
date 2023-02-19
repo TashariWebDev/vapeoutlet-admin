@@ -4,8 +4,12 @@ namespace App\Http\Livewire\StockTransfers;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\StockTransfer;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Index extends Component
 {
@@ -23,12 +27,15 @@ class Index extends Component
         $this->notify('SalesChannel cancelled');
     }
 
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
     public function print(StockTransfer $transfer)
     {
         $transfer->print();
     }
 
-    public function render()
+    public function render(): Factory|View|Application
     {
         return view('livewire.stock-transfers.index', [
             'transfers' => StockTransfer::query()

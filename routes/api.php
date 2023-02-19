@@ -23,13 +23,25 @@ Route::middleware('auth:sanctum')->get('/v1/user', function (Request $request) {
 
 Route::post('/v1/login', [LoginController::class, 'store']);
 Route::post('/v1/register', [RegisterController::class, 'store']);
-Route::post('/v1/password-reset-link', [PasswordResetLinkController::class, 'store']);
+Route::post('/v1/password-reset-link', [
+    PasswordResetLinkController::class,
+    'store',
+]);
 Route::post('/v1/password-reset', [PasswordResetController::class, 'store']);
-Route::middleware('auth:sanctum')->post('/v1/logout', [LoginController::class, 'destroy']);
+Route::middleware('auth:sanctum')->post('/v1/logout', [
+    LoginController::class,
+    'destroy',
+]);
 
 Route::get('/v1/get-product/{id}', [GetProductController::class, 'index']);
-Route::get('/v1/get-products', [GetProductCollectionController::class, 'index']);
-Route::get('/v1/get-latest-products', [GetLatestProductsCollectionController::class, 'index']);
+Route::get('/v1/get-products', [
+    GetProductCollectionController::class,
+    'index',
+]);
+Route::get('/v1/get-latest-products', [
+    GetLatestProductsCollectionController::class,
+    'index',
+]);
 
 //Route::get('/sales', function () {
 //    $customers = Customer::withWhereHas('monthlySales', function ($query) {

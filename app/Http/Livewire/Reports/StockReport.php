@@ -37,7 +37,11 @@ class StockReport extends Component
             )
             ->get();
 
-        $url = storage_path('app/public/documents/stock-report.pdf');
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                '/documents/stock-report.pdf'
+        );
 
         if (file_exists($url)) {
             unlink($url);
@@ -59,7 +63,11 @@ class StockReport extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        return redirect('/storage/documents/stock-report.pdf');
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                '/documents/stock-report.pdf'
+        );
     }
 
     public function render()

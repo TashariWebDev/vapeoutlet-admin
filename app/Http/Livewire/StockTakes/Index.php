@@ -112,12 +112,15 @@ class Index extends Component
                 ->get();
 
             foreach ($selectedProducts as $product) {
-                $stockTake->items()->updateOrCreate([
-                    'product_id' => $product->id,
-                ], [
-                    'product_id' => $product->id,
-                    'cost' => $product->cost,
-                ]);
+                $stockTake->items()->updateOrCreate(
+                    [
+                        'product_id' => $product->id,
+                    ],
+                    [
+                        'product_id' => $product->id,
+                        'cost' => $product->cost,
+                    ]
+                );
             }
         }
 
