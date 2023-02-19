@@ -2,7 +2,7 @@
     <x-page-header class="pb-3">
         Edit {{ $product->fullName() }}
     </x-page-header>
-
+    
     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
         <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
             <form wire:submit.prevent="save">
@@ -90,7 +90,7 @@
                         <x-input.label for="collection">
                             Collection ( optional )
                         </x-input.label>
-
+                        
                         <x-input.select
                             id="collection"
                             type="text"
@@ -101,7 +101,7 @@
                                 <option value="{{ $collection->id }}">{{ $collection->name }}</option>
                             @endforeach
                         </x-input.select>
-
+                        
                         @error('product.product_collection_id')
                         <x-input.error>{{ $message }}</x-input.error>
                         @enderror
@@ -110,7 +110,7 @@
                         <livewire:collections.create wire:key="add-collection" />
                     </div>
                 </div>
-
+                
                 <div class="py-2">
                     <x-input.label for="description">
                         Description
@@ -124,7 +124,7 @@
                     <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
-
+                
                 <div class="py-2">
                     <x-input.label for="retail_price">
                         Retail price
@@ -163,7 +163,7 @@
                     <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
-
+                
                 <div class="flex items-end py-2">
                     <div class="flex-1">
                         <x-input.label for="features">
@@ -188,10 +188,10 @@
                     <div>
                         <p class="text-xs text-sky-500 dark:text-sky-400">update and click tab to save</p>
                     </div>
-
+                    
                     @foreach ($product->features as $feature)
                         <div class="flex items-end py-2">
-
+                            
                             <div class="flex-1">
                                 <x-input.label for="{{ $feature->category->name }}-{{ $feature->id }}">
                                     {{ $feature->category->name }}
@@ -203,14 +203,14 @@
                                     x-on:blur="$wire.call('updateFeature',{{ $feature->id }},$event.target.value)"
                                 />
                             </div>
-
+                            
                             <button x-on:click.prevent="$wire.call('deleteFeature', {{ $feature->id }})">
                                 <x-icons.cross class="w-10 h-10 text-rose-500 hover:text-rose-600" />
                             </button>
                         </div>
                     @endforeach
                 </div>
-
+                
                 <div class="py-2">
                     <button
                         class="w-full button-success"
@@ -222,7 +222,7 @@
                 </div>
             </form>
         </div>
-
+        
         <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
             @if ($product)
                 <div>
@@ -253,7 +253,7 @@
                     </div>
                 </div>
             @endif
-
+            
             <div>
                 <div class="pb-4 pl-3 w-32">
                     @if ($product)
@@ -269,7 +269,7 @@
                             @endif
                             <img
                                 class="object-cover items-center h-full rounded-t-md"
-                                src="{{ asset('storage/'.$product->image) }}"
+                                src="{{ asset($product->image) }}"
                                 alt=""
                             >
                         </div>
