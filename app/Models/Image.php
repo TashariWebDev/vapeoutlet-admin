@@ -47,7 +47,7 @@ class Image extends Model
     public function url(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => $value ?: '/images/no_image.jpeg'
+            get: fn ($value) => 'storage/'.$value ?: '/images/no_image.jpeg'
         );
     }
 }

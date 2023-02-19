@@ -79,7 +79,7 @@
                                     <div>
                                         <img
                                             class="w-10 h-10"
-                                            src="{{ asset('storage/'.$product->image) }}"
+                                            src="{{ asset($product->image) }}"
                                             alt=""
                                         >
                                     </div>
