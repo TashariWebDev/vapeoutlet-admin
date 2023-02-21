@@ -241,7 +241,7 @@
                                 </div>
                                 <img
                                     class="object-cover items-center h-full rounded-md"
-                                    src="{{ asset($image->url) }}"
+                                    src="{{ asset('storage/'.$image->url) }}"
                                     alt=""
                                 >
                             </div>
