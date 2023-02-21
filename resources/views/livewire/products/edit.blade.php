@@ -269,7 +269,7 @@
                             @endif
                             <img
                                 class="object-cover items-center h-full rounded-t-md"
-                                src="{{ asset($product->image) }}"
+                                src="{{ asset('storage/'.$product->image) }}"
                                 alt=""
                             >
                         </div>
