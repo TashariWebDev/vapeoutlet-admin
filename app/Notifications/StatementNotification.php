@@ -29,7 +29,13 @@ class StatementNotification extends Notification implements ShouldQueue
             ->greeting('Hi '.ucwords($this->customer->name))
             ->line('Please find attached statement')
             ->line('Thank you for your loyal support. ')
-            ->attach(storage_path("app/public/documents/$statement.pdf"));
+            ->attach(
+                storage_path(
+                    'app/public/'.
+                        config('app.storage_folder').
+                        "/documents/$statement.pdf"
+                )
+            );
     }
 
     public function toArray($notifiable): array

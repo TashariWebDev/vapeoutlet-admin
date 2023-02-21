@@ -145,7 +145,11 @@ class Show extends Component
         $this->customer->getStatement($this->recordCount);
         $statement = $this->customer->statement;
 
-        return redirect("/storage/documents/$statement.pdf");
+        return redirect(
+            '/storage/'.
+                config('app.storage_folder').
+                "/documents/$statement.pdf"
+        );
     }
 
     /**
