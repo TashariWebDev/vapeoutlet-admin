@@ -226,7 +226,7 @@
                   <li
                     class="p-2 mb-2 text-xs font-semibold rounded text-sky-800 dark:text-sky-300 dark:odd:bg-slate-900 dark:even:bg-slate-700 odd:bg-sky-50 even:bg-slate-100"
                   >
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-start">
                       <p>{{ $product->brand }} {{ $product->name }}</p>
                       <div>
                         <p>{{ 0 - $product->sold }} units</p>
