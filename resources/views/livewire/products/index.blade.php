@@ -84,9 +84,11 @@
 
     <section class="px-2 mt-4 rounded-b-lg">
       @forelse($products as $product)
-        <div
-          class="py-6 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-800 dark:even:bg-slate-900 even:bg-slate-50"
-        >
+
+        <div @class([
+            'py-6 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-800 dark:even:bg-slate-900 even:bg-slate-50',
+            'bg-red-300' => $product->trashed(),
+        ])>
           <div class="grid grid-cols-2 gap-3 lg:grid-cols-8">
             <div class="col-span-2 w-full text-xs">
               @if (auth()->user()->hasPermissionTo('edit products'))
@@ -188,155 +190,166 @@
             <div class="w-full h-full">
               <div>
                 <div>
-                  @if (auth()->user()->hasPermissionTo('edit pricing'))
-                    <x-input.label for="retail">
-                      Retail price
-                    </x-input.label>
+                  @if (!$product->trashed())
+                    @if (auth()->user()->hasPermissionTo('edit pricing'))
+                      <x-input.label for="retail">
+                        Retail price
+                      </x-input.label>
 
-                    <x-input.text
-                      class="px-0.5 w-full rounded border"
-                      id="retail"
-                      type="number"
-                      value="{{ $product->retail_price }}"
-                      inputmode="numeric"
-                      pattern="[0-9]"
-                      step="0.01"
-                      @keydown.tab="$wire.call('updateRetailPrice','{{ $product->id }}',$event.target.value)"
-                    />
-                  @else
-                    <x-input.label for="retail">
-                      Retail price
-                    </x-input.label>
-                    <p class="text-center text-slate-600 dark:text-slate-300">
-                      {{ $product->retail_price }}</p>
-                  @endif
-                  @if (auth()->user()->hasPermissionTo('view cost'))
-                    <span
-                      class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
-                    >
-                      {{ profit_percentage($product->retail_price, $product->cost) }}
-                    </span>
+                      <x-input.text
+                        class="px-0.5 w-full rounded border"
+                        id="retail"
+                        type="number"
+                        value="{{ $product->retail_price }}"
+                        inputmode="numeric"
+                        pattern="[0-9]"
+                        step="0.01"
+                        @keydown.tab="$wire.call('updateRetailPrice','{{ $product->id }}',$event.target.value)"
+                      />
+                    @else
+                      <x-input.label for="retail">
+                        Retail price
+                      </x-input.label>
+                      <p class="text-center text-slate-600 dark:text-slate-300">
+                        {{ $product->retail_price }}</p>
+                    @endif
+                    @if (auth()->user()->hasPermissionTo('view cost'))
+                      <span
+                        class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
+                      >
+                        {{ profit_percentage($product->retail_price, $product->cost) }}
+                      </span>
+                    @endif
                   @endif
                 </div>
               </div>
             </div>
             <div class="w-full h-full">
               <div>
-                @if (auth()->user()->hasPermissionTo('edit pricing'))
-                  <x-input.label for="wholesale">
-                    Wholesale price
-                  </x-input.label>
-                  <x-input.text
-                    class="px-0.5 w-full rounded border"
-                    id="wholesale"
-                    type="number"
-                    value="{{ $product->wholesale_price }}"
-                    inputmode="numeric"
-                    pattern="[0-9]"
-                    step="0.01"
-                    @keydown.tab="$wire.call('updateWholesalePrice','{{ $product->id }}',$event.target.value)"
-                  />
-                @else
-                  <x-input.label for="wholesale">
-                    Wholesale price
-                  </x-input.label>
-                  <p class="text-center text-slate-600 dark:text-slate-300">
-                    {{ $product->wholesale_price }}</p>
-                @endif
-                @if (auth()->user()->hasPermissionTo('view cost'))
-                  <span
-                    class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
-                  >
-                    {{ profit_percentage($product->wholesale_price, $product->cost) }}
-                  </span>
+                @if (!$product->trashed())
+                  @if (auth()->user()->hasPermissionTo('edit pricing'))
+                    <x-input.label for="wholesale">
+                      Wholesale price
+                    </x-input.label>
+                    <x-input.text
+                      class="px-0.5 w-full rounded border"
+                      id="wholesale"
+                      type="number"
+                      value="{{ $product->wholesale_price }}"
+                      inputmode="numeric"
+                      pattern="[0-9]"
+                      step="0.01"
+                      @keydown.tab="$wire.call('updateWholesalePrice','{{ $product->id }}',$event.target.value)"
+                    />
+                  @else
+                    <x-input.label for="wholesale">
+                      Wholesale price
+                    </x-input.label>
+                    <p class="text-center text-slate-600 dark:text-slate-300">
+                      {{ $product->wholesale_price }}
+                    </p>
+                  @endif
+                  @if (auth()->user()->hasPermissionTo('view cost'))
+                    <span
+                      class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
+                    >
+                      {{ profit_percentage($product->wholesale_price, $product->cost) }}
+                    </span>
+                  @endif
                 @endif
               </div>
             </div>
             <div class="grid grid-cols-1 gap-2 w-full h-full">
               <div>
-                @hasPermissionTo('edit products')
-                  @if ($product->retail_price * $product->wholesale_price > 0)
-                    @if ($product->is_active)
+                @if (!$product->trashed())
+                  @hasPermissionTo('edit products')
+                    @if ($product->retail_price * $product->wholesale_price > 0)
+                      @if ($product->is_active)
+                        <button
+                          class="flex justify-start items-center space-x-2 w-full button-success"
+                          x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                        >
+                          <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                          <p>active</p>
+                        </button>
+                      @else
+                        <button
+                          class="flex justify-start items-center space-x-2 w-full button-danger"
+                          x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                        >
+                          <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
+                          <p>not active</p>
+                        </button>
+                      @endif
+                    @endif
+                  @endhasPermissionTo
+                @endif
+              </div>
+              <div>
+                @if (!$product->trashed())
+                  @hasPermissionTo('edit products')
+                    @if ($product->is_featured)
                       <button
                         class="flex justify-start items-center space-x-2 w-full button-success"
-                        x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                        x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                       >
                         <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                        <p>active</p>
+                        <p>featured</p>
                       </button>
                     @else
                       <button
                         class="flex justify-start items-center space-x-2 w-full button-success"
-                        x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
+                        x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                       >
                         <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                        <p>active</p>
+                        <p>Not featured</p>
                       </button>
                     @endif
-                  @endif
-                @endhasPermissionTo
-              </div>
-              <div>
-                @hasPermissionTo('edit products')
-                  @if ($product->is_featured)
-                    <button
-                      class="flex justify-start items-center space-x-2 w-full button-success"
-                      x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
-                    >
-                      <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                      <p>featured</p>
-                    </button>
-                  @else
-                    <button
-                      class="flex justify-start items-center space-x-2 w-full button-success"
-                      x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
-                    >
-                      <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                      <p>featured</p>
-                    </button>
-                  @endif
-                @endhasPermissionTo
+                  @endhasPermissionTo
+                @endif
               </div>
             </div>
             <div class="grid grid-cols-1 gap-2 w-full h-full">
-              <div>
-                @hasPermissionTo('edit products')
-                  @if ($product->is_sale)
-                    <button
-                      class="flex justify-start items-center space-x-2 w-full button-success"
-                      x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
-                    >
-                      <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                      <p>sale</p>
-                    </button>
-                  @else
-                    <button
-                      class="flex justify-start items-center space-x-2 w-full button-success"
-                      x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
-                    >
-                      <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                      <p>sale</p>
-                    </button>
-                  @endif
-                @endhasPermissionTo
-              </div>
+              @if (!$product->trashed())
+                <div>
+                  @hasPermissionTo('edit products')
+                    @if ($product->is_sale)
+                      <button
+                        class="flex justify-start items-center space-x-2 w-full button-success"
+                        x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
+                      >
+                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                        <p>sale</p>
+                      </button>
+                    @else
+                      <button
+                        class="flex justify-start items-center space-x-2 w-full button-success"
+                        x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
+                      >
+                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
+                        <p>not on sale</p>
+                      </button>
+                    @endif
+                  @endhasPermissionTo
+                </div>
+              @endif
               <div>
                 @hasPermissionTo('edit products')
                   @if ($product->trashed())
                     <button
-                      class="flex justify-start items-center space-x-2 w-full button-success"
+                      class="flex justify-start items-center space-x-2 w-full button-danger"
                       x-on:click="$wire.call('recover','{{ $product->id }}')"
                     >
-                      <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
-                      <p>recover</p>
+                      <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
+                      <p>disabled</p>
                     </button>
                   @else
                     <button
                       class="flex justify-start items-center space-x-2 w-full button-success"
                       x-on:click="$wire.call('delete','{{ $product->id }}')"
                     >
-                      <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
-                      <p>archive</p>
+                      <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                      <p>enabled</p>
                     </button>
                   @endif
                 @endhasPermissionTo

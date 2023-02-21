@@ -72,8 +72,13 @@ class Index extends Component
 
     public function delete(Product $product)
     {
+        $product->update([
+            'is_active' => false,
+        ]);
+
         $product->delete();
-        $this->notify('Product archived');
+
+        $this->notify('Product disabled & archived');
     }
 
     public function updateRetailPrice(Product $product, $value)
@@ -86,6 +91,14 @@ class Index extends Component
     {
         $product->update(['wholesale_price' => $value]);
         $this->notify('price updated');
+    }
+
+    public function recover($productId)
+    {
+        Product::withTrashed()
+            ->find($productId)
+            ->restore();
+        $this->notify('product restored');
     }
 
     public function getProductsProperty()
@@ -139,6 +152,9 @@ class Index extends Component
                     fn ($query) => $query->search($this->searchQuery)
                 )
                 ->where('is_active', $this->activeFilter)
+                ->when(! $this->activeFilter, function ($query) {
+                    $query->withTrashed();
+                })
                 ->orderByRaw('brand')
                 ->paginate($this->recordCount),
         ]);
