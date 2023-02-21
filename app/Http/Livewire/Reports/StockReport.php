@@ -4,6 +4,9 @@ namespace App\Http\Livewire\Reports;
 
 use App\Models\Product;
 use Carbon\Carbon;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -17,7 +20,7 @@ class StockReport extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function print()
+    public function print(): Redirector|Application|RedirectResponse
     {
         $products = Product::whereHas('stocks', function ($query) {
             $query->whereDate('created_at', '<=', Carbon::parse($this->toDate));

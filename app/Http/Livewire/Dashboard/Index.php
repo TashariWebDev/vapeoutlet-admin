@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Product;
 use App\Models\Purchase;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -44,6 +45,32 @@ class Index extends Component
             );
     }
 
+    public function getTopSellersProperty()
+    {
+        $products = Product::query()
+            ->select(['id', 'name', 'brand', 'sku'])
+            ->withSum(
+                [
+                    'stocks as sold' => function ($query) {
+                        $query
+                            ->where('type', 'invoice')
+                            ->whereMonth('created_at', '=', date('m'));
+                    },
+                    'stocks as available',
+                ],
+                'qty'
+            )
+            ->orderBy('sold')
+            ->get();
+
+        return $products
+            ->filter(function ($product) {
+                return $product->sold < 0;
+            })
+            ->take(10)
+            ->load(['features:id,product_id,name']);
+    }
+
     public function render(): Factory|View|Application
     {
         return view('livewire.dashboard.index', [
@@ -58,6 +85,7 @@ class Index extends Component
                 ->whereNot('is_wholesale', true)
                 ->where('requested_wholesale_account', true)
                 ->count(),
+            'topTenProducts' => $this->topSellers,
         ]);
     }
 }

@@ -98,6 +98,7 @@ class Index extends Component
         Product::withTrashed()
             ->find($productId)
             ->restore();
+
         $this->notify('product restored');
     }
 

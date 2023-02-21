@@ -48,7 +48,9 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', Index::class)->name('dashboard');
-    Route::get('system-settings', SystemSettingsIndex::class)->name('system-settings');
+    Route::get('system-settings', SystemSettingsIndex::class)->name(
+        'system-settings'
+    );
 
     Route::get('orders', OrdersIndex::class)
         ->name('orders')
