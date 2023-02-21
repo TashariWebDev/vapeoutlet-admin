@@ -29,6 +29,10 @@ class RenameAllExistingImagesCommand extends Command
                 $url = str_replace('storage/vapecrew/', '', $url);
             }
 
+            if (Str::startsWith($url, '//')) {
+                $url = str_replace('//', '', $url);
+            }
+
             if (Str::startsWith($url, 'storage/')) {
                 $url = str_replace('storage/', '', $url);
             }
@@ -48,6 +52,10 @@ class RenameAllExistingImagesCommand extends Command
 
                 if (Str::startsWith($url, 'storage/vapecrew/')) {
                     $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, '//')) {
+                    $url = str_replace('//', '', $url);
                 }
 
                 if (Str::startsWith($url, 'storage/')) {
@@ -70,6 +78,10 @@ class RenameAllExistingImagesCommand extends Command
                     $url = str_replace('storage/vapecrew/', '', $url);
                 }
 
+                if (Str::startsWith($url, '//')) {
+                    $url = str_replace('//', '', $url);
+                }
+
                 if (Str::startsWith($url, 'storage/')) {
                     $url = str_replace('storage/', '', $url);
                 }
@@ -88,6 +100,10 @@ class RenameAllExistingImagesCommand extends Command
 
                 if (Str::startsWith($url, 'storage/vapecrew/')) {
                     $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, '//')) {
+                    $url = str_replace('//', '', $url);
                 }
 
                 if (Str::startsWith($url, 'storage/')) {
@@ -110,6 +126,10 @@ class RenameAllExistingImagesCommand extends Command
 
                 if (Str::startsWith($url, 'storage/vapecrew/')) {
                     $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, '//')) {
+                    $url = str_replace('//', '', $url);
                 }
 
                 if (Str::startsWith($url, 'storage/')) {

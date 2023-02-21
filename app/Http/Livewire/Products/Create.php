@@ -82,7 +82,7 @@ class Create extends Component
     {
         $validatedData = $this->validate([
             'name' => ['required'],
-            'sku' => ['required'],
+            'sku' => ['required', 'unique:products,sku'],
             'brand' => ['required'],
             'category' => ['required'],
             'product_collection_id' => ['sometimes'],
