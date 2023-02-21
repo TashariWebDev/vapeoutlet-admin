@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Customers;
 
-use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Customer;
 use App\Notifications\WholesaleDeclineNotification;
 use App\Notifications\WholesaleWelcomeNotification;
@@ -15,8 +14,6 @@ use Livewire\Component;
 
 class WholesaleApproval extends Component
 {
-    use WithNotifications;
-
     public $modal = false;
 
     public $selectedImage;
@@ -44,7 +41,6 @@ class WholesaleApproval extends Component
         $this->customer->notify(
             new WholesaleWelcomeNotification($this->customer)
         );
-        $this->notify('The customer has been notified');
 
         return redirect('/customers/wholesale/applications');
     }
@@ -58,8 +54,6 @@ class WholesaleApproval extends Component
         $this->customer->notify(
             new WholesaleDeclineNotification($this->customer)
         );
-
-        $this->notify('The customer has been notified');
 
         return redirect('/customers/wholesale/applications');
     }
