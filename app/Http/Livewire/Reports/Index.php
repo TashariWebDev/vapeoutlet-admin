@@ -170,7 +170,7 @@ class Index extends Component
     {
         Http::get(config('app.app_url').'/webhook/documents/creditors-list');
 
-        $this->redirect('reports');
+        return redirect('reports');
     }
 
     public function getVariancesDocument()
@@ -179,7 +179,8 @@ class Index extends Component
             config('app.app_url').
                 "/webhook/documents/variances?from=$this->fromDate&to=$this->toDate"
         );
-        $this->redirect('reports');
+
+        return redirect('reports');
     }
 
     public function getSalesByDateRangeDocument()
@@ -188,7 +189,8 @@ class Index extends Component
             config('app.app_url').
                 "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
         );
-        $this->redirect('reports');
+
+        return redirect('reports');
     }
 
     /**
@@ -238,7 +240,7 @@ class Index extends Component
             ->setScreenshotType('pdf', 90)
             ->save($url);
 
-        $this->redirect('reports');
+        return redirect('reports');
     }
 
     public function render(): Factory|View|Application

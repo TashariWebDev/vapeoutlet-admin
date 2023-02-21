@@ -149,7 +149,7 @@ class Product extends Model
     public function image(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => 'storage/'.$value ?: '/images/no_image.jpeg'
+            get: fn ($value) => $value ?: '/images/no_image.jpeg'
         );
     }
 
@@ -297,8 +297,8 @@ class Product extends Model
     {
         $this->update([
             'cost' => $this->cost > 0
-                ? ($item->total_cost_in_zar() + $this->cost) / 2
-                : $item->total_cost_in_zar(),
+                    ? ($item->total_cost_in_zar() + $this->cost) / 2
+                    : $item->total_cost_in_zar(),
         ]);
     }
 

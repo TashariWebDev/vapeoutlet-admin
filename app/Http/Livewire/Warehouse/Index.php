@@ -46,7 +46,7 @@ class Index extends Component
             ->setScreenshotType('pdf', 60)
             ->save($url);
 
-        $this->redirect(
+        return redirect(
             '/storage/'.
                 config('app.storage_folder').
                 "/documents/$order->number.pdf"

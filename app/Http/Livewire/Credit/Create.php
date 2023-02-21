@@ -160,7 +160,7 @@ class Create extends Component
 
         $this->notify('processed');
 
-        $this->redirect("/customers/show/$this->customerId");
+        return redirect("/customers/show/$this->customerId");
     }
 
     public function cancel()
@@ -172,7 +172,7 @@ class Create extends Component
         $this->credit->cancel();
         $this->notify('Credit note deleted');
 
-        $this->redirect("/customers/show/{$this->customer->id}");
+        return redirect("/customers/show/{$this->customer->id}");
     }
 
     public function getCustomerProperty(): Customer|_IH_Customer_C|array|null

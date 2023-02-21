@@ -102,7 +102,7 @@ class Edit extends Component
 
         $this->notify('processed');
 
-        $this->redirect('/stock-transfers');
+        return redirect('/stock-transfers');
     }
 
     public function cancel()
@@ -114,7 +114,7 @@ class Edit extends Component
         $this->transfer->cancel();
         $this->notify('Transfer cancelled');
 
-        $this->redirect('/stock-transfers');
+        return redirect('/stock-transfers');
     }
 
     public function render()

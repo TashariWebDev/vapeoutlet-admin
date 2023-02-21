@@ -66,7 +66,8 @@ class Show extends Component
     {
         $this->order->updateStatus('completed');
         $this->notify('order completed');
-        $this->redirect('/orders');
+
+        return redirect('/orders');
     }
 
     public function edit()
@@ -75,7 +76,7 @@ class Show extends Component
             $this->order->stocks()->delete();
         }
 
-        $this->redirect("/orders/create/{$this->order->id}");
+        return redirect("/orders/create/{$this->order->id}");
     }
 
     public function removeNote(Note $note)
@@ -114,7 +115,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 50)
             ->save($url);
 
-        $this->redirect(
+        return redirect(
             '/storage/'.config('app.storage_folder')."/documents/$name.pdf"
         );
     }
@@ -148,7 +149,7 @@ class Show extends Component
             ->setScreenshotType('pdf', 100)
             ->save($url);
 
-        $this->redirect(
+        return redirect(
             '/storage/'.config('app.storage_folder')."/documents/$name.pdf"
         );
     }

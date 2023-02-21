@@ -78,14 +78,14 @@ class Show extends Component
     {
         $purchase = Purchase::where('invoice_no', '=', $invoiceNo)->first();
 
-        $this->redirect("/purchases/$purchase->id");
+        return redirect("/purchases/$purchase->id");
     }
 
     public function showSupplierCredit($creditNumber)
     {
         $creditId = Str::after($creditNumber, 'SC00');
 
-        $this->redirect("/supplier-credits/show/$creditId");
+        return redirect("/supplier-credits/show/$creditId");
     }
 
     public function createCredit()

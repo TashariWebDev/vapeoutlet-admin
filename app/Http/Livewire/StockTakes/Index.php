@@ -127,7 +127,8 @@ class Index extends Component
         $this->reset(['searchQuery', 'salesChannels', 'showStockTakeModal']);
 
         $this->notify('Stock take created');
-        $this->redirect('stock-takes');
+
+        return redirect('stock-takes');
     }
 
     public function render(): Factory|View|Application

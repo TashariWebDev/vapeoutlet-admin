@@ -56,7 +56,7 @@ class Quick extends Component
 
         $order->touch('created_at');
 
-        $this->redirect("/orders/create/$order->id");
+        return redirect("/orders/create/$order->id");
     }
 
     public function render(): Factory|View|Application

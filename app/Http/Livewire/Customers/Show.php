@@ -81,7 +81,7 @@ class Show extends Component
                 ->defaultSalesChannel()->id,
         ]);
 
-        $this->redirect("/orders/create/$order->id");
+        return redirect("/orders/create/$order->id");
     }
 
     public function getTransactionsProperty()
@@ -179,6 +179,6 @@ class Show extends Component
             $transaction->save();
         }
 
-        $this->redirect("/customers/show/{$this->customer->id}");
+        return redirect("/customers/show/{$this->customer->id}");
     }
 }
