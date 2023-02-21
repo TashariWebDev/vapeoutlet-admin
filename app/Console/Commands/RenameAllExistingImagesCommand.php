@@ -24,6 +24,15 @@ class RenameAllExistingImagesCommand extends Command
 
         if (! Str::startsWith($system->logo, config('app.storage_folder'))) {
             $url = $system->logo;
+
+            if (Str::startsWith($url, 'storage/vapecrew/')) {
+                $url = str_replace('storage/vapecrew/', '', $url);
+            }
+
+            if (Str::startsWith($url, 'storage/')) {
+                $url = str_replace('storage/', '', $url);
+            }
+
             $system->update([
                 'logo' => config('app.storage_folder').'/'.$url,
             ]);
@@ -36,6 +45,15 @@ class RenameAllExistingImagesCommand extends Command
                 ! Str::startsWith($banner->image, config('app.storage_folder'))
             ) {
                 $url = $banner->image;
+
+                if (Str::startsWith($url, 'storage/vapecrew/')) {
+                    $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'storage/')) {
+                    $url = str_replace('storage/', '', $url);
+                }
+
                 $banner->update([
                     'image' => config('app.storage_folder').'/'.$url,
                 ]);
@@ -47,6 +65,15 @@ class RenameAllExistingImagesCommand extends Command
         $brands->each(function ($brand) {
             if (! Str::startsWith($brand->image, config('app.storage_folder'))) {
                 $url = $brand->image;
+
+                if (Str::startsWith($url, 'storage/vapecrew/')) {
+                    $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'storage/')) {
+                    $url = str_replace('storage/', '', $url);
+                }
+
                 $brand->update([
                     'image' => config('app.storage_folder').'/'.$url,
                 ]);
@@ -58,6 +85,15 @@ class RenameAllExistingImagesCommand extends Command
         $images->each(function ($image) {
             if (! Str::startsWith($image->url, config('app.storage_folder'))) {
                 $url = $image->url;
+
+                if (Str::startsWith($url, 'storage/vapecrew/')) {
+                    $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'storage/')) {
+                    $url = str_replace('storage/', '', $url);
+                }
+
                 $image->update([
                     'url' => config('app.storage_folder').'/'.$url,
                 ]);
@@ -71,6 +107,15 @@ class RenameAllExistingImagesCommand extends Command
                 ! Str::startsWith($product->image, config('app.storage_folder'))
             ) {
                 $url = $product->image;
+
+                if (Str::startsWith($url, 'storage/vapecrew/')) {
+                    $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'storage/')) {
+                    $url = str_replace('storage/', '', $url);
+                }
+
                 $product->update([
                     'image' => config('app.storage_folder').'/'.$url,
                 ]);

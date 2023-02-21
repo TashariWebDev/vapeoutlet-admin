@@ -14,7 +14,7 @@ class ShopSetupCommand extends Command
 {
     protected $signature = 'shop:setup';
 
-    protected $description = 'Command description';
+    protected $description = 'Initial Setup';
 
     public function handle()
     {
