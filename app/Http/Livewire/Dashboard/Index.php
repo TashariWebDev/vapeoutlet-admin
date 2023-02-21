@@ -54,7 +54,8 @@ class Index extends Component
                     'stocks as sold' => function ($query) {
                         $query
                             ->where('type', 'invoice')
-                            ->whereMonth('created_at', '=', date('m'));
+                            ->whereMonth('created_at', '=', date('m'))
+                            ->whereYear('created_at', '=', date('Y'));
                     },
                     'stocks as available',
                 ],
