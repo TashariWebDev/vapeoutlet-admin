@@ -37,10 +37,8 @@ class PaymentReport extends Component
      */
     public function print(): Redirector|Application|RedirectResponse
     {
-        $transactions = Transaction::whereBetween('created_at', [
-            $this->fromDate,
-            $this->toDate,
-        ])
+        $transactions = Transaction::whereDate('date', '>=', $this->fromDate)
+            ->whereDate('date', '<=', $this->toDate)
             ->withWhereHas('customer', function ($query) {
                 $query->where('salesperson_id', '=', $this->salesperson_id);
             })
