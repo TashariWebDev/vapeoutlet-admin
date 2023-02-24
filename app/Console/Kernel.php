@@ -8,6 +8,7 @@ use App\Console\Commands\DeleteOldPriceListCommand;
 use App\Console\Commands\ShopSetupCommand;
 use App\Console\Commands\TestEmailCommand;
 use App\Console\Commands\UpdateSupplierTransactionsCommand;
+use App\Console\Commands\UpdateTransactionDateIfNullCommand;
 use App\Console\Commands\UpdateTransactionsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -22,13 +23,11 @@ class Kernel extends ConsoleKernel
         CompressImagesCommand::class,
         TestEmailCommand::class,
         ShopSetupCommand::class,
+        UpdateTransactionDateIfNullCommand::class,
     ];
 
     /**
      * Define the application's command schedule.
-     *
-     * @param  Schedule  $schedule
-     * @return void
      */
     protected function schedule(Schedule $schedule): void
     {
@@ -45,8 +44,6 @@ class Kernel extends ConsoleKernel
 
     /**
      * Register the commands for the application.
-     *
-     * @return void
      */
     protected function commands(): void
     {

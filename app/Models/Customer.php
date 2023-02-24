@@ -38,10 +38,14 @@ class Customer extends Authenticatable
         'requested_wholesale_account',
         'id_document',
         'cipc_documents',
-
     ];
 
-    protected $hidden = ['password', 'remember_token', 'id_document', 'cipc_documents'];
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'id_document',
+        'cipc_documents',
+    ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
@@ -49,7 +53,10 @@ class Customer extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        $url = config('app.frontend_url')."/reset-password/$token?email=".$this->email;
+        $url =
+            config('app.frontend_url').
+            "/reset-password/$token?email=".
+            $this->email;
 
         $this->notify(new ResetPasswordNotification($url));
     }
@@ -102,9 +109,11 @@ class Customer extends Authenticatable
 
     public function salesperson(): BelongsTo
     {
-        return $this->belongsTo(User::class)->where('is_super_admin', false)->withDefault([
-            'name' => '',
-        ]);
+        return $this->belongsTo(User::class)
+            ->where('is_super_admin', false)
+            ->withDefault([
+                'name' => '',
+            ]);
     }
 
     public function invoices(): HasMany
@@ -235,8 +244,11 @@ class Customer extends Authenticatable
                 ->get(),
         ])->render();
 
-        $url = storage_path('app/public/'.
-            config('app.storage_folder')."/documents/$this->statement.pdf");
+        $url = storage_path(
+            'app/public/'.
+                config('app.storage_folder').
+                "/documents/$this->statement.pdf"
+        );
 
         if (file_exists($url)) {
             unlink($url);
