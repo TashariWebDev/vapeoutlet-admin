@@ -123,9 +123,9 @@ class StockTransfer extends Model
         ])->render();
 
         $url = storage_path(
-            "app/public/'.
+            'app/public/'.
                 config('app.storage_folder').
-                '/documents/$document.pdf"
+                "/documents/$document.pdf"
         );
 
         if (file_exists($url)) {
@@ -142,9 +142,9 @@ class StockTransfer extends Model
             ->save($url);
 
         return redirect(
-            "/storage/public/'.
+            '/storage/'.
                 config('app.storage_folder').
-                '/documents/$document.pdf"
+                "/documents/$document.pdf"
         );
     }
 }
