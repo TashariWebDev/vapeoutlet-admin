@@ -34,11 +34,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('delete:old-price-list')->everyTenMinutes();
         $schedule->command('delete:old-documents')->days(2);
         $schedule->command('compress:images')->weeklyOn(6);
-        $schedule
-            ->command('update:transactions')
-            ->daily()
-            ->withoutOverlapping();
-
+        $schedule->command('update:transactions')->hourly();
         $schedule->command('update:supplier-transactions')->daily();
     }
 
