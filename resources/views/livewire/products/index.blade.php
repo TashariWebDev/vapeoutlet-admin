@@ -116,7 +116,7 @@
               <p class="text-xs text-slate-600 dark:text-slate-300">
                 ID: {{ $product->id }}
               </p>
-              @if (str_contains($product->image, '/storage/images/no_image.jpeg'))
+              @if (!file_exists(public_path('storage/' . $product->image)))
                 <p class="text-xs font-semibold text-rose-800 dark:text-rose-600">
                   ! featured image not set
                 </p>
@@ -204,7 +204,7 @@
                         inputmode="numeric"
                         pattern="[0-9]"
                         step="0.01"
-                        @keydown.tab="$wire.call('updateRetailPrice','{{ $product->id }}',$event.target.value)"
+                        wire:keyup.debounce.1500ms="updateRetailPrice({{ $product->id }},$event.target.value)"
                       />
                     @else
                       <x-input.label for="retail">
@@ -239,7 +239,7 @@
                       inputmode="numeric"
                       pattern="[0-9]"
                       step="0.01"
-                      @keydown.tab="$wire.call('updateWholesalePrice','{{ $product->id }}',$event.target.value)"
+                      wire:keyup.debounce.1500ms="updateWholesalePrice({{ $product->id }},$event.target.value)"
                     />
                   @else
                     <x-input.label for="wholesale">
