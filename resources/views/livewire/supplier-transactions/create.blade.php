@@ -24,7 +24,7 @@
                         wire:model.defer="reference"
                     />
                     @error('reference')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
@@ -40,12 +40,12 @@
                         <option value="expense">Expense</option>
                     </x-input.select>
                     @error('type')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
                     <x-input.label for="amount">
-                        type
+                        Amount
                     </x-input.label>
                     <x-input.text
                         id="amount"
@@ -56,7 +56,7 @@
                         pattern="[0-9.]+"
                     />
                     @error('amount')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
