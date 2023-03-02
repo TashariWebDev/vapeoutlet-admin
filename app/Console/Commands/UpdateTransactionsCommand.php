@@ -17,17 +17,14 @@ class UpdateTransactionsCommand extends Command
         $customer = Customer::find($this->argument('customer'));
 
         if ($customer) {
-            UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(60);
+            UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(20);
         } else {
             $customers = Customer::all();
 
             foreach ($customers as $customer) {
-                $balance = 0;
-                foreach ($customer->transactions as $transaction) {
-                    $balance += $transaction->amount;
-                    $transaction->running_balance = $balance;
-                    $transaction->save();
-                }
+                UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(
+                    20
+                );
             }
         }
     }
