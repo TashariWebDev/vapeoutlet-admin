@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Customers;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Credit;
 use App\Models\Customer;
 use App\Models\Order;
@@ -47,6 +48,8 @@ class Show extends Component
         if (request()->has('recordCount')) {
             $this->recordCount = request('recordCount');
         }
+
+        UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
     }
 
     public function updatedSearchQuery()

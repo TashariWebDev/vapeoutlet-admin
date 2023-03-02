@@ -22,9 +22,7 @@ class UpdateTransactionsCommand extends Command
             $customers = Customer::all();
 
             foreach ($customers as $customer) {
-                UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(
-                    20
-                );
+                UpdateCustomerRunningBalanceJob::dispatch($customer->id);
             }
         }
     }
