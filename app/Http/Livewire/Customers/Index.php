@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Customers;
 
-use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Customer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -28,10 +27,6 @@ class Index extends Component
 
         if (request()->has('recordCount')) {
             $this->recordCount = request('recordCount');
-        }
-
-        foreach (Customer::query()->get() as $customer) {
-            UpdateCustomerRunningBalanceJob::dispatch($customer->id);
         }
     }
 
