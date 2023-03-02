@@ -116,6 +116,8 @@ class Show extends Component
                 ->when($this->filter, function ($query) {
                     $query->where('type', '=', $this->filter);
                 })
+                ->latest()
+                ->orderByDesc('id')
                 ->paginate($this->recordCount),
         ]);
     }
