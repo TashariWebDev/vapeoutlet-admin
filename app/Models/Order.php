@@ -36,6 +36,15 @@ class Order extends Model
         };
     }
 
+    public function isProcessed()
+    {
+        if ($this->status === 'received') {
+            return true;
+        }
+
+        return false;
+    }
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);

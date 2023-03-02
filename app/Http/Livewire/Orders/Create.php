@@ -4,17 +4,16 @@ namespace App\Http\Livewire\Orders;
 
 use App\Exceptions\QtyNotAvailableException;
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\SendOrderEmailsJob;
 use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Notifications\OrderConfirmedNotification;
-use App\Notifications\OrderReceivedNotification;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Notification;
 use LaravelIdea\Helper\App\Models\_IH_Order_C;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -279,7 +278,12 @@ class Create extends Component
             'status' => 'received',
             'created_at' => now(),
         ]);
-        $this->sendOrderEmails();
+
+        try {
+            $this->sendOrderEmails();
+        } catch (Exception $ignored) {
+            //            Continue processing if emails fail
+        }
 
         UpdateCustomerRunningBalanceJob::dispatch(
             $this->order->customer_id
@@ -293,13 +297,7 @@ class Create extends Component
 
     public function sendOrderEmails()
     {
-        Notification::route('mail', $this->order->customer->email)->notify(
-            new OrderConfirmedNotification()
-        );
-
-        Notification::route('mail', config('mail.from.address'))->notify(
-            new OrderReceivedNotification($this->order->customer)
-        );
+        SendOrderEmailsJob::dispatch($this->order)->delay(3);
     }
 
     public function updateDelivery()
