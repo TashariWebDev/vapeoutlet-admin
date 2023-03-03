@@ -287,7 +287,7 @@ class Create extends Component
         try {
             $this->sendOrderEmails();
         } catch (Exception $ignored) {
-            //            Continue processing if emails fail
+            //Continue processing if emails fail
         }
 
         UpdateCustomerRunningBalanceJob::dispatch(

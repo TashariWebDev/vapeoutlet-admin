@@ -156,7 +156,7 @@
           <button
             class="w-full text-xs button-success"
             @if ($this->order->customer->addresses->count() === 0) disabled @endif
-            x-on:click="$wire.set('chooseAddressForm',true)"
+            wire:click="$toggle('chooseAddressForm')"
           >
             billing address
           </button>
@@ -165,7 +165,7 @@
           <button
             class="w-full text-xs button-success"
             @if ($this->order->address_id === null) disabled @endif
-            x-on:click="$wire.set('chooseDeliveryForm',true)"
+            wire:click="$toggle('chooseDeliveryForm')"
           >
             delivery option
           </button>
@@ -188,7 +188,7 @@
                     class="w-full text-xs button-warning"
                     wire:target="process"
                     wire:loading.attr="disabled"
-                    x-on:click="$wire.set('showConfirmModal',true)"
+                    wire:click.prefetch="$toggle('showConfirmModal')"
                   >
                     place order
                   </button>
@@ -220,17 +220,20 @@
         <x-table.heading class="lg:text-right">qty</x-table.heading>
         <x-table.heading class="lg:text-right">Line total</x-table.heading>
       </x-table.header>
+
       <div>
         @if (!empty($selectedProductsToDelete))
           <div>
             <button
               class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700"
-              x-on:click="$wire.call('removeProducts')"
-            >remove selected items
+              wire:click.prefetch="removeProducts"
+            >
+              remove selected items
             </button>
           </div>
         @endif
       </div>
+
       @foreach ($this->order->items as $item)
         <x-table.body
           class="grid lg:grid-cols-6"
@@ -267,7 +270,7 @@
                   <x-input.text
                     type="number"
                     value="{{ $item->price }}"
-                    wire:keyup.debounce.500ms="updatePrice({{ $item->id }},$event.target.value)"
+                    wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
                     pattern="[0-9]*"
                     inputmode="numeric"
                     step="0.01"
@@ -306,14 +309,13 @@
               />
             </label>
           </x-table.row>
-
           <x-table.row>
             <form>
               <label>
                 <x-input.text
                   type="number"
                   value="{{ $item->qty }}"
-                  wire:keyup.debounce.500ms="updateQty({{ $item->id }},$event.target.value)"
+                  wire:keyup.debounce.1500ms="updateQty({{ $item->id }},$event.target.value)"
                   inputmode="numeric"
                   pattern="[0-9]"
                   min="1"

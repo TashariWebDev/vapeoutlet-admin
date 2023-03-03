@@ -10,6 +10,8 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
@@ -59,10 +61,11 @@ class Show extends Component
     {
         $this->order->updateStatus($this->selectedStatus);
         $this->status = $this->order->status;
+
         $this->notify('Status updated');
     }
 
-    public function pushToComplete()
+    public function pushToComplete(): Redirector|Application|RedirectResponse
     {
         $this->order->updateStatus('completed');
         $this->notify('order completed');
@@ -70,7 +73,7 @@ class Show extends Component
         return redirect('/orders');
     }
 
-    public function edit()
+    public function edit(): Redirector|Application|RedirectResponse
     {
         if ($this->order->stocks_count > 0) {
             $this->order->stocks()->delete();
@@ -80,7 +83,7 @@ class Show extends Component
             'is_editing' => true,
         ]);
 
-        return redirect("/orders/create/{$this->order->id}");
+        return redirect("/orders/create/$this->order->id");
     }
 
     public function removeNote(Note $note)
@@ -93,7 +96,7 @@ class Show extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getPickingSlip()
+    public function getPickingSlip(): Redirector|Application|RedirectResponse
     {
         $view = view('templates.pdf.pick-list', [
             'order' => $this->order,
@@ -127,7 +130,7 @@ class Show extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getDeliveryNote()
+    public function getDeliveryNote(): Redirector|Application|RedirectResponse
     {
         $view = view('templates.pdf.delivery-note', [
             'order' => $this->order,
