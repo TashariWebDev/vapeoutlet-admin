@@ -52,16 +52,6 @@ class Index extends Component
 
     public function mount()
     {
-        //        $this->salesPerChannel = Transaction::query()
-        //            ->select(
-        //                '*',
-        //                DB::raw(
-        //                    '(select SUM(amount) FROM transactions where status = "invoice" AND  MONTH(created_at) = MONTH(NOW()) ) as total_sales'
-        //                )
-        //            )
-        //            ->groupBy('sales_channel_id')
-        //            ->first();
-
         $this->transactions = Transaction::query()
             ->select(
                 '*',

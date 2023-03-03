@@ -1,16 +1,4 @@
-<div>
-
-  @php
-    function check_file_exist($url)
-    {
-        $handle = @fopen($url, 'r');
-        if (!$handle) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-  @endphp
+<div wire:init="getStockValue">
 
   <div>
     @php
