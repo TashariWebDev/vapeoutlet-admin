@@ -76,6 +76,10 @@ class Show extends Component
             $this->order->stocks()->delete();
         }
 
+        $this->order->update([
+            'is_editing' => true,
+        ]);
+
         return redirect("/orders/create/{$this->order->id}");
     }
 

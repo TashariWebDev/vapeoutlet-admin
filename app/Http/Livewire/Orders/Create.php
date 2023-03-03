@@ -271,12 +271,17 @@ class Create extends Component
         $this->order->decreaseStock();
         $this->order->customer->createInvoice($this->order);
 
+        $this->order->is_editing = true
+            ? ($createdAt = $this->order->created_at)
+            : ($createdAt = now());
+
         $this->order->update([
             'delivery_charge' => $delivery->getPrice(
                 $this->order->getSubTotal()
             ),
             'status' => 'received',
-            'created_at' => now(),
+            'created_at' => $createdAt,
+            'is_editing' => false,
         ]);
 
         try {

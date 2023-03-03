@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->foreignId('supplier_id')->nullable();
             $table->string('created_by');
-            $table->boolean('is_editing')->default(true);
+            $table->boolean('is_editing')->default(false);
             $table->timestamp('processed_at')->nullable();
 
             $table->timestamps();

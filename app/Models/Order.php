@@ -113,7 +113,6 @@ class Order extends Model
     {
         $this->update([
             'status' => $status,
-            'is_editing' => false,
         ]);
 
         return $this;

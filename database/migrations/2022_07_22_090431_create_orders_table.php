@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('processed_by')->nullable();
             $table->foreignId('salesperson_id')->nullable();
 
-            $table->boolean('is_editing')->default(true);
+            $table->boolean('is_editing')->default(false);
 
             $table->integer('delivery_charge')->nullable();
             $table->string('waybill')->nullable();
