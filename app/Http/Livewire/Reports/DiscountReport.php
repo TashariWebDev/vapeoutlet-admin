@@ -78,7 +78,7 @@ class DiscountReport extends Component
     {
         return view('livewire.reports.discount-report', [
             'salesChannels' => SalesChannel::query()
-                ->withoutTrashed()
+//                ->withoutTrashed()
                 ->get(),
         ]);
     }

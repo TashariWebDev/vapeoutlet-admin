@@ -120,9 +120,9 @@
             <livewire:reports.credit-report />
         </div>
 
-        {{--    <div class="p-2 bg-white rounded-md dark:bg-slate-800">--}}
-        {{--      <livewire:reports.discount-report />--}}
-        {{--    </div>--}}
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            <livewire:reports.discount-report />
+        </div>
 
         <div class="flex col-span-1 items-center h-20 border-b lg:col-span-3 border-slate-500">
             <h2 class="font-bold text-slate-500">Inventory Reports</h2>
