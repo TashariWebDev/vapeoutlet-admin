@@ -50,8 +50,8 @@ class DiscountReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/discount-report.pdf'
+            config('app.storage_folder').
+            '/documents/discount-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -69,8 +69,8 @@ class DiscountReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/discount-report.pdf'
+            config('app.storage_folder').
+            '/documents/discount-report.pdf'
         );
     }
 
