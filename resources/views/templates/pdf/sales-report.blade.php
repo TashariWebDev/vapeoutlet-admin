@@ -42,7 +42,7 @@
       <div class="px-4">
         <table class="w-full">
           <thead>
-            <tr class="text-white bg-gray-800">
+            <tr class="font-bold text-white bg-gray-900 text-[10px]">
               <th class="text-left">Date</th>
               <th class="text-left">Invoice No</th>
               <th class="text-left">Status</th>
@@ -51,7 +51,7 @@
               <th class="text-right">Excl</th>
             </tr>
           </thead>
-          <tbody class="text-sm">
+          <tbody class="text-[10px]">
             @php
               $overallTotal = [];
             @endphp
@@ -65,7 +65,7 @@
                 @endphp
                 @if ($loop->first)
                   <tr
-                    class="row-span-2 font-bold text-white bg-gray-900"
+                    class="row-span-2 font-bold text-white bg-gray-900 text-[10px]"
                     aria-rowspan="2"
                   >
                     <td
@@ -79,14 +79,14 @@
                     $total[] = $order->sub_total;
                   @endphp
                   @if ($loop->first)
-                    <tr class="font-bold bg-gray-100">
+                    <tr class="font-bold bg-gray-100 text-[10px]">
                       <td
                         class="text-left"
                         colspan="6"
                       >{{ $customer->name }}</td>
                     </tr>
                   @endif
-                  <tr class="py-1 border-b border-dashed break-inside-avoid-page">
+                  <tr class="py-1 border-b border-dashed break-inside-avoid-page text-[10px]">
                     <td class="text-left">{{ $order->created_at->format('d-m-y') }}</td>
                     <td class="text-left">{{ $order->id }}</td>
                     <td class="text-left">{{ $order->status }}</td>
@@ -95,26 +95,26 @@
                     <td class="text-right">{{ number_format(ex_vat($order->sub_total), 2) }}</td>
                   </tr>
                   @if ($loop->last)
-                    <tr class="h-10 font-bold bg-white">
+                    <tr class="font-bold bg-white text-[10px]">
                       <td
                         class="text-right"
                         colspan="3"
                       >
                       </td>
                       <td
-                        class="text-right"
+                        class="text-right text-white bg-gray-900"
                         colspan="1"
                       >
                         {{ number_format(array_sum($total), 2) }}
                       </td>
                       <td
-                        class="text-right"
+                        class="text-right text-white bg-gray-900"
                         colspan="1"
                       >
                         {{ number_format(vat(array_sum($total)), 2) }}
                       </td>
                       <td
-                        class="text-right"
+                        class="text-right text-white bg-gray-900"
                         colspan="1"
                       >
                         {{ number_format(ex_vat(array_sum($total)), 2) }}
@@ -124,10 +124,10 @@
                 @endforeach
                 @php
                   $grandTotal[] = array_sum($total);
-                  $overallTotal[] = array_sum($total);
+                  //                  $overallTotal[] = array_sum($total);
                 @endphp
                 @if ($loop->last)
-                  <tr class="h-10 font-bold bg-white">
+                  <tr class="font-bold bg-white text-[10px]">
                     <td
                       class="text-right"
                       colspan="3"
@@ -155,31 +155,31 @@
                 @endif
               @endforeach
             @endforeach
-            <tr class="h-10 font-bold bg-white border-t-4 border-dashed">
-              <td
-                class="text-right"
-                colspan="3"
-              >
-              </td>
-              <td
-                class="text-right"
-                colspan="1"
-              >
-                {{ number_format(array_sum($overallTotal), 2) }}
-              </td>
-              <td
-                class="text-right"
-                colspan="1"
-              >
-                {{ number_format(vat(array_sum($overallTotal)), 2) }}
-              </td>
-              <td
-                class="text-right"
-                colspan="1"
-              >
-                {{ number_format(ex_vat(array_sum($overallTotal)), 2) }}
-              </td>
-            </tr>
+            {{--            <tr class="font-bold bg-white border-t-4 border-dashed text-[10px]"> --}}
+            {{--              <td --}}
+            {{--                class="text-right" --}}
+            {{--                colspan="3" --}}
+            {{--              > --}}
+            {{--              </td> --}}
+            {{--              <td --}}
+            {{--                class="text-right" --}}
+            {{--                colspan="1" --}}
+            {{--              > --}}
+            {{--                {{ number_format(array_sum($overallTotal), 2) }} --}}
+            {{--              </td> --}}
+            {{--              <td --}}
+            {{--                class="text-right" --}}
+            {{--                colspan="1" --}}
+            {{--              > --}}
+            {{--                {{ number_format(vat(array_sum($overallTotal)), 2) }} --}}
+            {{--              </td> --}}
+            {{--              <td --}}
+            {{--                class="text-right" --}}
+            {{--                colspan="1" --}}
+            {{--              > --}}
+            {{--                {{ number_format(ex_vat(array_sum($overallTotal)), 2) }} --}}
+            {{--              </td> --}}
+            {{--            </tr> --}}
           </tbody>
         </table>
       </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Reports;
 
 use App\Models\OrderItem;
+use App\Models\SalesChannel;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -20,16 +21,23 @@ class DiscountReport extends Component
 
     public $toDate;
 
+    public $salesChannelId;
+
     /**
      * @throws CouldNotTakeBrowsershot
      */
     public function print(): Redirector|Application|RedirectResponse
     {
+        $salesChannel = SalesChannel::find($this->salesChannelId);
+
         $discounts = OrderItem::whereBetween('created_at', [
             $this->fromDate,
             $this->toDate,
         ])
             ->where('discount', '>', 0)
+            ->withWhereHas('order', function ($query) {
+                $query->where('sales_channel_id', '=', $this->salesChannelId);
+            })
             ->get()
             ->groupBy('product_id');
 
@@ -37,6 +45,7 @@ class DiscountReport extends Component
             'discounts' => $discounts,
             'from' => $this->fromDate,
             'to' => $this->toDate,
+            'salesChannel' => $salesChannel,
         ])->render();
 
         $url = storage_path(
@@ -67,6 +76,10 @@ class DiscountReport extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.reports.discount-report');
+        return view('livewire.reports.discount-report', [
+            'salesChannels' => SalesChannel::query()
+                ->withoutTrashed()
+                ->get(),
+        ]);
     }
 }

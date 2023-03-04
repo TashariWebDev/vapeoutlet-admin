@@ -49,7 +49,7 @@
       <div class="px-4">
         <table class="w-full">
           <thead>
-            <tr class="text-sm text-white bg-gray-800">
+            <tr class="font-bold text-white bg-gray-800 text-[8px]">
               <th
                 class="col-span-2 text-left"
                 colspan="2"
@@ -61,16 +61,20 @@
               <th class="text-right"></th>
             </tr>
           </thead>
-          <tbody class="text-xs">
+          <tbody class="text-[8px]">
 
             @php
               $noOfDays = Carbon\Carbon::parse($from)->diffIndays(Carbon\Carbon::parse($to));
             @endphp
 
             @foreach ($grouped as $products)
+              @php
+                $collectProductQtySold = [];
+              @endphp
+
               @foreach ($products as $product)
                 @if ($loop->first)
-                  <tr class="col-span-4 text-white bg-gray-300">
+                  <tr class="col-span-4 font-bold text-white bg-gray-300 text-[8px]">
                     <td
                       class="col-span-4 text-left"
                       colspan="2"
@@ -88,6 +92,7 @@
                 @php
                   $dailyAverage = (0 - $product->stocks_sum_qty) / $noOfDays;
                   $qtyInStock = $product->stocks->sum('qty');
+                  $collectProductQtySold[] = $product->stocks_sum_qty;
                   
                   if ($dailyAverage * $qtyInStock > 0) {
                       $noOfDaysStocksAvailable = round($qtyInStock / $dailyAverage);
@@ -96,21 +101,21 @@
                   }
                 @endphp
 
-                <tr class="py-1 border-b border-dashed break-inside-avoid-page">
+                <tr class="py-1 border-b border-dashed break-inside-avoid-page text-[8px]">
                   <td
                     class="text-left"
                     colspan="2"
                   >
-                    <p class="text-xs font-bold">{{ $product->brand }} {{ $product->name }}</p>
-                    <p class="text-xs">{{ $product->sku }}</p>
+                    <p class="font-bold">{{ $product->brand }} {{ $product->name }}</p>
+                    <p>{{ $product->sku }}</p>
                     <div class="flex items-center space-x-3">
                       @foreach ($product->features as $feature)
-                        <p class="text-xs">{{ $feature->name }}</p>
+                        <p>{{ $feature->name }}</p>
                       @endforeach
                     </div>
                   </td>
                   <td class="text-center">{{ 0 - $product->stocks_sum_qty }}</td>
-                  <td class="text-center">{{ $dailyAverage }}
+                  <td class="text-center">{{ ceil($dailyAverage) }}
                   </td>
                   <td class="text-center">
                     {{ $qtyInStock }}
@@ -122,6 +127,10 @@
                   </td>
                 </tr>
               @endforeach
+              <tr>
+                <td colspan="2"></td>
+                <td class="font-bold text-center">{{ 0 - array_sum($collectProductQtySold) }}</td>
+              </tr>
             @endforeach
           </tbody>
         </table>
