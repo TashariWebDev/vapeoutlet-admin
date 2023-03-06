@@ -83,7 +83,7 @@ class Show extends Component
             'is_editing' => true,
         ]);
 
-        return redirect("/orders/create/$this->order->id");
+        return redirect("/orders/create/{$this->order->id}");
     }
 
     public function removeNote(Note $note)
