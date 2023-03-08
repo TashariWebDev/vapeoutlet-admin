@@ -169,7 +169,8 @@ class Customer extends Authenticatable
     public function lastFiveTransactions(): hasMany
     {
         return $this->hasMany(Transaction::class)
-            ->latest()
+            ->latest('id')
+            ->latest('created_by')
             ->take(5);
     }
 

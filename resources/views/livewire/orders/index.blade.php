@@ -16,7 +16,7 @@
       @if ($selectedCustomerLatestTransactions)
         <div class="py-6">
           @forelse($selectedCustomerLatestTransactions as $transaction)
-            <div class="grid grid-cols-4 py-3">
+            <div class="grid grid-cols-4 gap-2 py-3">
               <div>
                 <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                   {{ $transaction->id }}
@@ -24,8 +24,8 @@
                 <p class="text-xs text-slate-600 dark:text-slate-300">
                   {{ $transaction->created_at }}</p>
               </div>
-              <div>
-                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
+              <div class="px-1">
+                <p class="text-xs font-semibold break-words text-slate-600 dark:text-slate-300">
                   {{ strtoupper($transaction->reference) }}
                 </p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $transaction->created_by }}
