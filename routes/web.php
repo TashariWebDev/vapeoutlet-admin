@@ -131,11 +131,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('stock-takes', StockTakesIndex::class)
         ->name('stock-takes')
-        ->middleware('permission:view reports');
+        ->middleware('permission:manage stock takes');
 
     Route::get('stock-takes/{id}', StockTakesShow::class)
         ->name('stock-takes/show')
-        ->middleware('permission:view reports');
+        ->middleware('permission:manage stock takes');
 
     Route::get('expenses', ExpensesIndex::class)
         ->name('expenses')
