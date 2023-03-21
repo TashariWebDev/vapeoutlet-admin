@@ -34,7 +34,7 @@ class Create extends Component
             'reference' => ['required'],
             'type' => ['required'],
             'amount' => ['required'],
-            'date' => ['sometimes'],
+            'date' => ['required'],
         ];
     }
 
