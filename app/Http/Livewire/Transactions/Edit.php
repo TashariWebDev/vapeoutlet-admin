@@ -26,7 +26,7 @@ class Edit extends Component
     {
         return [
             'transaction.reference' => 'required',
-            'transaction.date' => 'sometimes',
+            'transaction.date' => 'required',
             'transaction.amount' => 'required',
             'transaction.type' => 'required',
         ];
