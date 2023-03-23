@@ -229,10 +229,10 @@
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>
-              <option value="100">100</option>
-              @if ($this->customer->transaction_count > 100)
-                <option value="{{ $this->customer->transactions_count }}">
-                  {{ $this->customer->transactions_count }}</option>
+              @if ($this->customer->transactions->count() > 50)
+                <option value="{{ $this->customer->transactions->count() }}">
+                  All
+                </option>
               @endif
             </x-input.select>
           </div>
