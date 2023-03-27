@@ -234,17 +234,30 @@
             </div>
           </x-table.row>
           <x-table.row>
-            <label>
-              <x-input.text
-                class="w-full rounded-md bg-slate-300 text-slate-900"
-                type="number"
-                value="{{ $item->price }}"
-                disabled
-                pattern="[0-9]*"
-                inputmode="numeric"
-                step="0.01"
-              />
-            </label>
+            @if (auth()->user()->hasPermissionTo('edit pricing'))
+              <label>
+                <x-input.text
+                  type="number"
+                  value="{{ $item->price }}"
+                  wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
+                  step="0.01"
+                />
+              </label>
+            @else
+              <label>
+                <x-input.text
+                  class="w-full rounded-md bg-slate-300 text-slate-900"
+                  type="number"
+                  value="{{ $item->price }}"
+                  pattern="[0-9]*"
+                  inputmode="numeric"
+                  step="0.01"
+                  disabled
+                />
+              </label>
+            @endif
           </x-table.row>
           <x-table.row>
             <label>

@@ -1,10 +1,13 @@
 <?php
 
+/** @noinspection DuplicatedCode */
+
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Note;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -44,7 +47,7 @@ class Show extends Component
     {
         return Order::where('orders.id', '=', $this->orderId)
             ->with([
-                'items:order_id,product_id,price,discount,qty',
+                'items',
                 'notes',
                 'items.product.features:id,name,product_id',
             ])
@@ -71,6 +74,34 @@ class Show extends Component
         $this->notify('order completed');
 
         return redirect('/orders');
+    }
+
+    public function updatePrice(OrderItem $item, $value)
+    {
+        if ($value == '' || $value <= 0) {
+            $this->notify('Please enter a valid price');
+
+            return;
+        }
+
+        if ($value < $item->product->cost) {
+            $this->notify('Price below cost');
+        }
+
+        if ($item->product_price == 0) {
+            $productPrice = $item->product->getPrice($this->order->customer);
+        } else {
+            $productPrice = $item->product_price;
+        }
+
+        $item->update([
+            'price' => $value,
+            'product_price' => $productPrice,
+            'discount' => $productPrice - $value,
+        ]);
+
+        $this->emitSelf('update_order');
+        $this->notify('Price updated');
     }
 
     public function edit(): Redirector|Application|RedirectResponse
