@@ -7,6 +7,8 @@ use App\Models\Order;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -43,7 +45,7 @@ class Quick extends Component
         }
     }
 
-    public function createOrder($customerId)
+    public function createOrder($customerId): Redirector|Application|RedirectResponse
     {
         $order = Order::firstOrCreate([
             'customer_id' => $customerId,
@@ -54,7 +56,7 @@ class Quick extends Component
                 ->defaultSalesChannel()->id,
         ]);
 
-        $order->touch('created_at');
+        $order->update(['created_at' => now()]);
 
         return redirect("/orders/create/$order->id");
     }

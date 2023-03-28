@@ -84,6 +84,8 @@ class Show extends Component
                 ->defaultSalesChannel()->id,
         ]);
 
+        $order->update(['created_at' => now()]);
+
         return redirect("/orders/create/$order->id");
     }
 
@@ -152,8 +154,8 @@ class Show extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                "/documents/$statement.pdf"
+            config('app.storage_folder').
+            "/documents/$statement.pdf"
         );
     }
 
