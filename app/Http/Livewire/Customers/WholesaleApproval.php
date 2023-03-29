@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Customers;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Customer;
+use App\Models\User;
 use App\Notifications\WholesaleDeclineNotification;
 use App\Notifications\WholesaleWelcomeNotification;
 use Illuminate\Contracts\Foundation\Application;
@@ -14,6 +16,8 @@ use Livewire\Component;
 
 class WholesaleApproval extends Component
 {
+    use WithNotifications;
+
     public $modal = false;
 
     public $selectedImage;
@@ -58,8 +62,29 @@ class WholesaleApproval extends Component
         return redirect('/customers/wholesale/applications');
     }
 
+    public function assignToSalesPerson($salespersonId)
+    {
+        if ($salespersonId == '') {
+            $this->notify('Please select a sales person');
+        } else {
+            $this->customer->update([
+                'salesperson_id' => $salespersonId,
+            ]);
+        }
+
+        $this->customer->update([
+            'salesperson_id' => $salespersonId,
+        ]);
+
+        $this->notify('Salesperson allocated to customer');
+    }
+
     public function render(): Factory|View|Application
     {
-        return view('livewire.customers.wholesale-approval');
+        return view('livewire.customers.wholesale-approval', [
+            'salespeople' => User::query()
+                ->where('is_super_admin', false)
+                ->get(),
+        ]);
     }
 }

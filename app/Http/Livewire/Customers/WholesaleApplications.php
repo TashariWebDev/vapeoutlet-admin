@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Customers;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Customer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class WholesaleApplications extends Component
 {
     use WithPagination;
+    use WithNotifications;
 
     public $searchQuery;
 
