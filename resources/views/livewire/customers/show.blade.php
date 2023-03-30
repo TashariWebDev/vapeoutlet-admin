@@ -7,6 +7,7 @@
         {{ $this->customer->name }}
       </x-page-header>
     </div>
+
     <div class="flex pt-4 space-x-4">
       <button
         class="link"
@@ -195,10 +196,10 @@
   <div class="bg-white rounded-lg shadow dark:bg-slate-800">
     <div class="py-2 px-4">
       <div>
-        <div class="grid grid-cols-1 gap-y-4 lg:grid-cols-6 lg:gap-y-0 lg:gap-x-2">
-          <div>
+        <div class="grid grid-cols-1 gap-y-4 mt-2 lg:grid-cols-6 lg:gap-x-2 lg:gap-y-3">
+          <div class="pt-1">
             <div>
-              <x-input.label>
+              <x-input.label class="hidden">
                 Search
               </x-input.label>
               <x-input.text
@@ -206,9 +207,10 @@
                 wire:model="searchQuery"
                 autofocus
                 autocomplete="off"
+                placeholder="search"
               >
               </x-input.text>
-              <x-input.helper>
+              <x-input.helper class="pt-2">
                 Query Time {{ round($queryTime, 3) }} ms
               </x-input.helper>
             </div>
@@ -218,8 +220,8 @@
             >reset filter
             </button>
           </div>
-          <div>
-            <x-input.label>
+          <div class="pt-1">
+            <x-input.label class="hidden">
               No of records
             </x-input.label>
             <x-input.select
@@ -237,21 +239,11 @@
             </x-input.select>
           </div>
           <div
-            class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-2 mb-6 lg:grid-cols-6 lg:col-span-4 lg:gap-y-0"
+            class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-4 mb-6 lg:grid-cols-6 lg:col-span-4 lg:gap-y-2"
           >
 
             <div class="hidden col-span-6 lg:block">
               {{-- Force alignment --}}
-            </div>
-
-            <div class="w-full">
-              <button
-                class="w-full button-success"
-                wire:click="updateBalances"
-              >
-                <x-icons.busy target="updateBalances" />
-                <span class="pl-2">Refresh balance</span>
-              </button>
             </div>
 
             <div class="w-full">
@@ -299,7 +291,7 @@
                 wire:click="createOrder"
               >
                 <x-icons.busy target="createOrder" />
-                <span class="pl-2">order</span>
+                <span class="pl-2">New order</span>
               </button>
             </div>
 
@@ -318,6 +310,20 @@
                 <livewire:transactions.create :customer-id="$customerId" />
               </div>
             @endhasPermissionTo
+
+            <div class="w-full">
+              <livewire:transactions.warranty.create :customer-id="$customerId" />
+            </div>
+
+            <div class="w-full">
+              <button
+                class="w-full button-success"
+                wire:click="updateBalances"
+              >
+                <x-icons.busy target="updateBalances" />
+                <span class="pl-2">Refresh balance</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

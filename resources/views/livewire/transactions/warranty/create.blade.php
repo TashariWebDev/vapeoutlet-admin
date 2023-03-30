@@ -2,13 +2,13 @@
   <button
     class="w-full button-success"
     wire:click="$toggle('modal')"
-  ><span class="pl-2">Transaction</span>
+  ><span class="pl-2">Warranty</span>
   </button>
 
   <x-modal x-data="{ show: $wire.entangle('modal') }">
 
     <div class="pb-2">
-      <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">New transaction</h3>
+      <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">New warranty</h3>
       <p class="text-xs font-bold text-slate-600 dark:text-slate-300">{{ $this->customer->name }}</p>
     </div>
 
@@ -45,25 +45,7 @@
             <x-input.error>{{ $message }}</x-input.error>
           @enderror
         </div>
-        <div class="py-3">
-          <x-input.label for="type">
-            Type
-          </x-input.label>
-          <div>
-            <x-input.select
-              id="type"
-              wire:model.defer="type"
-            >
-              <option value="">Choose</option>
-              <option value="debit">Debit</option>
-              <option value="payment">Payment</option>
-              <option value="refund">Refund</option>
-            </x-input.select>
-          </div>
-          @error('type')
-            <x-input.error>{{ $message }}</x-input.error>
-          @enderror
-        </div>
+
         <div class="py-3">
           <x-input.label for="amount">
             Amount
