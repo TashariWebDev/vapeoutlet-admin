@@ -100,6 +100,8 @@ class Show extends Component
             'discount' => $productPrice - $value,
         ]);
 
+        $this->order->customer->createInvoice($this->order);
+
         $this->emitSelf('update_order');
         $this->notify('Price updated');
     }
@@ -137,8 +139,8 @@ class Show extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                "/documents/$name.pdf"
+            config('app.storage_folder').
+            "/documents/$name.pdf"
         );
 
         if (file_exists($url)) {
@@ -171,8 +173,8 @@ class Show extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                "/documents/$name.pdf"
+            config('app.storage_folder').
+            "/documents/$name.pdf"
         );
 
         if (file_exists($url)) {
