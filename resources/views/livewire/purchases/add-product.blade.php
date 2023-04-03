@@ -1,13 +1,15 @@
 <div>
-    
+
     <button
         class="w-full button-success"
         wire:click.prevent="$toggle('modal')"
     >
         Add products
     </button>
-    
-    <x-slide-over x-data="{ show: $wire.entangle('modal') }">
+
+    <x-slide-over x-data="{ show: $wire.entangle('modal') }"
+                  x-trap="show"
+    >
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Add products</h3>
         </div>
@@ -24,10 +26,10 @@
                     placeholder="search"
                 >
                 </x-input.text>
-            
+
             </div>
         </div>
-        
+
         <div class="pt-4">
             <div class="py-2">
                 {{ $products->links() }}
@@ -57,7 +59,7 @@
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">
                                 <x-product-listing-simple :product="$product" />
-                                
+
                                 <div>
                                     <img
                                         class="w-10"

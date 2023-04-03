@@ -16,7 +16,9 @@
         </button>
     @endif
 
-    <x-slide-over x-data="{ show: $wire.entangle('modal') }">
+    <x-slide-over x-data="{ show: $wire.entangle('modal') }"
+                  x-trap="show"
+    >
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Add products</h3>
         </div>
@@ -29,7 +31,7 @@
                     class="w-full"
                     id="search"
                     type="search"
-                    wire:model="searchQuery"
+                    wire:model.debounce.1000ms="searchQuery"
                     placeholder="search"
                 >
                 </x-input.text>
