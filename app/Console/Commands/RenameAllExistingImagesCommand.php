@@ -29,6 +29,10 @@ class RenameAllExistingImagesCommand extends Command
                 $url = str_replace('storage/vapecrew/', '', $url);
             }
 
+            if (Str::startsWith($url, 'vapecrew/')) {
+                $url = str_replace('vapecrew/', '', $url);
+            }
+
             if (Str::startsWith($url, '//')) {
                 $url = str_replace('//', '', $url);
             }
@@ -52,6 +56,10 @@ class RenameAllExistingImagesCommand extends Command
 
                 if (Str::startsWith($url, 'storage/vapecrew/')) {
                     $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'vapecrew/')) {
+                    $url = str_replace('vapecrew/', '', $url);
                 }
 
                 if (Str::startsWith($url, '//')) {
@@ -78,6 +86,10 @@ class RenameAllExistingImagesCommand extends Command
                     $url = str_replace('storage/vapecrew/', '', $url);
                 }
 
+                if (Str::startsWith($url, 'vapecrew/')) {
+                    $url = str_replace('vapecrew/', '', $url);
+                }
+
                 if (Str::startsWith($url, '//')) {
                     $url = str_replace('//', '', $url);
                 }
@@ -100,6 +112,10 @@ class RenameAllExistingImagesCommand extends Command
 
                 if (Str::startsWith($url, 'storage/vapecrew/')) {
                     $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'vapecrew/')) {
+                    $url = str_replace('vapecrew/', '', $url);
                 }
 
                 if (Str::startsWith($url, '//')) {
@@ -126,6 +142,10 @@ class RenameAllExistingImagesCommand extends Command
 
                 if (Str::startsWith($url, 'storage/vapecrew/')) {
                     $url = str_replace('storage/vapecrew/', '', $url);
+                }
+
+                if (Str::startsWith($url, 'vapecrew/')) {
+                    $url = str_replace('vapecrew/', '', $url);
                 }
 
                 if (Str::startsWith($url, '//')) {
