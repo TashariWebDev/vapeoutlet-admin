@@ -62,7 +62,14 @@ class Create extends Component
             $fields['amount'] = 0 - $this->amount;
         }
 
-        Transaction::updateOrCreate($fields);
+        $t = Transaction::updateOrCreate([
+            'customer_id' => $this->customer->id,
+            'created_by' => auth()->user()->name,
+            'type' => $this->type,
+            'amount' => $this->amount,
+            'reference' => $this->reference,
+        ], $fields);
+  
 
         UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
 
