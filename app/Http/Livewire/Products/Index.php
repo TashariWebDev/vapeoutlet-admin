@@ -133,7 +133,7 @@ class Index extends Component
                         $query->where('type', 'credit');
                     },
                     'stocks as total_supplier_credits' => function ($query) {
-                        $query->where('type', 'supplier_credit');
+                        $query->where('type', 'supplier credit');
                     },
                     'stocks as total_adjustments' => function ($query) {
                         $query->where('type', 'adjustment');
