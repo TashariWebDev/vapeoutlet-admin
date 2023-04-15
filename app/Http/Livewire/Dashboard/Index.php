@@ -61,6 +61,18 @@ class Index extends Component
                 ],
                 'qty'
             )
+            ->withSum(
+                [
+                    'stocks as credits' => function ($query) {
+                        $query
+                            ->where('type', 'credits')
+                            ->whereMonth('created_at', '=', date('m'))
+                            ->whereYear('created_at', '=', date('Y'));
+                    },
+                    'stocks as available',
+                ],
+                'qty'
+            )
             ->orderBy('sold')
             ->get();
 
