@@ -228,7 +228,7 @@
                                     >
                                         <div class="flex justify-between items-start">
                                             <p>{{ $product->brand }} {{ $product->name }}</p>
-                                            <div>
+                                            <div class="text-right">
                                                 <p>{{ 0 - ($product->sold + $product->credits) }} units</p>
                                                 @if ($product->available > 0)
                                                     <p>{{ $product->available  }} in stock</p>
