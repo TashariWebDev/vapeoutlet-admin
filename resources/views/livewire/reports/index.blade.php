@@ -1,5 +1,4 @@
 <div wire:init="getStockValue">
-
     <div>
         @php
             $credits = ($transactions->total_refunds ?? 0) + ($transactions->total_credits ?? 0);
@@ -20,6 +19,7 @@
                     </div>
                 </x-slot:footer>
             </x-stat-container>
+
 
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Purchases</h3>

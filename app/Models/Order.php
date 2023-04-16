@@ -25,6 +25,8 @@ class Order extends Model
 
     protected $casts = ['created_at', 'updated_at'];
 
+    protected $appends = ['total', 'profit', 'cost'];
+
     public function getStatus(): string
     {
         return match ($this->status) {
@@ -90,6 +92,18 @@ class Order extends Model
         });
     }
 
+    public function getCost(): float
+    {
+        return $this->stocks->sum(function ($item) {
+            return $item->cost * (0 - $item->qty);
+        });
+    }
+
+    public function getProfit(): float
+    {
+        return $this->getTotal() - $this->getCost();
+    }
+
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
@@ -101,6 +115,22 @@ class Order extends Model
             get: fn () => $this->items->sum(function ($item) {
                 return $item->price * $item->qty;
             })
+        );
+    }
+
+    public function cost(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->stocks->sum(function ($item) {
+                return $item->cost * (0 - $item->qty);
+            })
+        );
+    }
+
+    public function profit(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->getTotal() - $this->getCost()
         );
     }
 
@@ -279,8 +309,8 @@ class Order extends Model
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                "/documents/$this->number.pdf"
+            config('app.storage_folder').
+            "/documents/$this->number.pdf"
         );
 
         if (file_exists($url)) {
@@ -297,8 +327,8 @@ class Order extends Model
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                "/documents/$this->number.pdf"
+            config('app.storage_folder').
+            "/documents/$this->number.pdf"
         );
     }
 }
