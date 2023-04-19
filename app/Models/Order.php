@@ -119,7 +119,7 @@ class Order extends Model
 
     public function getProfit(): float
     {
-        return $this->getTotal() - $this->getCost();
+        return $this->total - $this->cost;
     }
 
     public function items(): HasMany
