@@ -128,7 +128,7 @@ class Index extends Component
 
     public function getGrossSales(): void
     {
-        $sumOfGrossSalesPerOrder = [];
+        $total = [];
 
         $orders = Order::currentMonth()
             ->with('items')
@@ -136,10 +136,10 @@ class Index extends Component
             ->get();
 
         foreach ($orders as $order) {
-            $sumOfGrossSalesPerOrder[] = $order->total;
+            $total[] = $order->getTotal();
         }
 
-        $this->gross_sales = array_sum($sumOfGrossSalesPerOrder);
+        $this->gross_sales = array_sum($total);
     }
 
     public function getPreviousMonthGrossSales(): void
@@ -152,7 +152,7 @@ class Index extends Component
             ->get();
 
         foreach ($orders as $order) {
-            $total[] = $order->total;
+            $total[] = $order->getTotal();
         }
 
         $this->previous_month_gross_sales = array_sum($total);
@@ -162,10 +162,10 @@ class Index extends Component
     {
         $total = [];
 
-        $orders = Order::currentMonth()->with(['stocks'])->sales()->get();
+        $orders = Order::currentMonth()->with('items')->sales()->get();
 
         foreach ($orders as $order) {
-            $total[] = $order->profit;
+            $total[] = $order->getProfit();
         }
 
         $this->gross_profit = array_sum($total);
@@ -176,12 +176,12 @@ class Index extends Component
         $total = [];
 
         $orders = Order::previousMonth()
-            ->with(['stocks'])
+            ->with('items')
             ->sales()
             ->get();
 
         foreach ($orders as $order) {
-            $total[] = $order->profit;
+            $total[] = $order->getProfit();
         }
 
         $this->previous_month_gross_profit = array_sum($total);

@@ -20,12 +20,9 @@ class Order extends Model
 
     protected $with = [
         'items:id,product_id,order_id,price,qty,discount,product_price',
-        'stocks',
     ];
 
     protected $casts = ['created_at', 'updated_at'];
-
-    protected $appends = ['total', 'profit', 'cost', 'sub_total'];
 
     public function getStatus(): string
     {
@@ -83,6 +80,11 @@ class Order extends Model
         return $this->belongsTo(Delivery::class, 'delivery_type_id');
     }
 
+    public function items(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     public function salesperson(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -96,57 +98,6 @@ class Order extends Model
     public function notes(): HasMany
     {
         return $this->hasMany(Note::class);
-    }
-
-    public function getTotal()
-    {
-        return $this->getSubTotal() + $this->delivery_charge;
-    }
-
-    public function getSubTotal(): float
-    {
-        return $this->items->sum(function ($item) {
-            return $item->price * $item->qty;
-        });
-    }
-
-    public function getCost(): float
-    {
-        return $this->items->sum(function ($item) {
-            return $item->cost * $item->qty;
-        });
-    }
-
-    public function getProfit(): float
-    {
-        return $this->getTotal() - $this->getCost();
-    }
-
-    public function items(): HasMany
-    {
-        return $this->hasMany(OrderItem::class);
-    }
-
-    public function total(): Attribute
-    {
-        return new Attribute(get: fn ($value) => $this->getTotal());
-    }
-
-    public function cost(): Attribute
-    {
-        return new Attribute(get: fn ($value) => $this->items->sum(function ($item) {
-            return $item->cost * $item->qty;
-        }));
-    }
-
-    public function profit(): Attribute
-    {
-        return new Attribute(get: fn () => $this->total - $this->cost);
-    }
-
-    public function subTotal(): Attribute
-    {
-        return new Attribute(get: fn ($value) => $this->getSubTotal());
     }
 
     public function updateStatus($status): static
@@ -340,5 +291,29 @@ class Order extends Model
             config('app.storage_folder').
             "/documents/$this->number.pdf"
         );
+    }
+
+    public function getTotal()
+    {
+        return $this->getSubTotal() + $this->delivery_charge;
+    }
+
+    public function getSubTotal(): float
+    {
+        return $this->items->sum(function ($item) {
+            return $item->price * $item->qty;
+        });
+    }
+
+    public function getCost(): float
+    {
+        return $this->items->sum(function ($item) {
+            return $item->cost * $item->qty;
+        });
+    }
+
+    public function getProfit(): float
+    {
+        return $this->getTotal() - $this->getCost();
     }
 }

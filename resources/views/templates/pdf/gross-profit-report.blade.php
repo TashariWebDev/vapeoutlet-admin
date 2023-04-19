@@ -76,7 +76,7 @@
                                 @endif
                                 @foreach ($customer->orders as $order)
                                     @php
-                                        $total[] = $order->profit;
+                                        $total[] += $order->getProfit()
                                     @endphp
                                     @if ($loop->first)
                                         <tr class="font-bold bg-gray-100 text-[10px]">
@@ -90,9 +90,9 @@
                                         <td class="text-left">{{ $order->created_at->format('d-m-y') }}</td>
                                         <td class="text-left">{{ $order->id }}</td>
                                         <td class="text-left">{{ $order->status }}</td>
-                                        <td class="text-right">{{ number_format($order->profit, 2) }}</td>
-                                        <td class="text-right">{{ number_format(vat($order->profit), 2) }}</td>
-                                        <td class="text-right">{{ number_format(ex_vat($order->profit), 2) }}</td>
+                                        <td class="text-right">{{ number_format($order->getProfit(), 2) }}</td>
+                                        <td class="text-right">{{ number_format(vat($order->getProfit()), 2) }}</td>
+                                        <td class="text-right">{{ number_format(ex_vat($order->getProfit()), 2) }}</td>
                                     </tr>
                                     @if ($loop->last)
                                         <tr class="font-bold bg-white text-[10px]">
