@@ -68,6 +68,8 @@ class Index extends Component
 
     public $endOfPreviousMonth;
 
+    public $profit_margin;
+
     public function mount(): void
     {
     }
@@ -90,6 +92,13 @@ class Index extends Component
 //
         $this->getPurchases();
         $this->getPreviousMonthPurchases();
+
+        $this->getProfitMargin();
+    }
+
+    public function getProfitMargin()
+    {
+        $this->profit_margin = round(($this->gross_profit / $this->gross_sales) * 100);
     }
 
     public function getPurchases()
