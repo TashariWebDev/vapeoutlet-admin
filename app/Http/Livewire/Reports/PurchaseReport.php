@@ -26,11 +26,11 @@ class PurchaseReport extends Component
 
     public function print()
     {
-        $purchases = Purchase::whereDate('created_at', '>=', $this->fromDate)
-            ->whereDate('created_at', '<=', $this->toDate)
+        $purchases = Purchase::currentMonth()
             ->when($this->supplier, function ($query) {
                 $query->whereSupplierId($this->supplier);
             })
+            ->whereNotNull('processed_date')
             ->get()
             ->groupBy('supplier_id');
 
