@@ -27,11 +27,12 @@ class PurchaseReport extends Component
 
     public function print()
     {
-        $purchases = Purchase::whereDate('processed_date', '>=', Carbon::parse($this->fromDate)
-            ->startOfDay())
+        $purchases = Purchase::whereNotNull('processed_date')
+            ->whereDate('processed_date', '>=',
+                Carbon::parse($this->fromDate)
+                    ->startOfDay())
             ->whereDate('processed_date', '<=', Carbon::parse($this->toDate)->endOfDay())
             ->with(['items'])
-            ->whereNotNull('processed_date')
             ->when($this->supplier, function ($query) {
                 $query->whereSupplierId($this->supplier);
             })
