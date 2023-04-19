@@ -46,6 +46,7 @@
                             <th class="text-left">Date</th>
                             <th class="text-left">Invoice No</th>
                             <th class="text-left">Status</th>
+                            <th class="text-right">Profit Margin (incl)</th>
                             <th class="text-right">Incl</th>
                             <th class="text-right">Vat</th>
                             <th class="text-right">Excl</th>
@@ -70,7 +71,7 @@
                                     >
                                         <td
                                             class="text-left"
-                                            colspan="6"
+                                            colspan="7"
                                         >{{ $customer->salesperson?->name ?? 'unalocated' }}</td>
                                     </tr>
                                 @endif
@@ -90,6 +91,9 @@
                                         <td class="text-left">{{ $order->created_at->format('d-m-y') }}</td>
                                         <td class="text-left">{{ $order->id }}</td>
                                         <td class="text-left">{{ $order->status }}</td>
+                                        <td class="text-right">
+                                            {{ round(($order->getProfit() / $order->getTotal()) * 100) }}%
+                                        </td>
                                         <td class="text-right">{{ number_format($order->getProfit(), 2) }}</td>
                                         <td class="text-right">{{ number_format(vat($order->getProfit()), 2) }}</td>
                                         <td class="text-right">{{ number_format(ex_vat($order->getProfit()), 2) }}</td>
@@ -98,7 +102,7 @@
                                         <tr class="font-bold bg-white text-[10px]">
                                             <td
                                                 class="text-right"
-                                                colspan="3"
+                                                colspan="4"
                                             >
                                             </td>
                                             <td
@@ -130,7 +134,7 @@
                                     <tr class="font-bold bg-white text-[10px]">
                                         <td
                                             class="text-right"
-                                            colspan="3"
+                                            colspan="4"
                                         >
                                         </td>
                                         <td
@@ -158,7 +162,7 @@
                         <tr class="font-bold bg-white border-t-4 border-dashed text-[10px]">
                             <td
                                 class="text-right"
-                                colspan="3"
+                                colspan="4"
                             >
                             </td>
                             <td
