@@ -25,10 +25,8 @@ class VariancesReport extends Component
      */
     public function print(): Redirector|Application|RedirectResponse
     {
-        $stocks = Stock::whereBetween('created_at', [
-            $this->fromDate,
-            $this->toDate,
-        ])
+        $stocks = Stock::whereDate('created_at', '>=', $this->fromDate)
+            ->whereDate('created_at', '<=', $this->toDate)
             ->where('type', '=', 'adjustment')
             ->where('qty', '!=', 0)
             ->get()
@@ -42,8 +40,8 @@ class VariancesReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/variances-report.pdf'
+            config('app.storage_folder').
+            '/documents/variances-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -61,8 +59,8 @@ class VariancesReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/variances-report.pdf'
+            config('app.storage_folder').
+            '/documents/variances-report.pdf'
         );
     }
 

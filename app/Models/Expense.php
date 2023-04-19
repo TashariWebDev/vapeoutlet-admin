@@ -55,6 +55,18 @@ class Expense extends Model
         return $this->belongsTo(ExpenseCategory::class);
     }
 
+    public function scopeCurrentMonth($query)
+    {
+        return $query->whereDate('date', '>=', \Carbon\Carbon::now()->startOfMonth())
+            ->whereDate('date', '<=', Carbon::now()->endOfMonth());
+    }
+
+    public function scopePreviousMonth($query)
+    {
+        return $query->whereDate('date', '>=', \Carbon\Carbon::now()->subMonth()->startOfMonth())
+            ->whereDate('date', '<=', Carbon::now()->subMonth()->endOfMonth());
+    }
+
     public function amount(): Attribute
     {
         return new Attribute(

@@ -5,11 +5,11 @@ namespace App\Http\Livewire\Reports;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
 use App\Models\Expense;
+use App\Models\Order;
 use App\Models\Product;
-use App\Models\SupplierTransaction;
+use App\Models\Purchase;
 use App\Models\Transaction;
 use Carbon\Carbon;
-use DB;
 use Http;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -30,11 +30,11 @@ class Index extends Component
 
     public $brand;
 
-    public $transactions;
-
-    public $purchases;
-
     public $expenses;
+
+    public $gross_profit;
+
+    public $previous_month_gross_profit;
 
     public $fromDate;
 
@@ -48,96 +48,146 @@ class Index extends Component
 
     public $stockValue;
 
-    public $salesPerChannel;
+    public $purchases;
 
-    public function mount()
+    public $previousMonthPurchases;
+
+    public $total_credits;
+
+    public $total_refunds;
+
+    public $gross_sales;
+
+    public $previous_month_gross_sales;
+
+    public $startOfMonth;
+
+    public $startOfPreviousMonth;
+
+    public $endOfMonth;
+
+    public $endOfPreviousMonth;
+
+    public function mount(): void
     {
-        $this->transactions = Transaction::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM transactions where type = "invoice" AND  MONTH(created_at) = MONTH(NOW())) as total_sales'
-                ),
-                DB::raw(
-                    '(select SUM(amount) FROM transactions WHERE type = "credit" AND  MONTH(created_at) = MONTH(NOW())) as total_credits'
-                ),
-                DB::raw(
-                    '(select SUM(amount) FROM transactions WHERE type = "refund" AND  MONTH(created_at) = MONTH(NOW())) as total_refunds'
-                )
-            )
-            ->first();
-
-        $this->purchases = SupplierTransaction::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM supplier_transactions where type = "purchase" AND  MONTH(created_at) = MONTH(NOW())) as total_purchases'
-                ),
-                DB::raw(
-                    '(select SUM(amount) FROM supplier_transactions WHERE type = "payment" AND  MONTH(created_at) = MONTH(NOW())) as total_payments'
-                )
-            )
-            ->first();
-
-        $this->expenses = Expense::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses'
-                )
-            )
-            ->first();
     }
 
-    public function hydrate()
+    public function getValues()
     {
-        $this->salesPerChannel = Transaction::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM transactions  where type = "invoice" AND  MONTH(created_at) = MONTH(NOW()) ) as total_sales'
-                )
-            )
-            ->first();
+//        8 queries
+        $this->getGrossProfit();
+        $this->getPreviousMonthGrossProfit();
 
-        $this->transactions = Transaction::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM transactions where type = "invoice" AND  MONTH(created_at) = MONTH(NOW())) as total_sales'
-                ),
-                DB::raw(
-                    '(select SUM(amount) FROM transactions WHERE type = "credit" AND  MONTH(created_at) = MONTH(NOW())) as total_credits'
-                ),
-                DB::raw(
-                    '(select SUM(amount) FROM transactions WHERE type = "refund" AND  MONTH(created_at) = MONTH(NOW())) as total_refunds'
-                )
-            )
-            ->first();
+//        1 query
+        $this->getStockValue();
 
-        $this->purchases = SupplierTransaction::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM supplier_transactions where type = "purchase" AND  MONTH(created_at) = MONTH(NOW())) as total_purchases'
-                ),
-                DB::raw(
-                    '(select SUM(amount) FROM supplier_transactions WHERE type = "payment" AND  MONTH(created_at) = MONTH(NOW())) as total_payments'
-                )
-            )
-            ->first();
+//        3 queries each
+        $this->getGrossSales();
+        $this->getPreviousMonthGrossSales();
 
-        $this->expenses = Expense::query()
-            ->select(
-                '*',
-                DB::raw(
-                    '(select SUM(amount) FROM expenses WHERE MONTH(created_at) = MONTH(NOW())) as total_expenses'
-                )
-            )
-            ->first();
+        $this->getExpenses();
+        $this->getTransactions();
+//
+        $this->getPurchases();
+        $this->getPreviousMonthPurchases();
     }
 
-    public function getStockValue()
+    public function getPurchases()
+    {
+        $this->purchases = Purchase::currentMonth()
+            ->with(['items'])
+            ->whereNotNull('processed_date')
+            ->sum('amount');
+    }
+
+    public function getPreviousMonthPurchases(): void
+    {
+        $this->previousMonthPurchases = Purchase::previousMonth()
+            ->with(['items'])
+            ->whereNotNull('processed_date')
+            ->sum('amount');
+    }
+
+    public function getTransactions(): void
+    {
+        $this->total_credits = Transaction::query()
+            ->currentMonth()
+            ->where('type', '=', 'credit')
+            ->sum('amount');
+
+        $this->total_refunds = Transaction::query()
+            ->currentMonth()
+            ->where('type', '=', 'refund')
+            ->sum('amount');
+    }
+
+    public function getExpenses(): void
+    {
+        $this->expenses = Expense::currentMonth()->sum('amount');
+    }
+
+    public function getGrossSales(): void
+    {
+        $sumOfGrossSalesPerOrder = [];
+
+        $orders = Order::currentMonth()
+            ->with('items')
+            ->sales()
+            ->get();
+
+        foreach ($orders as $order) {
+            $sumOfGrossSalesPerOrder[] += $order->total;
+        }
+
+        $this->gross_sales = array_sum($sumOfGrossSalesPerOrder);
+    }
+
+    public function getPreviousMonthGrossSales(): void
+    {
+        $total = [];
+
+        $orders = Order::previousMonth()
+            ->with('items')
+            ->sales()
+            ->get();
+
+        foreach ($orders as $order) {
+            $total[] = $order->total;
+        }
+
+        $this->previous_month_gross_sales = array_sum($total);
+    }
+
+    public function getGrossProfit(): void
+    {
+        $total = [];
+
+        $orders = Order::currentMonth()->with(['stocks'])->sales()->get();
+
+        foreach ($orders as $order) {
+            $total[] += $order->profit;
+        }
+
+        $this->gross_profit = array_sum($total);
+    }
+
+    public function getPreviousMonthGrossProfit(): void
+    {
+        $total = [];
+
+        $orders = Order::previousMonth()
+            ->with(['stocks'])
+            ->sales()
+            ->get();
+
+        foreach ($orders as $order) {
+            $total[] += $order->profit;
+        }
+
+        $this->previous_month_gross_profit = array_sum($total);
+    }
+
+    public function getStockValue(): void
     {
         $this->stockValue = Product::select(['id', 'cost'])
             ->withSum('stocks', 'qty')
@@ -167,7 +217,7 @@ class Index extends Component
     {
         Http::get(
             config('app.app_url').
-                "/webhook/documents/variances?from=$this->fromDate&to=$this->toDate"
+            "/webhook/documents/variances?from=$this->fromDate&to=$this->toDate"
         );
 
         return redirect('reports');
@@ -177,7 +227,7 @@ class Index extends Component
     {
         Http::get(
             config('app.app_url').
-                "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
+            "/webhook/documents/salesByDateRange?from=$this->fromDate&to=$this->toDate&salesperson_id=$this->selectedSalespersonId"
         );
 
         return redirect('reports');
@@ -208,8 +258,8 @@ class Index extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/stockByDateRange.pdf'
+            config('app.storage_folder').
+            '/documents/stockByDateRange.pdf'
         );
 
         if (file_exists($url)) {

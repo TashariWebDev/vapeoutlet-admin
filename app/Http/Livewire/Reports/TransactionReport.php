@@ -22,10 +22,8 @@ class TransactionReport extends Component
      */
     public function print()
     {
-        $transactions = Transaction::whereBetween('created_at', [
-            $this->fromDate,
-            $this->toDate,
-        ])
+        $transactions = Transaction::whereDate('created_at', '>=', $this->fromDate)
+            ->whereDate('created_at', '<=', $this->toDate)
             ->when($this->type, function ($query) {
                 $query->where('type', '=', $this->type);
             })
@@ -41,8 +39,8 @@ class TransactionReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/transaction-report.pdf'
+            config('app.storage_folder').
+            '/documents/transaction-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -60,8 +58,8 @@ class TransactionReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/transaction-report.pdf'
+            config('app.storage_folder').
+            '/documents/transaction-report.pdf'
         );
     }
 

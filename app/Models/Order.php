@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Exceptions\QtyNotAvailableException;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,13 +20,12 @@ class Order extends Model
 
     protected $with = [
         'items:id,product_id,order_id,price,qty,discount,product_price',
+        'stocks',
     ];
-
-    protected $withCount = ['items'];
 
     protected $casts = ['created_at', 'updated_at'];
 
-    protected $appends = ['total', 'profit', 'cost'];
+    protected $appends = ['total', 'profit', 'cost', 'sub_total'];
 
     public function getStatus(): string
     {
@@ -58,6 +58,24 @@ class Order extends Model
             CustomerAddress::class,
             'address_id'
         )->withTrashed();
+    }
+
+    public function scopeCurrentMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', Carbon::now()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->endOfMonth());
+    }
+
+    public function scopePreviousMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', Carbon::now()->subMonth()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->subMonth()->endOfMonth());
+    }
+
+    public function scopeSales($query)
+    {
+        return $query->where('status', '!=', 'cancelled')
+            ->whereNotNull('status');
     }
 
     public function delivery(): BelongsTo
@@ -111,11 +129,7 @@ class Order extends Model
 
     public function total(): Attribute
     {
-        return new Attribute(
-            get: fn () => $this->items->sum(function ($item) {
-                return $item->price * $item->qty;
-            })
-        );
+        return new Attribute(get: fn ($value) => $this->getTotal());
     }
 
     public function cost(): Attribute

@@ -2,19 +2,19 @@
     <div>
         <button
             class="w-full button-success"
-            wire:click="$toggle('showSalesReportForm')"
+            wire:click="$toggle('showGrossProfitReportForm')"
         >
-            Sales Report
+            Gross profit Report
         </button>
 
         <div class="p-2">
             <p class="text-xs text-slate-500">
-                Sales report between a specified date by salesperson
+                Gross profit report between a specified date by salesperson
             </p>
         </div>
     </div>
 
-    <x-modal x-data="{ show: $wire.entangle('showSalesReportForm') }">
+    <x-modal x-data="{ show: $wire.entangle('showGrossProfitReportForm') }">
         <form wire:submit.prevent="print">
             <div class="py-4">
                 <x-input.text

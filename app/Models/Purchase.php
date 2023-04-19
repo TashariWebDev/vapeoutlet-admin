@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -117,5 +118,17 @@ class Purchase extends Model
         );
 
         $item->increment('qty');
+    }
+
+    public function scopeCurrentMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', Carbon::now()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->endOfMonth());
+    }
+
+    public function scopePreviousMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', Carbon::now()->subMonth()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->subMonth()->endOfMonth());
     }
 }

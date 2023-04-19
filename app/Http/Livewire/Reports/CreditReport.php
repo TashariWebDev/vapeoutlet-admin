@@ -33,10 +33,8 @@ class CreditReport extends Component
      */
     public function print()
     {
-        $credits = Credit::whereBetween('created_at', [
-            $this->fromDate,
-            $this->toDate,
-        ])
+        $credits = Credit::whereDate('created_at', '>=', $this->fromDate)
+            ->whereDate('created_at', '<=', $this->toDate)
             ->when($this->selectedAdmin, function ($query) {
                 $query->whereCreatedBy($this->selectedAdmin);
             })
@@ -51,8 +49,8 @@ class CreditReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/credits-report.pdf'
+            config('app.storage_folder').
+            '/documents/credits-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -70,8 +68,8 @@ class CreditReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/credits-report.pdf'
+            config('app.storage_folder').
+            '/documents/credits-report.pdf'
         );
     }
 

@@ -31,10 +31,8 @@ class ExpenseReport extends Component
 
     public function print(): Redirector|Application|RedirectResponse
     {
-        $expenses = Expense::whereBetween('date', [
-            $this->fromDate,
-            $this->toDate,
-        ])
+        $expenses = Expense::whereDate('date', '>=', $this->fromDate)
+            ->whereDate('date', '<=', $this->toDate)
             ->when($this->category, function ($query) {
                 $query->whereCategory($this->category);
             })
@@ -49,8 +47,8 @@ class ExpenseReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/expenses.pdf'
+            config('app.storage_folder').
+            '/documents/expenses.pdf'
         );
 
         if (file_exists($url)) {
@@ -68,8 +66,8 @@ class ExpenseReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/expenses.pdf'
+            config('app.storage_folder').
+            '/documents/expenses.pdf'
         );
     }
 

@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * App\Models\SupplierTransaction
@@ -17,27 +20,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $amount
  * @property int $running_balance
  * @property string $created_by
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int|null $purchase_id
- * @property-read \App\Models\Purchase|null $purchase
- * @property-read \App\Models\Supplier|null $supplier
+ * @property-read Purchase|null $purchase
+ * @property-read Supplier|null $supplier
  *
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction query()
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction wherePurchaseId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereReference($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereRunningBalance($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereSupplierId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|SupplierTransaction whereUuid($value)
- * @mixin \Eloquent
+ * @method static Builder|SupplierTransaction newModelQuery()
+ * @method static Builder|SupplierTransaction newQuery()
+ * @method static Builder|SupplierTransaction query()
+ * @method static Builder|SupplierTransaction whereAmount($value)
+ * @method static Builder|SupplierTransaction whereCreatedAt($value)
+ * @method static Builder|SupplierTransaction whereCreatedBy($value)
+ * @method static Builder|SupplierTransaction whereId($value)
+ * @method static Builder|SupplierTransaction wherePurchaseId($value)
+ * @method static Builder|SupplierTransaction whereReference($value)
+ * @method static Builder|SupplierTransaction whereRunningBalance($value)
+ * @method static Builder|SupplierTransaction whereSupplierId($value)
+ * @method static Builder|SupplierTransaction whereType($value)
+ * @method static Builder|SupplierTransaction whereUpdatedAt($value)
+ * @method static Builder|SupplierTransaction whereUuid($value)
+ *
+ * @mixin Eloquent
  */
 class SupplierTransaction extends Model
 {
@@ -67,5 +71,17 @@ class SupplierTransaction extends Model
     public function purchase()
     {
         return $this->belongsTo(Purchase::class);
+    }
+
+    public function scopeCurrentMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', \Carbon\Carbon::now()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->endOfMonth());
+    }
+
+    public function scopePreviousMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', \Carbon\Carbon::now()->subMonth()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->subMonth()->endOfMonth());
     }
 }

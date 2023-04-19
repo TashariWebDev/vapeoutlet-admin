@@ -13,9 +13,9 @@ use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
-class SalesReport extends Component
+class GrossProfitReport extends Component
 {
-    public $showSalesReportForm = false;
+    public $showGrossProfitReportForm = false;
 
     public $fromDate;
 
@@ -25,7 +25,7 @@ class SalesReport extends Component
 
     public $salespeople = [];
 
-    public function mount()
+    public function mount(): void
     {
         $this->salespeople = User::where('is_super_admin', false)->get();
     }
@@ -36,8 +36,7 @@ class SalesReport extends Component
     public function print(): Redirector|Application|RedirectResponse
     {
         $customers = Customer::withWhereHas('orders', function ($query) {
-            $query
-                ->whereDate('created_at', '>=', $this->fromDate)
+            $query->whereDate('created_at', '>=', $this->fromDate)
                 ->whereDate('created_at', '<=', $this->toDate)
                 ->where('status', '!=', 'cancelled')
                 ->whereNotNull('status');
@@ -61,14 +60,14 @@ class SalesReport extends Component
         $url = storage_path(
             'app/public/'.
             config('app.storage_folder').
-            '/documents/sales-report.pdf'
+            '/documents/gross-profit-report.pdf'
         );
 
         if (file_exists($url)) {
             unlink($url);
         }
 
-        $view = view('templates.pdf.sales-report', [
+        $view = view('templates.pdf.gross-profit-report', [
             'customers' => $customers,
             'from' => $this->fromDate,
             'to' => $this->toDate,
@@ -86,12 +85,12 @@ class SalesReport extends Component
         return redirect(
             '/storage/'.
             config('app.storage_folder').
-            '/documents/sales-report.pdf'
+            '/documents/gross-profit-report.pdf'
         );
     }
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.reports.sales-report');
+        return view('livewire.reports.gross-profit-report');
     }
 }

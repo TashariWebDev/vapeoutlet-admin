@@ -26,10 +26,8 @@ class PurchaseReport extends Component
 
     public function print()
     {
-        $purchases = Purchase::whereBetween('date', [
-            $this->fromDate,
-            $this->toDate,
-        ])
+        $purchases = Purchase::whereDate('created_at', '>=', $this->fromDate)
+            ->whereDate('created_at', '<=', $this->toDate)
             ->when($this->supplier, function ($query) {
                 $query->whereSupplierId($this->supplier);
             })
@@ -44,8 +42,8 @@ class PurchaseReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/purchases-report.pdf'
+            config('app.storage_folder').
+            '/documents/purchases-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -63,8 +61,8 @@ class PurchaseReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/purchases-report.pdf'
+            config('app.storage_folder').
+            '/documents/purchases-report.pdf'
         );
     }
 
