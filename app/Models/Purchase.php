@@ -122,13 +122,13 @@ class Purchase extends Model
 
     public function scopeCurrentMonth($query)
     {
-        return $query->whereDate('created_at', '>=', Carbon::now()->startOfMonth())
-            ->whereDate('created_at', '<=', Carbon::now()->endOfMonth());
+        return $query->whereDate('processed_date', '>=', Carbon::now()->startOfMonth())
+            ->whereDate('processed_date', '<=', Carbon::now()->endOfMonth());
     }
 
     public function scopePreviousMonth($query)
     {
-        return $query->whereDate('created_at', '>=', Carbon::now()->subMonth()->startOfMonth())
-            ->whereDate('created_at', '<=', Carbon::now()->subMonth()->endOfMonth());
+        return $query->whereDate('processed_date', '>=', Carbon::now()->subMonth()->startOfMonth())
+            ->whereDate('processed_date', '<=', Carbon::now()->subMonth()->endOfMonth());
     }
 }

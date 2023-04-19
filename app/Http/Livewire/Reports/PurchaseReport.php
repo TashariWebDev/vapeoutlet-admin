@@ -27,9 +27,9 @@ class PurchaseReport extends Component
 
     public function print()
     {
-        $purchases = Purchase::whereDate('created_at', '>=', Carbon::parse($this->fromDate)
+        $purchases = Purchase::whereDate('processed_date', '>=', Carbon::parse($this->fromDate)
             ->startOfDay())
-            ->whereDate('created_at', '<=', Carbon::parse($this->toDate)->endOfDay())
+            ->whereDate('processed_date', '<=', Carbon::parse($this->toDate)->endOfDay())
             ->with(['items'])
             ->whereNotNull('processed_date')
             ->when($this->supplier, function ($query) {
