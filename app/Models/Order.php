@@ -141,7 +141,7 @@ class Order extends Model
 
     public function profit(): Attribute
     {
-        return new Attribute(get: fn () => $this->getTotal() - $this->getCost());
+        return new Attribute(get: fn () => $this->total - $this->cost);
     }
 
     public function subTotal(): Attribute
