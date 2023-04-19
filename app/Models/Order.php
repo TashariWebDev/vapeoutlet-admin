@@ -134,11 +134,7 @@ class Order extends Model
 
     public function cost(): Attribute
     {
-        return new Attribute(
-            get: fn () => $this->stocks->sum(function ($item) {
-                return $item->cost * (0 - $item->qty);
-            })
-        );
+        return new Attribute(get: fn ($value) => $this->getCost());
     }
 
     public function profit(): Attribute

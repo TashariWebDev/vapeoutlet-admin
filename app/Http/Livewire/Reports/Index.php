@@ -136,7 +136,7 @@ class Index extends Component
             ->get();
 
         foreach ($orders as $order) {
-            $sumOfGrossSalesPerOrder[] += $order->total;
+            $sumOfGrossSalesPerOrder[] = $order->total;
         }
 
         $this->gross_sales = array_sum($sumOfGrossSalesPerOrder);
@@ -165,7 +165,7 @@ class Index extends Component
         $orders = Order::currentMonth()->with(['stocks'])->sales()->get();
 
         foreach ($orders as $order) {
-            $total[] += $order->profit;
+            $total[] = $order->profit;
         }
 
         $this->gross_profit = array_sum($total);
@@ -181,7 +181,7 @@ class Index extends Component
             ->get();
 
         foreach ($orders as $order) {
-            $total[] += $order->profit;
+            $total[] = $order->profit;
         }
 
         $this->previous_month_gross_profit = array_sum($total);

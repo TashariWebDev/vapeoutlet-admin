@@ -124,7 +124,7 @@
                                 @endforeach
                                 @php
                                     $grandTotal[] = array_sum($total);
-                                                      $overallTotal[] = array_sum($total);
+                                    $overallTotal[] = array_sum($total);
                                 @endphp
                                 @if ($loop->last)
                                     <tr class="font-bold bg-white text-[10px]">

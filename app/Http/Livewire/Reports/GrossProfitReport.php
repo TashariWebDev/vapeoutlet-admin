@@ -38,8 +38,7 @@ class GrossProfitReport extends Component
         $customers = Customer::withWhereHas('orders', function ($query) {
             $query->whereDate('created_at', '>=', $this->fromDate)
                 ->whereDate('created_at', '<=', $this->toDate)
-                ->where('status', '!=', 'cancelled')
-                ->whereNotNull('status');
+                ->sales();
         })
             ->select([
                 'customers.id',
