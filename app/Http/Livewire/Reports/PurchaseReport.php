@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Reports;
 
 use App\Models\Purchase;
 use App\Models\Supplier;
+use Carbon\Carbon;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
 
@@ -26,8 +27,9 @@ class PurchaseReport extends Component
 
     public function print()
     {
-        $purchases = Purchase::whereDate('created_at', '>=', $this->fromDate)
-            ->whereDate('created_at', '<=', $this->toDate)
+        $purchases = Purchase::whereDate('created_at', '>=', Carbon::parse($this->fromDate)
+            ->startOfDay())
+            ->whereDate('created_at', '<=', Carbon::parse($this->toDate)->endOfDay())
             ->with(['items'])
             ->whereNotNull('processed_date')
             ->when($this->supplier, function ($query) {
