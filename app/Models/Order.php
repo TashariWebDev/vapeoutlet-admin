@@ -112,7 +112,7 @@ class Order extends Model
 
     public function getCost(): float
     {
-        return $this->stocks->sum(function ($item) {
+        return $this->items->sum(function ($item) {
             return $item->cost * (0 - $item->qty);
         });
     }
