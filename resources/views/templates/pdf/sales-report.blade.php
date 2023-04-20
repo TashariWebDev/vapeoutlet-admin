@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1"
     >
     <title>Sales Report | {{ $from }} - {{ $to }}</title>
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -37,7 +37,7 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-        
+
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
                 <table class="w-full">
@@ -76,7 +76,7 @@
                                 @endif
                                 @foreach ($customer->orders as $order)
                                     @php
-                                        $total[] = $order->total;
+                                        $total[] = $order->getTotal();
                                     @endphp
                                     @if ($loop->first)
                                         <tr class="font-bold bg-gray-100 text-[10px]">
@@ -90,9 +90,9 @@
                                         <td class="text-left">{{ $order->created_at->format('d-m-y') }}</td>
                                         <td class="text-left">{{ $order->id }}</td>
                                         <td class="text-left">{{ $order->status }}</td>
-                                        <td class="text-right">{{ number_format($order->total, 2) }}</td>
-                                        <td class="text-right">{{ number_format(vat($order->total), 2) }}</td>
-                                        <td class="text-right">{{ number_format(ex_vat($order->total), 2) }}</td>
+                                        <td class="text-right">{{ number_format($order->getTotal(), 2) }}</td>
+                                        <td class="text-right">{{ number_format(vat($order->getTotal()), 2) }}</td>
+                                        <td class="text-right">{{ number_format(ex_vat($order->getTotal()), 2) }}</td>
                                     </tr>
                                     @if ($loop->last)
                                         <tr class="font-bold bg-white text-[10px]">

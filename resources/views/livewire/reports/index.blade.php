@@ -7,7 +7,7 @@
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-6">
                         <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Sales</h3>
-                        @if( $previous_month_gross_sales > $gross_sales)
+                        @if( $previous_month_gross_sales  > $gross_sales )
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  fill="none"
                                  viewBox="0 0 24 24"
@@ -51,10 +51,10 @@
                         <div>
                             <p>{{ Carbon::now()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
-                                {{ number_format($gross_sales, 2) ?? '0.00' }}
+                                {{ number_format($gross_sales , 2) ?? '0.00' }}
                             </p>
                             <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($gross_sales), 2) ?? '0.00' }} (ex vat)
+                                {{ number_format(ex_vat($gross_sales , 2)) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
                 <x-slot:footer>
                     <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands($total_refunds ?? 0), 2) ?? '0.00' }}
+                        {{ number_format(to_rands( 0 - $total_refunds ?? 0), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
             </x-stat-container>
@@ -205,7 +205,7 @@
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
                 <x-slot:footer>
                     <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands($total_credits ?? 0), 2) ?? '0.00' }}
+                        {{ number_format(to_rands( 0 - $total_credits ?? 0), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
             </x-stat-container>

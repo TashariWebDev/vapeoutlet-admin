@@ -54,7 +54,11 @@ class Index extends Component
 
     public $total_credits;
 
+    public $previous_month_total_credits;
+
     public $total_refunds;
+
+    public $previous_month_total_refunds;
 
     public $gross_sales;
 
@@ -154,6 +158,16 @@ class Index extends Component
 
         $this->total_refunds = Transaction::query()
             ->currentMonth()
+            ->where('type', '=', 'refund')
+            ->sum('amount');
+
+        $this->previous_month_total_credits = Transaction::query()
+            ->previousMonth()
+            ->where('type', '=', 'credit')
+            ->sum('amount');
+
+        $this->previous_month_total_refunds = Transaction::query()
+            ->previousMonth()
             ->where('type', '=', 'refund')
             ->sum('amount');
     }
