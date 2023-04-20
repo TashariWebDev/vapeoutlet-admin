@@ -103,18 +103,46 @@ class Index extends Component
 
     public function getPurchases()
     {
-        $this->purchases = Purchase::currentMonth()
+        $total = [];
+
+        $purchases = Purchase::currentMonth()
             ->with(['items'])
             ->whereNotNull('processed_date')
-            ->sum('amount');
+            ->get();
+
+        foreach ($purchases as $purchase) {
+            if ($purchase->exchange_rate > 0) {
+                $amount = $purchase->amount * $purchase->exchange_rate;
+            } else {
+                $amount = $purchase->amount;
+            }
+
+            $total[] = $amount;
+        }
+
+        $this->purchases = array_sum($total);
     }
 
     public function getPreviousMonthPurchases(): void
     {
-        $this->previousMonthPurchases = Purchase::previousMonth()
+        $total = [];
+
+        $previousMonthPurchases = Purchase::previousMonth()
             ->with(['items'])
             ->whereNotNull('processed_date')
-            ->sum('amount');
+            ->get();
+
+        foreach ($previousMonthPurchases as $purchase) {
+            if ($purchase->exchange_rate > 0) {
+                $amount = $purchase->amount * $purchase->exchange_rate;
+            } else {
+                $amount = $purchase->amount;
+            }
+
+            $total[] = $amount;
+        }
+
+        $this->previousMonthPurchases = array_sum($total);
     }
 
     public function getTransactions(): void

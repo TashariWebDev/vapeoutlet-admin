@@ -97,7 +97,9 @@
                     </div>
 
                     <div class="flex items-center space-x-6">
-                        <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Profit margin</h3>
+                        <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">
+                            Profit margin
+                        </h3>
                         <p>{{ $profit_margin }} %</p>
                     </div>
                 </div>
@@ -163,18 +165,18 @@
                         <div>
                             <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
-                                {{ number_format(to_rands($previousMonthPurchases), 2) ?? '0.00' }}</p>
+                                {{ number_format($previousMonthPurchases, 2) ?? '0.00' }}</p>
                             <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat(to_rands($previousMonthPurchases)), 2) ?? '0.00' }} (ex vat)
+                                {{ number_format(ex_vat($previousMonthPurchases), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                         <div>
                             <p>{{ Carbon::now()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
-                                {{ number_format(to_rands($purchases), 2) ?? '0.00' }}
+                                {{ number_format($purchases, 2) ?? '0.00' }}
                             </p>
                             <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat(to_rands($purchases)), 2) ?? '0.00' }} (ex vat)
+                                {{ number_format(ex_vat($purchases), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                     </div>
