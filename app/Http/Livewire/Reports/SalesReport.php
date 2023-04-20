@@ -37,6 +37,7 @@ class SalesReport extends Component
     {
         $customers = Customer::withWhereHas('orders', function ($query) {
             $query
+                ->with('items')
                 ->whereDate('created_at', '>=', $this->fromDate)
                 ->whereDate('created_at', '<=', $this->toDate)
                 ->where('status', '!=', 'cancelled')
