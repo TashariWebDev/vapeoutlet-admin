@@ -247,8 +247,8 @@ class Customer extends Authenticatable
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                "/documents/$this->statement.pdf"
+            config('app.storage_folder').
+            "/documents/$this->statement.pdf"
         );
 
         if (file_exists($url)) {
@@ -282,14 +282,7 @@ class Customer extends Authenticatable
                         ->where('name', 'like', $term)
                         ->orWhere('email', 'like', $term)
                         ->orWhere('phone', 'like', $term)
-                        ->orWhere('company', 'like', $term)
-                        ->orWhereHas('addresses', function ($query) use (
-                            $term
-                        ) {
-                            $query
-                                ->where('city', 'like', $term)
-                                ->orWhere('province', 'like', $term);
-                        });
+                        ->orWhere('company', 'like', $term);
                 });
             });
     }
