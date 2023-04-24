@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Console\Commands\CompressImagesCommand;
 use App\Console\Commands\DeleteOldDocumentsCommand;
 use App\Console\Commands\DeleteOldPriceListCommand;
+use App\Console\Commands\EmailBackupsCommand;
 use App\Console\Commands\ShopSetupCommand;
 use App\Console\Commands\TestEmailCommand;
 use App\Console\Commands\UpdateSupplierTransactionsCommand;
@@ -24,6 +25,7 @@ class Kernel extends ConsoleKernel
         TestEmailCommand::class,
         ShopSetupCommand::class,
         UpdateTransactionDateIfNullCommand::class,
+        EmailBackupsCommand::class,
     ];
 
     /**
@@ -35,7 +37,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('delete:old-documents')->days(2);
         $schedule->command('compress:images')->weeklyOn(6);
         $schedule->command('update:transactions')->hourly();
-        $schedule->command('update:supplier-transactions')->daily();
+        $schedule->command('update:supplier-transactions')->hourly();
+        $schedule->command('backup:clean')->daily('01:00');
+        $schedule->command('backup:run')->daily('01:10');
+        $schedule->command('email:backups')->daily('01:30');
     }
 
     /**

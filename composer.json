@@ -17,7 +17,8 @@
         "laravel/sanctum": "^v3.2.1",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.11.2",
-        "spatie/browsershot": "^3.57"
+        "spatie/browsershot": "^3.57",
+        "spatie/laravel-backup": "^8.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.0",
