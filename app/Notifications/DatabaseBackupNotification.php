@@ -25,11 +25,9 @@ class DatabaseBackupNotification extends Notification implements ShouldQueue
     {
         $backups = Storage::disk('local')->files('backups');
 
-//        dd($backups);
-
         return (new MailMessage)
             ->subject(config('app.name').' Database Backup')
-            ->attach(storage_path().'/app/'.$backups[1]);
+            ->attach(storage_path().'/app/'.last($backups));
     }
 
     public function toArray($notifiable): array
