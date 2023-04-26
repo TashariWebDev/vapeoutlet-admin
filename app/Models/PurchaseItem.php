@@ -34,6 +34,7 @@ use JetBrains\PhpStorm\Pure;
  * @method static Builder|PurchaseItem wherePurchaseId($value)
  * @method static Builder|PurchaseItem whereQty($value)
  * @method static Builder|PurchaseItem whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class PurchaseItem extends Model
@@ -69,7 +70,7 @@ class PurchaseItem extends Model
     {
         if ($this->purchase->shipping_rate) {
             return ($this->amount_converted_to_zar() *
-                $this->purchase->shipping_rate) /
+                    $this->purchase->shipping_rate) /
                 100;
         }
 

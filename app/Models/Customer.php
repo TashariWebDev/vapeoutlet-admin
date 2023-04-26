@@ -277,13 +277,11 @@ class Customer extends Authenticatable
             ->filter()
             ->each(function ($term) use ($query) {
                 $term = '%'.$term.'%';
-                $query->where(function ($query) use ($term) {
-                    $query
-                        ->where('name', 'like', $term)
-                        ->orWhere('email', 'like', $term)
-                        ->orWhere('phone', 'like', $term)
-                        ->orWhere('company', 'like', $term);
-                });
+                $query
+                    ->where('name', 'like', $term)
+                    ->orWhere('email', 'like', $term)
+                    ->orWhere('phone', 'like', $term)
+                    ->orWhere('company', 'like', $term);
             });
     }
 }

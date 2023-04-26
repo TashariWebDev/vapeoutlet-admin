@@ -16,7 +16,7 @@ module.exports = {
                 xxs: [".50rem", "1rem"],
             },
             fontFamily: {
-                sans: ["Helvetica Neue", ...defaultTheme.fontFamily.sans],
+                sans: ["Inter var", ...defaultTheme.fontFamily.sans],
             },
             animation: {
                 "spin-slow": "spin 3s linear infinite",

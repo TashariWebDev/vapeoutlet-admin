@@ -43,34 +43,34 @@ class Index extends Component
         $this->resetPage();
     }
 
-    public function toggleFilter()
+    public function toggleFilter(): void
     {
         $this->activeFilter = ! $this->activeFilter;
         $this->resetPage();
     }
 
-    public function toggleActive(Product $product)
+    public function toggleActive(Product $product): void
     {
         $product->is_active = ! $product->is_active;
         $product->save();
         $this->notify('Product active status updated');
     }
 
-    public function toggleFeatured(Product $product)
+    public function toggleFeatured(Product $product): void
     {
         $product->is_featured = ! $product->is_featured;
         $product->save();
         $this->notify('Product featured status updated');
     }
 
-    public function toggleSale(Product $product)
+    public function toggleSale(Product $product): void
     {
         $product->is_sale = ! $product->is_sale;
         $product->save();
         $this->notify('Product sale status updated');
     }
 
-    public function delete(Product $product)
+    public function delete(Product $product): void
     {
         $product->update([
             'is_active' => false,
@@ -81,19 +81,19 @@ class Index extends Component
         $this->notify('Product disabled & archived');
     }
 
-    public function updateRetailPrice(Product $product, $value)
+    public function updateRetailPrice(Product $product, $value): void
     {
         $product->update(['retail_price' => $value]);
         $this->notify('price updated');
     }
 
-    public function updateWholesalePrice(Product $product, $value)
+    public function updateWholesalePrice(Product $product, $value): void
     {
         $product->update(['wholesale_price' => $value]);
         $this->notify('price updated');
     }
 
-    public function recover($productId)
+    public function recover($productId): void
     {
         Product::withTrashed()
             ->find($productId)

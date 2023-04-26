@@ -20,29 +20,30 @@ class Quick extends Component
 
     public $searchQuery;
 
-    public $customers = [];
+    protected $queryString = ['searchQuery'];
 
     protected $listeners = ['newOrder' => 'toggle'];
 
-    public function toggle()
+    public function toggle(): void
     {
         $this->modal = true;
     }
 
-    public function updatedSearchQuery()
+    public function mount(): void
     {
-        $this->modal = true;
-
-        if ($this->searchQuery) {
-            $this->customers = Customer::query()
-                ->where('name', 'like', '%'.$this->searchQuery.'%')
-                ->orWhere('email', 'like', '%'.$this->searchQuery.'%')
-                ->orWhere('phone', 'like', '%'.$this->searchQuery.'%')
-                ->orWhere('company', 'like', '%'.$this->searchQuery.'%')
-                ->get();
-        } else {
-            $this->customers = [];
+        if (request()->has('searchQuery')) {
+            $this->searchQuery = request('searchQuery');
         }
+    }
+
+    public function selectedCustomer($customerId): void
+    {
+        $this->selectedCustomer = Customer::where('id', $customerId)->first();
+    }
+
+    public function updatedSearchQuery(): void
+    {
+        $this->resetPage();
     }
 
     public function createOrder($customerId): Redirector|Application|RedirectResponse
@@ -63,6 +64,16 @@ class Quick extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.orders.quick');
+        $customers = Customer::query()
+            ->when(
+                $this->searchQuery,
+                fn ($query) => $query->search($this->searchQuery)
+            )
+            ->orderBy('name');
+
+        return view('livewire.orders.quick', [
+            'customers' => $customers->simplePaginate(5),
+            'selectedCustomer' => $customers->first(),
+        ]);
     }
 }

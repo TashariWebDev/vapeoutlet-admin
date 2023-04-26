@@ -119,7 +119,7 @@ class Order extends Model
 
     public function number(): Attribute
     {
-        return new Attribute(get: fn () => 'INV00'.$this->attributes['id']);
+        return new Attribute(get: fn () => 'INV'.$this->attributes['id']);
     }
 
     public function addItem(Product $product)

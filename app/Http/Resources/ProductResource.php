@@ -11,7 +11,6 @@ class ProductResource extends JsonResource
 {
     /**
      * @param  Request  $request
-     * @return array
      */
     public function toArray($request): array
     {
@@ -30,7 +29,6 @@ class ProductResource extends JsonResource
             'is_active' => $this->is_active,
             'is_featured' => $this->is_featured,
             'is_sale' => $this->is_sale,
-            'oldwholesale_price' => $this->oldwholesale_price,
             'qty' => $this->qtyAvailableInWarehouse(),
             'product_collection_id' => $this->product_collection_id,
             'features' => FeatureResource::collection($this->features),

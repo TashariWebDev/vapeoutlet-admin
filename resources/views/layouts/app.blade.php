@@ -38,7 +38,7 @@
     <link rel="apple-touch-icon"
           href="{{ config('app.frontend_url').'/apple-icon-180.png' ?? asset('apple-icon-180.png') }}"
     >
-    
+
     <meta name="apple-mobile-web-app-capable"
           content="yes"
     >
@@ -54,7 +54,7 @@
     <meta name="apple-mobile-web-app-status-bar-style"
           content="black-translucent"
     />
-    
+
     <link rel="apple-touch-startup-image"
           href="{{ config('app.frontend_url').'/apple-splash-2048-2732.jpg' ?? asset('apple-splash-2048-2732.jpg') }}"
           media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
@@ -104,7 +104,7 @@
           href="{{ config('app.frontend_url').'/apple-splash-2160-1620.jpg' ?? asset('apple-splash-2160-1620.jpg') }}"
           media="(device-width: 621px) and (device-height: 1104px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)"
     >
-    
+
     <link rel="apple-touch-startup-image"
           href="{{ config('app.frontend_url').'/apple-splash-1284-2778.jpg' ?? asset('apple-splash-1284-2778.jpg') }}"
           media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
@@ -176,7 +176,11 @@
     <link rel="manifest"
           href="{{ config('app.frontend_url').'/manifest.json' ?? asset('manifest.json') }}"
     >
-    
+
+    <link rel="stylesheet"
+          href="https://rsms.me/inter/inter.css"
+    >
+
     <title>{{ config('app.name') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -214,20 +218,20 @@
     checkTheme();
     $watch('theme', () => toggleTheme());"
 >
-    
+
     <main class="w-full h-full">
-        
+
         @php
             $salutation = ['Hi, ', 'Howzit, ', 'Wazup, ', 'Hello, ', 'Hey there, '];
         @endphp
-        
+
         <nav
             class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500"
         >
             <div class="flex justify-between items-center py-1 px-6 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
                 <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
                     <span>
-                        {{ auth()->user()->name }}
+                        {{ request()->user()->name }}
                     </span>
                 </p>
                 <div>
@@ -250,35 +254,35 @@
                                 class="link"
                                 href="{{ route('dashboard') }}"
                             >dashboard</a>
-                            
+
                             @hasPermissionTo('view orders')
                             <a
                                 class="link"
                                 href="{{ route('orders') }}"
                             >orders</a>
                             @endhasPermissionTo
-                            
+
                             @hasPermissionTo('view products')
                             <a
                                 class="link"
                                 href="{{ route('products') }}"
                             >products</a>
                             @endhasPermissionTo
-                            
+
                             @hasPermissionTo('view customers')
                             <a
                                 class="link"
                                 href="{{ route('customers') }}"
                             >customers</a>
                             @endhasPermissionTo
-                            
+
                             @hasPermissionTo('view warehouse')
                             <a
                                 class="link"
                                 href="{{ route('warehouse') }}"
                             >warehouse</a>
                             @endhasPermissionTo
-                            
+
                             @hasPermissionTo('view settings')
                             <a
                                 class="link"
@@ -287,26 +291,26 @@
                             @endhasPermissionTo
                         </container>
                     </div>
-                    <div class="flex items-center py-2 space-x-4 lg:py-1">
+                    <div class="flex overflow-y-hidden overflow-x-scroll items-baseline pt-1 pr-4 pb-3 space-x-8 lg:py-1">
                         @if (auth()->user()->sales_channels_count > 1)
-                            <div>
+                            <div class="whitespace-nowrap">
                                 <livewire:users.sales-channel-change-button />
                             </div>
                         @endif
-                        <div>
+                        <div class="whitespace-nowrap">
                             <livewire:orders.quick-toggle-button />
                         </div>
-                        <div>
+                        <div class="whitespace-nowrap">
                             <livewire:customers.quick-customer-button />
                         </div>
-                        
-                        <div>
+
+                        <div class="whitespace-nowrap">
                             <button
                                 class="link"
                                 x-on:click="document.getElementById('logout-form').submit()"
                             >Sign out
                             </button>
-                            
+
                             <form
                                 class="hidden"
                                 id="logout-form"
@@ -314,23 +318,17 @@
                                 method="POST"
                             >@csrf</form>
                         </div>
-                        
-                        <div
-                            class="flex justify-center items-center w-6 h-6 rounded-full border ring-2 border-sky-400 ring-slate-100 dark:ring-slate-800"
-                        >
-                            <button x-on:click="theme = !theme">
-                                <x-icons.moon
-                                    class="w-4 h-4 text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-800"
-                                    x-show="theme"
-                                />
-                            </button>
-                            <button x-on:click="theme = !theme">
-                                <x-icons.sun
-                                    class="w-4 h-4 text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 hover:text-slate-800"
-                                    x-show="!theme"
-                                />
+
+                        <div class="whitespace-nowrap">
+                            <button
+                                x-on:click="theme = !theme"
+                                class="link"
+                            >
+                                <span x-show="!theme">Dark mode</span>
+                                <span x-show="theme">Light mode</span>
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -342,35 +340,35 @@
                         class="link"
                         href="{{ route('dashboard') }}"
                     >dashboard</a>
-                    
+
                     @hasPermissionTo('view orders')
                     <a
                         class="link"
                         href="{{ route('orders') }}"
                     >orders</a>
                     @endhasPermissionTo
-                    
+
                     @hasPermissionTo('view products')
                     <a
                         class="link"
                         href="{{ route('products') }}"
                     >products</a>
                     @endhasPermissionTo
-                    
+
                     @hasPermissionTo('view customers')
                     <a
                         class="link"
                         href="{{ route('customers') }}"
                     >customers</a>
                     @endhasPermissionTo
-                    
+
                     @hasPermissionTo('view warehouse')
                     <a
                         class="link"
                         href="{{ route('warehouse') }}"
                     >warehouse</a>
                     @endhasPermissionTo
-                    
+
                     @hasPermissionTo('view settings')
                     <a
                         class="link"
@@ -380,7 +378,7 @@
                 </container>
             </div>
         </nav>
-        
+
         <div class="relative py-8 px-2 mx-auto lg:px-6 max-w-8xl">
             <livewire:users.sales-channel-change />
             <livewire:customers.create />
@@ -388,9 +386,9 @@
             <x-notification />
             {{ $slot }}
         </div>
-    
+
     </main>
-    
+
     @livewireScripts
 </body>
 

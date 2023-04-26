@@ -13,11 +13,6 @@ class Purchase extends Model
 {
     protected $guarded = [];
 
-    protected $with = [
-        'items:id,product_id,purchase_id,price,qty',
-        'supplier:id,name',
-    ];
-
     protected $casts = ['date' => 'datetime'];
 
     protected $appends = ['total'];
