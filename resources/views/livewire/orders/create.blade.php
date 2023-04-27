@@ -112,10 +112,10 @@
         <p class="text-xs text-rose-600">This action is non reversible</p>
     </x-modal>
 
-    <div class="bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-2 p-2 lg:grid-cols-4">
             <div>
-                <p class="text-xs font-bold uppercase dark:text-blue-500 text-slate-500">
+                <p class="text-xs font-bold dark:text-white text-slate-900">
                     {{ $this->order->number }} ( {{ $this->order->sales_channel->name }} )
                 </p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
@@ -124,26 +124,23 @@
                         {{ $this->order->delivery?->type }}
                     </p>
                 @endisset
-                <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
+                <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-950">
+                    <p class="text-xs font-bold dark:text-white text-slate-900">
                         Total: R {{ number_format($this->order->getTotal(), 2) }}
-                        <span
-                            class="pl-3"
-                        >(Delivery:{{ number_format($this->order->delivery_charge, 2) }})</span>
                     </p>
-                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
-                        Count: {{ $this->order->items_count }}
+                    <p class="text-xs font-bold dark:text-white text-slate-900">
+                        Count: {{ $this->order->items->sum('qty') }}
                     </p>
                 </div>
             </div>
             <div>
-                <p class="font-semibold text-blue-500 dark:text-blue-500">{{ $this->order->customer->name }}
+                <p class="font-semibold dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->name }}
                     @isset($this->order->customer->company)
                         <span>| {{ $this->order->customer->company }}</span>
                     @endisset
                 </p>
                 @isset($this->order->address_id)
-                    <div class="text-xs font-semibold text-blue-500 capitalize dark:text-blue-500">
+                    <div class="font-semibold capitalize dark:text-white text-[10px] text-slate-900">
                         <p>{{ $this->order->address?->line_one }}</p>
                         <p>{{ $this->order->address?->line_two }}</p>
                         <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>

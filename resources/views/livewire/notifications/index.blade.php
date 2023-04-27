@@ -15,7 +15,7 @@
                         wire:model.defer="body"
                     ></x-input.textarea>
                     @error('body')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div>
@@ -28,7 +28,7 @@
         </div>
     </x-slide-over>
 
-    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <header class="flex justify-between items-center py-6 px-2">
             <x-page-header>
                 Notification settings

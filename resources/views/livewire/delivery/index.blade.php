@@ -1,5 +1,5 @@
 <div>
-
+    
     <x-slide-over x-data="{ show: $wire.entangle('showDeliveryCreateForm') }">
         <form wire:submit.prevent="save">
             <div class="py-2">
@@ -130,8 +130,8 @@
             </div>
         </form>
     </x-slide-over>
-
-    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    
+    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <header class="flex justify-between py-6 px-2">
             <x-page-header>
                 Delivery settings
@@ -143,11 +143,11 @@
                 add delivery
             </button>
         </header>
-
+        
         <div class="py-3 px-2">
             {{ $deliveries->links() }}
         </div>
-
+        
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-5">
                 <x-table.heading>type</x-table.heading>

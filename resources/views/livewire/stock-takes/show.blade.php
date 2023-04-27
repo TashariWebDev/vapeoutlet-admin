@@ -1,6 +1,6 @@
 <div x-data="{}">
 
-    <div class="bg-white rounded-md dark:bg-gray-800 text-slate-400 dark:text-slate-500">
+    <div class="bg-white rounded-md dark:bg-gray-900 text-slate-400 dark:text-slate-500">
         <div class="grid grid-cols-1 p-3 mb-2 w-full lg:grid-cols-6">
             <div>
                 <p class="text-xs font-bold">{{ $stockTake->number }}</p>
@@ -20,7 +20,7 @@
             <div class="lg:text-right">
                 @if ($stockTake->processed_at)
                     <p class="text-xs font-bold uppercase">PROCESSED BY {{ $stockTake->processed_by }}
-                        on {{ $stockTake->processed_at }}</p>
+                                                           on {{ $stockTake->processed_at }}</p>
                 @else
                     <button
                         class="button-success"

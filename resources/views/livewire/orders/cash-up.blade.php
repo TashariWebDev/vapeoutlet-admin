@@ -118,7 +118,7 @@
     </x-modal>
 
     {{-- Desktop --}}
-    <div class="mb-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="mb-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="lg:px-4">
 
             <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3 lg:px-0">

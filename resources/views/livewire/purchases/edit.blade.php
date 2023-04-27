@@ -33,8 +33,8 @@
             </p>
         </div>
     </x-modal>
-    
-    <div class="bg-white rounded-lg shadow dark:bg-slate-800">
+
+    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold dark:text-blue-500 text-slate-500">
@@ -98,7 +98,7 @@
                         <livewire:purchases.add-product :purchase="$this->purchase" />
                     @endif
                 </div>
-                
+
                 <div>
                     @if (!$this->purchase->processed)
                         <button
@@ -115,7 +115,7 @@
                         <livewire:products.create />
                     @endif
                 </div>
-                
+
                 <div>
                     @if (!$this->purchase->processed)
                         <button
@@ -127,10 +127,10 @@
                         </button>
                     @endif
                 </div>
-            
+
             </div>
         </div>
-        
+
         @if (!$this->purchase->processed)
             <div class="py-0.5 px-2 w-full">
                 <div>
@@ -144,7 +144,7 @@
                 </div>
             </div>
         @endif
-        
+
         <x-table.container>
             <x-table.header class="hidden grid-cols-5 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>

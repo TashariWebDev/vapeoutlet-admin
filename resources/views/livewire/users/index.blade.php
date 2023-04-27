@@ -54,7 +54,7 @@
         </div>
     </x-slide-over>
 
-    <div class="p-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="p-2 bg-white rounded-lg shadow dark:bg-slate-900">
 
         <x-page-header class="px-2">
             Users

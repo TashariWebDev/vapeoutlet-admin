@@ -53,7 +53,7 @@
         </div>
     </x-modal>
 
-    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="py-3">
             <div class="grid grid-cols-1 lg:grid-cols-3">
                 <div>

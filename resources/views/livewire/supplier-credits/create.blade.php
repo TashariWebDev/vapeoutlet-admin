@@ -47,23 +47,23 @@
         <p class="text-xs text-slate-600">This action is non reversible</p>
     </x-modal>
 
-    <div class="bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
-                <p class="text-xs font-bold dark:text-blue-500 text-slate-500">{{ $this->credit->number }}</p>
-                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->credit->updated_at }}</p>
-                <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
+                <p class="text-xs font-bold dark:text-white text-slate-900">{{ $this->credit->number }}</p>
+                <p class="dark:text-white text-[10px] text-slate-600">{{ $this->credit->updated_at }}</p>
+                <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-950">
+                    <p class="text-xs font-bold dark:text-white text-slate-900">
                         Total: R {{ number_format($this->credit->getTotal(), 2) }}
                     </p>
-                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
-                        Count: {{ $this->credit->items_count }}
+                    <p class="text-xs font-bold dark:text-white text-slate-900">
+                        Count: {{ $this->credit->items->sum('qty') }}
                     </p>
                 </div>
             </div>
             <div class="grid grid-cols-1 gap-2 text-xs lg:grid-cols-2">
                 <div>
-                    <p class="font-semibold text-blue-500 dark:text-blue-500">{{ $this->credit->supplier->name }}
+                    <p class="font-semibold dark:text-white text-slate-900">{{ $this->credit->supplier->name }}
                         @isset($this->credit->supplier->company)
                             <span>| {{ $this->credit->supplier->company }}</span>
                         @endisset
