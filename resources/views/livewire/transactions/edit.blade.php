@@ -10,7 +10,7 @@
         >Back to {{ $transaction->customer->name }}</a>
     </div>
 
-    <div class="p-4 w-full bg-white rounded-lg shadow lg:w-1/2 dark:bg-slate-800">
+    <div class="p-4 w-full bg-white rounded-lg shadow lg:w-1/2 dark:bg-slate-900">
         <form
             class=""
             wire:submit.prevent="update"

@@ -18,8 +18,6 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
-    public int $ordersCount = 0;
-
     public bool $showAddOrderForm = false;
 
     public bool $quickViewCustomerAccountModal = false;
@@ -101,15 +99,6 @@ class Index extends Component
         }
     }
 
-    public function getTotalActiveOrdersProperty(): int
-    {
-        return Order::query()
-            ->where('status', '=', 'received')
-            ->orWhere('status', '=', 'processed')
-            ->orWhere('status', '=', 'packed')
-            ->count();
-    }
-
     public function filteredOrders()
     {
         $orders = Order::query()
@@ -164,7 +153,7 @@ class Index extends Component
 
     public function quickViewCustomerAccount(Customer $customer)
     {
-        $customer->load('lastFivetransactions');
+        $customer->load('lastFiveTransactions');
         $this->selectedCustomerLatestTransactions =
             $customer->lastFiveTransactions;
 
@@ -188,7 +177,6 @@ class Index extends Component
 
     public function render(): Factory|View|Application
     {
-        $this->ordersCount = $this->filteredOrders()->count();
 
         return view('livewire.orders.index', [
             'orders' => $this->filteredOrders()->paginate($this->recordCount),

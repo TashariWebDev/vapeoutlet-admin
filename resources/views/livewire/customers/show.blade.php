@@ -1,199 +1,87 @@
-<div x-data="{ showStats: false }">
+<div>
 
-    <!-- Stats -->
-    <div class="flex justify-between items-start">
-        <div>
-            <x-page-header>
+
+    <div>
+        <div class="px-2 text-lg">
+            <h1 class="font-bold dark:text-white text-slate-900">
                 {{ $this->customer->name }}
-            </x-page-header>
-        </div>
-
-        <div class="flex pt-4 space-x-4">
-            <button
-                class="link"
-                x-on:click="showStats = !showStats"
-            >toggle stats
-            </button>
-            <a
-                class="link"
-                href="{{ route('customers/edit', $this->customer->id) }}"
-            >
-                Edit
-            </a>
+                <span class="pl-4">
+                     <a
+                         class="link"
+                         href="{{ route('customers/edit', $this->customer->id) }}"
+                     >
+                Edit customer
+                </a>
+                </span>
+            </h1>
+            @if ($this->customer->salesperson_id)
+                <p class="text-xs font-semibold text-slate-500">
+                    {{ $this->customer->salesperson->name ?? '' }}
+                </p>
+            @endif
         </div>
     </div>
 
-    <div class="py-2">
-        @if ($this->customer->salesperson_id)
-            <p class="text-xs font-semibold text-slate-500">
-                ( {{ $this->customer->salesperson->name ?? '' }})
-            </p>
-        @endif
-    </div>
-    <div
-        x-show="showStats"
-        x-transition
-    >
 
-        <div class="grid grid-cols-1 gap-5 mt-3 mb-2 sm:grid-cols-2 lg:grid-cols-3">
-            <x-stat-container>
-                <div>
-                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.tax-receipt class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">Invoices</p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            R
-                            {{ number_format($lifetimeTransactions->where('type', 'invoice')->sum('amount'), 2) }}
-                        </p>
-                    </div>
+    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
+        <div class="mx-auto max-w-7xl">
+            <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-6 dark:bg-slate-900">
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Invoices</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                               R {{ number_format($lifetimeTransactions->where('type', 'invoice')->sum('amount'), 2) }}
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <button
-                            class="link"
-                            x-on:click="$wire.filter = 'invoice'"
-                        >View all
-                        </button>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div>
-                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.ccard class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">Total
-                                                                                       Payments</p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            R
-                            {{ number_format(abs($lifetimeTransactions->where('type', 'payment')->sum('amount')), 2) }}
-                        </p>
-                    </div>
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Payments</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                             R {{ number_format(abs($lifetimeTransactions->where('type', 'payment')->sum('amount')), 2) }}
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <button
-                            class="link"
-                            x-on:click="$wire.filter = 'payment'"
-                        >View all
-                        </button>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div>
-                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.chart-pie class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Outstanding</p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Balance</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->sum('amount')), 2) }}
-                        </p>
-                    </div>
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="invisible font-medium text-indigo-600 hover:text-indigo-500"
-                            href="#"
-                        >
-                            View all
-                        </a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div>
-                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.arrow-up class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">Debits</p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            R
-                            {{ number_format(abs($lifetimeTransactions->where('type', 'debit')->sum('amount')), 2) }}
-                        </p>
-                    </div>
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Debits</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                            R {{ number_format(abs($lifetimeTransactions->where('type', 'debit')->sum('amount')), 2) }}
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="#"
-                            x-on:click="$wire.filter = 'debit'"
-                        >
-                            View all
-                        </a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div>
-                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.arrow-right class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">Credits</p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            R
-                            {{ number_format(abs($lifetimeTransactions->where('type', 'credit')->sum('amount')), 2) }}
-                        </p>
-                    </div>
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Credits</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                            R {{ number_format(abs($lifetimeTransactions->where('type', 'credit')->sum('amount')), 2) }}
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="#"
-                            x-on:click="$wire.filter = 'credit'"
-                        >
-                            View all
-                        </a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div>
-                    <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.arrow-down class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-16">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">Refunds</p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            R
-                            {{ number_format(abs($lifetimeTransactions->where('type', 'refund')->sum('amount')), 2) }}
-                        </p>
-                    </div>
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Refunds</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                              R {{ number_format(abs($lifetimeTransactions->where('type', 'refund')->sum('amount')), 2) }}
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="#"
-                            x-on:click="$wire.filter = 'refund'"
-                        >
-                            View all
-                        </a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
+            </div>
         </div>
     </div>
     <!-- End Stats -->
 
     <!-- Actions -->
-    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
+
         <div class="py-2 px-4">
             <div>
                 <div class="grid grid-cols-1 gap-y-4 mt-2 lg:grid-cols-6 lg:gap-x-2 lg:gap-y-3">
@@ -214,11 +102,6 @@
                                 Query Time {{ round($queryTime, 3) }} ms
                             </x-input.helper>
                         </div>
-                        <button
-                            class="link"
-                            x-on:click="$wire.call('resetFilter')"
-                        >reset filter
-                        </button>
                     </div>
                     <div class="pt-1">
                         <x-input.label class="hidden">
@@ -238,92 +121,88 @@
                             @endif
                         </x-input.select>
                     </div>
-                    <div
-                        class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-4 mb-6 lg:grid-cols-6 lg:col-span-4 lg:gap-y-2"
-                    >
+                </div>
+                <div class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-4 mt-2 mb-6 lg:grid-cols-7 lg:col-span-4 lg:gap-y-2"
+                >
 
-                        <div class="hidden col-span-6 lg:block">
-                            {{-- Force alignment --}}
-                        </div>
 
-                        <div class="w-full">
-                            <button
-                                class="w-full button-success"
-                                wire:click="sendStatement"
-                                target="sendStatement"
-                            >
-                                <x-icons.busy target="sendStatement" />
-                                <span
-                                    class="pl-2"
-                                    wire:loading.class="hidden"
-                                    wire:target="sendStatement"
-                                >Email Statement</span>
-                                <span
-                                    class="hidden pl-2"
-                                    wire:loading.class.remove="hidden"
-                                    wire:target="sendStatement"
-                                >Emailing</span>
-                            </button>
-                        </div>
+                    <div class="w-full">
+                        <button
+                            class="w-full button-success"
+                            wire:click="sendStatement"
+                            target="sendStatement"
+                        >
+                            <x-icons.busy target="sendStatement" />
+                            <span
+                                class="pl-2"
+                                wire:loading.class="hidden"
+                                wire:target="sendStatement"
+                            >Email Statement</span>
+                            <span
+                                class="hidden pl-2"
+                                wire:loading.class.remove="hidden"
+                                wire:target="sendStatement"
+                            >Emailing</span>
+                        </button>
+                    </div>
 
-                        <div class="w-full">
-                            <button
-                                class="w-full button-success"
-                                wire:click="printStatement"
-                            >
-                                <x-icons.busy target="printStatement" />
-                                <span
-                                    class="pl-2"
-                                    wire:loading.class="hidden"
-                                    wire:target="printStatement"
-                                >Print Statement</span>
-                                <span
-                                    class="hidden pl-2"
-                                    wire:loading.class.remove="hidden"
-                                    wire:target="printStatement"
-                                >Printing</span>
-                            </button>
-                        </div>
+                    <div class="w-full">
+                        <button
+                            class="w-full button-success"
+                            wire:click="printStatement"
+                        >
+                            <x-icons.busy target="printStatement" />
+                            <span
+                                class="pl-2"
+                                wire:loading.class="hidden"
+                                wire:target="printStatement"
+                            >Print Statement</span>
+                            <span
+                                class="hidden pl-2"
+                                wire:loading.class.remove="hidden"
+                                wire:target="printStatement"
+                            >Printing</span>
+                        </button>
+                    </div>
 
-                        <div class="w-full">
-                            <button
-                                class="w-full button-success"
-                                wire:click="createOrder"
-                            >
-                                <x-icons.busy target="createOrder" />
-                                <span class="pl-2">New order</span>
-                            </button>
-                        </div>
+                    <div class="w-full">
+                        <button
+                            class="w-full button-success"
+                            wire:click="createOrder"
+                        >
+                            <x-icons.busy target="createOrder" />
+                            <span class="pl-2">New order</span>
+                        </button>
+                    </div>
 
-                        <div class="w-full">
-                            <a
-                                class="w-full button-success"
-                                href="{{ route('credits/create', $this->customer->id) }}"
-                            >
-                                <x-icons.busy target="''" />
-                                <span class="pl-2">credit note</span>
-                            </a>
-                        </div>
+                    <div class="w-full">
+                        <a
+                            class="w-full button-success"
+                            href="{{ route('credits/create', $this->customer->id) }}"
+                        >
+                            <x-icons.busy target="''" />
+                            <span class="pl-2">credit note</span>
+                        </a>
+                    </div>
 
-                        @hasPermissionTo('add transactions')
-                        <div class="w-full">
-                            <livewire:transactions.create :customer-id="$customerId" />
-                        </div>
-                        @endhasPermissionTo
+                    @hasPermissionTo('add transactions')
+                    <div class="w-full">
+                        <livewire:transactions.create :customer-id="$customerId" />
+                    </div>
+                    @endhasPermissionTo
 
-                        <div class="w-full">
-                            <livewire:transactions.warranty.create :customer-id="$customerId" />
-                        </div>
+                    <div class="w-full">
+                        <livewire:transactions.warranty.create :customer-id="$customerId" />
+                    </div>
 
-                        <div class="w-full">
-                            <button
-                                class="w-full button-success"
-                                wire:click="updateBalances"
-                            >
-                                <x-icons.busy target="updateBalances" />
-                                <span class="pl-2">Refresh balance</span>
-                            </button>
-                        </div>
+                    <div class="w-full">
+                        <button
+                            class="w-full button-success"
+                            wire:click="updateBalances"
+                        >
+                            <x-icons.busy target="updateBalances" />
+                            <span class="pl-2">Refresh balance</span>
+                        </button>
                     </div>
                 </div>
             </div>

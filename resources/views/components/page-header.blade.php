@@ -1,3 +1,3 @@
-<div {{ $attributes }}>
-    <h3 class="text-lg font-bold lg:text-3xl text-slate-600 dark:text-sky-200">{{ $slot }}</h3>
+<div {{ $attributes->merge(['class' => 'px-2 text-lg']) }}>
+    <h1 class="font-bold dark:text-white text-slate-900">{{ $slot }}</h1>
 </div>

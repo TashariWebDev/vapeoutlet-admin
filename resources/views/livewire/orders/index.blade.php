@@ -1,13 +1,4 @@
-<div
-    x-data="{
-      ordersCount: $wire.entangle('ordersCount')
-  }"
-    x-init="$watch('ordersCount', value => {
-      if (value === 0) {
-          confetti()
-      }
-  })"
->
+<div>
     <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Latest transactions</h3>
@@ -149,27 +140,6 @@
             <div class="py-6 px-2">
                 {{ $orders->links() }}
             </div>
-
-            @if ($filter === 'received' && $this->totalActiveOrders > 0)
-                <div class="hidden lg:block">
-                    <p class="pb-1 text-xs text-slate-500"> {{ $this->totalActiveOrders }} orders need to
-                                                                                           dispatched</p>
-                </div>
-                <div
-                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r to-rose-400 rounded-r-full rounded-l-full lg:block from-sky-400"
-                >
-                    <div
-                        class="flex justify-end items-center py-1 px-2 h-full bg-transparent rounded-r-full rounded-l-full"
-                        style="width: {{ round(($orders->total() / $this->totalActiveOrders) * 100 + 1) }}%"
-                    >
-                        <div
-                            class="px-1 text-xs font-bold whitespace-nowrap bg-transparent rounded-r rounded-l text-sky-900"
-                        >
-                            {{ round(($orders->total() / $this->totalActiveOrders) * 100) }} %
-                        </div>
-                    </div>
-                </div>
-            @endif
         </div>
 
         <div class="px-2">
