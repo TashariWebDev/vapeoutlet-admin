@@ -332,7 +332,7 @@
                 </span>
 
                             </p>
-                            <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">
+                            <p class="dark:text-white fuppercase text-[12px] text-slate-900">
                                 {{ $transaction->created_at }}
                             </p>
                         </x-table.row>
