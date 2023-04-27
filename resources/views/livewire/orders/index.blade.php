@@ -113,17 +113,6 @@
 
                 <div>
                     <x-input.label>
-                        No of records
-                    </x-input.label>
-                    <x-input.select wire:model="recordCount">
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </x-input.select>
-                </div>
-                <div>
-                    <x-input.label>
                         Status
                     </x-input.label>
                     <x-input.select wire:model="filter">
@@ -133,6 +122,18 @@
                         <option value="shipped">Shipped</option>
                         <option value="completed">Completed</option>
                         <option value="cancelled">Cancelled</option>
+                    </x-input.select>
+                </div>
+
+                <div>
+                    <x-input.label>
+                        No of records
+                    </x-input.label>
+                    <x-input.select wire:model="recordCount">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
                     </x-input.select>
                 </div>
             </div>
@@ -167,15 +168,17 @@
                 @forelse($orders as $order)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
                         <x-table.row class="text-left">
-                            <a
-                                class="link"
-                                href="{{ route('orders/show', $order->id) }}"
-                                title="View Order {{ $order->number }}"
-                            >{{ $order->number }}</a>
-                            <div class="flex justify-between pt-1 cursor-default">
-                                <p class="text-[12px]">
-                                    {{ $order->created_at }}
-                                </p>
+                            <div class="flex justify-between items-start pt-1 cursor-default">
+                                <div>
+                                    <a
+                                        class="link"
+                                        href="{{ route('orders/show', $order->id) }}"
+                                        title="View Order {{ $order->number }}"
+                                    >{{ $order->number }}</a>
+                                    <p class="text-[12px]">
+                                        {{ $order->created_at }}
+                                    </p>
+                                </div>
                                 @if ($order->status != 'completed' && $order->status != 'cancelled')
                                     @if ($order->created_at->diffInDays(now()) > 0)
                                         <p
@@ -201,14 +204,14 @@
                             </div>
                         </x-table.row>
                         <x-table.row class="">
-                            <div class="flex justify-end lg:justify-between lg:items-end">
+                            <div class="flex justify-end lg:justify-between lg:items-start">
                                 <div>
                                     <a
                                         class="link"
                                         href="{{ route('customers/show', $order->customer->id) }}"
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
-                                    <div class="flex justify-between pt-1 space-x-2">
+                                    <div class="flex justify-between space-x-2">
                                         <p class="uppercase text-[12px]">
                                             {{ $order->customer->type() }}
                                         </p>
@@ -223,7 +226,7 @@
                                         title="View {{ $order->customer->name }}'s Last Five Transactions"
                                         wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
                                     >
-                                        view
+                                        VIEW
                                     </button>
                                 </div>
                             </div>

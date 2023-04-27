@@ -41,20 +41,20 @@
                 <x-slot:footer>
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
-                            <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonth()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($previous_month_gross_sales, 2) ?? '0.00' }}</p>
-                            <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($previous_month_gross_sales), 2) ?? '0.00' }} (ex vat)
+                            <p class="text-xs text-slate-500">
+                                {{ number_format(ex_vat($previous_month_gross_sales), 2) ?? '0.00' }} excl vat
                             </p>
                         </div>
                         <div>
-                            <p>{{ Carbon::now()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($gross_sales , 2) ?? '0.00' }}
                             </p>
-                            <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($gross_sales , 2)) ?? '0.00' }} (ex vat)
+                            <p class="text-xs text-slate-500">
+                                {{ number_format(ex_vat($gross_sales , 2)) ?? '0.00' }} excl vat
                             </p>
                         </div>
                     </div>
@@ -100,26 +100,26 @@
                         <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">
                             Profit margin
                         </h3>
-                        <p>{{ $profit_margin }} %</p>
+                        <p class="dark:text-white text-slate-900">{{ $profit_margin }} %</p>
                     </div>
                 </div>
                 <x-slot:footer>
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
-                            <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonth()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($previous_month_gross_profit, 2) ?? '0.00' }}</p>
-                            <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($previous_month_gross_profit), 2) ?? '0.00' }} (ex vat)
+                            <p class="text-xs text-slate-500">
+                                {{ number_format(ex_vat($previous_month_gross_profit), 2) ?? '0.00' }} excl vat
                             </p>
                         </div>
                         <div>
-                            <p>{{ Carbon::now()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($gross_profit, 2) ?? '0.00' }}
                             </p>
-                            <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($gross_profit), 2) ?? '0.00' }} (ex vat)
+                            <p class="text-xs text-slate-500">
+                                {{ number_format(ex_vat($gross_profit), 2) ?? '0.00' }} excl vat
                             </p>
                         </div>
                     </div>
@@ -163,20 +163,20 @@
                 <x-slot:footer>
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
-                            <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonth()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($previousMonthPurchases, 2) ?? '0.00' }}</p>
-                            <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($previousMonthPurchases), 2) ?? '0.00' }} (ex vat)
+                            <p class="text-xs text-slate-500">
+                                {{ number_format(ex_vat($previousMonthPurchases), 2) ?? '0.00' }} excl vat
                             </p>
                         </div>
                         <div>
-                            <p>{{ Carbon::now()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($purchases, 2) ?? '0.00' }}
                             </p>
-                            <p class="text-xs text-sky-500">
-                                {{ number_format(ex_vat($purchases), 2) ?? '0.00' }} (ex vat)
+                            <p class="text-xs text-slate-500">
+                                {{ number_format(ex_vat($purchases), 2) ?? '0.00' }} excl vat
                             </p>
                         </div>
                     </div>
