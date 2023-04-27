@@ -1,5 +1,5 @@
 <div wire:init="updateBalances">
-    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
             <div>
                 <x-input.label for="search">
@@ -54,24 +54,28 @@
                                 href="{{ route('customers/show', $customer->id) }}"
                             >{{ $customer->name }}</a>
                             <div class="pt-1">
-                                <p class="text-xs text-slate-600 dark:text-slate-300">
+                                <p class="font-semibold text-[10px]">
                                     {{ $customer->salesperson->name ?? '' }}</p>
                             </div>
                         </x-table.row>
                         <x-table.row
-                            class="text-xs font-semibold text-center lg:text-left text-slate-500"
+                            class="font-semibold text-[12px]"
                         >{{ strtolower($customer->email) }}</x-table.row>
                         <x-table.row
-                            class="text-xs text-center text-slate-500"
-                        >{{ $customer->phone }}</x-table.row>
+                            class="text-center"
+                        ><p class="font-semibold uppercase text-[12px]">{{ $customer->phone }}</p></x-table.row>
                         <x-table.row class="flex justify-center">
                             @if ($customer->is_wholesale)
-                                <p class="text-rose-600 dark:text-rose-400">Wholesale</p>
+                                <p class="font-semibold text-rose-600 uppercase dark:text-rose-400 text-[12px]">
+                                    Wholesale
+                                </p>
                             @else
-                                <p class="text-blue-600 dark:text-blue-400">Retail</p>
+                                <p class="font-semibold text-blue-600 uppercase dark:text-blue-400 text-[12px]">
+                                    Retail
+                                </p>
                             @endif
                         </x-table.row>
-                        <x-table.row class="text-center lg:text-right text-slate-600 dark:text-slate-300">
+                        <x-table.row class="font-bold text-center uppercase lg:text-right text-[12px]">
                             R {{ number_format($customer->latestTransaction?->running_balance, 2) ?? 0.0 }}
                         </x-table.row>
                     </x-table.body>

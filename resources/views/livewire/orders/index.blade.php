@@ -239,7 +239,9 @@
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
                                     <div class="flex justify-between pt-1 space-x-2">
-                                        <p class="font-semibold uppercase text-[10px]">{{ $order->customer->type() }}</p>
+                                        <p class="font-semibold uppercase text-[10px]">
+                                            {{ $order->customer->type() }}
+                                        </p>
                                         <p class="font-semibold uppercase text-[10px]">
                                             {{ $order->customer->salesperson->name ?? '' }}
                                         </p>
@@ -271,10 +273,10 @@
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p
-                                class="font-semibold uppercase cursor-default text-[10px]"
+                                class="font-bold uppercase cursor-default text-[12px]"
                                 title="Order Total"
                             >
-                                R {{ number_format(to_rands($order->order_total) +$order->delivery_charge, 2) }}
+                                R {{ number_format(to_rands($order->order_total) + $order->delivery_charge, 2) }}
                             </p>
                         </x-table.row>
                         <x-table.row class="p-2 text-center lg:text-right">

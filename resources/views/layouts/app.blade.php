@@ -322,8 +322,8 @@
                                 x-on:click="theme = !theme"
                                 class="link"
                             >
-                                <span x-show="!theme">Light mode</span>
-                                <span x-show="theme">Dark mode</span>
+                                <span x-show="theme">Light mode</span>
+                                <span x-show="!theme">Dark mode</span>
                             </button>
                         </div>
 
