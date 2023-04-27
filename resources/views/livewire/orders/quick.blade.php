@@ -43,7 +43,7 @@
                            class="hidden"
                     ></label>
                     <input type="text"
-                           class="pr-4 pl-11 w-full h-12 border-0 sm:text-sm focus:ring-0 text-slate-800 placeholder:text-slate-400 bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-blue-500"
+                           class="pr-4 pl-11 w-full h-12 border-0 sm:text-sm focus:ring-0 text-slate-800 placeholder:text-slate-400 bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-sky-500"
                            placeholder="Search..."
                            role="combobox"
                            aria-expanded="false"
@@ -71,13 +71,13 @@
                                     role="option"
                                     tabindex="-1"
                                 >
-                                    <button class="flex justify-between items-center py-2 w-full rounded-md hover:text-white hover:bg-blue-400 group"
+                                    <button class="flex justify-between items-center py-2 w-full rounded-md hover:text-white group hover:bg-sky-400"
                                             wire:mouseover="selectedCustomer('{{$customer->id}}')"
                                             wire:click="createOrder('{{$customer->id}}')"
                                     >
                                         <div class="ml-3 font-semibold text-left dark:text-white truncate">{{ $customer->name }}</div>
                                         <!-- Not Active: "hidden" -->
-                                        <svg class="flex-none ml-3 w-5 h-5 dark:text-blue-100 group-hover:text-white text-slate-400"
+                                        <svg class="flex-none ml-3 w-5 h-5 group-hover:text-white text-slate-400 dark:text-sky-100"
                                              viewBox="0 0 20 20"
                                              fill="currentColor"
                                              aria-hidden="true"
@@ -109,7 +109,7 @@
                                     <dt class="col-end-1 font-semibold dark:text-white text-slate-900">Email</dt>
                                     <dd class="truncate">
                                         <a href="mailto:{{$selectedCustomer->email}}"
-                                           class="text-blue-600 underline lowercase dark:blue-300"
+                                           class="underline lowercase text-sky-600 dark:blue-300"
                                         >{{ $selectedCustomer->email }}</a>
                                     </dd>
                                     <dt class="col-end-1 font-semibold dark:text-white text-slate-900">Company</dt>

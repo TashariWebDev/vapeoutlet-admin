@@ -242,7 +242,7 @@
                                         @endif
                                         @if (auth()->user()->hasPermissionTo('view cost'))
                                             <span
-                                                class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-blue-500 @endif text-xs"
+                                                class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
                                             >
                         {{ profit_percentage($product->retail_price, $product->cost) }}
                       </span>
@@ -278,7 +278,7 @@
                                     @endif
                                     @if (auth()->user()->hasPermissionTo('view cost'))
                                         <span
-                                            class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-rose-700 @else text-blue-500 @endif text-xs"
+                                            class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
                                         >
                       {{ profit_percentage($product->wholesale_price, $product->cost) }}
                     </span>
@@ -296,7 +296,7 @@
                                                 class="flex justify-start items-center space-x-2 w-full button-success"
                                                 x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
                                             >
-                                                <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
+                                                <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                                 <p>active</p>
                                             </button>
                                         @else
@@ -320,7 +320,7 @@
                                             class="flex justify-start items-center space-x-2 w-full button-success"
                                             x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                                         >
-                                            <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
+                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                             <p>featured</p>
                                         </button>
                                     @else
@@ -345,7 +345,7 @@
                                             class="flex justify-start items-center space-x-2 w-full button-success"
                                             x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
                                         >
-                                            <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
+                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                             <p>sale</p>
                                         </button>
                                     @else
@@ -375,7 +375,7 @@
                                         class="flex justify-start items-center space-x-2 w-full button-success"
                                         x-on:click="$wire.call('delete','{{ $product->id }}')"
                                     >
-                                        <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
+                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                         <p>enabled</p>
                                     </button>
                                 @endif

@@ -55,11 +55,11 @@
                 @hasPermissionTo('upgrade customers')
                 <div class="py-3 px-2 rounded-md bg-slate-100 dark:bg-slate-800">
                     <label
-                        class="flex items-center space-x-2 text-xs font-medium text-blue-500 uppercase dark:text-blue-500"
+                        class="flex items-center space-x-2 text-xs font-medium uppercase text-sky-500 dark:text-sky-500"
                         for="is_wholesale"
                     >
                         <input
-                            class="text-blue-500 rounded-full focus:ring-slate-200"
+                            class="rounded-full text-sky-500 focus:ring-slate-200"
                             id="is_wholesale"
                             type="checkbox"
                             wire:model.defer="is_wholesale"

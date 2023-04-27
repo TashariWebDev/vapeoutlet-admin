@@ -1,7 +1,7 @@
 <div>
 
     <button wire:click.prevent="$toggle('modal')">
-        <x-icons.plus class="w-10 h-10 text-blue-500 hover:text-blue-600" />
+        <x-icons.plus class="w-10 h-10 text-sky-500 hover:text-sky-600" />
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">

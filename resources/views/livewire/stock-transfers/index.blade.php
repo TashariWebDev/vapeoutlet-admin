@@ -62,7 +62,7 @@
                             <p class="capitalize">
                                 Stock transfer from
                                 <span
-                                    class="text-blue-600 dark:text-blue-400"
+                                    class="text-sky-600 dark:text-sky-400"
                                 >{{ $transfer->dispatcher->name }}</span>
                                 to
                                 <span

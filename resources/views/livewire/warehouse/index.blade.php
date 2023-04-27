@@ -48,7 +48,7 @@
                                             'text-xs',
                                             'text-rose-700 dark:text-rose-400' =>
                                                 $order->customer->type() === 'wholesale',
-                                            'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
+                                            'text-sky-700 dark:text-sky-400' => $order->customer->type() === 'retail',
                                         ])>{{ $order->customer->type() }}</p>
                                         <p class="text-xs text-slate-600 dark:text-slate-300">
                                             {{ $order->customer->salesperson->name ?? '' }}
@@ -109,7 +109,7 @@
                                 'text-xs',
                                 'text-rose-700 dark:text-rose-400' =>
                                     $order->customer->type() === 'wholesale',
-                                'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
+                                'text-sky-700 dark:text-sky-400' => $order->customer->type() === 'retail',
                             ])>{{ $order->customer->type() }}</p>
                             <p class="text-xs text-slate-600 dark:text-slate-300">
                                 {{ $order->customer->salesperson->name ?? '' }}

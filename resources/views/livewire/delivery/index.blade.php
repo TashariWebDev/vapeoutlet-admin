@@ -1,5 +1,5 @@
 <div>
-    
+
     <x-slide-over x-data="{ show: $wire.entangle('showDeliveryCreateForm') }">
         <form wire:submit.prevent="save">
             <div class="py-2">
@@ -110,7 +110,7 @@
                         for="selectable"
                     >
                         <input
-                            class="text-blue-500 rounded-full focus:ring-slate-200"
+                            class="rounded-full text-sky-500 focus:ring-slate-200"
                             id="selectable"
                             type="checkbox"
                             wire:model="delivery.selectable"
@@ -130,7 +130,7 @@
             </div>
         </form>
     </x-slide-over>
-    
+
     <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <header class="flex justify-between py-6 px-2">
             <x-page-header>
@@ -143,11 +143,11 @@
                 add delivery
             </button>
         </header>
-        
+
         <div class="py-3 px-2">
             {{ $deliveries->links() }}
         </div>
-        
+
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-5">
                 <x-table.heading>type</x-table.heading>
@@ -182,7 +182,7 @@
                     <x-table.row>
                         @if ($delivery->selectable)
                             <div class="flex justify-center items-center py-2 space-x-2">
-                                <p class="text-blue-600 dark:text-blue-300">Available on-line</p>
+                                <p class="text-sky-600 dark:text-sky-300">Available on-line</p>
                             </div>
                         @endif
                     </x-table.row>

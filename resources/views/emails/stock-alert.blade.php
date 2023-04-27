@@ -10,7 +10,7 @@
             </div>
             <div class="mt-4">
                 <a
-                    class="inline-flex items-center py-2 px-4 text-sm font-medium text-white capitalize bg-blue-600 rounded-md border border-transparent shadow-sm hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:cursor-default"
+                    class="inline-flex items-center py-2 px-4 text-sm font-medium text-white capitalize rounded-md border border-transparent shadow-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:cursor-default bg-sky-600 hover:bg-sky-700 focus:ring-sky-500"
                     href="{{ $link }}"
                 >
                     <svg

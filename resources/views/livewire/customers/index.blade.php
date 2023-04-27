@@ -70,7 +70,7 @@
                                     Wholesale
                                 </p>
                             @else
-                                <p class="font-semibold text-blue-600 uppercase dark:text-blue-400 text-[12px]">
+                                <p class="font-semibold uppercase text-sky-600 text-[12px] dark:text-sky-400">
                                     Retail
                                 </p>
                             @endif
@@ -105,7 +105,7 @@
                         @if ($customer->is_wholesale)
                             <p class="text-xs text-rose-600 dark:text-rose-400">Wholesale</p>
                         @else
-                            <p class="text-xs text-blue-600 dark:text-blue-400">Retail</p>
+                            <p class="text-xs text-sky-600 dark:text-sky-400">Retail</p>
                         @endif
                     </div>
                     <div class="text-right">

@@ -137,7 +137,7 @@
                     for="taxable"
                 >
                     <input
-                        class="text-blue-500 rounded-full focus:ring-slate-200"
+                        class="rounded-full text-sky-500 focus:ring-slate-200"
                         id="taxable"
                         type="checkbox"
                         wire:model.defer="taxable"

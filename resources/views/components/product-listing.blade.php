@@ -12,7 +12,7 @@
             <p class="pr-1 text-xs text-slate-600 dark:text-slate-300"> {{ $feature->name }}</p>
         @endforeach
     </div>
-    <p class="font-semibold dark:text-blue-800 text-slate-800">
+    <p class="font-semibold text-slate-800 dark:text-sky-800">
         {{ $product->category }}
     </p>
     @if (str_contains($product->image, '/storage/images/no_image.jpeg'))

@@ -205,7 +205,7 @@
             </div>
             <div class="py-3">
                 <div>
-                    <p class="text-xs text-blue-500 dark:text-blue-500">update and click tab to save</p>
+                    <p class="text-xs text-sky-500 dark:text-sky-500">update and click tab to save</p>
                 </div>
                 
                 @foreach ($product->features as $feature)
@@ -223,7 +223,7 @@
                             />
                         </div>
                         
-                        <button x-on:click.prevent="$wire.call('deleteFeature',{{ $feature->id }}s)">
+                        <button x-on:click.prevent="$wire.call('deleteFeature',{{ $feature->id }})">
                             <x-icons.cross class="w-10 h-10 text-rose-500 hover:text-rose-600" />
                         </button>
                     </div>

@@ -112,7 +112,7 @@
                 wire:loading
                 wire:target="update"
             >
-                <p class="text-xs text-blue-500">Processing! Please wait</p>
+                <p class="text-xs text-sky-500">Processing! Please wait</p>
             </div>
         </form>
 

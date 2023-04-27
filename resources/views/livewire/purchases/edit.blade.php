@@ -37,19 +37,19 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
-                <p class="text-xs font-bold dark:text-blue-500 text-slate-500">
+                <p class="text-xs font-bold text-slate-500 dark:text-sky-500">
                     INVOICE: {{ $this->purchase->invoice_no }}</p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->purchase->date }}</p>
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-500">
                         Total:
-                        <span class="text-blue-600">
+                        <span class="text-sky-600">
               {{ $this->purchase->total }} {{ $this->purchase->currency }}
             </span>
                         <span class="font-bold">/ {{ $this->purchase->amount }}
                             {{ $this->purchase->currency }}</span>
                     </p>
-                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
+                    <p class="text-xs font-bold text-sky-500 dark:text-sky-500">
                         Count: {{ $this->purchase->items_count }}
                     </p>
                 </div>
@@ -179,7 +179,7 @@
                                         for="{{ $item->id }}"
                                     ></label>
                                     <input
-                                        class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 bg-slate-300"
+                                        class="w-4 h-4 rounded text-sky-600 bg-slate-300 focus:ring-sky-500"
                                         id="{{ $item->id }}"
                                         type="checkbox"
                                         value="{{ $item->id }}"

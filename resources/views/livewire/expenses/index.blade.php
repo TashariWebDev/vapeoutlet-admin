@@ -25,7 +25,7 @@
                             @enderror
                         </div>
                         <button x-on:click.prevent="$wire.set('showExpenseCategoryCreateForm',true)">
-                            <x-icons.plus class="w-12 h-12 text-blue-500 hover:text-blue-600" />
+                            <x-icons.plus class="w-12 h-12 text-sky-500 hover:text-sky-600" />
                         </button>
                     </div>
 
@@ -104,7 +104,7 @@
                         for="taxable"
                     >
                         <input
-                            class="text-blue-500 rounded-full focus:ring-slate-200"
+                            class="rounded-full text-sky-500 focus:ring-slate-200"
                             id="taxable"
                             type="checkbox"
                             wire:model.defer="taxable"
@@ -223,8 +223,8 @@
                         </x-table.row>
                         <x-table.row class="col-span-2 text-center lg:col-span-1">
                             @if ($expense->taxable)
-                                <div class="px-3 text-center bg-blue-200 rounded pxy-1">
-                                    <p class="text-xs text-blue-900">Taxable</p>
+                                <div class="px-3 text-center rounded bg-sky-200 pxy-1">
+                                    <p class="text-xs text-sky-900">Taxable</p>
                                 </div>
                             @else
                                 <div class="px-3 text-center bg-rose-200 rounded pxy-1">

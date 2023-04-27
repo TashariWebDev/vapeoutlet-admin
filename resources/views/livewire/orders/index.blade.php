@@ -23,7 +23,7 @@
                     </div>
 
                     @forelse($selectedCustomerLatestTransactions as $transaction)
-                        <div class="grid grid-cols-4 gap-2 py-3 px-1 rounded even:bg-blue-50 dark:even:bg-gray-900">
+                        <div class="grid grid-cols-4 gap-2 py-3 px-1 rounded dark:even:bg-gray-900 even:bg-sky-50">
                             <div>
                                 <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                                     {{ $transaction->id }}
@@ -156,14 +156,14 @@
                                                                                            dispatched</p>
                 </div>
                 <div
-                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r from-blue-400 to-rose-400 rounded-r-full rounded-l-full lg:block"
+                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r to-rose-400 rounded-r-full rounded-l-full lg:block from-sky-400"
                 >
                     <div
                         class="flex justify-end items-center py-1 px-2 h-full bg-transparent rounded-r-full rounded-l-full"
                         style="width: {{ round(($orders->total() / $this->totalActiveOrders) * 100 + 1) }}%"
                     >
                         <div
-                            class="px-1 text-xs font-bold text-blue-900 whitespace-nowrap bg-transparent rounded-r rounded-l"
+                            class="px-1 text-xs font-bold whitespace-nowrap bg-transparent rounded-r rounded-l text-sky-900"
                         >
                             {{ round(($orders->total() / $this->totalActiveOrders) * 100) }} %
                         </div>
@@ -177,13 +177,13 @@
                 <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>Order #
                         <button
-                            class="@if ($direction === 'asc') text-blue-600 @endif"
+                            class="@if ($direction === 'asc') text-sky-600 @endif"
                             wire:click="$set('direction','asc')"
                         >
                             &uparrow;
                         </button>
                         <button
-                            class="@if ($direction === 'desc') text-blue-600 @endif"
+                            class="@if ($direction === 'desc') text-sky-600 @endif"
                             wire:click="$set('direction','desc')"
                         >
                             &downarrow;
@@ -365,7 +365,7 @@
                 'text-xs',
                 'text-rose-700 dark:text-rose-400' =>
                     $order->customer->type() === 'wholesale',
-                'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
+                'text-sky-700 dark:text-sky-400' => $order->customer->type() === 'retail',
             ])>{{ $order->customer->type() }}</p>
                         <p class="text-xs text-slate-600 dark:text-slate-300">
                             {{ $order->customer->salesperson->name ?? '' }}

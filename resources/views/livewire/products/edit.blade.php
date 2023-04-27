@@ -186,7 +186,7 @@
                 </div>
                 <div class="py-3">
                     <div>
-                        <p class="text-xs text-blue-500 dark:text-blue-500">update and click tab to save</p>
+                        <p class="text-xs text-sky-500 dark:text-sky-500">update and click tab to save</p>
                     </div>
 
                     @foreach ($product->features as $feature)

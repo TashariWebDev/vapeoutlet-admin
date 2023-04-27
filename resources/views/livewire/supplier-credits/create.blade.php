@@ -162,7 +162,7 @@
                                     for="{{ $item->id }}"
                                 ></label>
                                 <input
-                                    class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 bcredit-slate-300"
+                                    class="w-4 h-4 rounded text-sky-600 bcredit-slate-300 focus:ring-sky-500"
                                     id="{{ $item->id }}"
                                     type="checkbox"
                                     value="{{ $item->id }}"

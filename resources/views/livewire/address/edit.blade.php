@@ -1,6 +1,6 @@
 <div>
     <button wire:click="$toggle('modal')">
-        <x-icons.edit class="w-5 h-5 text-blue-600" />
+        <x-icons.edit class="w-5 h-5 text-sky-600" />
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">

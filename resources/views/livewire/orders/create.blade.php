@@ -247,7 +247,7 @@
                                     for="{{ $item->id }}"
                                 ></label>
                                 <input
-                                    class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-slate-300"
+                                    class="w-4 h-4 rounded text-sky-600 border-slate-300 focus:ring-sky-500"
                                     id="{{ $item->id }}"
                                     type="checkbox"
                                     value="{{ $item->id }}"
@@ -283,7 +283,7 @@
                             <div class="flex justify-between items-center pt-1">
                                 <div>
                                     <p
-                                        class="@if (profit_percentage($item->price, $item->product->cost) < 0) text-rose-700 @else text-blue-500 @endif text-xs"
+                                        class="@if (profit_percentage($item->price, $item->product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
                                     >
                                         {{ profit_percentage($item->price, $item->product->cost) }}
                                     </p>

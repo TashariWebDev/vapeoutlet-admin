@@ -226,7 +226,7 @@
         @endphp
 
         <nav
-            class="sticky top-0 z-40 w-full bg-white border-t-4 border-blue-400 dark:border-blue-500 backdrop-blur dark:bg-slate-950"
+            class="sticky top-0 z-40 w-full bg-white border-t-4 border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
         >
             <div class="flex justify-between items-center py-1 px-6 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
                 <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
@@ -332,7 +332,7 @@
             </div>
             <div class="items-center w-full">
                 <container
-                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-blue-400/50"
+                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
                 >
                     <a
                         class="link"

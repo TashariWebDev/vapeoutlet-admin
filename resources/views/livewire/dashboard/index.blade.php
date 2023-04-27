@@ -4,16 +4,16 @@
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <x-stat-container>
                 <div class="flex items-start">
-                    <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                        <div class="bg-blue-500 rounded-md dark:bg-slate-950">
-                            <x-icons.shopping-bag class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                        <div class="rounded-md bg-sky-500 dark:bg-slate-950">
+                            <x-icons.shopping-bag class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                         </div>
                     </div>
                     <div class="ml-6">
                         <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                             Received
                         </p>
-                        <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
                             {{ $lifetime_orders->received }}
                         </p>
                     </div>
@@ -31,14 +31,14 @@
 
             <x-stat-container>
                 <div class="flex items-start">
-                    <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                        <x-icons.clipboard class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                        <x-icons.clipboard class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                             Processed
                         </p>
-                        <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
                             {{ $lifetime_orders->processed }}
                         </p>
                     </div>
@@ -56,14 +56,14 @@
 
             <x-stat-container>
                 <div class="flex items-start">
-                    <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                        <x-icons.products class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                        <x-icons.products class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                             Packed
                         </p>
-                        <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
                             {{ $lifetime_orders->packed }}
                         </p>
                     </div>
@@ -81,14 +81,14 @@
 
             <x-stat-container>
                 <div class="flex items-start">
-                    <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                        <x-icons.truck class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                        <x-icons.truck class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                             Shipped
                         </p>
-                        <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
                             {{ $orders->shipped }}
                         </p>
                     </div>
@@ -106,14 +106,14 @@
 
             <x-stat-container>
                 <div class="flex items-start">
-                    <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                        <x-icons.tick class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                        <x-icons.tick class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                             Completed
                         </p>
-                        <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
                             {{ $orders->completed }}
                         </p>
                     </div>
@@ -131,14 +131,14 @@
 
             <x-stat-container>
                 <div class="flex items-start">
-                    <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                        <x-icons.cross class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                        <x-icons.cross class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                     </div>
                     <div class="ml-6">
                         <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                             Cancelled
                         </p>
-                        <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
                             {{ $orders->cancelled }}
                         </p>
                     </div>
@@ -157,14 +157,14 @@
             @if (auth()->user()->hasPermissionTo('create purchase'))
                 <x-stat-container>
                     <div class="flex items-start">
-                        <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                            <x-icons.exclamation class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                        <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                            <x-icons.exclamation class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                         </div>
                         <div class="ml-6">
                             <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                                 Pending Purchases
                             </p>
-                            <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                            <p class="text-2xl font-semibold dark:text-white text-sky-800">
                                 {{ $pendingPurchases }}
                             </p>
                         </div>
@@ -184,14 +184,14 @@
             @if (auth()->user()->hasPermissionTo('upgrade customers'))
                 <x-stat-container>
                     <div class="flex items-start">
-                        <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-950">
-                            <x-icons.exclamation class="w-6 h-6 text-blue-100 on dark:text-slate-400" />
+                        <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
+                            <x-icons.exclamation class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
                         </div>
                         <div class="ml-6">
                             <p class="text-sm truncate text-slate-400 dark:text-slate-400">
                                 Pending Wholesale Applications
                             </p>
-                            <p class="text-2xl font-semibold text-blue-800 dark:text-white">
+                            <p class="text-2xl font-semibold dark:text-white text-sky-800">
                                 {{ $wholesaleApplications }}
                             </p>
                         </div>
@@ -216,14 +216,14 @@
                 @if ($topTenProducts->count())
                     <x-stat-container>
                         <div>
-                            <div class="p-3 bg-blue-500 rounded-md dark:bg-slate-800">
+                            <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-800">
                                 <p class="text-xs font-semibold text-white">Top Ten Selling Products
                                                                             for {{ date('M  Y') }}</p>
                             </div>
                             <ul class="mt-2">
                                 @foreach ($topTenProducts as $product)
                                     <li
-                                        class="p-2 mb-2 text-xs font-semibold text-blue-800 rounded dark:text-blue-500 odd:bg-blue-50 dark:odd:bg-slate-900 dark:even:bg-slate-700 even:bg-slate-100"
+                                        class="p-2 mb-2 text-xs font-semibold rounded text-sky-800 dark:text-sky-500 dark:odd:bg-slate-900 dark:even:bg-slate-700 odd:bg-sky-50 even:bg-slate-100"
                                     >
                                         <div class="flex justify-between items-start">
                                             <p>{{ $product->brand }} {{ $product->name }}</p>

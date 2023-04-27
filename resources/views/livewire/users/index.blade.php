@@ -88,7 +88,7 @@
                         @class([
                             'py-2 pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300' =>
                                 $withTrashed == true,
-                            'py-2 pl-3 w-1/2 text-xs text-left text-blue-700 dark:text-blue-600 font-semibold' =>
+                            'py-2 pl-3 w-1/2 text-xs text-left text-sky-700 dark:text-sky-600 font-semibold' =>
                                 $withTrashed == false,
                         ])
                         wire:click="$set('withTrashed',false)"
@@ -100,7 +100,7 @@
                             'py-2 pl-3 w-1/2 text-xs text-left text-slate-500  dark:text-slate-400' =>
                                 $withTrashed == false,
 
-                            'py-2 pl-3 w-1/2 text-xs text-left text-blue-700 dark:text-blue-600 font-semibold' =>
+                            'py-2 pl-3 w-1/2 text-xs text-left text-sky-700 dark:text-sky-600 font-semibold' =>
                                 $withTrashed == true,
                         ])
                         wire:click="$set('withTrashed',true)"
