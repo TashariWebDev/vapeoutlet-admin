@@ -18,7 +18,7 @@
 
         <div class="overflow-y-auto fixed inset-0 z-10 p-4 sm:p-6 md:p-20">
 
-            <div class="overflow-hidden mx-auto max-w-3xl bg-white rounded-xl divide-y ring-1 ring-black ring-opacity-5 shadow-2xl transition-all transform divide-slate-100 dark:bg-slate-900 dark:divide-slate-800"
+            <div class="overflow-hidden mx-auto max-w-3xl bg-white rounded-xl divide-y ring-1 ring-black ring-opacity-5 shadow-2xl transition-all transform divide-slate-100 dark:bg-slate-950 dark:divide-slate-800"
                  x-on:click.outside="show = !show"
                  x-trap.noscroll="show"
                  x-transition:enter="ease-out duration-300"
@@ -43,7 +43,7 @@
                            class="hidden"
                     ></label>
                     <input type="text"
-                           class="pr-4 pl-11 w-full h-12 bg-transparent border-0 sm:text-sm focus:ring-0 text-slate-800 placeholder:text-slate-400 dark:text-slate-100 dark:placeholder:text-sky-400"
+                           class="pr-4 pl-11 w-full h-12 border-0 sm:text-sm focus:ring-0 text-slate-800 placeholder:text-slate-400 bg-slate-200 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-blue-500"
                            placeholder="Search..."
                            role="combobox"
                            aria-expanded="false"
@@ -71,13 +71,13 @@
                                     role="option"
                                     tabindex="-1"
                                 >
-                                    <button class="flex justify-between items-center py-2 w-full rounded-md hover:text-white group hover:bg-sky-400"
+                                    <button class="flex justify-between items-center py-2 w-full rounded-md hover:text-white hover:bg-blue-400 group"
                                             wire:mouseover="selectedCustomer('{{$customer->id}}')"
                                             wire:click="createOrder('{{$customer->id}}')"
                                     >
                                         <div class="ml-3 font-semibold text-left dark:text-white truncate">{{ $customer->name }}</div>
                                         <!-- Not Active: "hidden" -->
-                                        <svg class="flex-none ml-3 w-5 h-5 group-hover:text-white text-slate-400 dark:text-sky-100"
+                                        <svg class="flex-none ml-3 w-5 h-5 dark:text-blue-100 group-hover:text-white text-slate-400"
                                              viewBox="0 0 20 20"
                                              fill="currentColor"
                                              aria-hidden="true"
@@ -95,7 +95,7 @@
 
                     <!-- Active item side-panel, show/hide based on active state -->
                     @if($selectedCustomer)
-                        <div class="hidden overflow-y-auto flex-col flex-none w-1/2 h-96 divide-y sm:flex divide-slate-100 dark:divide-slate-800">
+                        <div class="hidden overflow-y-auto flex-col flex-none w-1/2 h-96 divide-y divide-white sm:flex dark:divide-slate-950">
                             <div class="flex-none p-6 text-center">
                                 <div class="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-slate-200">
                                     <x-icons.user class="w-10 h-10" />
@@ -109,7 +109,7 @@
                                     <dt class="col-end-1 font-semibold dark:text-white text-slate-900">Email</dt>
                                     <dd class="truncate">
                                         <a href="mailto:{{$selectedCustomer->email}}"
-                                           class="underline lowercase text-sky-600 dark:sky-300"
+                                           class="text-blue-600 underline lowercase dark:blue-300"
                                         >{{ $selectedCustomer->email }}</a>
                                     </dd>
                                     <dt class="col-end-1 font-semibold dark:text-white text-slate-900">Company</dt>

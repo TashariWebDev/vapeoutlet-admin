@@ -1,1 +1,1 @@
-<p {{ $attributes->merge(['class' => 'mt-1 text-xs text-sky-500 dark:text-sky-400']) }}>{{ $slot }}</p>
+<p {{ $attributes->merge(['class' => 'mt-2 text-[10px] uppercase text-green-500 dark:text-green-500']) }}>{{ $slot }}</p>

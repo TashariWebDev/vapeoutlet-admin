@@ -48,7 +48,7 @@
                         >
                             <div>
                                 <input
-                                    class="w-4 h-4 rounded text-sky-600 border-slate-300 focus:ring-sky-500"
+                                    class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 border-slate-300"
                                     id="{{ $product->id }}"
                                     type="checkbox"
                                     value="{{ $product->id }}"

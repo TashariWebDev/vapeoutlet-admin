@@ -1,7 +1,7 @@
 @props(['product'])
 
 <div>
-    <p class="text-xs font-medium text-slate-600 dark:text-sky-400">
+    <p class="text-xs font-medium dark:text-blue-500 text-slate-600">
         {{ $product->sku }}
     </p>
     <p class="text-xs text-slate-600 dark:text-slate-400">

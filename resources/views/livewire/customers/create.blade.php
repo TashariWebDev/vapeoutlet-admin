@@ -22,7 +22,7 @@
                         required
                     />
                     @error('name')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-2">
@@ -36,7 +36,7 @@
                         required
                     />
                     @error('email')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
@@ -49,24 +49,24 @@
                         wire:model.defer="phone"
                     />
                     @error('phone')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 @hasPermissionTo('upgrade customers')
-                    <div class="py-3 px-2 rounded-md bg-slate-100 dark:bg-slate-800">
-                        <label
-                            class="flex items-center space-x-2 text-xs font-medium uppercase text-sky-400 dark:text-sky-400"
-                            for="is_wholesale"
-                        >
-                            <input
-                                class="rounded-full text-sky-500 focus:ring-slate-200"
-                                id="is_wholesale"
-                                type="checkbox"
-                                wire:model.defer="is_wholesale"
-                            />
-                            <span class="ml-3">Wholesale</span>
-                        </label>
-                    </div>
+                <div class="py-3 px-2 rounded-md bg-slate-100 dark:bg-slate-800">
+                    <label
+                        class="flex items-center space-x-2 text-xs font-medium text-blue-500 uppercase dark:text-blue-500"
+                        for="is_wholesale"
+                    >
+                        <input
+                            class="text-blue-500 rounded-full focus:ring-slate-200"
+                            id="is_wholesale"
+                            type="checkbox"
+                            wire:model.defer="is_wholesale"
+                        />
+                        <span class="ml-3">Wholesale</span>
+                    </label>
+                </div>
                 @endhasPermissionTo
                 <div class="py-3">
                     <button

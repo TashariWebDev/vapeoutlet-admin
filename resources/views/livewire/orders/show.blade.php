@@ -49,7 +49,7 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-2 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
             <div class="col-span-2 lg:col-span-1">
-                <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $this->order->number }}</p>
+                <p class="text-xs font-bold dark:text-blue-500 text-slate-500">{{ $this->order->number }}</p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
                 @isset($this->order->delivery_type_id)
                     <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
@@ -57,26 +57,26 @@
                     </p>
                 @endisset
                 <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
-                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
+                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
                         Total: R {{ number_format($this->order->getTotal(), 2) }}
                         <span
                             class="pl-3"
                         >(Delivery:{{ number_format($this->order->delivery_charge, 2) }})</span>
                     </p>
-                    <p class="text-xs font-bold text-sky-500 dark:text-sky-400">
+                    <p class="text-xs font-bold text-blue-500 dark:text-blue-500">
                         Count: {{ $this->order->items_count }}
                     </p>
                 </div>
             </div>
 
             <div class="col-span-2 lg:col-span-1">
-                <p class="font-semibold text-sky-500 dark:text-sky-400">{{ $this->order->customer->name }}
+                <p class="font-semibold text-blue-500 dark:text-blue-500">{{ $this->order->customer->name }}
                     @isset($this->order->customer->company)
                         <span>| {{ $this->order->customer->company }}</span>
                     @endisset
                 </p>
                 @isset($this->order->address_id)
-                    <div class="text-xs font-semibold capitalize text-sky-500 dark:text-sky-400">
+                    <div class="text-xs font-semibold text-blue-500 capitalize dark:text-blue-500">
                         <p>{{ $this->order->address?->line_one }}</p>
                         <p>{{ $this->order->address?->line_two }}</p>
                         <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>
@@ -312,17 +312,17 @@
             <div class="py-3">
                 <div>
                     @if ($note->customer_id)
-                        <p class="text-xs uppercase text-sky-500 dark:text-sky-400">
+                        <p class="text-xs text-blue-500 uppercase dark:text-blue-500">
                             {{ $note->customer?->name }}
                             on {{ $note->created_at->format('d-m-y H:i') }}</p>
                     @else
-                        <p class="text-xs uppercase text-sky-500 dark:text-sky-400">{{ $note->user?->name }}
+                        <p class="text-xs text-blue-500 uppercase dark:text-blue-500">{{ $note->user?->name }}
                             on {{ $note->created_at->format('d-m-y H:i') }}</p>
                     @endif
                 </div>
                 @if ($note->body)
                     <div class="p-1 mt-2 rounded-md bg-slate-100 dark:bg-slate-700">
-                        <p class="text-sm capitalize text-sky-500 dark:text-sky-400">{{ $note->body }}</p>
+                        <p class="text-sm text-blue-500 capitalize dark:text-blue-500">{{ $note->body }}</p>
                     </div>
                 @endif
                 @if ($note->user_id === auth()->id())

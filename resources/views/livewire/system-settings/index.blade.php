@@ -265,7 +265,7 @@
                                             >
                                         </div>
                                         <button wire:click="deleteLogo"
-                                                class="text-red-600"
+                                                class="text-rose-600"
                                         >remove
                                         </button>
                                     @endif

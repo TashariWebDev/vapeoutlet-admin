@@ -59,7 +59,7 @@
     </x-modal>
 
     {{-- Desktop --}}
-    <div class="mb-2 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="py-3 bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="lg:px-4">
 
             <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
@@ -83,12 +83,12 @@
                         Filter orders
                     </x-input.label>
                     <div
-                        class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700"
+                        class="grid grid-cols-3 py-2.5 mt-2 w-full rounded-md border divide-x bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
                     >
                         <button
                             @class([
-                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
-                                'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
+                                'h-full text-center text-[10px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-center text-[10px] font-bold uppercase' =>
                                     $customerType === null,
                             ])
                             wire:click="$set('customerType',null)"
@@ -98,8 +98,8 @@
 
                         <button
                             @class([
-                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
-                                'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
+                                'h-full text-[10px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-[10px] font-bold uppercase' =>
                                     $customerType === false,
                             ])
                             wire:click="$set('customerType',false)"
@@ -109,8 +109,8 @@
 
                         <button
                             @class([
-                                'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
-                                'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
+                                'h-full text-[10px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-[10px] font-bold uppercase' =>
                                     $customerType === true,
                             ])
                             wire:click="$set('customerType',true)"
@@ -146,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="py-4 px-2">
+            <div class="py-6 px-2">
                 {{ $orders->links() }}
             </div>
 
@@ -156,14 +156,14 @@
                                                                                            dispatched</p>
                 </div>
                 <div
-                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r to-rose-400 rounded-r-full rounded-l-full lg:block from-sky-400"
+                    class="hidden px-2 mx-auto mb-2 w-full h-3 bg-gradient-to-r from-blue-400 to-rose-400 rounded-r-full rounded-l-full lg:block"
                 >
                     <div
                         class="flex justify-end items-center py-1 px-2 h-full bg-transparent rounded-r-full rounded-l-full"
                         style="width: {{ round(($orders->total() / $this->totalActiveOrders) * 100 + 1) }}%"
                     >
                         <div
-                            class="px-1 text-xs font-bold whitespace-nowrap bg-transparent rounded-r rounded-l text-sky-900"
+                            class="px-1 text-xs font-bold text-blue-900 whitespace-nowrap bg-transparent rounded-r rounded-l"
                         >
                             {{ round(($orders->total() / $this->totalActiveOrders) * 100) }} %
                         </div>
@@ -177,13 +177,13 @@
                 <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>Order #
                         <button
-                            class="@if ($direction === 'asc') text-sky-600 @endif"
+                            class="@if ($direction === 'asc') text-blue-600 @endif"
                             wire:click="$set('direction','asc')"
                         >
                             &uparrow;
                         </button>
                         <button
-                            class="@if ($direction === 'desc') text-sky-600 @endif"
+                            class="@if ($direction === 'desc') text-blue-600 @endif"
                             wire:click="$set('direction','desc')"
                         >
                             &downarrow;
@@ -203,7 +203,7 @@
                                 title="View Order {{ $order->number }}"
                             >{{ $order->number }}</a>
                             <div class="flex justify-between pt-1 cursor-default">
-                                <p class="text-xs text-slate-600 dark:text-slate-300">
+                                <p class="font-semibold text-[10px]">
                                     {{ $order->created_at }}
                                 </p>
                                 @if ($order->status != 'completed' && $order->status != 'cancelled')
@@ -211,19 +211,19 @@
                                         <p
                                             title="Order Placed {{ $order->created_at->diffInDays(now()) }} Days Ago"
                                             @class([
-                                                'rounded-l-full rounded-r-full px-1',
-                                                'bg-yellow-200 text-yellow-800 dark:bg-yellow-100' =>
+                                                'rounded-l-full rounded-r-full px-1 font-semibold',
+                                                'inline-flex items-center py-1 px-2 font-medium text-yellow-500 rounded-md ring-1 ring-inset dark:text-yellow-400 text-[10px] bg-yellow-400/10 ring-yellow-400/50 dark:ring-yellow-400/20' =>
                                                     $order->created_at->diffInDays(now()) <= 3,
-                                                'bg-rose-200 text-rose-800' => $order->created_at->diffInDays(now()) > 3,
+                                                'inline-flex items-center py-1 px-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[10px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20' => $order->created_at->diffInDays(now()) > 3,
                                             ])
                                         >{{ $order->created_at->diffInDays(now()) }}
                                         </p>
                                     @else
                                         <div
-                                            class="flex justify-center items-center px-2 rounded-r-full rounded-l-full bg-sky-200"
+                                            class="inline-flex items-center py-1 px-2 font-medium text-green-500 rounded-md ring-1 ring-inset dark:text-green-400 text-[10px] bg-green-400/10 ring-green-400/50 dark:ring-green-400/20"
                                         >
-                                            <p class="text-xs leading-0 text-sky-900">
-                                                new
+                                            <p>
+                                                NEW
                                             </p>
                                         </div>
                                     @endif
@@ -239,44 +239,39 @@
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
                                     <div class="flex justify-between pt-1 space-x-2">
-                                        <p @class([
-                        'text-xs',
-                        'text-rose-700 dark:text-rose-400' =>
-                            $order->customer->type() === 'wholesale',
-                        'text-blue-700 dark:text-blue-400' => $order->customer->type() === 'retail',
-                    ])>{{ $order->customer->type() }}</p>
-                                        <p class="text-xs text-slate-600 dark:text-slate-300">
+                                        <p class="font-semibold uppercase text-[10px]">{{ $order->customer->type() }}</p>
+                                        <p class="font-semibold uppercase text-[10px]">
                                             {{ $order->customer->salesperson->name ?? '' }}
                                         </p>
                                     </div>
                                 </div>
                                 <div>
                                     <button
-                                        class="flex justify-center items-center w-5 h-5 rounded-full bg-sky-200 dark:bg-sky-200"
+                                        class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[10px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
                                         title="View {{ $order->customer->name }}'s Last Five Transactions"
                                         wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
                                     >
-                                        <x-icons.view class="w-3 h-3 text-sky-700" />
+                                        view
                                     </button>
                                 </div>
                             </div>
                         </x-table.row>
                         <x-table.row class="text-center cursor-default lg:text-right">
                             <p
-                                class="text-slate-600 dark:text-slate-300"
+                                class="font-semibold uppercase text-[10px]"
                                 title="Delivery Type"
                             >
                                 {{ $order->delivery->description }}
                             </p>
                             <p
-                                class="text-slate-600 dark:text-slate-300"
+                                class="font-semibold uppercase text-[10px]"
                             >
                                 {{ $order->delivery->province }}
                             </p>
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p
-                                class="cursor-default text-slate-600 dark:text-slate-300"
+                                class="font-semibold uppercase cursor-default text-[10px]"
                                 title="Order Total"
                             >
                                 R {{ number_format(to_rands($order->order_total) +$order->delivery_charge, 2) }}

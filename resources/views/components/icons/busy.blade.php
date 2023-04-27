@@ -1,7 +1,7 @@
 @props(['target'])
 
 <svg
-    class="w-2 h-2 animate-spin text-sky-500 dark:text-sky-100"
+    class="w-2 h-2 text-blue-500 animate-spin dark:text-blue-100"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"

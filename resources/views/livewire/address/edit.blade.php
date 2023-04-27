@@ -1,6 +1,6 @@
 <div>
     <button wire:click="$toggle('modal')">
-        <x-icons.edit class="w-5 h-5 text-sky-600" />
+        <x-icons.edit class="w-5 h-5 text-blue-600" />
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
@@ -19,7 +19,7 @@
                     wire:model.defer="address.line_one"
                 />
                 @error('address.line_one')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -33,7 +33,7 @@
                     wire:model.defer="address.line_two"
                 />
                 @error('address.line_two')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -47,7 +47,7 @@
                     wire:model.defer="address.suburb"
                 />
                 @error('address.suburb')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -61,7 +61,7 @@
                     wire:model.defer="address.city"
                 />
                 @error('address.city')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -86,7 +86,7 @@
                     @endforeach
                 </x-input.select>
                 @error('address.province')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -101,7 +101,7 @@
                     wire:model.defer="address.postal_code"
                 />
                 @error('address.postal_code')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="pt-3">

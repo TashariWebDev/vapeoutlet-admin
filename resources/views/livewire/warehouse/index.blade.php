@@ -87,7 +87,7 @@
         {{-- mobile --}}
         <div class="grid grid-cols-1 gap-y-4 px-1 lg:hidden">
             @forelse($orders as $order)
-                <div class="grid grid-cols-2 text-xs bg-white rounded dark:bg-slate-900">
+                <div class="grid grid-cols-2 text-xs bg-white rounded dark:bg-slate-950">
                     <div class="p-1">
                         <a
                             class="link"

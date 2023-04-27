@@ -24,7 +24,7 @@
                             @endforeach
                         </x-input.select>
                         @error('supplier_id')
-                            <x-input.error>{{ $message }}</x-input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -43,7 +43,7 @@
                     wire:model.defer="date"
                 />
                 @error('date')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -56,7 +56,7 @@
                     wire:model.defer="invoice_no"
                 />
                 @error('invoice_no')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="relative py-2">
@@ -74,7 +74,7 @@
                     <option value="CNH">CNH</option>
                 </x-input.select>
                 @error('currency')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -92,7 +92,7 @@
                     pattern="[0-9.]+"
                 />
                 @error('exchange_rate')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -110,7 +110,7 @@
                     pattern="[0-9.]+"
                 />
                 @error('amount')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -128,7 +128,7 @@
                     pattern="[0-9.]+"
                 />
                 @error('shipping_rate')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2 px-2 mt-2 rounded-md text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-700">
@@ -137,7 +137,7 @@
                     for="taxable"
                 >
                     <input
-                        class="rounded-full text-sky-500 focus:ring-slate-200"
+                        class="text-blue-500 rounded-full focus:ring-slate-200"
                         id="taxable"
                         type="checkbox"
                         wire:model.defer="taxable"
@@ -145,7 +145,7 @@
                     <span class="ml-3">Taxable</span>
                 </label>
                 @error('taxable')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2 mt-2">

@@ -1,9 +1,9 @@
 <div>
-    <div class="py-3 bg-white rounded-lg shadow dark:bg-slate-800">
+    <div class="py-3 bg-white rounded-lg shadow dark:bg-slate-900">
 
         <header class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-2 lg:gap-x-3">
 
-            <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
+            <div class="grid grid-cols-1 gap-2 py-2 lg:grid-cols-2">
                 <div>
                     <x-input.label for="search">
                         Search
@@ -82,12 +82,12 @@
             {{ $products->links() }}
         </div>
 
-        <section class="px-2 mt-4 rounded-b-lg">
+        <section class="py-6 px-2 rounded-b-lg">
             @forelse($products as $product)
 
                 <div @class([
-            'py-6 px-4 mb-2 w-full bg-white rounded-md dark:bg-slate-800 dark:even:bg-slate-900 even:bg-slate-50',
-            'bg-red-300' => $product->trashed(),
+            'py-6 px-4 mb-2 w-full bg-transparent border-b border-slate-100 dark:border-slate-800',
+            'bg-rose-300' => $product->trashed(),
         ])>
                     <div class="grid grid-cols-2 gap-3 lg:grid-cols-8">
                         <div class="col-span-2 w-full text-xs">
@@ -101,30 +101,30 @@
                             @else
                                 <p class="text-slate-600 dark:text-slate-300">{{ $product->sku }}</p>
                             @endif
-                            <p class="font-semibold text-slate-800 dark:text-slate-300">
+                            <p class="font-semibold dark:text-white text-slate-800">
                                 {{ $product->brand }} {{ $product->name }}
                             </p>
                             <div class="flex items-center space-x-1">
                                 @foreach ($product->features as $feature)
-                                    <p class="pr-1 text-xs text-slate-600 dark:text-slate-300"> {{ $feature->name }}
+                                    <p class="pr-1 font-semibold uppercase dark:text-white text-[10px] text-slate-800"> {{ $feature->name }}
                                     </p>
                                 @endforeach
                             </div>
-                            <p class="font-semibold text-slate-600 dark:text-slate-300">
+                            <p class="pr-1 font-semibold uppercase dark:text-white text-[10px] text-slate-800">
                                 {{ $product->category }}
                             </p>
-                            <p class="text-xs text-slate-600 dark:text-slate-300">
+                            <p class="pr-1 font-semibold uppercase dark:text-white text-[10px] text-slate-800">
                                 ID: {{ $product->id }}
                             </p>
                             @if (!file_exists(public_path('storage/' . $product->image)))
-                                <p class="text-xs font-semibold text-rose-800 dark:text-rose-600">
+                                <p class="inline-flex items-center py-1 px-2 mt-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[10px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20">
                                     ! featured image not set
                                 </p>
                             @endif
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 cursor-help dark:text-slate-300"
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
                                    title="Total Sales - Total Sold + Total Credits - Total Supplier Credits + Adjustments"
                                 >
                                     IN STOCK
@@ -133,13 +133,14 @@
                                     {{ $product->total_available }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">PURCHASED</p>
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                    PURCHASED</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_purchases }}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 cursor-help dark:text-slate-300"
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
                                    title="Total Customer Returns or Cancellations"
                                 >
 
@@ -152,7 +153,8 @@
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
-                                    <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">AVE COST</p>
+                                    <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                        AVE COST</p>
                                     <p @class([
                       'text-xs font-semibold text-slate-800 dark:text-slate-500',
                       'text-xs font-semibold text-green-800 dark:text-green-500' =>
@@ -175,17 +177,17 @@
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 cursor-help dark:text-slate-300"
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
                                    title="Total Sold + Credits"
                                 >
                                     SOLD
                                 </p>
-                                <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
                                     {{ $product->total_sold + $product->total_credits }}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 dark:text-slate-300"
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
                                    title="Total Stock Adjustments"
                                 >
                                     ADJUSTMENTS
@@ -194,7 +196,7 @@
                                     {{ $product->total_adjustments }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="text-xs font-semibold text-slate-600 cursor-help dark:text-slate-300"
+                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
                                    title="Total Returned to supplier"
                                 >
                                     SUPPLIER CREDITS
@@ -204,7 +206,8 @@
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
-                                    <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">LAST COST</p>
+                                    <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                        LAST COST</p>
                                     <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                         {{ number_format($product->getLastCost(), 2) }}
                                     </p>
@@ -239,7 +242,7 @@
                                         @endif
                                         @if (auth()->user()->hasPermissionTo('view cost'))
                                             <span
-                                                class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
+                                                class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-blue-500 @endif text-xs"
                                             >
                         {{ profit_percentage($product->retail_price, $product->cost) }}
                       </span>
@@ -275,7 +278,7 @@
                                     @endif
                                     @if (auth()->user()->hasPermissionTo('view cost'))
                                         <span
-                                            class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
+                                            class="@if (profit_percentage($product->wholesale_price, $product->cost) < 0) text-rose-700 @else text-blue-500 @endif text-xs"
                                         >
                       {{ profit_percentage($product->wholesale_price, $product->cost) }}
                     </span>
@@ -293,7 +296,7 @@
                                                 class="flex justify-start items-center space-x-2 w-full button-success"
                                                 x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
                                             >
-                                                <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                                <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
                                                 <p>active</p>
                                             </button>
                                         @else
@@ -317,7 +320,7 @@
                                             class="flex justify-start items-center space-x-2 w-full button-success"
                                             x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                                         >
-                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                            <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
                                             <p>featured</p>
                                         </button>
                                     @else
@@ -342,7 +345,7 @@
                                             class="flex justify-start items-center space-x-2 w-full button-success"
                                             x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
                                         >
-                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                            <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
                                             <p>sale</p>
                                         </button>
                                     @else
@@ -372,7 +375,7 @@
                                         class="flex justify-start items-center space-x-2 w-full button-success"
                                         x-on:click="$wire.call('delete','{{ $product->id }}')"
                                     >
-                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-400" />
+                                        <x-icons.tick class="w-3 h-3 text-blue-500 dark:text-white" />
                                         <p>enabled</p>
                                     </button>
                                 @endif

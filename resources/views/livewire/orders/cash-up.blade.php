@@ -67,7 +67,7 @@
                         />
                     </div>
                     @error('reference')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
@@ -82,7 +82,7 @@
                         />
                     </div>
                     @error('date')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
@@ -100,7 +100,7 @@
                         />
                     </div>
                     @error('amount')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div class="py-3">
@@ -142,11 +142,12 @@
                         Filter orders
                     </x-input.label>
                     <div
-                        class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700">
+                        class="flex items-center py-2 mt-1 w-full bg-white rounded-md border divide-x border-slate-200 dark:divide-slate-600 dark:border-slate-700 dark:bg-slate-700"
+                    >
                         <button
                             @class([
                                 'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
-                                'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
+                                'pl-3 w-1/2 text-sm text-left text-blue-500 dark:text-blue-500 font-semibold' =>
                                     $customerType === null,
                             ])
                             wire:click="$set('customerType',null)"
@@ -157,7 +158,7 @@
                         <button
                             @class([
                                 'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
-                                'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
+                                'pl-3 w-1/2 text-sm text-left text-blue-500 dark:text-blue-500 font-semibold' =>
                                     $customerType === false,
                             ])
                             wire:click="$set('customerType',false)"
@@ -168,7 +169,7 @@
                         <button
                             @class([
                                 'pl-3 w-1/2 text-xs text-left text-slate-600 dark:text-slate-300',
-                                'pl-3 w-1/2 text-sm text-left text-sky-400 dark:text-sky-500 font-semibold' =>
+                                'pl-3 w-1/2 text-sm text-left text-blue-500 dark:text-blue-500 font-semibold' =>
                                     $customerType === true,
                             ])
                             wire:click="$set('customerType',true)"
@@ -211,13 +212,13 @@
                 <x-table.header class="hidden lg:grid lg:grid-cols-4">
                     <x-table.heading>Order #
                         <button
-                            class="@if ($direction === 'asc') text-sky-600 @endif"
+                            class="@if ($direction === 'asc') text-blue-600 @endif"
                             wire:click="$set('direction','asc')"
                         >
                             &uparrow;
                         </button>
                         <button
-                            class="@if ($direction === 'desc') text-sky-600 @endif"
+                            class="@if ($direction === 'desc') text-blue-600 @endif"
                             wire:click="$set('direction','desc')"
                         >
                             &downarrow;
@@ -262,10 +263,10 @@
                                 </div>
                                 <div>
                                     <button
-                                        class="flex justify-center items-center w-5 h-5 rounded-full bg-sky-200 dark:bg-sky-200"
+                                        class="flex justify-center items-center w-5 h-5 bg-blue-200 rounded-full dark:bg-blue-200"
                                         wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
                                     >
-                                        <x-icons.view class="w-3 h-3 text-sky-700" />
+                                        <x-icons.view class="w-3 h-3 text-blue-700" />
                                     </button>
                                 </div>
                             </div>

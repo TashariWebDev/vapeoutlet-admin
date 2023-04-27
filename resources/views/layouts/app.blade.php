@@ -187,7 +187,7 @@
 </head>
 
 <body
-    class="flex relative min-h-full font-sans antialiased bg-slate-200 dark:bg-slate-900"
+    class="flex relative min-h-full font-sans antialiased bg-slate-200 dark:bg-slate-950"
     x-cloak
     x-data="{
         date: '',
@@ -226,7 +226,7 @@
         @endphp
 
         <nav
-            class="sticky top-0 z-40 w-full border-t-4 dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur dark:border-sky-500"
+            class="sticky top-0 z-40 w-full bg-white border-t-4 border-blue-400 dark:border-blue-500 backdrop-blur dark:bg-slate-950"
         >
             <div class="flex justify-between items-center py-1 px-6 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
                 <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
@@ -244,12 +244,10 @@
             <div class="px-4 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
                     <div class="flex items-center py-2 lg:justify-between lg:py-1">
-                        <div class="hidden lg:block text-slate-500 dark:text-slate-500">
-                            <livewire:users.default-sales-channel />
-                        </div>
                         <container
-                            class="hidden items-center px-4 mx-auto space-x-6 lg:flex lg:py-2 lg:pb-1 lg:max-w-7xl"
+                            class="hidden items-center px-4 mx-auto space-x-8 lg:flex lg:py-2 lg:pb-1 lg:max-w-7xl"
                         >
+                            <livewire:users.default-sales-channel />
                             <a
                                 class="link"
                                 href="{{ route('dashboard') }}"
@@ -291,7 +289,7 @@
                             @endhasPermissionTo
                         </container>
                     </div>
-                    <div class="flex overflow-y-hidden overflow-x-scroll items-baseline pt-1 pr-4 pb-3 space-x-8 lg:py-1">
+                    <div class="flex overflow-y-hidden overflow-x-scroll items-baseline py-1 pr-4 pb-3 space-x-8 lg:py-1">
                         @if (auth()->user()->sales_channels_count > 1)
                             <div class="whitespace-nowrap">
                                 <livewire:users.sales-channel-change-button />
@@ -334,7 +332,7 @@
             </div>
             <div class="items-center w-full">
                 <container
-                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
+                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-blue-400/50"
                 >
                     <a
                         class="link"

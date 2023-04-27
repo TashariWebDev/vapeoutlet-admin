@@ -1,3 +1,3 @@
-<div {{ $attributes->merge(['class' => 'py-2 px-1 lg:px-2 text-slate-600 dark:text-slate-300']) }}>
+<div {{ $attributes->merge(['class' => 'py-2 px-1 lg:px-2 text-slate-800 dark:text-white']) }}>
     {{ $slot }}
 </div>

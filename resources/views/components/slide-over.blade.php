@@ -67,8 +67,8 @@
                         </button>
                     </div>
 
-                    <div class="flex overflow-y-scroll flex-col py-6 px-2 h-full bg-white shadow-xl dark:bg-slate-900">
-                        <div class="relative flex-1 py-2 px-2 mt-3 bg-white rounded-md dark:bg-slate-900">
+                    <div class="flex overflow-y-scroll flex-col py-6 px-2 h-full bg-white shadow-xl dark:bg-slate-950">
+                        <div class="relative flex-1 py-2 px-2 mt-3 bg-white rounded-md dark:bg-slate-950">
                             <!-- Replace with your content -->
                             {{ $slot }}
                             <!-- /End replace -->

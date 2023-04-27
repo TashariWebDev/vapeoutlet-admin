@@ -1,6 +1,6 @@
 <div>
     <button wire:click.prevent="$toggle('modal')">
-        <x-icons.plus class="w-10 h-10 text-sky-500 hover:text-sky-600" />
+        <x-icons.plus class="w-10 h-10 text-blue-500 hover:text-blue-600" />
     </button>
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
@@ -20,7 +20,7 @@
                     wire:model.defer="name"
                 />
                 @error('name')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -34,7 +34,7 @@
                     wire:model.defer="email"
                 />
                 @error('email')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -48,7 +48,7 @@
                     wire:model.defer="phone"
                 />
                 @error('phone')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -62,7 +62,7 @@
                     wire:model.defer="person"
                 />
                 @error('person')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -76,7 +76,7 @@
                     wire:model.defer="address_line_one"
                 />
                 @error('address_line_one')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -90,7 +90,7 @@
                     wire:model.defer="address_line_two"
                 />
                 @error('address_line_two')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -104,7 +104,7 @@
                     wire:model.defer="suburb"
                 />
                 @error('suburb')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -118,7 +118,7 @@
                     wire:model.defer="city"
                 />
                 @error('city')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -132,7 +132,7 @@
                     wire:model.defer="postal_code"
                 />
                 @error('postal_code')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -146,7 +146,7 @@
                     wire:model.defer="country"
                 />
                 @error('country')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 

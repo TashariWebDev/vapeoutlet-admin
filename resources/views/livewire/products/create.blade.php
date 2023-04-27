@@ -5,12 +5,12 @@
     >
         New product
     </button>
-
+    
     <x-slide-over x-data="{ show: $wire.entangle('slide') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">New product</h3>
         </div>
-
+        
         <form wire:submit.prevent="save">
             <div class="py-2">
                 <x-input.label for="name">
@@ -23,7 +23,7 @@
                     required
                 />
                 @error('name')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -37,7 +37,7 @@
                     required
                 />
                 @error('sku')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -58,7 +58,7 @@
                             @endforeach
                         </x-input.select>
                         @error('brand')
-                            <x-input.error>{{ $message }}</x-input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -83,7 +83,7 @@
                             @endforeach
                         </x-input.select>
                         @error('category')
-                            <x-input.error>{{ $message }}</x-input.error>
+                        <x-input.error>{{ $message }}</x-input.error>
                         @enderror
                     </div>
                     <div>
@@ -96,7 +96,7 @@
                     <x-input.label for="collection">
                         Collection ( optional )
                     </x-input.label>
-
+                    
                     <x-input.select
                         id="collection"
                         type="text"
@@ -107,9 +107,9 @@
                             <option value="{{ $collection->id }}">{{ $collection->name }}</option>
                         @endforeach
                     </x-input.select>
-
+                    
                     @error('product_collection_id')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
                 <div>
@@ -128,7 +128,7 @@
                 </div>
             @endif
         </form>
-
+        
         @if ($product)
             <div class="py-2">
                 <x-input.label for="description">
@@ -140,10 +140,10 @@
                     wire:model="description"
                 />
                 @error('description')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
-
+            
             <div class="py-2">
                 <x-input.label for="retail_price">
                     Retail price
@@ -160,7 +160,7 @@
                     required
                 />
                 @error('retail_price')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -179,10 +179,10 @@
                     required
                 />
                 @error('wholesale_price')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
-
+            
             <div class="flex items-end py-2">
                 <div class="flex-1">
                     <x-input.label for="features">
@@ -205,12 +205,12 @@
             </div>
             <div class="py-3">
                 <div>
-                    <p class="text-xs text-sky-500 dark:text-sky-400">update and click tab to save</p>
+                    <p class="text-xs text-blue-500 dark:text-blue-500">update and click tab to save</p>
                 </div>
-
+                
                 @foreach ($product->features as $feature)
                     <div class="flex items-end py-2">
-
+                        
                         <div class="flex-1">
                             <x-input.label for="{{ $feature->category->name }}-{{ $feature->id }}">
                                 {{ $feature->category->name }}
@@ -222,14 +222,14 @@
                                 x-on:blur="$wire.call('updateFeature',{{ $feature->id }},$event.target.value)"
                             />
                         </div>
-
-                        <button x-on:click.prevent="$wire.call('deleteFeature', {{ $feature->id }})">
+                        
+                        <button x-on:click.prevent="$wire.call('deleteFeature',{{ $feature->id }}s)">
                             <x-icons.cross class="w-10 h-10 text-rose-500 hover:text-rose-600" />
                         </button>
                     </div>
                 @endforeach
             </div>
-
+            
             <div class="py-2">
                 <button
                     class="w-full button-success"

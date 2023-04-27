@@ -11,7 +11,7 @@
 
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-5">
             @foreach ($categories as $category)
-                <div class="p-2 rounded-md bg-slate-200 dark:bg-slate-900">
+                <div class="p-2 rounded-md bg-slate-200 dark:bg-slate-950">
                     <x-input.label for="name-{{ $category->id }}">
                         Name
                     </x-input.label>
@@ -22,7 +22,7 @@
                         wire:keyup.debounce.300ms="updateCategory({{ $category->id }},$event.target.value)"
                     />
                     <div class="flex justify-between items-center py-2">
-                        <p class="text-xs text-sky-500 dark:text-sky-400">
+                        <p class="text-xs text-blue-500 dark:text-blue-500">
                             {{ $category->products_count }} products linked
                         </p>
                         @if ($category->products_count == 0)

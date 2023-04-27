@@ -13,7 +13,7 @@
                                  viewBox="0 0 24 24"
                                  stroke-width="1.5"
                                  stroke="currentColor"
-                                 class="w-6 h-6 stroke-red-600"
+                                 class="w-6 h-6 stroke-rose-600"
                             >
                                 <path stroke-linecap="round"
                                       stroke-linejoin="round"
@@ -42,18 +42,18 @@
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
                             <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format($previous_month_gross_sales, 2) ?? '0.00' }}</p>
-                            <p class="text-xs text-sky-500">
+                            <p class="text-xs text-blue-500">
                                 {{ number_format(ex_vat($previous_month_gross_sales), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                         <div>
                             <p>{{ Carbon::now()->monthName  }}</p>
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format($gross_sales , 2) ?? '0.00' }}
                             </p>
-                            <p class="text-xs text-sky-500">
+                            <p class="text-xs text-blue-500">
                                 {{ number_format(ex_vat($gross_sales , 2)) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
@@ -71,7 +71,7 @@
                                  viewBox="0 0 24 24"
                                  stroke-width="1.5"
                                  stroke="currentColor"
-                                 class="w-6 h-6 stroke-red-600"
+                                 class="w-6 h-6 stroke-rose-600"
                             >
                                 <path stroke-linecap="round"
                                       stroke-linejoin="round"
@@ -107,18 +107,18 @@
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
                             <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format($previous_month_gross_profit, 2) ?? '0.00' }}</p>
-                            <p class="text-xs text-sky-500">
+                            <p class="text-xs text-blue-500">
                                 {{ number_format(ex_vat($previous_month_gross_profit), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                         <div>
                             <p>{{ Carbon::now()->monthName  }}</p>
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format($gross_profit, 2) ?? '0.00' }}
                             </p>
-                            <p class="text-xs text-sky-500">
+                            <p class="text-xs text-blue-500">
                                 {{ number_format(ex_vat($gross_profit), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
@@ -136,7 +136,7 @@
                              viewBox="0 0 24 24"
                              stroke-width="1.5"
                              stroke="currentColor"
-                             class="w-6 h-6 stroke-red-600"
+                             class="w-6 h-6 stroke-rose-600"
                         >
                             <path stroke-linecap="round"
                                   stroke-linejoin="round"
@@ -164,18 +164,18 @@
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
                             <p>{{ Carbon::now()->subMonth()->monthName  }}</p>
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format($previousMonthPurchases, 2) ?? '0.00' }}</p>
-                            <p class="text-xs text-sky-500">
+                            <p class="text-xs text-blue-500">
                                 {{ number_format(ex_vat($previousMonthPurchases), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                         <div>
                             <p>{{ Carbon::now()->monthName  }}</p>
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format($purchases, 2) ?? '0.00' }}
                             </p>
-                            <p class="text-xs text-sky-500">
+                            <p class="text-xs text-blue-500">
                                 {{ number_format(ex_vat($purchases), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
@@ -186,7 +186,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
                 <x-slot:footer>
-                    <p class="font-bold text-sky-500">
+                    <p class="font-bold text-blue-500">
                         {{ number_format(to_rands($expenses ?? 0), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
@@ -195,7 +195,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
                 <x-slot:footer>
-                    <p class="font-bold text-sky-500">
+                    <p class="font-bold text-blue-500">
                         {{ number_format(to_rands( 0 - $total_refunds ?? 0), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
@@ -204,7 +204,7 @@
             <x-stat-container>
                 <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
                 <x-slot:footer>
-                    <p class="font-bold text-sky-500">
+                    <p class="font-bold text-blue-500">
                         {{ number_format(to_rands( 0 - $total_credits ?? 0), 2) ?? '0.00' }}
                     </p>
                 </x-slot:footer>
@@ -215,16 +215,16 @@
                 <x-slot:footer>
                     <div class="flex justify-between items-center">
                         <div class="flex items-baseline space-x-3">
-                            <p class="font-bold text-sky-500">
+                            <p class="font-bold text-blue-500">
                                 {{ number_format(to_rands($this->stockValue ?? 0), 2) }}
                             </p>
-                            <p class="text-sm text-sky-500">
+                            <p class="text-sm text-blue-500">
                                 {{ number_format(to_rands(ex_vat($this->stockValue ?? 0)), 2) ?? '0.00' }} (ex vat)
                             </p>
                         </div>
                         <button wire:click="getStockValue">
                             <x-icons.refresh
-                                class="w-4 h-4 text-sky-500"
+                                class="w-4 h-4 text-blue-500"
                                 wire:target="getStockValue"
                                 wire:loading.class="animate-spin-slow"
                             />

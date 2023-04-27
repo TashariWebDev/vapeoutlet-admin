@@ -26,7 +26,7 @@
                     />
                 </div>
                 @error('transaction.reference')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-3">
@@ -51,7 +51,7 @@
                     @endif
                 </div>
                 @error('transaction.date')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-3">
@@ -81,7 +81,7 @@
                     </x-input.select>
                 </div>
                 @error('transaction.type')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-3">
@@ -98,7 +98,7 @@
                     />
                 </div>
                 @error('transaction.amount')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-3">
@@ -112,7 +112,7 @@
                 wire:loading
                 wire:target="update"
             >
-                <p class="text-xs text-sky-500">Processing! Please wait</p>
+                <p class="text-xs text-blue-500">Processing! Please wait</p>
             </div>
         </form>
 

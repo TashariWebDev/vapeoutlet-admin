@@ -29,7 +29,7 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
-                <p class="text-xs font-bold text-slate-500 dark:text-sky-400">{{ $stockTransfer->number() }}</p>
+                <p class="text-xs font-bold dark:text-blue-500 text-slate-500">{{ $stockTransfer->number() }}</p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $stockTransfer->date }}</p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">
                     Transferring from {{ $stockTransfer->dispatcher->name }}
@@ -126,7 +126,7 @@
                                         for="{{ $item->id }}"
                                     ></label>
                                     <input
-                                        class="w-4 h-4 rounded bcredit-slate-300 text-sky-600 focus:ring-sky-500"
+                                        class="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 bcredit-slate-300"
                                         id="{{ $item->id }}"
                                         type="checkbox"
                                         value="{{ $item->id }}"

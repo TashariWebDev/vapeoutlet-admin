@@ -12,7 +12,7 @@
                     wire:model="delivery.type"
                 />
                 @error('delivery.type')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -25,7 +25,7 @@
                     wire:model="delivery.description"
                 />
                 @error('delivery.description')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -38,7 +38,7 @@
                     wire:model="delivery.price"
                 />
                 @error('delivery.price')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -52,7 +52,7 @@
                     placeholder="leave empty if not applicable"
                 />
                 @error('delivery.waiver_value')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -74,7 +74,7 @@
                     @endforeach
                 </x-input.select>
                 @error('delivery.province')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2">
@@ -100,7 +100,7 @@
                     </option>
                 </x-input.select>
                 @error('delivery.customer_type')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="py-2 w-full">
@@ -110,7 +110,7 @@
                         for="selectable"
                     >
                         <input
-                            class="rounded-full text-sky-500 focus:ring-slate-200"
+                            class="text-blue-500 rounded-full focus:ring-slate-200"
                             id="selectable"
                             type="checkbox"
                             wire:model="delivery.selectable"
@@ -118,7 +118,7 @@
                         <span class="ml-3">Selectable</span>
                     </label>
                     @error('delivery.selectable')
-                        <x-input.error>{{ $message }}</x-input.error>
+                    <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
             </div>
