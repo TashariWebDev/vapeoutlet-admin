@@ -49,7 +49,7 @@
 
 
             @if (auth()->user()->hasPermissionTo('create purchase'))
-                <a href="{{ route('purchases/pending') }}"
+                <a href="{{ route('customers/wholesale/applications') }}"
                    class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset dark:text-rose-400 ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
                 >
                     <div class="flex justify-between items-center w-full">
@@ -71,7 +71,7 @@
             @endif
 
             @if (auth()->user()->hasPermissionTo('upgrade customers'))
-                <a href="{{ route('customers/wholesale/applications') }}"
+                <a href="{{ route('purchases/pending') }}"
                    class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset dark:text-rose-400 ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
                 >
                     <div class="flex justify-between items-center w-full">
