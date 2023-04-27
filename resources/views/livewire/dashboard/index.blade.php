@@ -105,12 +105,14 @@
                             <ul class="mt-2">
                                 @foreach ($topTenProducts as $product)
                                     <li
-                                        class="p-2 mb-2 text-xs font-semibold rounded odd:bg-white text-sky-800 dark:text-sky-500 dark:odd:bg-slate-900 dark:even:bg-slate-800 even:bg-slate-100"
+                                        class="p-2 mb-2 rounded odd:bg-white dark:odd:bg-slate-900 dark:even:bg-slate-800 even:bg-slate-100"
                                     >
                                         <div class="flex justify-between items-start">
-                                            <p class="dark:text-white text-slate-900">{{ $product->brand }} {{ $product->name }}
-                                            </p>
-                                            <div class="text-right">
+                                            <x-product-listing-simple
+                                                :product="$product"
+                                                wire:key="'product-'{{ $product->id }}"
+                                            />
+                                            <div class="text-xs font-semibold text-right text-sky-800 dark:text-sky-500">
                                                 <p>{{ 0 - ($product->sold + $product->credits) }} units</p>
                                                 @if ($product->available > 0)
                                                     <p>{{ $product->available  }} in stock</p>
@@ -118,11 +120,6 @@
                                                     <p class="text-xs text-rose-600">sold out !</p>
                                                 @endif
                                             </div>
-                                        </div>
-                                        <div class="flex items-center space-x-2">
-                                            @foreach ($product->features as $feature)
-                                                <p class="text-[10px]">{{ $feature->name }} </p>
-                                            @endforeach
                                         </div>
                                     </li>
                                 @endforeach

@@ -124,8 +124,6 @@
                 </div>
                 <div class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-4 mt-2 mb-6 lg:grid-cols-7 lg:col-span-4 lg:gap-y-2"
                 >
-
-
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -236,15 +234,15 @@
                     {{ $transaction->id }}
                   </a>
                   @else
-                      <span class="text-xs font-bold text-slate-500">{{ $transaction->id }}</span>
+                      <span class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">{{ $transaction->id }}</span>
                   @endif
               </span>
                             <span @class([
-                  'text-xs text-rose-500 dark:text-rose-400' =>
+                  'text-[12px] uppercase font-semibold text-rose-500 dark:text-rose-400' =>
                       $transaction->type === 'invoice' ||
                       $transaction->type === 'debit' ||
                       $transaction->type === 'refund',
-                  'text-xs text-indigo-500 dark:text-indigo-400' =>
+                  'text-[12px] uppercase font-semibold text-indigo-500 dark:text-indigo-400' =>
                       $transaction->type === 'payment' ||
                       $transaction->type === 'credit' ||
                       $transaction->type === 'warranty',
@@ -258,10 +256,10 @@
                     </div>
                     <div class="flex justify-end items-center text-right">
                         <div>
-                            <p class="font-bold dark:text-white text-[10px] text-slate-900">
+                            <p class="font-bold dark:text-white text-[12px] text-slate-900">
                                 Total: {{ number_format($transaction->amount, 2) }}
                             </p>
-                            <p class="font-bold dark:text-white text-[10px] text-slate-900">
+                            <p class="font-bold dark:text-white text-[12px] text-slate-900">
                                 Balance: {{ number_format($transaction->running_balance, 2) }}
                             </p>
                         </div>
@@ -317,34 +315,35 @@
                       {{ $transaction->id }}
                     </a>
                     @else
-                        <span class="text-slate-600 dark:text-slate-300">{{ $transaction->id }}</span>
+                        <span class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">{{ $transaction->id }}</span>
                     @endif
                 </span>
                                 <span @class([
-                    'text-xs text-rose-500 dark:text-rose-600' =>
+                    'text-[12px] uppercase font-semibold text-rose-500 dark:text-rose-600' =>
                         $transaction->type === 'invoice' ||
                         $transaction->type === 'debit' ||
                         $transaction->type === 'refund',
-                    'text-xs text-indigo-500 dark:text-indigo-400' =>
+                    'text-[12px] uppercase font-semibold text-indigo-500 dark:text-indigo-400' =>
                         $transaction->type === 'payment' ||
                         $transaction->type === 'credit' ||
                         $transaction->type === 'warranty',
                 ])>
                   {{ strtoupper($transaction->type) }}
                 </span>
+
                             </p>
-                            <p class="uppercase dark:text-white text-[10px] text-slate-600">
+                            <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">
                                 {{ $transaction->created_at }}
                             </p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
                             <p class="text-xs font-semibold dark:text-white text-slate-600">
                                 {{ strtoupper($transaction->reference) }}</p>
-                            <p class="uppercase dark:text-white text-slate-600 text-[10px]">{{ $transaction->created_by }}
+                            <p class="uppercase dark:text-white text-slate-600 text-[12px]">{{ $transaction->created_by }}
                             </p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="text-xs dark:text-white text-slate-800">
+                            <p class="font-semibold uppercase dark:text-white text-slate-900">
                                 {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
                             </p>
                         </x-table.row>

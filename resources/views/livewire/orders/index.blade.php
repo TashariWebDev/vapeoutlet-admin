@@ -78,8 +78,8 @@
                     >
                         <button
                             @class([
-                                'h-full text-center text-[10px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
-                                'h-full text-center text-[10px] font-bold uppercase' =>
+                                'h-full text-center text-[12px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-center text-[12px] font-bold uppercase' =>
                                     $customerType === null,
                             ])
                             wire:click="$set('customerType',null)"
@@ -89,8 +89,8 @@
 
                         <button
                             @class([
-                                'h-full text-[10px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
-                                'h-full text-[10px] font-bold uppercase' =>
+                                'h-full text-[12px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-[12px] font-bold uppercase' =>
                                     $customerType === false,
                             ])
                             wire:click="$set('customerType',false)"
@@ -100,8 +100,8 @@
 
                         <button
                             @class([
-                                'h-full text-[10px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
-                                'h-full text-[10px] font-bold uppercase' =>
+                                'h-full text-[12px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-[12px] font-bold uppercase' =>
                                     $customerType === true,
                             ])
                             wire:click="$set('customerType',true)"
@@ -173,7 +173,7 @@
                                 title="View Order {{ $order->number }}"
                             >{{ $order->number }}</a>
                             <div class="flex justify-between pt-1 cursor-default">
-                                <p class="font-semibold text-[10px]">
+                                <p class="text-[12px]">
                                     {{ $order->created_at }}
                                 </p>
                                 @if ($order->status != 'completed' && $order->status != 'cancelled')
@@ -182,15 +182,15 @@
                                             title="Order Placed {{ $order->created_at->diffInDays(now()) }} Days Ago"
                                             @class([
                                                 'rounded-l-full rounded-r-full px-1 font-semibold',
-                                                'inline-flex items-center py-1 px-2 font-medium text-yellow-500 rounded-md ring-1 ring-inset dark:text-yellow-400 text-[10px] bg-yellow-400/10 ring-yellow-400/50 dark:ring-yellow-400/20' =>
+                                                'inline-flex items-center py-1 px-2 font-medium text-yellow-500 rounded-md ring-1 ring-inset dark:text-yellow-400 text-[12px] bg-yellow-400/10 ring-yellow-400/50 dark:ring-yellow-400/20' =>
                                                     $order->created_at->diffInDays(now()) <= 3,
-                                                'inline-flex items-center py-1 px-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[10px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20' => $order->created_at->diffInDays(now()) > 3,
+                                                'inline-flex items-center py-1 px-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[12px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20' => $order->created_at->diffInDays(now()) > 3,
                                             ])
                                         >{{ $order->created_at->diffInDays(now()) }}
                                         </p>
                                     @else
                                         <div
-                                            class="inline-flex items-center py-1 px-2 font-medium text-green-500 rounded-md ring-1 ring-inset dark:text-green-400 text-[10px] bg-green-400/10 ring-green-400/50 dark:ring-green-400/20"
+                                            class="inline-flex items-center py-1 px-2 font-medium text-green-500 rounded-md ring-1 ring-inset dark:text-green-400 text-[12px] bg-green-400/10 ring-green-400/50 dark:ring-green-400/20"
                                         >
                                             <p>
                                                 NEW
@@ -209,17 +209,17 @@
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
                                     <div class="flex justify-between pt-1 space-x-2">
-                                        <p class="font-semibold uppercase text-[10px]">
+                                        <p class="uppercase text-[12px]">
                                             {{ $order->customer->type() }}
                                         </p>
-                                        <p class="font-semibold uppercase text-[10px]">
+                                        <p class="uppercase text-[12px]">
                                             {{ $order->customer->salesperson->name ?? '' }}
                                         </p>
                                     </div>
                                 </div>
                                 <div>
                                     <button
-                                        class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[10px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                                        class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
                                         title="View {{ $order->customer->name }}'s Last Five Transactions"
                                         wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
                                     >
@@ -230,13 +230,13 @@
                         </x-table.row>
                         <x-table.row class="text-center cursor-default lg:text-right">
                             <p
-                                class="font-semibold uppercase text-[10px]"
+                                class="font-semibold uppercase text-[12px]"
                                 title="Delivery Type"
                             >
                                 {{ $order->delivery->description }}
                             </p>
                             <p
-                                class="font-semibold uppercase text-[10px]"
+                                class="uppercase text-[12px]"
                             >
                                 {{ $order->delivery->province }}
                             </p>

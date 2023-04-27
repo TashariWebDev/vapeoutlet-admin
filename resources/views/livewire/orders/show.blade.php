@@ -49,8 +49,8 @@
     <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-2 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
             <div class="col-span-2 lg:col-span-1">
-                <p class="text-xs font-bold dark:text-white text-slate-900">
-                    {{ $this->order->number }} | ( {{ $this->order->sales_channel->name }} )
+                <p class="text-xs font-bold uppercase dark:text-white text-slate-900">
+                    {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
                 </p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
                 @isset($this->order->delivery_type_id)
@@ -77,7 +77,7 @@
                     @endisset
                 </a>
                 @isset($this->order->address_id)
-                    <div class="font-semibold capitalize dark:text-white text-[10px] text-slate-900">
+                    <div class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">
                         <p>{{ $this->order->address?->line_one }}</p>
                         <p>{{ $this->order->address?->line_two }}</p>
                         <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>

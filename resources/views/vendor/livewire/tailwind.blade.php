@@ -49,7 +49,7 @@
 
             <div class="hidden sm:flex sm:flex-1 sm:justify-between sm:items-center">
                 <div>
-                    <p class="leading-5 uppercase text-[10px] text-slate-400 dark:text-slate-600">
+                    <p class="leading-5 uppercase text-[12px] text-slate-400 dark:text-slate-600">
                         <span>{!! __('Showing') !!}</span>
                         <span class="font-medium">{{ $paginator->firstItem() }}</span>
                         <span>{!! __('to') !!}</span>

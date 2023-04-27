@@ -54,7 +54,7 @@
                                 href="{{ route('customers/show', $customer->id) }}"
                             >{{ $customer->name }}</a>
                             <div class="pt-1">
-                                <p class="font-semibold text-[10px]">
+                                <p class="font-semibold text-[12px]">
                                     {{ $customer->salesperson->name ?? '' }}</p>
                             </div>
                         </x-table.row>

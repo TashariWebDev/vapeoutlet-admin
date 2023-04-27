@@ -1,10 +1,10 @@
 <div class="relative">
-
+    
     <x-modal x-data="{ show: $wire.entangle('chooseAddressForm') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select address</h3>
         </div>
-
+        
         <form wire:submit.prevent="updateAddress">
             <x-input.label for="address_id">
                 Address
@@ -40,12 +40,12 @@
             </div>
         </form>
     </x-modal>
-
+    
     <x-modal x-data="{ show: $wire.entangle('chooseDeliveryForm') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select an option</h3>
         </div>
-
+        
         <form wire:submit.prevent="updateDelivery">
             <x-input.label for="updateDelivery">
                 Delivery options
@@ -77,7 +77,7 @@
             </div>
         </form>
     </x-modal>
-
+    
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Process this order?</h3>
@@ -111,7 +111,7 @@
         >Processing...Do not close this page.</p>
         <p class="text-xs text-rose-600">This action is non reversible</p>
     </x-modal>
-
+    
     <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-2 p-2 lg:grid-cols-4">
             <div>
@@ -140,7 +140,7 @@
                     @endisset
                 </p>
                 @isset($this->order->address_id)
-                    <div class="font-semibold capitalize dark:text-white text-[10px] text-slate-900">
+                    <div class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">
                         <p>{{ $this->order->address?->line_one }}</p>
                         <p>{{ $this->order->address?->line_two }}</p>
                         <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>
@@ -148,7 +148,7 @@
                     </div>
                 @endisset
             </div>
-
+            
             <div class="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:col-span-2">
                 <div>
                     <button
@@ -199,7 +199,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="py-0.5 px-2 w-full">
             <div>
                 <x-input.text
@@ -211,7 +211,7 @@
                 </x-input.text>
             </div>
         </div>
-
+        
         <x-table.container>
             <x-table.header class="hidden grid-cols-6 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
@@ -220,7 +220,7 @@
                 <x-table.heading class="lg:text-right">qty</x-table.heading>
                 <x-table.heading class="lg:text-right">Line total</x-table.heading>
             </x-table.header>
-
+            
             <div>
                 @if (!empty($selectedProductsToDelete))
                     <div>
@@ -233,7 +233,7 @@
                     </div>
                 @endif
             </div>
-
+            
             @foreach ($this->order->items as $item)
                 <x-table.body
                     class="grid lg:grid-cols-6"

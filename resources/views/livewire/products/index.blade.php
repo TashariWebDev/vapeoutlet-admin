@@ -91,40 +91,35 @@
         ])>
                     <div class="grid grid-cols-2 gap-3 lg:grid-cols-8">
                         <div class="col-span-2 w-full text-xs">
-                            @if (auth()->user()->hasPermissionTo('edit products'))
-                                <a
-                                    class="link"
-                                    href="{{ route('products/edit', $product->id) }}"
-                                >
-                                    {{ $product->sku }}
-                                </a>
-                            @else
-                                <p class="text-slate-600 dark:text-slate-300">{{ $product->sku }}</p>
-                            @endif
-                            <p class="font-semibold dark:text-white text-slate-800">
-                                {{ $product->brand }} {{ $product->name }}
-                            </p>
-                            <div class="flex items-center space-x-1">
-                                @foreach ($product->features as $feature)
-                                    <p class="pr-1 font-semibold uppercase dark:text-white text-[10px] text-slate-800"> {{ $feature->name }}
-                                    </p>
-                                @endforeach
-                            </div>
-                            <p class="pr-1 font-semibold uppercase dark:text-white text-[10px] text-slate-800">
+                            <x-product-listing-simple
+                                :product="$product"
+                                wire:key="'product-'{{ $product->id }}"
+                            />
+                            <p class="pr-1 font-semibold uppercase dark:text-white text-[12px] text-slate-800">
                                 {{ $product->category }}
                             </p>
-                            <p class="pr-1 font-semibold uppercase dark:text-white text-[10px] text-slate-800">
+                            <p class="pr-1 font-semibold uppercase dark:text-white text-[12px] text-slate-800">
                                 ID: {{ $product->id }}
                             </p>
+                            <div class="pt-1">
+                                @if (auth()->user()->hasPermissionTo('edit products'))
+                                    <a
+                                        class="link"
+                                        href="{{ route('products/edit', $product->id) }}"
+                                    >
+                                        Edit product
+                                    </a>
+                                @endif
+                            </div>
                             @if (!file_exists(public_path('storage/' . $product->image)))
-                                <p class="inline-flex items-center py-1 px-2 mt-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[10px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20">
+                                <p class="inline-flex items-center py-1 px-2 mt-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[12px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20">
                                     ! featured image not set
                                 </p>
                             @endif
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help"
                                    title="Total Sales - Total Sold + Total Credits - Total Supplier Credits + Adjustments"
                                 >
                                     IN STOCK
@@ -133,14 +128,14 @@
                                     {{ $product->total_available }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help">
                                     PURCHASED</p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                     {{ $product->total_purchases }}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help"
                                    title="Total Customer Returns or Cancellations"
                                 >
 
@@ -153,7 +148,7 @@
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
-                                    <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                    <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help">
                                         AVE COST</p>
                                     <p @class([
                       'text-xs font-semibold text-slate-800 dark:text-slate-500',
@@ -177,17 +172,17 @@
                         </div>
                         <div class="w-full h-full">
                             <div class="flex justify-between">
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help"
                                    title="Total Sold + Credits"
                                 >
                                     SOLD
                                 </p>
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help">
                                     {{ $product->total_sold + $product->total_credits }}
                                 </p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help"
                                    title="Total Stock Adjustments"
                                 >
                                     ADJUSTMENTS
@@ -196,7 +191,7 @@
                                     {{ $product->total_adjustments }}</p>
                             </div>
                             <div class="flex justify-between">
-                                <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help"
+                                <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help"
                                    title="Total Returned to supplier"
                                 >
                                     SUPPLIER CREDITS
@@ -206,7 +201,7 @@
                             </div>
                             @if (auth()->user()->hasPermissionTo('view cost'))
                                 <div class="flex justify-between">
-                                    <p class="font-semibold uppercase dark:text-white text-[10px] text-slate-800 cursor-help">
+                                    <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help">
                                         LAST COST</p>
                                     <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
                                         {{ number_format($product->getLastCost(), 2) }}

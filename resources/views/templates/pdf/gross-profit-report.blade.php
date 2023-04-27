@@ -42,7 +42,7 @@
             <div class="px-4">
                 <table class="w-full">
                     <thead>
-                        <tr class="font-bold text-white bg-gray-900 text-[10px]">
+                        <tr class="font-bold text-white bg-gray-900 text-[12px]">
                             <th class="text-left">Date</th>
                             <th class="text-left">Invoice No</th>
                             <th class="text-left">Status</th>
@@ -52,7 +52,7 @@
                             <th class="text-right">Excl</th>
                         </tr>
                     </thead>
-                    <tbody class="text-[10px]">
+                    <tbody class="text-[12px]">
                         @php
                             $overallTotal = [];
                         @endphp
@@ -66,7 +66,7 @@
                                 @endphp
                                 @if ($loop->first)
                                     <tr
-                                        class="row-span-2 font-bold text-white bg-gray-900 text-[10px]"
+                                        class="row-span-2 font-bold text-white bg-gray-900 text-[12px]"
                                         aria-rowspan="2"
                                     >
                                         <td
@@ -80,14 +80,14 @@
                                         $total[] += $order->getProfit()
                                     @endphp
                                     @if ($loop->first)
-                                        <tr class="font-bold bg-gray-100 text-[10px]">
+                                        <tr class="font-bold bg-gray-100 text-[12px]">
                                             <td
                                                 class="text-left"
                                                 colspan="6"
                                             >{{ $customer->name }}</td>
                                         </tr>
                                     @endif
-                                    <tr class="py-1 border-b border-dashed break-inside-avoid-page text-[10px]">
+                                    <tr class="py-1 border-b border-dashed break-inside-avoid-page text-[12px]">
                                         <td class="text-left">{{ $order->created_at->format('d-m-y') }}</td>
                                         <td class="text-left">{{ $order->id }}</td>
                                         <td class="text-left">{{ $order->status }}</td>
@@ -99,7 +99,7 @@
                                         <td class="text-right">{{ number_format(ex_vat($order->getProfit()), 2) }}</td>
                                     </tr>
                                     @if ($loop->last)
-                                        <tr class="font-bold bg-white text-[10px]">
+                                        <tr class="font-bold bg-white text-[12px]">
                                             <td
                                                 class="text-right"
                                                 colspan="4"
@@ -131,7 +131,7 @@
                                     $overallTotal[] = array_sum($total);
                                 @endphp
                                 @if ($loop->last)
-                                    <tr class="font-bold bg-white text-[10px]">
+                                    <tr class="font-bold bg-white text-[12px]">
                                         <td
                                             class="text-right"
                                             colspan="4"
@@ -159,7 +159,7 @@
                                 @endif
                             @endforeach
                         @endforeach
-                        <tr class="font-bold bg-white border-t-4 border-dashed text-[10px]">
+                        <tr class="font-bold bg-white border-t-4 border-dashed text-[12px]">
                             <td
                                 class="text-right"
                                 colspan="4"
