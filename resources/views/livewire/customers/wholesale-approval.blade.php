@@ -1,5 +1,5 @@
 <div>
-    <div class="overflow-hidden bg-white shadow sm:rounded-lg dark:bg-slate-800">
+    <div class="overflow-hidden bg-white shadow sm:rounded-lg dark:bg-slate-900">
         <div class="flex justify-between items-center py-5 px-4 sm:px-6">
             <div>
                 <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">
@@ -49,7 +49,7 @@
                     <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0 text-slate-900 dark:text-slate-300">
                         {{ ucwords($customer->name) }}</dd>
                 </div>
-                <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-700">
+                <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-800">
                     <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Company Name</dt>
                     <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0 text-slate-900 dark:text-slate-300">
                         @if ($customer->registered_company_name)
@@ -67,7 +67,7 @@
                         {{ $customer->email }}
                     </dd>
                 </div>
-                <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-700">
+                <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-800">
                     <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Phone</dt>
                     <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0 text-slate-900 dark:text-slate-300">
                         {{ $customer->phone }} @if ($customer->alt_phone)
@@ -92,7 +92,7 @@
                         @endforeach
                     </dd>
                 </div>
-                <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-700">
+                <div class="py-5 px-4 bg-white sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 dark:bg-slate-800">
                     <dt class="text-sm font-medium text-slate-500 dark:text-slate-400">Attachments</dt>
                     <dd class="mt-1 text-sm sm:col-span-2 sm:mt-0 text-slate-900 dark:text-slate-300">
                         <ul
