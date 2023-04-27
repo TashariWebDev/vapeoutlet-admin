@@ -1,232 +1,115 @@
 <div wire:poll.3000ms>
 
-    <div>
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <x-stat-container>
-                <div class="flex items-start">
-                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <div class="rounded-md bg-sky-500 dark:bg-slate-950">
-                            <x-icons.shopping-bag class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                        </div>
-                    </div>
-                    <div class="ml-6">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Received
-                        </p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            {{ $lifetime_orders->received }}
-                        </p>
-                    </div>
-                </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="/orders?filter=received"
-                        >
-                            View all<span class="sr-only"> Received orders</span></a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
+    <div class="px-2 text-lg">
+        <h1 class="font-bold dark:text-white text-slate-900">{{ date('F') }}</h1>
+    </div>
 
-            <x-stat-container>
-                <div class="flex items-start">
-                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.clipboard class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-6">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Processed
-                        </p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
+    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
+        <div class="mx-auto max-w-7xl">
+            <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-4 dark:bg-slate-900">
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Received</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                               {{ $lifetime_orders->received }}
+                        </span>
+                    </p>
+                </div>
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Processed</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             {{ $lifetime_orders->processed }}
-                        </p>
-                    </div>
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="/orders?filter=processed"
-                        >
-                            View all<span class="sr-only"> Processed orders</span></a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div class="flex items-start">
-                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.products class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-6">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Packed
-                        </p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Packed</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             {{ $lifetime_orders->packed }}
-                        </p>
-                    </div>
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="/orders?filter=packed"
-                        >
-                            View all<span class="sr-only"> Packed orders</span></a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <div class="flex items-start">
-                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.truck class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-6">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Shipped
-                        </p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
+                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Shipped</p>
+                    <p class="flex gap-x-2 items-baseline mt-2">
+                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             {{ $orders->shipped }}
-                        </p>
-                    </div>
+                        </span>
+                    </p>
                 </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="/orders?filter=shipped"
-                        >
-                            View all<span class="sr-only"> Shipped orders</span></a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
+            </div>
+        </div>
+    </div>
 
-            <x-stat-container>
-                <div class="flex items-start">
-                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.tick class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-6">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Completed
-                        </p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            {{ $orders->completed }}
-                        </p>
-                    </div>
-                </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="/orders?filter=completed"
-                        >
-                            View all<span class="sr-only"> Completed orders</span></a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
 
-            <x-stat-container>
-                <div class="flex items-start">
-                    <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                        <x-icons.cross class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                    </div>
-                    <div class="ml-6">
-                        <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                            Cancelled
-                        </p>
-                        <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                            {{ $orders->cancelled }}
-                        </p>
-                    </div>
-                </div>
-                <x-slot:footer>
-                    <div class="text-sm">
-                        <a
-                            class="link"
-                            href="/orders?filter=cancelled"
-                        >
-                            View all<span class="sr-only"> Cancelled orders</span></a>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
+    <div class="mt-4">
+        <div class="grid grid-cols-1 gap-5 mt-4 sm:grid-cols-2 lg:grid-cols-3">
+
 
             @if (auth()->user()->hasPermissionTo('create purchase'))
-                <x-stat-container>
-                    <div class="flex items-start">
-                        <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                            <x-icons.exclamation class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                        </div>
-                        <div class="ml-6">
-                            <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                                Pending Purchases
-                            </p>
-                            <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                                {{ $pendingPurchases }}
-                            </p>
-                        </div>
+                <a href="{{ route('purchases/pending') }}"
+                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset dark:text-rose-400 ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
+                >
+                    <div class="flex justify-between items-center w-full">
+                        <p>{{ $wholesaleApplications }} Pending Wholesale Applications</p>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-6 h-6"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                            />
+                        </svg>
                     </div>
-                    <x-slot:footer>
-                        <div class="text-sm">
-                            <a
-                                class="link"
-                                href="{{ route('purchases/pending') }}"
-                            >
-                                View all<span class="sr-only"> Pending purchases</span></a>
-                        </div>
-                    </x-slot:footer>
-                </x-stat-container>
+                </a>
             @endif
 
             @if (auth()->user()->hasPermissionTo('upgrade customers'))
-                <x-stat-container>
-                    <div class="flex items-start">
-                        <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-950">
-                            <x-icons.exclamation class="w-6 h-6 text-sky-100 on dark:text-slate-400" />
-                        </div>
-                        <div class="ml-6">
-                            <p class="text-sm truncate text-slate-400 dark:text-slate-400">
-                                Pending Wholesale Applications
-                            </p>
-                            <p class="text-2xl font-semibold dark:text-white text-sky-800">
-                                {{ $wholesaleApplications }}
-                            </p>
-                        </div>
+                <a href="{{ route('customers/wholesale/applications') }}"
+                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset dark:text-rose-400 ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
+                >
+                    <div class="flex justify-between items-center w-full">
+                        <p>{{ $pendingPurchases }} Pending Purchases</p>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke-width="1.5"
+                             stroke="currentColor"
+                             class="w-6 h-6"
+                        >
+                            <path stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                            />
+                        </svg>
                     </div>
-                    <x-slot:footer>
-                        <div class="text-sm">
-                            <a
-                                class="link"
-                                href="{{ route('customers/wholesale/applications') }}"
-                            >
-                                View all<span class="sr-only"> Wholesale Applications</span></a>
-                        </div>
-                    </x-slot:footer>
-                </x-stat-container>
+                </a>
             @endif
 
-            <div>
-
-            </div>
+            <div></div>
 
             @if (auth()->user()->hasPermissionTo('view reports'))
                 @if ($topTenProducts->count())
                     <x-stat-container>
                         <div>
                             <div class="p-3 rounded-md bg-sky-500 dark:bg-slate-800">
-                                <p class="text-xs font-semibold text-white">Top Ten Selling Products
-                                                                            for {{ date('M  Y') }}</p>
+                                <p class="text-xs font-semibold text-white">
+                                    Top Ten Selling Products for {{ date('M  Y') }}</p>
                             </div>
                             <ul class="mt-2">
                                 @foreach ($topTenProducts as $product)
                                     <li
-                                        class="p-2 mb-2 text-xs font-semibold rounded text-sky-800 dark:text-sky-500 dark:odd:bg-slate-900 dark:even:bg-slate-700 odd:bg-sky-50 even:bg-slate-100"
+                                        class="p-2 mb-2 text-xs font-semibold rounded odd:bg-white text-sky-800 dark:text-sky-500 dark:odd:bg-slate-900 dark:even:bg-slate-800 even:bg-slate-100"
                                     >
                                         <div class="flex justify-between items-start">
-                                            <p>{{ $product->brand }} {{ $product->name }}</p>
+                                            <p class="dark:text-white text-slate-900">{{ $product->brand }} {{ $product->name }}
+                                            </p>
                                             <div class="text-right">
                                                 <p>{{ 0 - ($product->sold + $product->credits) }} units</p>
                                                 @if ($product->available > 0)
