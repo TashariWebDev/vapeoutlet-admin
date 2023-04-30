@@ -80,20 +80,20 @@ class Index extends Component
 
     public function getValues()
     {
-//        8 queries
+        //        8 queries
         $this->getGrossProfit();
         $this->getPreviousMonthGrossProfit();
 
-//        1 query
+        //        1 query
         $this->getStockValue();
 
-//        3 queries each
+        //        3 queries each
         $this->getGrossSales();
         $this->getPreviousMonthGrossSales();
 
         $this->getExpenses();
         $this->getTransactions();
-//
+        //
         $this->getPurchases();
         $this->getPreviousMonthPurchases();
 
@@ -102,7 +102,11 @@ class Index extends Component
 
     public function getProfitMargin()
     {
-        $this->profit_margin = round(($this->gross_profit / $this->gross_sales) * 100);
+        if ($this->gross_sales > 0) {
+            $this->profit_margin = round(($this->gross_profit / $this->gross_sales) * 100);
+        } else {
+            $this->profit_margin = 0;
+        }
     }
 
     public function getPurchases()
