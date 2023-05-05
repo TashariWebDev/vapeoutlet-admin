@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
+use Str;
 
 class Transaction extends Model
 {
@@ -18,6 +19,13 @@ class Transaction extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function orderTotal()
+    {
+        $orderId = Str::after($this->reference, 'INV00');
+
+        return Order::where('id', $orderId)->first()?->getTotal();
     }
 
     public function amount(): Attribute

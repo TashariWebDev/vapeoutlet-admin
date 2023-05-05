@@ -206,4 +206,22 @@ Route::get('/imitate/{id}', function () {
     ->name('imitate')
     ->middleware('auth');
 
+//Verify that invoice amount matches transaction amount
+//Route::get('balances', function () {
+//    $issues = [];
+//
+//    $transactions = Transaction::where('type', 'invoice')
+//        ->take(2000)
+//        ->skip(10000)
+//        ->get();
+//
+//    foreach ($transactions as $transaction) {
+//        if (number_format($transaction->amount, 2) != number_format($transaction->orderTotal(), 2)) {
+//            $issues[] = $transaction;
+//        }
+//    }
+//
+//    return $issues;
+//});
+
 require __DIR__.'/auth.php';
