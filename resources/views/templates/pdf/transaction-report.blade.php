@@ -42,7 +42,8 @@
                 <table class="w-full">
                     <thead>
                         <tr class="text-white bg-gray-800">
-                            <th class="text-left">Date</th>
+                            <th class="text-left">Created Date</th>
+                            <th class="text-left">Trans Date</th>
                             <th class="text-left">Customer</th>
                             <th
                                 class="text-left"
@@ -68,12 +69,13 @@
                                     <tr class="font-bold bg-gray-200">
                                         <td
                                             class="text-left"
-                                            colspan="7"
+                                            colspan="8"
                                         >{{ $transaction->created_by }}</td>
                                     </tr>
                                 @endif
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
                                     <td class="text-left">{{ $transaction->created_at }}</td>
+                                    <td class="text-left">{{ $transaction->date }}</td>
                                     <td class="text-left">{{ $transaction->customer->name }}</td>
                                     <td
                                         class="text-left"
@@ -85,19 +87,19 @@
                                 </tr>
                                 @if ($loop->last)
                                     @php
-                                        
+
                                         $collectAllTotals = [];
-                                        
+
                                         foreach ($grouped as $transaction) {
                                             $collectAllTotals[] = 0 - $transaction->amount;
                                         }
                                         $totalAmount = array_sum($collectAllTotals);
-                                        
+
                                         $overallTotal[] = $totalAmount;
-                                        
+
                                     @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
-                                        <td colspan="4"></td>
+                                        <td colspan="5"></td>
                                         <td class="text-right text-white bg-gray-800">
                                             {{ number_format(ex_vat($totalAmount), 2) }}
                                         </td>
@@ -111,7 +113,7 @@
                                     <tr class="text-white">
                                         <td
                                             class="py-2"
-                                            colspan="7"
+                                            colspan="8"
                                         ></td>
                                     </tr>
                                 @endif
@@ -120,7 +122,7 @@
                         <tr class="h-10 font-bold bg-white border-t-4 border-dashed">
                             <td
                                 class="text-right"
-                                colspan="7"
+                                colspan="8"
                             >
                                 {{ number_format(array_sum($overallTotal), 2) }}
                             </td>

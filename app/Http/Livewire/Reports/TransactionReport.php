@@ -22,8 +22,8 @@ class TransactionReport extends Component
      */
     public function print()
     {
-        $transactions = Transaction::whereDate('created_at', '>=', $this->fromDate)
-            ->whereDate('created_at', '<=', $this->toDate)
+        $transactions = Transaction::whereDate('date', '>=', $this->fromDate)
+            ->whereDate('date', '<=', $this->toDate)
             ->when($this->type, function ($query) {
                 $query->where('type', '=', $this->type);
             })
@@ -48,6 +48,9 @@ class TransactionReport extends Component
         }
 
         Browsershot::html($view)
+            ->addChromiumArguments([
+                'headless' => 'old',
+            ])
             ->showBackground()
             ->showBrowserHeaderAndFooter()
             ->emulateMedia('print')
