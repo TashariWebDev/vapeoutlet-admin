@@ -13,6 +13,11 @@
                 Edit customer
                 </a>
                 </span>
+                <button class="ml-4 link"
+                        wire:click="$set('filter','')"
+                >
+                    clear filters
+                </button>
             </h1>
             @if ($this->customer->salesperson_id)
                 <p class="text-xs font-semibold text-slate-500">
@@ -27,7 +32,13 @@
         <div class="mx-auto max-w-7xl">
             <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-6 dark:bg-slate-900">
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Invoices</p>
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
+                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                                wire:click="$set('filter','invoice')"
+                        >
+                            Invoices
+                        </button>
+                    </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                                R {{ number_format($lifetimeTransactions->where('type', 'invoice')->sum('amount'), 2) }}
@@ -35,7 +46,13 @@
                     </p>
                 </div>
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Payments</p>
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
+                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                                wire:click="$set('filter','payment')"
+                        >
+                            Payments
+                        </button>
+                    </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                              R {{ number_format(abs($lifetimeTransactions->where('type', 'payment')->sum('amount')), 2) }}
@@ -51,7 +68,13 @@
                     </p>
                 </div>
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Debits</p>
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
+                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                                wire:click="$set('filter','debit')"
+                        >
+                            Debits
+                        </button>
+                    </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->where('type', 'debit')->sum('amount')), 2) }}
@@ -59,7 +82,13 @@
                     </p>
                 </div>
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Credits</p>
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
+                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                                wire:click="$set('filter','credit')"
+                        >
+                            Credits
+                        </button>
+                    </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->where('type', 'credit')->sum('amount')), 2) }}
@@ -67,7 +96,13 @@
                     </p>
                 </div>
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Refunds</p>
+                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
+                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                                wire:click="$set('filter','refund')"
+                        >
+                            Refunds
+                        </button>
+                    </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                               R {{ number_format(abs($lifetimeTransactions->where('type', 'refund')->sum('amount')), 2) }}
