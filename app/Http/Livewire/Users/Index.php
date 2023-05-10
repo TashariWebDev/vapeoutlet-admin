@@ -53,7 +53,13 @@ class Index extends Component
 
     public function save()
     {
-        User::query()->create($this->validate());
+        $user = User::query()->create($this->validate());
+
+        $user->sales_channels()->attach(1);
+
+        $user
+            ->sales_channels()
+            ->updateExistingPivot(1, ['is_default' => true]);
 
         Password::sendResetLink(['email' => $this->email]);
 
