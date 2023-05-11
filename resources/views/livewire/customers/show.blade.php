@@ -1,6 +1,5 @@
 <div>
 
-
     <div>
         <div class="px-2 text-lg">
             <h1 class="font-bold dark:text-white text-slate-900">
@@ -10,8 +9,8 @@
                          class="link"
                          href="{{ route('customers/edit', $this->customer->id) }}"
                      >
-                Edit customer
-                </a>
+                        Edit customer
+                    </a>
                 </span>
                 <button class="ml-4 link"
                         wire:click="$set('filter','')"

@@ -300,12 +300,12 @@ class Create extends Component
         return redirect()->route('orders');
     }
 
-    public function sendOrderEmails()
+    public function sendOrderEmails(): void
     {
         SendOrderEmailsJob::dispatch($this->order)->delay(3);
     }
 
-    public function updateDelivery()
+    public function updateDelivery(): void
     {
         $delivery = Delivery::find($this->deliveryId);
         $this->order->update([

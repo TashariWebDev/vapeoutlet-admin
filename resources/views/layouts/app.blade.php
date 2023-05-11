@@ -187,7 +187,12 @@
 </head>
 
 <body
-    class="flex relative min-h-full font-sans antialiased bg-slate-200 dark:bg-slate-950"
+    class="flex relative min-h-full font-sans antialiased
+    @if(app()->environment('production')) bg-slate-200 dark:bg-slate-950 @else
+    bg-red-100 dark:bg-red-950
+    @endif
+    "
+
     x-cloak
     x-data="{
         date: '',
