@@ -269,6 +269,7 @@ class Create extends Component
         $delivery = Delivery::find($this->order->delivery_type_id);
 
         $this->order->decreaseStock();
+
         $this->order->customer->createInvoice($this->order);
 
         $this->order->is_editing = true

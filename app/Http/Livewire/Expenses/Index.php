@@ -114,8 +114,8 @@ class Index extends Component
                     $query
                         ->where('category', 'like', $this->searchQuery.'%')
                         ->orWhere('reference', 'like', $this->searchQuery.'%')
-                        ->orWhere('date', 'like', $this->searchQuery)
-                        ->orWhere('invoice_no', 'like', $this->searchQuery);
+                        ->orWhere('date', 'like', $this->searchQuery.'%')
+                        ->orWhere('invoice_no', 'like', $this->searchQuery.'%');
                 })
                 ->paginate(10),
         ]);

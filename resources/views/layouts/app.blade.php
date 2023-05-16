@@ -189,7 +189,7 @@
 <body
     class="flex relative min-h-full font-sans antialiased
     @if(app()->environment('production')) bg-slate-200 dark:bg-slate-950 @else
-    bg-red-100 dark:bg-red-950
+    bg-red-100 dark:bg-red-50
     @endif
     "
 

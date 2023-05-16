@@ -166,7 +166,7 @@
                     <x-input.text
                         type="text"
                         wire:model="searchQuery"
-                        placeholder="search by reference"
+                        placeholder="search"
                     />
                     <x-input.helper>
                         Query Time {{ round($queryTime, 3) }} ms
@@ -191,15 +191,15 @@
 
         <div>
             <x-table.container>
-                <x-table.header class="hidden lg:grid lg:grid-cols-6">
+                <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>Category</x-table.heading>
                     <x-table.heading class="lg:col-span-2">Reference</x-table.heading>
                     <x-table.heading>Invoice no</x-table.heading>
-                    <x-table.heading class="text-center">Taxable</x-table.heading>
                     <x-table.heading class="text-right">Amount</x-table.heading>
                 </x-table.header>
                 @forelse($expenses as $expense)
-                    <x-table.body class="grid grid-cols-2 lg:grid-cols-6">
+                    <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
+
                         <x-table.row class="text-sm text-left">
                             <p>{{ $expense->category }}</p>
                             <p class="lg:hidden"> {{ $expense->invoice_no }}</p>
@@ -211,6 +211,7 @@
                                 </button>
                             @endif
                         </x-table.row>
+
                         <x-table.row class="text-sm font-semibold text-left lg:col-span-2">
                             {{ $expense->reference }}
                             <div>
@@ -218,21 +219,12 @@
                                     {{ $expense->date->format('d-m-y') }}</p>
                             </div>
                         </x-table.row>
-                        <x-table.row class="hidden text-sm text-left text-center uppercase lg:block">
+
+                        <x-table.row class="hidden col-span-1 text-sm text-left uppercase lg:block">
                             {{ $expense->invoice_no }}
                         </x-table.row>
-                        <x-table.row class="col-span-2 text-center lg:col-span-1">
-                            @if ($expense->taxable)
-                                <div class="px-3 text-center rounded bg-sky-200 pxy-1">
-                                    <p class="text-xs text-sky-900">Taxable</p>
-                                </div>
-                            @else
-                                <div class="px-3 text-center bg-rose-200 rounded pxy-1">
-                                    <p class="text-xs text-rose-900">Non Taxable</p>
-                                </div>
-                            @endif
-                        </x-table.row>
-                        <x-table.row class="col-span-2 text-sm text-center lg:col-span-1 lg:text-right">
+
+                        <x-table.row class="text-sm text-right">
                             R {{ number_format($expense->amount, 2) ?? 0 }}
                             @if ($expense->taxable)
                                 <div class="text-xs">
@@ -241,7 +233,7 @@
                             @endif
                         </x-table.row>
 
-                        <x-table.row class="col-span-2 lg:hidden">
+                        <x-table.row class="col-span-1 lg:hidden">
                             @if (auth()->user()->hasPermissionTo('edit transactions'))
                                 <button
                                     class="w-full button-danger"

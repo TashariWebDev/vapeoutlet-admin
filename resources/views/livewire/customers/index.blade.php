@@ -1,4 +1,4 @@
-<div wire:init="updateBalances">
+<div>
     <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
             <div>
@@ -31,23 +31,22 @@
                 </x-input.select>
             </div>
         </div>
-
+        
         <div class="py-2 px-2">
             {{ $customers->links() }}
         </div>
-
+        
         {{-- desktop --}}
         <div class="hidden lg:block">
             <x-table.container>
-                <x-table.header class="hidden lg:grid lg:grid-cols-5">
+                <x-table.header class="hidden lg:grid lg:grid-cols-4">
                     <x-table.heading>Name</x-table.heading>
                     <x-table.heading>Email</x-table.heading>
                     <x-table.heading class="text-center">Phone</x-table.heading>
                     <x-table.heading class="text-center">Type</x-table.heading>
-                    <x-table.heading class="text-right">Balance</x-table.heading>
                 </x-table.header>
                 @forelse($customers as $customer)
-                    <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
+                    <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row class="text-center lg:text-left">
                             <a
                                 class="link"
@@ -75,20 +74,17 @@
                                 </p>
                             @endif
                         </x-table.row>
-                        <x-table.row class="font-bold text-center uppercase lg:text-right text-[12px]">
-                            R {{ number_format($customer->latestTransaction?->running_balance, 2) ?? 0.0 }}
-                        </x-table.row>
                     </x-table.body>
                 @empty
                     <x-table.empty />
                 @endforelse
             </x-table.container>
         </div>
-
+        
         {{-- Mobile --}}
         <div class="grid grid-cols-1 gap-y-2 px-1 lg:hidden">
             @forelse($customers as $customer)
-                <div class="grid grid-cols-3 py-3 px-2 text-xs bg-white rounded dark:bg-slate-950">
+                <div class="grid grid-cols-1 py-3 px-2 text-xs bg-white rounded dark:bg-slate-950">
                     <div>
                         <a
                             class="link"
@@ -106,16 +102,6 @@
                             <p class="text-xs text-rose-600 dark:text-rose-400">Wholesale</p>
                         @else
                             <p class="text-xs text-sky-600 dark:text-sky-400">Retail</p>
-                        @endif
-                    </div>
-                    <div class="text-right">
-                        @if (
-                            $customer->latestTransaction?->running_balance ||
-                                $customer->latestTransaction?->running_balance > 0)
-                            <p class="text-xs text-slate-600 dark:text-slate-300">
-                                R {{ number_format($customer->latestTransaction?->running_balance, 2) }}</p>
-                        @else
-                            <p class="text-xs text-slate-600 dark:text-slate-300">0.00</p>
                         @endif
                     </div>
                 </div>
