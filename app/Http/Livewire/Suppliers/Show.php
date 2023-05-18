@@ -118,6 +118,10 @@ class Show extends Component
                         'reference',
                         'like',
                         $this->searchQuery.'%'
+                    )->orWhere(
+                        'amount',
+                        'like',
+                        $this->searchQuery.'%'
                     );
                 })
                 ->latest('id')
