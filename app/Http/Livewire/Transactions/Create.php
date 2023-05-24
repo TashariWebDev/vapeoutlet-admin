@@ -43,7 +43,7 @@ class Create extends Component
         return Customer::find($this->customerId);
     }
 
-    public function save()
+    public function save(): void
     {
         $additionalFields = [
             'customer_id' => $this->customer->id,
@@ -62,14 +62,13 @@ class Create extends Component
             $fields['amount'] = 0 - $this->amount;
         }
 
-        $t = Transaction::updateOrCreate([
+        Transaction::updateOrCreate([
             'customer_id' => $this->customer->id,
             'created_by' => auth()->user()->name,
             'type' => $this->type,
             'amount' => $this->amount,
             'reference' => $this->reference,
         ], $fields);
-  
 
         UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
 
