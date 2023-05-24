@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnused */
+
 namespace App\Models;
 
 use Database\Factories\OrderItemFactory;
@@ -44,6 +46,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|OrderItem whereQty($value)
  * @method static Builder|OrderItem whereType($value)
  * @method static Builder|OrderItem whereUpdatedAt($value)
+ *
  * @mixin Eloquent
  */
 class OrderItem extends Model
@@ -81,7 +84,7 @@ class OrderItem extends Model
         );
     }
 
-    public function getDiscount()
+    public function getDiscount(): int
     {
         return $this->product_price - $this->price;
     }
