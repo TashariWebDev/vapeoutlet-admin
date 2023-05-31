@@ -123,33 +123,24 @@
                 </table>
                 
                 <div
-                    class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid"
+                    class="block py-2 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid"
                 >
-                    <div class="grid grid-cols-4 gap-2 break-after-avoid-page">
+                    <div class="grid grid-cols-5 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">Sub Total </span>
-                            R {{ number_format($credit->getSubTotal(), 2) }}
+                            <span class="font-semibold">Sub Total </span> R
+                            {{ number_format($credit->getSubTotal(), 2) }}
                         </p>
-                        <p class="text-xs text-center whitespace-nowrap">
+                        <p class="col-span-2 text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">Delivery</span>
                             R {{ number_format($credit->delivery_charge, 2) }}
-                        </p>
-                        <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">Total </span>
-                            R {{ number_format($credit->getTotal(), 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">VAT </span>
                             R {{ number_format(vat($credit->getTotal()), 2) }}
                         </p>
-                    </div>
-                </div>
-                
-                <div class="block py-3 mt-6 border-t border-b border-gray-500 break-before-avoid-page">
-                    <div class="grid grid-cols-1 gap-2">
-                        <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">ACCOUNT BALANCE </span>
-                            R {{ number_format($credit->customer->getRunningBalance(), 2) }}
+                        <p class="text-xs font-bold text-center whitespace-nowrap">
+                            <span class="font-bold">Total </span>
+                            R {{ number_format($credit->getTotal(), 2) }}
                         </p>
                     </div>
                 </div>

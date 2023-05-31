@@ -105,15 +105,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="block py-3 mt-6 border-t border-b border-gray-500 break-before-avoid-page">
-                    <div class="grid grid-cols-1 gap-2">
-                        <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">ACCOUNT BALANCE </span>
-                            R {{ number_format($transaction->customer->getRunningBalance(), 2) }}
-                        </p>
-                    </div>
-                </div>
             </div>
             <section
                 class="pt-2 mt-6 border-t break-before-avoid-page"

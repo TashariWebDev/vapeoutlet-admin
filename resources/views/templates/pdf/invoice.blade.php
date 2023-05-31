@@ -59,6 +59,7 @@
                             <li class="uppercase">{{ $order->created_at }}</li>
                             <li class="capitalize">{{ $order->number }}</li>
                             <li class="capitalize">{{ $order->sales_channel->name }}</li>
+                            <li> ACC BALANCE: R {{ number_format($order->customer->getRunningBalance(), 2) }}</li>
                         </ul>
                     </div>
                 </div>
@@ -145,7 +146,7 @@
                 </table>
 
                 <div
-                    class="block py-3 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid"
+                    class="block py-2 mt-8 border-t border-b border-gray-500 break-before-avoid-page break-inside-avoid"
                 >
                     <div class="grid grid-cols-5 gap-2 break-after-avoid-page">
                         <p class="text-xs text-center whitespace-nowrap">
@@ -153,26 +154,17 @@
                             {{ number_format($order->getSubTotal(), 2) }}
                         </p>
                         <p class="col-span-2 text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">{{ ucwords($order->delivery->type) }} </span>
+                            <span class="font-semibold">Delivery</span>
                             R {{ number_format($order->delivery_charge, 2) }}
-                        </p>
-                        <p class="text-xs text-center whitespace-nowrap">
-                            <span class="font-semibold">Total </span>
-                            R {{ number_format($order->getTotal(), 2) }}
                         </p>
                         <p class="text-xs text-center whitespace-nowrap">
                             <span class="font-semibold">VAT </span>
                             R {{ number_format(vat($order->getTotal()), 2) }}
                         </p>
-                    </div>
-
-                    <div class="block py-3 mt-6 border-t border-b border-gray-500 break-before-avoid-page">
-                        <div class="grid grid-cols-1 gap-2">
-                            <p class="text-xs text-center whitespace-nowrap">
-                                <span class="font-semibold">ACCOUNT BALANCE </span>
-                                R {{ number_format($order->customer->getRunningBalance(), 2) }}
-                            </p>
-                        </div>
+                        <p class="text-xs font-bold text-center whitespace-nowrap">
+                            <span class="font-bold">Total </span>
+                            R {{ number_format($order->getTotal(), 2) }}
+                        </p>
                     </div>
                 </div>
 
