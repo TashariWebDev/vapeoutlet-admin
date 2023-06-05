@@ -34,6 +34,134 @@
         </div>
     </x-modal>
 
+    <x-modal x-data="{ show: $wire.entangle('editValuesModal') }">
+        <form class="py-6"
+              wire:submit.prevent="updateValues"
+        >
+            <div class="py-2">
+                <x-input.label for="date">
+                    date
+                </x-input.label>
+                <x-input.text
+                    id="date"
+                    type="date"
+                    wire:model.defer="date"
+                />
+                @error('date')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+            <div class="py-2">
+                <x-input.label for="invoice_no">
+                    Invoice no
+                </x-input.label>
+                <x-input.text
+                    id="invoice_no"
+                    type="text"
+                    wire:model.defer="invoice_no"
+                />
+                @error('invoice_no')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+            <div class="relative py-2">
+                <x-input.label for="currency">
+                    currency
+                </x-input.label>
+                <x-input.select
+                    id="currency"
+                    wire:model.defer="currency"
+                >
+                    <option value="ZAR">ZAR</option>
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CNH">CNH</option>
+                </x-input.select>
+                @error('currency')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+            <div class="py-2">
+                <x-input.label for="exchange_rate">
+                    exchange rate in ZAR ( optional )
+                </x-input.label>
+                <x-input.text
+                    id="exchange_rate"
+                    type="number"
+                    wire:model.defer="exchange_rate"
+                    autocomplete="off"
+                    wire:keydown.enter.prevent
+                    step="0.01"
+                    inputmode="numeric"
+                    pattern="[0-9.]+"
+                />
+                @error('exchange_rate')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+            <div class="py-2">
+                <x-input.label for="amount">
+                    Invoice amount in selected currency ( ex shipping )
+                </x-input.label>
+                <x-input.text
+                    id="amount"
+                    type="number"
+                    wire:model.defer="amount"
+                    autocomplete="off"
+                    wire:keydown.enter.prevent
+                    step="0.01"
+                    inputmode="numeric"
+                    pattern="[0-9.]+"
+                />
+                @error('amount')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+            <div class="py-2">
+                <x-input.label for="shipping_rate">
+                    Shipping rate as % ( optional )
+                </x-input.label>
+                <x-input.text
+                    id="shipping_rate"
+                    type="number"
+                    wire:model.defer="shipping_rate"
+                    autocomplete="off"
+                    wire:keydown.enter.prevent
+                    step="0.01"
+                    inputmode="numeric"
+                    pattern="[0-9.]+"
+                />
+                @error('shipping_rate')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+            <div class="py-2 px-2 mt-2 rounded-md text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-700">
+                <label
+                    class="flex items-center space-x-2 text-xs font-medium uppercase"
+                    for="taxable"
+                >
+                    <input
+                        class="rounded-full text-sky-500 focus:ring-slate-200"
+                        id="taxable"
+                        type="checkbox"
+                        wire:model.defer="taxable"
+                    />
+                    <span class="ml-3">Taxable</span>
+                </label>
+                @error('taxable')
+                <x-input.error>{{ $message }}</x-input.error>
+                @enderror
+            </div>
+
+            <div class="py-2 mt-2">
+                <button class="button-success">
+                    save
+                </button>
+            </div>
+        </form>
+    </x-modal>
+
     <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
@@ -53,7 +181,7 @@
                         Count: {{ $this->purchase->items_count }}
                     </p>
                 </div>
-                <div class="flex px-2 space-x-2 text-xs text-slate-500">
+                <div class="flex px-2 mt-2 space-x-2 text-xs text-slate-500">
                     @if ($this->purchase->taxable)
                         <p>vat {{ number_format(vat($this->purchase->amount), 2) }}</p>
                     @endif
@@ -62,6 +190,15 @@
                     @endif
                     @if ($this->purchase->exchange_rate)
                         <p>exchange R {{ number_format($this->purchase->exchange_rate, 2) }}</p>
+                    @endif
+
+                    @if (!$this->purchase->processed)
+                        <button
+                            class="inline-flex items-center px-3 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 py-[1px] text-[8px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                            wire:click="$toggle('editValuesModal')"
+                        >
+                            edit
+                        </button>
                     @endif
                 </div>
             </div>
@@ -117,14 +254,16 @@
                 </div>
 
                 <div>
-                    @if (!$this->purchase->processed)
-                        <button
-                            class="w-full button-success"
-                            wire:click="$toggle('showConfirmModal')"
-                        >
-                            <x-icons.busy target="process" />
-                            process
-                        </button>
+                    @if (!$this->purchase->processed && $this->purchase->items->count())
+                        @if( auth()->user()->hasPermissionTo('view reports') )
+                            <button
+                                class="w-full button-success"
+                                wire:click="$toggle('showConfirmModal')"
+                            >
+                                <x-icons.busy target="process" />
+                                process
+                            </button>
+                        @endif
                     @endif
                 </div>
 

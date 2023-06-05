@@ -10,6 +10,7 @@ use App\Models\PurchaseItem;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Validation\Rule;
 use LaravelIdea\Helper\App\Models\_IH_Purchase_C;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -23,17 +24,47 @@ class Edit extends Component
 
     public $showConfirmModal = false;
 
+    public $editValuesModal = false;
+
     public $selectedProducts = [];
 
     public $selectedProductsToDelete = [];
 
     public $sku;
 
+    public $amount;
+
+    public $date;
+
+    public $invoice_no;
+
+    public $currency;
+
+    public $exchange_rate;
+
+    public $shipping_rate;
+
+    public $taxable;
+
+    public $creator_id;
+
+    public $supplier_id;
+
     protected $listeners = ['refreshData' => '$refresh'];
 
     public function mount()
     {
         $this->purchaseId = request('id');
+
+        $this->amount = $this->purchase->amount;
+        $this->date = $this->purchase->date;
+        $this->invoice_no = $this->purchase->invoice_no;
+        $this->currency = $this->purchase->currency;
+        $this->exchange_rate = $this->purchase->exchange_rate;
+        $this->shipping_rate = $this->purchase->shipping_rate;
+        $this->taxable = $this->purchase->taxable;
+        $this->creator_id = $this->purchase->creator_id;
+        $this->supplier_id = $this->purchase->supplier_id;
     }
 
     public function getPurchaseProperty(): Purchase|array|_IH_Purchase_C|null
@@ -41,6 +72,31 @@ class Edit extends Component
         return Purchase::where('purchases.id', $this->purchaseId)
             ->withCount('items')
             ->first();
+    }
+
+    public function updateValues(): void
+    {
+        $validated = $this->validate([
+            'supplier_id' => ['required', 'integer'],
+            'invoice_no' => ['required',
+                Rule::unique('purchases', 'invoice_no')
+                    ->ignore($this->purchaseId),
+            ],
+            'amount' => ['required'],
+            'date' => ['required', 'date'],
+            'shipping_rate' => ['nullable'],
+            'exchange_rate' => ['nullable'],
+            'currency' => ['required'],
+            'taxable' => ['required'],
+            'creator_id' => ['required'],
+        ]);
+
+        $this->purchase->update($validated);
+
+        $this->notify('Purchase updated');
+
+        $this->reset('editValuesModal');
+
     }
 
     public function updatePrice(PurchaseItem $item, $value)
