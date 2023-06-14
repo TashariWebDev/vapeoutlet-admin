@@ -100,7 +100,7 @@ Route::middleware('auth')->group(function () {
         ->name('customers/wholesale/approval')
         ->middleware('permission:upgrade customers');
 
-    Route::get('credits/{id}', Create::class)
+    Route::get('credits/{customer}', Create::class)
         ->name('credits/create')
         ->middleware('permission:create credit');
 

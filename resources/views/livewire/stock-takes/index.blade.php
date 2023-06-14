@@ -35,6 +35,7 @@
                         </div>
                     @endforeach
                 </div>
+
                 <div class="pt-4">
                     <x-input.label>
                         Select a Sales Channel
@@ -44,11 +45,12 @@
                             <option value="{{ $salesChannel->id }}">{{ $salesChannel->name }}</option>
                         @endforeach
                     </x-input.select>
-
                 </div>
+
                 <div class="mt-2">
                     <button class="button-success">Create</button>
                 </div>
+
             </form>
         </div>
     </x-modal>
@@ -57,7 +59,6 @@
         <div class="py-3">
             <div class="grid grid-cols-1 lg:grid-cols-3">
                 <div>
-
                     <x-input.text
                         type="search"
                         placeholder="search"
@@ -144,7 +145,7 @@
                     wire:loading
                     wire:target="getDocument({{ $stockTake->id }})"
                 >
-                  <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                  <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
                 </span>
                                 Print
                             </button>
@@ -164,7 +165,7 @@
                       wire:loading
                       wire:target="getStockTakeDocument({{ $stockTake->id }})"
                   >
-                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
                   </span>
                                     Print
                                 </button>

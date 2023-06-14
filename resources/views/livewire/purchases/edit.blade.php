@@ -1,8 +1,10 @@
 <div class="relative">
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
+        
         <x-page-header>
             Are you sure you want to process?
         </x-page-header>
+        
         <div class="flex py-4 space-x-4">
             <button
                 class="button-success"
@@ -22,6 +24,7 @@
                 No
             </button>
         </div>
+        
         <div class="h-10">
             <p
                 class="hidden text-xs font-semibold text-rose-600 uppercase"
@@ -32,8 +35,9 @@
                 page.
             </p>
         </div>
+    
     </x-modal>
-
+    
     <x-modal x-data="{ show: $wire.entangle('editValuesModal') }">
         <form class="py-6"
               wire:submit.prevent="updateValues"
@@ -51,6 +55,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
+            
             <div class="py-2">
                 <x-input.label for="invoice_no">
                     Invoice no
@@ -64,6 +69,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
+            
             <div class="relative py-2">
                 <x-input.label for="currency">
                     currency
@@ -82,6 +88,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
+            
             <div class="py-2">
                 <x-input.label for="exchange_rate">
                     exchange rate in ZAR ( optional )
@@ -100,6 +107,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
+            
             <div class="py-2">
                 <x-input.label for="amount">
                     Invoice amount in selected currency ( ex shipping )
@@ -118,6 +126,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
+            
             <div class="py-2">
                 <x-input.label for="shipping_rate">
                     Shipping rate as % ( optional )
@@ -136,6 +145,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
+            
             <div class="py-2 px-2 mt-2 rounded-md text-slate-600 bg-slate-100 dark:text-slate-400 dark:bg-slate-700">
                 <label
                     class="flex items-center space-x-2 text-xs font-medium uppercase"
@@ -153,7 +163,7 @@
                 <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
-
+            
             <div class="py-2 mt-2">
                 <button class="button-success">
                     save
@@ -161,26 +171,30 @@
             </div>
         </form>
     </x-modal>
-
+    
     <div class="bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-500">
-                    INVOICE: {{ $this->purchase->invoice_no }}</p>
+                    INVOICE: {{ $this->purchase->invoice_no }}
+                </p>
                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->purchase->date }}</p>
+                
                 <div class="flex justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-700">
                     <p class="text-xs font-bold text-sky-500 dark:text-sky-500">
                         Total:
                         <span class="text-sky-600">
-              {{ $this->purchase->total }} {{ $this->purchase->currency }}
-            </span>
+                          {{ $this->purchase->total }} {{ $this->purchase->currency }}
+                        </span>
                         <span class="font-bold">/ {{ $this->purchase->amount }}
-                            {{ $this->purchase->currency }}</span>
+                            {{ $this->purchase->currency }}
+                        </span>
                     </p>
                     <p class="text-xs font-bold text-sky-500 dark:text-sky-500">
                         Count: {{ $this->purchase->items_count }}
                     </p>
                 </div>
+                
                 <div class="flex px-2 mt-2 space-x-2 text-xs text-slate-500">
                     @if ($this->purchase->taxable)
                         <p>vat {{ number_format(vat($this->purchase->amount), 2) }}</p>
@@ -191,7 +205,7 @@
                     @if ($this->purchase->exchange_rate)
                         <p>exchange R {{ number_format($this->purchase->exchange_rate, 2) }}</p>
                     @endif
-
+                    
                     @if (!$this->purchase->processed)
                         <button
                             class="inline-flex items-center px-3 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 py-[1px] text-[8px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -205,9 +219,8 @@
             <div class="grid grid-cols-1 gap-2 text-xs lg:grid-cols-2">
                 <div>
                     @if ($this->purchase->processed)
-                        <a
-                            class="link"
-                            href="{{ route('suppliers/show', $this->purchase->supplier_id) }}"
+                        <a class="link"
+                           href="{{ route('suppliers/show', $this->purchase->supplier_id) }}"
                         >
                             {{ $this->purchase->supplier->name }}
                         </a>
@@ -221,9 +234,8 @@
             <div class="grid grid-cols-2 gap-2 lg:grid-cols-2">
                 @if ($this->purchase->processed)
                     <div>
-                        <button
-                            class="w-full button-warning"
-                            disabled
+                        <button class="w-full button-warning"
+                                disabled
                         >
                             <p>Processed by {{ $this->purchase->creator->name }} </p>
                             <p>{{ $this->purchase->processed_date }}</p>
@@ -235,7 +247,7 @@
                         <livewire:purchases.add-product :purchase="$this->purchase" />
                     @endif
                 </div>
-
+                
                 <div>
                     @if (!$this->purchase->processed)
                         <button
@@ -252,7 +264,7 @@
                         <livewire:products.create />
                     @endif
                 </div>
-
+                
                 <div>
                     @if (!$this->purchase->processed && $this->purchase->items->count())
                         @if( auth()->user()->hasPermissionTo('view reports') )
@@ -266,10 +278,10 @@
                         @endif
                     @endif
                 </div>
-
+            
             </div>
         </div>
-
+        
         @if (!$this->purchase->processed)
             <div class="py-0.5 px-2 w-full">
                 <div>
@@ -283,7 +295,7 @@
                 </div>
             </div>
         @endif
-
+        
         <x-table.container>
             <x-table.header class="hidden grid-cols-5 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>

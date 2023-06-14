@@ -54,7 +54,7 @@ class Index extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getDocument(StockTake $stockTake)
+    public function getDocument(StockTake $stockTake): void
     {
         $stockTake->printCountSheet();
     }
@@ -62,12 +62,12 @@ class Index extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getStockTakeDocument(StockTake $stockTake)
+    public function getStockTakeDocument(StockTake $stockTake): void
     {
         $stockTake->print();
     }
 
-    public function delete(StockTake $stockTake)
+    public function delete(StockTake $stockTake): void
     {
         $stockTake->items()->delete();
         $stockTake->delete();

@@ -9,14 +9,14 @@
         </div>
 
         <div class="py-6">
-            @foreach ($salesChannels as $channel)
+            @foreach ($this->salesChannels as $channel)
                 <div class="py-2">
                     <button
                         class="w-full button-success"
                         wire:click="setDefaultChannel('{{ $channel->id }}')"
                     >
                         @if ($channel->pivot->is_default)
-                            <x-icons.tick class="mr-2 w-4 h-4 text-white" />
+                            <x-icons.tick class="mr-2 w-4 h-4 text-white"/>
                         @endif
                         {{ $channel->name }}
                     </button>

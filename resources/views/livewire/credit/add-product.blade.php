@@ -22,7 +22,7 @@
                     class="w-full"
                     id="search"
                     type="search"
-                    wire:model="searchQuery"
+                    wire:model.debounce.1500ms="searchQuery"
                     placeholder="search"
                 >
                 </x-input.text>
@@ -36,7 +36,7 @@
             <form wire:submit.prevent="addProducts">
                 <div class="py-4">
                     <button class="w-full button-success">
-                        <x-icons.plus class="mr-2 w-5 h-5" />
+                        <x-icons.plus class="mr-2 w-5 h-5"/>
                         add
                     </button>
                 </div>
@@ -57,7 +57,7 @@
                                 >
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">
-                                <x-product-listing-simple :product="$product" />
+                                <x-product-listing-simple :product="$product"/>
 
                                 <div>
                                     <img

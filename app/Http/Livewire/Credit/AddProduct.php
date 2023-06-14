@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Credit;
 
-use App\Exceptions\QtyNotAvailableException;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Credit;
 use App\Models\Product;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,32 +24,31 @@ class AddProduct extends Component
 
     public Credit $credit;
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
     {
         $this->resetPage();
     }
 
-    /**
-     * @throws QtyNotAvailableException
-     */
-    public function addProducts()
+    public function addProducts(): void
     {
-        $query = Product::query()->whereIn('id', $this->selectedProducts);
+        if (! count($this->selectedProducts)) {
+            return;
+        }
 
-        $query->chunkById(10, function ($products) {
-            foreach ($products as $product) {
-                $this->credit->addItem($product);
-            }
-        });
+        Product::query()
+            ->whereIn('id', $this->selectedProducts)
+            ->chunkById(10, function ($products) {
+                foreach ($products as $product) {
+                    $this->credit->addItem($product);
+                }
+            });
 
-        $this->reset(['searchQuery']);
-        $this->selectedProducts = [];
+        $this->reset(['searchQuery', 'selectedProducts', 'modal']);
         $this->emit('refreshData');
         $this->notify('Products added');
-        $this->modal = false;
     }
 
-    public function render()
+    public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         $existingCreditItems = $this->credit->items()->pluck('product_id');
 

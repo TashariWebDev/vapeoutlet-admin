@@ -137,16 +137,9 @@ class User extends Authenticatable
 
     public function defaultSalesChannel()
     {
-        $salesChannels = $this->sales_channels();
-        $defaultChannel = $salesChannels
+        return $this->sales_channels()
             ->wherePivot('is_default', true)
-            ->first();
-
-        if ($defaultChannel) {
-            return $defaultChannel;
-        } else {
-            return $salesChannels->first();
-        }
+            ->first() ?? $this->sales_channels()->first();
     }
 
     /**

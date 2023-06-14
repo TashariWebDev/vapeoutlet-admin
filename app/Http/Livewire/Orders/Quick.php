@@ -20,6 +20,8 @@ class Quick extends Component
 
     public $searchQuery;
 
+    public Customer $selectedCustomer;
+
     protected $queryString = ['searchQuery'];
 
     protected $listeners = ['newOrder' => 'toggle'];

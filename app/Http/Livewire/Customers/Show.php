@@ -89,10 +89,10 @@ class Show extends Component
         return redirect("/orders/create/$order->id");
     }
 
-    public function getTransactionsProperty()
-    {
-        return $this->customer->transactions();
-    }
+//    public function getTransactionsProperty()
+//    {
+//        return $this->customer->transactions();
+//    }
 
     public function render(): Factory|View|Application
     {
@@ -162,7 +162,7 @@ class Show extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function sendStatement()
+    public function sendStatement(): void
     {
         $this->customer->getStatement($this->recordCount);
 
@@ -179,7 +179,9 @@ class Show extends Component
             'customer_id',
             $this->customerId
         )->get();
+
         $balance = 0;
+
         foreach ($transactions as $transaction) {
             $balance += $transaction->amount;
             $transaction->running_balance = $balance;

@@ -13,19 +13,25 @@ class SalesChannelChange extends Component
 
     protected $listeners = ['changeSalesChannel' => 'toggle'];
 
-    public function toggle()
+    public function toggle(): void
     {
         $this->modal = ! $this->modal;
     }
 
+    public function getSalesChannelsProperty()
+    {
+        return auth()->user()
+            ->sales_channels;
+    }
+
     public function setDefaultChannel($channelId)
     {
-        foreach (auth()->user()->sales_channels as $userChannel) {
+        foreach ($this->salesChannels as $userChannel) {
             $userChannel->pivot->is_default = false;
             $userChannel->pivot->save();
         }
-        auth()
-            ->user()
+
+        auth()->user()
             ->sales_channels()
             ->updateExistingPivot($channelId, ['is_default' => true]);
 
@@ -38,8 +44,6 @@ class SalesChannelChange extends Component
 
     public function render(): Factory|View|Application
     {
-        return view('livewire.users.sales-channel-change', [
-            'salesChannels' => auth()->user()->sales_channels,
-        ]);
+        return view('livewire.users.sales-channel-change');
     }
 }

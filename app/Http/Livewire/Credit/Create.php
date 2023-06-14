@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Credit;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Jobs\UpdateCustomerRunningBalanceJob;
 use App\Models\Credit;
 use App\Models\CreditItem;
 use App\Models\Customer;
@@ -11,7 +10,6 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use LaravelIdea\Helper\App\Models\_IH_Customer_C;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,32 +20,18 @@ class Create extends Component
 
     public $showConfirmModal = false;
 
-    public $searchQuery;
-
-    public $customerId;
+    public Customer $customer;
 
     public $credit;
 
-    public $selectedProducts = [];
+    public $sku;
 
     public $selectedProductsToDelete = [];
 
-    public $products = [];
-
-    public $sku;
-
-    public $defaultSalesChannel;
-
     protected $listeners = ['refreshData' => '$refresh'];
 
-    public function mount()
+    public function mount(): void
     {
-        $this->customerId = request('id');
-
-        $this->defaultSalesChannel = auth()
-            ->user()
-            ->defaultSalesChannel()->id;
-
         $this->credit = Credit::firstOrCreate(
             [
                 'customer_id' => $this->customer->id,
@@ -55,24 +39,27 @@ class Create extends Component
             ],
             [
                 'created_by' => auth()->user()->name,
-                'sales_channel_id' => $this->defaultSalesChannel,
+                'sales_channel_id' => auth()
+                    ->user()
+                    ->defaultSalesChannel()->id,
             ]
         );
     }
 
-    public function removeProducts()
+    public function hydrate(): void
     {
-        foreach ($this->selectedProductsToDelete as $selectedItem) {
-            $item = CreditItem::findOrFail($selectedItem);
-            $this->deleteItem($item);
-        }
+        $this->emitSelf('refreshData');
+    }
+
+    public function removeProducts(): void
+    {
+        CreditItem::destroy($this->selectedProductsToDelete);
 
         $this->selectedProductsToDelete = [];
-        $this->emitSelf('refreshData');
         $this->notify('Products removed');
     }
 
-    public function updatedSku()
+    public function updatedSku(): void
     {
         $this->validate(['sku' => 'required']);
 
@@ -86,22 +73,9 @@ class Create extends Component
         $this->notify('Product added');
 
         $this->sku = '';
-        $this->emit('refreshData');
     }
 
-    public function updatedSearchQuery()
-    {
-        $this->showProductSelectorForm = true;
-        if (strlen($this->searchQuery) > 0) {
-            $this->products = Product::query()
-                ->search($this->searchQuery)
-                ->get();
-        } else {
-            $this->products = [];
-        }
-    }
-
-    public function updatePrice(CreditItem $item, $value)
+    public function updatePrice(CreditItem $item, $value): void
     {
         if ($value == '' || $value <= 0) {
             $this->notify('Please enter a valid price');
@@ -111,12 +85,10 @@ class Create extends Component
 
         $item->update(['price' => $value]);
 
-        $this->emitSelf('refreshData');
-
         $this->notify('Price updated');
     }
 
-    public function updateQty(CreditItem $item, $value)
+    public function updateQty(CreditItem $item, $value): void
     {
         if ($value == '' || $value <= 0) {
             $this->notify('Please enter a valid qty');
@@ -126,58 +98,37 @@ class Create extends Component
 
         $item->update(['qty' => $value]);
 
-        $this->emitSelf('refreshData');
-
         $this->notify('Qty updated');
     }
 
-    public function deleteItem(CreditItem $item)
+    public function deleteItem(CreditItem $item): void
     {
         $item->delete();
 
-        $this->emitSelf('refreshData');
         $this->notify('Item deleted');
     }
 
     public function process()
     {
         $this->showConfirmModal = false;
-        $this->notify('Processing');
 
         $this->credit->update([
-            'salesperson_id' => $this->credit->customer->salesperson_id,
             'processed_at' => now(),
-            'sales_channel_id' => $this->defaultSalesChannel,
+            'salesperson_id' => $this->credit->customer->salesperson_id,
         ]);
 
         $this->credit->increaseStock();
 
         $this->customer->createCredit($this->credit, $this->credit->number);
 
-        UpdateCustomerRunningBalanceJob::dispatch(
-            $this->credit->customer_id
-        )->delay(3);
-
-        $this->notify('processed');
-
-        return redirect("/customers/show/$this->customerId");
+        return redirect("/customers/show/{$this->customer->id}");
     }
 
     public function cancel()
     {
-        foreach ($this->credit->items as $item) {
-            $item->delete();
-        }
-
-        $this->credit->cancel();
-        $this->notify('Credit note deleted');
+        $this->credit->delete();
 
         return redirect("/customers/show/{$this->customer->id}");
-    }
-
-    public function getCustomerProperty(): Customer|_IH_Customer_C|array|null
-    {
-        return Customer::find($this->customerId);
     }
 
     public function render(): Factory|View|Application

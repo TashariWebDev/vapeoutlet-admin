@@ -164,7 +164,7 @@
                             wire:click="sendStatement"
                             target="sendStatement"
                         >
-                            <x-icons.busy target="sendStatement" />
+                            <x-icons.busy target="sendStatement"/>
                             <span
                                 class="pl-2"
                                 wire:loading.class="hidden"
@@ -183,7 +183,7 @@
                             class="w-full button-success"
                             wire:click="printStatement"
                         >
-                            <x-icons.busy target="printStatement" />
+                            <x-icons.busy target="printStatement"/>
                             <span
                                 class="pl-2"
                                 wire:loading.class="hidden"
@@ -202,7 +202,7 @@
                             class="w-full button-success"
                             wire:click="createOrder"
                         >
-                            <x-icons.busy target="createOrder" />
+                            <x-icons.busy target="createOrder"/>
                             <span class="pl-2">New order</span>
                         </button>
                     </div>
@@ -210,21 +210,21 @@
                     <div class="w-full">
                         <a
                             class="w-full button-success"
-                            href="{{ route('credits/create', $this->customer->id) }}"
+                            href="{{ route('credits/create', $this->customer) }}"
                         >
-                            <x-icons.busy target="''" />
+                            <x-icons.busy target="''"/>
                             <span class="pl-2">credit note</span>
                         </a>
                     </div>
 
                     @hasPermissionTo('add transactions')
                     <div class="w-full">
-                        <livewire:transactions.create :customer-id="$customerId" />
+                        <livewire:transactions.create :customer-id="$customerId"/>
                     </div>
                     @endhasPermissionTo
 
                     <div class="w-full">
-                        <livewire:transactions.warranty.create :customer-id="$customerId" />
+                        <livewire:transactions.warranty.create :customer-id="$customerId"/>
                     </div>
 
                     <div class="w-full">
@@ -232,7 +232,7 @@
                             class="w-full button-success"
                             wire:click="updateBalances"
                         >
-                            <x-icons.busy target="updateBalances" />
+                            <x-icons.busy target="updateBalances"/>
                             <span class="pl-2">Refresh balance</span>
                         </button>
                     </div>
@@ -307,7 +307,7 @@
                                 wire:click="getDocument({{ $transaction->id }})"
                                 wire:key="transaction->{{ $transaction->id }}"
                             >
-                                <x-icons.busy target="getDocument({{ $transaction->id }})" />
+                                <x-icons.busy target="getDocument({{ $transaction->id }})"/>
                                 Print
                             </button>
                             @if (file_exists(public_path("storage/documents/$transaction->number.pdf")))
@@ -397,7 +397,7 @@
                                         wire:target="getDocument({{ $transaction->id }})"
                                         wire:click="getDocument({{ $transaction->id }})"
                                     >
-                                        <x-icons.busy target="getDocument({{ $transaction->id }})" />
+                                        <x-icons.busy target="getDocument({{ $transaction->id }})"/>
                                         <span class="pl-2">Print</span>
                                     </button>
                                     @if (file_exists(public_path("storage/documents/$transaction->number.pdf")))

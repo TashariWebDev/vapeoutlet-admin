@@ -254,59 +254,56 @@
                         <container
                             class="hidden items-center px-4 mx-auto space-x-8 lg:flex lg:py-2 lg:pb-1 lg:max-w-7xl"
                         >
-                            <livewire:users.default-sales-channel />
-                            <a
-                                class="link"
-                                href="{{ route('dashboard') }}"
+                            <livewire:users.default-sales-channel/>
+                            <a class="link"
+                               href="{{ route('dashboard') }}"
                             >dashboard</a>
 
                             @hasPermissionTo('view orders')
-                            <a
-                                class="link"
-                                href="{{ route('orders') }}"
+                            <a class="link"
+                               href="{{ route('orders') }}"
                             >orders</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view products')
-                            <a
-                                class="link"
-                                href="{{ route('products') }}"
+                            <a class="link"
+                               href="{{ route('products') }}"
                             >products</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view customers')
-                            <a
-                                class="link"
-                                href="{{ route('customers') }}"
+                            <a class="link"
+                               href="{{ route('customers') }}"
                             >customers</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view warehouse')
-                            <a
-                                class="link"
-                                href="{{ route('warehouse') }}"
+                            <a class="link"
+                               href="{{ route('warehouse') }}"
                             >warehouse</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view settings')
-                            <a
-                                class="link"
-                                href="{{ route('settings') }}"
+                            <a class="link"
+                               href="{{ route('settings') }}"
                             >admin</a>
                             @endhasPermissionTo
                         </container>
                     </div>
                     <div class="flex overflow-y-hidden overflow-x-scroll items-baseline py-1 pr-4 pb-3 space-x-8 lg:py-1">
-                        @if (auth()->user()->sales_channels_count > 1)
+
+                        @if (request()->user()->sales_channels_count > 1)
                             <div class="whitespace-nowrap">
-                                <livewire:users.sales-channel-change-button />
+                                <livewire:users.sales-channel-change-button/>
                             </div>
                         @endif
+
                         <div class="whitespace-nowrap">
-                            <livewire:orders.quick-toggle-button />
+                            <livewire:orders.quick-toggle-button/>
                         </div>
+
                         <div class="whitespace-nowrap">
-                            <livewire:customers.quick-customer-button />
+                            <livewire:customers.quick-customer-button/>
                         </div>
 
                         <div class="whitespace-nowrap">
@@ -341,43 +338,37 @@
                 <container
                     class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
                 >
-                    <a
-                        class="link"
-                        href="{{ route('dashboard') }}"
+                    <a class="link"
+                       href="{{ route('dashboard') }}"
                     >dashboard</a>
 
                     @hasPermissionTo('view orders')
-                    <a
-                        class="link"
-                        href="{{ route('orders') }}"
+                    <a class="link"
+                       href="{{ route('orders') }}"
                     >orders</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view products')
-                    <a
-                        class="link"
-                        href="{{ route('products') }}"
+                    <a class="link"
+                       href="{{ route('products') }}"
                     >products</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view customers')
-                    <a
-                        class="link"
-                        href="{{ route('customers') }}"
+                    <a class="link"
+                       href="{{ route('customers') }}"
                     >customers</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view warehouse')
-                    <a
-                        class="link"
-                        href="{{ route('warehouse') }}"
+                    <a class="link"
+                       href="{{ route('warehouse') }}"
                     >warehouse</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view settings')
-                    <a
-                        class="link"
-                        href="{{ route('settings') }}"
+                    <a class="link"
+                       href="{{ route('settings') }}"
                     >admin</a>
                     @endhasPermissionTo
                 </container>
@@ -385,10 +376,10 @@
         </nav>
 
         <div class="relative py-8 px-2 mx-auto lg:px-6 max-w-8xl">
-            <livewire:users.sales-channel-change />
-            <livewire:customers.create />
-            <livewire:orders.quick />
-            <x-notification />
+            <livewire:users.sales-channel-change/>
+            <livewire:customers.create/>
+            <livewire:orders.quick/>
+            <x-notification/>
             {{ $slot }}
         </div>
 
