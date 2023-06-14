@@ -136,6 +136,22 @@
                         <option value="100">100</option>
                     </x-input.select>
                 </div>
+
+                <div class="grid grid-cols-2 gap-1 lg:hidden">
+                    <button
+                        class="@if ($direction === 'asc') text-sky-600 @endif border"
+                        wire:click="$set('direction','asc')"
+                    >
+                        &uparrow;
+                    </button>
+                    <button
+                        class="@if ($direction === 'desc') text-sky-600 @endif border"
+                        wire:click="$set('direction','desc')"
+                    >
+                        &downarrow;
+                    </button>
+                </div>
+
             </div>
 
             <div class="py-6 px-2">
@@ -269,7 +285,7 @@
                             wire:loading
                             wire:target="pushToComplete({{ $order->id }})"
                         >
-                          <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                          <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
                         </span>
                                             Complete
                                         </button>
@@ -294,7 +310,7 @@
                                                   wire:loading
                                                   wire:target="getDocument({{ $order->id }})"
                                               >
-                                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
+                                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
                                               </span>
                                             Print
                                         </button>
@@ -314,53 +330,42 @@
     </div>
 
     {{-- Mobile --}}
-    <div class="grid grid-cols-1 gap-y-4 px-1 lg:hidden">
+    <div class="grid grid-cols-1 gap-y-4 px-1 mt-3 lg:hidden">
         @forelse($orders as $order)
-            <div class="grid grid-cols-3 p-1 text-xs bg-white rounded shadow dark:bg-slate-800">
-                <div class="p-1">
+
+            <div class="grid grid-cols-2 px-2 bg-white rounded shadow dark:bg-slate-800">
+                <div class="py-1">
                     <a
                         class="link"
                         href="{{ route('orders/show', $order->id) }}"
-                    >{{ $order->number }}</a>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                    ><p class="text-sm">{{ $order->number }}</p></a>
+                </div>
+                <div class="py-1">
+                    <p class="text-sm font-semibold text-right text-slate-600 dark:text-slate-300">
+                        R {{ number_format($order->getTotal(), 2) }}
+                    </p>
+                    <p class="text-xs text-right text-slate-600 dark:text-slate-300">
                         {{ $order->created_at->format('d-m-y H:i') }}
                     </p>
                 </div>
 
-                <div class="p-1">
+                <div class="col-span-2 pt-3">
                     <a
                         class="link"
                         href="{{ route('customers/show', $order->customer->id) }}"
-                    >{{ $order->customer->name }}</a>
+                    ><p class="text-sm">{{ $order->customer->name }}</p></a>
 
-                    <div class="pt-1">
-                        <p @class([
+                    <p @class([
                 'text-xs',
                 'text-rose-700 dark:text-rose-400' =>
                     $order->customer->type() === 'wholesale',
                 'text-sky-700 dark:text-sky-400' => $order->customer->type() === 'retail',
             ])>{{ $order->customer->type() }}</p>
-                        <p class="text-xs text-slate-600 dark:text-slate-300">
-                            {{ $order->customer->salesperson->name ?? '' }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="p-1 text-right">
-                    <p class="font-semibold text-slate-600 dark:text-slate-300">
-                        R {{ number_format(to_rands($order->order_total), 2) }}
-                    </p>
-                    <p class="font-semibold text-slate-600 dark:text-slate-300">
-                        R {{ number_format($order->delivery_charge, 2) }}
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                        {{ $order->customer->salesperson->name ?? '' }}
                     </p>
                 </div>
-
-                <div class="col-span-3 p-1 py-1 mt-3 w-full">
-                    <p class="font-semibold text-slate-600 dark:text-slate-300">
-                        {{ $order->delivery->type ?? '' }}</p>
-                </div>
-
-                <div class="col-span-3 mt-3 w-full">
+                <div class="col-span-2 pb-2 mt-3 w-full">
                     @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')
                         @if (file_exists(public_path("storage/documents/$order->number.pdf")))
                             <p class="text-xs text-slate-600 dark:text-slate-300">Printed</p>
@@ -371,19 +376,19 @@
                             wire:target="getDocument"
                             wire:click="getDocument({{ $order->id }})"
                         >
-              <span
-                  class="pr-2"
-                  wire:loading
-                  wire:target="getDocument({{ $order->id }})"
-              >
-                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-              </span>
+                                  <span
+                                      class="pr-2"
+                                      wire:loading
+                                      wire:target="getDocument({{ $order->id }})"
+                                  >
+                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                                  </span>
                             Print
                         </button>
                     @endif
                 </div>
-
             </div>
+
         @empty
             <x-table.empty></x-table.empty>
         @endforelse
