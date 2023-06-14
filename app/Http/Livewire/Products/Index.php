@@ -7,6 +7,8 @@ use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use LaravelIdea\Helper\App\Models\_IH_Product_QB;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -23,14 +25,20 @@ class Index extends Component
 
     public string $searchQuery = '';
 
+    public string $brandQuery = '';
+
     protected $listeners = ['refresh' => '$refresh'];
 
-    protected $queryString = ['recordCount', 'searchQuery' => ['except' => '']];
+    protected $queryString = ['recordCount', 'searchQuery' => ['except' => ''], 'brandQuery' => ['except' => '']];
 
-    public function mount()
+    public function mount(): void
     {
         if (request()->has('searchQuery')) {
             $this->searchQuery = request('searchQuery');
+        }
+
+        if (request()->has('brandQuery')) {
+            $this->brandQuery = request('brandQuery');
         }
 
         if (request()->has('recordCount')) {
@@ -38,7 +46,12 @@ class Index extends Component
         }
     }
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedBrandQuery(): void
     {
         $this->resetPage();
     }
@@ -102,9 +115,9 @@ class Index extends Component
         $this->notify('product restored');
     }
 
-    public function getProductsProperty()
+    public function getProductsProperty(): _IH_Product_QB|Builder
     {
-        return Product::select([
+        $products = Product::select([
             'products.id',
             'products.name',
             'products.brand',
@@ -141,23 +154,38 @@ class Index extends Component
                 ],
                 'qty'
             );
-        //
+
+        $products->when(
+            $this->brandQuery,
+            fn ($query) => $query->where('brand', '=', $this->brandQuery)
+        );
+
+        $products->when(
+            $this->searchQuery,
+            fn ($query) => $query->search($this->searchQuery)
+        );
+
+        return $products;
     }
 
     public function render(): Factory|View|Application
     {
         return view('livewire.products.index', [
             'products' => $this->products
-                ->when(
-                    $this->searchQuery,
-                    fn ($query) => $query->search($this->searchQuery)
-                )
                 ->where('is_active', $this->activeFilter)
                 ->when(! $this->activeFilter, function ($query) {
                     $query->withTrashed();
                 })
                 ->orderByRaw('brand')
                 ->paginate($this->recordCount),
+            'brands' => Product::query()
+                ->when(! $this->activeFilter, function ($query) {
+                    $query->withTrashed();
+                })
+                ->orderByRaw('brand')
+                ->get()
+                ->unique('brand')
+                ->pluck('brand'),
         ]);
     }
 }
