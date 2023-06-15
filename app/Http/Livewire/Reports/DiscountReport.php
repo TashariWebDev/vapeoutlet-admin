@@ -30,11 +30,14 @@ class DiscountReport extends Component
     {
         $salesChannel = SalesChannel::find($this->salesChannelId);
 
-        $discounts = OrderItem::whereDate('created_at', '>=', $this->fromDate)
+        $discounts = OrderItem::query()
+            ->whereDate('created_at', '>=', $this->fromDate)
             ->whereDate('created_at', '<=', $this->toDate)
             ->where('discount', '>', 0)
-            ->withWhereHas('order', function ($query) {
-                $query->where('sales_channel_id', '=', $this->salesChannelId);
+            ->when($this->salesChannelId, function ($query) {
+                $query->withWhereHas('order', function ($query) {
+                    $query->where('sales_channel_id', '=', $this->salesChannelId);
+                });
             })
             ->get()
             ->groupBy('product_id');
