@@ -43,6 +43,13 @@ return [
             'password' => env('MAIL_PASSWORD'),
             'timeout' => 60 * 60,
             'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,   // <-------------- this is the important part
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
         'ses' => [
