@@ -10,7 +10,7 @@ class TestEmailCommand extends Command
 {
     protected $signature = 'test:email';
 
-    protected $description = 'Command description';
+    protected $description = 'Test email sending';
 
     public function handle()
     {

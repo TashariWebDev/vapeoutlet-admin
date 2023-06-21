@@ -1,6 +1,6 @@
 @extends('emails.layout')
 @section('content')
     <div>
-        it works
+        it works {{ config('app.name') }}
     </div>
 @endsection

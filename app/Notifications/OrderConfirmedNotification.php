@@ -27,7 +27,7 @@ class OrderConfirmedNotification extends Notification implements ShouldQueue
             ->line(
                 'Thank you for placing your order with '.config('app.name')
             )
-            ->action('View your order', url('/'))
+            ->action('View your order', url(config('app.frontend_url')))
             ->line('Our team will be jumping on it right away.')
             ->line('Keep a look-out for updates in your email.')
             ->line('Thank you for your support!');
