@@ -7,8 +7,8 @@
         </div>
 
 
-        <h1 class="font-bold underline">Change Log</h1>
-        <h4>
+        <h1 class="font-bold text-black underline dark:text-slate-100">Change Log</h1>
+        <h4 class="text-black dark:text-slate-100">
             View our latest updates,fixes and upcoming features
         </h4>
 
@@ -26,7 +26,7 @@
 
 
         <div>
-            <h4>Upcoming (work in progress)</h4>
+            <h4 class="text-black dark:text-slate-100">Upcoming (work in progress)</h4>
 
             <ul>
                 <li>
