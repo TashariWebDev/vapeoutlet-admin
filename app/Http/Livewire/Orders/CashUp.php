@@ -25,6 +25,10 @@ class CashUp extends Component
 
     public $selectedCustomerLatestTransactions = [];
 
+    public $selectedOrderNotes;
+
+    public $quickViewNotesModal = false;
+
     public $searchQuery = '';
 
     public $customerType;
@@ -89,6 +93,7 @@ class CashUp extends Component
 
     public function mount()
     {
+        \App\Models\Note::where('body', '=', '')->delete();
         $this->salesChannels = SalesChannel::all();
 
         $this->defaultSalesChannel = $this->salesChannels
@@ -183,6 +188,13 @@ class CashUp extends Component
             $customer->lastFiveTransactions;
 
         $this->quickViewCustomerAccountModal = true;
+    }
+
+    public function quickViewNotes(Order $order)
+    {
+        $this->selectedOrderNotes = $order->notes;
+
+        $this->quickViewNotesModal = true;
     }
 
     public function pushToComplete($orderId)

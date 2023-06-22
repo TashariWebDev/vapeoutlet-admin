@@ -1,5 +1,5 @@
 <div>
-
+    
     <div>
         <div class="px-2 text-lg">
             <h1 class="font-bold dark:text-white text-slate-900">
@@ -25,10 +25,10 @@
             @endif
         </div>
     </div>
-
-
+    
+    
     <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto">
             <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-6 dark:bg-slate-900">
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
@@ -39,7 +39,7 @@
                         </button>
                     </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                                R {{ number_format($lifetimeTransactions->where('type', 'invoice')->sum('amount'), 2) }}
                         </span>
                     </p>
@@ -53,7 +53,7 @@
                         </button>
                     </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                              R {{ number_format(abs($lifetimeTransactions->where('type', 'payment')->sum('amount')), 2) }}
                         </span>
                     </p>
@@ -61,7 +61,7 @@
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Balance</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->sum('amount')), 2) }}
                         </span>
                     </p>
@@ -75,7 +75,7 @@
                         </button>
                     </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->where('type', 'debit')->sum('amount')), 2) }}
                         </span>
                     </p>
@@ -89,7 +89,7 @@
                         </button>
                     </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->where('type', 'credit')->sum('amount')), 2) }}
                         </span>
                     </p>
@@ -103,7 +103,7 @@
                         </button>
                     </p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-2xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                               R {{ number_format(abs($lifetimeTransactions->where('type', 'refund')->sum('amount')), 2) }}
                         </span>
                     </p>
@@ -112,10 +112,10 @@
         </div>
     </div>
     <!-- End Stats -->
-
+    
     <!-- Actions -->
     <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
-
+        
         <div class="py-2 px-4">
             <div>
                 <div class="grid grid-cols-1 gap-y-4 mt-2 lg:grid-cols-6 lg:gap-x-2 lg:gap-y-3">
@@ -164,7 +164,7 @@
                             wire:click="sendStatement"
                             target="sendStatement"
                         >
-                            <x-icons.busy target="sendStatement"/>
+                            <x-icons.busy target="sendStatement" />
                             <span
                                 class="pl-2"
                                 wire:loading.class="hidden"
@@ -177,13 +177,13 @@
                             >Emailing</span>
                         </button>
                     </div>
-
+                    
                     <div class="w-full">
                         <button
                             class="w-full button-success"
                             wire:click="printStatement"
                         >
-                            <x-icons.busy target="printStatement"/>
+                            <x-icons.busy target="printStatement" />
                             <span
                                 class="pl-2"
                                 wire:loading.class="hidden"
@@ -196,60 +196,60 @@
                             >Printing</span>
                         </button>
                     </div>
-
+                    
                     <div class="w-full">
                         <button
                             class="w-full button-success"
                             wire:click="createOrder"
                         >
-                            <x-icons.busy target="createOrder"/>
+                            <x-icons.busy target="createOrder" />
                             <span class="pl-2">New order</span>
                         </button>
                     </div>
-
+                    
                     <div class="w-full">
                         <a
                             class="w-full button-success"
                             href="{{ route('credits/create', $this->customer) }}"
                         >
-                            <x-icons.busy target="''"/>
+                            <x-icons.busy target="''" />
                             <span class="pl-2">credit note</span>
                         </a>
                     </div>
-
+                    
                     @hasPermissionTo('add transactions')
                     <div class="w-full">
-                        <livewire:transactions.create :customer-id="$customerId"/>
+                        <livewire:transactions.create :customer-id="$customerId" />
                     </div>
                     @endhasPermissionTo
-
+                    
                     <div class="w-full">
-                        <livewire:transactions.warranty.create :customer-id="$customerId"/>
+                        <livewire:transactions.warranty.create :customer-id="$customerId" />
                     </div>
-
+                    
                     <div class="w-full">
                         <button
                             class="w-full button-success"
                             wire:click="updateBalances"
                         >
-                            <x-icons.busy target="updateBalances"/>
+                            <x-icons.busy target="updateBalances" />
                             <span class="pl-2">Refresh balance</span>
                         </button>
                     </div>
                 </div>
             </div>
-
+            
             <!-- End -->
-
+            
             <div class="py-3">
                 {{ $transactions->links() }}
             </div>
         </div>
-
+        
         @php
             $disabledTransactionTypes = ['credit', 'invoice'];
         @endphp
-
+        
         {{-- Mobile Transactions --}}
         <div class="px-2">
             @forelse($transactions as $transaction)
@@ -307,7 +307,7 @@
                                 wire:click="getDocument({{ $transaction->id }})"
                                 wire:key="transaction->{{ $transaction->id }}"
                             >
-                                <x-icons.busy target="getDocument({{ $transaction->id }})"/>
+                                <x-icons.busy target="getDocument({{ $transaction->id }})" />
                                 Print
                             </button>
                             @if (file_exists(public_path("storage/documents/$transaction->number.pdf")))
@@ -322,7 +322,7 @@
                 </div>
             @endforelse
         </div>
-
+        
         <!-- Desktop Transactions -->
         <div class="px-2">
             <x-table.container>
@@ -334,7 +334,7 @@
                     <x-table.heading class="text-right">Balance</x-table.heading>
                     <x-table.heading class="text-right">Document</x-table.heading>
                 </x-table.header>
-
+                
                 @forelse($transactions as $transaction)
                     <x-table.body class="hidden text-sm lg:grid lg:grid-cols-6">
                         <x-table.row class="text-xs text-center lg:text-left">
@@ -364,7 +364,7 @@
                 ])>
                   {{ strtoupper($transaction->type) }}
                 </span>
-
+                            
                             </p>
                             <p class="dark:text-white fuppercase text-[12px] text-slate-900">
                                 {{ $transaction->created_at }}
@@ -397,7 +397,7 @@
                                         wire:target="getDocument({{ $transaction->id }})"
                                         wire:click="getDocument({{ $transaction->id }})"
                                     >
-                                        <x-icons.busy target="getDocument({{ $transaction->id }})"/>
+                                        <x-icons.busy target="getDocument({{ $transaction->id }})" />
                                         <span class="pl-2">Print</span>
                                     </button>
                                     @if (file_exists(public_path("storage/documents/$transaction->number.pdf")))
@@ -407,7 +407,7 @@
                             </div>
                         </x-table.row>
                     </x-table.body>
-
+                
                 @empty
                     <div class="hidden lg:block">
                         <x-table.empty></x-table.empty>

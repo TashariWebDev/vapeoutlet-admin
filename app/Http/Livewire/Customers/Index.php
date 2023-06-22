@@ -2,12 +2,14 @@
 
 namespace App\Http\Livewire\Customers;
 
+use App\Exports\CustomersExport;
 use App\Models\Customer;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Index extends Component
 {
@@ -18,6 +20,11 @@ class Index extends Component
     public $recordCount = 10;
 
     protected $queryString = ['recordCount', 'searchQuery'];
+
+    public function export()
+    {
+        return Excel::download(new CustomersExport, 'customers.xlsx');
+    }
 
     public function mount()
     {

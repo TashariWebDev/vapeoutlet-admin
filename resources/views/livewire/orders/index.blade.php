@@ -6,7 +6,7 @@
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @if ($selectedCustomerLatestTransactions)
                 <div class="py-6">
-                    <div class="grid grid-cols-4 gap-2 py-3 px-1">
+                    <div class="hidden grid-cols-4 gap-2 py-3 px-1 lg:grid">
                         <div class="text-xs font-semibold text-left text-slate-600 dark:text-slate-300">TYPE</div>
                         <div class="text-xs font-semibold text-left text-slate-600 dark:text-slate-300">REF</div>
                         <div class="text-xs font-semibold text-right text-slate-600 dark:text-slate-300">AMOUNT</div>
@@ -14,7 +14,7 @@
                     </div>
 
                     @forelse($selectedCustomerLatestTransactions as $transaction)
-                        <div class="grid grid-cols-4 gap-2 py-3 px-1 rounded dark:even:bg-gray-900 even:bg-sky-50">
+                        <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-gray-900 even:bg-sky-50">
                             <div>
                                 <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                                     {{ $transaction->id }}
@@ -29,19 +29,55 @@
                                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $transaction->created_by }}
                                 </p>
                             </div>
-                            <div class="text-xs font-semibold text-right">
+                            <div class="text-xs font-semibold lg:text-right">
                                 <p class="text-slate-600 dark:text-slate-300">
+                                    <span class="lg:hidden">Amount</span>
                                     {{ number_format($transaction->amount, 2) }}
                                 </p>
                             </div>
-                            <div class="text-xs font-semibold text-right">
+                            <div class="text-xs font-semibold lg:text-right">
                                 <p class="text-slate-600 dark:text-slate-300">
+                                    <span class="lg:hidden">Balance</span>
                                     {{ number_format($transaction->running_balance, 2) }}</p>
                             </div>
                         </div>
                     @empty
                         <div>
                             <p>No recent transaction</p>
+                        </div>
+                    @endforelse
+                </div>
+            @endif
+        </div>
+    </x-modal>
+
+
+    <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
+        <div class="pb-3">
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Latest transactions</h3>
+        </div>
+        <div class="p-2 bg-white rounded-md dark:bg-slate-800">
+            @if ($selectedOrderNotes)
+                <div class="py-6">
+                    @forelse($selectedOrderNotes as $note)
+                        <div class="py-4">
+                            @if ($note->customer_id)
+                                <p class="text-xs uppercase dark:text-white text-slate-900">
+                                    {{ $note->customer?->name }}
+                                    on {{ $note->created_at->format('d-m-y H:i') }}</p>
+                            @else
+                                <p class="text-xs uppercase dark:text-white text-slate-900">{{ $note->user?->name }}
+                                    on {{ $note->created_at->format('d-m-y H:i') }}</p>
+                            @endif
+                        </div>
+                        @if ($note->body)
+                            <div class="p-1 mt-2 rounded-md bg-slate-100 dark:bg-slate-700">
+                                <p class="text-sm capitalize dark:text-white text-slate-900">{{ $note->body }}</p>
+                            </div>
+                        @endif
+                    @empty
+                        <div>
+                            <p>No notes</p>
                         </div>
                     @endforelse
                 </div>
@@ -227,8 +263,8 @@
                                         href="{{ route('customers/show', $order->customer->id) }}"
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
-                                    <div class="flex justify-between space-x-2">
-                                        <p class="uppercase text-[12px]">
+                                    <div class="">
+                                        <p class="font-semibold uppercase text-[10px]">
                                             {{ $order->customer->type() }}
                                         </p>
                                         <p class="uppercase text-[12px]">
@@ -236,7 +272,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div>
+                                <div class="flex space-x-1">
                                     <button
                                         class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
                                         title="View {{ $order->customer->name }}'s Last Five Transactions"
@@ -244,6 +280,16 @@
                                     >
                                         VIEW
                                     </button>
+
+                                    @if($order->notes_count)
+                                        <button
+                                            class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                                            title="View order notes"
+                                            wire:click.prefetch="quickViewNotes('{{ $order->id }}')"
+                                        >
+                                            NOTES
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </x-table.row>
@@ -349,21 +395,47 @@
                     </p>
                 </div>
 
-                <div class="col-span-2 pt-3">
-                    <a
-                        class="link"
-                        href="{{ route('customers/show', $order->customer->id) }}"
-                    ><p class="text-sm">{{ $order->customer->name }}</p></a>
+                <div class="flex col-span-2 justify-between pt-3">
+                    <div>
+                        <a
+                            class="link"
+                            href="{{ route('customers/show', $order->customer->id) }}"
+                        >
+                            <p class="text-sm">{{ $order->customer->name }}</p>
+                        </a>
 
-                    <p @class([
-                'text-xs',
-                'text-rose-700 dark:text-rose-400' =>
-                    $order->customer->type() === 'wholesale',
-                'text-sky-700 dark:text-sky-400' => $order->customer->type() === 'retail',
-            ])>{{ $order->customer->type() }}</p>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">
-                        {{ $order->customer->salesperson->name ?? '' }}
-                    </p>
+                        <p @class([
+                            'text-xs',
+                            'text-rose-700 dark:text-rose-400' =>
+                                $order->customer->type() === 'wholesale',
+                            'text-sky-700 dark:text-sky-400' => $order->customer->type() === 'retail',
+                        ])>
+                            {{ $order->customer->type() }}
+                        </p>
+                        <p class="text-xs text-slate-600 dark:text-slate-300">
+                            {{ $order->customer->salesperson->name ?? '' }}
+                        </p>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <button
+                            class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                            title="View {{ $order->customer->name }}'s Last Five Transactions"
+                            wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
+                        >
+                            VIEW
+                        </button>
+
+                        @if($order->notes_count)
+                            <button
+                                class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                                title="View order notes"
+                                wire:click.prefetch="quickViewNotes('{{ $order->id }}')"
+                            >
+                                NOTES
+                            </button>
+                        @endif
+                    </div>
                 </div>
                 <div class="col-span-2 pb-2 mt-3 w-full">
                     @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')

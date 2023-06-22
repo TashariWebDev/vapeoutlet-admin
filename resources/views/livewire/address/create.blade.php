@@ -22,7 +22,7 @@
                     wire:model.defer="line_one"
                 />
                 @error('line_one')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -36,7 +36,7 @@
                     wire:model.defer="line_two"
                 />
                 @error('line_two')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -50,7 +50,7 @@
                     wire:model.defer="suburb"
                 />
                 @error('suburb')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -64,7 +64,7 @@
                     wire:model.defer="city"
                 />
                 @error('city')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -89,7 +89,7 @@
                     @endforeach
                 </x-input.select>
                 @error('province')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
 
@@ -104,7 +104,7 @@
                     wire:model.defer="postal_code"
                 />
                 @error('postal_code')
-                    <x-input.error>{{ $message }}</x-input.error>
+                <x-input.error>{{ $message }}</x-input.error>
                 @enderror
             </div>
             <div class="pt-3">

@@ -24,6 +24,10 @@ class Index extends Component
 
     public $selectedCustomerLatestTransactions = [];
 
+    public $selectedOrderNotes;
+
+    public $quickViewNotesModal = false;
+
     public $searchQuery = '';
 
     public string $filter = 'received';
@@ -65,6 +69,9 @@ class Index extends Component
 
     public function mount()
     {
+
+        \App\Models\Note::where('body', '=', '')->delete();
+
         $this->defaultSalesChannel = auth()
             ->user()
             ->defaultSalesChannel();
@@ -114,7 +121,9 @@ class Index extends Component
                 'customer:id,name,company,salesperson_id,is_wholesale',
                 'customer.salesperson:id,name',
                 'delivery',
+                'notes',
             ])
+            ->withCount('notes')
             ->without(['items'])
             ->addSelect([
                 'order_total' => OrderItem::query()
@@ -158,6 +167,13 @@ class Index extends Component
             $customer->lastFiveTransactions;
 
         $this->quickViewCustomerAccountModal = true;
+    }
+
+    public function quickViewNotes(Order $order)
+    {
+        $this->selectedOrderNotes = $order->notes;
+
+        $this->quickViewNotesModal = true;
     }
 
     public function pushToComplete($orderId)

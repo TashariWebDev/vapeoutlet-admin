@@ -11,6 +11,7 @@ use App\Http\Livewire\Customers\WholesaleApplications;
 use App\Http\Livewire\Customers\WholesaleApproval;
 use App\Http\Livewire\Dashboard\Index;
 use App\Http\Livewire\Delivery\Index as DeliveryIndex;
+use App\Http\Livewire\Development\Changelog;
 use App\Http\Livewire\Expenses\Index as ExpensesIndex;
 use App\Http\Livewire\Notifications\Index as NotificationsIndex;
 use App\Http\Livewire\Orders\CashUp as OrdersCashUp;
@@ -51,6 +52,8 @@ Route::middleware('auth')->group(function () {
     Route::get('system-settings', SystemSettingsIndex::class)->name(
         'system-settings'
     );
+
+    Route::get('change-log', Changelog::class)->name('changelog');
 
     Route::get('orders', OrdersIndex::class)
         ->name('orders')

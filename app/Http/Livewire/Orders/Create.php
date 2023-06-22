@@ -46,6 +46,11 @@ class Create extends Component
     public function mount()
     {
         $this->orderId = request('id');
+
+        if ($this->order->customer->addresses()->count() == 1) {
+            $this->addressId = $this->order->customer->addresses->take(1)->value('id');
+            $this->updateAddress();
+        }
     }
 
     public function getOrderProperty(): Order|array|_IH_Order_C
@@ -309,6 +314,7 @@ class Create extends Component
     public function updateDelivery(): void
     {
         $delivery = Delivery::find($this->deliveryId);
+
         $this->order->update([
             'delivery_type_id' => $delivery->id,
             'delivery_charge' => $delivery->price,
