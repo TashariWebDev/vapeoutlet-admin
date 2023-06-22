@@ -53,7 +53,7 @@
     </div>
 
     {{-- desktop --}}
-    <div class="hidden mt-2 bg-white rounded-lg lg:block">
+    <div class="hidden mt-2 bg-white rounded-lg lg:block dark:bg-slate-900">
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-4">
                 <x-table.heading>Name</x-table.heading>
@@ -100,7 +100,7 @@
     {{-- Mobile --}}
     <div class="grid grid-cols-1 gap-y-2 px-1 mt-2 lg:hidden">
         @forelse($customers as $customer)
-            <div class="grid grid-cols-1 py-3 px-2 text-xs bg-white rounded dark:bg-slate-950">
+            <div class="grid grid-cols-1 py-3 px-2 text-xs bg-white rounded dark:bg-slate-900">
                 <div>
                     <a
                         class="link"
