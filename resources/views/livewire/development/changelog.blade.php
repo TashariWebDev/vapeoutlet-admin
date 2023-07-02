@@ -38,6 +38,16 @@
             </ul>
         </div>
 
+        <div>
+            <time class="font-bold underline">02 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Fix:</span>
+                    remove redundant status filter from cash-up page
+                </li>
+            </ul>
+        </div>
 
         <div>
             <time class="font-bold underline">22 June 2023</time>
