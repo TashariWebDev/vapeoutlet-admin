@@ -46,170 +46,186 @@
         <p class="text-xs text-slate-600">This action is non reversible</p>
     </x-modal>
 
-    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
-        <div class="grid grid-cols-2 gap-y-2 p-2 lg:grid-cols-4 lg:gap-y-0 lg:gap-x-3">
-            <div class="col-span-2 lg:col-span-1">
-                <p class="text-xs font-bold uppercase dark:text-white text-slate-900">
-                    {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
-                </p>
-                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
-                @isset($this->order->delivery_type_id)
-                    <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
-                        {{ $this->order->delivery?->type }}
+    <div class="p-2 bg-white rounded-lg dark:bg-slate-900">
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+            <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
+                <div class="pt-1">
+                    <p class="text-xs font-bold uppercase dark:text-white text-slate-900">
+                        {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
                     </p>
-                @endisset
-                <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-950">
-                    <p class="text-xs font-bold dark:text-white text-slate-900">
-                        Total: R {{ number_format($this->order->getTotal(), 2) }}
-                    </p>
-                    <p class="text-xs font-bold dark:text-white text-slate-900">
-                        Count: {{ $this->order->items->sum('qty') }}
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-span-2 lg:col-span-1">
-                <a href="{{ route('customers/show',$this->order->customer->id) }}"
-                   class="link"
-                >{{ $this->order->customer->name }}
-                    @isset($this->order->customer->company)
-                        <span>| {{ $this->order->customer->company }}</span>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
+                    @isset($this->order->delivery_type_id)
+                        <div class="flex justify-between">
+                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                                {{ $this->order->delivery?->type }}
+                            </p>
+                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                                R {{ number_format($this->order->delivery_charge,2) }}
+                            </p>
+                        </div>
                     @endisset
-                </a>
-                @isset($this->order->address_id)
-                    <div class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">
-                        <p>{{ $this->order->address?->line_one }}</p>
-                        <p>{{ $this->order->address?->line_two }}</p>
-                        <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>
-                        <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
+                    <div class="flex col-span-2 justify-between p-1 mt-3 bg-slate-100 dark:bg-slate-950">
+                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                            Total: R {{ number_format($this->order->getTotal(), 2) }}
+                        </p>
+                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                            Count: {{ $this->order->items->sum('qty') }}
+                        </p>
                     </div>
-                @endisset
+                </div>
+                <div>
+                    <a href="{{ route('customers/show',$this->order->customer->id) }}"
+                       class="font-bold capitalize hover:underline focus:underline focus:outline-none text-[12px] text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                    >{{ $this->order->customer->name }}
+                    </a>
+                    <p class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->phone }}</p>
+                    <p class="font-semibold lowercase dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->email }}</p>
+                </div>
+                <div>
+                    @isset($this->order->address_id)
+                        <div class="pt-1 font-semibold capitalize dark:text-white text-[12px] text-slate-900">
+                            @isset($this->order->customer->company)
+                                <p>{{ $this->order->customer->company }}</p>
+                            @endisset
+                            <p>{{ $this->order->address?->line_one }}</p>
+                            <p>{{ $this->order->address?->line_two }}</p>
+                            <p>{{ $this->order->address?->suburb }} </p>
+                            <p>{{ $this->order->address?->city }}</p>
+                            <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
+                        </div>
+                    @endisset
+                </div>
             </div>
-
-            <div class="grid grid-cols-2 col-span-2 gap-2 lg:grid-cols-3">
-                <div>
-                    <livewire:orders.note :order="$this->order" />
-                </div>
-                <div>
-                    @if (
-                        $this->order->status != 'shipped' &&
-                            $this->order->status != 'completed' &&
-                            $this->order->status != 'cancelled')
-                        <livewire:orders.waybill :order="$this->order" />
-                    @endif
-                </div>
-                <div>
-                    @hasPermissionTo('edit orders')
-                    @if (
-                        $this->order->status != 'shipped' &&
-                            $this->order->status != 'completed' &&
-                            $this->order->status != 'cancelled')
-                        <livewire:orders.cancel :order="$this->order" />
-                    @endif
-                    @endhasPermissionTo
-                </div>
-                <div>
-                    @if (
-                        $this->order->status != 'shipped' &&
-                            $this->order->status != 'completed' &&
-                            $this->order->status != 'cancelled')
-                        <button
-                            class="w-full button-success"
-                            wire:loading.attr="disabled"
-                            wire:click="getPickingSlip"
-                        >
+            <div>
+                <div class="grid grid-cols-2 col-span-2 gap-2 lg:grid-cols-3">
+                    <div>
+                        <livewire:orders.note :order="$this->order" />
+                    </div>
+                    <div>
+                        @if (
+                            $this->order->status != 'shipped' &&
+                                $this->order->status != 'completed' &&
+                                $this->order->status != 'cancelled')
+                            <livewire:orders.waybill :order="$this->order" />
+                        @endif
+                    </div>
+                    <div>
+                        @hasPermissionTo('edit orders')
+                        @if (
+                            $this->order->status != 'shipped' &&
+                                $this->order->status != 'completed' &&
+                                $this->order->status != 'cancelled')
+                            <livewire:orders.cancel :order="$this->order" />
+                        @endif
+                        @endhasPermissionTo
+                    </div>
+                    <div>
+                        @if (
+                            $this->order->status != 'shipped' &&
+                                $this->order->status != 'completed' &&
+                                $this->order->status != 'cancelled')
+                            <button
+                                class="w-full button-success"
+                                wire:loading.attr="disabled"
+                                wire:click="getPickingSlip"
+                            >
               <span
                   class="pr-2"
                   wire:loading
                   wire:target="getPickingSlip"
               ><x-icons.refresh class="w-3 h-3 animate-spin-slow" /></span>
-                            Picking Slip
-                        </button>
-                    @endif
-                    @if ($this->order->status == 'cancelled')
-                        <p class="font-extrabold text-rose-600">CANCELLED</p>
-                    @endif
-                    @if ($this->order->status == 'completed')
-                        <p class="font-extrabold text-rose-600">COMPLETED</p>
-                    @endif
-                </div>
-                <div>
-                    @if (
-                        $this->order->status != 'shipped' &&
-                            $this->order->status != 'completed' &&
-                            $this->order->status != 'cancelled')
-                        <button
-                            class="w-full button-success"
-                            wire:loading.attr="disabled"
-                            wire:click="getDeliveryNote"
-                        >
+                                Picking Slip
+                            </button>
+                        @endif
+                        @if ($this->order->status == 'cancelled')
+                            <p class="font-extrabold text-rose-600">CANCELLED</p>
+                        @endif
+                        @if ($this->order->status == 'completed')
+                            <p class="font-extrabold text-rose-600">COMPLETED</p>
+                        @endif
+                    </div>
+                    <div>
+                        @if (
+                            $this->order->status != 'shipped' &&
+                                $this->order->status != 'completed' &&
+                                $this->order->status != 'cancelled')
+                            <button
+                                class="w-full button-success"
+                                wire:loading.attr="disabled"
+                                wire:click="getDeliveryNote"
+                            >
               <span
                   class="pr-2"
                   wire:loading
                   wire:target="getDeliveryNote"
               ><x-icons.refresh class="w-3 h-3 animate-spin-slow" /></span>
-                            Delivery Note
-                        </button>
-                    @endif
-                </div>
+                                Delivery Note
+                            </button>
+                        @endif
+                    </div>
 
-                <div>
-                    @hasPermissionTo('edit orders')
-                    @if (
-                        $this->order->status != 'shipped' &&
-                            $this->order->status != 'completed' &&
-                            $this->order->status != 'cancelled')
-                        <button
-                            class="w-full text-xs button-warning"
-                            x-on:click="@this.set('showEditModal',true)"
-                        >
-                            edit
-                        </button>
-                    @endif
-                    @endhasPermissionTo
-                </div>
-                <div>
-                    @if (
-                        $this->order->status != 'shipped' &&
-                            $this->order->status != 'completed' &&
-                            $this->order->status != 'cancelled')
-                        <label>
-                            <x-input.select
-                                class="w-full rounded-md"
-                                wire:change="$toggle('statusModal')"
-                                @change="$wire.set('selectedStatus',event.target.value)"
-                                wire:model.defer="status"
+                    <div>
+                        @hasPermissionTo('edit orders')
+                        @if (
+                            $this->order->status != 'shipped' &&
+                                $this->order->status != 'completed' &&
+                                $this->order->status != 'cancelled')
+                            <button
+                                class="w-full text-xs button-warning"
+                                x-on:click="@this.set('showEditModal',true)"
                             >
-                                <option value="received">Received</option>
-                                <option value="processed">Processed</option>
-                                <option value="packed">Packed</option>
-                                <option value="shipped">Shipped</option>
-                                <option value="completed">Completed</option>
-                            </x-input.select>
-                        </label>
-                    @endif
-                </div>
-                <div>
-                    @hasPermissionTo('complete orders')
-                    @if ($this->order->status === 'shipped')
-                        <button
-                            class="mt-2 w-full button-success"
-                            wire:loading.attr="disabled"
-                            wire:click="pushToComplete()"
-                            wire:target="pushToComplete()"
-                        >
+                                edit
+                            </button>
+                        @endif
+                        @endhasPermissionTo
+                    </div>
+                    <div>
+                        @if (
+                            $this->order->status != 'shipped' &&
+                                $this->order->status != 'completed' &&
+                                $this->order->status != 'cancelled')
+                            <label>
+                                <x-input.select
+                                    class="w-full rounded-md"
+                                    wire:change="$toggle('statusModal')"
+                                    @change="$wire.set('selectedStatus',event.target.value)"
+                                    wire:model.defer="status"
+                                >
+                                    <option value="received">Received</option>
+                                    <option value="processed">Processed</option>
+                                    <option value="packed">Packed</option>
+                                    <option value="shipped">Shipped</option>
+                                    <option value="completed">Completed</option>
+                                </x-input.select>
+                            </label>
+                        @endif
+                    </div>
+                    <div>
+                        @hasPermissionTo('complete orders')
+                        @if ($this->order->status === 'shipped')
+                            <button
+                                class="mt-2 w-full button-success"
+                                wire:loading.attr="disabled"
+                                wire:click="pushToComplete()"
+                                wire:target="pushToComplete()"
+                            >
                 <span
                     class="pr-2"
                     wire:loading
                     wire:target="pushToComplete()"
                 ><x-icons.refresh class="w-3 h-3 animate-spin-slow" /></span>
-                            Complete
-                        </button>
-                    @endif
-                    @endhasPermissionTo
+                                Complete
+                            </button>
+                        @endif
+                        @endhasPermissionTo
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="mt-2 bg-white rounded-lg dark:bg-slate-900">
+
 
         <x-table.container>
             <x-table.header class="hidden grid-cols-6 lg:grid">
@@ -307,7 +323,7 @@
     </div>
 
     {{-- Order Notes --}}
-    <div class="p-4 mt-4 bg-white rounded-md shadow dark:bg-slate-900">
+    <div class="p-4 mt-4 bg-white rounded-lg dark:bg-slate-900">
 
         @foreach ($this->order->notes as $note)
             <div class="py-3">

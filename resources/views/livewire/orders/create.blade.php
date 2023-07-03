@@ -1,10 +1,10 @@
 <div class="relative">
-    
+
     <x-modal x-data="{ show: $wire.entangle('chooseAddressForm') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select address</h3>
         </div>
-        
+
         <form wire:submit.prevent="updateAddress">
             <x-input.label for="address_id">
                 Address
@@ -40,12 +40,12 @@
             </div>
         </form>
     </x-modal>
-    
+
     <x-modal x-data="{ show: $wire.entangle('chooseDeliveryForm') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select an option</h3>
         </div>
-        
+
         <form wire:submit.prevent="updateDelivery">
             <x-input.label for="updateDelivery">
                 Delivery options
@@ -77,7 +77,7 @@
             </div>
         </form>
     </x-modal>
-    
+
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Process this order?</h3>
@@ -111,95 +111,112 @@
         >Processing...Do not close this page.</p>
         <p class="text-xs text-rose-600">This action is non reversible</p>
     </x-modal>
-    
-    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
-        <div class="grid grid-cols-1 gap-2 p-2 lg:grid-cols-4">
-            <div>
-                <p class="text-xs font-bold dark:text-white text-slate-900">
-                    {{ $this->order->number }} ( {{ $this->order->sales_channel->name }} )
-                </p>
-                <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
-                @isset($this->order->delivery_type_id)
-                    <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
-                        {{ $this->order->delivery?->type }}
+
+    <div class="p-2 bg-white rounded-lg dark:bg-slate-900">
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+            <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
+                <div class="pt-1">
+                    <p class="text-xs font-bold uppercase dark:text-white text-slate-900">
+                        {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
                     </p>
-                @endisset
-                <div class="flex col-span-2 justify-between p-2 mt-2 rounded bg-slate-50 dark:bg-slate-950">
-                    <p class="text-xs font-bold dark:text-white text-slate-900">
-                        Total: R {{ number_format($this->order->getTotal(), 2) }}
-                    </p>
-                    <p class="text-xs font-bold dark:text-white text-slate-900">
-                        Count: {{ $this->order->items->sum('qty') }}
-                    </p>
-                </div>
-            </div>
-            <div>
-                <p class="font-semibold dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->name }}
-                    @isset($this->order->customer->company)
-                        <span>| {{ $this->order->customer->company }}</span>
-                    @endisset
-                </p>
-                @isset($this->order->address_id)
-                    <div class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">
-                        <p>{{ $this->order->address?->line_one }}</p>
-                        <p>{{ $this->order->address?->line_two }}</p>
-                        <p>{{ $this->order->address?->suburb }}, {{ $this->order->address?->city }},</p>
-                        <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
-                    </div>
-                @endisset
-            </div>
-            
-            <div class="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:col-span-2">
-                <div>
-                    <button
-                        class="w-full text-xs button-success"
-                        @if ($this->order->customer->addresses->count() === 0) disabled
-                        @endif
-                        wire:click="$toggle('chooseAddressForm')"
-                    >
-                        billing address
-                    </button>
-                </div>
-                <div>
-                    <button
-                        class="w-full text-xs button-success"
-                        @if ($this->order->address_id === null) disabled
-                        @endif
-                        wire:click="$toggle('chooseDeliveryForm')"
-                    >
-                        delivery option
-                    </button>
-                </div>
-                <div>
-                    <livewire:address.create customer-id="{{ $this->order->customer_id }}" />
-                </div>
-                <div>
-                    <livewire:orders.add-product :order="$this->order" />
-                </div>
-                <div>
-                    <livewire:orders.cancel :order="$this->order" />
-                </div>
-                <div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
                     @isset($this->order->delivery_type_id)
-                        @if ($this->order->items_count > 0)
-                            <div>
-                                @isset($this->order->address_id)
-                                    <button
-                                        class="w-full text-xs button-warning"
-                                        wire:target="process"
-                                        wire:loading.attr="disabled"
-                                        wire:click.prefetch="$toggle('showConfirmModal')"
-                                    >
-                                        place order
-                                    </button>
-                                @endisset
-                            </div>
-                        @endif
+                        <div class="flex justify-between">
+                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                                {{ $this->order->delivery?->type }}
+                            </p>
+                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                                R {{ number_format($this->order->delivery_charge,2) }}
+                            </p>
+                        </div>
                     @endisset
+                    <div class="flex col-span-2 justify-between p-1 mt-3 bg-slate-100 dark:bg-slate-950">
+                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                            Total: R {{ number_format($this->order->getTotal(), 2) }}
+                        </p>
+                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                            Count: {{ $this->order->items->sum('qty') }}
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <a href="{{ route('customers/show',$this->order->customer->id) }}"
+                       class="font-bold capitalize hover:underline focus:underline focus:outline-none text-[12px] text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                    >{{ $this->order->customer->name }}
+                    </a>
+                    <p class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->phone }}</p>
+                    <p class="font-semibold lowercase dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->email }}</p>
+                </div>
+                <div>
+                    @isset($this->order->address_id)
+                        <div class="pt-1 font-semibold capitalize dark:text-white text-[12px] text-slate-900">
+                            @isset($this->order->customer->company)
+                                <p>{{ $this->order->customer->company }}</p>
+                            @endisset
+                            <p>{{ $this->order->address?->line_one }}</p>
+                            <p>{{ $this->order->address?->suburb }} </p>
+                            <p>{{ $this->order->address?->city }}</p>
+                            <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
+                        </div>
+                    @endisset
+                </div>
+            </div>
+            <div>
+                <div class="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:col-span-2">
+                    <div>
+                        <button
+                            class="w-full text-xs button-success"
+                            @if ($this->order->customer->addresses->count() === 0) disabled
+                            @endif
+                            wire:click="$toggle('chooseAddressForm')"
+                        >
+                            billing address
+                        </button>
+                    </div>
+                    <div>
+                        <button
+                            class="w-full text-xs button-success"
+                            @if ($this->order->address_id === null) disabled
+                            @endif
+                            wire:click="$toggle('chooseDeliveryForm')"
+                        >
+                            delivery option
+                        </button>
+                    </div>
+                    <div>
+                        <livewire:address.create customer-id="{{ $this->order->customer_id }}" />
+                    </div>
+                    <div>
+                        <livewire:orders.add-product :order="$this->order" />
+                    </div>
+                    <div>
+                        <livewire:orders.cancel :order="$this->order" />
+                    </div>
+                    <div>
+                        @isset($this->order->delivery_type_id)
+                            @if ($this->order->items_count > 0)
+                                <div>
+                                    @isset($this->order->address_id)
+                                        <button
+                                            class="w-full text-xs button-warning"
+                                            wire:target="process"
+                                            wire:loading.attr="disabled"
+                                            wire:click.prefetch="$toggle('showConfirmModal')"
+                                        >
+                                            place order
+                                        </button>
+                                    @endisset
+                                </div>
+                            @endif
+                        @endisset
+                    </div>
                 </div>
             </div>
         </div>
-        
+    </div>
+
+    <div class="mt-3 bg-white rounded-lg dark:bg-slate-900">
+
         <div class="py-0.5 px-2 w-full">
             <div>
                 <x-input.text
@@ -211,7 +228,7 @@
                 </x-input.text>
             </div>
         </div>
-        
+
         <x-table.container>
             <x-table.header class="hidden grid-cols-6 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
@@ -220,7 +237,7 @@
                 <x-table.heading class="lg:text-right">qty</x-table.heading>
                 <x-table.heading class="lg:text-right">Line total</x-table.heading>
             </x-table.header>
-            
+
             <div>
                 @if (!empty($selectedProductsToDelete))
                     <div>
@@ -233,7 +250,7 @@
                     </div>
                 @endif
             </div>
-            
+
             @foreach ($this->order->items as $item)
                 <x-table.body
                     class="grid lg:grid-cols-6"
