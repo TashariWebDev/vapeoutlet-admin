@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Products;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Models\Brand;
 use App\Models\Product;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -115,7 +116,7 @@ class Index extends Component
         $this->notify('product restored');
     }
 
-    public function getProductsProperty(): _IH_Product_QB|Builder
+    public function getProducts(): _IH_Product_QB|Builder
     {
         $products = Product::select([
             'products.id',
@@ -171,21 +172,17 @@ class Index extends Component
     public function render(): Factory|View|Application
     {
         return view('livewire.products.index', [
-            'products' => $this->products
+            'products' => $this->getProducts()
                 ->where('is_active', $this->activeFilter)
                 ->when(! $this->activeFilter, function ($query) {
                     $query->withTrashed();
                 })
                 ->orderByRaw('brand')
                 ->paginate($this->recordCount),
-            'brands' => Product::query()
-                ->when(! $this->activeFilter, function ($query) {
-                    $query->withTrashed();
-                })
-                ->orderByRaw('brand')
+            'brands' => Brand::orderBy('name')
                 ->get()
-                ->unique('brand')
-                ->pluck('brand'),
+                ->unique('name')
+                ->pluck('name'),
         ]);
     }
 }

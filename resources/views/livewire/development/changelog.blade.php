@@ -39,6 +39,21 @@
         </div>
 
         <div>
+            <time class="font-bold underline">03 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    improve product index page performance by 100%
+                </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    reduce product index page queries by 50%
+                </li>
+            </ul>
+        </div>
+
+        <div>
             <time class="font-bold underline">02 July 2023</time>
 
             <ul>

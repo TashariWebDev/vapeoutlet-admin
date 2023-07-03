@@ -42,7 +42,7 @@
         <div class="grid grid-cols-1 gap-2 items-center md:grid-cols-2">
             <div class="grid grid-cols-1 gap-2">
                 @if (auth()->user()->hasPermissionTo('edit products'))
-                    <livewire:products.create wire:key="add={{ now() }}"/>
+                    <livewire:products.create wire:key="add={{ now() }}" />
                 @else
                     <button
                         class="button-success"
@@ -75,7 +75,7 @@
                     suppliers
                 </a>
                 <div class="w-full">
-                    <livewire:purchases.create wire:key="supplier-create"/>
+                    <livewire:purchases.create wire:key="supplier-create" />
                 </div>
                 @endhasPermissionTo
             </div>
@@ -263,9 +263,10 @@
                         @if (auth()->user()->hasPermissionTo('view cost'))
                             <div class="flex justify-between">
                                 <p class="font-semibold uppercase dark:text-white text-[12px] text-slate-800 cursor-help">
-                                    LAST COST</p>
+                                    LAST COST
+                                </p>
                                 <p class="text-xs font-semibold text-slate-800 dark:text-slate-500">
-                                    {{ number_format($product->getLastCost(), 2) }}
+                                    {{number_format($product->lastPurchasePrice?->total_cost_in_zar(),2)}}
                                 </p>
                             </div>
                         @endif
@@ -352,7 +353,7 @@
                                             class="flex justify-start items-center space-x-2 w-full button-success"
                                             x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
                                         >
-                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500"/>
+                                            <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                             <p>active</p>
                                         </button>
                                     @else
@@ -360,7 +361,7 @@
                                             class="flex justify-start items-center space-x-2 w-full button-danger"
                                             x-on:click="$wire.call('toggleActive','{{ $product->id }}')"
                                         >
-                                            <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400"/>
+                                            <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
                                             <p>not active</p>
                                         </button>
                                     @endif
@@ -376,7 +377,7 @@
                                         class="flex justify-start items-center space-x-2 w-full button-success"
                                         x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                                     >
-                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500"/>
+                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                         <p>featured</p>
                                     </button>
                                 @else
@@ -384,7 +385,7 @@
                                         class="flex justify-start items-center space-x-2 w-full button-success"
                                         x-on:click="$wire.call('toggleFeatured','{{ $product->id }}')"
                                     >
-                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400"/>
+                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
                                         <p>Not featured</p>
                                     </button>
                                 @endif
@@ -401,7 +402,7 @@
                                         class="flex justify-start items-center space-x-2 w-full button-success"
                                         x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
                                     >
-                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500"/>
+                                        <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                         <p>sale</p>
                                     </button>
                                 @else
@@ -409,7 +410,7 @@
                                         class="flex justify-start items-center space-x-2 w-full button-success"
                                         x-on:click="$wire.call('toggleSale','{{ $product->id }}')"
                                     >
-                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400"/>
+                                        <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
                                         <p>not on sale</p>
                                     </button>
                                 @endif
@@ -423,7 +424,7 @@
                                     class="flex justify-start items-center space-x-2 w-full button-danger"
                                     x-on:click="$wire.call('recover','{{ $product->id }}')"
                                 >
-                                    <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400"/>
+                                    <x-icons.cross class="w-3 h-3 text-rose-400 dark:text-rose-400" />
                                     <p>disabled</p>
                                 </button>
                             @else
@@ -431,7 +432,7 @@
                                     class="flex justify-start items-center space-x-2 w-full button-success"
                                     x-on:click="$wire.call('delete','{{ $product->id }}')"
                                 >
-                                    <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500"/>
+                                    <x-icons.tick class="w-3 h-3 dark:text-white text-sky-500" />
                                     <p>enabled</p>
                                 </button>
                             @endif

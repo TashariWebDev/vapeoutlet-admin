@@ -246,11 +246,6 @@ class Product extends Model
         return $this->hasOne(PurchaseItem::class)->latestOfMany();
     }
 
-    public function getLastCost()
-    {
-        return $this->lastPurchasePrice?->total_cost_in_zar();
-    }
-
     public function stocks(): HasMany
     {
         return $this->hasMany(Stock::class);
@@ -297,8 +292,8 @@ class Product extends Model
     {
         $this->update([
             'cost' => $this->cost > 0
-                    ? ($item->total_cost_in_zar() + $this->cost) / 2
-                    : $item->total_cost_in_zar(),
+                ? ($item->total_cost_in_zar() + $this->cost) / 2
+                : $item->total_cost_in_zar(),
         ]);
     }
 

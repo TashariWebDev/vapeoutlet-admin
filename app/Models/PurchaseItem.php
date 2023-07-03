@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
-use JetBrains\PhpStorm\Pure;
 
 /**
  * App\Models\PurchaseItem
@@ -42,6 +41,8 @@ class PurchaseItem extends Model
     protected $guarded = [];
 
     protected $appends = ['line_total'];
+
+    protected $with = ['purchase'];
 
     public function product(): BelongsTo
     {
@@ -86,7 +87,6 @@ class PurchaseItem extends Model
         return $this->price;
     }
 
-    #[Pure]
     public function total_cost_in_zar(): float|int
     {
         return $this->amount_converted_to_zar() + $this->shipping_cost();
