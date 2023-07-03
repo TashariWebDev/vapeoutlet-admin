@@ -9,13 +9,15 @@ use App\Models\Purchase;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 
 class Index extends Component
 {
     public $showModal = false;
 
-    public function getTotalOrdersProperty()
+    public function getTotalOrdersProperty(): Builder|_IH_Order_QB
     {
         return Order::query()
             ->without('items')

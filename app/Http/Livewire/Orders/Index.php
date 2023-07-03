@@ -122,9 +122,9 @@ class Index extends Component
                 'customer.salesperson:id,name',
                 'delivery',
                 'notes',
+                'items',
             ])
             ->withCount('notes')
-            ->without(['items'])
             ->addSelect([
                 'order_total' => OrderItem::query()
                     ->whereColumn('order_id', '=', 'orders.id')
