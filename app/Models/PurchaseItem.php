@@ -42,8 +42,6 @@ class PurchaseItem extends Model
 
     protected $appends = ['line_total'];
 
-    protected $with = ['purchase'];
-
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class)->withTrashed();

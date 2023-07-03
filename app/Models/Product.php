@@ -243,7 +243,7 @@ class Product extends Model
 
     public function lastPurchasePrice(): HasOne
     {
-        return $this->hasOne(PurchaseItem::class)->latestOfMany();
+        return $this->hasOne(PurchaseItem::class)->latestOfMany()->with('purchase');
     }
 
     public function stocks(): HasMany

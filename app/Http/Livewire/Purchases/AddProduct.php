@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Purchases;
 
-use App\Exceptions\QtyNotAvailableException;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Product;
 use App\Models\Purchase;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,15 +24,12 @@ class AddProduct extends Component
 
     public Purchase $purchase;
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
     {
         $this->resetPage();
     }
 
-    /**
-     * @throws QtyNotAvailableException
-     */
-    public function addProducts()
+    public function addProducts(): void
     {
         foreach ($this->selectedProducts as $productId) {
             $product = Product::findOrFail($productId);
@@ -49,7 +48,7 @@ class AddProduct extends Component
         $this->notify('Products added');
     }
 
-    public function render()
+    public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view('livewire.purchases.add-product', [
             'products' => Product::query()

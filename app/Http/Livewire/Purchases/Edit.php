@@ -52,7 +52,7 @@ class Edit extends Component
 
     protected $listeners = ['refreshData' => '$refresh'];
 
-    public function mount()
+    public function mount(): void
     {
         $this->purchaseId = request('id');
 
@@ -69,7 +69,8 @@ class Edit extends Component
 
     public function getPurchaseProperty(): Purchase|array|_IH_Purchase_C|null
     {
-        return Purchase::where('purchases.id', $this->purchaseId)
+        return Purchase::where('id', $this->purchaseId)
+            ->with('supplier')
             ->withCount('items')
             ->first();
     }
@@ -99,7 +100,7 @@ class Edit extends Component
 
     }
 
-    public function updatePrice(PurchaseItem $item, $value)
+    public function updatePrice(PurchaseItem $item, $value): void
     {
         if ($value == '' || $value <= 0) {
             $this->notify('Please enter a valid price');
@@ -112,7 +113,7 @@ class Edit extends Component
         $this->notify('Price updated');
     }
 
-    public function updatedSku()
+    public function updatedSku(): void
     {
         $this->validate(['sku' => 'required']);
 
@@ -129,7 +130,7 @@ class Edit extends Component
         $this->emit('refreshData');
     }
 
-    public function updateQty(PurchaseItem $item, $value)
+    public function updateQty(PurchaseItem $item, $value): void
     {
         if ($value == '' || $value <= 0) {
             $this->notify('Please enter a valid qty');
@@ -142,7 +143,7 @@ class Edit extends Component
         $this->notify('Qty updated');
     }
 
-    public function removeProducts()
+    public function removeProducts(): void
     {
         foreach ($this->selectedProductsToDelete as $selectedItem) {
             $item = PurchaseItem::findOrFail($selectedItem);
@@ -154,7 +155,7 @@ class Edit extends Component
         $this->notify('Products removed');
     }
 
-    public function deleteItem(PurchaseItem $item)
+    public function deleteItem(PurchaseItem $item): void
     {
         $item->delete();
 
@@ -163,7 +164,7 @@ class Edit extends Component
         $this->notify('Item deleted');
     }
 
-    public function process()
+    public function process(): void
     {
         $items = $this->purchase->items()->get();
 
@@ -194,7 +195,7 @@ class Edit extends Component
         $this->showConfirmModal = false;
     }
 
-    public function cancel()
+    public function cancel(): void
     {
         if ($this->purchase->exists('items')) {
             foreach ($this->purchase->items as $item) {
