@@ -59,7 +59,7 @@
         @endphp
 
         <nav
-            class="sticky top-0 z-40 w-full bg-white border-t-4 border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
+            class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-lg border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
         >
             <div class="flex justify-between items-center py-1 px-6 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
                 <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
