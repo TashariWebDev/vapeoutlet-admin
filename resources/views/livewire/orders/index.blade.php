@@ -54,7 +54,7 @@
     
     <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
         <div class="pb-3">
-            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Latest transactions</h3>
+            <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>
         </div>
         <div class="p-2 bg-white rounded-md dark:bg-slate-800">
             @if ($selectedOrderNotes)
