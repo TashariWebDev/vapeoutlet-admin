@@ -47,9 +47,8 @@
             </div>
 
             <form wire:submit.prevent="addProducts">
-                <div class="py-4">
+                <div class="my-2">
                     <button class="w-full button-success">
-                        <x-icons.plus class="mr-2 w-5 h-5" />
                         add
                     </button>
                 </div>

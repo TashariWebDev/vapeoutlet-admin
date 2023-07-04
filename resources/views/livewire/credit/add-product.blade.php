@@ -34,9 +34,8 @@
                 {{ $products->links() }}
             </div>
             <form wire:submit.prevent="addProducts">
-                <div class="py-4">
+                <div class="my-2">
                     <button class="w-full button-success">
-                        <x-icons.plus class="mr-2 w-5 h-5"/>
                         add
                     </button>
                 </div>
@@ -57,7 +56,7 @@
                                 >
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">
-                                <x-product-listing-simple :product="$product"/>
+                                <x-product-listing-simple :product="$product" />
 
                                 <div>
                                     <img
