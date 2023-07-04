@@ -55,7 +55,7 @@
         </div>
     </x-modal>
 
-    <div class="px-2 bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="px-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
         <div class="py-3">
             <div class="grid grid-cols-1 lg:grid-cols-3">
                 <div>
@@ -145,7 +145,7 @@
                     wire:loading
                     wire:target="getDocument({{ $stockTake->id }})"
                 >
-                  <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                  <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
                 </span>
                                 Print
                             </button>
@@ -165,7 +165,7 @@
                       wire:loading
                       wire:target="getStockTakeDocument({{ $stockTake->id }})"
                   >
-                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow"/>
+                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
                   </span>
                                     Print
                                 </button>

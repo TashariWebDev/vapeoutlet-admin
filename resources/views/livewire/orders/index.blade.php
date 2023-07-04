@@ -87,7 +87,7 @@
 
     {{-- Desktop --}}
     <div class="py-2">
-        <div class="px-2 bg-white rounded-lg dark:bg-slate-900">
+        <div class="px-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
 
             <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div class="">
@@ -195,7 +195,7 @@
             </div>
         </div>
 
-        <div class="mt-2 bg-white rounded-lg dark:bg-slate-900">
+        <div class="mt-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
             <x-table.container class="hidden lg:block">
                 <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>Order #
@@ -377,10 +377,10 @@
     </div>
 
     {{-- Mobile --}}
-    <div class="grid grid-cols-1 gap-y-4 px-1 mt-3 lg:hidden">
+    <div class="grid grid-cols-1 gap-y-4 mt-3 shadow-lg lg:hidden">
         @forelse($orders as $order)
 
-            <div class="grid grid-cols-2 px-2 bg-white rounded dark:bg-slate-800">
+            <div class="grid grid-cols-2 px-2 bg-white rounded-lg shadow-lg dark:bg-slate-800">
                 <div class="py-1">
                     <a
                         class="link"

@@ -172,7 +172,7 @@
         </form>
     </x-modal>
 
-    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="bg-white rounded-lg shadow-lg dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-500">

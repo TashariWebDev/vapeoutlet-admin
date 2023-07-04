@@ -1,6 +1,6 @@
 <div>
 
-    <div class="py-3 px-2 bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="py-3 px-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
 
         <x-page-header class="px-2">
             Brands
@@ -38,7 +38,7 @@
                 <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                     <x-table.row>
                         <img
-                            class="w-20 h-20 bg-white rounded-sm"
+                            class="w-20 h-20 bg-white rounded-lg"
                             src="{{ asset('storage/' . $brand->image) }}"
                             alt=""
                         >

@@ -1,5 +1,5 @@
 <div
-    class="flex overflow-hidden flex-col w-full bg-white rounded-lg shadow dark:border border-slate-900 dark:bg-slate-900"
+    class="flex overflow-hidden flex-col w-full bg-white rounded-lg shadow-lg dark:border border-slate-900 dark:bg-slate-900"
 >
     <div class="px-6 pt-6 pb-10 h-full">
         {{ $slot }}

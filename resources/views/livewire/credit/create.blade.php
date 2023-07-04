@@ -25,8 +25,8 @@
         </div>
         <p class="text-xs text-slate-600">This action is non reversible</p>
     </x-modal>
-
-    <div class="bg-white rounded-lg shadow dark:bg-slate-900">
+    
+    <div class="bg-white rounded-lg shadow-lg dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold dark:text-white text-slate-900">{{ $this->credit->number }}</p>
@@ -55,7 +55,7 @@
                         <livewire:credit.add-product :credit="$this->credit" />
                     @endif
                 </div>
-
+                
                 <div>
                     @if (!$this->credit->processed)
                         <button
@@ -67,7 +67,7 @@
                         </button>
                     @endif
                 </div>
-
+                
                 <div>
                     @if ($this->credit->processed)
                         <button
@@ -90,10 +90,10 @@
                         </button>
                     @endif
                 </div>
-
+            
             </div>
         </div>
-
+        
         @if (!$this->credit->processed)
             <div class="py-0.5 px-2 w-full">
                 <div>
@@ -107,7 +107,7 @@
                 </div>
             </div>
         @endif
-
+        
         <x-table.container>
             <x-table.header class="hidden grid-cols-5 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
