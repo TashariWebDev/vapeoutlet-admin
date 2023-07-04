@@ -12,27 +12,27 @@ input[type=checkbox] {
 
 
 .button-success {
-    @apply disabled:opacity-50 disabled:cursor-default uppercase inline-flex items-center px-3 py-2 border border-transparent text-center text-[12px] font-semibold rounded-md text-sky-700 dark:text-sky-900 bg-sky-100 dark:bg-sky-300 dark:hover:bg-sky-400 hover:bg-sky-200 dark:focus:outline-none focus:outline-none focus:ring-1 focus:ring-sky-400 dark:focus:ring-sky-200 tracking-wide ;
+    @apply rounded-md bg-sky-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-sky-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600 dark:bg-sky-500 dark:hover:bg-sky-400 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-sky-500 disabled:opacity-50 capitalize;
 }
 
 .button-danger {
-    @apply disabled:opacity-50 disabled:cursor-default uppercase inline-flex items-center px-3 py-2 border border-transparent text-center text-[12px] font-semibold rounded-md text-rose-700 dark:text-rose-900 bg-rose-100 dark:bg-rose-300 dark:hover:bg-rose-400 hover:bg-rose-200 dark:focus:outline-none focus:outline-none focus:ring-1 focus:ring-rose-400  dark:focus:ring-rose-200 tracking-wide;
+    @apply rounded-md bg-rose-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 dark:bg-rose-500 dark:hover:bg-rose-400 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-rose-500 disabled:opacity-50 capitalize;
 }
 
 .button-secondary {
-    @apply disabled:opacity-50 disabled:cursor-default capitalize inline-flex items-center px-4 py-2 border border-transparent text-center text-xs font-semibold rounded-md text-sky-700 dark:text-sky-900 bg-sky-100 dark:bg-sky-300 dark:hover:bg-sky-400 hover:bg-sky-200 dark:focus:outline-none focus:outline-none focus:ring-1 focus:ring-sky-400  dark:focus:ring-sky-200;
+    @apply rounded-md bg-slate-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-slate-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600 dark:bg-slate-500 dark:hover:bg-slate-400 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-slate-500 disabled:opacity-50 capitalize;
 }
 
 .button-warning {
-    @apply disabled:opacity-50 disabled:cursor-default uppercase inline-flex items-center px-3 py-2 border border-transparent text-center text-[12px] font-semibold rounded-md text-yellow-700 dark:text-yellow-900 bg-yellow-100 dark:bg-yellow-300 dark:hover:bg-yellow-400 hover:bg-yellow-200 dark:focus:outline-none focus:outline-none focus:ring-1 focus:ring-yellow-400  dark:focus:ring-yellow-200 tracking-wide;
+    @apply rounded-md bg-yellow-600 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-yellow-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600 dark:bg-yellow-500 dark:hover:bg-yellow-400 dark:focus-visible:outline dark:focus-visible:outline-2 dark:focus-visible:outline-offset-2 dark:focus-visible:outline-yellow-500 disabled:opacity-50 capitalize;
 }
 
 .button-alt {
-    @apply disabled:opacity-50 disabled:cursor-default capitalize inline-flex items-center px-4 py-2 border border-sky-500 dark:border-sky-400 text-center text-xs font-semibold rounded-md text-sky-500 dark:text-sky-500 bg-transparent dark:bg-transparent hover:text-sky-600 hover:bg-sky-100 dark:hover:bg-sky-100 dark:hover:text-sky-700  dark:focus:outline-none focus:outline-none focus:ring-1 focus:ring-sky-400  dark:focus:ring-sky-200;
+    @apply disabled:opacity-50 disabled:cursor-default  inline-flex items-center px-4 py-2 border border-sky-500 dark:border-sky-400 text-center text-xs font-semibold rounded-md text-sky-500 dark:text-sky-500 bg-transparent dark:bg-transparent hover:text-sky-600 hover:bg-sky-100 dark:hover:bg-sky-100 dark:hover:text-sky-700  dark:focus:outline-none focus:outline-none focus:ring-1 focus:ring-sky-400  dark:focus:ring-sky-200 capitalize;
 }
 
 .link {
-    @apply text-sky-600 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-600 text-xs capitalize font-bold hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-2 focus:outline-none
+    @apply text-sky-700 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-600 text-sm capitalize font-bold hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-2 focus:outline-none
 }
 
 .link-alt {

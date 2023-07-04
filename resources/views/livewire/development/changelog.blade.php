@@ -39,6 +39,17 @@
         </div>
 
         <div>
+            <time class="font-bold underline">04 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Adjust UI with larger fonts and touch targets
+                </li>
+            </ul>
+        </div>
+
+        <div>
             <time class="font-bold underline">03 July 2023</time>
 
             <ul>

@@ -50,40 +50,42 @@
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
                 <div class="pt-1">
-                    <p class="text-xs font-bold uppercase dark:text-white text-slate-900">
+                    <p class="text-sm font-bold uppercase dark:text-white text-slate-900">
                         {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
                     </p>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500">{{ $this->order->created_at }}</p>
                     @isset($this->order->delivery_type_id)
                         <div class="flex justify-between">
-                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                            <p class="text-sm capitalize text-slate-500 dark:text-slate-500">
                                 {{ $this->order->delivery?->type }}
                             </p>
-                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                            <p class="text-sm capitalize text-slate-600 dark:text-slate-300">
                                 R {{ number_format($this->order->delivery_charge,2) }}
                             </p>
                         </div>
                     @endisset
                     <div class="flex col-span-2 justify-between p-1 mt-3 bg-slate-100 dark:bg-slate-950">
-                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                        <p class="text-sm font-bold dark:text-white text-slate-900">
                             Total: R {{ number_format($this->order->getTotal(), 2) }}
                         </p>
-                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                        <p class="text-sm font-bold dark:text-white text-slate-900">
                             Count: {{ $this->order->items->sum('qty') }}
                         </p>
                     </div>
                 </div>
                 <div>
                     <a href="{{ route('customers/show',$this->order->customer->id) }}"
-                       class="font-bold capitalize hover:underline focus:underline focus:outline-none text-[12px] text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                       class="link"
                     >{{ $this->order->customer->name }}
                     </a>
-                    <p class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->phone }}</p>
-                    <p class="font-semibold lowercase dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->email }}</p>
+                    <div class="leading-3">
+                        <p class="text-sm font-semibold capitalize text-slate-500 dark:text-slate-500">{{ $this->order->customer->phone }}</p>
+                        <p class="text-sm font-semibold lowercase text-slate-500 dark:text-slate-500">{{ $this->order->customer->email }}</p>
+                    </div>
                 </div>
                 <div>
                     @isset($this->order->address_id)
-                        <div class="pt-1 font-semibold capitalize dark:text-white text-[12px] text-slate-900">
+                        <div class="pt-1 text-sm font-semibold leading-4 capitalize text-slate-500 dark:text-slate-500">
                             @isset($this->order->customer->company)
                                 <p>{{ $this->order->customer->company }}</p>
                             @endisset
@@ -97,7 +99,7 @@
                 </div>
             </div>
             <div>
-                <div class="grid grid-cols-2 col-span-2 gap-2 lg:grid-cols-3">
+                <div class="grid grid-cols-2 col-span-2 gap-2 mt-2 lg:grid-cols-3 lg:mt-0">
                     <div>
                         <livewire:orders.note :order="$this->order" />
                     </div>
@@ -241,7 +243,7 @@
                     class="grid lg:grid-cols-6"
                     wire:key="'item-table-'{{ $item->id }}"
                 >
-                    <x-table.row class="col-span-2">
+                    <x-table.row class="col-span-2 mb-2 lg:mb-0">
                         <div class="flex justify-start items-center">
                             <div>
                                 <x-product-listing-simple
@@ -253,69 +255,74 @@
                     </x-table.row>
                     <x-table.row>
                         @if (auth()->user()->hasPermissionTo('edit pricing'))
-                            <label>
-                                <x-input.text
-                                    type="number"
-                                    value="{{ $item->price }}"
-                                    wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
-                                    pattern="[0-9]*"
-                                    inputmode="numeric"
-                                    step="0.01"
-                                />
-                            </label>
+                            <x-input.label class="lg:hidden">
+                                Price
+                            </x-input.label>
+                            <x-input.text
+                                type="number"
+                                value="{{ $item->price }}"
+                                wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
+                                pattern="[0-9]*"
+                                inputmode="numeric"
+                                step="0.01"
+                            />
+
                         @else
-                            <label>
-                                <x-input.text
-                                    class="w-full rounded-md bg-slate-300 text-slate-900"
-                                    type="number"
-                                    value="{{ $item->price }}"
-                                    pattern="[0-9]*"
-                                    inputmode="numeric"
-                                    step="0.01"
-                                    disabled
-                                />
-                            </label>
+                            <x-input.label class="lg:hidden">
+                                Price
+                            </x-input.label>
+                            <x-input.text
+                                class="w-full rounded-md bg-slate-300 text-slate-900"
+                                type="number"
+                                value="{{ $item->price }}"
+                                pattern="[0-9]*"
+                                inputmode="numeric"
+                                step="0.01"
+                                disabled
+                            />
                         @endif
                     </x-table.row>
                     <x-table.row>
-                        <label>
-                            <x-input.text
-                                class="w-full rounded-md bg-slate-300 text-slate-900"
-                                type="number"
-                                value="{{ $item->discount }}"
-                                inputmode="numeric"
-                                pattern="[0-9]"
-                                step="0.01"
-                                disabled
-                            />
-                        </label>
+                        <x-input.label class="lg:hidden">
+                            Discount
+                        </x-input.label>
+                        <x-input.text
+                            class="w-full rounded-md bg-slate-300 text-slate-900"
+                            type="number"
+                            value="{{ $item->discount }}"
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            step="0.01"
+                            disabled
+                        />
                     </x-table.row>
-                    <x-table.row>
-
-                        <label>
-                            <x-input.text
-                                class="w-full rounded-md bg-slate-300 text-slate-900"
-                                type="number"
-                                value="{{ $item->qty }}"
-                                inputmode="numeric"
-                                pattern="[0-9]"
-                                min="1"
-                                disabled
-                            />
-                        </label>
+                    <x-table.row class="mt-1 lg:mt-0">
+                        <x-input.label class="lg:hidden">
+                            Qty
+                        </x-input.label>
+                        <x-input.text
+                            class="w-full rounded-md bg-slate-300 text-slate-900"
+                            type="number"
+                            value="{{ $item->qty }}"
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            min="1"
+                            disabled
+                        />
                     </x-table.row>
-                    <x-table.row>
-                        <label>
-                            <x-input.text
-                                class="w-full rounded-md bg-slate-300 text-slate-900"
-                                type="number"
-                                value="{{ $item->line_total }}"
-                                inputmode="numeric"
-                                pattern="[0-9]"
-                                step="0.01"
-                                disabled
-                            />
-                        </label>
+                    <x-table.row class="mt-1 lg:mt-0">
+                        <x-input.label class="lg:hidden">
+                            Line total
+                        </x-input.label>
+                        <x-input.text
+                            class="w-full rounded-md bg-slate-300 text-slate-900"
+                            type="number"
+                            value="{{ $item->line_total }}"
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            step="0.01"
+                            disabled
+                        />
                     </x-table.row>
                 </x-table.body>
             @endforeach

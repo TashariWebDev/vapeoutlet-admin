@@ -69,17 +69,17 @@
         </div>
     </div>
 
-    <div class="px-2 text-lg">
-        <h1 class="font-bold dark:text-white text-slate-900">{{ date('F') }}</h1>
+    <div class="px-2">
+        <h1 class="text-2xl font-bold dark:text-white text-slate-900">{{ date('F') }}</h1>
     </div>
 
     <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
-        <div class="mx-auto max-w-7xl">
+        <div class="mx-auto">
             <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-4 dark:bg-slate-900">
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Received</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                                {{ $lifetime_orders->received }}
                         </span>
                     </p>
@@ -87,7 +87,7 @@
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Processed</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             {{ $lifetime_orders->processed }}
                         </span>
                     </p>
@@ -95,7 +95,7 @@
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Packed</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             {{ $lifetime_orders->packed }}
                         </span>
                     </p>
@@ -103,7 +103,7 @@
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Shipped</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-4xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
+                        <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
                             {{ $orders->shipped }}
                         </span>
                     </p>

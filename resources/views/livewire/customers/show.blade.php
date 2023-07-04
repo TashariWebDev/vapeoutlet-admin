@@ -1,5 +1,5 @@
 <div>
-    
+
     <div>
         <div class="px-2 text-lg">
             <h1 class="font-bold dark:text-white text-slate-900">
@@ -25,8 +25,8 @@
             @endif
         </div>
     </div>
-    
-    
+
+
     <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
         <div class="mx-auto">
             <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-6 dark:bg-slate-900">
@@ -112,13 +112,13 @@
         </div>
     </div>
     <!-- End Stats -->
-    
+
     <!-- Actions -->
     <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
-        
+
         <div class="py-2 px-4">
             <div>
-                <div class="grid grid-cols-1 gap-y-4 mt-2 lg:grid-cols-6 lg:gap-x-2 lg:gap-y-3">
+                <div class="grid grid-cols-1 gap-2 mt-2 lg:grid-cols-6">
                     <div class="pt-1">
                         <div>
                             <x-input.label class="hidden">
@@ -177,7 +177,7 @@
                             >Emailing</span>
                         </button>
                     </div>
-                    
+
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -196,7 +196,7 @@
                             >Printing</span>
                         </button>
                     </div>
-                    
+
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -206,27 +206,27 @@
                             <span class="pl-2">New order</span>
                         </button>
                     </div>
-                    
-                    <div class="w-full">
+
+                    <div class="block w-full">
                         <a
-                            class="w-full button-success"
+                            class="block w-full text-center button-success"
                             href="{{ route('credits/create', $this->customer) }}"
                         >
                             <x-icons.busy target="''" />
                             <span class="pl-2">credit note</span>
                         </a>
                     </div>
-                    
+
                     @hasPermissionTo('add transactions')
                     <div class="w-full">
                         <livewire:transactions.create :customer-id="$customerId" />
                     </div>
                     @endhasPermissionTo
-                    
+
                     <div class="w-full">
                         <livewire:transactions.warranty.create :customer-id="$customerId" />
                     </div>
-                    
+
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -238,18 +238,18 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- End -->
-            
+
             <div class="py-3">
                 {{ $transactions->links() }}
             </div>
         </div>
-        
+
         @php
             $disabledTransactionTypes = ['credit', 'invoice'];
         @endphp
-        
+
         {{-- Mobile Transactions --}}
         <div class="px-2">
             @forelse($transactions as $transaction)
@@ -322,7 +322,7 @@
                 </div>
             @endforelse
         </div>
-        
+
         <!-- Desktop Transactions -->
         <div class="px-2">
             <x-table.container>
@@ -334,7 +334,7 @@
                     <x-table.heading class="text-right">Balance</x-table.heading>
                     <x-table.heading class="text-right">Document</x-table.heading>
                 </x-table.header>
-                
+
                 @forelse($transactions as $transaction)
                     <x-table.body class="hidden text-sm lg:grid lg:grid-cols-6">
                         <x-table.row class="text-xs text-center lg:text-left">
@@ -364,27 +364,27 @@
                 ])>
                   {{ strtoupper($transaction->type) }}
                 </span>
-                            
+
                             </p>
-                            <p class="dark:text-white fuppercase text-[12px] text-slate-900">
+                            <p class="uppercase text-[12px] text-slate-500 dark:text-slate-500">
                                 {{ $transaction->created_at }}
                             </p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="text-xs font-semibold dark:text-white text-slate-600">
+                            <p class="text-xs font-semibold">
                                 {{ strtoupper($transaction->reference) }}</p>
-                            <p class="uppercase dark:text-white text-slate-600 text-[12px]">{{ $transaction->created_by }}
+                            <p class="uppercase text-[12px]">{{ $transaction->created_by }}
                             </p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
-                            <p class="font-semibold uppercase dark:text-white text-slate-900">
+                            <p class="font-semibold uppercase">
                                 {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
                             </p>
                         </x-table.row>
-                        <x-table.row class="font-bold text-center lg:text-right dark:text-white text-slate-600">
+                        <x-table.row class="font-bold text-center lg:text-right">
                             {{ number_format($transaction->amount, 2) }}
                         </x-table.row>
-                        <x-table.row class="font-bold text-center lg:text-right dark:text-white text-slate-600">
+                        <x-table.row class="font-bold text-center lg:text-right">
                             <span class="lg:hidden">BAL:</span>
                             {{ number_format($transaction->running_balance, 2) }}
                         </x-table.row>
@@ -407,7 +407,7 @@
                             </div>
                         </x-table.row>
                     </x-table.body>
-                
+
                 @empty
                     <div class="hidden lg:block">
                         <x-table.empty></x-table.empty>

@@ -1,6 +1,6 @@
 <div>
     <div class="px-2 bg-white rounded-lg dark:bg-slate-900">
-        <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
+        <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3">
             <div>
                 <x-input.label for="search">
                     Search
@@ -41,13 +41,13 @@
             </div>
         </div>
 
-        <div class="px-2">
+        <div>
             <x-input.helper>
                 Query Time {{ round($queryTime, 3) }} ms
             </x-input.helper>
         </div>
 
-        <div class="py-2 px-2">
+        <div class="py-2">
             {{ $customers->links() }}
         </div>
     </div>
@@ -69,23 +69,23 @@
                             href="{{ route('customers/show', $customer->id) }}"
                         ><span class="pr-1 text-[10px]">({{$customer->id}})</span> {{ $customer->name }}</a>
                         <div class="pt-1">
-                            <p class="font-semibold text-[12px]">
+                            <p class="text-sm font-semibold">
                                 {{ $customer->salesperson->name ?? '' }}</p>
                         </div>
                     </x-table.row>
                     <x-table.row
-                        class="font-semibold text-[12px]"
+                        class="text-sm font-semibold"
                     >{{ strtolower($customer->email) }}</x-table.row>
                     <x-table.row
                         class="text-center"
-                    ><p class="font-semibold uppercase text-[12px]">{{ $customer->phone }}</p></x-table.row>
+                    ><p class="text-sm font-semibold uppercase">{{ $customer->phone }}</p></x-table.row>
                     <x-table.row class="flex justify-center">
                         @if ($customer->is_wholesale)
-                            <p class="font-semibold text-rose-600 uppercase dark:text-rose-400 text-[12px]">
+                            <p class="text-sm font-semibold text-rose-600 uppercase dark:text-rose-400">
                                 Wholesale
                             </p>
                         @else
-                            <p class="font-semibold uppercase text-sky-600 text-[12px] dark:text-sky-400">
+                            <p class="text-sm font-semibold uppercase text-sky-600 dark:text-sky-400">
                                 Retail
                             </p>
                         @endif

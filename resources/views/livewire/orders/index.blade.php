@@ -12,7 +12,7 @@
                         <div class="text-xs font-semibold text-right text-slate-600 dark:text-slate-300">AMOUNT</div>
                         <div class="text-xs font-semibold text-right text-slate-600 dark:text-slate-300">BAL</div>
                     </div>
-                    
+
                     @forelse($selectedCustomerLatestTransactions as $transaction)
                         <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-gray-900 even:bg-sky-50">
                             <div>
@@ -50,8 +50,8 @@
             @endif
         </div>
     </x-modal>
-    
-    
+
+
     <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>
@@ -84,12 +84,12 @@
             @endif
         </div>
     </x-modal>
-    
+
     {{-- Desktop --}}
-    <div class="py-3 bg-white rounded-lg shadow dark:bg-slate-900">
-        <div class="lg:px-4">
-            
-            <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
+    <div class="py-2">
+        <div class="px-2 bg-white rounded-lg dark:bg-slate-900">
+
+            <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div class="">
                     <x-input.label>
                         Search
@@ -104,40 +104,40 @@
                         Query Time {{ round($queryTime, 3) }} ms
                     </x-input.helper>
                 </div>
-                
+
                 <div>
                     <x-input.label>
                         Filter orders
                     </x-input.label>
                     <div
-                        class="grid grid-cols-3 py-2.5 mt-2 w-full rounded-md border divide-x bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
+                        class="grid grid-cols-3 w-full rounded-md border divide-x py-[7px] bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
                     >
                         <button
                             @class([
-                                'h-full text-center text-[12px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
-                                'h-full text-center text-[12px] font-bold uppercase' =>
+                                'h-full text-center text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-center text-sm font-bold uppercase' =>
                                     $customerType === null,
                             ])
                             wire:click="$set('customerType',null)"
                         >
                             View all
                         </button>
-                        
+
                         <button
                             @class([
-                                'h-full text-[12px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
-                                'h-full text-[12px] font-bold uppercase' =>
+                                'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-sm font-bold uppercase' =>
                                     $customerType === false,
                             ])
                             wire:click="$set('customerType',false)"
                         >
                             Retail
                         </button>
-                        
+
                         <button
                             @class([
-                                'h-full text-[12px] text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
-                                'h-full text-[12px] font-bold uppercase' =>
+                                'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
+                                'h-full text-sm font-bold uppercase' =>
                                     $customerType === true,
                             ])
                             wire:click="$set('customerType',true)"
@@ -146,7 +146,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div>
                     <x-input.label>
                         Status
@@ -160,7 +160,7 @@
                         <option value="cancelled">Cancelled</option>
                     </x-input.select>
                 </div>
-                
+
                 <div>
                     <x-input.label>
                         No of records
@@ -172,8 +172,8 @@
                         <option value="100">100</option>
                     </x-input.select>
                 </div>
-                
-                <div class="grid grid-cols-2 gap-1 lg:hidden">
+
+                <div class="grid grid-cols-2 gap-1 font-black lg:hidden text-slate-500">
                     <button
                         class="@if ($direction === 'asc') text-sky-600 @endif border"
                         wire:click="$set('direction','asc')"
@@ -187,15 +187,15 @@
                         &downarrow;
                     </button>
                 </div>
-            
+
             </div>
-            
-            <div class="py-6 px-2">
+
+            <div class="py-2">
                 {{ $orders->links() }}
             </div>
         </div>
-        
-        <div class="px-2">
+
+        <div class="mt-2 bg-white rounded-lg dark:bg-slate-900">
             <x-table.container class="hidden lg:block">
                 <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>Order #
@@ -227,7 +227,7 @@
                                         href="{{ route('orders/show', $order->id) }}"
                                         title="View Order {{ $order->number }}"
                                     >{{ $order->number }}</a>
-                                    <p class="text-[12px]">
+                                    <p class="text-sm text-slate-500">
                                         {{ $order->created_at }}
                                     </p>
                                 </div>
@@ -255,45 +255,46 @@
                                 @endif
                             </div>
                         </x-table.row>
-                        <x-table.row class="">
-                            <div class="flex justify-end lg:justify-between lg:items-start">
+                        <x-table.row>
+                            <div class="flex justify-end lg:justify-between">
                                 <div>
                                     <a
                                         class="link"
                                         href="{{ route('customers/show', $order->customer->id) }}"
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
+
                                     <div class="">
-                                        <p class="font-semibold uppercase text-[10px]">
+                                        <p class="text-xs font-semibold uppercase">
                                             {{ $order->customer->type() }}
                                         </p>
-                                        <p class="uppercase text-[12px]">
+                                        <p class="text-xs uppercase text-slate-500">
                                             {{ $order->customer->salesperson->name ?? '' }}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="flex space-x-1">
-                                    <button
-                                        class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
-                                        title="View {{ $order->customer->name }}'s Last Five Transactions"
-                                        wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
-                                    >
-                                        VIEW
-                                    </button>
-                                    
+
                                     @if($order->notes_count)
                                         <button
-                                            class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                                            class="inline-flex items-center py-1 px-2 text-xs font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
                                             title="View order notes"
                                             wire:click.prefetch="quickViewNotes('{{ $order->id }}')"
                                         >
                                             NOTES
                                         </button>
                                     @endif
+                                    <button
+                                        class="inline-flex items-center py-1 px-2 text-xs font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
+                                        title="View {{ $order->customer->name }}'s Last Five Transactions"
+                                        wire:click.prefetch="quickViewCustomerAccount('{{ $order->customer->id }}')"
+                                    >
+                                        VIEW
+                                    </button>
                                 </div>
                             </div>
                         </x-table.row>
-                        <x-table.row class="text-center cursor-default lg:text-right">
+                        <x-table.row class="text-center text-black cursor-default lg:text-right dark:text-slate-400">
                             <p
                                 class="font-semibold uppercase text-[12px]"
                                 title="Delivery Type"
@@ -308,7 +309,7 @@
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p
-                                class="font-bold uppercase cursor-default text-[12px]"
+                                class="text-sm font-black text-black uppercase cursor-default dark:text-slate-400"
                                 title="Order Total"
                             >
                                 R {{ number_format(to_rands($order->order_total) + $order->delivery_charge, 2) }}
@@ -374,12 +375,12 @@
             </x-table.container>
         </div>
     </div>
-    
+
     {{-- Mobile --}}
     <div class="grid grid-cols-1 gap-y-4 px-1 mt-3 lg:hidden">
         @forelse($orders as $order)
-            
-            <div class="grid grid-cols-2 px-2 bg-white rounded shadow dark:bg-slate-800">
+
+            <div class="grid grid-cols-2 px-2 bg-white rounded dark:bg-slate-800">
                 <div class="py-1">
                     <a
                         class="link"
@@ -394,7 +395,7 @@
                         {{ $order->created_at->format('d-m-y H:i') }}
                     </p>
                 </div>
-                
+
                 <div class="flex col-span-2 justify-between pt-3">
                     <div>
                         <a
@@ -403,7 +404,7 @@
                         >
                             <p class="text-sm">{{ $order->customer->name }}</p>
                         </a>
-                        
+
                         <p @class([
                             'text-xs',
                             'text-rose-700 dark:text-rose-400' =>
@@ -416,7 +417,7 @@
                             {{ $order->customer->salesperson->name ?? '' }}
                         </p>
                     </div>
-                    
+
                     <div class="flex space-x-2">
                         <button
                             class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -425,7 +426,7 @@
                         >
                             VIEW
                         </button>
-                        
+
                         @if($order->notes_count)
                             <button
                                 class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -460,7 +461,7 @@
                     @endif
                 </div>
             </div>
-        
+
         @empty
             <x-table.empty></x-table.empty>
         @endforelse

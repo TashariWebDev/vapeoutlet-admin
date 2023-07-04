@@ -116,44 +116,47 @@
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
                 <div class="pt-1">
-                    <p class="text-xs font-bold uppercase dark:text-white text-slate-900">
+                    <p class="text-sm font-bold uppercase dark:text-white text-slate-900">
                         {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
                     </p>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ $this->order->created_at }}</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500">{{ $this->order->created_at }}</p>
                     @isset($this->order->delivery_type_id)
                         <div class="flex justify-between">
-                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                            <p class="text-sm capitalize text-slate-500 dark:text-slate-500">
                                 {{ $this->order->delivery?->type }}
                             </p>
-                            <p class="text-xs capitalize text-slate-600 dark:text-slate-300">
+                            <p class="text-sm capitalize text-slate-600 dark:text-slate-300">
                                 R {{ number_format($this->order->delivery_charge,2) }}
                             </p>
                         </div>
                     @endisset
                     <div class="flex col-span-2 justify-between p-1 mt-3 bg-slate-100 dark:bg-slate-950">
-                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                        <p class="text-sm font-bold dark:text-white text-slate-900">
                             Total: R {{ number_format($this->order->getTotal(), 2) }}
                         </p>
-                        <p class="text-xs font-bold dark:text-white text-slate-900">
+                        <p class="text-sm font-bold dark:text-white text-slate-900">
                             Count: {{ $this->order->items->sum('qty') }}
                         </p>
                     </div>
                 </div>
                 <div>
                     <a href="{{ route('customers/show',$this->order->customer->id) }}"
-                       class="font-bold capitalize hover:underline focus:underline focus:outline-none text-[12px] text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
+                       class="link"
                     >{{ $this->order->customer->name }}
                     </a>
-                    <p class="font-semibold capitalize dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->phone }}</p>
-                    <p class="font-semibold lowercase dark:text-white text-[12px] text-slate-900">{{ $this->order->customer->email }}</p>
+                    <div class="leading-3">
+                        <p class="text-sm font-semibold capitalize text-slate-500 dark:text-slate-500">{{ $this->order->customer->phone }}</p>
+                        <p class="text-sm font-semibold lowercase text-slate-500 dark:text-slate-500">{{ $this->order->customer->email }}</p>
+                    </div>
                 </div>
                 <div>
                     @isset($this->order->address_id)
-                        <div class="pt-1 font-semibold capitalize dark:text-white text-[12px] text-slate-900">
+                        <div class="pt-1 text-sm font-semibold leading-4 capitalize text-slate-500 dark:text-slate-500">
                             @isset($this->order->customer->company)
                                 <p>{{ $this->order->customer->company }}</p>
                             @endisset
                             <p>{{ $this->order->address?->line_one }}</p>
+                            <p>{{ $this->order->address?->line_two }}</p>
                             <p>{{ $this->order->address?->suburb }} </p>
                             <p>{{ $this->order->address?->city }}</p>
                             <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
@@ -162,7 +165,7 @@
                 </div>
             </div>
             <div>
-                <div class="grid grid-cols-2 gap-2 lg:grid-cols-3 lg:col-span-2">
+                <div class="grid grid-cols-2 gap-2 mt-3 lg:grid-cols-3 lg:col-span-2 lg:mt-0">
                     <div>
                         <button
                             class="w-full text-xs button-success"
@@ -217,7 +220,7 @@
 
     <div class="mt-3 bg-white rounded-lg dark:bg-slate-900">
 
-        <div class="py-0.5 px-2 w-full">
+        <div class="py-2 px-2 w-full">
             <div>
                 <x-input.text
                     type="text"
@@ -257,7 +260,7 @@
                     wire:key="'item-table-'{{ $item->id }}"
                 >
                     <x-table.row class="col-span-2">
-                        <div class="flex justify-start items-center">
+                        <div class="flex justify-start items-center mb-2 lg:mb-0">
                             <div>
                                 <label
                                     class="hidden"
@@ -283,16 +286,18 @@
                     <x-table.row>
                         @hasPermissionTo('edit pricing')
                         <form>
-                            <label>
-                                <x-input.text
-                                    type="number"
-                                    value="{{ $item->price }}"
-                                    wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
-                                    pattern="[0-9]*"
-                                    inputmode="numeric"
-                                    step="0.01"
-                                />
-                            </label>
+                            <x-input.label class="lg:hidden">
+                                Price
+                            </x-input.label>
+                            <x-input.text
+                                type="number"
+                                value="{{ $item->price }}"
+                                wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
+                                pattern="[0-9]*"
+                                inputmode="numeric"
+                                step="0.01"
+                            />
+
                         </form>
                         @endhasPermissionTo
                         <div>
@@ -315,34 +320,38 @@
                         </div>
                     </x-table.row>
                     <x-table.row>
-                        <label>
+                        <x-input.label class="lg:hidden">
+                            Discount
+                        </x-input.label>
+                        <x-input.text
+                            class="w-full rounded-md bg-slate-400 text-slate-700"
+                            type="number"
+                            value="{{ $item->discount }}"
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            step="0.01"
+                            disabled
+                        />
+
+                    </x-table.row>
+                    <x-table.row class="mt-3 lg:mt-0">
+                        <form>
+                            <x-input.label class="lg:hidden">
+                                Qty
+                            </x-input.label>
                             <x-input.text
-                                class="w-full rounded-md bg-slate-400 text-slate-700"
                                 type="number"
-                                value="{{ $item->discount }}"
+                                value="{{ $item->qty }}"
+                                wire:keyup.debounce.1500ms="updateQty({{ $item->id }},$event.target.value)"
                                 inputmode="numeric"
                                 pattern="[0-9]"
-                                step="0.01"
-                                disabled
+                                min="1"
+                                max="{{ $item->product->total_available }}"
                             />
-                        </label>
-                    </x-table.row>
-                    <x-table.row>
-                        <form>
-                            <label>
-                                <x-input.text
-                                    type="number"
-                                    value="{{ $item->qty }}"
-                                    wire:keyup.debounce.1500ms="updateQty({{ $item->id }},$event.target.value)"
-                                    inputmode="numeric"
-                                    pattern="[0-9]"
-                                    min="1"
-                                    max="{{ $item->product->total_available }}"
-                                />
-                            </label>
+
                         </form>
                         <div class="flex justify-between items-center mt-1">
-                            <div class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700">
+                            <div class="hidden text-xs text-rose-700 lg:block dark:text-rose-400 hover:text-rose-700">
                                 <button
                                     wire:loading.attr="disabled"
                                     wire:target="removeProducts"
@@ -350,23 +359,32 @@
                                 >remove
                                 </button>
                             </div>
-                            <div>
+                            <div class="text-xs">
                                 {{ $item->product->total_available }} in stock
                             </div>
                         </div>
                     </x-table.row>
-                    <x-table.row>
-                        <label>
-                            <x-input.text
-                                class="w-full rounded-md bg-slate-400 text-slate-700"
-                                type="number"
-                                value="{{ $item->line_total }}"
-                                inputmode="numeric"
-                                pattern="[0-9]"
-                                step="0.01"
-                                disabled
-                            />
-                        </label>
+                    <x-table.row class="mt-3 lg:mt-0">
+                        <x-input.label class="lg:hidden">
+                            Line total
+                        </x-input.label>
+                        <x-input.text
+                            class="w-full rounded-md bg-slate-400 text-slate-700"
+                            type="number"
+                            value="{{ $item->line_total }}"
+                            inputmode="numeric"
+                            pattern="[0-9]"
+                            step="0.01"
+                            disabled
+                        />
+                        <div class="mt-1 text-xs text-rose-700 lg:hidden dark:text-rose-400 hover:text-rose-700">
+                            <button
+                                wire:loading.attr="disabled"
+                                wire:target="removeProducts"
+                                wire:click="removeItem({{ $item->id }})"
+                            >remove
+                            </button>
+                        </div>
                     </x-table.row>
                 </x-table.body>
             @endforeach
