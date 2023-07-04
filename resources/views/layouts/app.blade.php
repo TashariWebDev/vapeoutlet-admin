@@ -61,7 +61,7 @@
         <nav
             class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-md border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
         >
-            <div class="flex justify-between items-center py-1 px-6 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
+            <div class="flex justify-between items-center py-1 px-1 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
                 <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
                     <span>
                         {{ request()->user()->name }}
@@ -74,49 +74,50 @@
                     ></p>
                 </div>
             </div>
-            <div class="px-4 mx-auto sm:px-6 md:px-8 max-w-8xl">
+            <div class="px-2 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
                     <div class="flex items-center py-2 lg:justify-between lg:py-1">
                         <container
                             class="hidden items-center px-4 mx-auto space-x-8 lg:flex lg:py-2 lg:pb-1 lg:max-w-7xl"
                         >
                             <livewire:users.default-sales-channel />
-                            <a class="link"
+
+                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                href="{{ route('dashboard') }}"
                             >dashboard</a>
 
                             @hasPermissionTo('view orders')
-                            <a class="link"
+                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                href="{{ route('orders') }}"
                             >orders</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view products')
-                            <a class="link"
+                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                href="{{ route('products') }}"
                             >products</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view customers')
-                            <a class="link"
+                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                href="{{ route('customers') }}"
                             >customers</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view warehouse')
-                            <a class="link"
+                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                href="{{ route('warehouse') }}"
                             >warehouse</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view settings')
-                            <a class="link"
+                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                href="{{ route('settings') }}"
                             >admin</a>
                             @endhasPermissionTo
                         </container>
                     </div>
-                    <div class="flex overflow-y-hidden overflow-x-scroll items-baseline py-1 pr-4 pb-3 space-x-8 lg:py-1">
+                    <div class="flex overflow-y-hidden overflow-x-scroll items-baseline py-1 pr-4 pb-3 space-x-8 lg:py-1 no-scrollbar">
 
                         @if (request()->user()->sales_channels_count > 1)
                             <div class="whitespace-nowrap">
@@ -134,7 +135,7 @@
 
                         <div class="whitespace-nowrap">
                             <button
-                                class="link"
+                                class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                                 x-on:click="document.getElementById('logout-form').submit()"
                             >Sign out
                             </button>
@@ -150,7 +151,7 @@
                         <div class="whitespace-nowrap">
                             <button
                                 x-on:click="theme = !theme"
-                                class="link"
+                                class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                             >
                                 <span x-show="theme">Light mode</span>
                                 <span x-show="!theme">Dark mode</span>
@@ -162,38 +163,38 @@
             </div>
             <div class="items-center w-full">
                 <container
-                    class="flex overflow-x-scroll items-center py-4 px-4 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl border-sky-400/50"
+                    class="flex overflow-x-scroll items-center py-4 px-2 mx-auto space-x-6 border-t lg:hidden lg:py-2 lg:pb-1 lg:max-w-7xl no-scrollbar border-sky-400/50"
                 >
-                    <a class="link"
+                    <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                        href="{{ route('dashboard') }}"
                     >dashboard</a>
 
                     @hasPermissionTo('view orders')
-                    <a class="link"
+                    <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                        href="{{ route('orders') }}"
                     >orders</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view products')
-                    <a class="link"
+                    <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                        href="{{ route('products') }}"
                     >products</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view customers')
-                    <a class="link"
+                    <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                        href="{{ route('customers') }}"
                     >customers</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view warehouse')
-                    <a class="link"
+                    <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                        href="{{ route('warehouse') }}"
                     >warehouse</a>
                     @endhasPermissionTo
 
                     @hasPermissionTo('view settings')
-                    <a class="link"
+                    <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
                        href="{{ route('settings') }}"
                     >admin</a>
                     @endhasPermissionTo
