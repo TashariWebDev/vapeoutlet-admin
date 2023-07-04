@@ -1,6 +1,6 @@
 <div class="py-3">
 
-    <header class="grid grid-cols-1 p-2 bg-white rounded-lg shadow-lg lg:grid-cols-2 lg:gap-x-2 dark:bg-slate-900">
+    <header class="grid grid-cols-1 p-2 bg-white rounded-lg shadow-md lg:grid-cols-2 lg:gap-x-2 dark:bg-slate-900">
 
         <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
             <div>
@@ -99,20 +99,20 @@
              x-data="{ show: 'simple'}"
     >
         <div class="flex justify-center py-4 space-x-1 lg:justify-end">
-            <button class="py-1 px-3 text-xs font-semibold rounded border shadow-lg hover:shadow-none"
+            <button class="py-1 px-3 text-xs font-semibold rounded border shadow-md hover:shadow-none"
                     :class="show ==='detailed' ? 'bg-slate-300 text-slate-600' : 'bg-sky-600 text-white'"
                     x-on:click="show = 'simple'"
             >SIMPLE
             </button>
             <button
-                class="py-1 px-3 text-xs font-semibold rounded border shadow-lg hover:shadow-none"
+                class="py-1 px-3 text-xs font-semibold rounded border shadow-md hover:shadow-none"
                 :class="show ==='simple' ? 'bg-slate-300 text-slate-600' : 'bg-sky-600 text-white'"
                 x-on:click="show = 'detailed'"
             >DETAILED
             </button>
         </div>
 
-        <div class="py-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+        <div class="py-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
 
             @forelse($products as $product)
 

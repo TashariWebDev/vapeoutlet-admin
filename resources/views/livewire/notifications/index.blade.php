@@ -28,7 +28,7 @@
         </div>
     </x-slide-over>
 
-    <div class="py-3 px-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="py-3 px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
         <header class="flex justify-between items-center py-6 px-2">
             <x-page-header>
                 Notification settings

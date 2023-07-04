@@ -73,7 +73,7 @@
         <h1 class="text-2xl font-bold dark:text-white text-slate-900">{{ date('F') }}</h1>
     </div>
 
-    <div class="mt-4 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
         <div class="mx-auto">
             <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-4 dark:bg-slate-900">
                 <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
@@ -119,7 +119,7 @@
 
             @if (auth()->user()->hasPermissionTo('upgrade customers'))
                 <a href="{{ route('customers/wholesale/applications') }}"
-                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-lg dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
+                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-md dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
                 >
                     <div class="flex justify-between items-center w-full">
                         <p>{{ $wholesaleApplications }} Pending Wholesale Applications</p>
@@ -141,7 +141,7 @@
 
             @if (auth()->user()->hasPermissionTo('create purchase'))
                 <a href="{{ route('purchases/pending') }}"
-                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-lg dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
+                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-md dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
                 >
                     <div class="flex justify-between items-center w-full">
                         <p>{{ $pendingPurchases }} Pending Purchases</p>

@@ -11,7 +11,7 @@
 
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
 
-        <div class="p-4 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+        <div class="p-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
             <form wire:submit.prevent="save">
                 <div class="py-1">
                     <x-input.label for="email-address">
@@ -165,7 +165,7 @@
             </form>
         </div>
 
-        <div class="p-4 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+        <div class="p-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
             <div class="flex justify-end">
                 <livewire:address.create customer_id="{{ $this->customer->id }}" />
             </div>

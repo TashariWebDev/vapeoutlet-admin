@@ -46,7 +46,7 @@
         <p class="text-xs text-slate-600">This action is non reversible</p>
     </x-modal>
 
-    <div class="p-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="p-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
                 <div class="pt-1">
@@ -226,7 +226,7 @@
         </div>
     </div>
 
-    <div class="mt-2 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="mt-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
 
 
         <x-table.container>
@@ -330,7 +330,7 @@
     </div>
 
     {{-- Order Notes --}}
-    <div class="p-4 mt-4 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="p-4 mt-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
 
         @foreach ($this->order->notes as $note)
             <div class="py-3">

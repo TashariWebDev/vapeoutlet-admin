@@ -1,5 +1,5 @@
 <div>
-    <div class="overflow-hidden bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="overflow-hidden bg-white rounded-lg shadow-md dark:bg-slate-900">
         <div class="flex justify-between items-center py-5 px-4 sm:px-6">
             <div>
                 <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">

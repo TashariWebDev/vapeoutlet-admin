@@ -1,5 +1,5 @@
 <div>
-
+    
     <x-page-header>
         Edit transaction
     </x-page-header>
@@ -9,8 +9,8 @@
             href="{{ route('customers/show', $transaction->customer_id) }}"
         >Back to {{ $transaction->customer->name }}</a>
     </div>
-
-    <div class="p-4 w-full bg-white rounded-lg shadow-lg lg:w-1/2 dark:bg-slate-900">
+    
+    <div class="p-4 w-full bg-white rounded-lg shadow-md lg:w-1/2 dark:bg-slate-900">
         <form
             class=""
             wire:submit.prevent="update"
@@ -106,7 +106,7 @@
                     update
                 </button>
             </div>
-
+            
             <div
                 class="mt-4"
                 wire:loading
@@ -115,20 +115,20 @@
                 <p class="text-xs text-sky-500">Processing! Please wait</p>
             </div>
         </form>
-
+        
         <div class="flex justify-end py-3 px-3 w-full rounded-md bg-slate-100 dark:bg-slate-700">
             <button
                 class="link-alt"
                 wire:click="$toggle('confirmDelete')"
             >Delete
             </button>
-
+            
             <x-modal x-data="{ show: $wire.entangle('confirmDelete') }">
-
+                
                 <x-page-header>
                     Are your sure?
                 </x-page-header>
-
+                
                 <div class="flex justify-start items-center py-3 space-x-3">
                     <button
                         class="button-success"
@@ -141,7 +141,7 @@
                     >Never mind
                     </button>
                 </div>
-
+            
             </x-modal>
         </div>
     </div>

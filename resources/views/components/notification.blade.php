@@ -17,7 +17,7 @@
     >
         <div class="flex flex-col items-center space-y-4 w-full sm:items-end">
             <div
-                class="overflow-hidden w-full max-w-sm rounded-lg border ring-1 ring-black ring-opacity-5 shadow-lg pointer-events-auto dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur"
+                class="overflow-hidden w-full max-w-sm rounded-lg border ring-1 ring-black ring-opacity-5 shadow-md pointer-events-auto dark:bg-transparent border-sky-400 bg-white/60 backdrop-blur"
             >
                 <div class="p-4">
                     <div class="flex items-start">

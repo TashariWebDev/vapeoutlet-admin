@@ -13,7 +13,7 @@
             <div class="mt-5 md:col-span-2 md:mt-0">
                 <div
                 >
-                    <div class="overflow-hidden shadow-lg sm:rounded-lg">
+                    <div class="overflow-hidden shadow-md sm:rounded-lg">
                         <div class="py-5 px-4 bg-white sm:p-6 dark:bg-slate-900">
                             <div class="grid grid-cols-6 gap-6">
                                 <div class="col-span-6 sm:col-span-3">

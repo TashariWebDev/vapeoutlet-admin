@@ -161,7 +161,7 @@
     </x-modal>
 
     {{-- Desktop --}}
-    <div class="py-3 bg-white rounded-lg shadow-lg dark:bg-slate-900">
+    <div class="py-3 bg-white rounded-lg shadow-md dark:bg-slate-900">
         <div class="lg:px-4">
 
             <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
