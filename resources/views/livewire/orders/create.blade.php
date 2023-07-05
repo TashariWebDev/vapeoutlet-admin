@@ -122,10 +122,10 @@
                     <p class="text-xs text-slate-500 dark:text-slate-500">{{ $this->order->created_at }}</p>
                     @isset($this->order->delivery_type_id)
                         <div class="flex justify-between">
-                            <p class="text-sm capitalize text-slate-500 dark:text-slate-500">
+                            <p class="text-sm capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
                                 {{ $this->order->delivery?->type }}
                             </p>
-                            <p class="text-sm capitalize text-slate-600 dark:text-slate-300">
+                            <p class="text-sm capitalize whitespace-nowrap text-slate-600 dark:text-slate-300">
                                 R {{ number_format($this->order->delivery_charge,2) }}
                             </p>
                         </div>
