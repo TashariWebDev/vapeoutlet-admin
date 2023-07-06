@@ -147,7 +147,7 @@ class CashUp extends Component
                 'customer.salesperson:id,name',
                 'delivery',
             ])
-            ->without(['items'])
+            ->withCount('notes')
             ->addSelect([
                 'order_total' => OrderItem::query()
                     ->whereColumn('order_id', '=', 'orders.id')
