@@ -364,13 +364,6 @@
                                         wire:target="pushToComplete({{ $order->id }})"
                                         wire:click="pushToComplete({{ $order->id }})"
                                     >
-                                            <span
-                                                class="pr-2"
-                                                wire:loading
-                                                wire:target="pushToComplete({{ $order->id }})"
-                                            >
-                                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                                            </span>
                                         Complete
                                     </button>
                                 @endif

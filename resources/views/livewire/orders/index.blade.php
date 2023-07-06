@@ -313,13 +313,7 @@
                                             wire:target="pushToComplete({{ $order->id }})"
                                             wire:click="pushToComplete({{ $order->id }})"
                                         >
-                        <span
-                            class="pr-2"
-                            wire:loading
-                            wire:target="pushToComplete({{ $order->id }})"
-                        >
-                          <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                        </span>
+
                                             Complete
                                         </button>
                                     @endif
@@ -338,13 +332,6 @@
                                             wire:target="getDocument"
                                             wire:click="getDocument({{ $order->id }})"
                                         >
-                                              <span
-                                                  class="pr-2"
-                                                  wire:loading
-                                                  wire:target="getDocument({{ $order->id }})"
-                                              >
-                                                <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                                              </span>
                                             Print
                                         </button>
                                         @if (file_exists(public_path("storage/".config('app.storage_folder')."/documents/$order->number.pdf")))
@@ -435,13 +422,6 @@
                             wire:target="getDocument"
                             wire:click="getDocument({{ $order->id }})"
                         >
-                                  <span
-                                      class="pr-2"
-                                      wire:loading
-                                      wire:target="getDocument({{ $order->id }})"
-                                  >
-                                    <x-icons.refresh class="w-3 h-3 text-white animate-spin-slow" />
-                                  </span>
                             Print
                         </button>
                     @endif
