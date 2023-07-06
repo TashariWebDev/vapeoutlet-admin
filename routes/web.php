@@ -115,9 +115,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('permission:view settings')->group(function () {
         Route::get('delivery', DeliveryIndex::class)->name('delivery');
 
-        Route::get('notifications', NotificationsIndex::class)->name(
-            'notifications'
-        );
+        Route::get('notifications', NotificationsIndex::class)
+            ->name('notifications');
 
         Route::get('banners', BannersIndex::class)->name('banners');
 
