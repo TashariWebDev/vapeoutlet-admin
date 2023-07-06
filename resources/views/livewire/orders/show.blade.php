@@ -226,7 +226,7 @@
         </div>
     </div>
 
-    <div class="mt-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
 
 
         <x-table.container>
@@ -330,7 +330,7 @@
     </div>
 
     {{-- Order Notes --}}
-    <div class="p-4 mt-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="p-4 mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
 
         @foreach ($this->order->notes as $note)
             <div class="py-3">

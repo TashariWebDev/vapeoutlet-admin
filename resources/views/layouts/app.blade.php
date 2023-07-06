@@ -202,7 +202,7 @@
             </div>
         </nav>
 
-        <div class="relative py-8 px-2 mx-auto lg:px-6 max-w-8xl">
+        <div class="relative px-2 pt-4 pb-12 mx-auto lg:px-4 max-w-8xl">
             <livewire:users.sales-channel-change />
             <livewire:customers.create />
             <livewire:orders.quick />

@@ -50,8 +50,6 @@
             @endif
         </div>
     </x-modal>
-
-
     <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>
@@ -87,13 +85,10 @@
 
     {{-- Desktop --}}
     <div class="py-2">
-        <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+        <div class="px-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
 
             <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div class="">
-                    <x-input.label>
-                        Search
-                    </x-input.label>
                     <x-input.text
                         type="search"
                         placeholder="search"
@@ -106,9 +101,6 @@
                 </div>
 
                 <div>
-                    <x-input.label>
-                        Filter orders
-                    </x-input.label>
                     <div
                         class="grid grid-cols-3 w-full rounded-md border divide-x py-[7px] bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
                     >
@@ -148,9 +140,6 @@
                 </div>
 
                 <div>
-                    <x-input.label>
-                        Status
-                    </x-input.label>
                     <x-input.select wire:model="filter">
                         <option value="received">Received</option>
                         <option value="processed">Processed</option>
@@ -162,9 +151,6 @@
                 </div>
 
                 <div>
-                    <x-input.label>
-                        No of records
-                    </x-input.label>
                     <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -173,7 +159,7 @@
                     </x-input.select>
                 </div>
 
-                <div class="grid grid-cols-2 gap-1 font-black lg:hidden text-slate-500">
+                <div class="grid grid-cols-2 gap-1 font-black lg:hidden text-slate-400">
                     <button
                         class="@if ($direction === 'asc') text-sky-600 @endif border"
                         wire:click="$set('direction','asc')"
@@ -195,7 +181,7 @@
             </div>
         </div>
 
-        <div class="mt-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+        <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
             <x-table.container class="hidden lg:block">
                 <x-table.header class="hidden lg:grid lg:grid-cols-5">
                     <x-table.heading>Order #
@@ -220,14 +206,14 @@
                 @forelse($orders as $order)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
                         <x-table.row class="text-left">
-                            <div class="flex justify-between items-start pt-1 cursor-default">
+                            <div class="flex justify-between items-center cursor-default">
                                 <div>
                                     <a
                                         class="link"
                                         href="{{ route('orders/show', $order->id) }}"
                                         title="View Order {{ $order->number }}"
                                     >{{ $order->number }}</a>
-                                    <p class="text-sm text-slate-500">
+                                    <p class="text-xs text-slate-400">
                                         {{ $order->created_at }}
                                     </p>
                                 </div>
@@ -264,12 +250,12 @@
                                         title="View {{ $order->customer->name }}'s Account"
                                     >{{ $order->customer->name }}</a>
 
-                                    <div class="">
-                                        <p class="text-xs font-semibold uppercase">
+                                    <div class="flex justify-start space-x-2">
+                                        <p class="text-xs capitalize whitespace-nowrap divide-x divide-amber-50 text-slate-400 truncate">
                                             {{ $order->customer->type() }}
                                         </p>
-                                        <p class="text-xs uppercase text-slate-500">
-                                            {{ $order->customer->salesperson->name ?? '' }}
+                                        <p class="text-xs capitalize whitespace-nowrap divide-x divide-amber-50 text-slate-400 truncate">
+                                            {{ $order->customer->salesperson->name  ?? '' }}
                                         </p>
                                     </div>
                                 </div>
@@ -294,9 +280,9 @@
                                 </div>
                             </div>
                         </x-table.row>
-                        <x-table.row class="text-center text-black cursor-default lg:text-right dark:text-slate-400">
+                        <x-table.row class="p-2 text-center cursor-default lg:text-right text-semibold dark:text-slate-400">
                             <p
-                                class="font-semibold uppercase text-[12px]"
+                                class="text-xs font-semibold uppercase"
                                 title="Delivery Type"
                             >
                                 {{ $order->delivery->description }}
@@ -309,7 +295,7 @@
                         </x-table.row>
                         <x-table.row class="hidden p-2 text-right lg:block">
                             <p
-                                class="text-sm font-black text-black uppercase cursor-default dark:text-slate-400"
+                                class="text-sm font-bold text-black uppercase cursor-default dark:text-slate-400"
                                 title="Order Total"
                             >
                                 R {{ number_format(to_rands($order->order_total) + $order->delivery_charge, 2) }}

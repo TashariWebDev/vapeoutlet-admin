@@ -1,93 +1,91 @@
 <div class="py-3">
 
-    <header class="grid grid-cols-1 p-2 bg-white rounded-lg shadow-md lg:grid-cols-2 lg:gap-x-2 dark:bg-slate-900">
+    <header class="p-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
 
-        <div class="grid grid-cols-1 gap-2 lg:grid-cols-2">
-            <div>
-                <x-input.text
-                    class="w-full"
-                    id="search"
-                    type="search"
-                    wire:model="searchQuery"
-                    autofocus
-                    autocomplete="off"
-                    placeholder="Search by SKU, name, category or brand"
-                />
-            </div>
+        <div>
+            <div class="grid grid-cols-1 gap-2 lg:grid-cols-7">
+                <div>
+                    <x-input.text
+                        class="w-full"
+                        id="search"
+                        type="search"
+                        wire:model="searchQuery"
+                        autofocus
+                        autocomplete="off"
+                        placeholder="Search"
+                    />
+                </div>
 
-            <div>
-                <x-input.select wire:model="recordCount">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </x-input.select>
-            </div>
+                <div>
+                    <x-input.select wire:model="recordCount">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </x-input.select>
+                </div>
 
-            <div class="mb-2 lg:mb-0">
-                <x-input.select wire:model="brandQuery">
-                    <option value="">All Brands</option>
-                    @foreach($brands as $brand)
-                        <option
-                            value="{{ $brand }}"
-                            class="uppercase"
+                <div class="mb-2 lg:mb-0">
+                    <x-input.select wire:model="brandQuery">
+                        <option value="">All Brands</option>
+                        @foreach($brands as $brand)
+                            <option
+                                value="{{ $brand }}"
+                                class="uppercase"
+                            >
+                                {{ $brand }}
+                            </option>
+                        @endforeach
+                    </x-input.select>
+                </div>
+                <div>
+                    @if ($activeFilter)
+                        <button
+                            class="w-full button-warning"
+                            wire:click="toggleFilter"
                         >
-                            {{ $brand }}
-                        </option>
-                    @endforeach
-                </x-input.select>
-            </div>
-            <div>
-                @if ($activeFilter)
-                    <button
-                        class="w-full button-warning"
-                        wire:click="toggleFilter"
+                            show disabled products
+                        </button>
+                    @else
+                        <button
+                            class="w-full button-warning"
+                            wire:click="toggleFilter"
+                        >
+                            show enabled products
+                        </button>
+                    @endif
+                </div>
+                <div>
+                    @if (auth()->user()->hasPermissionTo('edit products'))
+                        <livewire:products.create wire:key="add={{ now() }}" />
+                    @else
+                        <button
+                            class="button-success"
+                            disabled
+                        >Add product
+                        </button>
+                    @endif
+                </div>
+
+                @hasPermissionTo('create purchase')
+                <div class="w-full">
+                    <livewire:purchases.create wire:key="supplier-create" />
+                </div>
+                @endhasPermissionTo
+                @hasPermissionTo('create purchase')
+                <div>
+                    <a
+                        class="block w-full text-center button-success"
+                        href="{{ route('suppliers') }}"
                     >
-                        show disabled products
-                    </button>
-                @else
-                    <button
-                        class="w-full button-warning"
-                        wire:click="toggleFilter"
-                    >
-                        show enabled products
-                    </button>
-                @endif
+                        suppliers
+                    </a>
+                </div>
+                @endhasPermissionTo
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-2 mt-4 lg:grid-cols-2 lg:mt-0">
-            <div>
-                @if (auth()->user()->hasPermissionTo('edit products'))
-                    <livewire:products.create wire:key="add={{ now() }}" />
-                @else
-                    <button
-                        class="button-success"
-                        disabled
-                    >Add product
-                    </button>
-                @endif
-            </div>
-            @hasPermissionTo('create purchase')
-            <div class="w-full">
-                <livewire:purchases.create wire:key="supplier-create" />
-            </div>
-            @endhasPermissionTo
-
-            @hasPermissionTo('create purchase')
-            <div>
-                <a
-                    class="block w-full text-center button-success"
-                    href="{{ route('suppliers') }}"
-                >
-                    suppliers
-                </a>
-            </div>
-            @endhasPermissionTo
-
-        </div>
-
-        <div class="flex justify-center py-4 lg:col-span-2 lg:justify-end">
+        <div class="mt-4">
             <div>
                 {{ $products->links() }}
             </div>

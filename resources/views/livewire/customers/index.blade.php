@@ -1,17 +1,14 @@
 <div>
-    <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="px-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3">
             <div>
-                <x-input.label for="search">
-                    Search
-                </x-input.label>
                 <x-input.text
                     id="search"
                     type="search"
                     wire:model="searchQuery"
                     autocomplete="off"
                     autofocus
-                    placeholder="Search by name, email, phone, company"
+                    placeholder="Search"
                 />
             </div>
             <div class="hidden lg:block"></div>
@@ -28,9 +25,6 @@
                 </div>
                 @endhasPermissionTo
                 <div class="w-full">
-                    <x-input.label>
-                        No of records
-                    </x-input.label>
                     <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
                         <option value="20">20</option>
@@ -41,45 +35,43 @@
             </div>
         </div>
 
-        <div>
-            <x-input.helper>
-                Query Time {{ round($queryTime, 3) }} ms
-            </x-input.helper>
-        </div>
 
-        <div class="py-2">
+        <div class="py-2 mt-4">
             {{ $customers->links() }}
         </div>
     </div>
 
     {{-- desktop --}}
-    <div class="hidden mt-2 bg-white rounded-lg shadow-md lg:block dark:bg-slate-900">
+    <div class="hidden mt-4 bg-white rounded-lg shadow lg:block dark:bg-slate-900">
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-4">
                 <x-table.heading>Name</x-table.heading>
                 <x-table.heading>Email</x-table.heading>
-                <x-table.heading class="text-center">Phone</x-table.heading>
-                <x-table.heading class="text-center">Type</x-table.heading>
+                <x-table.heading>Phone</x-table.heading>
+                <x-table.heading>Type</x-table.heading>
             </x-table.header>
             @forelse($customers as $customer)
                 <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                     <x-table.row class="text-center lg:text-left">
-                        <a
-                            class="link"
-                            href="{{ route('customers/show', $customer->id) }}"
-                        ><span class="pr-1 text-[10px]">({{$customer->id}})</span> {{ $customer->name }}</a>
-                        <div class="pt-1">
-                            <p class="text-sm font-semibold">
+                        <div class="flex space-x-1">
+                            <p class="pr-1 text-xs dark:text-white text-slate-900">{{$customer->id}}</p>
+                            <a
+                                class="link"
+                                href="{{ route('customers/show', $customer->id) }}"
+                            >{{ $customer->name }}</a>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold">
                                 {{ $customer->salesperson->name ?? '' }}</p>
                         </div>
                     </x-table.row>
                     <x-table.row
                         class="text-sm font-semibold"
                     >{{ strtolower($customer->email) }}</x-table.row>
-                    <x-table.row
-                        class="text-center"
-                    ><p class="text-sm font-semibold uppercase">{{ $customer->phone }}</p></x-table.row>
-                    <x-table.row class="flex justify-center">
+                    <x-table.row>
+                        <p class="text-sm font-semibold uppercase">{{ $customer->phone }}</p>
+                    </x-table.row>
+                    <x-table.row>
                         @if ($customer->is_wholesale)
                             <p class="text-sm font-semibold text-rose-600 uppercase dark:text-rose-400">
                                 Wholesale

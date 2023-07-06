@@ -1,10 +1,11 @@
 <div>
 
-    <div>
-        <div class="px-2 text-lg">
-            <h1 class="font-bold dark:text-white text-slate-900">
-                {{ $this->customer->name }}
-                <span class="pl-4">
+    <div class="mt-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
+        <div class="py-2 px-4">
+            <div>
+                <h1 class="font-bold dark:text-white text-slate-900">
+                    {{ $this->customer->name }}
+                    <span class="pl-4">
                      <a
                          class="link"
                          href="{{ route('customers/edit', $this->customer->id) }}"
@@ -12,114 +13,93 @@
                         Edit customer
                     </a>
                 </span>
-                <button class="ml-4 link"
-                        wire:click="$set('filter','')"
-                >
-                    clear filters
-                </button>
-            </h1>
-            @if ($this->customer->salesperson_id)
-                <p class="text-xs font-semibold text-slate-500">
-                    {{ $this->customer->salesperson->name ?? '' }}
-                </p>
-            @endif
+                </h1>
+            </div>
         </div>
-    </div>
-
-
-    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
-        <div class="mx-auto">
-            <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-6 dark:bg-slate-900">
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
-                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
-                                wire:click="$set('filter','invoice')"
-                        >
-                            Invoices
-                        </button>
-                    </p>
-                    <p class="flex gap-x-2 items-baseline mt-2">
+        <div class="px-2 mx-auto">
+            <div class="grid grid-cols-2 px-2 rounded-lg sm:grid-cols-2 lg:grid-cols-6 bg-slate-50 dark:bg-slate-800">
+                <div class="py-2 px-4 rounded-lg">
+                    <button class="link"
+                            wire:click="$set('filter','invoice')"
+                    >
+                        Invoices
+                    </button>
+                    <p>
                         <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                                R {{ number_format($lifetimeTransactions->where('type', 'invoice')->sum('amount'), 2) }}
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
-                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
-                                wire:click="$set('filter','payment')"
-                        >
-                            Payments
-                        </button>
-                    </p>
-                    <p class="flex gap-x-2 items-baseline mt-2">
+                <div class="py-2 px-4 rounded-lg">
+                    <button class="link"
+                            wire:click="$set('filter','payment')"
+                    >
+                        Payments
+                    </button>
+                    <p>
                         <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                              R {{ number_format(abs($lifetimeTransactions->where('type', 'payment')->sum('amount')), 2) }}
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Balance</p>
-                    <p class="flex gap-x-2 items-baseline mt-2">
+                <div class="py-2 px-4 rounded-lg">
+                    <p class="pt-1 text-xs font-extrabold tracking-wide uppercase text-slate-500 dark:text-slate-500">
+                        Balance
+                    </p>
+                    <p>
                         <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->sum('amount')), 2) }}
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
-                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
-                                wire:click="$set('filter','debit')"
-                        >
-                            Debits
-                        </button>
-                    </p>
-                    <p class="flex gap-x-2 items-baseline mt-2">
+                <div class="py-2 px-4 rounded-lg">
+                    <button class="link"
+                            wire:click="$set('filter','debit')"
+                    >
+                        Debits
+                    </button>
+                    <p>
                         <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->where('type', 'debit')->sum('amount')), 2) }}
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
-                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
-                                wire:click="$set('filter','credit')"
-                        >
-                            Credits
-                        </button>
-                    </p>
-                    <p class="flex gap-x-2 items-baseline mt-2">
-                        <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
+                <div class="py-2 px-4 rounded-lg">
+                    <button class="link"
+                            wire:click="$set('filter','credit')"
+                    >
+                        Credits
+                    </button>
+                    <p>
+                        <span class="text-lg font-bold tracking-tight uppercase whitespace-nowrap text-sky-800 dark:text-sky-400">
                             R {{ number_format(abs($lifetimeTransactions->where('type', 'credit')->sum('amount')), 2) }}
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
-                    <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">
-                        <button class="text-sm font-bold capitalize hover:underline focus:underline focus:outline-none text-sky-600 dark:text-sky-300 dark:hover:text-sky-600 hover:text-sky-700 hover:underline-offset-4 focus:underline-offset-2"
-                                wire:click="$set('filter','refund')"
-                        >
-                            Refunds
-                        </button>
-                    </p>
-                    <p class="flex gap-x-2 items-baseline mt-2">
+                <div class="py-2 px-4 rounded-lg">
+                    <button class="link"
+                            wire:click="$set('filter','refund')"
+                    >
+                        Refunds
+                    </button>
+                    <p>
                         <span class="text-lg font-bold tracking-tight whitespace-nowrap text-sky-800 dark:text-sky-400">
                               R {{ number_format(abs($lifetimeTransactions->where('type', 'refund')->sum('amount')), 2) }}
                         </span>
                     </p>
                 </div>
             </div>
+            <button class="py-2 ml-4 link"
+                    wire:click="$set('filter','')"
+            >
+                clear filters
+            </button>
         </div>
-    </div>
-    <!-- End Stats -->
-
-    <!-- Actions -->
-    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
 
         <div class="py-2 px-4">
             <div>
-                <div class="grid grid-cols-1 gap-2 mt-2 lg:grid-cols-6">
-                    <div class="pt-1">
+                <div class="grid grid-cols-1 gap-2 lg:grid-cols-10">
+                    <div class="lg:col-span-2">
                         <div>
                             <x-input.label class="hidden">
                                 Search
@@ -132,12 +112,9 @@
                                 placeholder="search"
                             >
                             </x-input.text>
-                            <x-input.helper class="pt-2">
-                                Query Time {{ round($queryTime, 3) }} ms
-                            </x-input.helper>
                         </div>
                     </div>
-                    <div class="pt-1">
+                    <div>
                         <x-input.label class="hidden">
                             No of records
                         </x-input.label>
@@ -155,9 +132,6 @@
                             @endif
                         </x-input.select>
                     </div>
-                </div>
-                <div class="grid grid-cols-2 col-span-1 gap-x-2 gap-y-4 mt-2 mb-6 lg:grid-cols-7 lg:col-span-4 lg:gap-y-2"
-                >
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -177,7 +151,6 @@
                             >Emailing</span>
                         </button>
                     </div>
-
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -241,10 +214,16 @@
 
             <!-- End -->
 
-            <div class="py-3">
+            <div class="py-2 mt-4">
                 {{ $transactions->links() }}
             </div>
         </div>
+    </div>
+    <!-- End Stats -->
+
+    <!-- Actions -->
+    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
+
 
         @php
             $disabledTransactionTypes = ['credit', 'invoice'];
@@ -254,7 +233,7 @@
         <div class="px-2">
             @forelse($transactions as $transaction)
                 <div
-                    class="grid grid-cols-3 py-2 px-1 w-full bg-white rounded lg:hidden dark:bg-slate-800 dark:even:bg-slate-700 even:bg-slate-100"
+                    class="grid grid-cols-3 py-2 w-full bg-white rounded lg:hidden dark:bg-slate-800 dark:even:bg-slate-700 even:bg-slate-100"
                 >
                     <div>
                         <p>
@@ -324,7 +303,7 @@
         </div>
 
         <!-- Desktop Transactions -->
-        <div class="px-2">
+        <div>
             <x-table.container>
                 <x-table.header class="hidden lg:grid lg:grid-cols-6">
                     <x-table.heading>Transaction</x-table.heading>

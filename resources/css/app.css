@@ -47,7 +47,7 @@ input[type=checkbox] {
 }
 
 .link {
-    @apply text-sky-700 hover:text-sky-700 dark:text-sky-300 dark:hover:text-sky-600 text-sm capitalize font-bold hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-2 focus:outline-none
+    @apply text-xs font-extrabold tracking-wide uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1;
 }
 
 .link-alt {
