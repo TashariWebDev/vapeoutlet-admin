@@ -282,8 +282,8 @@
                         </x-table.row>
                         <x-table.row class="p-2 text-center cursor-default lg:text-right text-semibold dark:text-slate-400">
                             <p
-                                class="text-xs font-semibold uppercase"
-                                title="Delivery Type"
+                                class="text-xs font-semibold uppercase whitespace-nowrap truncate"
+                                title="{{ $order->delivery->description }}"
                             >
                                 {{ $order->delivery->description }}
                             </p>
@@ -360,12 +360,25 @@
                         href="{{ route('orders/show', $order->id) }}"
                     ><p class="text-sm">{{ $order->number }}</p></a>
                 </div>
-                <div class="py-1">
+                <div class="pt-1">
                     <p class="text-sm font-semibold text-right text-slate-600 dark:text-slate-300">
                         R {{ number_format($order->getTotal(), 2) }}
                     </p>
                     <p class="text-xs text-right text-slate-600 dark:text-slate-300">
                         {{ $order->created_at->format('d-m-y H:i') }}
+                    </p>
+                </div>
+                <div class="text-slate-600 dark:text-slate-300">
+                    <p
+                        class="text-xs font-semibold uppercase whitespace-nowrap truncate"
+                        title="{{ $order->delivery->description }}"
+                    >
+                        {{ $order->delivery->description }}
+                    </p>
+                    <p
+                        class="text-xs uppercase"
+                    >
+                        {{ $order->delivery->province }}
                     </p>
                 </div>
 

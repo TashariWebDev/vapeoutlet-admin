@@ -178,6 +178,7 @@ class Index extends Component
                     $query->withTrashed();
                 })
                 ->orderByRaw('brand')
+                ->orderBy('name')
                 ->paginate($this->recordCount),
             'brands' => Brand::orderBy('name')
                 ->get()

@@ -39,6 +39,21 @@
         </div>
 
         <div>
+            <time class="font-bold underline">07 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Adjust product ordering to group by brand and order by name on product page
+                </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Adjust delivery description to truncate and add description on hover on order index page
+                </li>
+            </ul>
+        </div>
+
+        <div>
             <time class="font-bold underline">04 July 2023</time>
 
             <ul>
