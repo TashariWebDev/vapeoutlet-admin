@@ -1,6 +1,6 @@
 <div>
 
-    <div class="mt-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="py-2 px-4">
             <div>
                 <h1 class="font-bold dark:text-white text-slate-900">
@@ -17,8 +17,8 @@
             </div>
         </div>
         <div class="px-2 mx-auto">
-            <div class="grid grid-cols-2 px-2 rounded-lg sm:grid-cols-2 lg:grid-cols-6 bg-slate-50 dark:bg-slate-800">
-                <div class="py-2 px-4 rounded-lg">
+            <div class="grid grid-cols-2 px-2 rounded-md sm:grid-cols-2 lg:grid-cols-6 bg-slate-50 dark:bg-slate-800">
+                <div class="py-2 px-4 rounded-md">
                     <button class="link"
                             wire:click="$set('filter','invoice')"
                     >
@@ -30,7 +30,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-2 px-4 rounded-lg">
+                <div class="py-2 px-4 rounded-md">
                     <button class="link"
                             wire:click="$set('filter','payment')"
                     >
@@ -42,7 +42,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-2 px-4 rounded-lg">
+                <div class="py-2 px-4 rounded-md">
                     <p class="pt-1 text-xs font-extrabold tracking-wide uppercase text-slate-500 dark:text-slate-500">
                         Balance
                     </p>
@@ -52,7 +52,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-2 px-4 rounded-lg">
+                <div class="py-2 px-4 rounded-md">
                     <button class="link"
                             wire:click="$set('filter','debit')"
                     >
@@ -64,7 +64,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-2 px-4 rounded-lg">
+                <div class="py-2 px-4 rounded-md">
                     <button class="link"
                             wire:click="$set('filter','credit')"
                     >
@@ -76,7 +76,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-2 px-4 rounded-lg">
+                <div class="py-2 px-4 rounded-md">
                     <button class="link"
                             wire:click="$set('filter','refund')"
                     >
@@ -222,7 +222,7 @@
     <!-- End Stats -->
 
     <!-- Actions -->
-    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
 
 
         @php

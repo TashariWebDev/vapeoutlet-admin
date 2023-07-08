@@ -15,10 +15,10 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
         ></div>
-        
+
         <div class="overflow-y-auto fixed inset-0 z-10 p-4 sm:p-6 md:p-20">
-            
-            <div class="overflow-hidden mx-auto max-w-3xl bg-white rounded-xl divide-y ring-1 ring-black ring-opacity-5 shadow-2xl transition-all transform divide-slate-100 dark:bg-slate-950 dark:divide-slate-800"
+
+            <div class="overflow-hidden mx-auto max-w-3xl bg-white rounded-xl divide-y ring-1 ring-black ring-opacity-5 shadow-sm transition-all transform divide-slate-100 dark:bg-slate-950 dark:divide-slate-800"
                  x-on:click.outside="show = !show"
                  x-trap.noscroll="show"
                  x-transition:enter="ease-out duration-300"
@@ -53,7 +53,7 @@
                            wire:model.debounce.500ms="searchQuery"
                     >
                 </div>
-                
+
                 <div class="flex divide-x divide-slate-100 dark:divide-slate-800">
                     <!-- Preview Visible: "sm:h-96" -->
                     <div class="overflow-y-scroll flex-auto py-4 px-6 min-w-0 max-h-96 sm:h-96 scroll-y-4">
@@ -65,7 +65,7 @@
                             role="listbox"
                         >
                             @foreach($customers as $customer)
-                                
+
                                 <li class="p-2 rounded-md cursor-default select-none group"
                                     id="recent-1"
                                     role="option"
@@ -92,13 +92,13 @@
                             @endforeach
                         </ul>
                     </div>
-                    
+
                     <!-- Active item side-panel, show/hide based on active state -->
                     @if($selectedCustomer)
                         <div class="hidden overflow-y-auto flex-col flex-none w-1/2 h-96 divide-y divide-white sm:flex dark:divide-slate-950">
                             <div class="flex-none p-6 text-center">
                                 <div class="flex justify-center items-center mx-auto w-16 h-16 rounded-full bg-slate-200">
-                                    <x-icons.user class="w-10 h-10"/>
+                                    <x-icons.user class="w-10 h-10" />
                                 </div>
                                 <h2 class="mt-3 font-semibold dark:text-white text-slate-900">{{ ucwords($selectedCustomer->name) }}</h2>
                             </div>
@@ -118,7 +118,7 @@
                             </div>
                         </div>
                     @endif
-                
+
                 </div>
             </div>
         </div>

@@ -9,7 +9,7 @@
 
         @hasPermissionTo('edit sales channels')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('sales-channels') }}"
         >
             Sales channels
@@ -19,7 +19,7 @@
         @hasPermissionTo('transfer stock')
         @if ($salesChannelCount > 1)
             <a
-                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+                class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
                 href="{{ route('stock-transfers') }}"
             >
                 Stock transfers
@@ -29,7 +29,7 @@
 
         @hasPermissionTo('manage stock takes')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('stock-takes') }}"
         >
             Stock takes
@@ -42,7 +42,7 @@
 
         @hasPermissionTo('complete orders')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('cash-up') }}"
         >
             Cash Up
@@ -51,7 +51,7 @@
 
         @hasPermissionTo('view expenses')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('expenses') }}"
         >
             Expenses
@@ -60,7 +60,7 @@
 
         @hasPermissionTo('view reports')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('reports') }}"
         >
             Reports
@@ -73,7 +73,7 @@
 
         @hasPermissionTo('view users')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('users') }}"
         >
             Users
@@ -82,14 +82,14 @@
 
         @hasPermissionTo('view reports')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('delivery') }}"
         >
             Delivery settings
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('system-settings') }}"
         >
             System settings
@@ -102,14 +102,14 @@
 
         @hasPermissionTo('edit products')
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('banners') }}"
         >
             Banners
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('notifications') }}"
         >
             Notifications
@@ -122,14 +122,14 @@
         </div>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('categories') }}"
         >
             Categories
         </a>
 
         <a
-            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-lg shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
+            class="flex justify-center items-center w-full h-24 font-bold bg-white rounded-md shadow dark:text-white hover:ring focus:ring ring-sky-400 text-slate-600 dark:bg-slate-800"
             href="{{ route('brands') }}"
         >
             Brands

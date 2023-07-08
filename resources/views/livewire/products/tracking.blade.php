@@ -1,7 +1,7 @@
 <div class="text-white">
 
     @foreach ($this->stocks as $stockByChannel)
-        <div class="p-2 mb-4 bg-white rounded-lg shadow dark:bg-slate-900">
+        <div class="p-2 mb-4 bg-white rounded-md shadow dark:bg-slate-900">
             <div class="py-1 px-2 w-full rounded bg-slate-200 dark:bg-slate-800">
                 <h2 class="font-bold uppercase dark:text-white text-slate-900">
                     {{ $stockByChannel->sales_channel?->name }}

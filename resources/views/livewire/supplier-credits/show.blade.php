@@ -1,5 +1,5 @@
 <div class="relative">
-    <div class="bg-white rounded-lg shadow-md dark:bg-slate-800">
+    <div class="bg-white rounded-md shadow-sm dark:bg-slate-800">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold text-slate-500 dark:text-sky-500">{{ $this->credit->number }}</p>

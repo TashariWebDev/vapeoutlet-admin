@@ -39,6 +39,21 @@
         </div>
 
         <div>
+            <time class="font-bold underline">08 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Adjust button contrast and hover states
+                </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Adjust link contrast and hover states
+                </li>
+            </ul>
+        </div>
+
+        <div>
             <time class="font-bold underline">07 July 2023</time>
 
             <ul>

@@ -42,7 +42,7 @@
             User details
         </x-page-header>
 
-        <div class="p-2 w-full bg-white rounded-lg shadow-md lg:w-1/2 dark:bg-slate-900">
+        <div class="p-2 w-full bg-white rounded-md shadow-sm lg:w-1/2 dark:bg-slate-900">
             <form
                 class="w-full"
                 wire:submit.prevent="updateUser"
@@ -110,7 +110,7 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow-md md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-md shadow-sm md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
             >
                 @foreach ($user->permissions as $permission)
                     <div>
@@ -142,7 +142,7 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow-md md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-md shadow-sm md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
             >
                 @foreach ($permissions as $permission)
                     <div>
@@ -168,7 +168,7 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow-md md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-md shadow-sm md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
             >
                 @foreach ($user->sales_channels as $channel)
                     <div>
@@ -201,7 +201,7 @@
             </x-page-header>
 
             <div
-                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-lg shadow-md md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
+                class="grid overflow-hidden grid-cols-2 gap-y-2 py-3 px-2 bg-white rounded-md shadow-sm md:grid-cols-3 lg:grid-cols-3 dark:bg-slate-900"
             >
                 @foreach ($salesChannels as $chanel)
                     <div>

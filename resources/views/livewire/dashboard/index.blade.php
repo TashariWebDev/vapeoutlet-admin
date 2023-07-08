@@ -73,10 +73,10 @@
         <h1 class="text-2xl font-bold dark:text-white text-slate-900">{{ date('F') }}</h1>
     </div>
 
-    <div class="mt-4 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="mx-auto">
-            <div class="grid grid-cols-2 gap-px bg-white rounded-lg sm:grid-cols-2 lg:grid-cols-4 dark:bg-slate-900">
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+            <div class="grid grid-cols-2 gap-px bg-white rounded-md sm:grid-cols-2 lg:grid-cols-4 dark:bg-slate-900">
+                <div class="py-6 px-4 bg-white rounded-md sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Received</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
@@ -84,7 +84,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                <div class="py-6 px-4 bg-white rounded-md sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Processed</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
@@ -92,7 +92,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                <div class="py-6 px-4 bg-white rounded-md sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Packed</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
@@ -100,7 +100,7 @@
                         </span>
                     </p>
                 </div>
-                <div class="py-6 px-4 bg-white rounded-lg sm:px-6 lg:px-8 dark:bg-slate-900">
+                <div class="py-6 px-4 bg-white rounded-md sm:px-6 lg:px-8 dark:bg-slate-900">
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Shipped</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
@@ -119,7 +119,7 @@
 
             @if (auth()->user()->hasPermissionTo('upgrade customers'))
                 <a href="{{ route('customers/wholesale/applications') }}"
-                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-md dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
+                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-sm dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
                 >
                     <div class="flex justify-between items-center w-full">
                         <p>{{ $wholesaleApplications }} Pending Wholesale Applications</p>
@@ -141,7 +141,7 @@
 
             @if (auth()->user()->hasPermissionTo('create purchase'))
                 <a href="{{ route('purchases/pending') }}"
-                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-md dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
+                   class="inline-flex items-center py-4 px-4 text-xs font-medium text-rose-900 rounded-md ring-1 ring-inset shadow-sm dark:text-rose-400 hover:shadow-none ring-rose-400/20 bg-rose-400/20 dark:bg-rose-400/10 dark:hover:bg-rose-400/20 hover:bg-rose-400/40"
                 >
                     <div class="flex justify-between items-center w-full">
                         <p>{{ $pendingPurchases }} Pending Purchases</p>
@@ -167,7 +167,7 @@
                 @if ($topTenProducts->count())
                     <x-stat-container>
                         <div>
-                            <div class="py-3 px-2 rounded-lg bg-sky-500 dark:bg-slate-800">
+                            <div class="py-3 px-2 rounded-md bg-sky-500 dark:bg-slate-800">
                                 <p class="text-xs font-semibold text-white">
                                     Top Ten Selling Products for {{ date('M  Y') }}</p>
                             </div>

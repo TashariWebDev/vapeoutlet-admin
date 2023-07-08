@@ -1,6 +1,6 @@
 <div x-data="{}">
 
-    <div class="bg-white rounded-lg shadow-md dark:bg-gray-900 text-slate-400 dark:text-slate-500">
+    <div class="bg-white rounded-md shadow-sm dark:bg-gray-900 text-slate-400 dark:text-slate-500">
         <div class="grid grid-cols-1 p-3 mb-2 w-full lg:grid-cols-6">
             <div>
                 <p class="text-xs font-bold">{{ $stockTake->number }}</p>

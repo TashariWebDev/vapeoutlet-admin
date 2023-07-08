@@ -41,8 +41,8 @@
             {{ ucwords(config('app.name')) }}
         </h1>
     </div>
-    
-    <div class="overflow-hidden py-4 px-6 mt-6 w-full shadow-md sm:max-w-md sm:rounded-lg bg-slate-900">
+
+    <div class="overflow-hidden py-4 px-6 mt-6 w-full shadow-sm sm:max-w-md sm:rounded-md bg-slate-900">
         {{ $slot }}
     </div>
     <div class="mt-2">

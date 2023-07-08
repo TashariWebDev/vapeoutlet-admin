@@ -4,7 +4,7 @@
     </x-page-header>
 
     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
-        <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-800">
+        <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-800">
             <form wire:submit.prevent="save">
                 <div class="py-2">
                     <x-input.label for="name">
@@ -223,7 +223,7 @@
             </form>
         </div>
 
-        <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-800">
+        <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-800">
             @if ($product)
                 <div>
                     <div class="grid grid-cols-3 gap-2 p-3 lg:grid-cols-6">

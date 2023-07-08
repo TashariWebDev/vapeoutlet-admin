@@ -1,5 +1,5 @@
 <div>
-    <div class="py-4 px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="py-4 px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
 
         <x-page-header class="px-2">
             Categories

@@ -1,5 +1,5 @@
 <div>
-    <div class="overflow-hidden bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="overflow-hidden bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="flex justify-between items-center py-5 px-4 sm:px-6">
             <div>
                 <h3 class="text-lg font-medium leading-6 text-slate-900 dark:text-slate-400">
@@ -161,12 +161,12 @@
             </dl>
         </div>
         <div
-            class="container grid grid-cols-2 gap-6 p-6 mx-auto w-full bg-white rounded-lg lg:grid-cols-4 dark:bg-slate-800"
+            class="container grid grid-cols-2 gap-6 p-6 mx-auto w-full bg-white rounded-md lg:grid-cols-4 dark:bg-slate-800"
         >
             @foreach ($customer->businessImages as $image)
-                <div class="w-full bg-white rounded-lg shadow">
+                <div class="w-full bg-white rounded-md shadow">
                     <img
-                        class="object-cover rounded-lg"
+                        class="object-cover rounded-md"
                         src="{{ config('app.frontend_url') . '/storage/' . $image->photo }}"
                         alt="image"
                     >

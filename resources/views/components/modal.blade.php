@@ -27,7 +27,7 @@
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
             <div
-                class="overflow-hidden relative p-4 w-full text-left bg-white rounded-lg shadow-xl transition-all transform sm:my-8 lg:max-w-xl dark:bg-slate-950"
+                class="overflow-hidden relative p-4 w-full text-left bg-white rounded-md shadow-sm transition-all transform sm:my-8 lg:max-w-xl dark:bg-slate-950"
                 x-on:click.outside="show = !show"
             >
 

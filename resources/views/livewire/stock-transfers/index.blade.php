@@ -1,5 +1,5 @@
 <div>
-    <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
             <div>
                 <x-input.label for="search">

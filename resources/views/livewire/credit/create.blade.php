@@ -26,7 +26,7 @@
         <p class="text-xs text-slate-600">This action is non reversible</p>
     </x-modal>
 
-    <div class="bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-2 p-2 lg:grid-cols-3 lg:gap-y-0 lg:gap-x-3">
             <div>
                 <p class="text-xs font-bold dark:text-white text-slate-900">{{ $this->credit->number }}</p>

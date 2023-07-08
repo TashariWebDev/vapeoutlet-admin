@@ -155,7 +155,7 @@
         </div>
     </x-modal>
 
-    <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <!-- Transaction create -->
         <div class="p-2">
             <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">

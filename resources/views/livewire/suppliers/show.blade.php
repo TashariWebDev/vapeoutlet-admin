@@ -26,7 +26,7 @@
         >
             <dl class="grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3">
                 <div
-                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
+                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-md shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
                 >
                     <dt>
                         <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
@@ -45,7 +45,7 @@
                     </dd>
                 </div>
                 <div
-                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
+                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-md shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
                 >
                     <dt>
                         <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
@@ -64,7 +64,7 @@
                 </div>
 
                 <div
-                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
+                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-md shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
                 >
                     <dt>
                         <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
@@ -84,7 +84,7 @@
                 </div>
 
                 <div
-                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-lg shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
+                    class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-md shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
                 >
                     <dt>
                         <div class="absolute p-3 rounded-md bg-sky-500 dark:bg-slate-950">
@@ -106,7 +106,7 @@
     </div>
     <!-- End Stats -->
 
-    <div class="px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <!-- Transaction create -->
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
             <div>

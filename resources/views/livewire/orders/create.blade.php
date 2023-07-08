@@ -112,7 +112,7 @@
         <p class="text-xs text-rose-600">This action is non reversible</p>
     </x-modal>
 
-    <div class="p-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="p-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
                 <div class="pt-1">
@@ -145,15 +145,15 @@
                     >{{ $this->order->customer->name }}
                     </a>
                     <div class="leading-3">
-                        <p class="text-sm font-semibold capitalize text-slate-500 dark:text-slate-500">{{ $this->order->customer->phone }}</p>
-                        <p class="text-sm font-semibold lowercase text-slate-500 dark:text-slate-500">{{ $this->order->customer->email }}</p>
+                        <p class="text-sm font-medium tracking-wide lowercase text-slate-900 dark:text-slate-400">{{ $this->order->customer->email }}</p>
+                        <p class="text-sm font-medium tracking-wide text-slate-900 dark:text-slate-400">{{ $this->order->customer->phone }}</p>
                     </div>
                 </div>
                 <div>
                     @isset($this->order->address_id)
-                        <div class="pt-1 text-sm font-semibold leading-4 capitalize text-slate-500 dark:text-slate-500">
+                        <div class="pt-1 text-sm font-medium tracking-wide leading-4 capitalize text-slate-900 dark:text-slate-400">
                             @isset($this->order->customer->company)
-                                <p>{{ $this->order->customer->company }}</p>
+                                <p class="font-semibold">{{ $this->order->customer->company }}</p>
                             @endisset
                             <p>{{ $this->order->address?->line_one }}</p>
                             <p>{{ $this->order->address?->line_two }}</p>
@@ -218,12 +218,12 @@
         </div>
     </div>
 
-    <div class="mt-3 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="mt-3 bg-white rounded-md shadow-sm dark:bg-slate-900">
 
         <div class="py-2 px-2 w-full">
             <div>
                 <x-input.text
-                    class="shadow-md"
+                    class="shadow-sm"
                     type="text"
                     placeholder="SKU"
                     autofocus

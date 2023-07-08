@@ -4,7 +4,7 @@
             Pending Purchases
         </x-page-header>
 
-        <div class="bg-white rounded-lg shadow-md dark:bg-slate-900">
+        <div class="bg-white rounded-md shadow-sm dark:bg-slate-900">
             <x-table.container>
                 <x-table.header class="hidden grid-cols-4 lg:grid">
                     <x-table.heading>ID</x-table.heading>

@@ -131,7 +131,7 @@
         </form>
     </x-slide-over>
 
-    <div class="py-3 px-2 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="py-3 px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <header class="flex justify-between py-6 px-2">
             <x-page-header>
                 Delivery settings

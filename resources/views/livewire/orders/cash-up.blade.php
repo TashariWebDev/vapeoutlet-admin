@@ -161,7 +161,7 @@
     </x-modal>
 
     {{-- Desktop --}}
-    <div class="py-3 bg-white rounded-lg shadow-md dark:bg-slate-900">
+    <div class="py-3 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="lg:px-4">
 
             <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
@@ -249,7 +249,7 @@
         </div>
     </div>
 
-    <div class="mt-4 bg-white rounded-lg shadow dark:bg-slate-900">
+    <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
         <x-table.container class="hidden lg:block">
             <x-table.header class="hidden lg:grid lg:grid-cols-5">
                 <x-table.heading>Order #

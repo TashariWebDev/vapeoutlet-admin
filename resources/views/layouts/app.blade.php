@@ -59,7 +59,7 @@
         @endphp
 
         <nav
-            class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-md border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
+            class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-sm border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
         >
             <div class="flex justify-between items-center py-1 px-1 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
                 <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
@@ -82,36 +82,36 @@
                         >
                             <livewire:users.default-sales-channel />
 
-                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                            <a class="link-sm"
                                href="{{ route('dashboard') }}"
                             >dashboard</a>
 
                             @hasPermissionTo('view orders')
-                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                            <a class="link-sm"
                                href="{{ route('orders') }}"
                             >orders</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view products')
-                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                            <a class="link-sm"
                                href="{{ route('products') }}"
                             >products</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view customers')
-                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                            <a class="link-sm"
                                href="{{ route('customers') }}"
                             >customers</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view warehouse')
-                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                            <a class="link-sm"
                                href="{{ route('warehouse') }}"
                             >warehouse</a>
                             @endhasPermissionTo
 
                             @hasPermissionTo('view settings')
-                            <a class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                            <a class="link-sm"
                                href="{{ route('settings') }}"
                             >admin</a>
                             @endhasPermissionTo
@@ -135,7 +135,7 @@
 
                         <div class="whitespace-nowrap">
                             <button
-                                class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                                class="link-sm"
                                 x-on:click="document.getElementById('logout-form').submit()"
                             >Sign out
                             </button>
@@ -151,7 +151,7 @@
                         <div class="whitespace-nowrap">
                             <button
                                 x-on:click="theme = !theme"
-                                class="text-sm font-extrabold tracking-wider uppercase hover:underline text-sky-800 dark:text-sky-600 hover:underline-offset-1"
+                                class="link-sm"
                             >
                                 <span x-show="theme">Light mode</span>
                                 <span x-show="!theme">Dark mode</span>
