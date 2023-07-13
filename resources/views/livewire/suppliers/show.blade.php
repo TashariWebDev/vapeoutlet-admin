@@ -106,13 +106,10 @@
     </div>
     <!-- End Stats -->
 
-    <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
-        <!-- Transaction create -->
-        <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
-            <div>
-                <x-input.label for="search">
-                    Search
-                </x-input.label>
+    <div class="py-3 px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-3">
+            <div class="w-full lg:w-64">
                 <x-input.text
                     type="search"
                     wire:model="searchQuery"
@@ -120,80 +117,87 @@
                     autofocus
                     autocomplete="off"
                 />
-                <x-input.helper>
-                    Query Time {{ round($queryTime, 3) }} ms
-                </x-input.helper>
             </div>
-            <div></div>
-            <div class="flex items-end">
+
+            <div class="grid grid-cols-1 gap-y-2 mt-2 w-full lg:flex lg:justify-end lg:items-center lg:mt-0 lg:space-x-2">
                 <button
-                    class="w-full button-success"
+                    class="button-success"
                     wire:click="createCredit"
                 >
                     supplier credit note
                 </button>
-            </div>
-            <div class="flex items-end w-full">
-                <div class="w-full">
-                    <livewire:supplier-transactions.create :supplier="$this->supplier" />
-                </div>
+
+                <livewire:supplier-transactions.create :supplier="$this->supplier" />
             </div>
         </div>
-        <!-- End -->
-
-        <div class="border-b border-slate-100 dark:border-slate-700">
-            @if ($purchases->count())
-                <x-table.container>
-                    <x-table.header class="hidden lg:grid lg:grid-cols-3">
-                        <x-table.heading>Transaction</x-table.heading>
-                        <x-table.heading>Status</x-table.heading>
-                        <x-table.heading class="text-center lg:text-right">Amount</x-table.heading>
-                    </x-table.header>
-                    @forelse($purchases as $purchase)
-                        <x-table.body class="grid grid-cols-1 text-sm lg:grid-cols-3">
-                            <x-table.row class="text-center lg:text-left">
-                                <button
-                                    class="font-semibold link"
-                                    wire:click="showPurchase('{{ $purchase->invoice_no }}')"
-                                >{{ $purchase->id }} {{ strtoupper($purchase->invoice_no) }}
-                                </button>
-                                <p class="pt-1 text-xs text-slate-500">
-                                    {{ $purchase->created_at->format('d-m-y H:i') }}</p>
-                            </x-table.row>
-                            <x-table.row>
-                                <div
-                                    class="py-1 px-4 w-48 text-center whitespace-nowrap bg-rose-100 rounded-r-full rounded-l-full"
-                                >
-                                    <p class="text-xs text-rose-900">NOT PROCESSED</p>
-                                </div>
-                            </x-table.row>
-                            <x-table.row
-                                class="text-center lg:text-right"
-                            >{{ number_format($purchase->amount, 2) }}</x-table.row>
-                        </x-table.body>
-                    @empty
-                        <x-table.empty></x-table.empty>
-                    @endforelse
-                </x-table.container>
-            @endif
-        </div>
-
-        <!-- Transactions -->
-
         <div class="p-4 px-2">
             {{ $supplierTransactions->links() }}
         </div>
+    </div>
+
+    @if ($purchases->count())
+        <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
+            <x-table.container>
+                <x-table.header class="hidden lg:grid lg:grid-cols-3">
+                    <x-table.heading>Transaction</x-table.heading>
+                    <x-table.heading>Status</x-table.heading>
+                    <x-table.heading class="text-center lg:text-right">Amount</x-table.heading>
+                </x-table.header>
+                @forelse($purchases as $purchase)
+                    <div class="grid grid-cols-2 lg:hidden">
+                        <div>
+                            <button
+                                class="link"
+                                wire:click="showPurchase('{{ $purchase->invoice_no }}')"
+                            >{{ $purchase->id }} {{ strtoupper($purchase->invoice_no) }}
+                            </button>
+                            <p class="pt-1 text-xs text-slate-500">
+                                {{ $purchase->created_at->format('d-m-y H:i') }}
+                            </p>
+                        </div>
+
+                        <div class="pt-1">
+                            <p class="text-xs font-semibold text-rose-600">NOT PROCESSED</p>
+                            <p class="text-xs text-rose-900"> {{ number_format($purchase->amount, 2) }}</p>
+                        </div>
+                    </div>
+
+                    <x-table.body class="hidden grid-cols-1 text-sm lg:grid lg:grid-cols-3">
+                        <x-table.row class="text-center lg:text-left">
+                            <button
+                                class="font-semibold link"
+                                wire:click="showPurchase('{{ $purchase->invoice_no }}')"
+                            >{{ $purchase->id }} {{ strtoupper($purchase->invoice_no) }}
+                            </button>
+                            <p class="pt-1 text-xs text-slate-500">
+                                {{ $purchase->created_at->format('d-m-y H:i') }}</p>
+                        </x-table.row>
+                        <x-table.row>
+                            <p class="text-xs font-semibold text-rose-600">NOT PROCESSED</p>
+                        </x-table.row>
+                        <x-table.row
+                            class="text-center lg:text-right"
+                        >{{ number_format($purchase->amount, 2) }}</x-table.row>
+                    </x-table.body>
+                @empty
+                    <x-table.empty></x-table.empty>
+                @endforelse
+            </x-table.container>
+        </div>
+    @endif
+
+    <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
 
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-4">
                 <x-table.heading>Transaction</x-table.heading>
-                <x-table.heading class="text-center lg:text-right">Amount</x-table.heading>
-                <x-table.heading class="text-center lg:text-right">Balance</x-table.heading>
-                <x-table.heading class="text-center lg:text-right">Created by</x-table.heading>
+                <x-table.heading class="text-right">Amount</x-table.heading>
+                <x-table.heading class="text-right">Balance</x-table.heading>
+                <x-table.heading class="text-right">Created by</x-table.heading>
             </x-table.header>
             @forelse($supplierTransactions as $transaction)
                 <x-table.body class="grid grid-cols-1 text-sm lg:grid-cols-4">
-                    <x-table.row class="text-center lg:text-left">
+                    <x-table.row class="text-left">
                         @if ($transaction->type == 'purchase')
                             <button
                                 class="font-semibold link"
@@ -207,23 +211,22 @@
                             >{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                             </button>
                         @else
-                            <p class="font-semibold">{{ $transaction->id }}
+                            <p class="text-xs font-semibold">{{ $transaction->id }}
                                 {{ strtoupper($transaction->reference) }}
                             </p>
                         @endif
-                        <p class="text-slate-600 dark:text-slate-300">
+                        <p class="text-xs text-slate-600 dark:text-slate-300">
                             {{ $transaction->created_at->format('d-m-y H:i') }}
                         </p>
                     </x-table.row>
                     <x-table.row
-                        class="text-center lg:text-right"
-                    >{{ number_format($transaction->amount, 2) }}</x-table.row>
+                    ><p class="lg:text-right">{{ number_format($transaction->amount, 2) }}</p></x-table.row>
                     <x-table.row
-                        class="text-center lg:text-right"
-                    >{{ number_format($transaction->running_balance, 2) }}</x-table.row>
+                    ><p class="lg:text-right">{{ number_format($transaction->running_balance, 2) }}</p>
+                    </x-table.row>
                     <x-table.row
-                        class="text-center lg:text-right"
-                    >{{ $transaction->created_by }}</x-table.row>
+                    ><p class="lg:text-right">{{ $transaction->created_by }}</p>
+                    </x-table.row>
                 </x-table.body>
             @empty
                 <x-table.empty></x-table.empty>

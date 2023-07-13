@@ -5,29 +5,36 @@
     </x-page-header>
 
     <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
-        <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-4 lg:gap-x-3">
+        <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-2 lg:gap-x-3">
             <div>
-                <x-input.label for="search">
-                    Search
-                </x-input.label>
-                <x-input.text
-                    id="search"
-                    type="search"
-                    wire:model="searchQuery"
-                    autocomplete="off"
-                    autofocus
-                    placeholder="Search by company"
-                />
-                <x-input.helper>
-                    Query Time {{ round($queryTime, 3) }} ms
-                </x-input.helper>
+                <div class="w-full lg:w-64">
+                    <x-input.label for="search">
+                        Search
+                    </x-input.label>
+                    <x-input.text
+                        id="search"
+                        type="search"
+                        wire:model="searchQuery"
+                        autocomplete="off"
+                        autofocus
+                        placeholder="Search by company"
+                    />
+                </div>
+            </div>
+
+            <div class="flex justify-end items-center space-x-2">
+
+                <livewire:purchases.create />
+                <livewire:suppliers.create :fullButton="true" />
             </div>
         </div>
 
         <div class="py-3 px-2">
             {{ $suppliers->links() }}
         </div>
+    </div>
 
+    <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-6">
                 <x-table.heading>id</x-table.heading>

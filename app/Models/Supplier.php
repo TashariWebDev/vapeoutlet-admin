@@ -90,9 +90,9 @@ class Supplier extends Model
 
     public function createTransactionFrom(Purchase $purchase)
     {
-        return $this->transactions()->firstOrCreate(
+        return $this->transactions()->updateOrCreate(
             [
-                'purchase_id' => $purchase->id,
+                'reference' => $purchase->invoice_no,
                 'supplier_id' => $this->id,
             ],
             [

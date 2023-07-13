@@ -24,13 +24,13 @@ class Create extends Component
 
     public $showConfirmModal = false;
 
-    public $selectedProducts = [];
+    public $selectedProductsToDelete = [];
 
     public $products = [];
 
     public $sku;
 
-    protected $listeners = ['refresh_data' => '$refresh'];
+    protected $listeners = ['refreshData' => '$refresh'];
 
     public function mount()
     {

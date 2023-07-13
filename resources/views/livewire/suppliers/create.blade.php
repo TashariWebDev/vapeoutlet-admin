@@ -1,7 +1,14 @@
 <div>
-    <button wire:click.prevent="$toggle('modal')">
-        <x-icons.plus class="w-10 h-10 text-sky-500 hover:text-sky-600" />
-    </button>
+    @if($fullButton)
+        <button class="button-success"
+                wire:click.prevent="$toggle('modal')"
+        >Add Supplier
+        </button>
+    @else
+        <button wire:click.prevent="$toggle('modal')">
+            <x-icons.plus class="w-10 h-10 text-sky-500 hover:text-sky-600" />
+        </button>
+    @endif
 
     <x-modal x-data="{ show: $wire.entangle('modal') }">
 

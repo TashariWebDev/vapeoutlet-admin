@@ -283,18 +283,21 @@
         </div>
 
         @if (!$this->purchase->processed)
-            <div class="py-0.5 px-2 w-full">
+            <div class="py-2 px-2 w-full">
                 <div>
-                    <x-input.text
+                    <input
+                        class="block py-1.5 px-4 w-full text-sm rounded-md dark:text-white bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:border-slate-900 focus:border-ring focus:ring-sky-400"
                         type="text"
                         placeholder="SKU"
                         autofocus
                         wire:model="sku"
-                    >
-                    </x-input.text>
+                    />
                 </div>
             </div>
         @endif
+    </div>
+
+    <div class="mt-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
 
         <x-table.container>
             <x-table.header class="hidden grid-cols-5 lg:grid">

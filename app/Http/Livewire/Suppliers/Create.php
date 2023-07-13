@@ -13,6 +13,8 @@ class Create extends Component
 {
     use WithNotifications;
 
+    public $fullButton = false;
+
     public $modal;
 
     public $name = '';

@@ -53,7 +53,7 @@ class AddProduct extends Component
         });
 
         $this->reset(['searchQuery', 'selectedProducts', 'modal']);
-        $this->emit('refresh_data');
+        $this->emit('refreshData');
         $this->emit('refresh_products');
     }
 

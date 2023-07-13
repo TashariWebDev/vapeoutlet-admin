@@ -39,6 +39,10 @@
 
             </div>
         </div>
+    </div>
+
+    <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-800">
+
 
         <x-table.container>
             <x-table.header class="hidden grid-cols-5 lg:grid">

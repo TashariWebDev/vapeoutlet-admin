@@ -1,5 +1,5 @@
 <div>
-
+    
     <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="py-2 px-4">
             <div>
@@ -18,29 +18,33 @@
         </div>
         <div class="px-2 pt-3 mx-auto">
             <div>
-                <p class="pl-1 text-xs text-slate-800 dark:text-slate-500">
-                    Filter transactions by date range
-                </p>
-                <div class="flex items-center pt-1 pb-3 space-x-2">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
                     <div>
-                        <x-input.text
-                            type="date"
-                            wire:model="fromDate"
-                        />
-                    </div>
-
-                    <div>
-                        <x-input.text
-                            type="date"
-                            wire:model="toDate"
-                        />
-                    </div>
-
-                    <div>
-                        <button class="button-success"
-                                wire:click="resetDateFilter"
-                        >Show Lifetime
-                        </button>
+                        <p class="pl-1 text-xs text-slate-800 dark:text-slate-500">
+                            Filter transactions by date range
+                        </p>
+                        <div class="flex items-center pt-1 pb-3 space-x-2">
+                            <div>
+                                <x-input.text
+                                    type="date"
+                                    wire:model="fromDate"
+                                />
+                            </div>
+                            
+                            <div>
+                                <x-input.text
+                                    type="date"
+                                    wire:model="toDate"
+                                />
+                            </div>
+                            
+                            <div>
+                                <button class="button-success"
+                                        wire:click="resetDateFilter"
+                                >Show Lifetime
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,7 +126,7 @@
                 clear filters
             </button>
         </div>
-
+        
         <div class="py-2 px-4">
             <div>
                 <div class="grid grid-cols-1 gap-2 lg:grid-cols-10">
@@ -196,7 +200,7 @@
                             >Printing</span>
                         </button>
                     </div>
-
+                    
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -206,7 +210,7 @@
                             <span class="pl-2">New order</span>
                         </button>
                     </div>
-
+                    
                     <div class="block w-full">
                         <a
                             class="block w-full text-center button-success"
@@ -216,17 +220,17 @@
                             <span class="pl-2">credit note</span>
                         </a>
                     </div>
-
+                    
                     @hasPermissionTo('add transactions')
                     <div class="w-full">
                         <livewire:transactions.create :customer-id="$customerId" />
                     </div>
                     @endhasPermissionTo
-
+                    
                     <div class="w-full">
                         <livewire:transactions.warranty.create :customer-id="$customerId" />
                     </div>
-
+                    
                     <div class="w-full">
                         <button
                             class="w-full button-success"
@@ -238,24 +242,24 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- End -->
-
+            
             <div class="py-2 mt-4">
                 {{ $transactions->links() }}
             </div>
         </div>
     </div>
     <!-- End Stats -->
-
+    
     <!-- Actions -->
     <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
-
-
+        
+        
         @php
             $disabledTransactionTypes = ['credit', 'invoice'];
         @endphp
-
+        
         {{-- Mobile Transactions --}}
         <div class="px-2">
             @forelse($transactions as $transaction)
@@ -328,7 +332,7 @@
                 </div>
             @endforelse
         </div>
-
+        
         <!-- Desktop Transactions -->
         <div>
             <x-table.container>
@@ -340,7 +344,7 @@
                     <x-table.heading class="text-right">Balance</x-table.heading>
                     <x-table.heading class="text-right">Document</x-table.heading>
                 </x-table.header>
-
+                
                 @forelse($transactions as $transaction)
                     <x-table.body class="hidden text-sm lg:grid lg:grid-cols-6">
                         <x-table.row class="text-xs text-center lg:text-left">
@@ -370,7 +374,7 @@
                 ])>
                   {{ strtoupper($transaction->type) }}
                 </span>
-
+                            
                             </p>
                             <p class="uppercase text-[12px] text-slate-500 dark:text-slate-500">
                                 {{ $transaction->created_at }}
@@ -413,7 +417,7 @@
                             </div>
                         </x-table.row>
                     </x-table.body>
-
+                
                 @empty
                     <div class="hidden lg:block">
                         <x-table.empty></x-table.empty>
