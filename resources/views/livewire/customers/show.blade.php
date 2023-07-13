@@ -16,7 +16,34 @@
                 </h1>
             </div>
         </div>
-        <div class="px-2 mx-auto">
+        <div class="px-2 pt-3 mx-auto">
+            <div>
+                <p class="pl-1 text-xs text-slate-800 dark:text-slate-500">
+                    Filter transactions by date range
+                </p>
+                <div class="flex items-center pt-1 pb-3 space-x-2">
+                    <div>
+                        <x-input.text
+                            type="date"
+                            wire:model="fromDate"
+                        />
+                    </div>
+
+                    <div>
+                        <x-input.text
+                            type="date"
+                            wire:model="toDate"
+                        />
+                    </div>
+
+                    <div>
+                        <button class="button-success"
+                                wire:click="resetDateFilter"
+                        >Show Lifetime
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="grid grid-cols-2 px-2 rounded-md sm:grid-cols-2 lg:grid-cols-6 bg-slate-50 dark:bg-slate-800">
                 <div class="py-2 px-4 rounded-md">
                     <button class="link"

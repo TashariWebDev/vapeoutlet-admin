@@ -5,13 +5,13 @@
                href="{{ route('dashboard') }}"
             >&larr; Go Back</a>
         </div>
-
-
+        
+        
         <h1 class="font-bold text-black underline dark:text-slate-100">Change Log</h1>
         <h4 class="text-black dark:text-slate-100">
             View our latest updates,fixes and upcoming features
         </h4>
-
+        
         <div class="p-2 my-4 bg-white rounded prose-sm dark:bg-slate-800">
             <p>
                 <span class="font-bold">New:</span> indicates new feature
@@ -23,11 +23,11 @@
                 <span class="font-bold">Update:</span> indicates improvement or update to existing feature
             </p>
         </div>
-
-
+        
+        
         <div>
             <h4 class="text-black dark:text-slate-100">Upcoming (work in progress)</h4>
-
+            
             <ul>
                 <li>
                     Complete rewrite of GRV module
@@ -37,10 +37,21 @@
                 </li>
             </ul>
         </div>
-
+        
+        <div>
+            <time class="font-bold underline">13 July 2023</time>
+            
+            <ul>
+                <li>
+                    <span class="font-bold">New:</span>
+                    Add date filter to customer show page to filter transactions by date range.
+                </li>
+            </ul>
+        </div>
+        
         <div>
             <time class="font-bold underline">08 July 2023</time>
-
+            
             <ul>
                 <li>
                     <span class="font-bold">Update:</span>
@@ -52,10 +63,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div>
             <time class="font-bold underline">07 July 2023</time>
-
+            
             <ul>
                 <li>
                     <span class="font-bold">Update:</span>
@@ -67,10 +78,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div>
             <time class="font-bold underline">04 July 2023</time>
-
+            
             <ul>
                 <li>
                     <span class="font-bold">Update:</span>
@@ -78,10 +89,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div>
             <time class="font-bold underline">03 July 2023</time>
-
+            
             <ul>
                 <li>
                     <span class="font-bold">Update:</span>
@@ -101,10 +112,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div>
             <time class="font-bold underline">02 July 2023</time>
-
+            
             <ul>
                 <li>
                     <span class="font-bold">Fix:</span>
@@ -112,7 +123,7 @@
                 </li>
             </ul>
         </div>
-
+        
         <div>
             <time class="font-bold underline">22 June 2023</time>
             <ul>
@@ -165,8 +176,8 @@
                     change mobile layout on Customer index page
                 </li>
             </ul>
-
+        
         </div>
-
+    
     </div>
 </div>

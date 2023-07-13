@@ -31,6 +31,10 @@ class Show extends Component
 
     public $filter;
 
+    public $fromDate;
+
+    public $toDate;
+
     public $searchQuery = '';
 
     protected $listeners = ['updateData' => '$refresh'];
@@ -39,6 +43,8 @@ class Show extends Component
 
     public function mount()
     {
+        $this->toDate = today();
+
         $this->customerId = request('id');
 
         if (request()->has('searchQuery')) {
@@ -50,6 +56,13 @@ class Show extends Component
         }
 
         UpdateCustomerRunningBalanceJob::dispatch($this->customerId);
+    }
+
+    public function resetDateFilter(): void
+    {
+        $this->reset('fromDate');
+
+        $this->toDate = today();
     }
 
     public function updatedSearchQuery()
@@ -89,15 +102,15 @@ class Show extends Component
         return redirect("/orders/create/$order->id");
     }
 
-//    public function getTransactionsProperty()
-//    {
-//        return $this->customer->transactions();
-//    }
-
     public function render(): Factory|View|Application
     {
         return view('livewire.customers.show', [
-            'lifetimeTransactions' => $this->customer->transactions()->get(),
+            'lifetimeTransactions' => $this->customer->transactions()
+                ->when($this->fromDate, function ($query) {
+                    $query->whereDate('created_at', '>=', $this->fromDate)
+                        ->whereDate('created_at', '<=', $this->toDate);
+                })
+                ->get(),
             'transactions' => $this->customer
                 ->transactions()
                 ->when($this->searchQuery, function ($query) {
