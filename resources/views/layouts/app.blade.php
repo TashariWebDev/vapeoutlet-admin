@@ -211,7 +211,6 @@
         </div>
 
     </main>
-
     @livewireScripts
 </body>
 
