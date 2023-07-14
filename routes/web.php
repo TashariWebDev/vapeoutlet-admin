@@ -41,6 +41,7 @@ use App\Http\Livewire\Transactions\Edit as TransactionsEdit;
 use App\Http\Livewire\Users\Index as UsersIndex;
 use App\Http\Livewire\Users\Show;
 use App\Http\Livewire\Warehouse\Index as WarehouseIndex;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -209,21 +210,21 @@ Route::get('/imitate/{id}', function () {
     ->middleware('auth');
 
 //Verify that invoice amount matches transaction amount
-//Route::get('balances', function () {
-//    $issues = [];
-//
-//    $transactions = Transaction::where('type', 'invoice')
-//        ->take(2000)
-//        ->skip(10000)
-//        ->get();
-//
-//    foreach ($transactions as $transaction) {
-//        if (number_format($transaction->amount, 2) != number_format($transaction->orderTotal(), 2)) {
-//            $issues[] = $transaction;
-//        }
-//    }
-//
-//    return $issues;
-//});
+Route::get('balances', function () {
+    $issues = [];
+
+    $transactions = Transaction::where('type', 'invoice')
+        ->take(2000)
+        ->skip(10000)
+        ->get();
+
+    foreach ($transactions as $transaction) {
+        if (number_format($transaction->amount, 2) != number_format($transaction->orderTotal(), 2)) {
+            $issues[] = $transaction;
+        }
+    }
+
+    return $issues;
+});
 
 require __DIR__.'/auth.php';

@@ -275,8 +275,6 @@ class Create extends Component
 
         $this->order->decreaseStock();
 
-        $this->order->customer->createInvoice($this->order);
-
         $this->order->is_editing = true
             ? ($createdAt = $this->order->created_at)
             : ($createdAt = now());
@@ -289,6 +287,8 @@ class Create extends Component
             'created_at' => $createdAt,
             'is_editing' => false,
         ]);
+
+        $this->order->customer->createInvoice($this->order);
 
         try {
             $this->sendOrderEmails();

@@ -24,16 +24,22 @@ class Index extends Component
 
     public $recordCount = 10;
 
+    public $defaultView = 'simple';
+
     public string $searchQuery = '';
 
     public string $brandQuery = '';
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    protected $queryString = ['recordCount', 'searchQuery' => ['except' => ''], 'brandQuery' => ['except' => '']];
+    protected $queryString = ['recordCount', 'searchQuery' => ['except' => ''], 'brandQuery' => ['except' => ''], 'defaultView'];
 
     public function mount(): void
     {
+        if (request()->has('defaultView')) {
+            $this->defaultView = request('defaultView');
+        }
+
         if (request()->has('searchQuery')) {
             $this->searchQuery = request('searchQuery');
         }

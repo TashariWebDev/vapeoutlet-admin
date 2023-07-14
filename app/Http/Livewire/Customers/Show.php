@@ -43,6 +43,7 @@ class Show extends Component
 
     public function mount()
     {
+
         $this->toDate = today();
 
         $this->customerId = request('id');

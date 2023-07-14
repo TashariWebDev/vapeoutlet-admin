@@ -94,18 +94,18 @@
 
 
     <section class="py-2 rounded-b-lg"
-             x-data="{ show: 'simple'}"
+             x-data="{ show: @entangle('defaultView')}"
     >
         <div class="flex justify-center py-4 space-x-1 lg:justify-end">
             <button class="py-1 px-3 text-xs font-semibold rounded border shadow-sm hover:shadow-none"
                     :class="show ==='detailed' ? 'bg-slate-300 text-slate-600' : 'bg-sky-600 text-white'"
-                    x-on:click="show = 'simple'"
+                    wire:click="$set('defaultView','simple')"
             >SIMPLE
             </button>
             <button
                 class="py-1 px-3 text-xs font-semibold rounded border shadow-sm hover:shadow-none"
                 :class="show ==='simple' ? 'bg-slate-300 text-slate-600' : 'bg-sky-600 text-white'"
-                x-on:click="show = 'detailed'"
+                wire:click="$set('defaultView','detailed')"
             >DETAILED
             </button>
         </div>
