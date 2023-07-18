@@ -47,33 +47,33 @@
 
 
     <main class="w-full h-full">
-
-        @if( !app()->environment('production'))
-            <div class="p-2 m-1 w-screen text-center bg-green-600 text-[10px]">
-                <p class="font-bold text-white whitespace-nowrap">This is the training environment</p>
-            </div>
-        @endif
-
         @php
             $salutation = ['Hi, ', 'Howzit, ', 'Wazup, ', 'Hello, ', 'Hey there, '];
         @endphp
 
-        <nav
-            class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-sm border-sky-400 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
-        >
-            <div class="flex justify-between items-center py-1 px-1 mx-auto md:px-8 text-slate-500 max-w-8xl dark:text-slate-300">
-                <p class="text-xs font-bold">{{ $salutation[rand(0, 4)] }}
+        @if( app()->environment('staging'))
+            <div class="p-2 m-1 w-screen text-center bg-green-600 text-[10px]">
+                <p class="font-bold text-white whitespace-nowrap">This is the training environment</p>
+            </div>
+        @else
+            <div class="flex justify-between items-center p-2 w-screen font-bold tracking-wider text-center uppercase bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 text-[12px]">
+                <p class="whitespace-nowrap text-slate-500">{{ $salutation[rand(0, 4)] }}
                     <span>
                         {{ request()->user()->name }}
                     </span>
                 </p>
-                <div>
-                    <p
-                        class="text-xs font-semibold"
-                        x-text="currentTime"
-                    ></p>
-                </div>
+                <p class="whitespace-nowrap text-slate-300">{{ str_replace(['admin','Admin'],'',config('app.name')) }}</p>
+                <p
+                    class="hidden whitespace-nowrap lg:inline-block text-slate-500"
+                    x-text="currentTime"
+                ></p>
             </div>
+        @endif
+
+
+        <nav
+            class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-sm border-sky-500 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
+        >
             <div class="px-2 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
                     <div class="flex items-center py-2 lg:justify-between lg:py-1">

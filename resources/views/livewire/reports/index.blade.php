@@ -2,7 +2,7 @@
 <div wire:init="getValues">
     <div>
 
-        <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <x-stat-container>
                 <div class="flex justify-between items-center">
                     <div class="flex items-center space-x-6">
@@ -182,57 +182,59 @@
                     </div>
                 </x-slot:footer>
             </x-stat-container>
-
-            <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
-                <x-slot:footer>
-                    <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands($expenses ?? 0), 2) ?? '0.00' }}
-                    </p>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
-                <x-slot:footer>
-                    <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands( 0 - $total_refunds ?? 0), 2) ?? '0.00' }}
-                    </p>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
-                <x-slot:footer>
-                    <p class="font-bold text-sky-500">
-                        {{ number_format(to_rands( 0 - $total_credits ?? 0), 2) ?? '0.00' }}
-                    </p>
-                </x-slot:footer>
-            </x-stat-container>
-
-            <x-stat-container>
-                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Stock value</h3>
-                <x-slot:footer>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-baseline space-x-3">
-                            <p class="font-bold text-sky-500">
-                                {{ number_format(to_rands($this->stockValue ?? 0), 2) }}
-                            </p>
-                            <p class="text-sm text-sky-500">
-                                {{ number_format(to_rands(ex_vat($this->stockValue ?? 0)), 2) ?? '0.00' }} (ex vat)
-                            </p>
-                        </div>
-                        <button wire:click="getStockValue">
-                            <x-icons.refresh
-                                class="w-4 h-4 text-sky-500"
-                                wire:target="getStockValue"
-                                wire:loading.class="animate-spin-slow"
-                            />
-                        </button>
-                    </div>
-                </x-slot:footer>
-            </x-stat-container>
         </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-4">
+        <x-stat-container>
+            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
+            <x-slot:footer>
+                <p class="font-bold text-sky-500">
+                    {{ number_format(to_rands($expenses ?? 0), 2) ?? '0.00' }}
+                </p>
+            </x-slot:footer>
+        </x-stat-container>
+
+        <x-stat-container>
+            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
+            <x-slot:footer>
+                <p class="font-bold text-sky-500">
+                    {{ number_format(to_rands( 0 - $total_refunds ?? 0), 2) ?? '0.00' }}
+                </p>
+            </x-slot:footer>
+        </x-stat-container>
+
+        <x-stat-container>
+            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
+            <x-slot:footer>
+                <p class="font-bold text-sky-500">
+                    {{ number_format(to_rands( 0 - $total_credits ?? 0), 2) ?? '0.00' }}
+                </p>
+            </x-slot:footer>
+        </x-stat-container>
+
+        <x-stat-container>
+            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Stock value</h3>
+            <x-slot:footer>
+                <div class="flex justify-between items-center">
+                    <div class="flex items-baseline space-x-3">
+                        <p class="font-bold text-sky-500">
+                            {{ number_format(to_rands($this->stockValue ?? 0), 2) }}
+                        </p>
+                        <p class="text-xs text-slate-500">
+                            {{ number_format(to_rands(ex_vat($this->stockValue ?? 0)), 2) ?? '0.00' }} (ex vat)
+                        </p>
+                    </div>
+                    <button wire:click="getStockValue">
+                        <x-icons.refresh
+                            class="w-4 h-4 text-sky-500"
+                            wire:target="getStockValue"
+                            wire:loading.class="animate-spin-slow"
+                        />
+                    </button>
+                </div>
+            </x-slot:footer>
+        </x-stat-container>
     </div>
 
     <div class="grid grid-cols-1 gap-3 py-6 lg:grid-cols-3">

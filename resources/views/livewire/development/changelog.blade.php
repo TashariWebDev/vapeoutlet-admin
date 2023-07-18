@@ -51,6 +51,10 @@
                     <span class="font-bold">Fix:</span>
                     Fix totals on purchase report not reflecting foreign currency instead of rands
                 </li>
+                <li>
+                    <span class="font-bold">Fix:</span>
+                    Add company name to header
+                </li>
             </ul>
         </div>
 
