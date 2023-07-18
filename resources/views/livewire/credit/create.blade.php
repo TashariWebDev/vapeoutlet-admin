@@ -164,7 +164,7 @@
                                     <x-input.text
                                         type="number"
                                         value="{{ $item->price }}"
-                                        wire:keyup.debounce.500ms="updatePrice({{ $item->id }},$event.target.value)"
+                                        wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
                                         pattern="[0-9]*"
                                         inputmode="numeric"
                                         step="0.01"
@@ -191,7 +191,7 @@
                                     <x-input.text
                                         type="number"
                                         value="{{ $item->qty }}"
-                                        wire:keyup.debounce.500ms="updateQty({{ $item->id }},$event.target.value)"
+                                        wire:keyup.debounce.1500ms="updateQty({{ $item->id }},$event.target.value)"
                                         inputmode="numeric"
                                         pattern="[0-9]"
                                         min="1"

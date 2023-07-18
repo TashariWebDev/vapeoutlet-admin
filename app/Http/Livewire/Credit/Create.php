@@ -46,17 +46,13 @@ class Create extends Component
         );
     }
 
-    public function hydrate(): void
-    {
-        $this->emitSelf('refreshData');
-    }
-
     public function removeProducts(): void
     {
         CreditItem::destroy($this->selectedProductsToDelete);
 
         $this->selectedProductsToDelete = [];
         $this->notify('Products removed');
+        $this->emitSelf('refreshData');
     }
 
     public function updatedSku(): void
@@ -73,6 +69,8 @@ class Create extends Component
         $this->notify('Product added');
 
         $this->sku = '';
+
+        $this->emitSelf('refreshData');
     }
 
     public function updatePrice(CreditItem $item, $value): void
@@ -86,6 +84,8 @@ class Create extends Component
         $item->update(['price' => $value]);
 
         $this->notify('Price updated');
+
+        $this->emitSelf('refreshData');
     }
 
     public function updateQty(CreditItem $item, $value): void
@@ -99,6 +99,8 @@ class Create extends Component
         $item->update(['qty' => $value]);
 
         $this->notify('Qty updated');
+
+        $this->emitSelf('refreshData');
     }
 
     public function deleteItem(CreditItem $item): void
@@ -106,6 +108,8 @@ class Create extends Component
         $item->delete();
 
         $this->notify('Item deleted');
+
+        $this->emitSelf('refreshData');
     }
 
     public function process()
