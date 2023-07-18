@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1"
     >
     <title>
-        {{ ucwords(str_replace('admin','',config('app.name'))) }} Discount Report for {{ $salesChannel->name ?? '' }}
+        {{ ucwords(str_replace('Admin','',config('app.name'))) }} Discount Report for {{ $salesChannel->name ?? '' }}
                                                                   | {{ $from }} - {{ $to }}
     </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -39,7 +39,7 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-
+        
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
                 <table class="w-full">
@@ -54,11 +54,11 @@
                         </tr>
                     </thead>
                     <tbody class="text-xs">
-
+                        
                         @php
                             $overallTotal = [];
                         @endphp
-
+                        
                         @foreach ($discounts as $grouped)
                             @foreach ($grouped as $discount)
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
@@ -75,11 +75,11 @@
                                     </td>
                                     <td class="text-right">{{ number_format($discount->discount, 2) }}</td>
                                 </tr>
-
+                                
                                 @php
                                     $overallTotal[] = $discount->discount;
                                 @endphp
-
+                                
                                 @if ($loop->last)
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="3"></td>

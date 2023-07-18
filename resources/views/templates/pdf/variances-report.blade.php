@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1"
     >
     <title class="capitalize">
-        {{ ucwords(str_replace('admin','',config('app.name'))) }} Stock Variances Report | {{ $from }}
+        {{ ucwords(str_replace('Admin','',config('app.name'))) }} Stock Variances Report | {{ $from }}
                                                                   - {{ $to }}
     </title>
 

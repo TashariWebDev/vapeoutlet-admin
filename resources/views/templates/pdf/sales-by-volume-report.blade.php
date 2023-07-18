@@ -7,12 +7,12 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>{{ ucwords(str_replace('admin','',config('app.name'))) }} {{ $brand }} Products sales by volume | {{ $from }}
+    <title>{{ ucwords(str_replace('Admin','',config('app.name'))) }} {{ $brand }} Products sales by volume | {{ $from }}
                                                                                   - {{ $to }}
     </title>
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+
     <style>
         body {
             height: 100%;
@@ -45,7 +45,7 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-        
+
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
                 <table class="w-full">
@@ -63,16 +63,16 @@
                         </tr>
                     </thead>
                     <tbody class="text-[8px]">
-                        
+
                         @php
                             $noOfDays = Carbon\Carbon::parse($from)->diffIndays(Carbon\Carbon::parse($to));
                         @endphp
-                        
+
                         @foreach ($grouped as $products)
                             @php
                                 $collectProductQtySold = [];
                             @endphp
-                            
+
                             @foreach ($products as $product)
                                 @if ($loop->first)
                                     <tr class="col-span-4 font-bold text-white bg-gray-300 text-[8px]">
@@ -89,7 +89,7 @@
                                         <th class="text-right"></th>
                                     </tr>
                                 @endif
-                                
+
                                 @php
                                     $dailyAverage = (0 - $product->stocks_sum_qty) / $noOfDays;
                                     $qtyInStock = $product->stocks->sum('qty');
@@ -101,7 +101,7 @@
                                         $noOfDaysStocksAvailable = 0;
                                     }
                                 @endphp
-                                
+
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page text-[8px]">
                                     <td
                                         class="text-left"

@@ -7,9 +7,9 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>{{ ucwords(str_replace('admin','',config('app.name'))) }} Purchases Report - {{ $fromDate }}
+    <title>{{ ucwords(str_replace('Admin','',config('app.name'))) }} Purchases Report - {{ $fromDate }}
                                                                      - {{ $toDate }}</title>
-
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -43,7 +43,7 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-
+        
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
                 <table class="w-full">
@@ -94,10 +94,10 @@
                                         {{ number_format($amount, 2) }}
                                     </td>
                                 </tr>
-
+                                
                                 @if ($loop->last)
                                     @php
-
+                                        
                                         $amountsConvertedToRands = [];
 
                                         if ($purchase->exchange_rate > 0) {
@@ -110,9 +110,9 @@
                                         }
 
                                         $overallTotal[] = $totalAmount;
-
+                                    
                                     @endphp
-
+                                    
                                     {{-- subtotals per supplier--}}
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>
@@ -129,7 +129,7 @@
                                         <td class="text-right text-white bg-gray-800">
                                             {{ number_format($totalAmount, 2) }}</td>
                                     </tr>
-
+                                    
                                     <tr class="text-white">
                                         <td
                                             class="py-2"
