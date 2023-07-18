@@ -20,6 +20,7 @@
                         type="date"
                         label="From date"
                         wire:model.defer="fromDate"
+                        required
                     />
                 </div>
 
@@ -28,11 +29,14 @@
                         type="date"
                         label="To date"
                         wire:model.defer="toDate"
+                        required
                     />
                 </div>
 
                 <div class="py-4">
-                    <x-input.select wire:model.defer="type">
+                    <x-input.select wire:model.defer="type"
+                                    required
+                    >
                         <option value="">Choose</option>
                         <option value="debit">Debits</option>
                         <option value="payment">Payments</option>

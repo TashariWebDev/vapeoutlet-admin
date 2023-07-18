@@ -19,6 +19,7 @@
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
+                    required
                 />
                 @error('fromDate')
                 <p class="text-xs text-rose-600">{{ $message }}</p>
@@ -30,6 +31,7 @@
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
+                    required
                 />
                 @error('toDate')
                 <p class="text-xs text-rose-600">{{ $message }}</p>

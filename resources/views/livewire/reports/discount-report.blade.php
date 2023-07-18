@@ -19,6 +19,7 @@
                     type="date"
                     label="From date"
                     wire:model.defer="fromDate"
+                    required
                 />
             </div>
 
@@ -27,12 +28,14 @@
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
+                    required
                 />
             </div>
 
             <div class="py-4">
                 <x-input.select
                     wire:model.defer="salesChannelId"
+                    required
                 >
                     <option value="">Choose</option>
                     @foreach ($salesChannels as $salesChannel)
@@ -45,7 +48,7 @@
 
             <div class="py-2">
                 <button class="button-success">
-                    <x-icons.busy target="print"/>
+                    <x-icons.busy target="print" />
                     Get report
                 </button>
             </div>

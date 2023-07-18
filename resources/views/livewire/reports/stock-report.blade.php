@@ -22,6 +22,7 @@
                     type="date"
                     label="To date"
                     wire:model.defer="toDate"
+                    required
                 />
             </div>
 
