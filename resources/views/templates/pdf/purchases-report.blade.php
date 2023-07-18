@@ -7,7 +7,8 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Purchases Report - {{ $fromDate }} - {{ $toDate }}</title>
+    <title>{{ ucwords(str_replace('admin','',config('app.name'))) }} Purchases Report - {{ $fromDate }}
+                                                                     - {{ $toDate }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -71,7 +72,7 @@
                                 @endif
                                 @php
                                     if ($purchase->exchange_rate > 0) {
-                                        $amount = $purchase->amount * $purchase->exchange_rate;
+                                        $amount = $purchase->total_cost_in_zar();
                                     } else {
                                         $amount = $purchase->amount;
                                     }
@@ -93,34 +94,42 @@
                                         {{ number_format($amount, 2) }}
                                     </td>
                                 </tr>
+
                                 @if ($loop->last)
                                     @php
-                                        
+
                                         $amountsConvertedToRands = [];
-                                        
+
                                         if ($purchase->exchange_rate > 0) {
                                             foreach ($grouped as $purchase) {
-                                                $amountsConvertedToRands[] = $purchase->amount * $purchase->exchange_rate;
+                                                $amountsConvertedToRands[] = $purchase->total_cost_in_zar();
                                             }
                                             $totalAmount = array_sum($amountsConvertedToRands);
                                         } else {
                                             $totalAmount = $grouped->sum('amount');
                                         }
-                                        
+
                                         $overallTotal[] = $totalAmount;
-                                        
+
                                     @endphp
+
+                                    {{-- subtotals per supplier--}}
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($grouped->sum('amount') - vat($grouped->where('taxable', true)->sum('amount')), 2) }}
+                                            @if ($purchase->exchange_rate > 0)
+                                                {{ number_format($totalAmount, 2) }}
+                                            @else ($purchase->exchange_rate > 0)
+                                                {{ number_format(ex_vat($totalAmount), 2) }}
+                                            @endif
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
                                             {{ number_format(vat($grouped->where('taxable', true)->sum('amount')), 2) }}
                                         </td>
                                         <td class="text-right text-white bg-gray-800">
-                                            {{ number_format($grouped->sum('amount'), 2) }}</td>
+                                            {{ number_format($totalAmount, 2) }}</td>
                                     </tr>
+
                                     <tr class="text-white">
                                         <td
                                             class="py-2"

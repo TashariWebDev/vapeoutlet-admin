@@ -39,6 +39,22 @@
         </div>
 
         <div>
+            <time class="font-bold underline">08 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add company name on all reports
+                </li>
+
+                <li>
+                    <span class="font-bold">Fix:</span>
+                    Fix totals on purchase report not reflecting foreign currency instead of rands
+                </li>
+            </ul>
+        </div>
+
+        <div>
             <time class="font-bold underline">13 July 2023</time>
 
             <ul>

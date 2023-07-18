@@ -1,5 +1,5 @@
 @php use App\Models\SystemSetting; @endphp
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -8,7 +8,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Credit Note</title>
+    <title> Credit Note</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
         rel="stylesheet"
@@ -100,7 +100,8 @@
                             <th class="font-bold leading-snug text-left uppercase text-[10px] text-slate-900">SKU/CODE
                             </th>
                             <th
-                                class="col-span-2 font-bold leading-snug text-left uppercase text-[10px] text-slate-900">
+                                class="col-span-2 font-bold leading-snug text-left uppercase text-[10px] text-slate-900"
+                            >
                                 Item
                             </th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Qty</th>
@@ -128,7 +129,8 @@
                                     <span class="flex flex-wrap leading-snug text-[8px]">
                                         @foreach ($item->product->features as $feature)
                                             <span
-                                                class="pr-1 font-semibold leading-snug text-[8px]">{{ ucwords($feature->name) }}</span>
+                                                class="pr-1 font-semibold leading-snug text-[8px]"
+                                            >{{ ucwords($feature->name) }}</span>
                                         @endforeach
                                     </span>
                                 </td>

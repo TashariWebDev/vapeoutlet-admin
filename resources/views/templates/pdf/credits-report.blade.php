@@ -7,7 +7,7 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Credits Report | {{ $from }} - {{ $to }}</title>
+    <title>{{ ucwords(str_replace('admin','',config('app.name'))) }} Credits Report | {{ $from }} - {{ $to }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -55,9 +55,9 @@
                         @endphp
                         @foreach ($credits as $grouped)
                             @php
-                                
+
                                 $collectAllTotals = [];
-                                
+
                             @endphp
                             @foreach ($grouped as $credit)
                                 @if ($loop->first)
@@ -79,16 +79,16 @@
                                 @endif
                                 @if ($loop->last)
                                     @php
-                                        
+
                                         $collectAllTotals = [];
-                                        
+
                                         foreach ($grouped as $credit) {
                                             $collectAllTotals[] = $credit->getTotal();
                                         }
                                         $totalAmount = array_sum($collectAllTotals);
-                                        
+
                                         $overallTotal[] = $totalAmount;
-                                        
+
                                     @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
                                         <td colspan="2"></td>

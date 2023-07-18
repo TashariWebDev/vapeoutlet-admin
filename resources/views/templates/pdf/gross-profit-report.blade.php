@@ -7,7 +7,8 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Gross profit Report | {{ $from }} - {{ $to }}</title>
+    <title>{{ ucwords(str_replace('admin','',config('app.name'))) }} Gross profit Report | {{ $from }}
+                                                                     - {{ $to }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>

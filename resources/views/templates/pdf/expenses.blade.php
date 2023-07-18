@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1"
     >
     <title>
-        Expense Report | {{ $from }} - {{ $to }}
+        {{ ucwords(str_replace('admin','',config('app.name'))) }} Expense Report | {{ $from }} - {{ $to }}
     </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>

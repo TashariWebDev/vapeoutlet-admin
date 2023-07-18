@@ -8,7 +8,8 @@
         content="width=device-width, initial-scale=1"
     >
     <title>
-        Discount Report for {{ $salesChannel->name ?? '' }} | {{ $from }} - {{ $to }}
+        {{ ucwords(str_replace('admin','',config('app.name'))) }} Discount Report for {{ $salesChannel->name ?? '' }}
+                                                                  | {{ $from }} - {{ $to }}
     </title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -64,7 +65,7 @@
                                     <td class="text-left">{{ $discount->created_at->format('d-m-y') }}</td>
                                     <td class="text-left">{{ $discount->order->number }}</td>
                                     <td class="text-left">
-                                        <x-product-listing-simple :product="$discount->product"/>
+                                        <x-product-listing-simple :product="$discount->product" />
                                     </td>
                                     <td class="text-right">
                                         {{ number_format(ex_vat($discount->discount), 2) }}

@@ -7,7 +7,10 @@
         name="viewport"
         content="width=device-width, initial-scale=1"
     >
-    <title>Stock Variances Report | {{ $from }} - {{ $to }}</title>
+    <title class="capitalize">
+        {{ ucwords(str_replace('admin','',config('app.name'))) }} Stock Variances Report | {{ $from }}
+                                                                  - {{ $to }}
+    </title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -66,8 +69,9 @@
                                             <span class="flex flex-wrap text-xs">
                                                 @foreach ($stock->product->features as $feature)
                                                     <span
-                                                        class="pr-1 text-xs font-thin">{{ ucwords($feature->name) }}</span>
-                                                @endforeach
+                                                        class="pr-1 text-xs font-thin"
+                                                    >{{ ucwords($feature->name) }}</span>
+                                            @endforeach
                                         </div>
                                     </td>
                                     <td class="text-center">{{ $stock->reference }}</td>
@@ -81,11 +85,11 @@
                             @if ($loop->last)
                                 @php
                                     $totals = [];
-                                    
+
                                     foreach ($stocks as $stock) {
                                         $totals[] = $stock->getTotal();
                                     }
-                                    
+
                                     $totalAmount = array_sum($totals);
                                 @endphp
                                 <tr class="text-xs break-inside-avoid">
