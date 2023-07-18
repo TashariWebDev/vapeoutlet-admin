@@ -195,7 +195,6 @@
                                         inputmode="numeric"
                                         pattern="[0-9]"
                                         min="1"
-                                        max="{{ $item->product->qty() }}"
                                     />
                                 </label>
                             </form>
