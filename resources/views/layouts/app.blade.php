@@ -72,7 +72,7 @@
 
 
         <nav
-            class="sticky top-0 z-40 w-full bg-white border-t-4 shadow-sm border-sky-500 backdrop-blur dark:border-sky-500 dark:bg-slate-950"
+            class="sticky top-0 z-40 w-full bg-white shadow-sm dark:border-sky-500 dark:bg-slate-950"
         >
             <div class="px-2 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
