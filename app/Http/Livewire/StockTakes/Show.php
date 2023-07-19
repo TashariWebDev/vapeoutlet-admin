@@ -43,7 +43,7 @@ class Show extends Component
         $item->update([
             'count' => $count,
             'variance' => $count -
-                $item->product->stocks
+                $item->product->fresh()->stocks
                     ->where(
                         'sales_channel_id',
                         '=',
@@ -55,7 +55,7 @@ class Show extends Component
         $this->notify('updated');
     }
 
-    public function process()
+    public function process(): void
     {
         $this->notify('processing');
 
