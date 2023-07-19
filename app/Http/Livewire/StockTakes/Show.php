@@ -22,12 +22,12 @@ class Show extends Component
 
     public $count;
 
-    public function mount()
+    public function mount(): void
     {
         $this->stockTakeId = request('id');
     }
 
-    public function updateItem(StockTakeItem $item, $count)
+    public function updateItem(StockTakeItem $item, $count): void
     {
         if ($count == '' || $count < 0) {
             $item->update([

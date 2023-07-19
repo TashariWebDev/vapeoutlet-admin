@@ -76,7 +76,7 @@
         >
             <div class="px-2 mx-auto sm:px-6 md:px-8 max-w-8xl">
                 <div class="flex justify-center items-center w-full lg:justify-between">
-                    <div class="flex items-center py-2 lg:justify-between lg:py-1">
+                    <div class="flex items-center py-2 lg:justify-between lg:py-1">,
                         <container
                             class="hidden items-center px-4 mx-auto space-x-8 lg:flex lg:py-2 lg:pb-1 lg:max-w-7xl"
                         >

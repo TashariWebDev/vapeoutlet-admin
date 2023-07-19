@@ -66,17 +66,17 @@ class Show extends Component
         $this->toDate = today();
     }
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
     {
         $this->resetPage();
     }
 
-    public function updatedFilter()
+    public function updatedFilter(): void
     {
         $this->resetPage();
     }
 
-    public function resetFilter()
+    public function resetFilter(): void
     {
         $this->resetPage();
         $this->filter = '';
