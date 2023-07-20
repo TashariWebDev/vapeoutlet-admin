@@ -22,6 +22,10 @@
         <div class="py-2">
             {{ $orders->links() }}
         </div>
+    </div>
+
+    <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
+
 
         {{-- Desktop --}}
         <div class="hidden lg:block">
@@ -34,14 +38,14 @@
                 @forelse($orders as $order)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-3">
                         <x-table.row class="text-center lg:text-left">
-                            <p>{{ $order->number }}</p>
-                            <p class="text-slate-600 dark:text-slate-300">{{ $order->created_at->format('d-m-y H:i') }}
+                            <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">{{ $order->number }}</p>
+                            <p class="text-xs text-slate-400">{{ $order->created_at->format('d-m-y H:i') }}
                             </p>
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
                             <div class="flex justify-center lg:justify-between lg:items-start">
                                 <div>
-                                    <p>{{ $order->customer->name }}</p>
+                                    <p class="text-xs text-slate-600 dark:text-slate-300">{{ $order->customer->name }}</p>
 
                                     <div class="flex justify-between pt-1 space-x-2">
                                         <p @class([
@@ -57,7 +61,7 @@
                                 </div>
                             </div>
                         </x-table.row>
-                        <x-table.row class="p-2 text-center lg:text-right">
+                        <x-table.row class="text-center lg:text-right">
                             <button
                                 class="w-auto button-success"
                                 wire:loading.attr="disabled"

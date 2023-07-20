@@ -53,6 +53,10 @@
                     <span class="font-bold">Update:</span>
                     Update changelog UI
                 </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Update warehouse UI
+                </li>
             </ul>
         </div>
 
