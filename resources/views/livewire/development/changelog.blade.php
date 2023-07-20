@@ -24,7 +24,6 @@
             </p>
         </div>
 
-
         <div>
             <h4 class="text-black dark:text-slate-100">Upcoming (work in progress)</h4>
 
@@ -34,6 +33,17 @@
                 </li>
                 <li>
                     Complete rewrite of Credit note module
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <time class="font-bold underline">08 July 2023</time>
+
+            <ul>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Update core framework Laravel V10.9.0
                 </li>
             </ul>
         </div>

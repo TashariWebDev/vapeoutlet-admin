@@ -27,7 +27,7 @@ class AddProduct extends Component
 
     protected $listeners = ['refresh_products' => '$refresh'];
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
     {
         $this->resetPage();
     }
@@ -35,7 +35,7 @@ class AddProduct extends Component
     /**
      * @throws QtyNotAvailableException
      */
-    public function addProducts()
+    public function addProducts(): void
     {
         $query = Product::query()
             ->withStockCount()
