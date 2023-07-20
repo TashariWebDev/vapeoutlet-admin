@@ -9,6 +9,9 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\SalesChannel;
 use App\Models\Transaction;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -91,9 +94,10 @@ class CashUp extends Component
         $this->resetPage();
     }
 
-    public function mount()
+    public function mount(): void
     {
         \App\Models\Note::where('body', '=', '')->delete();
+
         $this->salesChannels = SalesChannel::all();
 
         $this->defaultSalesChannel = $this->salesChannels
@@ -174,44 +178,44 @@ class CashUp extends Component
         return $orders;
     }
 
-    public function selectedCustomerLatestTransactions()
+    public function selectedCustomerLatestTransactions(): void
     {
         if ($this->quickViewCustomerAccountModal === false) {
             $this->selectedCustomerLatestTransactions = [];
         }
     }
 
-    public function quickViewCustomerAccount(Customer $customer)
+    public function quickViewCustomerAccount(Customer $customer): void
     {
-        $customer->load('lastFivetransactions');
+        $customer->load('lastFiveTransactions');
         $this->selectedCustomerLatestTransactions =
             $customer->lastFiveTransactions;
 
         $this->quickViewCustomerAccountModal = true;
     }
 
-    public function quickViewNotes(Order $order)
+    public function quickViewNotes(Order $order): void
     {
         $this->selectedOrderNotes = $order->notes;
 
         $this->quickViewNotesModal = true;
     }
 
-    public function pushToComplete($orderId)
+    public function pushToComplete($orderId): void
     {
         $order = Order::findOrFail($orderId);
         $order->updateStatus('completed');
         $this->notify('order completed');
     }
 
-    public function togglePaymentForm($customerId)
+    public function togglePaymentForm($customerId): void
     {
         $this->modal = true;
         $this->customerId = $customerId;
         $this->customer = Customer::find($customerId);
     }
 
-    public function save()
+    public function save(): void
     {
         $additionalFields = [
             'customer_id' => $this->customerId,
@@ -239,7 +243,7 @@ class CashUp extends Component
         $this->emit('updateData');
     }
 
-    public function render()
+    public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view('livewire.orders.cash-up', [
             'orders' => $this->filteredOrders()->paginate($this->recordCount),

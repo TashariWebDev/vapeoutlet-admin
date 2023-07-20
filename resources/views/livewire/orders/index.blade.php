@@ -1,5 +1,7 @@
-<div>
-    <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }">
+<div wire:poll.5000s>
+    <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }"
+             wire:key="modal-{{ rand(1,1000) }}"
+    >
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Latest transactions</h3>
         </div>
@@ -14,7 +16,7 @@
                     </div>
 
                     @forelse($selectedCustomerLatestTransactions as $transaction)
-                        <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-gray-900 even:bg-sky-50">
+                        <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-slate-900 even:bg-slate-50">
                             <div>
                                 <p class="text-xs font-semibold text-slate-600 dark:text-slate-300">
                                     {{ $transaction->id }}
@@ -23,7 +25,7 @@
                                     {{ $transaction->created_at }}</p>
                             </div>
                             <div class="px-1">
-                                <p class="text-xs font-semibold break-words text-slate-600 dark:text-slate-300">
+                                <p class="text-xs font-semibold text-slate-600 [text-wrap:balance] dark:text-slate-300">
                                     {{ strtoupper($transaction->reference) }}
                                 </p>
                                 <p class="text-xs text-slate-600 dark:text-slate-300">{{ $transaction->created_by }}
@@ -50,6 +52,7 @@
             @endif
         </div>
     </x-modal>
+
     <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>

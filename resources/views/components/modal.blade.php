@@ -27,13 +27,13 @@
             x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
             <div
-                class="overflow-hidden relative p-4 w-full text-left bg-white rounded-md shadow-sm transition-all transform sm:my-8 lg:max-w-xl dark:bg-slate-950"
+                class="overflow-hidden relative p-4 w-full text-left bg-white rounded-md shadow-sm transition-all transform sm:my-8 lg:max-w-3xl dark:bg-slate-950"
                 x-on:click.outside="show = !show"
             >
 
                 <div class="absolute top-0 right-0 m-4">
                     <button x-on:click="show = !show">
-                        <x-icons.close class="w-5 h-5 text-rose-500 hover:text-rose-600" />
+                        <x-icons.close class="w-8 h-8 text-rose-500 hover:text-rose-600" />
                     </button>
                 </div>
                 {{ $slot }}

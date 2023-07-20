@@ -57,17 +57,17 @@ class Index extends Component
         'searchQuery',
     ];
 
-    public function updatedSearchQuery()
+    public function updatedSearchQuery(): void
     {
         $this->resetPage();
     }
 
-    public function updatedFilter()
+    public function updatedFilter(): void
     {
         $this->resetPage();
     }
 
-    public function mount()
+    public function mount(): void
     {
 
         \App\Models\Note::where('body', '=', '')->delete();
@@ -153,14 +153,14 @@ class Index extends Component
         return $orders;
     }
 
-    public function selectedCustomerLatestTransactions()
+    public function selectedCustomerLatestTransactions(): void
     {
         if ($this->quickViewCustomerAccountModal === false) {
             $this->selectedCustomerLatestTransactions = [];
         }
     }
 
-    public function quickViewCustomerAccount(Customer $customer)
+    public function quickViewCustomerAccount(Customer $customer): void
     {
         $customer->load('lastFiveTransactions');
         $this->selectedCustomerLatestTransactions =
@@ -169,7 +169,7 @@ class Index extends Component
         $this->quickViewCustomerAccountModal = true;
     }
 
-    public function quickViewNotes(Order $order)
+    public function quickViewNotes(Order $order): void
     {
         $this->selectedOrderNotes = $order->notes;
 
