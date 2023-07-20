@@ -1,4 +1,4 @@
-<div class="min-w-max text-black dark:text-white">
+<div class="prose prose-sky prose-lg dark:prose-invert">
     <div>
         <div class="py-4">
             <a class="link"
@@ -6,13 +6,13 @@
             >&larr; Go Back</a>
         </div>
 
+        <h1>Change Log</h1>
 
-        <h1 class="font-bold text-black underline dark:text-slate-100">Change Log</h1>
-        <h4 class="text-black dark:text-slate-100">
+        <h4>
             View our latest updates,fixes and upcoming features
         </h4>
 
-        <div class="p-2 my-4 bg-white rounded prose-sm dark:bg-slate-800">
+        <div class="p-2 my-4 rounded prose-sm">
             <p>
                 <span class="font-bold">New:</span> indicates new feature
             </p>
@@ -24,10 +24,10 @@
             </p>
         </div>
 
-        <div>
-            <h4 class="text-black dark:text-slate-100">Upcoming (work in progress)</h4>
+        <div class="p-2 my-4 rounded prose-sm">
+            <h4>Upcoming (work in progress)</h4>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     Complete rewrite of GRV module
                 </li>
@@ -37,21 +37,29 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">08 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>08 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     Update core framework Laravel V10.9.0
                 </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add daily average sales + gross profit on reports index page
+                </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Update changelog UI
+                </li>
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">08 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>08 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     Add company name on all reports
@@ -68,10 +76,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">13 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>13 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">New:</span>
                     Add date filter to customer show page to filter transactions by date range.
@@ -111,10 +119,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">08 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>08 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     Adjust button contrast and hover states
@@ -126,10 +134,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">07 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>07 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     Adjust product ordering to group by brand and order by name on product page
@@ -141,10 +149,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">04 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>04 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     Adjust UI with larger fonts and touch targets
@@ -152,10 +160,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">03 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>03 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     improve product index page performance by 100%
@@ -175,10 +183,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">02 July 2023</time>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>02 July 2023</time>
 
-            <ul>
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Fix:</span>
                     remove redundant status filter from cash-up page
@@ -186,9 +194,10 @@
             </ul>
         </div>
 
-        <div>
-            <time class="font-bold underline">22 June 2023</time>
-            <ul>
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>22 June 2023</time>
+
+            <ul class="list-decimal">
                 <li>
                     <span class="font-bold">New:</span> Added change log page
                 </li>
