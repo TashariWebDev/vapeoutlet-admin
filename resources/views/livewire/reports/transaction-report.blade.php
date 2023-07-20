@@ -35,7 +35,6 @@
 
                 <div class="py-4">
                     <x-input.select wire:model.defer="type"
-                                    required
                     >
                         <option value="">Choose</option>
                         <option value="debit">Debits</option>
