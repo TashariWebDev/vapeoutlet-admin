@@ -1,4 +1,4 @@
-<div wire:poll.3000ms>
+<div>
     <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }">
         <div class="pb-3">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Latest transactions</h3>
