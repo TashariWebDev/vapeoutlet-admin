@@ -29,6 +29,7 @@ class PaymentReport extends Component
     {
         $this->salespeople = User::query()
             ->where('is_super_admin', false)
+            ->withTrashed()
             ->get();
     }
 
@@ -54,8 +55,8 @@ class PaymentReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/payment-report.pdf'
+            config('app.storage_folder').
+            '/documents/payment-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -73,8 +74,8 @@ class PaymentReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/payment-report.pdf'
+            config('app.storage_folder').
+            '/documents/payment-report.pdf'
         );
     }
 
