@@ -12,11 +12,16 @@ class Show extends Component
 {
     public $credit;
 
-    public function mount()
+    public function mount(): void
     {
         $this->credit = SupplierCredit::find(request('id'));
 
         $this->credit->load('items.product');
+    }
+
+    public function print(): void
+    {
+        $this->credit->print();
     }
 
     public function render(): Factory|View|Application

@@ -33,8 +33,16 @@
                         <p>{{ $this->credit->processed_date }}</p>
                     </button>
                 </div>
-                <div>
 
+                <div>
+                    <button
+                        class="w-full button-success"
+                        wire:loading.attr="disabled"
+                        wire:target="print"
+                        wire:click="print({{ $credit->id }})"
+                    >
+                        Print
+                    </button>
                 </div>
 
             </div>

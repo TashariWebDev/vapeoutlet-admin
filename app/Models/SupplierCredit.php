@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Spatie\Browsershot\Browsershot;
+use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 /**
  * App\Models\SupplierCredit
@@ -158,5 +160,39 @@ class SupplierCredit extends Model
     public function cancel()
     {
         $this->delete();
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function print()
+    {
+        $view = view('templates.pdf.supplier-credit', [
+            'credit' => $this,
+        ])->render();
+
+        $url = storage_path(
+            'app/public/'.
+            config('app.storage_folder').
+            "/documents/$this->number.pdf"
+        );
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect(
+            '/storage/'.
+            config('app.storage_folder').
+            "/documents/$this->number.pdf"
+        );
     }
 }
