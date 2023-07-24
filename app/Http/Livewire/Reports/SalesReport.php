@@ -27,7 +27,7 @@ class SalesReport extends Component
 
     public function mount()
     {
-        $this->salespeople = User::where('is_super_admin', false)->get();
+        $this->salespeople = User::where('is_super_admin', false)->withTrashed()->get();
     }
 
     /**

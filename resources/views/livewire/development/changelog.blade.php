@@ -38,7 +38,18 @@
         </div>
 
         <div class="p-2 my-4 rounded prose-sm">
-            <time>08 July 2023</time>
+            <time>24 July 2023</time>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add print functionality to supplier credit module
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>21 July 2023</time>
 
             <ul class="list-decimal">
                 <li>
