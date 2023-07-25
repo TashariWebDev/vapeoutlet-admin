@@ -96,7 +96,7 @@
                         type="search"
                         placeholder="search"
                         autofocus
-                        wire:model="searchQuery"
+                        wire:model.debounce.500ms="searchQuery"
                     />
                     <x-input.helper>
                         Query Time {{ round($queryTime, 3) }} ms
