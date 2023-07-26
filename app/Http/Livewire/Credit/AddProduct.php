@@ -29,6 +29,11 @@ class AddProduct extends Component
         $this->resetPage();
     }
 
+    public function updatedModal(): void
+    {
+        $this->searchQuery = '';
+    }
+
     public function addProducts(): void
     {
         if (! count($this->selectedProducts)) {

@@ -32,6 +32,11 @@ class AddProduct extends Component
         $this->resetPage();
     }
 
+    public function updatedModal(): void
+    {
+        $this->searchQuery = '';
+    }
+
     /**
      * @throws QtyNotAvailableException
      */

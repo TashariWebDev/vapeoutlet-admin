@@ -5,13 +5,13 @@
                href="{{ route('dashboard') }}"
             >&larr; Go Back</a>
         </div>
-
+        
         <h1>Change Log</h1>
-
+        
         <h4>
             View our latest updates,fixes and upcoming features
         </h4>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <p>
                 <span class="font-bold">New:</span> indicates new feature
@@ -23,10 +23,10 @@
                 <span class="font-bold">Update:</span> indicates improvement or update to existing feature
             </p>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <h4>Upcoming (work in progress)</h4>
-
+            
             <ul class="list-decimal">
                 <li>
                     Complete rewrite of GRV module
@@ -36,10 +36,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>25 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -47,10 +47,23 @@
                 </li>
             </ul>
         </div>
-
+        
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>26 July 2023</time>
+            
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Fix:</span>
+                    Fix bug when adding a full range of single brand to order or credit, and try and search
+                    for the same brand the add product disables as the search does not clear and is still querying
+                    the specific brand.
+                </li>
+            </ul>
+        </div>
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>24 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -58,10 +71,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>21 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -81,16 +94,16 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>08 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
                     Add company name on all reports
                 </li>
-
+                
                 <li>
                     <span class="font-bold">Fix:</span>
                     Fix totals on purchase report not reflecting foreign currency instead of rands
@@ -101,10 +114,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>13 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">New:</span>
@@ -144,10 +157,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>08 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -159,10 +172,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>07 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -174,10 +187,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>04 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -185,10 +198,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>03 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Update:</span>
@@ -208,10 +221,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>02 July 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">Fix:</span>
@@ -219,10 +232,10 @@
                 </li>
             </ul>
         </div>
-
+        
         <div class="p-2 my-4 rounded prose-sm">
             <time>22 June 2023</time>
-
+            
             <ul class="list-decimal">
                 <li>
                     <span class="font-bold">New:</span> Added change log page
@@ -273,8 +286,8 @@
                     change mobile layout on Customer index page
                 </li>
             </ul>
-
+        
         </div>
-
+    
     </div>
 </div>

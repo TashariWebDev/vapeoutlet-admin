@@ -78,9 +78,15 @@
                        class="link"
                     >{{ $this->order->customer->name }}
                     </a>
-                    <div class="leading-3">
-                        <p class="text-sm font-medium tracking-wide lowercase text-slate-900 dark:text-slate-400">{{ $this->order->customer->email }}</p>
-                        <p class="text-sm font-medium tracking-wide text-slate-900 dark:text-slate-400">{{ $this->order->customer->phone }}</p>
+                    <div class="leading-3"
+                         x-data="{email: '{{$this->order->customer->email}}', phone:'{{ $this->order->customer->phone }}'}"
+                    >
+                        <p class="text-sm font-medium tracking-wide lowercase text-slate-900 dark:text-slate-400"
+                           @click="navigator.clipboard.writeText(email)"
+                        >{{ $this->order->customer->email }}</p>
+                        <p class="text-sm font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                           @click="navigator.clipboard.writeText(phone)"
+                        >{{ $this->order->customer->phone }}</p>
                     </div>
                 </div>
                 <div>
