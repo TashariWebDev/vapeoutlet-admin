@@ -216,7 +216,7 @@
 
                 <section class="py-2 mt-2 w-auto break-before-avoid-page break-inside-avoid-page">
                     <p class="font-bold text-left uppercase whitespace-nowrap text-[8px]">
-                        {{ $order->delivery->type }}
+                        {{ $order->delivery->description }} - {{ $order->delivery->province }}
                     </p>
                 </section>
 
