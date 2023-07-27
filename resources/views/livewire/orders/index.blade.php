@@ -199,7 +199,7 @@
                         </button>
                     </x-table.heading>
                     <x-table.heading>customer</x-table.heading>
-                    <x-table.heading class="text-right">delivery</x-table.heading>
+                    <x-table.heading class="text-left">delivery</x-table.heading>
                     <x-table.heading class="text-right">total</x-table.heading>
                     <x-table.heading class="text-right">invoice</x-table.heading>
                 </x-table.header>
@@ -280,7 +280,7 @@
                                 </div>
                             </div>
                         </x-table.row>
-                        <x-table.row class="p-2 text-center cursor-default lg:text-right text-semibold dark:text-slate-400">
+                        <x-table.row class="px-2 text-center cursor-default lg:text-left text-semibold dark:text-slate-400">
                             <p
                                 class="text-xs font-semibold uppercase whitespace-nowrap truncate"
                                 title="{{ $order->delivery->description }}"
@@ -292,8 +292,18 @@
                             >
                                 {{ $order->delivery->province }}
                             </p>
+                            @isset($order->waybill)
+                                <div class="flex items-center space-x-2">
+                                    <p class="text-xs capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
+                                        Waybill/Tracking No. : </p>
+                                    <x-click-to-copy
+                                        text="{{$order->waybill}}"
+                                        class="text-xs font-bold tracking-wide text-slate-900 dark:text-slate-400"
+                                    > {{ $order->waybill }}</x-click-to-copy>
+                                </div>
+                            @endisset
                         </x-table.row>
-                        <x-table.row class="hidden p-2 text-right lg:block">
+                        <x-table.row class="hidden px-2 text-right lg:block">
                             <p
                                 class="text-sm font-bold text-black uppercase cursor-default dark:text-slate-400"
                                 title="Order Total"
@@ -301,7 +311,7 @@
                                 R {{ number_format(to_rands($order->order_total) + $order->delivery_charge, 2) }}
                             </p>
                         </x-table.row>
-                        <x-table.row class="p-2 text-center lg:text-right">
+                        <x-table.row class="px-2 text-center lg:text-right">
                             <div class="flex justify-end items-start space-x-2">
                                 <div>
                                     @hasPermissionTo('complete orders')
@@ -380,6 +390,16 @@
                     >
                         {{ $order->delivery->province }}
                     </p>
+                    @isset($order->waybill)
+                        <div class="flex items-center space-x-2">
+                            <p class="text-xs capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
+                                Waybill/Tracking No. : </p>
+                            <x-click-to-copy
+                                text="{{$order->waybill}}"
+                                class="text-xs font-bold tracking-wide text-slate-900 dark:text-slate-400"
+                            > {{ $order->waybill }}</x-click-to-copy>
+                        </div>
+                    @endisset
                 </div>
 
                 <div class="flex col-span-2 justify-between pt-3">

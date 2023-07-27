@@ -64,7 +64,19 @@
                             </p>
                         </div>
                     @endisset
-                    <div class="flex col-span-2 justify-between px-1 mt-1 bg-slate-100 dark:bg-slate-950">
+
+                    @isset($this->order->waybill)
+                        <div class="flex justify-between items-center">
+                            <p class="text-xs capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
+                                Waybill/Tracking No.:</p>
+                            <x-click-to-copy
+                                text="{{$this->order->waybill}}"
+                                class="text-xs font-bold tracking-wide text-slate-900 dark:text-slate-400"
+                            >{{ $this->order->waybill }}</x-click-to-copy>
+                        </div>
+                    @endisset
+
+                    <div class="flex col-span-2 justify-between mt-2">
                         <p class="text-sm font-bold dark:text-white text-slate-900">
                             Total: R {{ number_format($this->order->getTotal(), 2) }}
                         </p>
