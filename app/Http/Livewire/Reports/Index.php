@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Reports;
 
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Brand;
+use App\Models\Credit;
 use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
@@ -35,6 +36,8 @@ class Index extends Component
     public $gross_profit;
 
     public $previous_month_gross_profit;
+
+    public $credit_profit;
 
     public $fromDate;
 
@@ -74,33 +77,28 @@ class Index extends Component
 
     public $profit_margin;
 
-    public function mount(): void
-    {
-    }
-
     public function getValues()
     {
+        $this->getTransactions();
         //        8 queries
-        $this->getGrossProfit();
-        $this->getPreviousMonthGrossProfit();
-
-        //        1 query
-        $this->getStockValue();
-
-        //        3 queries each
         $this->getGrossSales();
         $this->getPreviousMonthGrossSales();
+        $this->getGrossProfit();
+        $this->getPreviousMonthGrossProfit();
+        $this->getCreditProfit();
+        $this->getPreviousMonthCreditProfit();
+
+        $this->getStockValue();
 
         $this->getExpenses();
-        $this->getTransactions();
-        //
+
         $this->getPurchases();
         $this->getPreviousMonthPurchases();
 
         $this->getProfitMargin();
     }
 
-    public function getProfitMargin()
+    public function getProfitMargin(): void
     {
         if ($this->gross_sales > 0) {
             $this->profit_margin = round(($this->gross_profit / $this->gross_sales) * 100);
@@ -109,7 +107,7 @@ class Index extends Component
         }
     }
 
-    public function getPurchases()
+    public function getPurchases(): void
     {
         $total = [];
 
@@ -160,14 +158,14 @@ class Index extends Component
             ->where('type', '=', 'credit')
             ->sum('amount');
 
-        $this->total_refunds = Transaction::query()
-            ->currentMonth()
-            ->where('type', '=', 'refund')
-            ->sum('amount');
-
         $this->previous_month_total_credits = Transaction::query()
             ->previousMonth()
             ->where('type', '=', 'credit')
+            ->sum('amount');
+
+        $this->total_refunds = Transaction::query()
+            ->currentMonth()
+            ->where('type', '=', 'refund')
             ->sum('amount');
 
         $this->previous_month_total_refunds = Transaction::query()
@@ -183,63 +181,76 @@ class Index extends Component
 
     public function getGrossSales(): void
     {
-        $total = [];
-
-        $orders = Order::currentMonth()
+        $profit = Order::currentMonth()
             ->with('items')
             ->sales()
-            ->get();
+            ->get()->sum(function ($order) {
+                return $order->getTotal();
+            });
 
-        foreach ($orders as $order) {
-            $total[] = $order->getTotal();
-        }
+        $creditsNotes = to_rands(0 - $this->total_credits);
+        $refunds = to_rands(0 - $this->total_refunds);
 
-        $this->gross_sales = array_sum($total);
+        $this->gross_sales = $profit - ($creditsNotes + $refunds);
     }
 
     public function getPreviousMonthGrossSales(): void
     {
-        $total = [];
-
-        $orders = Order::previousMonth()
+        $profit = Order::previousMonth()
             ->with('items')
             ->sales()
-            ->get();
+            ->get()->sum(function ($order) {
+                return $order->getTotal();
+            });
 
-        foreach ($orders as $order) {
-            $total[] = $order->getTotal();
-        }
+        $creditsNotes = to_rands(0 - $this->previous_month_total_credits);
+        $refunds = to_rands(0 - $this->previous_month_total_refunds);
 
-        $this->previous_month_gross_sales = array_sum($total);
+        $this->previous_month_gross_sales = $profit - ($creditsNotes + $refunds);
     }
 
     public function getGrossProfit(): void
     {
-        $total = [];
 
-        $orders = Order::currentMonth()->with('items')->sales()->get();
+        $profit = Order::currentMonth()->with('items')->sales()->get()->sum(function ($order) {
+            return $order->getProfit();
+        });
 
-        foreach ($orders as $order) {
-            $total[] = $order->getProfit();
-        }
+        $refunds = to_rands(0 - $this->total_refunds);
+        $creditNoteProfit = to_rands(0 - $this->credit_profit);
 
-        $this->gross_profit = array_sum($total);
+        $this->gross_profit = $profit - ($refunds + $creditNoteProfit);
     }
 
     public function getPreviousMonthGrossProfit(): void
     {
-        $total = [];
-
-        $orders = Order::previousMonth()
+        $profit = Order::previousMonth()
             ->with('items')
             ->sales()
-            ->get();
+            ->get()->sum(function ($order) {
+                return $order->getProfit();
+            });
 
-        foreach ($orders as $order) {
-            $total[] = $order->getProfit();
-        }
+        $refunds = to_rands(0 - $this->total_refunds);
+        $creditNoteProfit = to_rands(0 - $this->getPreviousMonthCreditProfit());
 
-        $this->previous_month_gross_profit = array_sum($total);
+        $this->previous_month_gross_profit = $profit - ($refunds + $creditNoteProfit);
+    }
+
+    // Get total cost of credits
+    public function getCreditProfit()
+    {
+        return Credit::currentMonth()->with('items')->get()->sum(function ($credit) {
+            return $credit->getCost();
+        });
+    }
+
+    // Get total cost of credits from precious month
+    public function getPreviousMonthCreditProfit(): float|int
+    {
+        return Credit::previousMonth()->with('items')->get()->sum(function ($credit) {
+            return $credit->getCost();
+        });
     }
 
     public function getStockValue(): void

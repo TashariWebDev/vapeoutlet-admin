@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -131,9 +132,28 @@ class Credit extends Model
         return $this;
     }
 
+    public function getCost(): float
+    {
+        return $this->items->sum(function ($item) {
+            return $item->cost * $item->qty;
+        });
+    }
+
     public function cancel()
     {
         $this->delete();
+    }
+
+    public function scopeCurrentMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', Carbon::now()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->endOfMonth());
+    }
+
+    public function scopePreviousMonth($query)
+    {
+        return $query->whereDate('created_at', '>=', Carbon::now()->subMonth()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->subMonth()->endOfMonth());
     }
 
     /**
@@ -147,8 +167,8 @@ class Credit extends Model
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                "/documents/$this->number.pdf"
+            config('app.storage_folder').
+            "/documents/$this->number.pdf"
         );
 
         if (file_exists($url)) {
@@ -165,8 +185,8 @@ class Credit extends Model
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                "/documents/$this->number.pdf"
+            config('app.storage_folder').
+            "/documents/$this->number.pdf"
         );
     }
 }

@@ -49,6 +49,10 @@
                     <span class="font-bold">Update:</span>
                     Add tracking number to orders index page
                 </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Update report dashboard to reflect more accurate sales and GP figures.
+                </li>
             </ul>
         </div>
 

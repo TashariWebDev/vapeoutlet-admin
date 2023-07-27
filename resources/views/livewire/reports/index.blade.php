@@ -5,7 +5,37 @@
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <x-stat-container>
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative pt-0.5"
+                             x-data="{showInfo:false}"
+                        >
+                            <button
+                                x-on:click="showInfo = !showInfo"
+                            >
+                                <svg fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="1.5"
+                                     viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     aria-hidden="true"
+                                     class="w-4 h-4 stroke-sky-400"
+                                >
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                    ></path>
+                                </svg>
+                            </button>
+
+                            <div class="absolute z-50 p-3 w-56 rounded-lg shadow-2xl bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-slate-300"
+                                 x-show="showInfo"
+                            >
+                                <p class="text-xs">
+                                    Total Sales less Refunds and Credits
+                                </p>
+                            </div>
+                        </div>
+
                         <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Sales</h3>
                         @if( $previous_month_gross_sales  > $gross_sales )
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -80,7 +110,36 @@
 
             <x-stat-container>
                 <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-6">
+                    <div class="flex items-start space-x-3">
+                        <div class="relative pt-0.5"
+                             x-data="{showInfo:false}"
+                        >
+                            <button
+                                x-on:click="showInfo = !showInfo"
+                            >
+                                <svg fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="1.5"
+                                     viewBox="0 0 24 24"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     aria-hidden="true"
+                                     class="w-4 h-4 stroke-sky-400"
+                                >
+                                    <path stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
+                                    ></path>
+                                </svg>
+                            </button>
+
+                            <div class="absolute z-50 p-3 w-56 rounded-lg shadow-2xl bg-slate-200 text-slate-900 dark:bg-slate-700 dark:text-slate-300"
+                                 x-show="showInfo"
+                            >
+                                <p class="text-xs">
+                                    Total Sales Profit less Refunds and Credit Note Profits
+                                </p>
+                            </div>
+                        </div>
                         <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Gross profit</h3>
                         @if( $previous_month_gross_profit > $gross_profit)
                             <svg xmlns="http://www.w3.org/2000/svg"
