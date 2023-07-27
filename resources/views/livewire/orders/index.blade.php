@@ -1,4 +1,4 @@
-<div wire:poll.5000s>
+<div wire:poll.5000ms>
     <x-modal x-data="{ show: $wire.entangle('quickViewCustomerAccountModal') }"
              wire:key="modal-{{ rand(1,1000) }}"
     >
@@ -98,9 +98,6 @@
                         autofocus
                         wire:model.debounce.1100ms="searchQuery"
                     />
-                    <x-input.helper>
-                        Query Time {{ round($queryTime, 3) }} ms
-                    </x-input.helper>
                 </div>
 
                 <div>

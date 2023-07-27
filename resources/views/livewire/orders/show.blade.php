@@ -48,23 +48,23 @@
 
     <div class="p-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 lg:grid-cols-2">
-            <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
-                <div class="pt-1">
-                    <p class="text-sm font-bold uppercase dark:text-white text-slate-900">
+            <div class="grid grid-cols-1 gap-x-2 lg:grid-cols-3">
+                <div class="px-1">
+                    <p class="text-xs font-bold uppercase text-slate-900 dark:text-slate-400">
                         {{ $this->order->number }} | {{ $this->order->sales_channel->name }}
                     </p>
                     <p class="text-xs text-slate-500 dark:text-slate-500">{{ $this->order->created_at }}</p>
                     @isset($this->order->delivery_type_id)
                         <div class="flex justify-between">
-                            <p class="text-sm capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
+                            <p class="text-xs capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
                                 {{ $this->order->delivery?->type }}
                             </p>
-                            <p class="text-sm capitalize whitespace-nowrap text-slate-600 dark:text-slate-300">
+                            <p class="text-xs capitalize whitespace-nowrap text-slate-600 dark:text-slate-300">
                                 R {{ number_format($this->order->delivery_charge,2) }}
                             </p>
                         </div>
                     @endisset
-                    <div class="flex col-span-2 justify-between p-1 mt-3 bg-slate-100 dark:bg-slate-950">
+                    <div class="flex col-span-2 justify-between px-1 mt-1 bg-slate-100 dark:bg-slate-950">
                         <p class="text-sm font-bold dark:text-white text-slate-900">
                             Total: R {{ number_format($this->order->getTotal(), 2) }}
                         </p>
@@ -73,33 +73,87 @@
                         </p>
                     </div>
                 </div>
-                <div>
-                    <a href="{{ route('customers/show',$this->order->customer->id) }}"
-                       class="link"
-                    >{{ $this->order->customer->name }}
-                    </a>
-                    <div class="leading-3"
-                         x-data="{email: '{{$this->order->customer->email}}', phone:'{{ $this->order->customer->phone }}'}"
-                    >
-                        <p class="text-sm font-medium tracking-wide lowercase text-slate-900 dark:text-slate-400"
-                           @click="navigator.clipboard.writeText(email)"
-                        >{{ $this->order->customer->email }}</p>
-                        <p class="text-sm font-medium tracking-wide text-slate-900 dark:text-slate-400"
-                           @click="navigator.clipboard.writeText(phone)"
-                        >{{ $this->order->customer->phone }}</p>
+                <div class="px-1">
+                    <div class="flex items-start space-x-4">
+                        <x-click-to-copy
+                            text="{{$this->order->customer->name}}"
+                            class="text-xs font-bold tracking-wide text-slate-900 dark:text-slate-400"
+                        >{{ $this->order->customer->name }}</x-click-to-copy>
+                        <a href="{{ route('customers/show',$this->order->customer->id) }}"
+                           class="link"
+                        >
+                            <svg fill="none"
+                                 stroke="currentColor"
+                                 {{--                                  stroke-width="1.5" --}}
+                                 viewBox="0 0 24 24"
+                                 xmlns="http://www.w3.org/2000/svg"
+                                 aria-hidden="true"
+                                 class="w-4 h-4 stroke-[2px]"
+                            >
+                                <path stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"
+                                ></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="leading-3">
+                        <x-click-to-copy
+                            text="{{$this->order->customer->email}}"
+                            class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                        >{{ $this->order->customer->email }}</x-click-to-copy>
+
+                        <x-click-to-copy
+                            text="{{$this->order->customer->phone}}"
+                            class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                        >{{ $this->order->customer->phone }}</x-click-to-copy>
                     </div>
                 </div>
-                <div>
+                <div class="px-1">
                     @isset($this->order->address_id)
-                        <div class="pt-1 text-sm font-medium tracking-wide leading-4 capitalize text-slate-900 dark:text-slate-400">
+                        <div class="text-sm font-medium tracking-wide capitalize leading-1 text-slate-900 dark:text-slate-400">
                             @isset($this->order->customer->company)
-                                <p class="font-semibold">{{ $this->order->customer->company }}</p>
+                                <x-click-to-copy
+                                    text="{{$this->order->customer->company}}"
+                                    class="text-xs font-bold tracking-wide text-slate-900 dark:text-slate-400"
+                                >{{ $this->order->customer->company }}</x-click-to-copy>
                             @endisset
-                            <p>{{ $this->order->address?->line_one }}</p>
-                            <p>{{ $this->order->address?->line_two }}</p>
-                            <p>{{ $this->order->address?->suburb }} </p>
-                            <p>{{ $this->order->address?->city }}</p>
-                            <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
+                            <x-click-to-copy
+                                text="{{ $this->order->address?->line_one}}"
+                                class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                            >{{  $this->order->address?->line_one }}</x-click-to-copy>
+
+                            <x-click-to-copy
+                                text="{{ $this->order->address?->line_two}}"
+                                class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                            >{{  $this->order->address?->line_two }}</x-click-to-copy>
+
+                            <div class="flex space-x-2">
+                                <x-click-to-copy
+                                    text="{{ $this->order->address?->suburb}}"
+                                    class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                                >{{  $this->order->address?->suburb }} ,
+                                </x-click-to-copy>
+
+                                <x-click-to-copy
+                                    text="{{ $this->order->address?->city}}"
+                                    class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                                >{{  $this->order->address?->city }}</x-click-to-copy>
+                            </div>
+
+                            <div class="flex space-x-2">
+                                <x-click-to-copy
+                                    text="{{ $this->order->address?->province}}"
+                                    class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                                >{{  $this->order->address?->province }} ,
+                                </x-click-to-copy>
+
+                                <x-click-to-copy
+                                    text="{{ $this->order->address?->postal_code}}"
+                                    class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
+                                >{{  $this->order->address?->postal_code }}</x-click-to-copy>
+                            </div>
+
                         </div>
                     @endisset
                 </div>
