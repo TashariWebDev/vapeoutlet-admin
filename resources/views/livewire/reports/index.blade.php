@@ -253,7 +253,15 @@
                         <div>
                             <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonthNoOverflow()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
-                                {{ number_format($previousMonthPurchases, 2) ?? '0.00' }}</p>
+                                {{ number_format($previousMonthPurchases, 2) ?? '0.00' }}
+
+                                @if($previousMonthPurchases > 0)
+                                    <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
+                                        R {{ number_format($previousMonthPurchases / Carbon::now()->day , 2) }}
+                                        <span class="text-[8px]">D/AVE</span>
+                                    </span>
+                                @endif
+                            </p>
                             <p class="text-xs text-slate-500">
                                 {{ number_format(ex_vat($previousMonthPurchases), 2) ?? '0.00' }} excl vat
                             </p>
@@ -262,6 +270,13 @@
                             <p class="dark:text-white text-slate-900">{{ Carbon::now()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($purchases, 2) ?? '0.00' }}
+
+                                @if($purchases > 0)
+                                    <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
+                                        R {{ number_format($purchases / Carbon::now()->day , 2) }}
+                                        <span class="text-[8px]">D/AVE</span>
+                                    </span>
+                                @endif
                             </p>
                             <p class="text-xs text-slate-500">
                                 {{ number_format(ex_vat($purchases), 2) ?? '0.00' }} excl vat
@@ -279,6 +294,13 @@
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands($expenses ?? 0), 2) ?? '0.00' }}
+
+                    @if($expenses > 0)
+                        <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
+                            R {{ number_format(to_rands($expenses ?? 0) / Carbon::now()->day , 2) }}
+                            <span class="text-[8px]">D/AVE</span>
+                        </span>
+                    @endif
                 </p>
             </x-slot:footer>
         </x-stat-container>
@@ -288,6 +310,12 @@
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands( 0 - $total_refunds ?? 0), 2) ?? '0.00' }}
+                    @if((0 - $total_refunds) > 0)
+                        <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
+                            R {{ number_format(to_rands(0 - $total_refunds ?? 0) / Carbon::now()->day , 2) }}
+                            <span class="text-[8px]">D/AVE</span>
+                        </span>
+                    @endif
                 </p>
             </x-slot:footer>
         </x-stat-container>
@@ -297,6 +325,13 @@
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands( 0 - $total_credits ?? 0), 2) ?? '0.00' }}
+
+                    @if((0 - $total_credits) > 0)
+                        <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
+                            R {{ number_format(to_rands(0 - $total_credits ?? 0) / Carbon::now()->day , 2) }}
+                            <span class="text-[8px]">D/AVE</span>
+                        </span>
+                    @endif
                 </p>
             </x-slot:footer>
         </x-stat-container>

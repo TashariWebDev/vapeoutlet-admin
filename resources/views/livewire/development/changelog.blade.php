@@ -38,6 +38,21 @@
         </div>
 
         <div class="p-2 my-4 rounded prose-sm">
+            <time>31 July 2023</time>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add daily average to reports index (expenses, purchases, credits, refunds)
+                </li>
+                <li>
+                    <span class="font-bold">fix:</span>
+                    Fix bug where reports dashboard was not taking into account months with 31 days
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-2 my-4 rounded prose-sm">
             <time>27 July 2023</time>
 
             <ul class="list-decimal">
