@@ -221,7 +221,7 @@ class Customer extends Authenticatable
             [
                 'reference' => $order->number,
                 'type' => 'invoice',
-                'amount' => $order->getTotal(),
+                'amount' => $order->fresh()->getTotal(),
                 'created_by' => auth()->user()->name,
             ]
         );
