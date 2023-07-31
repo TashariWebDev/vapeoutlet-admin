@@ -123,7 +123,7 @@ class Purchase extends Model
 
     public function scopePreviousMonth($query)
     {
-        return $query->whereDate('processed_date', '>=', Carbon::now()->subMonth()->startOfMonth())
-            ->whereDate('processed_date', '<=', Carbon::now()->subMonth()->endOfMonth());
+        return $query->whereDate('processed_date', '>=', Carbon::now()->subMonthNoOverflow()->startOfMonth())
+            ->whereDate('processed_date', '<=', Carbon::now()->subMonthNoOverflow()->endOfMonth());
     }
 }

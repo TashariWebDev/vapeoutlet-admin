@@ -71,13 +71,13 @@
                 <x-slot:footer>
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
-                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonth()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonthNoOverflow()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($previous_month_gross_sales, 2) ?? '0.00' }}
 
                                 @if($previous_month_gross_sales > 0)
                                     <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
-                                        R {{ number_format($previous_month_gross_sales / Carbon::now()->subMonth()->daysInMonth , 2) }}
+                                        R {{ number_format($previous_month_gross_sales / Carbon::now()->subMonthNoOverflow()->daysInMonth , 2) }}
                                         <span class="text-[8px]">D/AVE</span>
                                     </span>
                                 @endif
@@ -182,12 +182,12 @@
                 <x-slot:footer>
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
-                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonth()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonthNoOverflow()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($previous_month_gross_profit, 2) ?? '0.00' }}
 
                                 <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
-                                        R {{ number_format($previous_month_gross_profit / Carbon::now()->subMonth()->daysInMonth  , 2) }}
+                                        R {{ number_format($previous_month_gross_profit / Carbon::now()->subMonthNoOverflow()->daysInMonth  , 2) }}
                                         <span class="text-[8px]">D/AVE</span>
                                 </span>
 
@@ -251,7 +251,7 @@
                 <x-slot:footer>
                     <div class="grid grid-cols-1 gap-3 lg:grid-cols-2">
                         <div>
-                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonth()->monthName  }}</p>
+                            <p class="dark:text-white text-slate-900">{{ Carbon::now()->subMonthNoOverflow()->monthName  }}</p>
                             <p class="font-bold text-sky-500">
                                 {{ number_format($previousMonthPurchases, 2) ?? '0.00' }}</p>
                             <p class="text-xs text-slate-500">

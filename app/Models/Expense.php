@@ -63,8 +63,8 @@ class Expense extends Model
 
     public function scopePreviousMonth($query)
     {
-        return $query->whereDate('date', '>=', \Carbon\Carbon::now()->subMonth()->startOfMonth())
-            ->whereDate('date', '<=', Carbon::now()->subMonth()->endOfMonth());
+        return $query->whereDate('date', '>=', \Carbon\Carbon::now()->subMonthNoOverflow()->startOfMonth())
+            ->whereDate('date', '<=', Carbon::now()->subMonthNoOverflow()->endOfMonth());
     }
 
     public function amount(): Attribute

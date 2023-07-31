@@ -57,8 +57,8 @@ class Transaction extends Model
 
     public function scopePreviousMonth($query)
     {
-        return $query->whereDate('created_at', '>=', Carbon::now()->subMonth()->startOfMonth())
-            ->whereDate('created_at', '<=', Carbon::now()->subMonth()->endOfMonth());
+        return $query->whereDate('created_at', '>=', Carbon::now()->subMonthNoOverflow()->startOfMonth())
+            ->whereDate('created_at', '<=', Carbon::now()->subMonthNoOverflow()->endOfMonth());
     }
 
     /**
