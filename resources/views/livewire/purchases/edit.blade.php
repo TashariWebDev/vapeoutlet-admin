@@ -308,15 +308,17 @@
             </x-table.header>
             <div>
                 @if (!empty($selectedProductsToDelete))
-                    @if (!$this->purchase->processed)
-                        <div>
-                            <button
-                                class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700"
-                                wire:click="removeProducts"
-                            >remove selected items
-                            </button>
-                        </div>
-                    @endif
+                    <div>
+                        @if (!$this->purchase->processed)
+                            <div>
+                                <button
+                                    class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700"
+                                    wire:click="removeProducts"
+                                >remove selected items
+                                </button>
+                            </div>
+                        @endif
+                    </div>
                 @endif
             </div>
             @foreach ($this->purchase->items as $item)
@@ -326,22 +328,24 @@
                 >
                     <x-table.row class="col-span-2">
                         <div class="flex justify-start items-center">
-                            @if (!$this->purchase->processed)
-                                <div>
-                                    <label
-                                        class="hidden"
-                                        for="{{ $item->id }}"
-                                    ></label>
-                                    <input
-                                        class="w-4 h-4 rounded text-sky-600 bg-slate-300 focus:ring-sky-500"
-                                        id="{{ $item->id }}"
-                                        type="checkbox"
-                                        value="{{ $item->id }}"
-                                        aria-describedby="product"
-                                        wire:model="selectedProductsToDelete"
-                                    >
-                                </div>
-                            @endif
+                            <div>
+                                @if (!$this->purchase->processed)
+                                    <div>
+                                        <label
+                                            class="hidden"
+                                            for="{{ $item->id }}"
+                                        ></label>
+                                        <input
+                                            class="w-4 h-4 rounded text-sky-600 bg-slate-300 focus:ring-sky-500"
+                                            id="{{ $item->id }}"
+                                            type="checkbox"
+                                            value="{{ $item->id }}"
+                                            aria-describedby="product"
+                                            wire:model="selectedProductsToDelete"
+                                        >
+                                    </div>
+                                @endif
+                            </div>
                             <div>
                                 <x-product-listing-simple
                                     :product="$item->product"
@@ -351,66 +355,72 @@
                         </div>
                     </x-table.row>
                     <x-table.row>
-                        @if (!$this->purchase->processed)
-                            <form>
+                        <div>
+                            @if (!$this->purchase->processed)
+                                <form>
+                                    <label>
+                                        <x-input.text
+                                            type="number"
+                                            value="{{ $item->price }}"
+                                            wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
+                                            pattern="[0-9]*"
+                                            inputmode="numeric"
+                                            step="0.01"
+                                        />
+                                    </label>
+                                </form>
+                            @else
                                 <label>
                                     <x-input.text
                                         type="number"
                                         value="{{ $item->price }}"
-                                        wire:keyup.debounce.1500ms="updatePrice({{ $item->id }},$event.target.value)"
-                                        pattern="[0-9]*"
                                         inputmode="numeric"
+                                        pattern="[0-9]"
                                         step="0.01"
+                                        disabled
                                     />
                                 </label>
-                            </form>
-                        @else
-                            <label>
-                                <x-input.text
-                                    type="number"
-                                    value="{{ $item->price }}"
-                                    inputmode="numeric"
-                                    pattern="[0-9]"
-                                    step="0.01"
-                                    disabled
-                                />
-                            </label>
-                        @endif
+                            @endif
+                        </div>
                     </x-table.row>
                     <x-table.row>
-                        @if (!$this->purchase->processed)
-                            <form>
+                        <div>
+                            @if (!$this->purchase->processed)
+                                <form>
+                                    <label>
+                                        <x-input.text
+                                            type="number"
+                                            value="{{ $item->qty }}"
+                                            wire:keyup.debounce.1500ms="updateQty({{ $item->id }},$event.target.value)"
+                                            inputmode="numeric"
+                                            pattern="[0-9]"
+                                            min="1"
+                                            max="{{ $item->product->qty() }}"
+                                        />
+                                    </label>
+                                </form>
+                            @else
                                 <label>
                                     <x-input.text
                                         type="number"
                                         value="{{ $item->qty }}"
-                                        wire:keyup.debounce.1500ms="updateQty({{ $item->id }},$event.target.value)"
-                                        inputmode="numeric"
-                                        pattern="[0-9]"
-                                        min="1"
-                                        max="{{ $item->product->qty() }}"
+                                        disabled
                                     />
                                 </label>
-                            </form>
-                        @else
-                            <label>
-                                <x-input.text
-                                    type="number"
-                                    value="{{ $item->qty }}"
-                                    disabled
-                                />
-                            </label>
-                        @endif
+                            @endif
+                        </div>
                         <div class="flex justify-between items-center mt-1">
                             <div class="text-xs text-rose-700 dark:text-rose-400 hover:text-rose-700">
-                                @if (!$this->purchase->processed)
-                                    <button
-                                        wire:loading.attr="disabled"
-                                        wire:target="removeProducts"
-                                        wire:click="deleteItem('{{ $item->id }}')"
-                                    >remove
-                                    </button>
-                                @endif
+                                <div>
+                                    @if (!$this->purchase->processed)
+                                        <button
+                                            wire:loading.attr="disabled"
+                                            wire:target="removeProducts"
+                                            wire:click="deleteItem('{{ $item->id }}')"
+                                        >remove
+                                        </button>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </x-table.row>
