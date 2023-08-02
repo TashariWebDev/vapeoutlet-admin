@@ -1,4 +1,4 @@
-<div wire:poll.3000ms>
+<div wire:poll.5000ms="$refresh">
 
     <div x-data="{
         bannerVisible: false,
