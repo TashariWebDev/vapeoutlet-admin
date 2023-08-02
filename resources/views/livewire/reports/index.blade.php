@@ -257,7 +257,7 @@
 
                                 @if($previousMonthPurchases > 0)
                                     <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
-                                        R {{ number_format($previousMonthPurchases / Carbon::now()->day , 2) }}
+                                        R {{ number_format($previousMonthPurchases / Carbon::now()->subMonthNoOverflow()->daysInMonth , 2) }}
                                         <span class="text-[8px]">D/AVE</span>
                                     </span>
                                 @endif
