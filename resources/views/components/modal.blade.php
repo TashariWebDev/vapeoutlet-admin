@@ -36,7 +36,9 @@
                         <x-icons.close class="w-8 h-8 text-rose-500 hover:text-rose-600" />
                     </button>
                 </div>
-                {{ $slot }}
+                <div class="py-2 mt-4">
+                    {{ $slot }}
+                </div>
             </div>
         </div>
     </div>

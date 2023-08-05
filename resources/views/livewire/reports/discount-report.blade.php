@@ -35,7 +35,6 @@
             <div class="py-4">
                 <x-input.select
                     wire:model.defer="salesChannelId"
-                    required
                 >
                     <option value="">Choose</option>
                     @foreach ($salesChannels as $salesChannel)
