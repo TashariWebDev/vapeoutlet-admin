@@ -14,11 +14,12 @@
                 </x-table.header>
                 @foreach ($purchases as $purchase)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
-                        <x-table.row>{{ $purchase->id }}</x-table.row>
-                        <x-table.row>{{ $purchase->supplier->name }}</x-table.row>
+                        <x-table.row class="text-sm font-semibold">{{ $purchase->id }}</x-table.row>
+                        <x-table.row class="text-sm font-semibold uppercase">{{ $purchase->supplier->name }}</x-table.row>
                         <x-table.row>
-                            {{ $purchase->invoice_no }}
-                            <p>{{ $purchase->created_at }}</p>
+                            <p class="text-xs font-semibold"
+                            >{{ $purchase->invoice_no }} | R {{ number_format($purchase->amount ?? '',2) }}</p>
+                            <p class="text-xs">{{ $purchase->created_at }}</p>
                         </x-table.row>
                         <x-table.row class="text-right">
                             <a href="{{ route('purchases/edit', $purchase->id) }}"

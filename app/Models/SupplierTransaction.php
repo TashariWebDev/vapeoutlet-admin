@@ -68,7 +68,7 @@ class SupplierTransaction extends Model
         );
     }
 
-    public function purchase()
+    public function purchase(): BelongsTo
     {
         return $this->belongsTo(Purchase::class);
     }

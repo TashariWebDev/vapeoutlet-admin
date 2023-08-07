@@ -15,6 +15,19 @@
         <div>
             <form wire:submit.prevent="save">
                 <div class="py-3">
+                    <x-input.label for="date">
+                        date
+                    </x-input.label>
+                    <x-input.text
+                        id="reference"
+                        type="date"
+                        wire:model.defer="date"
+                    />
+                    @error('date')
+                    <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-3">
                     <x-input.label for="reference">
                         reference
                     </x-input.label>
@@ -24,6 +37,19 @@
                         wire:model.defer="reference"
                     />
                     @error('reference')
+                    <x-input.error>{{ $message }}</x-input.error>
+                    @enderror
+                </div>
+                <div class="py-3">
+                    <x-input.label for="description">
+                        description
+                    </x-input.label>
+                    <x-input.text
+                        id="description"
+                        type="text"
+                        wire:model.defer="description"
+                    />
+                    @error('description')
                     <x-input.error>{{ $message }}</x-input.error>
                     @enderror
                 </div>
@@ -61,7 +87,6 @@
                 </div>
                 <div class="py-3">
                     <button class="button-success">
-                        <x-icons.save class="mr-3 w-5 h-5" />
                         save
                     </button>
                 </div>

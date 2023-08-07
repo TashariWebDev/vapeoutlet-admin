@@ -14,7 +14,7 @@ class Tracking extends Component
 {
     public $productId;
 
-    public function mount()
+    public function mount(): void
     {
         $this->productId = request('id');
     }

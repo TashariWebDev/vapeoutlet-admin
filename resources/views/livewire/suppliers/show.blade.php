@@ -1,5 +1,5 @@
 <div x-data="{ showStats: false }">
-
+    
     <!-- Stats -->
     <div class="p-4">
         <div class="flex flex-wrap items-center space-y-2 lg:justify-between lg:space-y-0">
@@ -18,7 +18,7 @@
                 >Edit</a>
             </div>
         </div>
-
+        
         <div
             x-cloak
             x-show="showStats"
@@ -62,7 +62,7 @@
                         </div>
                     </dd>
                 </div>
-
+                
                 <div
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-md shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
                 >
@@ -82,7 +82,7 @@
                         </div>
                     </dd>
                 </div>
-
+                
                 <div
                     class="overflow-hidden relative px-4 pt-5 pb-12 bg-white rounded-md shadow sm:px-6 sm:pt-6 dark:border border-slate-900 dark:bg-slate-800"
                 >
@@ -105,9 +105,9 @@
         </div>
     </div>
     <!-- End Stats -->
-
+    
     <div class="py-3 px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
-
+        
         <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-x-3">
             <div class="w-full lg:w-64">
                 <x-input.text
@@ -118,7 +118,7 @@
                     autocomplete="off"
                 />
             </div>
-
+            
             <div class="grid grid-cols-1 gap-y-2 mt-2 w-full lg:flex lg:justify-end lg:items-center lg:mt-0 lg:space-x-2">
                 <button
                     class="button-success"
@@ -126,7 +126,7 @@
                 >
                     supplier credit note
                 </button>
-
+                
                 <livewire:supplier-transactions.create :supplier="$this->supplier" />
             </div>
         </div>
@@ -134,7 +134,7 @@
             {{ $supplierTransactions->links() }}
         </div>
     </div>
-
+    
     @if ($purchases->count())
         <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
             <x-table.container>
@@ -155,13 +155,13 @@
                                 {{ $purchase->created_at->format('d-m-y H:i') }}
                             </p>
                         </div>
-
+                        
                         <div class="pt-1">
                             <p class="text-xs font-semibold text-rose-600">NOT PROCESSED</p>
                             <p class="text-xs text-rose-900"> {{ number_format($purchase->amount, 2) }}</p>
                         </div>
                     </div>
-
+                    
                     <x-table.body class="hidden grid-cols-1 text-sm lg:grid lg:grid-cols-3">
                         <x-table.row class="text-center lg:text-left">
                             <button
@@ -185,18 +185,20 @@
             </x-table.container>
         </div>
     @endif
-
+    
     <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
-
+        
         <x-table.container>
-            <x-table.header class="hidden lg:grid lg:grid-cols-4">
+            <x-table.header class="hidden lg:grid lg:grid-cols-7">
                 <x-table.heading>Transaction</x-table.heading>
+                <x-table.heading class="col-span-2">Description</x-table.heading>
+                <x-table.heading>Date</x-table.heading>
                 <x-table.heading class="text-right">Amount</x-table.heading>
                 <x-table.heading class="text-right">Balance</x-table.heading>
                 <x-table.heading class="text-right">Created by</x-table.heading>
             </x-table.header>
             @forelse($supplierTransactions as $transaction)
-                <x-table.body class="grid grid-cols-1 text-sm lg:grid-cols-4">
+                <x-table.body class="grid grid-cols-1 text-sm lg:grid-cols-7">
                     <x-table.row class="text-left">
                         @if ($transaction->type == 'purchase')
                             <button
@@ -219,6 +221,10 @@
                             {{ $transaction->created_at->format('d-m-y H:i') }}
                         </p>
                     </x-table.row>
+                    <x-table.row class="col-span-2"
+                    ><p class="uppercase">{{ $transaction->description }}</p></x-table.row>
+                    <x-table.row
+                    ><p class="text-xs">{{ $transaction->date }}</p></x-table.row>
                     <x-table.row
                     ><p class="lg:text-right">{{ number_format($transaction->amount, 2) }}</p></x-table.row>
                     <x-table.row
@@ -232,7 +238,7 @@
                 <x-table.empty></x-table.empty>
             @endforelse
         </x-table.container>
-
+        
         <!-- Transactions End -->
     </div>
 

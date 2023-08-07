@@ -20,6 +20,10 @@ class Create extends Component
 
     public $type;
 
+    public $date;
+
+    public $description;
+
     public Supplier $supplier;
 
     public function rules(): array
@@ -28,6 +32,8 @@ class Create extends Component
             'reference' => ['required'],
             'amount' => ['required'],
             'type' => ['required'],
+            'date' => ['sometimes', 'date'],
+            'description' => ['sometimes'],
         ];
     }
 
@@ -52,7 +58,7 @@ class Create extends Component
             2
         );
 
-        $this->reset('amount', 'reference', 'type');
+        $this->reset('amount', 'reference', 'type', 'date', 'description');
         $this->modal = false;
 
         $this->emit('refresh_data');

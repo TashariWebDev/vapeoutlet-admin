@@ -18,7 +18,7 @@
                                 <div class="text-xs font-semibold text-right text-slate-600 dark:text-slate-300">BAL
                                 </div>
                             </div>
-
+                            
                             @forelse($selectedCustomerLatestTransactions as $transaction)
                                 <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-slate-900 even:bg-slate-50">
                                     <div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </x-modal>
-
+        
         <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
             <div class="pb-3">
                 <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>
@@ -92,9 +92,9 @@
                 </div>
             </div>
         </x-modal>
-
+        
         <div class="px-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
-
+            
             <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div>
                     <x-input.text
@@ -106,7 +106,7 @@
                         autocomplete="off"
                     />
                 </div>
-
+                
                 <div>
                     <div
                         class="grid grid-cols-3 w-full rounded-md border divide-x py-[7px] bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
@@ -121,7 +121,7 @@
                         >
                             View all
                         </button>
-
+                        
                         <button
                             @class([
                                 'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
@@ -132,7 +132,7 @@
                         >
                             Retail
                         </button>
-
+                        
                         <button
                             @class([
                                 'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
@@ -145,7 +145,7 @@
                         </button>
                     </div>
                 </div>
-
+                
                 <div>
                     <x-input.select wire:model="filter">
                         <option value="received">Received</option>
@@ -156,7 +156,7 @@
                         <option value="cancelled">Cancelled</option>
                     </x-input.select>
                 </div>
-
+                
                 <div>
                     <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
@@ -165,7 +165,7 @@
                         <option value="100">100</option>
                     </x-input.select>
                 </div>
-
+                
                 <div class="grid grid-cols-2 gap-1 font-black lg:hidden text-slate-400">
                     <button
                         class="@if ($direction === 'asc') text-sky-600 @endif border"
@@ -180,14 +180,14 @@
                         &downarrow;
                     </button>
                 </div>
-
+            
             </div>
-
+            
             <div class="py-2">
                 {{ $orders->links() }}
             </div>
         </div>
-
+        
         {{-- Desktop --}}
         <div class="py-2">
             <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
@@ -259,7 +259,7 @@
                                                 href="{{ route('customers/show', $order->customer->id) }}"
                                                 title="View {{ $order->customer->name }}'s Account"
                                             >{{ $order->customer->name }}</a>
-
+                                            
                                             <div class="flex justify-start space-x-2">
                                                 <p class="text-xs capitalize whitespace-nowrap divide-x divide-amber-50 text-slate-400 truncate">
                                                     {{ $order->customer->type() }}
@@ -270,7 +270,7 @@
                                             </div>
                                         </div>
                                         <div class="flex space-x-1">
-
+                                            
                                             @if($order->notes_count)
                                                 <button
                                                     class="inline-flex items-center py-1 px-2 text-xs font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -333,7 +333,7 @@
                                                     wire:target="pushToComplete({{ $order->id }})"
                                                     wire:click="pushToComplete({{ $order->id }})"
                                                 >
-
+                                                    
                                                     Complete
                                                 </button>
                                             @endif
@@ -369,13 +369,13 @@
                 </x-table.container>
             </div>
         </div>
-
+        
         {{-- Mobile --}}
         <div class="grid grid-cols-1 gap-y-4 mt-3 shadow-sm lg:hidden">
             <div>
                 @forelse($orders as $order)
-
-                    <div class="grid grid-cols-2 px-2 bg-white rounded-md shadow-sm dark:bg-slate-800">
+                    
+                    <div class="grid grid-cols-2 px-2 mt-2 bg-white rounded-md shadow-sm dark:bg-slate-800">
                         <div class="py-1">
                             <a
                                 class="link"
@@ -413,7 +413,7 @@
                                 </div>
                             @endisset
                         </div>
-
+                        
                         <div class="flex col-span-2 justify-between pt-3">
                             <div>
                                 <a
@@ -422,7 +422,7 @@
                                 >
                                     <p class="text-sm">{{ $order->customer->name }}</p>
                                 </a>
-
+                                
                                 <p @class([
                                      'text-xs',
                                      'text-rose-700 dark:text-rose-400' =>
@@ -435,7 +435,7 @@
                                     {{ $order->customer->salesperson->name ?? '' }}
                                 </p>
                             </div>
-
+                            
                             <div class="flex space-x-2">
                                 <button
                                     class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -444,7 +444,7 @@
                                 >
                                     VIEW
                                 </button>
-
+                                
                                 @if($order->notes_count)
                                     <button
                                         class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -472,7 +472,7 @@
                             @endif
                         </div>
                     </div>
-
+                
                 @empty
                     <x-table.empty></x-table.empty>
                 @endforelse
