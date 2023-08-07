@@ -8,23 +8,25 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
     use WithNotifications;
+    use WithPagination;
 
     public $slide = false;
 
     public $body = '';
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            'body' => ['required', 'max:50'],
+            'body' => ['required', 'max:100'],
         ];
     }
 
-    public function save()
+    public function save(): void
     {
         $validatedData = $this->validate();
 
@@ -32,7 +34,7 @@ class Index extends Component
 
         $this->reset(['body']);
 
-        $this->showCreateNotificationForm = false;
+        $this->slide = false;
 
         $this->notify('Notification created');
     }

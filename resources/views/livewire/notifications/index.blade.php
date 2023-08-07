@@ -28,7 +28,7 @@
         </div>
     </x-slide-over>
     
-    <div class="py-3 px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
+    <div class="py-3 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <header class="flex justify-between items-center py-6 px-2">
             <x-page-header>
                 Notification settings
@@ -44,14 +44,17 @@
         <div class="py-3 px-2">
             {{ $notifications->links() }}
         </div>
+    </div>
+    
+    <div class="mt-2 bg-white rounded-md">
         <x-table.container>
-            <x-table.header class="hidden lg:grid lg:grid-cols-3">
+            <x-table.header class="hidden text-sm lg:grid lg:grid-cols-3">
                 <x-table.heading class="col-span-2">Body</x-table.heading>
                 <x-table.heading class="text-right">Action</x-table.heading>
             </x-table.header>
             @forelse ($notifications as $notification)
                 <x-table.body>
-                    <x-table.row class="col-span-2">
+                    <x-table.row class="col-span-2 text-sm">
                         <p>{{ $notification->body }}</p>
                     </x-table.row>
                     <x-table.row class="text-right">
