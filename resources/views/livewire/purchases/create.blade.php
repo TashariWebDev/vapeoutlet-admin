@@ -5,7 +5,7 @@
     >
         New purchase
     </button>
-
+    
     <x-slide-over x-data="{ show: $wire.entangle('slide') }">
         <form wire:submit.prevent="save">
             <div class="relative">
@@ -16,7 +16,7 @@
                         </x-input.label>
                         <x-input.select
                             id="supplier"
-                            wire:model.defer="supplier_id"
+                            wire:model="supplier_id"
                         >
                             <option value="">Choose</option>
                             @foreach ($suppliers as $supplier)
@@ -31,7 +31,7 @@
                         <livewire:suppliers.create />
                     </div>
                 </div>
-
+            
             </div>
             <div class="py-2">
                 <x-input.label for="date">

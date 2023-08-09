@@ -58,9 +58,11 @@ class Create extends Component
         ];
     }
 
-    public function mount()
+    public function mount($supplierId = null)
     {
         $this->creator_id = auth()->id();
+
+        $this->supplier_id = $supplierId;
     }
 
     public function updatedSlide()

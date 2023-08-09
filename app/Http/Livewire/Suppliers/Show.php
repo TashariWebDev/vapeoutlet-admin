@@ -32,7 +32,7 @@ class Show extends Component
         $this->resetPage();
     }
 
-    public function mount()
+    public function mount(): void
     {
         $this->supplierId = request('id');
     }
