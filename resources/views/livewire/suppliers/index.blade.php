@@ -14,7 +14,7 @@
                     <x-input.text
                         id="search"
                         type="search"
-                        wire:model="searchQuery"
+                        wire:model.debounce="searchQuery"
                         autocomplete="off"
                         autofocus
                         placeholder="Search by company"

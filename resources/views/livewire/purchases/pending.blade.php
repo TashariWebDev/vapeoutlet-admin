@@ -3,7 +3,7 @@
         <x-page-header class="pb-3">
             Pending Purchases
         </x-page-header>
-
+        
         <div class="bg-white rounded-md shadow-sm dark:bg-slate-900">
             <x-table.container>
                 <x-table.header class="hidden grid-cols-4 lg:grid">
@@ -15,7 +15,14 @@
                 @foreach ($purchases as $purchase)
                     <x-table.body class="grid grid-cols-1 lg:grid-cols-4">
                         <x-table.row class="text-sm font-semibold">{{ $purchase->id }}</x-table.row>
-                        <x-table.row class="text-sm font-semibold uppercase">{{ $purchase->supplier->name }}</x-table.row>
+                        <x-table.row class="text-sm font-semibold uppercase">
+                            <a
+                                class="link"
+                                href="{{ route('suppliers/show', $purchase->supplier_id) }}"
+                            >
+                                {{ $purchase->supplier->name }}
+                            </a>
+                        </x-table.row>
                         <x-table.row>
                             <p class="text-xs font-semibold"
                             >{{ $purchase->invoice_no }} | R {{ number_format($purchase->amount ?? '',2) }}</p>
@@ -30,7 +37,7 @@
                 @endforeach
             </x-table.container>
         </div>
-
+    
     </div>
 
 </div>
