@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Order;
 use App\Notifications\OrderConfirmedNotification;
-use App\Notifications\OrderReceivedNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -24,10 +23,6 @@ class SendOrderEmailsJob implements ShouldQueue
     {
         Notification::route('mail', $this->order->customer->email)->notify(
             new OrderConfirmedNotification()
-        );
-
-        Notification::route('mail', config('mail.from.address'))->notify(
-            new OrderReceivedNotification($this->order->customer)
         );
     }
 }
