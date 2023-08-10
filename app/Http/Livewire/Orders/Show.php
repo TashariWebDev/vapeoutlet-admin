@@ -112,6 +112,8 @@ class Show extends Component
             $this->order->stocks()->delete();
         }
 
+        $this->order->increment('was_edited');
+
         $this->order->update([
             'is_editing' => true,
         ]);

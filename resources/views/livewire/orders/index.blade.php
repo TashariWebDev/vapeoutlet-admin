@@ -18,7 +18,7 @@
                                 <div class="text-xs font-semibold text-right text-slate-600 dark:text-slate-300">BAL
                                 </div>
                             </div>
-                            
+
                             @forelse($selectedCustomerLatestTransactions as $transaction)
                                 <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-slate-900 even:bg-slate-50">
                                     <div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </x-modal>
-        
+
         <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
             <div class="pb-3">
                 <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>
@@ -92,9 +92,9 @@
                 </div>
             </div>
         </x-modal>
-        
+
         <div class="px-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
-            
+
             <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div>
                     <x-input.text
@@ -106,7 +106,7 @@
                         autocomplete="off"
                     />
                 </div>
-                
+
                 <div>
                     <div
                         class="grid grid-cols-3 w-full rounded-md border divide-x py-[7px] bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
@@ -121,7 +121,7 @@
                         >
                             View all
                         </button>
-                        
+
                         <button
                             @class([
                                 'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
@@ -132,7 +132,7 @@
                         >
                             Retail
                         </button>
-                        
+
                         <button
                             @class([
                                 'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
@@ -145,7 +145,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div>
                     <x-input.select wire:model="filter">
                         <option value="received">Received</option>
@@ -156,7 +156,7 @@
                         <option value="cancelled">Cancelled</option>
                     </x-input.select>
                 </div>
-                
+
                 <div>
                     <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
@@ -165,7 +165,7 @@
                         <option value="100">100</option>
                     </x-input.select>
                 </div>
-                
+
                 <div class="grid grid-cols-2 gap-1 font-black lg:hidden text-slate-400">
                     <button
                         class="@if ($direction === 'asc') text-sky-600 @endif border"
@@ -180,32 +180,99 @@
                         &downarrow;
                     </button>
                 </div>
-            
+
             </div>
-            
+
             <div class="py-2">
                 {{ $orders->links() }}
             </div>
         </div>
-        
+
+        <div class="hidden pt-4 h-12 lg:block">
+            <div class="relative">
+                @if(!empty($selectedOrders))
+                    <button
+                        class="uppercase button-secondary"
+                        wire:click="$toggle('showBulkActions')"
+                    >Bulk Actions
+                    </button>
+                @endif
+
+                @if($showBulkActions)
+                    <div class="absolute top-0 mt-10 w-auto h-auto text-white rounded-md shadow shadow-lg origin-top bg-slate-800">
+                        <div class="py-2">
+
+                            @if($filter != 'processed')
+                                <div class="mb-2">
+                                    <button class="py-2 px-2 w-full font-semibold text-left uppercase text-[10px] hover:bg-slate-900"
+                                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
+                                            wire:click="updateStatusInBulk('processed')"
+                                    >
+                                        Mark As Processed
+                                    </button>
+                                </div>
+                            @endif
+
+                            @if($filter != 'packed')
+                                <div class="mb-2">
+                                    <button class="py-2 px-2 w-full font-semibold text-left uppercase text-[10px] hover:bg-slate-900"
+                                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
+                                            wire:click="updateStatusInBulk('packed')"
+                                    >
+                                        Mark As Packed
+                                    </button>
+                                </div>
+                            @endif
+
+                            @if($filter != 'shipped')
+                                <div class="mb-2">
+                                    <button class="py-2 px-2 w-full font-semibold text-left uppercase text-[10px] hover:bg-slate-900"
+                                            onclick="confirm('Are you sure?') || event.stopImmediatePropagation()"
+                                            wire:click="updateStatusInBulk('shipped')"
+                                    >
+                                        Mark As Shipped
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+
+                    </div>
+                @endif
+            </div>
+        </div>
+
         {{-- Desktop --}}
         <div class="py-2">
             <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
                 <x-table.container class="hidden lg:block">
                     <x-table.header class="hidden lg:grid lg:grid-cols-5">
-                        <x-table.heading>Order #
-                            <button
-                                class="@if ($direction === 'asc') text-sky-600 @endif"
-                                wire:click="$set('direction','asc')"
-                            >
-                                &uparrow;
-                            </button>
-                            <button
-                                class="@if ($direction === 'desc') text-sky-600 @endif"
-                                wire:click="$set('direction','desc')"
-                            >
-                                &downarrow;
-                            </button>
+                        <x-table.heading>
+                            <div class="flex">
+                                @if($filter != 'completed')
+                                    @if($filter != 'cancelled')
+                                        <div>
+                                            <label for="selectedOrders">
+                                                <input type="checkbox"
+                                                       wire:model="selectedAllOrders"
+                                                >
+                                            </label>
+                                        </div>
+                                    @endif
+                                @endif
+                                Order #
+                                <button
+                                    class="@if ($direction === 'asc') text-sky-600 @endif"
+                                    wire:click="$set('direction','asc')"
+                                >
+                                    &uparrow;
+                                </button>
+                                <button
+                                    class="@if ($direction === 'desc') text-sky-600 @endif"
+                                    wire:click="$set('direction','desc')"
+                                >
+                                    &downarrow;
+                                </button>
+                            </div>
                         </x-table.heading>
                         <x-table.heading>customer</x-table.heading>
                         <x-table.heading class="text-left">delivery</x-table.heading>
@@ -217,15 +284,30 @@
                             <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
                                 <x-table.row class="text-left">
                                     <div class="flex justify-between items-center cursor-default">
-                                        <div>
-                                            <a
-                                                class="link"
-                                                href="{{ route('orders/show', $order->id) }}"
-                                                title="View Order {{ $order->number }}"
-                                            >{{ $order->number }}</a>
-                                            <p class="text-xs text-slate-400">
-                                                {{ $order->created_at }}
-                                            </p>
+                                        <div class="flex items-center space-x-2">
+                                            @if($filter != 'completed')
+                                                @if($filter != 'cancelled')
+                                                    <div>
+                                                        <label for="selectedOrders">
+                                                            <input type="checkbox"
+                                                                   wire:model="selectedOrders"
+                                                                   id="{{ $order->id }}"
+                                                                   value="{{ $order->id }}"
+                                                            >
+                                                        </label>
+                                                    </div>
+                                                @endif
+                                            @endif
+                                            <div>
+                                                <a
+                                                    class="link"
+                                                    href="{{ route('orders/show', $order->id) }}"
+                                                    title="View Order {{ $order->number }}"
+                                                >{{ $order->number }}</a>
+                                                <p class="text-xs text-slate-400">
+                                                    {{ $order->created_at }}
+                                                </p>
+                                            </div>
                                         </div>
                                         @if ($order->status != 'completed' && $order->status != 'cancelled')
                                             @if ($order->created_at->diffInDays(now()) > 0)
@@ -259,7 +341,7 @@
                                                 href="{{ route('customers/show', $order->customer->id) }}"
                                                 title="View {{ $order->customer->name }}'s Account"
                                             >{{ $order->customer->name }}</a>
-                                            
+
                                             <div class="flex justify-start space-x-2">
                                                 <p class="text-xs capitalize whitespace-nowrap divide-x divide-amber-50 text-slate-400 truncate">
                                                     {{ $order->customer->type() }}
@@ -270,7 +352,7 @@
                                             </div>
                                         </div>
                                         <div class="flex space-x-1">
-                                            
+
                                             @if($order->notes_count)
                                                 <button
                                                     class="inline-flex items-center py-1 px-2 text-xs font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -333,29 +415,44 @@
                                                     wire:target="pushToComplete({{ $order->id }})"
                                                     wire:click="pushToComplete({{ $order->id }})"
                                                 >
-                                                    
+
                                                     Complete
                                                 </button>
                                             @endif
                                             @endhasPermissionTo
                                         </div>
-                                        <div>
+                                        <div class="flex items-center space-x-2">
                                             @if (
                                                 ($order->status != 'shipped' &&
                                                     $order->status != 'completed' &&
                                                     $order->status != 'cancelled') ||
                                                     auth()->user()->hasPermissionTo('complete orders'))
-                                                <button
-                                                    class="button button-success"
-                                                    title="Print Invoice"
-                                                    wire:loading.attr="disabled"
-                                                    wire:target="getDocument"
-                                                    wire:click="getDocument({{ $order->id }})"
-                                                >
-                                                    Print
-                                                </button>
-                                                @if (file_exists(public_path("storage/".config('app.storage_folder')."/documents/$order->number.pdf")))
-                                                    <p class="mt-1 text-xs text-slate-400">Printed</p>
+
+                                                @if($order->was_edited > 0)
+                                                    <div>
+                                                        <p class="font-semibold text-red-500 text-[10px]">Edited</p>
+                                                    </div>
+                                                @endif
+
+                                                @if ($order->printed_count > 0)
+                                                    <button
+                                                        class="w-full button-warning"
+                                                        wire:loading.attr="disabled"
+                                                        wire:target="getDocument"
+                                                        wire:click="getDocument({{ $order->id }})"
+                                                    >
+                                                        Printed ({{$order->printed_count}})
+                                                    </button>
+                                                @else
+                                                    <button
+                                                        class="button button-success"
+                                                        title="Print Invoice"
+                                                        wire:loading.attr="disabled"
+                                                        wire:target="getDocument"
+                                                        wire:click="getDocument({{ $order->id }})"
+                                                    >
+                                                        Print
+                                                    </button>
                                                 @endif
                                             @endif
                                         </div>
@@ -369,12 +466,12 @@
                 </x-table.container>
             </div>
         </div>
-        
+
         {{-- Mobile --}}
         <div class="grid grid-cols-1 gap-y-4 mt-3 shadow-sm lg:hidden">
             <div>
                 @forelse($orders as $order)
-                    
+
                     <div class="grid grid-cols-2 px-2 mt-2 bg-white rounded-md shadow-sm dark:bg-slate-800">
                         <div class="py-1">
                             <a
@@ -413,7 +510,7 @@
                                 </div>
                             @endisset
                         </div>
-                        
+
                         <div class="flex col-span-2 justify-between pt-3">
                             <div>
                                 <a
@@ -422,7 +519,7 @@
                                 >
                                     <p class="text-sm">{{ $order->customer->name }}</p>
                                 </a>
-                                
+
                                 <p @class([
                                      'text-xs',
                                      'text-rose-700 dark:text-rose-400' =>
@@ -435,7 +532,7 @@
                                     {{ $order->customer->salesperson->name ?? '' }}
                                 </p>
                             </div>
-                            
+
                             <div class="flex space-x-2">
                                 <button
                                     class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -444,7 +541,7 @@
                                 >
                                     VIEW
                                 </button>
-                                
+
                                 @if($order->notes_count)
                                     <button
                                         class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -458,21 +555,29 @@
                         </div>
                         <div class="col-span-2 pb-2 mt-3 w-full">
                             @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')
-                                @if (file_exists(public_path("storage/documents/$order->number.pdf")))
-                                    <p class="text-xs text-slate-600 dark:text-slate-300">Printed</p>
+                                @if ($order->printed_count > 0)
+                                    <button
+                                        class="w-full button-success"
+                                        wire:loading.attr="disabled"
+                                        wire:target="getDocument"
+                                        wire:click="getDocument({{ $order->id }})"
+                                    >
+                                        Printed ({{$order->printed_count}})
+                                    </button>
+                                @else
+                                    <button
+                                        class="w-full button-success"
+                                        wire:loading.attr="disabled"
+                                        wire:target="getDocument"
+                                        wire:click="getDocument({{ $order->id }})"
+                                    >
+                                        Print
+                                    </button>
                                 @endif
-                                <button
-                                    class="w-full button-success"
-                                    wire:loading.attr="disabled"
-                                    wire:target="getDocument"
-                                    wire:click="getDocument({{ $order->id }})"
-                                >
-                                    Print
-                                </button>
                             @endif
                         </div>
                     </div>
-                
+
                 @empty
                     <x-table.empty></x-table.empty>
                 @endforelse

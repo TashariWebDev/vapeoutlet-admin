@@ -38,6 +38,25 @@
         </div>
         
         <div class="p-2 my-4 rounded prose-sm">
+            <time>10 August 2023</time>
+            
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Updated orders page to reflect edited orders
+                </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Updated orders page to reflect printed orders
+                </li>
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add bulk actions to mass update order statuses
+                </li>
+            </ul>
+        </div>
+        
+        <div class="p-2 my-4 rounded prose-sm">
             <time>8 August 2023</time>
             
             <ul class="list-decimal">

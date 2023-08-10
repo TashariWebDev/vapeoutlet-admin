@@ -18,6 +18,12 @@ class Index extends Component
     use WithPagination;
     use WithNotifications;
 
+    public $selectedOrders = [];
+
+    public $selectedAllOrders;
+
+    public $showBulkActions = false;
+
     public bool $showAddOrderForm = false;
 
     public bool $quickViewCustomerAccountModal = false;
@@ -57,14 +63,27 @@ class Index extends Component
         'searchQuery',
     ];
 
+    public function updatedSelectedAllOrders(): void
+    {
+        if ($this->selectedAllOrders) {
+            $this->selectedOrders = $this->filteredOrders()->pluck('id');
+        } else {
+            $this->selectedOrders = [];
+        }
+    }
+
     public function updatedSearchQuery(): void
     {
         $this->resetPage();
+        $this->selectedOrders = [];
+        $this->selectedAllOrders = false;
     }
 
     public function updatedFilter(): void
     {
         $this->resetPage();
+        $this->selectedOrders = [];
+        $this->selectedAllOrders = false;
     }
 
     public function mount(): void
@@ -106,6 +125,29 @@ class Index extends Component
         }
     }
 
+    public function updateStatusInBulk($status): void
+    {
+        if (! $status) {
+            return;
+        }
+
+        if (empty($this->selectedOrders)) {
+            return;
+        }
+
+        $orders = Order::find($this->selectedOrders);
+
+        foreach ($orders as $order) {
+            $order->updateStatus($status);
+        }
+
+        $this->selectedOrders = [];
+        $this->showBulkActions = false;
+        $this->selectedAllOrders = false;
+
+        $this->notify('Orders updated');
+    }
+
     public function filteredOrders()
     {
         $orders = Order::query()
@@ -117,6 +159,8 @@ class Index extends Component
                 'delivery_charge',
                 'delivery_type_id',
                 'waybill',
+                'printed_count',
+                'was_edited',
             ])
             ->with([
                 'customer:id,name,company,salesperson_id,is_wholesale',
@@ -189,6 +233,7 @@ class Index extends Component
      */
     public function getDocument(Order $order)
     {
+        $order->increment('printed_count');
         $order->print();
     }
 
