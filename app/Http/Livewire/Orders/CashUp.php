@@ -22,6 +22,12 @@ class CashUp extends Component
 
     public int $ordersCount = 0;
 
+    public $selectedOrders = [];
+
+    public $selectedAllOrders;
+
+    public $showBulkActions = false;
+
     public bool $showAddOrderForm = false;
 
     public bool $quickViewCustomerAccountModal = false;
@@ -84,14 +90,50 @@ class CashUp extends Component
         ];
     }
 
+    public function updatedSelectedAllOrders(): void
+    {
+        if ($this->selectedAllOrders) {
+            $this->selectedOrders = $this->filteredOrders()->pluck('id');
+        } else {
+            $this->selectedOrders = [];
+        }
+    }
+
     public function updatedSearchQuery()
     {
         $this->resetPage();
+        $this->selectedOrders = [];
+        $this->selectedAllOrders = false;
     }
 
     public function updatedFilter()
     {
         $this->resetPage();
+        $this->selectedOrders = [];
+        $this->selectedAllOrders = false;
+    }
+
+    public function updateStatusInBulk($status): void
+    {
+        if (! $status) {
+            return;
+        }
+
+        if (empty($this->selectedOrders)) {
+            return;
+        }
+
+        $orders = Order::find($this->selectedOrders);
+
+        foreach ($orders as $order) {
+            $order->updateStatus($status);
+        }
+
+        $this->selectedOrders = [];
+        $this->showBulkActions = false;
+        $this->selectedAllOrders = false;
+
+        $this->notify('Orders updated');
     }
 
     public function mount(): void
