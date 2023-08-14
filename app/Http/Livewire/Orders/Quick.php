@@ -54,12 +54,14 @@ class Quick extends Component
             'customer_id' => $customerId,
             'status' => null,
             'processed_by' => auth()->user()->name,
+        ]);
+
+        $order->update([
+            'created_at' => now(),
             'sales_channel_id' => auth()
                 ->user()
                 ->defaultSalesChannel()->id,
         ]);
-
-        $order->update(['created_at' => now()]);
 
         return redirect("/orders/create/$order->id");
     }

@@ -149,7 +149,15 @@ class Order extends Model
     public function verifyIfStockIsAvailable()
     {
         foreach ($this->items as $item) {
-            if ($item->qty > $item->product->qty()) {
+            $availableStock = $item->product->stocks()
+                ->where(
+                    'sales_channel_id',
+                    '=',
+                    $this->sales_channel_id
+                )
+                ->sum('qty');
+
+            if ($item->qty > $availableStock) {
                 throw new QtyNotAvailableException(
                     'Products no longer available'
                 );
@@ -183,9 +191,7 @@ class Order extends Model
                     'reference' => $this->number,
                     'qty' => 0 - $item->qty,
                     'cost' => $item->product->cost,
-                    'sales_channel_id' => auth()
-                        ->user()
-                        ->defaultSalesChannel()->id,
+                    'sales_channel_id' => $this->sales_channel_id,
                 ]
             );
         }

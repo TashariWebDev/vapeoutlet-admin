@@ -64,9 +64,7 @@ class Create extends Component
                             'stocks',
                             fn ($query) => $query->where(
                                 'sales_channel_id',
-                                auth()
-                                    ->user()
-                                    ->defaultSalesChannel()->id
+                                auth()->user()->defaultSalesChannel()->id
                             )
                         )
                         ->withSum(
@@ -76,9 +74,7 @@ class Create extends Component
                                 ) {
                                     $query->where(
                                         'sales_channel_id',
-                                        auth()
-                                            ->user()
-                                            ->defaultSalesChannel()->id
+                                        auth()->user()->defaultSalesChannel()->id
                                     );
                                 },
                             ],
@@ -110,9 +106,7 @@ class Create extends Component
             'stocks',
             fn ($query) => $query->where(
                 'sales_channel_id',
-                auth()
-                    ->user()
-                    ->defaultSalesChannel()->id
+                $this->order->sales_channel_id
             )
         )
             ->withSum(
@@ -120,9 +114,7 @@ class Create extends Component
                     'stocks as total_available' => function ($query) {
                         $query->where(
                             'sales_channel_id',
-                            auth()
-                                ->user()
-                                ->defaultSalesChannel()->id
+                            $this->order->sales_channel_id
                         );
                     },
                 ],
@@ -188,9 +180,7 @@ class Create extends Component
             $item->product->stocks
                 ->where(
                     'sales_channel_id',
-                    auth()
-                        ->user()
-                        ->defaultSalesChannel()->id
+                    $this->order->sales_channel_id
                 )
                 ->sum('qty') +
             (0 - $item->stock()->first()?->qty);

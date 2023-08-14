@@ -76,9 +76,7 @@ class AddProduct extends Component
                     'stocks',
                     fn ($query) => $query->where(
                         'sales_channel_id',
-                        auth()
-                            ->user()
-                            ->defaultSalesChannel()->id
+                        $this->order->sales_channel_id
                     )
                 )
                 ->withSum(
@@ -86,9 +84,7 @@ class AddProduct extends Component
                         'stocks as total_available' => function ($query) {
                             $query->where(
                                 'sales_channel_id',
-                                auth()
-                                    ->user()
-                                    ->defaultSalesChannel()->id
+                                $this->order->sales_channel_id
                             );
                         },
                     ],
