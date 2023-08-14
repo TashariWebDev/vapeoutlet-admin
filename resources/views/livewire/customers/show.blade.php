@@ -266,33 +266,40 @@
                 <div
                     class="grid grid-cols-3 py-2 w-full bg-white rounded lg:hidden dark:bg-slate-800 dark:even:bg-slate-700 even:bg-slate-100"
                 >
+                    <div class="col-span-3">
+                        @if($transaction->type === 'invoice' || $transaction->type === 'credit')
+                            <p class="text-xs font-semibold">
+                                {{ strtoupper($transaction->reference) }}
+                            </p>
+                        @endif
+                    </div>
                     <div>
                         <p>
-              <span>
-                @if (auth()->user()->hasPermissionTo('edit transactions') &&
-                        !in_array($transaction->type, $disabledTransactionTypes))
-                      <a
-                          class="link"
-                          href="{{ route('transactions/edit', $transaction->id) }}"
-                      >
-                    {{ $transaction->id }}
-                  </a>
-                  @else
-                      <span class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">{{ $transaction->id }}</span>
-                  @endif
-              </span>
+                          <span>
+                            @if (auth()->user()->hasPermissionTo('edit transactions') &&
+                                    !in_array($transaction->type, $disabledTransactionTypes))
+                                  <a
+                                      class="link"
+                                      href="{{ route('transactions/edit', $transaction->id) }}"
+                                  >
+                                {{ $transaction->id }}
+                              </a>
+                              @else
+                                  <span class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">{{ $transaction->id }}</span>
+                              @endif
+                          </span>
                             <span @class([
-                  'text-[12px] uppercase font-semibold text-rose-500 dark:text-rose-400' =>
-                      $transaction->type === 'invoice' ||
-                      $transaction->type === 'debit' ||
-                      $transaction->type === 'refund',
-                  'text-[12px] uppercase font-semibold text-indigo-500 dark:text-indigo-400' =>
-                      $transaction->type === 'payment' ||
-                      $transaction->type === 'credit' ||
-                      $transaction->type === 'warranty',
-              ])>
-                {{ strtoupper($transaction->type) }}
-              </span>
+                                  'text-[12px] uppercase font-semibold text-rose-500 dark:text-rose-400' =>
+                                      $transaction->type === 'invoice' ||
+                                      $transaction->type === 'debit' ||
+                                      $transaction->type === 'refund',
+                                  'text-[12px] uppercase font-semibold text-indigo-500 dark:text-indigo-400' =>
+                                      $transaction->type === 'payment' ||
+                                      $transaction->type === 'credit' ||
+                                      $transaction->type === 'warranty',
+                              ])>
+                            {{ strtoupper($transaction->type) }}
+                          </span>
                         </p>
                         <p class="text-xs text-slate-600 dark:text-slate-300">
                             {{ $transaction->date?->format('d-m-y') ?? $transaction->created_at?->format('d-m-y') }}
@@ -320,9 +327,6 @@
                                 <x-icons.busy target="getDocument({{ $transaction->id }})" />
                                 Print
                             </button>
-                            @if (file_exists(public_path("storage/documents/$transaction->number.pdf")))
-                                <p class="text-xs text-slate-400">Printed</p>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -349,32 +353,31 @@
                     <x-table.body class="hidden text-sm lg:grid lg:grid-cols-6">
                         <x-table.row class="text-xs text-center lg:text-left">
                             <p>
-                <span>
-                  @if (auth()->user()->hasPermissionTo('edit transactions') &&
-                          !in_array($transaction->type, $disabledTransactionTypes))
-                        <a
-                            class="link"
-                            href="{{ route('transactions/edit', $transaction->id) }}"
-                        >
-                      {{ $transaction->id }}
-                    </a>
-                    @else
-                        <span class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">{{ $transaction->id }}</span>
-                    @endif
-                </span>
+                                <span>
+                                  @if (auth()->user()->hasPermissionTo('edit transactions') &&
+                                          !in_array($transaction->type, $disabledTransactionTypes))
+                                        <a
+                                            class="link"
+                                            href="{{ route('transactions/edit', $transaction->id) }}"
+                                        >
+                                      {{ $transaction->id }}
+                                    </a>
+                                    @else
+                                        <span class="font-semibold uppercase dark:text-white text-[12px] text-slate-900">{{ $transaction->id }}</span>
+                                    @endif
+                                </span>
                                 <span @class([
-                    'text-[12px] uppercase font-semibold text-rose-500 dark:text-rose-600' =>
-                        $transaction->type === 'invoice' ||
-                        $transaction->type === 'debit' ||
-                        $transaction->type === 'refund',
-                    'text-[12px] uppercase font-semibold text-indigo-500 dark:text-indigo-400' =>
-                        $transaction->type === 'payment' ||
-                        $transaction->type === 'credit' ||
-                        $transaction->type === 'warranty',
-                ])>
-                  {{ strtoupper($transaction->type) }}
-                </span>
-
+                                    'text-[12px] uppercase font-semibold text-rose-500 dark:text-rose-600' =>
+                                        $transaction->type === 'invoice' ||
+                                        $transaction->type === 'debit' ||
+                                        $transaction->type === 'refund',
+                                    'text-[12px] uppercase font-semibold text-indigo-500 dark:text-indigo-400' =>
+                                        $transaction->type === 'payment' ||
+                                        $transaction->type === 'credit' ||
+                                        $transaction->type === 'warranty',
+                                ])>
+                                  {{ strtoupper($transaction->type) }}
+                                </span>
                             </p>
                             <p class="uppercase text-[12px] text-slate-500 dark:text-slate-500">
                                 {{ $transaction->created_at }}
@@ -382,7 +385,8 @@
                         </x-table.row>
                         <x-table.row class="text-center lg:text-left">
                             <p class="text-xs font-semibold">
-                                {{ strtoupper($transaction->reference) }}</p>
+                                {{ strtoupper($transaction->reference) }}
+                            </p>
                             <p class="uppercase text-[12px]">{{ $transaction->created_by }}
                             </p>
                         </x-table.row>
@@ -410,9 +414,6 @@
                                         <x-icons.busy target="getDocument({{ $transaction->id }})" />
                                         <span class="pl-2">Print</span>
                                     </button>
-                                    @if (file_exists(public_path("storage/documents/$transaction->number.pdf")))
-                                        <p class="text-xs text-slate-400">Printed</p>
-                                    @endif
                                 </div>
                             </div>
                         </x-table.row>

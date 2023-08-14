@@ -400,7 +400,7 @@
                                         class="text-sm font-bold text-black uppercase cursor-default dark:text-slate-400"
                                         title="Order Total"
                                     >
-                                        R {{ number_format(to_rands($order->order_total) + $order->delivery_charge, 2) }}
+                                        R {{ number_format($order->getTotal(), 2) }}
                                     </p>
                                 </x-table.row>
                                 <x-table.row class="px-2 text-center lg:text-right">
