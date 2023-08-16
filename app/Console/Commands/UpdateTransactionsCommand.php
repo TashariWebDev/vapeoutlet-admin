@@ -12,17 +12,17 @@ class UpdateTransactionsCommand extends Command
 
     protected $description = 'Update all user transactions to reflect running balance';
 
-    public function handle()
+    public function handle(): void
     {
         $customer = Customer::find($this->argument('customer'));
 
         if ($customer) {
-            UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(20);
+            UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(now()->addMinute(1));
         } else {
             $customers = Customer::all();
 
             foreach ($customers as $customer) {
-                UpdateCustomerRunningBalanceJob::dispatch($customer->id);
+                UpdateCustomerRunningBalanceJob::dispatch($customer->id)->delay(now()->addMinute(1));
             }
         }
     }

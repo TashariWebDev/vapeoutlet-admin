@@ -227,4 +227,9 @@ Route::get('balances', function () {
     return $issues;
 });
 
+// clear jobs table
+Route::get('clear-jobs', function () {
+    DB::table('jobs')->delete();
+});
+
 require __DIR__.'/auth.php';
