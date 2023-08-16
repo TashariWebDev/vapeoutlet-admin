@@ -20,10 +20,12 @@ class UpdateSupplierRunningBalanceJob implements ShouldQueue
         $this->supplier = Supplier::find($supplierId);
     }
 
-    public function handle()
+    public function handle(): void
     {
         $this->supplier->load('transactions');
+
         $balance = 0;
+
         foreach ($this->supplier->transactions as $transaction) {
             $balance += $transaction->amount;
             $transaction->running_balance = $balance;

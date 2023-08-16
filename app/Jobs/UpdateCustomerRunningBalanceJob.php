@@ -34,7 +34,9 @@ class UpdateCustomerRunningBalanceJob implements ShouldQueue
             'customer_id',
             $this->customer->id
         )->get();
+
         $balance = 0;
+
         foreach ($transactions as $transaction) {
             $balance += $transaction->amount;
             $transaction->running_balance = $balance;

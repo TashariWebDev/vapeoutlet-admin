@@ -21,9 +21,11 @@ class UpdateTransactionsCommand extends Command
                 ->onQueue('default')
                 ->delay(now()->seconds(30));
         } else {
+
             $customers = Customer::all();
 
             foreach ($customers as $customer) {
+
                 UpdateCustomerRunningBalanceJob::dispatch($customer->id)
                     ->onQueue('default')
                     ->delay(now()->seconds(30));
