@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ClearQueueCommand;
 use App\Console\Commands\CompressImagesCommand;
 use App\Console\Commands\DeleteOldDocumentsCommand;
 use App\Console\Commands\DeleteOldPriceListCommand;
@@ -26,6 +27,7 @@ class Kernel extends ConsoleKernel
         ShopSetupCommand::class,
         UpdateTransactionDateIfNullCommand::class,
         EmailBackupsCommand::class,
+        ClearQueueCommand::class,
     ];
 
     /**
@@ -39,8 +41,9 @@ class Kernel extends ConsoleKernel
         $schedule->command('update:transactions')->hourly();
         $schedule->command('update:supplier-transactions')->hourly();
         $schedule->command('backup:clean')->daily('01:00');
-        $schedule->command('backup:run')->daily('01:10');
-        $schedule->command('email:backups')->daily('01:30');
+        $schedule->command('backup:run')->daily('01:30');
+        $schedule->command('email:backups')->daily('02:30');
+        $schedule->command('clear:queue')->daily('04:30');
     }
 
     /**
