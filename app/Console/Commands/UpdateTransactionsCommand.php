@@ -18,7 +18,6 @@ class UpdateTransactionsCommand extends Command
 
         if ($customer) {
             UpdateCustomerRunningBalanceJob::dispatch($customer->id)
-                ->onQueue('default')
                 ->delay(now()->seconds(30));
         } else {
 
@@ -27,7 +26,6 @@ class UpdateTransactionsCommand extends Command
             foreach ($customers as $customer) {
 
                 UpdateCustomerRunningBalanceJob::dispatch($customer->id)
-                    ->onQueue('default')
                     ->delay(now()->seconds(30));
             }
         }
