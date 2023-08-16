@@ -22,7 +22,7 @@ class UpdateTransactionsCommand extends Command
                 ->delay(now()->seconds(30));
         } else {
 
-            $customers = Customer::all();
+            $customers = Customer::with('transactions')->get();
 
             foreach ($customers as $customer) {
 
