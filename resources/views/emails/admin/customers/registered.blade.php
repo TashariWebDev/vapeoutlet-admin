@@ -8,7 +8,7 @@
     </div>
 
     <div class="flex justify-start items-center py-6">
-        <a href="https://admin.vapeoutlet.co.za"
+        <a href="{{ config('app.url') }}"
            class="py-4 px-6 font-semibold text-white rounded-lg shadow-lg bg-sky-600"
         >
             Sign in

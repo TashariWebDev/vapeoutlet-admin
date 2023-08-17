@@ -15,13 +15,13 @@
     </div>
 
     <div class="flex justify-start items-center py-6 space-x-8">
-        <a href="https://vapeoutlet.co.za/checkout"
+        <a href="{{ config('app.frontend_url') }}a/checkout"
            class="py-2 px-6 font-semibold text-white rounded-lg shadow-lg bg-sky-600"
         >
             Checkout
         </a>
 
-        <a href="https://vapeoutlet.co.za/cancel-order/{{ $order->id }}"
+        <a href="{{ config('app.frontend_url') }}/cancel-order/{{ $order->id }}"
            class="py-2 px-6 font-semibold text-red-600"
         >
             Cancel order
