@@ -17,8 +17,7 @@ class UpdateTransactionsCommand extends Command
         $customer = Customer::find($this->argument('customer'));
 
         if ($customer) {
-            UpdateCustomerRunningBalanceJob::dispatch($customer->id)
-                ->delay(now()->seconds(30));
+            UpdateCustomerRunningBalanceJob::dispatch($customer->id);
         } else {
 
             $customers = Customer::with('transactions')->get();
