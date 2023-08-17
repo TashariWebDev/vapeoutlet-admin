@@ -25,13 +25,14 @@ class UpdateCustomerRunningBalanceJob implements ShouldQueue
 
     public function __construct($customerId)
     {
-        $this->customer = Customer::findOrFail($customerId)->load('transactions');
+        $this->customer = Customer::findOrFail($customerId);
     }
 
     public function handle(): void
     {
 
         $transactions = Transaction::where('customer_id', '=', $this->customer->id)->get();
+
         $balance = 0;
 
         foreach ($transactions as $transaction) {
