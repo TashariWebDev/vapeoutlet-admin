@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Customer;
+use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -30,9 +31,10 @@ class UpdateCustomerRunningBalanceJob implements ShouldQueue
     public function handle(): void
     {
 
+        $transactions = Transaction::where('customer_id', '=', $this->customer->id)->get();
         $balance = 0;
 
-        foreach ($this->customer->transactions as $transaction) {
+        foreach ($transactions as $transaction) {
             $balance += $transaction->amount;
             $transaction->running_balance = $balance;
             $transaction->save();
