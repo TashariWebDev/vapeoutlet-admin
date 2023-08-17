@@ -187,6 +187,7 @@ class CashUp extends Component
                 'customer_id',
                 'delivery_charge',
                 'delivery_type_id',
+                'waybill',
             ])
             ->with([
                 'customer:id,name,company,salesperson_id,is_wholesale',
