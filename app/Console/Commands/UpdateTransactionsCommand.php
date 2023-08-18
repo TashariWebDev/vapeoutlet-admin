@@ -24,8 +24,7 @@ class UpdateTransactionsCommand extends Command
 
             foreach ($customers as $customer) {
 
-                UpdateCustomerRunningBalanceJob::dispatch($customer->id)
-                    ->delay(now()->seconds(30));
+                UpdateCustomerRunningBalanceJob::dispatch($customer->id);
             }
         }
 

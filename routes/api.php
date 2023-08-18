@@ -75,7 +75,8 @@ Route::post('send-order-emails', function (Request $request) {
         (new OrderReceivedMail($order->customer, $order))
     );
 
-    return response()->isOk();
+    return response('Success', 200)
+        ->header('Content-Type', 'text/plain');
 
 });
 
@@ -97,7 +98,8 @@ Route::post('send-payment-emails', function (Request $request) {
         )
     );
 
-    return response()->isOk();
+    return response('Success', 200)
+        ->header('Content-Type', 'text/plain');
 
 });
 
@@ -113,7 +115,8 @@ Route::post('send-recovery-emails', function (Request $request) {
         );
     }
 
-    return response()->isOk();
+    return response('Success', 200)
+        ->header('Content-Type', 'text/plain');
 
 });
 
@@ -133,6 +136,7 @@ Route::post('send-seven-day-recovery-emails', function (Request $request) {
         );
     }
 
-    return response()->isOk();
+    return response('Success', 200)
+        ->header('Content-Type', 'text/plain');
 
 });

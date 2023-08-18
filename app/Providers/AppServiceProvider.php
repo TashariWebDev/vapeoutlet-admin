@@ -5,13 +5,12 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\TelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
-     * @return void
      */
     public function register(): void
     {
@@ -20,8 +19,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -35,13 +32,9 @@ class AppServiceProvider extends ServiceProvider
             view()->share('queryTime', $query->time);
         });
 
-//        $folders = ['documents', 'images', 'uploads'];
-//        foreach ($folders as $folder) {
-//            if (! file_exists(storage_path("app/public/$folder"))) {
-//                mkdir(storage_path("app/public/$folder"), 0777, true);
-//            }
-//
-//            chmod(storage_path("app/public/$folder"), 0777);
-//        }
+        if ($this->app->environment('local')) {
+            $this->app->register(TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 }
