@@ -43,7 +43,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:clean')->daily('01:00');
         $schedule->command('backup:run')->daily('01:30');
         $schedule->command('email:backups')->daily('02:30');
-        $schedule->command('clear:queue')->daily('04:30');
+        $schedule->command('queue:clear')->daily('04:30');
+        $schedule->command('queue:flush')->daily('04:30');
     }
 
     /**
