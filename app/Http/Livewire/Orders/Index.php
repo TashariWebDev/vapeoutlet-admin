@@ -5,9 +5,12 @@ namespace App\Http\Livewire\Orders;
 use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\Tag;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -42,6 +45,8 @@ class Index extends Component
     public int $recordCount = 10;
 
     public string $direction = 'asc';
+
+    public $tags = [];
 
     public $defaultSalesChannel;
 
@@ -90,6 +95,8 @@ class Index extends Component
 
         \App\Models\Note::where('body', '=', '')->delete();
 
+        $this->tags = Tag::all();
+
         $this->defaultSalesChannel = auth()
             ->user()
             ->defaultSalesChannel();
@@ -124,6 +131,20 @@ class Index extends Component
         }
     }
 
+    public function addTag(Order $order, $tagId): void
+    {
+        $order->tags()->syncWithoutDetaching($tagId);
+
+        $this->notify('Tag added to order '.$order->number);
+    }
+
+    public function removeTag(Order $order, $tagId): void
+    {
+        $order->tags()->detach($tagId);
+
+        $this->notify('Tag removed from order '.$order->number);
+    }
+
     public function updateStatusInBulk($status): void
     {
         if (! $status) {
@@ -147,7 +168,7 @@ class Index extends Component
         $this->notify('Orders updated');
     }
 
-    public function filteredOrders()
+    public function filteredOrders(): Builder|_IH_Order_QB
     {
         $orders = Order::query()
             ->select([
@@ -166,6 +187,7 @@ class Index extends Component
                 'customer.salesperson:id,name',
                 'delivery',
                 'notes',
+                'tags',
             ])
             ->withCount('notes')
             ->where('sales_channel_id', $this->defaultSalesChannel->id)

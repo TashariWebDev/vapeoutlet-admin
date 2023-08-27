@@ -18,7 +18,7 @@
                                 <div class="text-xs font-semibold text-right text-slate-600 dark:text-slate-300">BAL
                                 </div>
                             </div>
-                            
+
                             @forelse($selectedCustomerLatestTransactions as $transaction)
                                 <div class="grid grid-cols-1 gap-2 py-3 px-1 rounded lg:grid-cols-4 dark:even:bg-slate-900 even:bg-slate-50">
                                     <div>
@@ -57,7 +57,7 @@
                 </div>
             </div>
         </x-modal>
-        
+
         <x-modal x-data="{ show: $wire.entangle('quickViewNotesModal') }">
             <div class="pb-3">
                 <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Order notes</h3>
@@ -92,9 +92,9 @@
                 </div>
             </div>
         </x-modal>
-        
+
         <div class="px-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
-            
+
             <div class="grid grid-cols-1 gap-y-4 py-3 lg:grid-cols-4 lg:gap-x-3 lg:px-0">
                 <div>
                     <x-input.text
@@ -106,7 +106,7 @@
                         autocomplete="off"
                     />
                 </div>
-                
+
                 <div>
                     <div
                         class="grid grid-cols-3 w-full rounded-md border divide-x py-[7px] bg-slate-100 border-slate-200 dark:divide-slate-600 dark:border-slate-900 dark:bg-slate-800"
@@ -121,7 +121,7 @@
                         >
                             View all
                         </button>
-                        
+
                         <button
                             @class([
                                 'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
@@ -132,7 +132,7 @@
                         >
                             Retail
                         </button>
-                        
+
                         <button
                             @class([
                                 'h-full text-sm text-slate-800 dark:text-slate-300 uppercase flex items-center justify-center',
@@ -145,7 +145,7 @@
                         </button>
                     </div>
                 </div>
-                
+
                 <div>
                     <x-input.select wire:model="filter">
                         <option value="received">Received</option>
@@ -156,7 +156,7 @@
                         <option value="cancelled">Cancelled</option>
                     </x-input.select>
                 </div>
-                
+
                 <div>
                     <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
@@ -165,7 +165,7 @@
                         <option value="100">100</option>
                     </x-input.select>
                 </div>
-                
+
                 <div class="grid grid-cols-2 gap-1 font-black lg:hidden text-slate-400">
                     <button
                         class="@if ($direction === 'asc') text-sky-600 @endif border"
@@ -180,14 +180,14 @@
                         &downarrow;
                     </button>
                 </div>
-            
+
             </div>
-            
+
             <div class="py-2">
                 {{ $orders->links() }}
             </div>
         </div>
-        
+
         <div class="hidden pt-4 h-12 lg:block">
             <div class="relative">
                 @if(!empty($selectedOrders))
@@ -197,11 +197,11 @@
                     >Bulk Actions
                     </button>
                 @endif
-                
+
                 @if($showBulkActions)
                     <div class="absolute top-0 mt-10 w-auto h-auto text-white rounded-md shadow-lg origin-top bg-slate-800">
                         <div class="py-2">
-                            
+
                             @if($filter != 'processed')
                                 <div class="mb-2">
                                     <button class="py-2 px-2 w-full font-semibold text-left uppercase text-[10px] hover:bg-slate-900"
@@ -212,7 +212,7 @@
                                     </button>
                                 </div>
                             @endif
-                            
+
                             @if($filter != 'packed')
                                 <div class="mb-2">
                                     <button class="py-2 px-2 w-full font-semibold text-left uppercase text-[10px] hover:bg-slate-900"
@@ -223,7 +223,7 @@
                                     </button>
                                 </div>
                             @endif
-                            
+
                             @if($filter != 'shipped')
                                 <div class="mb-2">
                                     <button class="py-2 px-2 w-full font-semibold text-left uppercase text-[10px] hover:bg-slate-900"
@@ -235,17 +235,17 @@
                                 </div>
                             @endif
                         </div>
-                    
+
                     </div>
                 @endif
             </div>
         </div>
-        
+
         {{-- Desktop --}}
         <div class="py-2">
             <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
                 <x-table.container class="hidden lg:block">
-                    <x-table.header class="hidden lg:grid lg:grid-cols-5">
+                    <x-table.header class="hidden lg:grid lg:grid-cols-6">
                         <x-table.heading>
                             <div class="flex">
                                 @if($filter != 'completed')
@@ -276,12 +276,13 @@
                         </x-table.heading>
                         <x-table.heading>customer</x-table.heading>
                         <x-table.heading class="text-left">delivery</x-table.heading>
+                        <x-table.heading class="text-left">tags</x-table.heading>
                         <x-table.heading class="text-right">total</x-table.heading>
                         <x-table.heading class="text-right">invoice</x-table.heading>
                     </x-table.header>
                     <div>
                         @forelse($orders as $order)
-                            <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
+                            <x-table.body class="grid grid-cols-1 lg:grid-cols-6">
                                 <x-table.row class="text-left">
                                     <div class="flex justify-between items-center cursor-default">
                                         <div class="flex items-center space-x-2">
@@ -341,7 +342,7 @@
                                                 href="{{ route('customers/show', $order->customer->id) }}"
                                                 title="View {{ $order->customer->name }}'s Account"
                                             >{{ $order->customer->name }}</a>
-                                            
+
                                             <div class="flex justify-start space-x-2">
                                                 <p class="text-xs capitalize whitespace-nowrap divide-x divide-amber-50 text-slate-400 truncate">
                                                     {{ $order->customer->type() }}
@@ -352,7 +353,7 @@
                                             </div>
                                         </div>
                                         <div class="flex space-x-1">
-                                            
+
                                             @if($order->notes_count)
                                                 <button
                                                     class="inline-flex items-center py-1 px-2 text-xs font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -372,6 +373,7 @@
                                         </div>
                                     </div>
                                 </x-table.row>
+
                                 <x-table.row class="px-2 text-center cursor-default lg:text-left text-semibold dark:text-slate-400">
                                     <p
                                         class="text-xs font-semibold uppercase whitespace-nowrap truncate"
@@ -395,6 +397,63 @@
                                         </div>
                                     @endisset
                                 </x-table.row>
+                                <x-table.row class="px-2 text-center lg:text-left">
+                                    <div class="flex justify-start space-x-2">
+                                        <div class="relative"
+                                             x-data="{show: false}"
+                                        >
+                                            <button
+                                                x-on:click="show = !show"
+                                                class="flex justify-center items-center text-green-400 rounded-full ring-1 ring-green-400"
+                                            >
+                                                <x-icons.plus />
+                                            </button>
+
+                                            <div x-show="show"
+                                                 x-on:click.outside="show = !show"
+                                                 x-transition
+                                                 class="absolute z-40 flex-col p-2 mt-1 space-y-2 w-48 bg-white rounded-md shadow dark:bg-slate-800"
+                                            >
+                                                @foreach($tags as $tag)
+                                                    <span class="inline-flex gap-x-0.5 items-center py-1 px-2 text-xs font-medium text-purple-700 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-700/10 md dark:bg-">
+                                                      {{ $tag->name }}
+                                                      <button type="button"
+                                                              wire:click="addTag({{ $order->id }},{{ $tag->id }})"
+                                                              class="relative -mr-1 w-3.5 h-3.5 rounded-sm group hover:bg-purple-600/20"
+                                                      >
+                                                        <span class="sr-only">Add</span>
+                                                          <x-icons.plus class="w-3.5 h-3.5 stroke-violet-600/50 group-hover:stroke-violet-600/75"></x-icons.plus>
+                                                        <span class="absolute -inset-1"></span>
+                                                      </button>
+                                                    </span>
+                                                @endforeach
+                                            </div>
+                                        </div>
+
+                                        <div class="flex flex-wrap">
+                                            @foreach($order->tags as $tag)
+
+                                                <div class="mr-1 mb-1">
+                                                <span class="inline-flex gap-x-0.5 items-center py-1 px-2 text-xs font-medium text-purple-700 rounded-md ring-1 ring-inset dark:text-purple-400 bg-purple-400/10 ring-purple-700/10">
+                                                  {{ $tag->name }}
+                                                  <button type="button"
+                                                          wire:click="removeTag({{ $order->id }},{{ $tag->id }})"
+                                                          class="relative -mr-1 w-3.5 h-3.5 rounded-sm group hover:bg-purple-600/20"
+                                                  >
+                                                    <span class="sr-only">Add</span>
+                                                     <svg viewBox="0 0 14 14"
+                                                          class="w-3.5 h-3.5 stroke-violet-600/50 group-hover:stroke-violet-600/75"
+                                                     >
+                                                             <path d="M4 4l6 6m0-6l-6 6" />
+                                                           </svg>
+                                                    <span class="absolute -inset-1"></span>
+                                                  </button>
+                                                </span>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </x-table.row>
                                 <x-table.row class="hidden px-2 text-right lg:block">
                                     <p
                                         class="text-sm font-bold text-black uppercase cursor-default dark:text-slate-400"
@@ -415,7 +474,7 @@
                                                     wire:target="pushToComplete({{ $order->id }})"
                                                     wire:click="pushToComplete({{ $order->id }})"
                                                 >
-                                                    
+
                                                     Complete
                                                 </button>
                                             @endif
@@ -427,13 +486,13 @@
                                                     $order->status != 'completed' &&
                                                     $order->status != 'cancelled') ||
                                                     auth()->user()->hasPermissionTo('complete orders'))
-                                                
+
                                                 @if($order->was_edited > 0)
                                                     <div>
                                                         <p class="font-semibold text-red-500 text-[10px]">Edited</p>
                                                     </div>
                                                 @endif
-                                                
+
                                                 @if ($order->printed_count > 0)
                                                     <button
                                                         class="w-full button-warning"
@@ -466,12 +525,12 @@
                 </x-table.container>
             </div>
         </div>
-        
+
         {{-- Mobile --}}
         <div class="grid grid-cols-1 gap-y-4 mt-3 shadow-sm lg:hidden">
             <div>
                 @forelse($orders as $order)
-                    
+
                     <div class="grid grid-cols-2 px-2 mt-2 bg-white rounded-md shadow-sm dark:bg-slate-800">
                         <div class="py-1">
                             <a
@@ -510,7 +569,7 @@
                                 </div>
                             @endisset
                         </div>
-                        
+
                         <div class="flex col-span-2 justify-between pt-3">
                             <div>
                                 <a
@@ -519,7 +578,7 @@
                                 >
                                     <p class="text-sm">{{ $order->customer->name }}</p>
                                 </a>
-                                
+
                                 <p @class([
                                      'text-xs',
                                      'text-rose-700 dark:text-rose-400' =>
@@ -532,7 +591,7 @@
                                     {{ $order->customer->salesperson->name ?? '' }}
                                 </p>
                             </div>
-                            
+
                             <div class="flex space-x-2">
                                 <button
                                     class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -541,7 +600,7 @@
                                 >
                                     VIEW
                                 </button>
-                                
+
                                 @if($order->notes_count)
                                     <button
                                         class="inline-flex items-center py-1 px-2 font-medium text-purple-500 rounded-md ring-1 ring-inset dark:text-purple-400 text-[12px] bg-purple-400/10 ring-purple-400/50 dark:ring-purple-400/20"
@@ -557,7 +616,7 @@
                             @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')
                                 @if ($order->printed_count > 0)
                                     <button
-                                        class="w-full button-success"
+                                        class="w-full button-warning"
                                         wire:loading.attr="disabled"
                                         wire:target="getDocument"
                                         wire:click="getDocument({{ $order->id }})"
@@ -577,7 +636,7 @@
                             @endif
                         </div>
                     </div>
-                
+
                 @empty
                     <x-table.empty></x-table.empty>
                 @endforelse

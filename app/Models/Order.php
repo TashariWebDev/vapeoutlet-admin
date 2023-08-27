@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Browsershot\Browsershot;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -35,7 +36,7 @@ class Order extends Model
         };
     }
 
-    public function isProcessed()
+    public function isProcessed(): bool
     {
         if ($this->status === 'received') {
             return true;
@@ -47,6 +48,11 @@ class Order extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
     }
 
     public function address(): BelongsTo
@@ -122,7 +128,7 @@ class Order extends Model
         return new Attribute(get: fn () => 'INV00'.$this->attributes['id']);
     }
 
-    public function addItem(Product $product)
+    public function addItem(Product $product): void
     {
         $item = $this->items()->firstOrCreate(
             [
@@ -146,7 +152,7 @@ class Order extends Model
     /**
      * @throws QtyNotAvailableException
      */
-    public function verifyIfStockIsAvailable()
+    public function verifyIfStockIsAvailable(): void
     {
         foreach ($this->items as $item) {
             $availableStock = $item->product->stocks()
@@ -242,12 +248,12 @@ class Order extends Model
         return $this;
     }
 
-    public function cancel()
+    public function cancel(): void
     {
         $this->delete();
     }
 
-    public function scopeSearch($query, $terms)
+    public function scopeSearch($query, $terms): void
     {
         collect(explode(' ', $terms))
             ->filter()
