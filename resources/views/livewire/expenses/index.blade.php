@@ -28,7 +28,7 @@
                             <x-icons.plus class="w-12 h-12 text-sky-500 hover:text-sky-600" />
                         </button>
                     </div>
-                
+
                 </div>
                 <div class="py-4">
                     <x-input.label for="reference">
@@ -125,7 +125,7 @@
             </form>
         </div>
     </x-slide-over>
-    
+
     <x-modal x-data="{ show: $wire.entangle('showExpenseCategoryCreateForm') }">
         <x-page-header>
             Add expense category
@@ -154,7 +154,7 @@
             </form>
         </div>
     </x-modal>
-    
+
     <x-page-header class="py-2">
         Expenses
     </x-page-header>
@@ -184,12 +184,12 @@
             </div>
         </div>
         <!-- End -->
-        
+
         <div class="p-2">
             {{ $expenses->links() }}
         </div>
     </div>
-    
+
     <div class="px-2 mt-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-5">
@@ -200,7 +200,7 @@
             </x-table.header>
             @forelse($expenses as $expense)
                 <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
-                    
+
                     <x-table.row class="text-sm text-left">
                         <p>{{ $expense->category }}</p>
                         <p class="lg:hidden"> {{ $expense->invoice_no }}</p>
@@ -212,7 +212,7 @@
                             </button>
                         @endif
                     </x-table.row>
-                    
+
                     <x-table.row class="text-sm font-semibold text-left lg:col-span-2">
                         {{ $expense->reference }}
                         <div>
@@ -220,11 +220,11 @@
                                 {{ $expense->date->format('d-m-y') }}</p>
                         </div>
                     </x-table.row>
-                    
+
                     <x-table.row class="hidden col-span-1 text-sm text-left uppercase lg:block">
                         {{ $expense->invoice_no }}
                     </x-table.row>
-                    
+
                     <x-table.row class="text-sm text-right">
                         R {{ number_format($expense->amount, 2) ?? 0 }}
                         @if ($expense->taxable)
@@ -233,7 +233,7 @@
                             </div>
                         @endif
                     </x-table.row>
-                    
+
                     <x-table.row class="col-span-1 lg:hidden">
                         @if (auth()->user()->hasPermissionTo('edit transactions'))
                             <button

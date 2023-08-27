@@ -1,5 +1,5 @@
 <div>
-    
+
     <x-slide-over x-data="{ show: $wire.entangle('slide') }">
         <x-page-header>
             Add notification
@@ -27,7 +27,7 @@
             </form>
         </div>
     </x-slide-over>
-    
+
     <div class="py-3 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <header class="flex justify-between items-center py-6 px-2">
             <x-page-header>
@@ -40,13 +40,13 @@
                 add notification
             </button>
         </header>
-        
+
         <div class="py-3 px-2">
             {{ $notifications->links() }}
         </div>
     </div>
-    
-    <div class="mt-2 bg-white rounded-md">
+
+    <div class="mt-2 bg-white rounded-md dark:bg-slate-900">
         <x-table.container>
             <x-table.header class="hidden text-sm lg:grid lg:grid-cols-3">
                 <x-table.heading class="col-span-2">Body</x-table.heading>
