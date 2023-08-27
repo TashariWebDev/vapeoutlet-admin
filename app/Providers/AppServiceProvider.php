@@ -15,7 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Telescope::ignoreMigrations();
+        if (! app()->environment('production')) {
+            Telescope::ignoreMigrations();
+        }
     }
 
     /**
