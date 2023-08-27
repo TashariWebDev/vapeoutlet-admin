@@ -188,65 +188,65 @@
         <div class="p-2">
             {{ $expenses->links() }}
         </div>
+    </div>
 
-        <div>
-            <x-table.container>
-                <x-table.header class="hidden lg:grid lg:grid-cols-5">
-                    <x-table.heading>Category</x-table.heading>
-                    <x-table.heading class="lg:col-span-2">Reference</x-table.heading>
-                    <x-table.heading>Invoice no</x-table.heading>
-                    <x-table.heading class="text-right">Amount</x-table.heading>
-                </x-table.header>
-                @forelse($expenses as $expense)
-                    <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
+    <div class="px-2 mt-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
+        <x-table.container>
+            <x-table.header class="hidden lg:grid lg:grid-cols-5">
+                <x-table.heading>Category</x-table.heading>
+                <x-table.heading class="lg:col-span-2">Reference</x-table.heading>
+                <x-table.heading>Invoice no</x-table.heading>
+                <x-table.heading class="text-right">Amount</x-table.heading>
+            </x-table.header>
+            @forelse($expenses as $expense)
+                <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
 
-                        <x-table.row class="text-sm text-left">
-                            <p>{{ $expense->category }}</p>
-                            <p class="lg:hidden"> {{ $expense->invoice_no }}</p>
-                            @if (auth()->user()->hasPermissionTo('edit transactions'))
-                                <button
-                                    class="hidden text-rose-600 lg:block dark:text-rose-400 hover:text-rose-"
-                                    x-on:click="$wire.call('remove',{{ $expense->id }})"
-                                >remove
-                                </button>
-                            @endif
-                        </x-table.row>
+                    <x-table.row class="text-sm text-left">
+                        <p>{{ $expense->category }}</p>
+                        <p class="lg:hidden"> {{ $expense->invoice_no }}</p>
+                        @if (auth()->user()->hasPermissionTo('edit transactions'))
+                            <button
+                                class="hidden text-rose-600 lg:block dark:text-rose-400 hover:text-rose-"
+                                x-on:click="$wire.call('remove',{{ $expense->id }})"
+                            >remove
+                            </button>
+                        @endif
+                    </x-table.row>
 
-                        <x-table.row class="text-sm font-semibold text-left lg:col-span-2">
-                            {{ $expense->reference }}
-                            <div>
-                                <p class="text-xs text-slate-600 dark:text-slate-300">
-                                    {{ $expense->date->format('d-m-y') }}</p>
+                    <x-table.row class="text-sm font-semibold text-left lg:col-span-2">
+                        {{ $expense->reference }}
+                        <div>
+                            <p class="text-xs text-slate-600 dark:text-slate-300">
+                                {{ $expense->date->format('d-m-y') }}</p>
+                        </div>
+                    </x-table.row>
+
+                    <x-table.row class="hidden col-span-1 text-sm text-left uppercase lg:block">
+                        {{ $expense->invoice_no }}
+                    </x-table.row>
+
+                    <x-table.row class="text-sm text-right">
+                        R {{ number_format($expense->amount, 2) ?? 0 }}
+                        @if ($expense->taxable)
+                            <div class="text-xs">
+                                (R {{ number_format(vat($expense->amount), 2) ?? 0 }})
                             </div>
-                        </x-table.row>
+                        @endif
+                    </x-table.row>
 
-                        <x-table.row class="hidden col-span-1 text-sm text-left uppercase lg:block">
-                            {{ $expense->invoice_no }}
-                        </x-table.row>
-
-                        <x-table.row class="text-sm text-right">
-                            R {{ number_format($expense->amount, 2) ?? 0 }}
-                            @if ($expense->taxable)
-                                <div class="text-xs">
-                                    (R {{ number_format(vat($expense->amount), 2) ?? 0 }})
-                                </div>
-                            @endif
-                        </x-table.row>
-
-                        <x-table.row class="col-span-1 lg:hidden">
-                            @if (auth()->user()->hasPermissionTo('edit transactions'))
-                                <button
-                                    class="w-full button-danger"
-                                    x-on:click="$wire.call('remove',{{ $expense->id }})"
-                                >remove
-                                </button>
-                            @endif
-                        </x-table.row>
-                    </x-table.body>
-                @empty
-                    <x-table.empty></x-table.empty>
-                @endforelse
-            </x-table.container>
-        </div>
+                    <x-table.row class="col-span-1 lg:hidden">
+                        @if (auth()->user()->hasPermissionTo('edit transactions'))
+                            <button
+                                class="w-full button-danger"
+                                x-on:click="$wire.call('remove',{{ $expense->id }})"
+                            >remove
+                            </button>
+                        @endif
+                    </x-table.row>
+                </x-table.body>
+            @empty
+                <x-table.empty></x-table.empty>
+            @endforelse
+        </x-table.container>
     </div>
 </div>

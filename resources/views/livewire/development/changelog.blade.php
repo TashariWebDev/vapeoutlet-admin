@@ -49,6 +49,17 @@
         </div>
 
         <div class="p-2 my-4 rounded prose-sm">
+            <time>15 August 2023</time>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Update expenses UI
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-2 my-4 rounded prose-sm">
             <time>13 August 2023</time>
 
             <ul class="list-decimal">
