@@ -136,6 +136,16 @@
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer->number }}</td>
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer->receiver->name }}</td>
                                     @endif
+                                    @if($allStock->type === 'adjustment')
+                                        <td class="py-2 px-2 text-sm whitespace-nowrap">
+                                            <a href="{{ route('stock-takes/show',Str::after('ST00',$allStock->reference)) }}"
+                                               class="link"
+                                            >
+                                                {{ $allStock->reference }}
+                                            </a>
+                                        </td>
+                                        <td class="py-2 px-2 text-sm whitespace-nowrap"></td>
+                                    @endif
                                     <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->sales_channel->name }}</td>
                                 </tr>
                             @endforeach
