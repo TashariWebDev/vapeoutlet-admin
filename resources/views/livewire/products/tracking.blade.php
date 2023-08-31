@@ -1,5 +1,5 @@
 <div class="text-white">
-    
+
     @foreach ($stocksByChannels as $stockByChannel)
         <div class="p-2 mb-4 bg-white rounded-md shadow dark:bg-slate-900">
             <div class="py-1 px-2 w-full rounded bg-slate-200 dark:bg-slate-800">
@@ -41,13 +41,13 @@
             </div>
         </div>
     @endforeach
-    
-    
+
+
     <div>
         <div>
             {{ $allStocks->links() }}
         </div>
-        
+
         <div class="flow-root mt-8">
             <div class="overflow-x-auto -my-2 -mx-4 sm:-mx-6 lg:-mx-8">
                 <div class="inline-block py-2 min-w-full align-middle sm:px-6 lg:px-8">
@@ -135,7 +135,7 @@
                                     @endif
                                     @if($allStock->stock_transfer_id)
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer_id }}</td>
-                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer->receiver->name }}</td>
+                                        <td class="py-2 px-2 text-sm whitespace-nowrap"></td>
                                     @endif
                                     @if($allStock->type === 'adjustment')
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">
@@ -155,6 +155,6 @@
                 </div>
             </div>
         </div>
-    
+
     </div>
 </div>
