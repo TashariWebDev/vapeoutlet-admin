@@ -127,7 +127,7 @@
                                                 {{ $allStock->reference }}
                                             </a>
                                         </td>
-                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->purchase->supplier->name }}</td>
+                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->purchase->supplier->name ?? '' }}</td>
                                     @endif
                                     @if($allStock->supplier_credit_id)
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->supplier_credit_id}}</td>
