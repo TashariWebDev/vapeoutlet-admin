@@ -1,5 +1,5 @@
 <div class="text-white">
-    
+
     @foreach ($stocksByChannels as $stockByChannel)
         <div class="p-2 mb-4 bg-white rounded-md shadow dark:bg-slate-900">
             <div class="py-1 px-2 w-full rounded bg-slate-200 dark:bg-slate-800">
@@ -41,13 +41,13 @@
             </div>
         </div>
     @endforeach
-    
-    
+
+
     <div>
         <div>
             {{ $allStocks->links() }}
         </div>
-        
+
         <div class="flow-root mt-8">
             <div class="overflow-x-auto -my-2 -mx-4 sm:-mx-6 lg:-mx-8">
                 <div class="inline-block py-2 min-w-full align-middle sm:px-6 lg:px-8">
@@ -105,7 +105,7 @@
                                             <a href="{{ route('orders/show',$allStock->order_id) }}"
                                                class="link"
                                             >
-                                                {{ $allStock->order->number }}
+                                                INV00{{ $allStock->order_id }}
                                             </a>
                                         </td>
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->order->customer->name }}</td>
@@ -113,7 +113,7 @@
                                     @if($allStock->credit_id)
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">
                                             <a href="{{ route('credits/create',$allStock->credit_id) }}">
-                                                {{ $allStock->credit_id }}
+                                                CR00{{ $allStock->credit_id }}
                                             </a>
                                         </td>
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->credit->customer->name }}</td>
@@ -123,17 +123,17 @@
                                             <a href="{{ route('purchases/edit',$allStock->purchase_id) }}"
                                                class="link"
                                             >
-                                                {{ $allStock->purchase_id }}
+                                                {{ $allStock->reference }}
                                             </a>
                                         </td>
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->purchase->supplier->name }}</td>
                                     @endif
                                     @if($allStock->supplier_credit_id)
-                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->supplier_credit->number }}</td>
+                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->supplier_credit_id}}</td>
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->supplier_credit->supplier->name }}</td>
                                     @endif
                                     @if($allStock->stock_transfer_id)
-                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer->number }}</td>
+                                        <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer_id }}</td>
                                         <td class="py-2 px-2 text-sm whitespace-nowrap">{{ $allStock->stock_transfer->receiver->name }}</td>
                                     @endif
                                     @if($allStock->type === 'adjustment')
@@ -154,6 +154,6 @@
                 </div>
             </div>
         </div>
-    
+
     </div>
 </div>
