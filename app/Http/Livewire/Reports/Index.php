@@ -63,6 +63,10 @@ class Index extends Component
 
     public $previous_month_total_refunds;
 
+    public $total_warranties;
+
+    public $previous_month_total_warranties;
+
     public $gross_sales;
 
     public $previous_month_gross_sales;
@@ -172,6 +176,16 @@ class Index extends Component
             ->previousMonth()
             ->where('type', '=', 'refund')
             ->sum('amount');
+
+        $this->total_warranties = Transaction::query()
+            ->currentMonth()
+            ->where('type', '=', 'warranty')
+            ->sum('amount');
+
+        $this->previous_month_total_warranties = Transaction::query()
+            ->previousMonth()
+            ->where('type', '=', 'warranty')
+            ->sum('amount');
     }
 
     public function getExpenses(): void
@@ -218,8 +232,9 @@ class Index extends Component
 
         $refunds = to_rands(0 - $this->total_refunds);
         $creditNoteProfit = to_rands(0 - $this->credit_profit);
+        $warranties = to_rands(0 - $this->total_warranties);
 
-        $this->gross_profit = $profit - ($refunds + $creditNoteProfit);
+        $this->gross_profit = $profit - ($refunds + $creditNoteProfit + $warranties);
     }
 
     public function getPreviousMonthGrossProfit(): void
@@ -231,10 +246,11 @@ class Index extends Component
                 return $order->getProfit();
             });
 
-        $refunds = to_rands(0 - $this->total_refunds);
+        $refunds = to_rands(0 - $this->previous_month_total_refunds);
         $creditNoteProfit = to_rands(0 - $this->getPreviousMonthCreditProfit());
+        $warranties = to_rands(0 - $this->previous_month_total_warranties);
 
-        $this->previous_month_gross_profit = $profit - ($refunds + $creditNoteProfit);
+        $this->previous_month_gross_profit = $profit - ($refunds + $creditNoteProfit + $warranties);
     }
 
     // Get total cost of credits

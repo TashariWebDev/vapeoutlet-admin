@@ -28,7 +28,6 @@
         "laravel/breeze": "^1.19.1",
         "laravel/pint": "^v1.5.0",
         "laravel/sail": "^v1.20.2",
-        "laravel/telescope": "^4.16",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.4.0",
         "pestphp/pest": "^1.22",

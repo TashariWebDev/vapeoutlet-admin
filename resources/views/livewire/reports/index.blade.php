@@ -136,7 +136,7 @@
                                  x-show="showInfo"
                             >
                                 <p class="text-xs">
-                                    Total Sales Profit less Refunds and Credit Note Profits
+                                    Total Sales Profit less Refunds, Warranties and Credit Note Profits
                                 </p>
                             </div>
                         </div>
@@ -288,7 +288,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-4">
+    <div class="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-5">
         <x-stat-container>
             <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
             <x-slot:footer>
@@ -313,6 +313,21 @@
                     @if((0 - $total_refunds) > 0)
                         <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
                             R {{ number_format(to_rands(0 - $total_refunds ?? 0) / Carbon::now()->day , 2) }}
+                            <span class="text-[8px]">D/AVE</span>
+                        </span>
+                    @endif
+                </p>
+            </x-slot:footer>
+        </x-stat-container>
+
+        <x-stat-container>
+            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Warranties</h3>
+            <x-slot:footer>
+                <p class="font-bold text-sky-500">
+                    {{ number_format(to_rands( 0 - $total_warranties ?? 0), 2) ?? '0.00' }}
+                    @if((0 - $total_warranties) > 0)
+                        <span class="pl-4 text-xs font-semibold text-slate-800 dark:text-slate-500">
+                            R {{ number_format(to_rands(0 - $total_warranties ?? 0) / Carbon::now()->day , 2) }}
                             <span class="text-[8px]">D/AVE</span>
                         </span>
                     @endif
