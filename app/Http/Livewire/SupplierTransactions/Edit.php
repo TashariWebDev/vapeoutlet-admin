@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Transactions;
+namespace App\Http\Livewire\SupplierTransactions;
 
 use App\Http\Livewire\Traits\WithNotifications;
-use App\Jobs\UpdateCustomerRunningBalanceJob;
-use App\Models\Transaction;
+use App\Jobs\UpdateSupplierRunningBalanceJob;
+use App\Models\SupplierTransaction;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -18,38 +18,38 @@ class Edit extends Component
 
     public $confirmDelete = false;
 
-    public Transaction $transaction;
+    public SupplierTransaction $transaction;
 
-    public $customer;
+    public $supplier;
 
     public function rules(): array
     {
         return [
             'transaction.reference' => 'required',
+            'transaction.description' => 'sometimes',
             'transaction.date' => 'required',
             'transaction.amount' => 'required',
             'transaction.type' => 'required',
         ];
     }
 
-    public function mount()
+    public function mount(): void
     {
-        $this->transaction = Transaction::findOrFail(request('id'));
-
-        $this->customer = $this->transaction->customer_id;
+        $this->transaction = SupplierTransaction::findOrFail(request('id'));
+        $this->supplier = $this->transaction->supplier_id;
 
         if (
-            $this->transaction->type == 'refund' ||
             $this->transaction->type == 'payment'
         ) {
             $this->transaction->amount = 0 - $this->transaction->amount;
         }
+
     }
 
-    public function update()
+    public function update(): Redirector|Application|RedirectResponse
     {
+
         if (
-            $this->transaction->type == 'refund' ||
             $this->transaction->type == 'payment'
         ) {
             $this->transaction->amount = 0 - $this->transaction->amount;
@@ -59,22 +59,24 @@ class Edit extends Component
 
         $this->transaction->save();
 
-        UpdateCustomerRunningBalanceJob::dispatch($this->customer);
+        UpdateSupplierRunningBalanceJob::dispatch($this->supplier);
 
         $this->notify('transaction updated');
+
+        return redirect('suppliers/'.$this->supplier);
     }
 
     public function delete(): Redirector|Application|RedirectResponse
     {
         $this->transaction->delete();
 
-        UpdateCustomerRunningBalanceJob::dispatch($this->customer);
+        UpdateSupplierRunningBalanceJob::dispatch($this->supplier);
 
-        return redirect('customers/show/'.$this->customer);
+        return redirect('suppliers/'.$this->supplier);
     }
 
-    public function render(): Factory|View|Application
+    public function render(): View|\Illuminate\Foundation\Application|Factory|Application
     {
-        return view('livewire.transactions.edit');
+        return view('livewire.supplier-transactions.edit');
     }
 }

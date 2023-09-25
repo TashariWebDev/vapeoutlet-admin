@@ -47,6 +47,8 @@ class SupplierTransaction extends Model
 {
     protected $guarded = [];
 
+    protected $casts = ['date' => 'date'];
+
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);

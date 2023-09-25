@@ -184,6 +184,16 @@
                                 wire:click="showSupplierCredit('{{ $transaction->reference }}')"
                             >{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
                             </button>
+                        @elseif($transaction->type == 'payment')
+                            <a href="{{ route('suppliers-transaction/edit',$transaction->id) }}"
+                               class="font-semibold link"
+                            >{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
+                            </a>
+                        @elseif($transaction->type == 'expense')
+                            <a href="{{ route('suppliers-transaction/edit',$transaction->id) }}"
+                               class="font-semibold link"
+                            >{{ $transaction->id }} {{ strtoupper($transaction->reference) }}
+                            </a>
                         @else
                             <p class="text-xs font-semibold">{{ $transaction->id }}
                                 {{ strtoupper($transaction->reference) }}

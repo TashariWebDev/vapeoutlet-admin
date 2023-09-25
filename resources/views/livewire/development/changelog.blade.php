@@ -46,6 +46,13 @@
                     Add warranties to GP calculation
                 </li>
             </ul>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Make supplier transactions editable
+                </li>
+            </ul>
         </div>
 
         <div class="p-2 my-4 rounded prose-sm">

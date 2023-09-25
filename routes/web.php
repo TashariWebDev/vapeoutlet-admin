@@ -36,6 +36,7 @@ use App\Http\Livewire\SupplierCredits\Show as SupplierCreditsShow;
 use App\Http\Livewire\Suppliers\Edit as SuppliersEdit;
 use App\Http\Livewire\Suppliers\Index as SuppliersIndex;
 use App\Http\Livewire\Suppliers\Show as SuppliersShow;
+use App\Http\Livewire\SupplierTransactions\Edit as SupplierTransactionEdit;
 use App\Http\Livewire\SystemSettings\Index as SystemSettingsIndex;
 use App\Http\Livewire\Transactions\Edit as TransactionsEdit;
 use App\Http\Livewire\Users\Index as UsersIndex;
@@ -179,6 +180,10 @@ Route::middleware('auth')->group(function () {
 
         Route::get('suppliers/edit/{id}', SuppliersEdit::class)->name(
             'suppliers/edit'
+        );
+
+        Route::get('suppliers-transaction/edit/{id}', SupplierTransactionEdit::class)->name(
+            'suppliers-transaction/edit'
         );
     });
 
