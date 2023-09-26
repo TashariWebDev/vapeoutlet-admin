@@ -1,5 +1,13 @@
 <div>
 
+    <div class="pb-4">
+        <a href="{{ route('customers') }}"
+           class="link"
+        >
+            &larr; Back to customers
+        </a>
+    </div>
+
     <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="py-2 px-4">
             <div>

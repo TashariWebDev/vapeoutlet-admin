@@ -1,16 +1,13 @@
 <div>
-
+    
     <x-page-header class="pb-3">
         Suppliers
     </x-page-header>
-
+    
     <div class="px-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 gap-y-4 py-3 px-2 lg:grid-cols-2 lg:gap-x-3">
-            <div>
+            <div class="flex flex-wrap items-center lg:space-x-3">
                 <div class="w-full lg:w-64">
-                    <x-input.label for="search">
-                        Search
-                    </x-input.label>
                     <x-input.text
                         id="search"
                         type="search"
@@ -20,20 +17,28 @@
                         placeholder="Search by company"
                     />
                 </div>
+                <div class="mt-3 w-full lg:mt-0 lg:w-20">
+                    <x-input.select wire:model="recordCount">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </x-input.select>
+                </div>
             </div>
-
+            
             <div class="flex justify-end items-center space-x-2">
-
+                
                 <livewire:purchases.create />
                 <livewire:suppliers.create :fullButton="true" />
             </div>
         </div>
-
+        
         <div class="py-3 px-2">
             {{ $suppliers->links() }}
         </div>
     </div>
-
+    
     <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <x-table.container>
             <x-table.header class="hidden lg:grid lg:grid-cols-6">

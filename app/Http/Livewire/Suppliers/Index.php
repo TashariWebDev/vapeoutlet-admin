@@ -13,6 +13,8 @@ class Index extends Component
 {
     use WithPagination;
 
+    public $recordCount = 10;
+
     public $searchQuery = '';
 
     public function render(): Factory|View|Application
@@ -24,7 +26,7 @@ class Index extends Component
                     fn ($query) => $query->search($this->searchQuery)
                 )
                 ->orderBy('name')
-                ->paginate(),
+                ->paginate($this->recordCount),
         ]);
     }
 }
