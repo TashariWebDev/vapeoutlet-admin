@@ -205,8 +205,9 @@
                     </x-table.row>
                     <x-table.row class="col-span-2"
                     ><p class="uppercase">{{ $transaction->description }}</p></x-table.row>
-                    <x-table.row
-                    ><p class="text-xs">{{ $transaction->date }}</p></x-table.row>
+                    <x-table.row>
+                        <p>{{$transaction->date?->format('d-m-y') }}</p>
+                    </x-table.row>
                     <x-table.row
                     ><p class="lg:text-right">{{ number_format($transaction->amount, 2) }}</p></x-table.row>
                     <x-table.row

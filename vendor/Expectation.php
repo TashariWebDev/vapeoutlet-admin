@@ -4,7 +4,7 @@ namespace Pest;
 
 /**
  * @method mixed toBeOne()
- * @method \Pest\Expectation toBeCollection()
+ * @method Expectation toBeCollection()
  */
 final class Expectation
 {

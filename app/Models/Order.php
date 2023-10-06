@@ -83,7 +83,7 @@ class Order extends Model
 
     public function delivery(): BelongsTo
     {
-        return $this->belongsTo(Delivery::class, 'delivery_type_id');
+        return $this->belongsTo(Delivery::class, 'delivery_type_id')->withTrashed();
     }
 
     public function items(): HasMany

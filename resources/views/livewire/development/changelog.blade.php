@@ -38,7 +38,32 @@
         </div>
 
         <div class="p-2 my-4 rounded prose-sm">
-            <time>25 Septemper 2023</time>
+            <time>27 September 2023</time>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    update dat format on supplier transactions
+                </li>
+            </ul>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add back to supplier button on supplier index page
+                </li>
+            </ul>
+
+            <ul class="list-decimal">
+                <li>
+                    <span class="font-bold">Update:</span>
+                    Add ability to filter number of records on supplier index page
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-2 my-4 rounded prose-sm">
+            <time>25 September 2023</time>
 
             <ul class="list-decimal">
                 <li>
