@@ -1,7 +1,6 @@
 <x-mail-layout>
-
+    
     <div class="px-4 pt-10 w-full">
-        <p class="text-lg font-bold">Hi admin</p>
         <p class="text-lg">
             Hi {{ ucwords($customer->name) }}.
         </p>
@@ -14,9 +13,9 @@
             </p>
         </div>
     </div>
-
+    
     <div class="flex justify-start items-center py-6">
-        <a href="https://admin.vapeoutlet.co.za"
+        <a href="{{ config('app.frontend_url') }}"
            class="py-4 px-6 font-semibold text-white rounded-lg shadow-lg bg-sky-600"
         >
             Sign in
