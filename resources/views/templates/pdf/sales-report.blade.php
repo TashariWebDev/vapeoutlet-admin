@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1"
     >
     <title>{{ ucwords(str_replace('Admin','',config('app.name'))) }} Sales Report | {{ $from }} - {{ $to }}</title>
-
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -37,7 +37,7 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-
+        
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
                 <table class="w-full">

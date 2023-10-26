@@ -70,7 +70,7 @@
     </div>
 
     <div class="px-2">
-        <h1 class="text-2xl font-bold dark:text-white text-slate-900">{{ date('F') }}</h1>
+        <h1 class="text-2xl font-bold dark:text-white text-slate-900">{{ date('F Y') }}</h1>
     </div>
 
     <div class="mt-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
@@ -80,7 +80,7 @@
                     <p class="text-sm font-medium leading-6 text-slate-600 dark:text-slate-400">Received</p>
                     <p class="flex gap-x-2 items-baseline mt-2">
                         <span class="text-3xl font-semibold tracking-tight text-sky-800 dark:text-sky-400">
-                               {{ $lifetime_orders->received }}
+                               {{ $orders->received }}
                         </span>
                     </p>
                 </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Reports;
 
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +15,20 @@ use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class DebtorReport extends Component
 {
+    public $showDebtorReportForm = false;
+
+    public $salesperson_id;
+
+    public $salespeople = [];
+
+    public function mount(): void
+    {
+        $this->salespeople = User::query()
+            ->where('is_super_admin', false)
+            ->withTrashed()
+            ->get();
+    }
+
     /**
      * @throws CouldNotTakeBrowsershot
      */
@@ -24,17 +39,23 @@ class DebtorReport extends Component
         ) {
             $query->where('running_balance', '!=', 0);
         })
+            ->with('salesperson')
+            ->when($this->salesperson_id, function ($query) {
+                $query->where('salesperson_id', '=', $this->salesperson_id);
+            })
             ->withSum('latestTransaction', 'running_balance')
             ->orderBy('name')
             ->get();
+
         $view = view('templates.pdf.debtors-report', [
             'customers' => $customers,
+            'salesperson_id' => $this->salesperson_id,
         ])->render();
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/debtors-report.pdf'
+            config('app.storage_folder').
+            '/documents/debtors-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -52,8 +73,8 @@ class DebtorReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/debtors-report.pdf'
+            config('app.storage_folder').
+            '/documents/debtors-report.pdf'
         );
     }
 
