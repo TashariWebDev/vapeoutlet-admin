@@ -240,13 +240,42 @@
                     class="pt-2 mt-6 break-before-avoid-page break-inside-avoid-page"
                     id="footer"
                 >
-                    <div class="py-1 text-center bg-gray-300 rounded">
-                        <p class="font-bold uppercase text-[10px]">
-                            thank you for your support
-                        </p>
-                    </div>
-                    <div class="grid grid-cols-3 pt-2 break-before-avoid-page break-inside-avoid-page">
-                        <x-document.banking reference="{{ $order->number }}" />
+                    <div>
+                        <div>
+                            <div class="py-1 text-center bg-gray-300 rounded">
+                                <p class="font-bold uppercase text-[10px]">
+                                    thank you for your support
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="pt-2 break-before-avoid-page break-inside-avoid-page">
+                                    <x-document.banking reference="{{ $order->number }}" />
+                                </div>
+                                <div class="mt-2 border border-gray-300">
+                                    <div class="px-1 bg-gray-300 border border-gray-300">
+                                        <p class="font-bold uppercase text-[10px]">FOR ADMIN USE:</p>
+                                    </div>
+                                    <div class="p-1">
+                                        <div class="grid grid-cols-4 gap-3 py-2">
+                                            <div class="col-span-1">
+                                                <p class="font-semibold leading-tight text-[10px]">PACKED BY:</p>
+                                            </div>
+                                            <div class="col-span-3 w-full border-b border-dashed">
+
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-4 gap-3 pt-2">
+                                            <div class="col-span-1">
+                                                <p class="font-semibold leading-tight text-[10px]">CHECKED BY:</p>
+                                            </div>
+                                            <div class="col-span-3 w-full border-b border-dashed">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
             </div>
