@@ -55,9 +55,9 @@
                     <div class="text-right text-[10px]">
                         <ul>
                             @if (!empty(SystemSetting::first()->vat_registration_number))
-                                <li class="font-extrabold uppercase">TAX INVOICE</li>
+                                <li class="font-extrabold uppercase text-[10px]">TAX INVOICE</li>
                             @else
-                                <li class="font-extrabold uppercase">INVOICE</li>
+                                <li class="font-extrabold uppercase text-[10px]">INVOICE</li>
                             @endif
                             <li class="font-semibold leading-tight uppercase text-[10px]">{{ $order->created_at }}</li>
                             <li class="font-semibold leading-tight uppercase text-[10px]">
@@ -152,20 +152,20 @@
                     </thead>
                     <tbody>
                         @foreach ($order->items as $item)
-                            <tr class="py-1 border-b border-gray-300 border-dashed break-inside-avoid">
+                            <tr class="py-1.5 border-b border-gray-300 border-dashed break-inside-avoid">
 
                                 <td class="text-left">
-                                    <p class="font-semibold uppercase text-[8px]">{{ $item->product->sku }}</p>
+                                    <p class="font-bold uppercase text-[10px]">{{ $item->product->sku }}</p>
                                 </td>
 
                                 <td class="col-span-2 leading-tight text-left">
                                     <p class="font-bold leading-tight text-[10px]">
                                         {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
                                     </p>
-                                    <span class="flex flex-wrap leading-tight text-[10px]">
+                                    <span class="flex flex-wrap leading-tight text-gray-800 text-[10px]">
                                         @foreach ($item->product->features as $feature)
                                             <span
-                                                class="pr-1 font-semibold leading-tight text-[8px]"
+                                                class="pr-1 leading-tight text-[10px]"
                                             >{{ ucwords($feature->name) }}</span>
                                         @endforeach
                                     </span>
@@ -215,7 +215,7 @@
                 </div>
 
                 <section class="py-2 mt-2 w-auto break-before-avoid-page break-inside-avoid-page">
-                    <p class="font-bold text-left uppercase whitespace-nowrap text-[8px]">
+                    <p class="font-bold text-left uppercase whitespace-nowrap text-[10px]">
                         {{ $order->delivery->description }} - {{ $order->delivery->province }}
                     </p>
                 </section>
