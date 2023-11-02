@@ -37,6 +37,12 @@ class Cancel extends Component
             return redirect()->route('orders');
         }
 
+        if (! auth()->user()->hasPermissionTo('create credit')) {
+            $this->notify('You dont have permission to credit this order');
+
+            return back();
+        }
+
         $this->order->updateStatus('cancelled');
 
         if ($this->order->getTotal() > 0) {

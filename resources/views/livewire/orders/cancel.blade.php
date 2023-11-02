@@ -31,6 +31,6 @@
                 No
             </button>
         </div>
-        <p class="text-xs text-slate-600">This action is non reversible</p>
+        <p class="text-xs text-slate-600">This action is non-reversible</p>
     </x-modal>
 </div>

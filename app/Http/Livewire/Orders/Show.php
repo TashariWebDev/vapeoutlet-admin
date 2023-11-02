@@ -36,7 +36,7 @@ class Show extends Component
 
     protected $listeners = ['update_order' => '$refresh'];
 
-    public function mount()
+    public function mount(): void
     {
         $this->orderId = request('id');
 
@@ -55,12 +55,12 @@ class Show extends Component
             ->first();
     }
 
-    public function updatedStatusModal()
+    public function updatedStatusModal(): void
     {
         $this->status = $this->order->status;
     }
 
-    public function updateOrderStatus()
+    public function updateOrderStatus(): void
     {
         $this->order->updateStatus($this->selectedStatus);
         $this->status = $this->order->status;
