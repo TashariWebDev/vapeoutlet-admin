@@ -75,8 +75,8 @@
                                     </tr>
                                 @endif
                                 <tr class="py-1 border-b border-dashed break-inside-avoid-page">
-                                    <td class="text-left">{{ $transaction->created_at }}</td>
-                                    <td class="text-left">{{ $transaction->date }}</td>
+                                    <td class="text-left">{{ $transaction->created_at->format('Y-m-d') }}</td>
+                                    <td class="text-left">{{ $transaction->date->format('Y-m-d') }}</td>
                                     <td class="text-left">{{ $transaction->customer->name }}</td>
                                     <td
                                         class="text-left"

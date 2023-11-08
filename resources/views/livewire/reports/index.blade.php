@@ -290,7 +290,16 @@
 
     <div class="grid grid-cols-1 gap-4 mt-4 lg:grid-cols-5">
         <x-stat-container>
-            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
+            <div class="flex justify-between">
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Expenses</h3>
+                <button wire:click="printExpenseReport"
+                        class="text-sky-600"
+                        wire:loading.class="animate-pulse"
+                        wire:target="printExpenseReport"
+                >
+                    <x-icons.report class="w-6 h-6" />
+                </button>
+            </div>
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands($expenses ?? 0), 2) ?? '0.00' }}
@@ -306,7 +315,16 @@
         </x-stat-container>
 
         <x-stat-container>
-            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
+            <div class="flex justify-between">
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Refunds</h3>
+                <button wire:click="print('refund')"
+                        class="text-sky-600"
+                        wire:loading.class="animate-pulse"
+                        wire:target="print('refund')"
+                >
+                    <x-icons.report class="w-6 h-6" />
+                </button>
+            </div>
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands( 0 - $total_refunds ?? 0), 2) ?? '0.00' }}
@@ -321,7 +339,16 @@
         </x-stat-container>
 
         <x-stat-container>
-            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Warranties</h3>
+            <div class="flex justify-between">
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Warranties</h3>
+                <button wire:click="print('warranty')"
+                        class="text-sky-600"
+                        wire:loading.class="animate-pulse"
+                        wire:target="print('warranty')"
+                >
+                    <x-icons.report class="w-6 h-6" />
+                </button>
+            </div>
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands( 0 - $total_warranties ?? 0), 2) ?? '0.00' }}
@@ -336,7 +363,16 @@
         </x-stat-container>
 
         <x-stat-container>
-            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
+            <div class="flex justify-between">
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Credits</h3>
+                <button wire:click="printCurrentCreditReport"
+                        class="text-sky-600"
+                        wire:loading.class="animate-pulse"
+                        wire:target="printCurrentCreditReport"
+                >
+                    <x-icons.report class="w-6 h-6" />
+                </button>
+            </div>
             <x-slot:footer>
                 <p class="font-bold text-sky-500">
                     {{ number_format(to_rands( 0 - $total_credits ?? 0), 2) ?? '0.00' }}
@@ -352,7 +388,16 @@
         </x-stat-container>
 
         <x-stat-container>
-            <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Stock value</h3>
+            <div class="flex justify-between">
+                <h3 class="text-lg font-bold leading-6 text-slate-600 dark:text-slate-300">Stock value</h3>
+                <button wire:click="printStockReport"
+                        class="text-sky-600"
+                        wire:loading.class="animate-pulse"
+                        wire:target="printStockReport"
+                >
+                    <x-icons.report class="w-6 h-6" />
+                </button>
+            </div>
             <x-slot:footer>
                 <div class="flex justify-between items-center">
                     <div class="flex items-baseline space-x-3">

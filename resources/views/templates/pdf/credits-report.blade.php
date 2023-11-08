@@ -36,7 +36,7 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-
+        
         <div class="break-inside-avoid break-after-avoid-page">
             <div class="px-4">
                 <table class="w-full">
@@ -44,6 +44,7 @@
                         <tr class="text-white bg-gray-800">
                             <th class="text-left">Date</th>
                             <th class="text-left">Customer</th>
+                            <th class="text-left">Ref</th>
                             <th class="text-right">Excl</th>
                             <th class="text-right">Vat</th>
                             <th class="text-right">Incl</th>
@@ -55,9 +56,9 @@
                         @endphp
                         @foreach ($credits as $grouped)
                             @php
-
+                                
                                 $collectAllTotals = [];
-
+                            
                             @endphp
                             @foreach ($grouped as $credit)
                                 @if ($loop->first)
@@ -72,6 +73,7 @@
                                     <tr class="py-1 border-b border-dashed break-inside-avoid-page">
                                         <td class="text-left">{{ $credit->created_at }}</td>
                                         <td class="text-left">{{ $credit->customer->name }}</td>
+                                        <td class="text-left">{{ $credit->number }}</td>
                                         <td class="text-right">{{ number_format(ex_vat($credit->getTotal()), 2) }}</td>
                                         <td class="text-right">{{ number_format(vat($credit->getTotal()), 2) }}</td>
                                         <td class="text-right">{{ number_format($credit->getTotal(), 2) }}</td>
@@ -79,7 +81,7 @@
                                 @endif
                                 @if ($loop->last)
                                     @php
-
+                                        
                                         $collectAllTotals = [];
 
                                         foreach ($grouped as $credit) {
@@ -88,10 +90,10 @@
                                         $totalAmount = array_sum($collectAllTotals);
 
                                         $overallTotal[] = $totalAmount;
-
+                                    
                                     @endphp
                                     <tr class="break-before-avoid-page break-inside-avoid-page">
-                                        <td colspan="2"></td>
+                                        <td colspan="3"></td>
                                         <td class="text-right text-white bg-gray-800">
                                             {{ number_format(ex_vat($totalAmount), 2) }}
                                         </td>

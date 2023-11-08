@@ -16,6 +16,8 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use LaravelIdea\Helper\App\Models\_IH_Brand_C;
 use Livewire\Component;
 use Spatie\Browsershot\Browsershot;
@@ -363,6 +365,193 @@ class Index extends Component
             ->save($url);
 
         return redirect('reports');
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function print($type)
+    {
+        $transactions = Transaction::query()
+            ->currentMonth()
+            ->where('type', '=', $type)
+            ->get()
+            ->groupBy('created_by');
+
+        $view = view('templates.pdf.transaction-report', [
+            'transactions' => $transactions,
+            'from' => now()->firstOfMonth(),
+            'to' => today(),
+            'type' => $type,
+        ])->render();
+
+        $url = storage_path(
+            'app/public/'.
+            config('app.storage_folder').
+            '/documents/transaction-report.pdf'
+        );
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->addChromiumArguments([
+                'headless' => 'old',
+            ])
+            ->showBackground()
+            ->showBrowserHeaderAndFooter()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect(
+            '/storage/'.
+            config('app.storage_folder').
+            '/documents/transaction-report.pdf'
+        );
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function printCurrentCreditReport()
+    {
+        $credits = Credit::query()
+            ->currentMonth()
+            ->get()
+            ->groupBy('created_by');
+
+        $view = view('templates.pdf.credits-report', [
+            'credits' => $credits,
+            'from' => now()->firstOfMonth(),
+            'to' => today(),
+        ])->render();
+
+        $url = storage_path(
+            'app/public/'.
+            config('app.storage_folder').
+            '/documents/credits-report.pdf'
+        );
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->showBrowserHeaderAndFooter()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect(
+            '/storage/'.
+            config('app.storage_folder').
+            '/documents/credits-report.pdf'
+        );
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function printStockReport(): Redirector|Application|RedirectResponse
+    {
+        $products = Product::whereHas('stocks', function ($query) {
+            $query->whereDate('created_at', '<=', today());
+        })
+            ->select(['id', 'name', 'cost', 'sku', 'brand', 'product_collection_id'])
+            ->withSum(
+                [
+                    'stocks' => function ($query) {
+                        $query->whereDate(
+                            'created_at',
+                            '<=',
+                            today()
+                        );
+                    },
+                ],
+                'qty'
+            )
+            ->orderBy('brand')
+            ->orderBy('name')
+            ->orderBy('product_collection_id')
+            ->get();
+
+        $url = storage_path(
+            'app/public/'.
+            config('app.storage_folder').
+            '/documents/stock-report.pdf'
+        );
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        $view = view('templates.pdf.stock-report', [
+            'products' => $products->filter(function ($product) {
+                return $product->stocks_sum_qty > 0;
+            }),
+            'to' => today(),
+        ])->render();
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->showBrowserHeaderAndFooter()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect(
+            '/storage/'.
+            config('app.storage_folder').
+            '/documents/stock-report.pdf'
+        );
+    }
+
+    public function printExpenseReport(): Redirector|Application|RedirectResponse
+    {
+        $expenses = Expense::query()
+            ->currentMonth()
+            ->get()
+            ->groupBy('category');
+
+        $view = view('templates.pdf.expenses', [
+            'expenses' => $expenses,
+            'from' => now()->firstOfMonth(),
+            'to' => today(),
+        ])->render();
+
+        $url = storage_path(
+            'app/public/'.
+            config('app.storage_folder').
+            '/documents/expenses.pdf'
+        );
+
+        if (file_exists($url)) {
+            unlink($url);
+        }
+
+        Browsershot::html($view)
+            ->showBackground()
+            ->showBrowserHeaderAndFooter()
+            ->emulateMedia('print')
+            ->format('a4')
+            ->paperSize(297, 210)
+            ->setScreenshotType('pdf', 60)
+            ->save($url);
+
+        return redirect(
+            '/storage/'.
+            config('app.storage_folder').
+            '/documents/expenses.pdf'
+        );
     }
 
     public function render(): Factory|View|Application

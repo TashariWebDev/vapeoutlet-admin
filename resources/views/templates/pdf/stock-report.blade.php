@@ -8,7 +8,7 @@
         content="width=device-width, initial-scale=1"
     >
     <title>{{ ucwords(str_replace('Admin','',config('app.name'))) }} Stock on hand - {{ $to }}</title>
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         body {
@@ -37,9 +37,9 @@
 
 <body>
     <div class="overflow-hidden p-4 w-screen font-sans antialiased bg-white">
-        
+
         <div class="break-inside-avoid break-after-avoid-page">
-            
+
             <div class="px-4">
                 <table class="w-full">
                     <thead>
@@ -62,26 +62,39 @@
                             @endphp
                             <tr class="py-1 border-b border-dashed break-inside-avoid-page">
                                 <td class="text-left">
+                                    <div>
+                                        <p class="font-medium text-[12px]">{{ $product->sku }}</p>
+                                    </div>
                                     <div class="flex items-center space-x-2">
-                                        {{ $product->brand }} {{ $product->name }}
+                                        <div>
+                                            <p class="font-medium text-[12px]">
+                                                {{ $product->brand }} {{ $product->name }}
+                                            </p>
+                                        </div>
                                         @foreach ($product->features as $feature)
                                             <div>
-                                                {{ $feature->name }}
+                                                <p class="text-[12px]">{{ $feature->name }}</p>
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div>
-                                        {{ $product->sku }}
-                                    </div>
                                 </td>
-                                <td class="text-left">{{ $product->stocks_sum_qty }}</td>
-                                <td class="text-left">{{ $product->cost }}</td>
-                                <td class="text-right">{{ number_format($product->stocks_sum_qty * $product->cost, 2) }}
+                                <td class="text-left"><p class="text-[12px]">{{ $product->stocks_sum_qty }}</p></td>
+                                <td class="text-left"><p class="text-[12px]">{{ $product->cost }}</p></td>
+                                <td class="text-right">
+                                    <p class="text-[12px]">
+                                        {{ number_format($product->stocks_sum_qty * $product->cost, 2) }}
+                                    </p>
+                                </td>
+                                <td class="text-right text-[12px]">
+                                    <p class="text-[12px]">
+                                        {{ number_format(vat($product->stocks_sum_qty * $product->cost), 2) }}
+                                    </p>
                                 </td>
                                 <td class="text-right">
-                                    {{ number_format(vat($product->stocks_sum_qty * $product->cost), 2) }}</td>
-                                <td class="text-right">
-                                    {{ number_format(ex_vat($product->stocks_sum_qty * $product->cost), 2) }}</td>
+                                    <p class="text-[12px]">
+                                        {{ number_format(ex_vat($product->stocks_sum_qty * $product->cost), 2) }}
+                                    </p>
+                                </td>
                             </tr>
                             @if ($loop->last)
                                 <tr class="h-10 font-bold bg-white">
