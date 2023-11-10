@@ -44,6 +44,7 @@ class ProductSalesByVolumeReport extends Component
                 'sku',
                 'product_collection_id',
             ])
+            ->where('is_active', true)
             ->when($this->brand, function ($query) {
                 $query->where('brand', '=', $this->brand);
             })
