@@ -32,7 +32,7 @@ class ProductSalesByVolumeReport extends Component
         $this->validate([
             'fromDate' => ['required', 'before:toDate'],
             'toDate' => ['required', 'after:fromDate'],
-            'brand' => ['required'],
+            'brand' => ['sometimes'],
         ]);
 
         $products = Product::query()
@@ -44,7 +44,9 @@ class ProductSalesByVolumeReport extends Component
                 'sku',
                 'product_collection_id',
             ])
-            ->where('brand', '=', $this->brand)
+            ->when($this->brand, function ($query) {
+                $query->where('brand', '=', $this->brand);
+            })
             ->with(['features:id,product_id,name'])
             ->withSum(
                 [
@@ -79,8 +81,8 @@ class ProductSalesByVolumeReport extends Component
 
         $url = storage_path(
             'app/public/'.
-                config('app.storage_folder').
-                '/documents/sales-by-volume-report.pdf'
+            config('app.storage_folder').
+            '/documents/sales-by-volume-report.pdf'
         );
 
         if (file_exists($url)) {
@@ -98,8 +100,8 @@ class ProductSalesByVolumeReport extends Component
 
         return redirect(
             '/storage/'.
-                config('app.storage_folder').
-                '/documents/sales-by-volume-report.pdf'
+            config('app.storage_folder').
+            '/documents/sales-by-volume-report.pdf'
         );
     }
 
