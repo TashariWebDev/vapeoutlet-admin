@@ -186,6 +186,7 @@ class Index extends Component
                 ->orderByRaw('brand')
                 ->orderBy('name')
                 ->paginate($this->recordCount),
+
             'brands' => Brand::orderBy('name')
                 ->get()
                 ->unique('name')

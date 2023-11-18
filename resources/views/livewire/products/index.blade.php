@@ -1,7 +1,7 @@
 <div class="py-3">
-    
+
     <header class="p-4 bg-white rounded-md shadow-sm dark:bg-slate-900">
-        
+
         <div>
             <div class="grid grid-cols-1 gap-2 lg:grid-cols-7">
                 <div>
@@ -15,7 +15,7 @@
                         placeholder="Search"
                     />
                 </div>
-                
+
                 <div>
                     <x-input.select wire:model="recordCount">
                         <option value="10">10</option>
@@ -24,7 +24,7 @@
                         <option value="100">100</option>
                     </x-input.select>
                 </div>
-                
+
                 <div class="mb-2 lg:mb-0">
                     <x-input.select wire:model="brandQuery">
                         <option value="">All Brands</option>
@@ -66,7 +66,7 @@
                         </button>
                     @endif
                 </div>
-                
+
                 @hasPermissionTo('create purchase')
                 <div class="w-full">
                     <livewire:purchases.create wire:key="supplier-create" />
@@ -84,15 +84,15 @@
                 @endhasPermissionTo
             </div>
         </div>
-        
+
         <div class="mt-4">
             <div>
                 {{ $products->links() }}
             </div>
         </div>
     </header>
-    
-    
+
+
     <section class="py-2 rounded-b-lg"
              x-data="{ show: @entangle('defaultView')}"
     >
@@ -109,12 +109,12 @@
             >DETAILED
             </button>
         </div>
-        
+
         <div class="py-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
-            
+
             <div>
                 @forelse($products as $product)
-                    
+
                     <div class="grid grid-cols-1 py-2 px-2 border-b border-dashed lg:grid-cols-5 dark:border-b-slate-700"
                          x-show="show === 'simple'"
                     >
@@ -124,34 +124,34 @@
                                 wire:key="'product-'{{ $product->id }}.time()"
                             />
                         </div>
-                        
+
                         <div>
                             <p class="pt-1 pr-1 text-xs font-semibold uppercase dark:text-white text-slate-800">
                                 {{ $product->category }}
                             </p>
                         </div>
-                        
+
                         <div>
                             <p class="pt-1 text-xs font-semibold dark:text-white text-slate-800">
                                 QTY: {{ $product->total_available }}
                             </p>
                         </div>
-                        
+
                         <div>
                             <p class="pt-1 text-xs font-semibold dark:text-white text-slate-800">
                                 RETAIL: {{ number_format($product->retail_price,2) }}
                             </p>
                         </div>
-                        
+
                         <div>
                             <p class="pt-1 text-xs font-semibold dark:text-white text-slate-800">
                                 WHOLESALE: {{ number_format($product->wholesale_price,2) }}
                             </p>
                         </div>
                     </div>
-                    
-                    
-                    
+
+
+
                     <div @class([
             'py-2 px-2 mb-2 w-full bg-transparent border-b border-slate-100 dark:border-slate-800',
             'bg-rose-300' => $product->trashed(),
@@ -162,7 +162,7 @@
                             <div class="col-span-2 w-full text-xs">
                                 <x-product-listing-simple
                                     :product="$product"
-                                    wire:key="'product-'{{ $product->id }}.time()"
+                                    wire:key="'detailed-product-'{{ $product->id }}.time()"
                                 />
                                 <p class="pr-1 font-medium uppercase text-[12px] text-slate-500 dark:text-slate-500">
                                     {{ $product->category }}
@@ -208,7 +208,7 @@
                                     <p class="font-semibold uppercase text-[12px] text-slate-500 cursor-help dark:text-slate-500"
                                        title="Total Customer Returns or Cancellations"
                                     >
-                                        
+
                                         CREDITS
                                     </p>
                                     <p class="text-xs font-semibold text-slate-800 cursor-help dark:text-slate-500"
@@ -288,7 +288,7 @@
                                                 <x-input.label for="retail">
                                                     Retail price
                                                 </x-input.label>
-                                                
+
                                                 <x-input.text
                                                     class="px-0.5 w-full rounded border"
                                                     id="retail"
