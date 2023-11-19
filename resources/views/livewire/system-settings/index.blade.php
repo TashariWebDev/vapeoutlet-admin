@@ -9,6 +9,32 @@
                         This info will be displayed on all documents and emails.
                     </p>
                 </div>
+
+                <div class="py-6">
+                    @if($isInMaintenance)
+                        <div>
+                            <button class="button-warning"
+                                    wire:click="enableFrontend"
+                            >Turn on frontend
+                            </button>
+
+                            <div class="py-2">
+                                <p class="text-red-600">Frontend is currently offline.</p>
+                            </div>
+                        </div>
+                    @else
+                        <div>
+                            <button class="button-danger"
+                                    wire:click="disableFrontend"
+                            >Turn off frontend
+                            </button>
+
+                            <div class="py-2">
+                                <p class="text-green-600">Frontend is currently online.</p>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             </div>
             <div class="mt-5 md:col-span-2 md:mt-0">
                 <div

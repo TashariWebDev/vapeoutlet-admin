@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\SystemSettings;
 
+use App\Http\Livewire\Traits\WithNotifications;
 use App\Models\SystemSetting;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,6 +15,9 @@ use Livewire\WithFileUploads;
 class Index extends Component
 {
     use WithFileUploads;
+    use WithNotifications;
+
+    public $isInMaintenance = false;
 
     public $company;
 
@@ -52,7 +57,7 @@ class Index extends Component
 
     public $logo;
 
-    public function mount()
+    public function mount(): void
     {
         $this->company = SystemSetting::first();
 
@@ -78,7 +83,7 @@ class Index extends Component
         $this->logo = $this->company->logo;
     }
 
-    public function updated()
+    public function updated(): void
     {
         $this->company->update([
             'company_name' => $this->company_name,
@@ -101,7 +106,7 @@ class Index extends Component
         ]);
     }
 
-    public function updatedLogo()
+    public function updatedLogo(): void
     {
         $this->validate([
             'logo' => 'required|image|dimensions:1/1',
@@ -115,7 +120,7 @@ class Index extends Component
         ]);
     }
 
-    public function deleteLogo()
+    public function deleteLogo(): void
     {
         $logo = $this->company->logo;
 
@@ -126,6 +131,50 @@ class Index extends Component
         $this->company->update([
             'logo' => null,
         ]);
+    }
+
+    public function disableFrontend(): void
+    {
+        $url = config('app.frontend_url').'/api/offline';
+
+        $data = [
+            'referrer' => config('app.url'),
+        ];
+
+        \Http::get($url, $data);
+
+        $this->isInMaintenance = $this->checkIfFrontendIsOffline();
+
+        $this->notify('app disabled');
+    }
+
+    public function enableFrontend(): void
+    {
+        $url = config('app.frontend_url').'/api/online';
+
+        $data = [
+            'referrer' => config('app.url'),
+        ];
+
+        \Http::get($url, $data);
+
+        $this->isInMaintenance = $this->checkIfFrontendIsOffline();
+
+        $this->notify('app enabled');
+    }
+
+    public function checkIfFrontendIsOffline(): string
+    {
+        $url = config('app.frontend_url').'/api/check-maintenance';
+
+        $response = Http::get($url);
+
+        if ($response->status() === 503) {
+            return true;
+        }
+
+        return false;
+
     }
 
     public function render(): Factory|View|Application
