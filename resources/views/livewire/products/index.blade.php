@@ -115,7 +115,7 @@
             <div>
                 @forelse($products as $product)
                     
-                    <div>
+                    <div class="dark:even:bg-slate-950 even:bg-slate-50">
                         <div class="grid grid-cols-1 py-2 px-2 border-b border-dashed lg:grid-cols-5 dark:border-b-slate-700"
                              x-show="show === 'simple'"
                         >
@@ -153,7 +153,7 @@
                         
                         
                         <div @class([
-                        'py-2 px-2 mb-2 w-full bg-transparent border-b border-slate-100 dark:border-slate-800',
+                        'py-2 px-2  w-full bg-transparent border-b border-slate-100 dark:border-slate-800',
                         'bg-rose-300' => $product->trashed(),
                     ])
                              x-show="show === 'detailed'"
@@ -310,8 +310,8 @@
                                                     <span
                                                         class="@if (profit_percentage($product->retail_price, $product->cost) < 0) text-rose-700 @else text-sky-500 @endif text-xs"
                                                     >
-                        {{ profit_percentage($product->retail_price, $product->cost) }}
-                      </span>
+                                                    {{ profit_percentage($product->retail_price, $product->cost) }}
+                                                  </span>
                                                 @endif
                                             @endif
                                         </div>
