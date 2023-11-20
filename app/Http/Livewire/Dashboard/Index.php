@@ -50,7 +50,7 @@ class Index extends Component
     public function getTopSellersProperty()
     {
         $products = Product::query()
-            ->select(['id', 'name', 'brand', 'sku'])
+            ->select(['id', 'name', 'brand', 'sku', 'category'])
             ->withSum(
                 [
                     'stocks as sold' => function ($query) {
