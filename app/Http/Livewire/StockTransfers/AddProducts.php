@@ -71,7 +71,7 @@ class AddProducts extends Component
     {
         return view('livewire.stock-transfers.add-products', [
             'products' => Product::query()
-                ->select('id', 'name', 'sku', 'brand', 'image')
+                ->select('id', 'name', 'sku', 'brand', 'image', 'category')
                 ->with('features:id,product_id,name')
                 ->whereHas(
                     'stocks',

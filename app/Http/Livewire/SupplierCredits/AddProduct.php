@@ -68,7 +68,7 @@ class AddProduct extends Component
 
         return view('livewire.supplier-credits.add-product', [
             'products' => Product::query()
-                ->select('id', 'name', 'sku', 'brand', 'image')
+                ->select('id', 'name', 'sku', 'brand', 'image', 'category')
                 ->with('features:id,product_id,name')
                 ->whereHas(
                     'stocks',

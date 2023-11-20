@@ -43,7 +43,7 @@ class Create extends Component
 
     protected $listeners = ['refresh_data' => '$refresh'];
 
-    public function mount()
+    public function mount(): void
     {
         $this->orderId = request('id');
 
