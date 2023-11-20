@@ -103,13 +103,18 @@ class Index extends Component
 
     public function updateRetailPrice(Product $product, $value): void
     {
-        $product->update(['retail_price' => $value]);
+        $product->old_retail_price = $product->retail_price;
+        $product->retail_price = $value;
+        $product->save();
+
         $this->notify('price updated');
     }
 
     public function updateWholesalePrice(Product $product, $value): void
     {
-        $product->update(['wholesale_price' => $value]);
+        $product->old_wholesale_price = $product->wholesale_price;
+        $product->wholesale_price = $value;
+        $product->save();
         $this->notify('price updated');
     }
 
