@@ -290,10 +290,21 @@ class Product extends Model
     //  If it is the first time purchasing , it returns the new purchase cost
     public function averageCost(PurchaseItem $item)
     {
+        $product = $item->product;
+        $currentStockCount = $product->stocks->sum('qty');
+
+        if ($currentStockCount > 0) {
+            $currentValue = $currentStockCount * $product->cost;
+            $newStockValue = $item->qty * $item->total_cost_in_zar();
+            $totalStockCount = $currentStockCount + $item->qty;
+            $totalStockValue = $currentValue + $newStockValue;
+            $cost = $totalStockValue / $totalStockCount;
+        } else {
+            $cost = $item->price;
+        }
+
         $this->update([
-            'cost' => $this->cost > 0
-                ? ($item->total_cost_in_zar() + $this->cost) / 2
-                : $item->total_cost_in_zar(),
+            'cost' => $cost,
         ]);
     }
 

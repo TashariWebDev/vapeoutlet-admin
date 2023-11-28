@@ -182,8 +182,8 @@ class Edit extends Component
         $this->notify('Processing');
 
         foreach ($items as $item) {
-            $item->bringIntoStock();
             $item->product->averageCost($item);
+            $item->bringIntoStock();
             $item->product->sendStockAlerts();
             $this->purchase->update(['processed_date' => today()]);
             $this->purchase->supplier->createTransactionFrom($this->purchase);
