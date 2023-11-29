@@ -127,12 +127,6 @@
                             </div>
                             
                             <div>
-                                <p class="pt-1 pr-1 text-xs font-semibold uppercase dark:text-white text-slate-800">
-                                    {{ $product->category }}
-                                </p>
-                            </div>
-                            
-                            <div>
                                 <p class="pt-1 text-xs font-semibold dark:text-white text-slate-800">
                                     QTY: {{ $product->total_available }}
                                 </p>
@@ -164,9 +158,6 @@
                                         :product="$product"
                                         wire:key="'detailed-product-'{{ $product->id }}.time()"
                                     />
-                                    <p class="pr-1 font-medium uppercase text-[12px] text-slate-500 dark:text-slate-500">
-                                        {{ $product->category }}
-                                    </p>
                                     <p class="pr-1 uppercase text-[10px] text-slate-500 dark:text-slate-500">
                                         ID: {{ $product->id }}
                                     </p>

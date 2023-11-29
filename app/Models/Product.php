@@ -285,10 +285,7 @@ class Product extends Model
         return $this->hasMany(StockAlert::class);
     }
 
-    //  Checks to see if we have purchased this product previously and what is the cost of the product
-    //  It averages the current cost of the product and new purchase cost
-    //  If it is the first time purchasing , it returns the new purchase cost
-    public function averageCost(PurchaseItem $item)
+    public function averageCost(PurchaseItem $item): void
     {
         $product = $item->product;
         $currentStockCount = $product->stocks->sum('qty');
@@ -308,7 +305,7 @@ class Product extends Model
         ]);
     }
 
-    public function sendStockAlerts()
+    public function sendStockAlerts(): void
     {
         $this->stockAlerts->each(function ($alert) {
             Notification::route('mail', $alert->email)->notify(
