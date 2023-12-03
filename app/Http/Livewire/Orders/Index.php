@@ -17,8 +17,8 @@ use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 
 class Index extends Component
 {
-    use WithPagination;
     use WithNotifications;
+    use WithPagination;
 
     public $selectedOrders = [];
 
