@@ -58,7 +58,7 @@
                                     >
                                 </div>
                                 <div class="flex justify-between items-center ml-3 w-full">
-                                    <x-product-listing-simple :product="$product" />
+                                    <x-product-listing :product="$product" />
                                     
                                     <div>
                                         <img

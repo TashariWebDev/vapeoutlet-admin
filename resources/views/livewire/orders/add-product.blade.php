@@ -1,5 +1,5 @@
 <div>
-
+    
     @if ($products->count())
         <button
             class="w-full button-success"
@@ -15,7 +15,7 @@
             No Other Stock Available
         </button>
     @endif
-
+    
     <x-slide-over x-data="{ show: $wire.entangle('modal') }"
                   x-trap="show"
     >
@@ -40,12 +40,12 @@
                 </x-input.helper>
             </div>
         </div>
-
+        
         <div class="pt-4">
             <div class="py-2">
                 {{ $products->links() }}
             </div>
-
+            
             <form wire:submit.prevent="addProducts">
                 <div class="my-2">
                     <button class="w-full button-success">
@@ -69,8 +69,8 @@
                                 >
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">
-                                <x-product-listing-simple :product="$product" />
-
+                                <x-product-listing :product="$product" />
+                                
                                 <div class="flex items-center space-x-4">
                                     <div>
                                         <p class="text-xs font-medium text-slate-600 dark:text-slate-300">

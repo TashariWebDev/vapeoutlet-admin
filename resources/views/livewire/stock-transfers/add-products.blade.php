@@ -1,12 +1,12 @@
 <div>
-
+    
     <button
         class="w-full button-success"
         wire:click.prevent="$toggle('modal')"
     >
         Add products
     </button>
-
+    
     <x-slide-over x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Add products</h3>
@@ -29,12 +29,12 @@
                 </x-input.helper>
             </div>
         </div>
-
+        
         <div class="pt-4">
             <div class="py-2">
                 {{ $products->links() }}
             </div>
-
+            
             <form wire:submit.prevent="addProducts">
                 <div class="my-2">
                     <button class="w-full button-success">
@@ -58,8 +58,8 @@
                                 >
                             </div>
                             <div class="flex justify-between items-center ml-3 w-full">
-                                <x-product-listing-simple :product="$product" />
-
+                                <x-product-listing :product="$product" />
+                                
                                 <div class="flex items-center space-x-4">
                                     <div>
                                         <p class="text-xs font-medium text-slate-600 dark:text-slate-300">

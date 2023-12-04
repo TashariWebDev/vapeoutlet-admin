@@ -1,5 +1,5 @@
 <div x-data="{}">
-
+    
     <div class="bg-white rounded-md shadow-sm dark:bg-gray-900 text-slate-400 dark:text-slate-500">
         <div class="grid grid-cols-1 p-3 mb-2 w-full lg:grid-cols-6">
             <div>
@@ -59,7 +59,7 @@
             @foreach ($stockTake->items as $item)
                 <x-table.body class="grid grid-cols-1 lg:grid-cols-5">
                     <x-table.row class="col-span-2">
-                        <x-product-listing-simple :product="$item->product"></x-product-listing-simple>
+                        <x-product-listing :product="$item->product"></x-product-listing>
                     </x-table.row>
                     <x-table.row class="text-right">
                         <label></label>

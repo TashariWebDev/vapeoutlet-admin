@@ -1,17 +1,17 @@
 <div>
-
+    
     <button
         class="w-full button-success"
         wire:click.prevent="$toggle('modal')"
     >
         Add products
     </button>
-
+    
     <x-slide-over x-data="{ show: $wire.entangle('modal') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Add products</h3>
         </div>
-
+        
         <div>
             <div class="relative">
                 <x-input.label for="searchQuery">
@@ -29,7 +29,7 @@
                 </div>
             @endif
         </div>
-
+        
         <div class="pt-4">
             <form wire:submit.prevent="addProducts">
                 <div class="pb-6">
@@ -53,7 +53,7 @@
                                 >
                             </div>
                             <div class="flex items-center ml-3 w-full lg:justify-between">
-                                <x-product-listing-simple :product="$product" />
+                                <x-product-listing :product="$product" />
                                 <div class="hidden rounded-full lg:block">
                                     <img
                                         class="w-10 h-10 rounded-full"

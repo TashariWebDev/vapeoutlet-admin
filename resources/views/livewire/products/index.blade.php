@@ -120,10 +120,16 @@
                              x-show="show === 'simple'"
                         >
                             <div>
-                                <x-product-listing-simple
+                                <x-product-listing
                                     :product="$product"
                                     wire:key="'product-'{{ $product->id }}.time()"
                                 />
+                                
+                                @if (!file_exists(public_path('storage/' . $product->image)))
+                                    <p class="inline-flex items-center py-1 px-2 mt-2 font-medium text-rose-500 rounded-md ring-1 ring-inset dark:text-rose-400 text-[12px] bg-rose-400/10 ring-rose-400/50 dark:ring-rose-400/20">
+                                        ! featured image not set
+                                    </p>
+                                @endif
                             </div>
                             
                             <div>
@@ -154,7 +160,7 @@
                         >
                             <div class="grid grid-cols-2 gap-3 lg:grid-cols-8">
                                 <div class="col-span-2 w-full text-xs">
-                                    <x-product-listing-simple
+                                    <x-product-listing
                                         :product="$product"
                                         wire:key="'detailed-product-'{{ $product->id }}.time()"
                                     />

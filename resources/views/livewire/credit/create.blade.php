@@ -150,7 +150,7 @@
                                 >
                             </div>
                             <div>
-                                <x-product-listing-simple
+                                <x-product-listing
                                     :product="$item->product"
                                     wire:key="'credit-item-'{{ $item->id }}"
                                 />

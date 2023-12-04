@@ -19,7 +19,7 @@
             </button>
         </div>
     </x-modal>
-
+    
     <x-modal x-data="{ show: $wire.entangle('showEditModal') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Edit this order?</h3>
@@ -45,7 +45,7 @@
         </div>
         <p class="text-xs text-slate-600">This action is non reversible</p>
     </x-modal>
-
+    
     <div class="p-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="grid grid-cols-1 gap-x-2 lg:grid-cols-3">
@@ -64,7 +64,7 @@
                             </p>
                         </div>
                     @endisset
-
+                    
                     @isset($this->order->waybill)
                         <div class="flex justify-between items-center">
                             <p class="text-xs capitalize whitespace-nowrap text-slate-500 truncate dark:text-slate-500">
@@ -75,7 +75,7 @@
                             >{{ $this->order->waybill }}</x-click-to-copy>
                         </div>
                     @endisset
-
+                    
                     <div class="flex col-span-2 justify-between mt-2">
                         <p class="text-sm font-bold dark:text-white text-slate-900">
                             Total: R {{ number_format($this->order->getTotal(), 2) }}
@@ -114,7 +114,7 @@
                             text="{{$this->order->customer->email}}"
                             class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                         >{{ $this->order->customer->email }}</x-click-to-copy>
-
+                        
                         <x-click-to-copy
                             text="{{$this->order->customer->phone}}"
                             class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
@@ -134,38 +134,38 @@
                                 text="{{ $this->order->address?->line_one}}"
                                 class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                             >{{  $this->order->address?->line_one }}</x-click-to-copy>
-
+                            
                             <x-click-to-copy
                                 text="{{ $this->order->address?->line_two}}"
                                 class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                             >{{  $this->order->address?->line_two }}</x-click-to-copy>
-
+                            
                             <div class="flex space-x-2">
                                 <x-click-to-copy
                                     text="{{ $this->order->address?->suburb}}"
                                     class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                                 >{{  $this->order->address?->suburb }} ,
                                 </x-click-to-copy>
-
+                                
                                 <x-click-to-copy
                                     text="{{ $this->order->address?->city}}"
                                     class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                                 >{{  $this->order->address?->city }}</x-click-to-copy>
                             </div>
-
+                            
                             <div class="flex space-x-2">
                                 <x-click-to-copy
                                     text="{{ $this->order->address?->province}}"
                                     class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                                 >{{  $this->order->address?->province }} ,
                                 </x-click-to-copy>
-
+                                
                                 <x-click-to-copy
                                     text="{{ $this->order->address?->postal_code}}"
                                     class="text-xs font-medium tracking-wide text-slate-900 dark:text-slate-400"
                                 >{{  $this->order->address?->postal_code }}</x-click-to-copy>
                             </div>
-
+                        
                         </div>
                     @endisset
                 </div>
@@ -237,7 +237,7 @@
                             </button>
                         @endif
                     </div>
-
+                    
                     <div>
                         @hasPermissionTo('edit orders')
                         @if (
@@ -297,10 +297,10 @@
             </div>
         </div>
     </div>
-
+    
     <div class="mt-4 bg-white rounded-md shadow dark:bg-slate-900">
-
-
+        
+        
         <x-table.container>
             <x-table.header class="hidden grid-cols-6 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
@@ -309,7 +309,7 @@
                 <x-table.heading class="lg:text-right">qty</x-table.heading>
                 <x-table.heading class="lg:text-right">Line total</x-table.heading>
             </x-table.header>
-
+            
             @foreach ($this->order->items as $item)
                 <x-table.body
                     class="grid lg:grid-cols-6"
@@ -318,7 +318,7 @@
                     <x-table.row class="col-span-2 mb-2 lg:mb-0">
                         <div class="flex justify-start items-center">
                             <div>
-                                <x-product-listing-simple
+                                <x-product-listing
                                     :product="$item->product"
                                     wire:key="'order-item-'{{ $item->id }}"
                                 />
@@ -338,7 +338,7 @@
                                 inputmode="numeric"
                                 step="0.01"
                             />
-
+                        
                         @else
                             <x-input.label class="lg:hidden">
                                 Price
@@ -400,10 +400,10 @@
             @endforeach
         </x-table.container>
     </div>
-
+    
     {{-- Order Notes --}}
     <div class="p-4 mt-4 bg-white rounded-md shadow dark:bg-slate-900">
-
+        
         @foreach ($this->order->notes as $note)
             <div class="py-3">
                 <div>
