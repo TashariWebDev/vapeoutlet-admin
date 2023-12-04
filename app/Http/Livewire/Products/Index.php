@@ -16,9 +16,9 @@ use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithPagination;
     use WithFileUploads;
     use WithNotifications;
+    use WithPagination;
 
     public $activeFilter = true;
 
