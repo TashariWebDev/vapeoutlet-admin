@@ -1,10 +1,10 @@
 <div class="relative">
-    
+
     <x-modal x-data="{ show: $wire.entangle('chooseAddressForm') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select address</h3>
         </div>
-        
+
         <form wire:submit.prevent="updateAddress">
             <x-input.label for="address_id">
                 Address
@@ -40,12 +40,12 @@
             </div>
         </form>
     </x-modal>
-    
+
     <x-modal x-data="{ show: $wire.entangle('chooseDeliveryForm') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Select an option</h3>
         </div>
-        
+
         <form wire:submit.prevent="updateDelivery">
             <x-input.label for="updateDelivery">
                 Delivery options
@@ -77,7 +77,7 @@
             </div>
         </form>
     </x-modal>
-    
+
     <x-modal x-data="{ show: $wire.entangle('showConfirmModal') }">
         <div class="pb-2">
             <h3 class="text-2xl font-bold text-slate-600 dark:text-slate-300">Process this order?</h3>
@@ -111,7 +111,7 @@
         >Processing...Do not close this page.</p>
         <p class="text-xs text-rose-600">This action is non reversible</p>
     </x-modal>
-    
+
     <div class="p-2 bg-white rounded-md shadow-sm dark:bg-slate-900">
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="grid grid-cols-1 gap-x-3 lg:grid-cols-3">
@@ -145,21 +145,30 @@
                     >{{ $this->order->customer->name }}
                     </a>
                     <div class="leading-3">
-                        <p class="text-sm font-medium tracking-wide lowercase text-slate-900 dark:text-slate-400">{{ $this->order->customer->email }}</p>
-                        <p class="text-sm font-medium tracking-wide text-slate-900 dark:text-slate-400">{{ $this->order->customer->phone }}</p>
+                        <p class="font-medium tracking-wide lowercase text-[12px] text-slate-900 dark:text-slate-400">{{ $this->order->customer->email }}</p>
+                        <p class="font-medium tracking-wide text-[12px] text-slate-900 dark:text-slate-400">{{ $this->order->customer->phone }}</p>
                     </div>
                 </div>
                 <div>
                     @isset($this->order->address_id)
                         <div class="pt-1 text-sm font-medium tracking-wide leading-4 capitalize text-slate-900 dark:text-slate-400">
                             @isset($this->order->customer->company)
-                                <p class="font-semibold">{{ $this->order->customer->company }}</p>
+                                <p class="font-semibold tracking-wide uppercase text-[12px]">{{ $this->order->customer->company }}</p>
                             @endisset
-                            <p>{{ $this->order->address?->line_one }}</p>
-                            <p>{{ $this->order->address?->line_two }}</p>
-                            <p>{{ $this->order->address?->suburb }} </p>
-                            <p>{{ $this->order->address?->city }}</p>
-                            <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p>
+                            <ul class="tracking-wide list-none">
+                                <li class="text-[12px]">{{ $this->order->address?->line_one }}</li>
+                                <li class="text-[12px]">{{ $this->order->address?->line_two }}</li>
+                                <li class="text-[12px]">{{ $this->order->address?->suburb }} </li>
+                                <li class="text-[12px]">{{ $this->order->address?->city }}</li>
+                                <li class="text-[12px]">{{ $this->order->address?->province }}
+                                    , {{ $this->order->address?->postal_code }}
+                                </li>
+                            </ul>
+                            {{--                             <p>{{ $this->order->address?->line_one }}</p> --}}
+                            {{--                             <p>{{ $this->order->address?->line_two }}</p> --}}
+                            {{--                             <p>{{ $this->order->address?->suburb }} </p> --}}
+                            {{--                             <p>{{ $this->order->address?->city }}</p> --}}
+                            {{--                             <p>{{ $this->order->address?->province }}, {{ $this->order->address?->postal_code }}</p> --}}
                         </div>
                     @endisset
                 </div>
@@ -217,9 +226,9 @@
             </div>
         </div>
     </div>
-    
+
     <div class="mt-3 bg-white rounded-md shadow-sm dark:bg-slate-900">
-        
+
         <div class="py-2 px-2 w-full">
             <div>
                 <x-input.text
@@ -232,7 +241,7 @@
                 </x-input.text>
             </div>
         </div>
-        
+
         <x-table.container>
             <x-table.header class="hidden grid-cols-6 lg:grid">
                 <x-table.heading class="col-span-2">Product</x-table.heading>
@@ -241,7 +250,7 @@
                 <x-table.heading class="lg:text-right">qty</x-table.heading>
                 <x-table.heading class="lg:text-right">Line total</x-table.heading>
             </x-table.header>
-            
+
             <div>
                 @if (!empty($selectedProductsToDelete))
                     <div>
@@ -254,7 +263,7 @@
                     </div>
                 @endif
             </div>
-            
+
             @foreach ($this->order->items as $item)
                 <x-table.body
                     class="grid lg:grid-cols-6"
@@ -298,7 +307,7 @@
                                 inputmode="numeric"
                                 step="0.01"
                             />
-                        
+
                         </form>
                         @endhasPermissionTo
                         <div>
@@ -333,7 +342,7 @@
                             step="0.01"
                             disabled
                         />
-                    
+
                     </x-table.row>
                     <x-table.row class="mt-3 lg:mt-0">
                         <form>
@@ -349,7 +358,7 @@
                                 min="1"
                                 max="{{ $item->product->total_available }}"
                             />
-                        
+
                         </form>
                         <div class="flex justify-between items-center mt-1">
                             <div class="hidden text-xs text-rose-700 lg:block dark:text-rose-400 hover:text-rose-700">
