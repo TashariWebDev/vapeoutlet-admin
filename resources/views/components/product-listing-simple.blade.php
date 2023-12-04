@@ -8,9 +8,6 @@
         <p class="font-bold text-[14px] text-slate-800 dark:text-slate-400">
             {{ $product->brand }} {{ $product->name }}
         </p>
-        <p class="font-semibold text-[12px] text-slate-800 dark:text-slate-400">
-            {{ $product->category }}
-        </p>
     </div>
     <ul class="flex font-semibold list-inside text-[12px]">
         @foreach ($product->features as $feature)
