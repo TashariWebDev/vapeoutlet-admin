@@ -35,6 +35,8 @@ class Index extends Component
 
     public $expenses;
 
+    public $previousMonthExpenses;
+
     public $gross_profit;
 
     public $previous_month_gross_profit;
@@ -97,6 +99,7 @@ class Index extends Component
         $this->getStockValue();
 
         $this->getExpenses();
+        $this->getPreviousMonthExpenses();
 
         $this->getPurchases();
         $this->getPreviousMonthPurchases();
@@ -193,6 +196,11 @@ class Index extends Component
     public function getExpenses(): void
     {
         $this->expenses = Expense::currentMonth()->sum('amount');
+    }
+
+    public function getPreviousMonthExpenses(): void
+    {
+        $this->previousMonthExpenses = Expense::previousMonth()->sum('amount');
     }
 
     public function getGrossSales(): void
