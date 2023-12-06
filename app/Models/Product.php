@@ -297,7 +297,7 @@ class Product extends Model
             $totalStockValue = $currentValue + $newStockValue;
             $cost = $totalStockValue / $totalStockCount;
         } else {
-            $cost = $item->price;
+            $cost = $item->total_cost_in_zar();
         }
 
         $this->update([
