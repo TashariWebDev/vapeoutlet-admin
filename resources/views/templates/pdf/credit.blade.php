@@ -107,9 +107,6 @@
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Qty</th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Price
                             </th>
-                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
-                                Discount
-                            </th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Amount
                             </th>
                         </tr>
@@ -140,11 +137,6 @@
                                 <td class="text-right">
                                     <p class="text-[10px]">
                                         R {{ number_format($item->price, 2) }}
-                                    </p>
-                                </td>
-                                <td class="text-right">
-                                    <p class="text-[10px]">
-                                        R {{ number_format($item->discount, 2) }}
                                     </p>
                                 </td>
                                 <td class="text-right">
