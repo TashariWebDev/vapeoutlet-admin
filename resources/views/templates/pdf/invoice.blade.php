@@ -141,10 +141,11 @@
                                 Item
                             </th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Qty</th>
-                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Price
+                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
+                                Price (ea)
                             </th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
-                                Discount
+                                Discount (ea)
                             </th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Amount
                             </th>
