@@ -51,7 +51,7 @@
                     <x-document.company />
                     <div class="text-right text-[10px]">
                         <ul>
-
+                            
                             <li class="font-extrabold uppercase">Credit Note</li>
                             <li class="font-semibold leading-tight uppercase text-[10px]">{{ $credit->created_at }}</li>
                             <li class="font-semibold leading-tight uppercase text-[10px]">
@@ -91,9 +91,9 @@
                     </div>
                 </div>
             </section>
-
+            
             <div id="body">
-
+                
                 <table class="w-full">
                     <thead class="bg-gray-300">
                         <tr>
@@ -105,20 +105,22 @@
                                 Item
                             </th>
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Qty</th>
-                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Price
+                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
+                                Price (ea)
                             </th>
-                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Amount
+                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
+                                Sub Total
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($credit->items as $item)
                             <tr class="py-1 border-b border-gray-300 border-dashed break-inside-avoid">
-
+                                
                                 <td class="text-left">
                                     <p class="font-semibold uppercase text-[8px]">{{ $item->product->sku }}</p>
                                 </td>
-
+                                
                                 <td class="col-span-2 text-left">
                                     <p class="font-bold leading-snug text-[10px]">
                                         {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
@@ -148,7 +150,7 @@
                         @endforeach
                     </tbody>
                 </table>
-
+                
                 <div class="block mt-4 border-t border-gray-500 break-before-avoid-page break-inside-avoid">
                     <div class="grid grid-cols-4 break-after-avoid-page">
                         <p class="text-left whitespace-nowrap text-[10px]">
@@ -169,7 +171,7 @@
                         </p>
                     </div>
                 </div>
-
+                
                 <section
                     class="pt-2 mt-6 break-before-avoid-page break-inside-avoid-page"
                     id="footer"
