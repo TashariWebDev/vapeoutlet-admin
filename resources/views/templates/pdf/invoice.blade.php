@@ -147,7 +147,8 @@
                             <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
                                 Discount (ea)
                             </th>
-                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">Amount
+                            <th class="font-bold leading-snug text-right uppercase text-[10px] text-slate-900">
+                                Sub Total
                             </th>
                         </tr>
                     </thead>
