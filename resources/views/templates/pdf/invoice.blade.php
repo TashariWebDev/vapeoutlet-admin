@@ -13,9 +13,9 @@
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
         rel="stylesheet"
     >
-
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+    
     <style>
         @media print {
             section {
@@ -39,7 +39,7 @@
 
 <body>
     <div class="p-2 w-screen font-sans antialiased bg-white">
-
+        
         @if ($order->status === 'cancelled')
             <div
                 class="fixed right-0 bottom-0 z-10 max-w-7xl min-h-screen text-4xl font-extrabold text-rose-600 opacity-20 transform"
@@ -47,7 +47,7 @@
                 <h1>CANCELLED</h1>
             </div>
         @endif
-
+        
         <div class="p-2 bg-white rounded">
             <section id="header">
                 <div class="grid grid-cols-2">
@@ -127,9 +127,9 @@
                     </div>
                 </div>
             </section>
-
+            
             <div id="body">
-
+                
                 <table class="w-full">
                     <thead class="bg-gray-300">
                         <tr>
@@ -153,11 +153,11 @@
                     <tbody>
                         @foreach ($order->items as $item)
                             <tr class="py-1.5 border-b border-gray-300 border-dashed break-inside-avoid">
-
+                                
                                 <td class="text-left">
                                     <p class="font-bold uppercase text-[10px]">{{ $item->product->sku }}</p>
                                 </td>
-
+                                
                                 <td class="col-span-2 leading-tight text-left">
                                     <p class="font-bold leading-tight text-[10px]">
                                         {{ ucwords($item->product->brand) }} {{ ucwords($item->product->name) }}
@@ -174,9 +174,15 @@
                                     <p class="text-[10px]">{{ $item->qty }}</p>
                                 </td>
                                 <td class="text-right">
-                                    <p class="text-[10px]">
-                                        R {{ number_format($item->price, 2) }}
-                                    </p>
+                                    @if($item->discount > 0)
+                                        <p class="text-[10px]">
+                                            R {{ number_format($item->product_price, 2) }}
+                                        </p>
+                                    @else
+                                        <p class="text-[10px]">
+                                            R {{ number_format($item->price, 2) }}
+                                        </p>
+                                    @endif
                                 </td>
                                 <td class="text-right">
                                     <p class="text-[10px]">
@@ -192,7 +198,7 @@
                         @endforeach
                     </tbody>
                 </table>
-
+                
                 <div class="block mt-4 border-t border-gray-500 break-before-avoid-page break-inside-avoid">
                     <div class="grid grid-cols-4 break-after-avoid-page">
                         <p class="text-left whitespace-nowrap text-[10px]">
@@ -213,13 +219,13 @@
                         </p>
                     </div>
                 </div>
-
+                
                 <section class="py-2 mt-2 w-auto break-before-avoid-page break-inside-avoid-page">
                     <p class="font-bold text-left uppercase whitespace-nowrap text-[10px]">
                         {{ $order->delivery->description }} - {{ $order->delivery->province }}
                     </p>
                 </section>
-
+                
                 @if ($order->waybill)
                     <div>
                         <p class="text-[10px]">To track your order go to and enter your waybill number:</p>
@@ -235,7 +241,7 @@
                         @endif
                     </div>
                 @endif
-
+                
                 <section
                     class="pt-2 mt-6 break-before-avoid-page break-inside-avoid-page"
                     id="footer"
@@ -261,7 +267,7 @@
                                                 <p class="font-semibold leading-tight text-[10px]">PACKED BY:</p>
                                             </div>
                                             <div class="col-span-3 w-full border-b border-dashed">
-
+                                            
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-4 gap-3 pt-2">
@@ -269,7 +275,7 @@
                                                 <p class="font-semibold leading-tight text-[10px]">CHECKED BY:</p>
                                             </div>
                                             <div class="col-span-3 w-full border-b border-dashed">
-
+                                            
                                             </div>
                                         </div>
                                     </div>
@@ -279,10 +285,10 @@
                     </div>
                 </section>
             </div>
-
+            
             @if ($order->notes->count())
                 <div class="mt-2 bg-white rounded-md">
-
+                    
                     @foreach ($order->notes as $note)
                         @if (!$note->is_private)
                             <div class="pb-2">
@@ -301,7 +307,7 @@
                             </div>
                         @endif
                     @endforeach
-
+                
                 </div>
             @endif
         </div>
