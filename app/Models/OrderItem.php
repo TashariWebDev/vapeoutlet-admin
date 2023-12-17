@@ -56,7 +56,7 @@ class OrderItem extends Model
     protected $guarded = [];
 
     protected $with = [
-        'product:id,name,brand,sku,retail_price,wholesale_price,cost',
+        'product:id,name,brand,category,sku,retail_price,wholesale_price,cost',
     ];
 
     public function order(): BelongsTo
