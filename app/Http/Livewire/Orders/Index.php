@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Orders;
 
 use App\Http\Livewire\Traits\WithNotifications;
+use App\Jobs\BulkInvoiceDownloadJob;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Tag;
@@ -40,11 +41,15 @@ class Index extends Component
 
     public string $filter = 'received';
 
-    public $customerType;
+    public $customerType = 'all';
 
     public int $recordCount = 10;
 
     public string $direction = 'asc';
+
+    public $fromDate;
+
+    public $toDate;
 
     public $tags = [];
 
@@ -57,6 +62,7 @@ class Index extends Component
         'shipped',
         'completed',
         'cancelled',
+        'abandoned',
     ];
 
     protected $queryString = [
@@ -70,10 +76,25 @@ class Index extends Component
     public function updatedSelectedAllOrders(): void
     {
         if ($this->selectedAllOrders) {
-            $this->selectedOrders = $this->filteredOrders()->pluck('id');
+            $this->selectedOrders = $this->filteredOrders()
+                ->whereDate('created_at', '>=', $this->fromDate)
+                ->whereDate('created_at', '<=', $this->toDate)
+                ->pluck('id');
         } else {
             $this->selectedOrders = [];
         }
+    }
+
+    public function updatedFromDate(): void
+    {
+        $this->selectedOrders = [];
+        $this->reset('selectedAllOrders');
+    }
+
+    public function updatedToDate(): void
+    {
+        $this->selectedOrders = [];
+        $this->reset('selectedAllOrders');
     }
 
     public function updatedSearchQuery(): void
@@ -97,6 +118,9 @@ class Index extends Component
 
         $this->tags = Tag::all();
 
+        $this->fromDate = today()->subMonth(1)->startOfMonth()->toDateString();
+        $this->toDate = today()->toDateString();
+
         $this->defaultSalesChannel = auth()
             ->user()
             ->defaultSalesChannel();
@@ -110,16 +134,7 @@ class Index extends Component
         }
 
         if (request()->has('customerType')) {
-            if (request('customerType') === true) {
-                $this->customerType = true;
-            }
-            if (request('customerType') === false) {
-                $this->customerType = false;
-            }
-        }
-
-        if (! request()->has('customerType')) {
-            $this->customerType = null;
+            $this->customerType = request('customerType');
         }
 
         if (request()->has('recordCount')) {
@@ -191,18 +206,19 @@ class Index extends Component
             ])
             ->withCount('notes')
             ->where('sales_channel_id', $this->defaultSalesChannel->id)
-            ->whereNotNull('status')
             ->orderBy('created_at', $this->direction);
 
-        if ($this->filter) {
+        if ($this->filter === 'abandoned') {
+            $orders->whereNull('status');
+        } else {
             $orders->whereStatus($this->filter);
         }
 
-        if ($this->customerType === true) {
+        if ($this->customerType === 'wholesale') {
             $orders->whereRelation('customer', 'is_wholesale', '=', true);
         }
 
-        if ($this->customerType === false) {
+        if ($this->customerType === 'retail') {
             $orders->whereRelation('customer', 'is_wholesale', '=', false);
         }
 
@@ -211,6 +227,21 @@ class Index extends Component
         }
 
         return $orders;
+    }
+
+    /**
+     * @throws CouldNotTakeBrowsershot
+     */
+    public function printInvoicesInBulk(): void
+    {
+        $orders = Order::find($this->selectedOrders);
+
+        foreach ($orders->chunk(50) as $batch) {
+            dispatch(new BulkInvoiceDownloadJob($batch))->onQueue('bulk');
+        }
+
+        $this->notify('Processing your request. You will receive as email shortly');
+
     }
 
     public function selectedCustomerLatestTransactions(): void
@@ -256,7 +287,10 @@ class Index extends Component
     {
 
         return view('livewire.orders.index', [
-            'orders' => $this->filteredOrders()->paginate($this->recordCount),
+            'orders' => $this->filteredOrders()
+                ->whereDate('created_at', '>=', $this->fromDate)
+                ->whereDate('created_at', '<=', $this->toDate)
+                ->paginate($this->recordCount),
         ]);
     }
 }
