@@ -469,7 +469,7 @@
                                   x-on:click="show = !show"
                                   class="flex justify-center items-center text-green-400 rounded-full ring-1 ring-green-400"
                               >
-                                <x-icons.plus/>
+                                <x-icons.plus />
                               </button>
                               
                               <div x-show="show"
@@ -507,7 +507,7 @@
                                                      <svg viewBox="0 0 14 14"
                                                           class="w-3.5 h-3.5 stroke-violet-600/50 group-hover:stroke-violet-600/75"
                                                      >
-                                                             <path d="M4 4l6 6m0-6l-6 6"/>
+                                                             <path d="M4 4l6 6m0-6l-6 6" />
                                                            </svg>
                                                     <span class="absolute -inset-1"></span>
                                                   </button>
@@ -544,14 +544,25 @@
                             @endif
                             @endhasPermissionTo
                           </div>
-                          <div class="flex items-center space-x-2">
+                          <div class="flex-col items-center space-y-1">
                             
                             @if(is_null($order->status))
                               <div>
-                                <livewire:orders.cancel-abandoned :order="$order"
-                                                                  wire:key="desktop-cancel-{{ $order->id }}"
+                                <livewire:orders.cancel-abandoned
+                                    :order="$order"
+                                    wire:key="desktop-cancel-{{ $order->id }}"
                                 />
                               </div>
+                              
+                              <button
+                                  class="w-full button-warning"
+                                  title="Send Reminder Email"
+                                  wire:loading.attr="disabled"
+                                  wire:target="sendReminder"
+                                  wire:click="sendReminder({{ $order->id }})"
+                              >
+                                Send Reminder
+                              </button>
                             @endif
                             @if (
                                 ($order->status != 'shipped' &&
@@ -576,7 +587,7 @@
                                 </button>
                               @else
                                 <button
-                                    class="button button-success"
+                                    class="w-full button button-success"
                                     title="Print Invoice"
                                     wire:loading.attr="disabled"
                                     wire:target="getDocument"
@@ -681,7 +692,18 @@
                                   wire:key="mobile-cancel-{{ $order->id }}"
                               />
                             </div>
+                            
+                            <button
+                                class="w-full button-success"
+                                title="Send Reminder Email"
+                                wire:loading.attr="disabled"
+                                wire:target="sendReminder"
+                                wire:click="sendReminder({{ $order->id }})"
+                            >
+                              Send Reminder
+                            </button>
                           @endif
+                          
                           
                           @if ($order->status != 'shipped' && $order->status != 'completed' && $order->status != 'cancelled')
                             @if ($order->printed_count > 0)

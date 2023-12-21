@@ -11,6 +11,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Artisan;
 use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -281,6 +282,14 @@ class Index extends Component
     {
         $order->increment('printed_count');
         $order->print();
+    }
+
+    public function sendReminder(Order $order)
+    {
+        Artisan::call('recover:cart', [
+            'order' => $order->id,
+        ]);
+        $this->notify('Reminder sent');
     }
 
     public function render(): Factory|View|Application
