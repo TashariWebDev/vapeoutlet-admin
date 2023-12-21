@@ -7,6 +7,7 @@ use App\Console\Commands\CompressImagesCommand;
 use App\Console\Commands\DeleteOldDocumentsCommand;
 use App\Console\Commands\DeleteOldPriceListCommand;
 use App\Console\Commands\EmailBackupsCommand;
+use App\Console\Commands\ManuallySendCartRecoveryEmailCommand;
 use App\Console\Commands\ShopSetupCommand;
 use App\Console\Commands\TestEmailCommand;
 use App\Console\Commands\UpdateSupplierTransactionsCommand;
@@ -21,6 +22,7 @@ class Kernel extends ConsoleKernel
         UpdateTransactionsCommand::class,
         DeleteOldPriceListCommand::class,
         DeleteOldDocumentsCommand::class,
+        ManuallySendCartRecoveryEmailCommand::class,
         UpdateSupplierTransactionsCommand::class,
         CompressImagesCommand::class,
         TestEmailCommand::class,

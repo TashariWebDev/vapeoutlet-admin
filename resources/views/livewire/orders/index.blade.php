@@ -140,7 +140,7 @@
           <option value="shipped">Shipped</option>
           <option value="completed">Completed</option>
           <option value="cancelled">Cancelled</option>
-          <option value="abandoned">Abandoned</option>
+          <option value="pending">Pending</option>
         </x-input.select>
       </div>
       
@@ -210,11 +210,11 @@
     </div>
   </div>
   
-  @if($filter === 'abandoned')
+  @if($filter === 'pending')
     
     <div class="py-1 px-2 text-gray-500 dark:text-gray-300 text-[10px]">
       <p>
-        Abandoned orders are orders that have been created or started but haven't been placed.
+        Pending orders are orders that have been created or started but haven't been placed.
       </p>
       <p>
         Orders that have not been placed don't affect stock levels.
@@ -231,7 +231,7 @@
   
   
   
-  @if($filter != 'abandoned')
+  @if($filter != 'pending')
     <div class="hidden pt-4 h-12 lg:block">
       <div class="relative">
         @if(!empty($selectedOrders))
@@ -304,7 +304,7 @@
           <x-table.header class="hidden lg:grid lg:grid-cols-6">
             <x-table.heading>
               <div class="flex">
-                @if($filter != 'abandoned')
+                @if($filter != 'pending')
                   <div>
                     <label for="selectedOrders">
                       <input type="checkbox"
@@ -332,7 +332,7 @@
             <x-table.heading>customer</x-table.heading>
             <x-table.heading class="text-left">delivery</x-table.heading>
             <x-table.heading class="text-left">
-              @if($filter != 'abandoned')
+              @if($filter != 'pending')
                 tags
               @endif
             </x-table.heading>
@@ -349,7 +349,7 @@
                         <div class="flex justify-between items-center cursor-default">
                           <div class="flex items-center space-x-2">
                             
-                            @if($filter != 'abandoned')
+                            @if($filter != 'pending')
                               <div>
                                 <label for="selectedOrders">
                                   <input type="checkbox"
@@ -460,7 +460,7 @@
                         @endisset
                       </x-table.row>
                       <x-table.row class="px-2 text-center lg:text-left">
-                        @if($filter != 'abandoned')
+                        @if($filter != 'pending')
                           <div class="flex justify-start space-x-2">
                             <div class="relative"
                                  x-data="{show: false}"

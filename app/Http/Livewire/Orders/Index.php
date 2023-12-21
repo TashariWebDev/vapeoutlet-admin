@@ -12,7 +12,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Artisan;
-use LaravelIdea\Helper\App\Models\_IH_Order_QB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
@@ -63,7 +62,7 @@ class Index extends Component
         'shipped',
         'completed',
         'cancelled',
-        'abandoned',
+        'pending',
     ];
 
     protected $queryString = [
@@ -119,7 +118,7 @@ class Index extends Component
 
         $this->tags = Tag::all();
 
-        $this->fromDate = today()->subMonth(1)->startOfMonth()->toDateString();
+        $this->fromDate = today()->subMonth()->startOfMonth()->toDateString();
         $this->toDate = today()->toDateString();
 
         $this->defaultSalesChannel = auth()
@@ -184,7 +183,7 @@ class Index extends Component
         $this->notify('Orders updated');
     }
 
-    public function filteredOrders(): Builder|_IH_Order_QB
+    public function filteredOrders(): Builder
     {
         $orders = Order::query()
             ->select([
@@ -209,7 +208,7 @@ class Index extends Component
             ->where('sales_channel_id', $this->defaultSalesChannel->id)
             ->orderBy('created_at', $this->direction);
 
-        if ($this->filter === 'abandoned') {
+        if ($this->filter === 'pending') {
             $orders->whereNull('status');
         } else {
             $orders->whereStatus($this->filter);
@@ -230,9 +229,6 @@ class Index extends Component
         return $orders;
     }
 
-    /**
-     * @throws CouldNotTakeBrowsershot
-     */
     public function printInvoicesInBulk(): void
     {
         $orders = Order::find($this->selectedOrders);
@@ -268,7 +264,7 @@ class Index extends Component
         $this->quickViewNotesModal = true;
     }
 
-    public function pushToComplete($orderId)
+    public function pushToComplete($orderId): void
     {
         $order = Order::findOrFail($orderId);
         $order->updateStatus('completed');
@@ -278,13 +274,13 @@ class Index extends Component
     /**
      * @throws CouldNotTakeBrowsershot
      */
-    public function getDocument(Order $order)
+    public function getDocument(Order $order): void
     {
         $order->increment('printed_count');
         $order->print();
     }
 
-    public function sendReminder(Order $order)
+    public function sendReminder(Order $order): void
     {
         Artisan::call('recover:cart', [
             'order' => $order->id,
