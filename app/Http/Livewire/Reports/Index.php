@@ -9,6 +9,7 @@ use App\Models\Expense;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Purchase;
+use App\Models\Stock;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Http;
@@ -85,6 +86,8 @@ class Index extends Component
 
     public $profit_margin;
 
+    public $productVolumes;
+
     public function getValues()
     {
         $this->getTransactions();
@@ -105,6 +108,27 @@ class Index extends Component
         $this->getPreviousMonthPurchases();
 
         $this->getProfitMargin();
+
+        $this->getProductVolumes();
+    }
+
+    public function getProductVolumes(): void
+    {
+        $this->productVolumes = Stock::query()
+            ->with('product')
+            ->where('type', '=', 'invoice')
+            ->whereMonth('created_at', '=', today()->month)
+            ->whereYear('created_at', '=', today()->year)
+            ->get()
+            ->groupBy('product_id')
+            ->map(function ($item) {
+                return [
+                    'brand' => $item->first()->product->brand,
+                    'name' => $item->first()->product->name.' '.$item->first()->product->category,
+                    'volume' => 0 - $item->sum('qty'),
+                ];
+            })
+            ->sortByDesc('volume')->groupBy('brand');
     }
 
     public function getProfitMargin(): void

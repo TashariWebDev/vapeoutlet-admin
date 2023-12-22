@@ -16,6 +16,7 @@ use App\Mail\PaymentReceiptMail;
 use App\Mail\PaymentReceivedMail;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Stock;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -123,7 +124,8 @@ Route::post('send-recovery-emails', function (Request $request) {
 Route::post('send-seven-day-recovery-emails', function (Request $request) {
 
     $abandonedOrders = Order::whereNull('status')
-        ->where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())
+        ->where('created_at', '<=',
+            Carbon::now()->subDays(7)->toDateTimeString())
         ->withCount('items')
         ->having('items_count', '>', 0)
         ->inRandomOrder()
@@ -139,4 +141,23 @@ Route::post('send-seven-day-recovery-emails', function (Request $request) {
     return response('Success', 200)
         ->header('Content-Type', 'text/plain');
 
+});
+
+Route::get('product-by-volume', function () {
+    return Stock::query()
+        ->with('product')
+        ->where('type', '=', 'invoice')
+        ->whereMonth('created_at', '=', today()->month)
+        ->whereYear('created_at', '=', today()->year)
+        ->get()
+        ->groupBy('product_id')
+        ->map(function ($item) {
+            return [
+                'brand' => $item->first()->product->brand,
+                'product' => $item->first()->product->name.' '.$item->first()->product->category,
+                'volume' => 0 - $item->sum('qty'),
+            ];
+        })
+        ->groupBy('brand')
+        ->sortByDesc('volume');
 });
