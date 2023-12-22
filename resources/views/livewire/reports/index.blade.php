@@ -704,7 +704,9 @@
   
   <div class="grid grid-cols-1 lg:grid-cols-3">
     @if($productVolumes)
-      <div class="p-4 mt-3 w-full bg-white rounded-lg shadow dark:text-white text-slate-900 dark:bg-slate-900">
+      <div class="p-4 mt-3 w-full bg-white rounded-lg shadow dark:text-white text-slate-900 dark:bg-slate-900"
+           x-data="{ activeTab: '' }"
+      >
         @php
           $totalProductVolume = [];
         @endphp
@@ -713,28 +715,32 @@
             @php
               $totalProductVolume[] = $products->sum('volume');
             @endphp
-            <div class="px-1 mb-2 rounded bg-slate-100 dark:bg-slate-950">
-              <p class="font-extrabold">{{$brand}}</p>
-            </div>
-            @foreach($products as $key => $product)
-              <div class="flex justify-between px-2">
-                <div class="flex-1 font-semibold text-[12px]">
-                  {{$product['name']}}
-                </div>
-                <div class="font-bold text-right w-[20px] text-[12px]">
-                  {{$product['volume']}}
-                </div>
+            <button class="block w-full shadow"
+                    x-on:click="activeTab !== '{{ $brand }}' ? activeTab = '{{ $brand }}' : activeTab = ''"
+            >
+              <div class="flex justify-between items-baseline py-1 px-1 rounded bg-slate-100 dark:bg-slate-950">
+                <p class="font-extrabold uppercase text-[12px]">{{$brand}}</p>
+                <p class="font-bold text-right w-[20px] text-[12px]"> {{  $products->sum('volume')}}</p>
               </div>
-              @if($loop->last)
-                <div class="flex justify-end py-2 px-2 my-2 border-t">
-                  <p class="font-bold text-right w-[20px] text-[12px]"> {{  $products->sum('volume')}}</p>
+            </button>
+            <div x-show="activeTab === '{{$brand}}'"
+                 class="py-2"
+            >
+              @foreach($products as $key => $product)
+                <div class="flex justify-between px-2">
+                  <div class="flex-1 font-semibold text-[12px]">
+                    {{$product['name']}}
+                  </div>
+                  <div class="font-bold text-right w-[20px] text-[12px]">
+                    {{$product['volume']}}
+                  </div>
                 </div>
-              @endif
-            @endforeach
+              @endforeach
+            </div>
             
             
             @if($loop->last)
-              <div class="flex justify-between p-2 bg-slate-100 dark:bg-slate-950">
+              <div class="flex justify-between p-2 mt-2 rounded shadow bg-slate-100 dark:bg-slate-950">
                 <div>
                   <p class="font-bold text-right whitespace-nowrap w-[20px] text-[12px]">
                     Total Monthly units
