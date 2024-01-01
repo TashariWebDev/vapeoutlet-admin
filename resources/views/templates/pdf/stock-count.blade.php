@@ -43,7 +43,7 @@
   </style>
 </head>
 
-<body class="relative">
+<body class="relative break-inside-avoid">
   
   <div class="overflow-hidden relative z-50 w-screen font-sans antialiased bg-white">
     <div class="flex z-50 flex-col p-6 min-h-screen bg-white rounded">
@@ -83,7 +83,7 @@
           </div>
         </div>
         
-        <div class="block break-inside-avoid">
+        <div class="block break-before-avoid">
           @foreach ($stockTake->items as $item)
             <div class="grid grid-cols-6 w-full border-b break-after-avoid-page">
               <div class="col-span-2">
