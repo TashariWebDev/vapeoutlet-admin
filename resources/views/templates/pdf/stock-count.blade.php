@@ -83,9 +83,9 @@
         
         <div class="block break-before-avoid">
           @foreach ($stockTake->items as $item)
-            <div class="grid grid-cols-6 py-1 w-full break-after-avoid-page">
+            <div class="grid grid-cols-6 py-1 w-full border-b break-after-avoid-page">
               <div class="p-1">
-                <p class="text-xs font-semibold uppercase">{{ $item->product->sku }}</p>
+                <p class="font-semibold uppercase whitespace-pre-wrap text-[10px]">{{ $item->product->sku }}</p>
               </div>
               <div class="col-span-3 p-1">
                 <div>
@@ -100,7 +100,7 @@
                 </div>
               </div>
               <div class="flex col-span-2 justify-end items-center p-1">
-                <div class="flex justify-center items-center w-12 h-12 text-lg rounded-md border">
+                <div class="flex justify-center items-center w-12 h-12 text-lg rounded-md border border-black">
                   <p class="font-extrabold text-gray-100">X</p>
                 </div>
               </div>
