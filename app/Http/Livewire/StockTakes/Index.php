@@ -100,7 +100,7 @@ class Index extends Component
             );
 
             $selectedProducts = Product::query()
-                ->select('id', 'cost', 'brand')
+                ->select('id', 'cost', 'brand', 'category')
                 ->where('brand', '=', $brand)
                 ->whereHas('stocks', function ($query) {
                     $query->where(
@@ -109,6 +109,8 @@ class Index extends Component
                         $this->salesChannelId
                     );
                 })
+                ->orderBy('category')
+                ->orderBy('name')
                 ->get();
 
             foreach ($selectedProducts as $product) {
@@ -150,9 +152,10 @@ class Index extends Component
                         ->when($this->isProcessed === true, function ($query) {
                             $query->where('processed_at', '!=', null);
                         })
-                        ->when($this->isProcessed === false, function ($query) {
-                            $query->where('processed_at', '=', null);
-                        });
+                        ->when($this->isProcessed === false,
+                            function ($query) {
+                                $query->where('processed_at', '=', null);
+                            });
                 })
                 ->paginate(8),
         ]);
