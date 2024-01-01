@@ -83,7 +83,7 @@
           </div>
         </div>
         
-        <section class="block break-before-avoid">
+        <div class="block break-before-avoid">
           @foreach ($stockTake->items as $item)
             <div class="grid grid-cols-6 w-full border-b break-after-avoid-page">
               <div class="col-span-2">
@@ -108,7 +108,7 @@
               </div>
             </div>
           @endforeach
-        </section>
+        </div>
       
       </div>
     </div>
