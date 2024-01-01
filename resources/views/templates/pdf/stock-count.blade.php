@@ -30,13 +30,13 @@
 
           @page {
               margin-top: 3mm;
-              margin-bottom: 0;
+              margin-bottom: 3mm;
               size: legal portrait;
           }
 
           @page :first {
               margin-top: 3mm;
-              margin-bottom: 0;
+              margin-bottom: 3mm;
               size: legal portrait;
           }
       }
@@ -53,15 +53,15 @@
       >
         <div class="grid grid-cols-2 border-b">
           <x-document.company />
-          <div class="font-mono text-xs text-right">
+          <div class="font-mono text-right text-[10px]">
             <ul>
               <li>{{ $stockTake->created_at }}</li>
-              <li class="capitalize">STOCK TAKE ID:{{ $stockTake->id }}</li>
-              <li class="capitalize">{{ $stockTake->sales_channel->name }}</li>
-              <li class="text-lg font-extrabold uppercase">{{ $stockTake->created_by }}</li>
+              <li class="capitalize text-[10px]">STOCK TAKE ID:{{ $stockTake->id }}</li>
+              <li class="capitalize text-[10px]">{{ $stockTake->sales_channel->name }}</li>
+              <li class="font-extrabold uppercase text-[10px]">{{ $stockTake->created_by }}</li>
             </ul>
           </div>
-          <div class="pt-6">
+          <div class="pt-6 text-[10px]">
             <p>COUNTED BY: ......................................................</p>
           </div>
         </div>
@@ -84,7 +84,7 @@
         <div class="block break-before-avoid break-after-avoid">
           @foreach ($stockTake->items as $item)
             <div class="grid grid-cols-6 py-1 w-full border-b break-after-avoid-page">
-              <div class="p-1">
+              <div class="col-span-2 p-1">
                 <p class="font-semibold uppercase text-[10px]">{{ $item->product->sku }}</p>
               </div>
               <div class="col-span-3 p-1">
@@ -99,7 +99,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="flex col-span-2 justify-end items-center p-1">
+              <div class="flex col-span-1 justify-end items-center p-1">
                 <div class="flex justify-center items-center w-8 h-8 text-lg rounded-md border border-black">
                   <p class="font-extrabold text-gray-100">X</p>
                 </div>
