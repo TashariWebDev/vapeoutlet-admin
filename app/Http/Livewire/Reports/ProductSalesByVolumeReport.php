@@ -68,7 +68,7 @@ class ProductSalesByVolumeReport extends Component
                 ],
                 'qty'
             )
-            ->orderBy('stocks_sum_qty')
+            ->orderBy('category')
             ->get();
 
         $grouped = $products->groupBy('product_collection_id');
