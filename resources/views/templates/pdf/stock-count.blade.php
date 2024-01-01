@@ -72,11 +72,13 @@
           id="body"
       >
         <div class="grid grid-cols-6 w-full break-inside-avoid">
-          <div class="px-1 text-xs text-left text-white uppercase bg-gray-700 border">SKU/CODE</div>
+          <div class="col-span-2 px-1 text-xs text-left text-white uppercase bg-gray-700 border">
+            SKU/CODE
+          </div>
           <div class="col-span-3 px-1 text-xs text-left text-white uppercase bg-gray-700 border">
             Item
           </div>
-          <div class="col-span-2 px-1 text-xs text-right text-white uppercase bg-gray-700 border">
+          <div class="col-span-1 px-1 text-xs text-right text-white uppercase bg-gray-700 border">
             Count
           </div>
         </div>
