@@ -100,7 +100,7 @@
                 </div>
               </div>
               <div class="flex col-span-2 justify-end items-center p-1">
-                <div class="flex justify-center items-center w-8 h-8 text-lg rounded-md border border-black">
+                <div class="flex justify-center items-center w-12 h-12 text-lg rounded-md border border-black">
                   <p class="font-extrabold text-gray-100">X</p>
                 </div>
               </div>
