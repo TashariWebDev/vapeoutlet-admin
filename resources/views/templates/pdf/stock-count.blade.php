@@ -30,13 +30,13 @@
 
           @page {
               margin-top: 3mm;
-              margin-bottom: 3mm;
+              margin-bottom: 0;
               size: legal portrait;
           }
 
           @page :first {
               margin-top: 3mm;
-              margin-bottom: 3mm;
+              margin-bottom: 0;
               size: legal portrait;
           }
       }
