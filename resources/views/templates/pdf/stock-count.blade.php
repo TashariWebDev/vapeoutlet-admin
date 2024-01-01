@@ -85,7 +85,7 @@
         
         <div class="block break-before-avoid">
           @foreach ($stockTake->items as $item)
-            <div class="grid grid-cols-6 w-full border-b break-after-avoid-page">
+            <div class="grid grid-cols-6 w-full border-b break-inside-avoid-page">
               <div class="col-span-2">
                 <p class="font-semibold uppercase text-[10px]">{{ $item->product->sku }}</p>
               </div>
