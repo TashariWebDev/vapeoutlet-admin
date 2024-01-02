@@ -97,6 +97,7 @@ class Index extends Component
         $this->getGrossSales();
         $this->getPreviousMonthGrossSales();
         $this->getGrossProfit();
+        $this->getGrossProfitLessShipping();
         $this->getPreviousMonthGrossProfit();
         $this->getCreditProfit();
         $this->getPreviousMonthCreditProfit();
