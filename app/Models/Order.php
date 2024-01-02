@@ -71,8 +71,10 @@ class Order extends Model
 
     public function scopePreviousMonth($query)
     {
-        return $query->whereDate('created_at', '>=', Carbon::now()->subMonthNoOverflow()->startOfMonth())
-            ->whereDate('created_at', '<=', Carbon::now()->subMonthNoOverflow()->endOfMonth());
+        return $query->whereDate('created_at', '>=',
+            Carbon::now()->subMonthNoOverflow()->startOfMonth())
+            ->whereDate('created_at', '<=',
+                Carbon::now()->subMonthNoOverflow()->endOfMonth());
     }
 
     public function scopeSales($query)
@@ -327,5 +329,10 @@ class Order extends Model
     public function getProfit(): float
     {
         return $this->getTotal() - $this->getCost();
+    }
+
+    public function getProfitLessShipping(): float
+    {
+        return $this->getSubTotal() - $this->getCost();
     }
 }

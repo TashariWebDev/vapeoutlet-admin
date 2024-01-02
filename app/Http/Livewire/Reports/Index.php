@@ -40,6 +40,8 @@ class Index extends Component
 
     public $gross_profit;
 
+    public $gross_profit_less_shipping;
+
     public $previous_month_gross_profit;
 
     public $credit_profit;
@@ -269,6 +271,20 @@ class Index extends Component
         $warranties = to_rands(0 - $this->total_warranties);
 
         $this->gross_profit = $profit - ($refunds + $creditNoteProfit + $warranties);
+    }
+
+    public function getGrossProfitLessShipping(): void
+    {
+
+        $profit = Order::currentMonth()->with('items')->sales()->get()->sum(function ($order) {
+            return $order->getProfitLessShipping();
+        });
+
+        $refunds = to_rands(0 - $this->total_refunds);
+        $creditNoteProfit = to_rands(0 - $this->credit_profit);
+        $warranties = to_rands(0 - $this->total_warranties);
+
+        $this->gross_profit_less_shipping = $profit - ($refunds + $creditNoteProfit + $warranties);
     }
 
     public function getPreviousMonthGrossProfit(): void

@@ -770,7 +770,7 @@
                 </div>
                 <div>
                   <p class="font-extrabold text-right whitespace-nowrap text-[12px]">
-                    R {{ number_format($gross_profit / array_sum($totalProductVolume),2)  }}
+                    R {{ number_format($gross_profit_less_shipping / array_sum($totalProductVolume),2)  }}
                   </p>
                 </div>
               </div>
