@@ -758,7 +758,7 @@
                 </div>
                 <div>
                   <p class="font-bold text-right w-[20px] text-[12px]">
-                    {{ number_format(array_sum($totalProductVolume) / Carbon::now()->subMonthNoOverflow()->daysInMonth,0) }}
+                    {{ number_format(array_sum($totalProductVolume) / Carbon::now()->day,2) }}
                   </p>
                 </div>
               </div>
