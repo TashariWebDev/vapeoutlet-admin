@@ -32,7 +32,10 @@ class Index extends Component
 
     protected $listeners = ['refresh' => '$refresh'];
 
-    protected $queryString = ['recordCount', 'searchQuery' => ['except' => ''], 'brandQuery' => ['except' => ''], 'defaultView'];
+    protected $queryString = [
+        'recordCount', 'searchQuery' => ['except' => ''], 'brandQuery' => ['except' => ''],
+        'defaultView',
+    ];
 
     public function mount(): void
     {
@@ -190,6 +193,7 @@ class Index extends Component
                 })
                 ->orderByRaw('brand')
                 ->orderBy('name')
+                ->orderBy('category')
                 ->paginate($this->recordCount),
 
             'brands' => Brand::orderBy('name')
