@@ -742,29 +742,29 @@
             @if($loop->last)
               <div class="flex justify-between p-2 mt-2 rounded shadow bg-slate-100 dark:bg-slate-950">
                 <div>
-                  <p class="font-bold text-right whitespace-nowrap w-[20px] text-[12px]">
+                  <p class="font-bold text-right whitespace-nowrap text-[12px]">
                     Total Monthly units
                   </p>
                 </div>
                 <div>
-                  <p class="font-bold text-right w-[20px] text-[12px]">{{ array_sum($totalProductVolume) }}</p>
+                  <p class="font-bold text-right text-[12px]">{{ array_sum($totalProductVolume) }}</p>
                 </div>
               </div>
               <div class="flex justify-between p-2 bg-slate-100 dark:bg-slate-950">
                 <div>
-                  <p class="font-bold text-right whitespace-nowrap w-[20px] text-[12px]">
+                  <p class="flex-1 font-bold text-right whitespace-nowrap text-[12px]">
                     Average units per day
                   </p>
                 </div>
                 <div>
-                  <p class="font-bold text-right w-[20px] text-[12px]">
+                  <p class="font-bold text-right whitespace-nowrap text-[12px]">
                     {{ number_format(array_sum($totalProductVolume) / Carbon::now()->day,2) }}
                   </p>
                 </div>
               </div>
               <div class="flex justify-between p-2 bg-slate-100 dark:bg-slate-950">
                 <div>
-                  <p class="font-bold text-right whitespace-nowrap w-[20px] text-[12px]">
+                  <p class="font-bold text-right whitespace-nowrap text-[12px]">
                     Average gp per unit
                   </p>
                 </div>
