@@ -334,9 +334,10 @@ class Create extends Component
                         $this->order->address->province
                     );
                 })
-                ->where('customer_type', '=', $this->order->customer->type())
+                ->where('customer_type', '=',
+                    $this->order->customer->type())
                 ->orWhere('customer_type', '=', null)
-                ->where('selectable', true)
+//                ->where('selectable', true)
                 ->orderBy('price')
                 ->get(),
         ]);
